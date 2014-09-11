@@ -43,13 +43,11 @@ public class LoadScreen extends AbstractScreen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (game.manager.update()) {
-            if (delay < 1.0f) {
-                delay += delta;
-                if (delay >= 1.0f) {
-                    Gdx.app.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-                    // game.setScreen(new GameScreen(game));
-                    // dispose();
-                }
+            delay += delta;
+            if (delay >= 1.0f) {
+                Gdx.app.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+                game.setScreen(new GameScreen(game));
+                dispose();
             }
         }
 
