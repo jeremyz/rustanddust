@@ -19,7 +19,7 @@ public class TankOnTank extends Game
 
         manager = new AssetManager();
 
-        // this.setScreen(new LoadScreen(this));
+        this.setScreen(new LoadScreen(this));
     }
 
     public void loadAssets()
