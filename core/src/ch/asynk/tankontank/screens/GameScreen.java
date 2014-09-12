@@ -22,11 +22,10 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class GameScreen extends AbstractScreen
 {
-    static private final int MOVE_STEP = 6;
-    static private final float ZOOM_STEP = 0.04f;
-    static private final float ZOOM_FACTOR = 5.0f;
-
-    private float maxZoom;
+    static private final int MOVE_STEP = 3;
+    static private final float ZOOM_MAX = 0.2f;
+    static private final float ZOOM_GESTURE_FACTOR = 300.f;
+    static private final float ZOOM_SCROLL_FACTOR = 10.0f;
 
     private OrthographicCamera cam;
     private FitViewport viewport;
@@ -38,6 +37,7 @@ public class GameScreen extends AbstractScreen
 
     private int touchX;
     private int touchY;
+    private float maxZoomOut;
 
     public GameScreen(final TankOnTank game)
     {
@@ -67,8 +67,8 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean zoom(float initialDistance, float distance)
             {
-                cam.zoom += ((initialDistance - distance) / 300.f);
-                cam.zoom = MathUtils.clamp(cam.zoom, 0.4f, maxZoom);
+                cam.zoom += ((initialDistance - distance) / ZOOM_GESTURE_FACTOR);
+                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
             }
@@ -77,7 +77,7 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                cam.translate((touchX - x) * cam.zoom, (y - touchY) * cam.zoom, 0);
+                cam.translate((touchX - x) * cam.zoom * MOVE_STEP, (y - touchY) * cam.zoom * MOVE_STEP, 0);
                 touchX = x;
                 touchY = y;
                 clampCameraPos();
@@ -95,8 +95,8 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean scrolled(int amount)
             {
-                cam.zoom += amount / ZOOM_FACTOR;
-                cam.zoom = MathUtils.clamp(cam.zoom, 0.4f, maxZoom);
+                cam.zoom += amount / ZOOM_SCROLL_FACTOR;
+                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
             }
@@ -138,7 +138,8 @@ public class GameScreen extends AbstractScreen
     {
         Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
         viewport.update(width, height);
-        maxZoom = Math.min((mapSprite.getWidth() / cam.viewportWidth), (mapSprite.getHeight() / cam.viewportHeight));
+        maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
+        cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
     }
 
     @Override
