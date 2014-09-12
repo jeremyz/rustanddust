@@ -1,22 +1,25 @@
 package ch.asynk.tankontank.screens;
 
 import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureAdapter;
 
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.math.Rectangle;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -27,35 +30,39 @@ public class GameScreen extends AbstractScreen
     static private final float ZOOM_GESTURE_FACTOR = 300.f;
     static private final float ZOOM_SCROLL_FACTOR = 10.0f;
 
-    private OrthographicCamera cam;
-    private FitViewport viewport;
-
-    private SpriteBatch batch;
-    private BitmapFont font;
-
-    private Sprite mapSprite;
-
     private int touchX;
     private int touchY;
     private float maxZoomOut;
+    final OrthographicCamera cam;
+
+    private Image map;
+    private Label fps;
+    private Label camInfo;
+
+    private Stage hud;
+    private Stage gameStage;
 
     public GameScreen(final TankOnTank game)
     {
         super(game);
 
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-
-        final Texture mapTexture = game.manager.get("images/map_a.png", Texture.class);
-        mapSprite = new Sprite(mapTexture);
-        mapSprite.setPosition(0, 0);
-        mapSprite.setSize(mapTexture.getWidth(), mapTexture.getHeight());
+        map = new Image(game.manager.get("images/map_a.png", Texture.class));
+        fps = new Label("FPS: 0", game.skin);
+        camInfo = new Label("", game.skin);
+        fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
+        camInfo.setPosition( 10, Gdx.graphics.getHeight() - 50);
 
         cam = new OrthographicCamera();
-        cam.position.set((mapSprite.getWidth()/2), (mapSprite.getHeight()/2), 0);
-        cam.zoom = 2f;
+        cam.setToOrtho(false);
+        // cam.position.set((map.getWidth()/2), (map.getHeight()/2), 0);
 
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), cam);
+        gameStage = new Stage(new FitViewport(map.getWidth(), map.getHeight(), cam));
+        gameStage.addActor(map);
+
+        hud = new Stage(new ScreenViewport());
+        hud.addActor(fps);
+        hud.addActor(camInfo);
+
 
         Gdx.input.setInputProcessor(getMultiplexer());
     }
@@ -121,23 +128,22 @@ public class GameScreen extends AbstractScreen
 
         cam.update();
 
-        batch.setProjectionMatrix(cam.combined);
+        fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond() + " zoom: " + String.format("%.2f", cam.zoom));
+        camInfo.setText("Camera: " + (int) cam.position.y + " ; " + (int) cam.position.y + " x " + String.format("%.2f", cam.zoom));
 
-        batch.begin();
-        mapSprite.draw(batch);
-        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, 30);
-        batch.end();
+        gameStage.act(delta);
+        gameStage.draw();
 
-        if(Gdx.input.isTouched()) {
-            // TODO
-        }
+        hud.act(delta);
+        hud.draw();
     }
 
     @Override
     public void resize(int width, int height)
     {
         Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
-        viewport.update(width, height);
+        hud.getViewport().update(width, height, true);
+        gameStage.getViewport().update(width, height);
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
     }
@@ -146,8 +152,8 @@ public class GameScreen extends AbstractScreen
     public void dispose()
     {
         Gdx.app.debug("GameScreen", "dispose()");
-        batch.dispose();
-        font.dispose();
+        hud.dispose();
+        gameStage.dispose();
     }
 
     @Override
