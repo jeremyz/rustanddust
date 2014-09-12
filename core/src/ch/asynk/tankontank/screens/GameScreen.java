@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.input.GestureDetector.GestureAdapter;
+
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,11 +57,26 @@ public class GameScreen extends AbstractScreen
 
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), cam);
 
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        Gdx.input.setInputProcessor(getMultiplexer());
+    }
+
+    private InputMultiplexer getMultiplexer()
+    {
+        final InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(new GestureDetector(new GestureAdapter() {
+            @Override
+            public boolean zoom(float initialDistance, float distance)
+            {
+                cam.zoom += ((initialDistance - distance) / 300.f);
+                cam.zoom = MathUtils.clamp(cam.zoom, 0.4f, maxZoom);
+                return true;
+            }
+        }));
+        multiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                cam.translate((touchX - x), - (touchY - y), 0);
+                cam.translate((touchX - x) * cam.zoom, (y - touchY) * cam.zoom, 0);
                 touchX = x;
                 touchY = y;
                 return true;
@@ -79,6 +98,8 @@ public class GameScreen extends AbstractScreen
                 return true;
             }
         });
+
+        return multiplexer;
     }
 
     @Override
