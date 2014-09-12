@@ -69,6 +69,7 @@ public class GameScreen extends AbstractScreen
             {
                 cam.zoom += ((initialDistance - distance) / 300.f);
                 cam.zoom = MathUtils.clamp(cam.zoom, 0.4f, maxZoom);
+                clampCameraPos();
                 return true;
             }
         }));
@@ -79,6 +80,7 @@ public class GameScreen extends AbstractScreen
                 cam.translate((touchX - x) * cam.zoom, (y - touchY) * cam.zoom, 0);
                 touchX = x;
                 touchY = y;
+                clampCameraPos();
                 return true;
             }
             @Override
@@ -95,11 +97,20 @@ public class GameScreen extends AbstractScreen
             {
                 cam.zoom += amount / ZOOM_FACTOR;
                 cam.zoom = MathUtils.clamp(cam.zoom, 0.4f, maxZoom);
+                clampCameraPos();
                 return true;
             }
         });
 
         return multiplexer;
+    }
+
+    private void clampCameraPos()
+    {
+        float cx = cam.viewportWidth * cam.zoom / 2f;
+        float cy = cam.viewportHeight * cam.zoom / 2f;
+        cam.position.x = MathUtils.clamp(cam.position.x, cx, (map.getWidth() - cx));
+        cam.position.y = MathUtils.clamp(cam.position.y, cy, (map.getHeight() - cy));
     }
 
     @Override
@@ -108,11 +119,6 @@ public class GameScreen extends AbstractScreen
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // handleInput();
-        float width = cam.viewportWidth * cam.zoom / 2f;
-        float height = cam.viewportHeight * cam.zoom / 2f;
-        cam.position.x = MathUtils.clamp(cam.position.x, width, (mapSprite.getWidth() - width));
-        cam.position.y = MathUtils.clamp(cam.position.y, height, (mapSprite.getHeight() - height));
         cam.update();
 
         batch.setProjectionMatrix(cam.combined);
