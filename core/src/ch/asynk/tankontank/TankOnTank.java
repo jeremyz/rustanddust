@@ -5,12 +5,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ch.asynk.tankontank.screens.LoadScreen;
 
 public class TankOnTank extends Game
 {
     public AssetManager manager;
+    public Skin skin;
 
     @Override
     public void create ()
@@ -19,8 +21,10 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
 
         manager = new AssetManager();
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         this.setScreen(new LoadScreen(this));
+
     }
 
     public void loadAssets()
