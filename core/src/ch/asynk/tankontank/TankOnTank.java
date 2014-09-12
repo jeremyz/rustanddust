@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.screens.LoadScreen;
 
@@ -27,15 +28,10 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.load("images/map_a.png", Texture.class);
         manager.load("images/map_b.png", Texture.class);
+        manager.load("images/dice.pack", TextureAtlas.class);
         manager.load("images/cup.jpg", Texture.class);
         manager.load("images/back.png", Texture.class);
         manager.load("images/small.png", Texture.class);
-        manager.load("images/1.png", Texture.class);
-        manager.load("images/2.png", Texture.class);
-        manager.load("images/3.png", Texture.class);
-        manager.load("images/4.png", Texture.class);
-        manager.load("images/5.png", Texture.class);
-        manager.load("images/6.png", Texture.class);
         manager.load("images/turn_back.png", Texture.class);
         manager.load("images/turn_front.png", Texture.class);
         manager.load("images/ace.png", Texture.class);
@@ -65,15 +61,10 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.unload("images/map_a.png");
         manager.unload("images/map_b.png");
+        manager.unload("images/dice.pack");
         manager.unload("images/cup.jpg");
         manager.unload("images/back.png");
         manager.unload("images/small.png");
-        manager.unload("images/1.png");
-        manager.unload("images/2.png");
-        manager.unload("images/3.png");
-        manager.unload("images/4.png");
-        manager.unload("images/5.png");
-        manager.unload("images/6.png");
         manager.unload("images/turn_back.png");
         manager.unload("images/turn_front.png");
         manager.unload("images/ace.png");
