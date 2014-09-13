@@ -27,7 +27,7 @@ import ch.asynk.tankontank.actors.HexMap;
 
 public class GameScreen extends AbstractScreen
 {
-    static private final float ZOOM_MAX = 0.2f;
+    static private final float ZOOM_MAX = 0.1f;
     static private final float ZOOM_GESTURE_FACTOR = 300.f;
     static private final float ZOOM_SCROLL_FACTOR = 10.0f;
 

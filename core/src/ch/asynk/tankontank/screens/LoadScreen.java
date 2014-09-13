@@ -44,7 +44,7 @@ public class LoadScreen extends AbstractScreen
 
         if (game.manager.update()) {
             delay += delta;
-            if (delay >= 1.0f) {
+            if (delay >= 0.2f) {
                 Gdx.app.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
                 game.setScreen(new GameScreen(game));
                 dispose();
