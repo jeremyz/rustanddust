@@ -1,0 +1,53 @@
+ge.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+at-gun
+  rotate: false
+  xy: 1, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+infantry
+  rotate: false
+  xy: 125, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+kingtiger
+  rotate: false
+  xy: 249, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+panzer4
+  rotate: false
+  xy: 373, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+panzer4-hq
+  rotate: false
+  xy: 497, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+tiger
+  rotate: false
+  xy: 621, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
+wespe
+  rotate: false
+  xy: 745, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 1
