@@ -105,7 +105,7 @@ public class LoadScreen extends AbstractScreen
         screenBg.setSize(stage.getWidth(), stage.getHeight());
 
         logo.setX((stage.getWidth() - logo.getWidth()) / 2);
-        logo.setY((stage.getHeight() - logo.getHeight()) - 50);
+        logo.setY(Math.min((stage.getHeight() / 2), (stage.getHeight() - logo.getHeight() - 10)));
 
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
         loadingFrame.setY(logo.getY() - loadingFrame.getHeight() - 20);
