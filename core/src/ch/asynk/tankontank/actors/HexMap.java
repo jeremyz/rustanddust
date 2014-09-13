@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.actors;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +26,13 @@ public class HexMap extends Image
         super(texture);
         this.cols = cols;
         this.rows = rows;
+    }
+
+    public void centerActorOn(Actor actor, int col, int row)
+    {
+        int x = x0 + (int) ((col * w) + ((w - actor.getWidth()) / 2));
+        int y = y0 + (int) ((row * H) + ((h - actor.getWidth()) / 2));
+        actor.setPosition(x, y);
     }
 
     public void selectCell(float cx, float cy)
