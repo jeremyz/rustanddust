@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -25,13 +26,10 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class GameScreen extends AbstractScreen
 {
-    static private final int MOVE_STEP = 3;
     static private final float ZOOM_MAX = 0.2f;
     static private final float ZOOM_GESTURE_FACTOR = 300.f;
     static private final float ZOOM_SCROLL_FACTOR = 10.0f;
 
-    private int touchX;
-    private int touchY;
     private float maxZoomOut;
     final OrthographicCamera cam;
 
@@ -41,6 +39,9 @@ public class GameScreen extends AbstractScreen
 
     private Stage hud;
     private Stage gameStage;
+
+    private Vector2 screenToViewport = new Vector2();       // ratio
+    private Vector2 dragPos = new Vector2();                // screen coordinates
 
     public GameScreen(final TankOnTank game)
     {
@@ -84,9 +85,8 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                cam.translate((touchX - x) * cam.zoom * MOVE_STEP, (y - touchY) * cam.zoom * MOVE_STEP, 0);
-                touchX = x;
-                touchY = y;
+                cam.translate(((dragPos.x - x) * cam.zoom * screenToViewport.x), ((y - dragPos.y) * cam.zoom * screenToViewport.y), 0);
+                dragPos.set(x, y);
                 clampCameraPos();
                 return true;
             }
@@ -94,8 +94,7 @@ public class GameScreen extends AbstractScreen
             public boolean touchDown(int x, int y, int pointer, int button)
             {
                 if (button == Input.Buttons.LEFT) {
-                    touchX = x;
-                    touchY = y;
+                    dragPos.set(x, y);
                 }
                 return true;
             }
@@ -146,6 +145,7 @@ public class GameScreen extends AbstractScreen
         gameStage.getViewport().update(width, height);
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
+        screenToViewport.set((cam.viewportWidth / width), (cam.viewportHeight / height));
     }
 
     @Override
