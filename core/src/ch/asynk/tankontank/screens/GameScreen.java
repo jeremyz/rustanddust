@@ -14,15 +14,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.actors.HexMap;
 
 public class GameScreen extends AbstractScreen
 {
@@ -33,25 +34,29 @@ public class GameScreen extends AbstractScreen
     private float maxZoomOut;
     final OrthographicCamera cam;
 
-    private Image map;
+    private HexMap map;
     private Label fps;
     private Label camInfo;
+    private Label cellInfo;
 
     private Stage hud;
     private Stage gameStage;
 
     private Vector2 screenToViewport = new Vector2();       // ratio
+    private Vector3 touchPos = new Vector3();               // world coordinates
     private Vector2 dragPos = new Vector2();                // screen coordinates
 
     public GameScreen(final TankOnTank game)
     {
         super(game);
 
-        map = new Image(game.manager.get("images/map_a.png", Texture.class));
+        map = new HexMap(10, 8, game.manager.get("images/map_a.png", Texture.class));
         fps = new Label("FPS: 0", game.skin);
         camInfo = new Label("", game.skin);
+        cellInfo = new Label("", game.skin);
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
         camInfo.setPosition( 10, Gdx.graphics.getHeight() - 50);
+        cellInfo.setPosition( 10, Gdx.graphics.getHeight() - 70);
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false);
@@ -63,6 +68,7 @@ public class GameScreen extends AbstractScreen
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
         hud.addActor(camInfo);
+        hud.addActor(cellInfo);
 
 
         Gdx.input.setInputProcessor(getMultiplexer());
@@ -95,6 +101,8 @@ public class GameScreen extends AbstractScreen
             {
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
+                    cam.unproject(touchPos.set(x, y, 0));
+                    map.selectCell(touchPos.x, touchPos.y);
                 }
                 return true;
             }
@@ -127,8 +135,9 @@ public class GameScreen extends AbstractScreen
 
         cam.update();
 
-        fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond() + " zoom: " + String.format("%.2f", cam.zoom));
+        fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
         camInfo.setText("Camera: " + (int) cam.position.y + " ; " + (int) cam.position.y + " x " + String.format("%.2f", cam.zoom));
+        cellInfo.setText("Cell: " + map.cell.x + " ; " + map.cell.y);
 
         gameStage.act(delta);
         gameStage.draw();
