@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.GridPoint3;
 
 public class Tile extends Image
 {
+    public static final int DRAGGED_Z_INDEX = 10;
     private static final float MOVE_TIME = 0.3f;
 
     public GridPoint3 cell = new GridPoint3(-1, -1, 0);

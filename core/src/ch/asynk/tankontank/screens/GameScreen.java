@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.MathUtils;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.actors.Tile;
 import ch.asynk.tankontank.actors.HexMap;
 
 public class GameScreen extends AbstractScreen
@@ -45,6 +47,9 @@ public class GameScreen extends AbstractScreen
     private Vector2 screenToViewport = new Vector2();       // ratio
     private Vector3 touchPos = new Vector3();               // world coordinates
     private Vector2 dragPos = new Vector2();                // screen coordinates
+
+    private Tile draggedTile = null;
+    private GridPoint2 cell = new GridPoint2(-1, -1);    // current map cell
 
     public GameScreen(final TankOnTank game)
     {
@@ -92,9 +97,15 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                cam.translate(((dragPos.x - x) * cam.zoom * screenToViewport.x), ((y - dragPos.y) * cam.zoom * screenToViewport.y), 0);
+                float deltaX = ((x - dragPos.x) * cam.zoom * screenToViewport.x);
+                float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
                 dragPos.set(x, y);
-                clampCameraPos();
+                if (draggedTile == null) {
+                    cam.translate(-deltaX, -deltaY, 0);
+                    clampCameraPos();
+                } else {
+                    draggedTile.moveBy(deltaX, deltaY);
+                }
                 return true;
             }
             @Override
@@ -103,7 +114,21 @@ public class GameScreen extends AbstractScreen
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
                     cam.unproject(touchPos.set(x, y, 0));
-                    map.selectCell(touchPos.x, touchPos.y);
+                    map.getCellAt(cell, touchPos.x, touchPos.y);
+                    draggedTile = map.getTopTileAt(cell);
+                    draggedTile.setZIndex(Tile.DRAGGED_Z_INDEX);
+                }
+                return true;
+            }
+            @Override
+            public boolean touchUp(int x, int y, int pointer, int button)
+            {
+                if (button == Input.Buttons.LEFT) {
+                    cam.unproject(touchPos.set(x, y, 0));
+                    if (draggedTile != null) {
+                        map.getCellAt(cell, touchPos.x, touchPos.y);
+                        draggedTile.moveTo(cell.x, cell.y);
+                    }
                 }
                 return true;
             }
@@ -138,7 +163,7 @@ public class GameScreen extends AbstractScreen
 
         fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
         camInfo.setText("Camera: " + (int) cam.position.y + " ; " + (int) cam.position.y + " x " + String.format("%.2f", cam.zoom));
-        cellInfo.setText("Cell: " + map.cell.x + " ; " + map.cell.y);
+        cellInfo.setText("Cell: " + cell.x + " ; " + cell.y);
 
         gameStage.act(delta);
         gameStage.draw();
