@@ -50,13 +50,14 @@ public class GameScreen extends AbstractScreen
     {
         super(game);
 
-        map = new HexMap(10, 8, game.manager.get("images/map_a.png", Texture.class));
         fps = new Label("FPS: 0", game.skin);
         camInfo = new Label("", game.skin);
         cellInfo = new Label("", game.skin);
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
         camInfo.setPosition( 10, Gdx.graphics.getHeight() - 50);
         cellInfo.setPosition( 10, Gdx.graphics.getHeight() - 70);
+
+        map = new HexMap(11, 9, game.manager.get("images/map_a.png", Texture.class));
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false);
