@@ -29,9 +29,9 @@ import ch.asynk.tankontank.actors.HexMap;
 
 public class GameScreen extends AbstractScreen
 {
-    static private final float ZOOM_MAX = 0.1f;
-    static private final float ZOOM_GESTURE_FACTOR = 300.f;
-    static private final float ZOOM_SCROLL_FACTOR = 10.0f;
+    static private final float ZOOM_MAX = 0.2f;
+    static private final float ZOOM_GESTURE_FACTOR = .01f;
+    static private final float ZOOM_SCROLL_FACTOR = .1f;
 
     private float maxZoomOut;
     final OrthographicCamera cam;
@@ -87,7 +87,10 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean zoom(float initialDistance, float distance)
             {
-                cam.zoom += ((initialDistance - distance) / ZOOM_GESTURE_FACTOR);
+                if (initialDistance > distance)
+                    cam.zoom += ZOOM_GESTURE_FACTOR;
+                else
+                    cam.zoom -= ZOOM_GESTURE_FACTOR;
                 cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
@@ -135,7 +138,7 @@ public class GameScreen extends AbstractScreen
             @Override
             public boolean scrolled(int amount)
             {
-                cam.zoom += amount / ZOOM_SCROLL_FACTOR;
+                cam.zoom += amount * ZOOM_SCROLL_FACTOR;
                 cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
