@@ -116,7 +116,7 @@ public class GameScreen extends AbstractScreen
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getCellAt(cell, touchPos.x, touchPos.y);
                     draggedTile = map.getTopTileAt(cell);
-                    draggedTile.setZIndex(Tile.DRAGGED_Z_INDEX);
+                    if (draggedTile != null) draggedTile.setZIndex(Tile.DRAGGED_Z_INDEX);
                 }
                 return true;
             }
