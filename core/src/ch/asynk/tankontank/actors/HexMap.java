@@ -1,10 +1,15 @@
 package ch.asynk.tankontank.actors;
 
+import java.util.ArrayDeque;
+
+import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.GridPoint3;
 
 public class HexMap extends Image
 {
@@ -19,23 +24,79 @@ public class HexMap extends Image
 
     private int cols;
     private int rows;
-    public Vector2 cell = new Vector2();
+    private ArrayDeque<Tile>[][] cells;
 
+    @SuppressWarnings("unchecked")
     public HexMap(int cols, int rows, Texture texture)
     {
         super(texture);
-        this.cols = cols;
-        this.rows = rows;
+        cells = new ArrayDeque[rows][];
+        for (int i = 0; i < rows; i++) {
+            if ((i % 2) == 1) cells[i] = new ArrayDeque[cols - 1];
+            else cells[i] = new ArrayDeque[cols];
+        }
+        this.cols = cols - 1;
+        this.rows = rows - 1;
     }
 
-    public void centerActorOn(Actor actor, int col, int row)
+    public Tile getTopTileAt(GridPoint2 cell)
     {
-        int x = x0 + (int) ((col * w) + ((w - actor.getWidth()) / 2));
-        int y = y0 + (int) ((row * H) + ((h - actor.getWidth()) / 2));
-        actor.setPosition(x, y);
+        return getTopTileAt(cell.x, cell.y);
     }
 
-    public void selectCell(float cx, float cy)
+    private Tile getTopTileAt(int col, int row)
+    {
+        if ((col < 0) || (row < 0)) return null;
+        ArrayDeque<Tile> st = cells[row][col];
+        if ((st == null) || (st.size() == 0)) return null;
+        return st.getFirst();
+    }
+
+    public Vector2 getTilePosAt(Tile tile, GridPoint3 cell)
+    {
+        return getTilePosAt(tile, cell.x, cell.y);
+    }
+
+    private Vector2 getTilePosAt(Tile tile, int col, int row)
+    {
+        float x = x0 + ((col * w) + ((w - tile.getHeight()) / 2));
+        float y = y0 + ((row * H) + ((h - tile.getWidth()) / 2));
+        if ((row % 2) == 1) x += dw;
+        return new Vector2(x, y);
+    }
+
+    private void removeTileFrom(Tile tile, int col, int row)
+    {
+        if ((col> 0) && (row > 0)) {
+            ArrayDeque<Tile> st = cells[row][col];
+            if ((st == null) || (st.size() == 0))
+                Gdx.app.error("GameScreen", "remove tile from " + col + ";" + row + " but tile stack is empty");
+            else
+                st.remove(tile);
+        }
+    }
+
+    public void setTileOn(Tile tile, GridPoint3 cell)
+    {
+        setTileOn(tile, cell.x, cell.y, cell.z);
+    }
+
+    private void setTileOn(Tile tile, int col, int row, int angle)
+    {
+        GridPoint3 prev = tile.cell;
+        if (prev != null) removeTileFrom(tile, prev.x, prev.y);
+
+        Vector2 pos = getTilePosAt(tile, col, row);
+        tile.setPosition(pos.x, pos.y);
+        tile.setRotation(angle);
+
+        ArrayDeque<Tile> st = cells[row][col];
+        if (st == null) st = cells[row][col] = new ArrayDeque<Tile>();
+        st.push(tile);
+        tile.setZIndex(st.size());
+    }
+
+    public GridPoint2 getCellAt(GridPoint2 cell, float cx, float cy)
     {
         // compute row
         int row;
@@ -83,5 +144,7 @@ public class HexMap extends Image
             cell.set(-1, -1);
         else
             cell.set(col, row);
+
+        return cell;
     }
 }
