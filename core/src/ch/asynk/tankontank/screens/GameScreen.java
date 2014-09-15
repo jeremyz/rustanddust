@@ -40,7 +40,6 @@ public class GameScreen extends AbstractScreen
     private HexMap map;
     private Image selectedHex;
     private Label fps;
-    private Label camInfo;
 
     private Stage hud;
     private Stage gameStage;
@@ -57,9 +56,7 @@ public class GameScreen extends AbstractScreen
         super(game);
 
         fps = new Label("FPS: 0", game.skin);
-        camInfo = new Label("", game.skin);
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
-        camInfo.setPosition( 10, Gdx.graphics.getHeight() - 50);
 
         map = new HexMap(11, 9, game.manager.get("images/map_a.png", Texture.class));
         selectedHex = new Image(game.manager.get("images/hex.png", Texture.class));
@@ -75,7 +72,6 @@ public class GameScreen extends AbstractScreen
 
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
-        hud.addActor(camInfo);
 
         Gdx.input.setInputProcessor(getMultiplexer());
     }
@@ -172,7 +168,6 @@ public class GameScreen extends AbstractScreen
         cam.update();
 
         fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
-        camInfo.setText("Camera: " + (int) cam.position.y + " ; " + (int) cam.position.y + " x " + String.format("%.2f", cam.zoom));
 
         gameStage.act(delta);
         gameStage.draw();
