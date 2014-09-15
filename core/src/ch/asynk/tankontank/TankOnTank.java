@@ -36,6 +36,7 @@ public class TankOnTank extends Game
         manager.load("images/counters.pack", TextureAtlas.class);
         manager.load("images/ge.pack", TextureAtlas.class);
         manager.load("images/us.pack", TextureAtlas.class);
+        manager.load("images/hex.png", Texture.class);
         // manager.load("images/cup.jpg", Texture.class);
         // manager.load("images/small.png", Texture.class);
     }
@@ -49,6 +50,7 @@ public class TankOnTank extends Game
         manager.unload("images/counters.pack");
         manager.unload("images/ge.pack");
         manager.unload("images/us.pack");
+        manager.unload("images/hex.png");
         // manager.unload("images/cup.jpg");
         // manager.unload("images/small.png");
     }

@@ -52,6 +52,14 @@ public class HexMap extends Image
         return st.getFirst();
     }
 
+    public void setImageCenterAt(Image image, GridPoint2 cell)
+    {
+        float x = x0 + ((cell.x * w) + (w / 2));
+        float y = y0 + ((cell.y * H) + (h / 2));
+        if ((cell.y % 2) == 1) x += dw;
+        image.setCenterPosition(x, y);
+    }
+
     public Vector2 getTilePosAt(Tile tile, GridPoint3 cell)
     {
         return getTilePosAt(tile, cell.x, cell.y);

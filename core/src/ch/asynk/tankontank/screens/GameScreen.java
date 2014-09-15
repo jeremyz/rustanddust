@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import com.badlogic.gdx.math.GridPoint2;
@@ -37,6 +38,7 @@ public class GameScreen extends AbstractScreen
     final OrthographicCamera cam;
 
     private HexMap map;
+    private Image selectedHex;
     private Label fps;
     private Label camInfo;
     private Label cellInfo;
@@ -63,6 +65,8 @@ public class GameScreen extends AbstractScreen
         cellInfo.setPosition( 10, Gdx.graphics.getHeight() - 70);
 
         map = new HexMap(11, 9, game.manager.get("images/map_a.png", Texture.class));
+        selectedHex = new Image(game.manager.get("images/hex.png", Texture.class));
+        selectedHex.setVisible(false);
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false);
@@ -70,6 +74,7 @@ public class GameScreen extends AbstractScreen
 
         gameStage = new Stage(new FitViewport(map.getWidth(), map.getHeight(), cam));
         gameStage.addActor(map);
+        gameStage.addActor(selectedHex);
 
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
@@ -108,6 +113,9 @@ public class GameScreen extends AbstractScreen
                     clampCameraPos();
                 } else {
                     draggedTile.moveBy(deltaX, deltaY);
+                    cam.unproject(touchPos.set(x, y, 0));
+                    map.getCellAt(cell, touchPos.x, touchPos.y);
+                    map.setImageCenterAt(selectedHex, cell);
                 }
                 return true;
             }
@@ -120,6 +128,8 @@ public class GameScreen extends AbstractScreen
                     map.getCellAt(cell, touchPos.x, touchPos.y);
                     draggedTile = map.getTopTileAt(cell);
                     if (draggedTile != null) draggedTile.setZIndex(Tile.DRAGGED_Z_INDEX);
+                    map.setImageCenterAt(selectedHex, cell);
+                    selectedHex.setVisible(true);
                 }
                 return true;
             }
@@ -132,6 +142,7 @@ public class GameScreen extends AbstractScreen
                         map.getCellAt(cell, touchPos.x, touchPos.y);
                         draggedTile.moveTo(cell.x, cell.y);
                     }
+                    selectedHex.setVisible(false);
                 }
                 return true;
             }
