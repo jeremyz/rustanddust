@@ -27,6 +27,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.actors.Pawn;
 import ch.asynk.tankontank.actors.HexMap;
+import ch.asynk.tankontank.actors.Unit;
+import ch.asynk.tankontank.utils.UnitFactory;
+import ch.asynk.tankontank.utils.UnitFactory.UnitType;
 
 public class GameScreen extends AbstractScreen
 {
@@ -70,10 +73,19 @@ public class GameScreen extends AbstractScreen
         gameStage.addActor(map);
         gameStage.addActor(selectedHex);
 
+        UnitFactory.init(game.manager, map);
+
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
 
         Gdx.input.setInputProcessor(getMultiplexer());
+    }
+
+    private void addUnit(Stage stage, UnitType t, int col, int row, int angle)
+    {
+        Unit u = UnitFactory.getUnit(t);
+        u.moveTo(col, row, angle);
+        stage.addActor(u);
     }
 
     private InputMultiplexer getMultiplexer()
@@ -193,6 +205,7 @@ public class GameScreen extends AbstractScreen
         Gdx.app.debug("GameScreen", "dispose()");
         hud.dispose();
         gameStage.dispose();
+        UnitFactory.dispose();
     }
 
     @Override
