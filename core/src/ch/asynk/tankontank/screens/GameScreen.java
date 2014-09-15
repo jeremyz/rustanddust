@@ -222,6 +222,7 @@ public class GameScreen extends AbstractScreen
         hud.dispose();
         gameStage.dispose();
         UnitFactory.dispose();
+        game.unloadAssets();
     }
 
     @Override

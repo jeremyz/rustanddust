@@ -44,6 +44,7 @@ public class TankOnTank extends Game
     public void unloadAssets()
     {
         Gdx.app.debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         manager.unload("images/map_a.png");
         manager.unload("images/map_b.png");
         manager.unload("images/dice.pack");
@@ -53,6 +54,7 @@ public class TankOnTank extends Game
         manager.unload("images/hex.png");
         // manager.unload("images/cup.jpg");
         // manager.unload("images/small.png");
+        Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
 
