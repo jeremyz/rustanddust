@@ -74,6 +74,22 @@ public class GameScreen extends AbstractScreen
         gameStage.addActor(selectedHex);
 
         UnitFactory.init(game.manager, map);
+        addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, 0);
+        addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, 0);
+        addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, 0);
+        addUnit(gameStage, UnitType.GE_PANZER_IV, 4, 4, 0);
+        addUnit(gameStage, UnitType.GE_PANZER_IV_HQ, 5, 4, 0);
+        addUnit(gameStage, UnitType.GE_TIGER, 6, 4, 0);
+        addUnit(gameStage, UnitType.GE_WESPE, 7, 4, 0);
+
+        addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, 0);
+        addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, 0);
+        addUnit(gameStage, UnitType.US_PERSHING, 3, 3, 0);
+        addUnit(gameStage, UnitType.US_PERSHING_HQ, 4, 3, 0);
+        addUnit(gameStage, UnitType.US_PRIEST, 5, 3, 0);
+        addUnit(gameStage, UnitType.US_SHERMAN, 6, 3, 0);
+        addUnit(gameStage, UnitType.US_SHERMAN_HQ, 7, 3, 0);
+        addUnit(gameStage, UnitType.US_WOLVERINE, 8, 3, 0);
 
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
