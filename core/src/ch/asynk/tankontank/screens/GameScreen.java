@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.actors.Tile;
+import ch.asynk.tankontank.actors.Pawn;
 import ch.asynk.tankontank.actors.HexMap;
 
 public class GameScreen extends AbstractScreen
@@ -49,7 +49,7 @@ public class GameScreen extends AbstractScreen
     private Vector3 touchPos = new Vector3();               // world coordinates
     private Vector2 dragPos = new Vector2();                // screen coordinates
 
-    private Tile draggedTile = null;
+    private Pawn draggedPawn = null;
     private GridPoint2 cell = new GridPoint2(-1, -1);    // current map cell
 
     public GameScreen(final TankOnTank game)
@@ -103,14 +103,15 @@ public class GameScreen extends AbstractScreen
                 float deltaX = ((x - dragPos.x) * cam.zoom * screenToViewport.x);
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
                 dragPos.set(x, y);
-                if (draggedTile == null) {
+                if (draggedPawn == null) {
                     cam.translate(-deltaX, -deltaY, 0);
                     clampCameraPos();
                 } else {
-                    draggedTile.moveBy(deltaX, deltaY);
+                    draggedPawn.moveBy(deltaX, deltaY);
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getCellAt(cell, touchPos.x, touchPos.y);
                     map.setImageCenterAt(selectedHex, cell);
+
                 }
                 return true;
             }
@@ -121,8 +122,8 @@ public class GameScreen extends AbstractScreen
                     dragPos.set(x, y);
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getCellAt(cell, touchPos.x, touchPos.y);
-                    draggedTile = map.getTopTileAt(cell);
-                    if (draggedTile != null) draggedTile.setZIndex(Tile.DRAGGED_Z_INDEX);
+                    draggedPawn = map.getTopPawnAt(cell);
+                    if (draggedPawn != null) draggedPawn.setZIndex(Pawn.DRAGGED_Z_INDEX);
                     map.setImageCenterAt(selectedHex, cell);
                     selectedHex.setVisible(true);
                 }
@@ -133,9 +134,9 @@ public class GameScreen extends AbstractScreen
             {
                 if (button == Input.Buttons.LEFT) {
                     cam.unproject(touchPos.set(x, y, 0));
-                    if (draggedTile != null) {
+                    if (draggedPawn != null) {
                         map.getCellAt(cell, touchPos.x, touchPos.y);
-                        draggedTile.moveTo(cell.x, cell.y);
+                        draggedPawn.moveTo(cell);
                     }
                     selectedHex.setVisible(false);
                 }

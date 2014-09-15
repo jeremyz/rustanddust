@@ -8,34 +8,33 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.GridPoint3;
 
-public class Tile extends Image
+public class Pawn extends Image
 {
     public static final int DRAGGED_Z_INDEX = 10;
     private static final float MOVE_TIME = 0.3f;
 
-    public GridPoint3 cell = new GridPoint3(-1, -1, 0);
-
     private HexMap map;
     private ArrayDeque<GridPoint3> path = new ArrayDeque<GridPoint3>();
 
-    public Tile(TextureRegion region, HexMap map)
+    public Pawn(TextureRegion region, HexMap map)
     {
         super(region);
         this.map = map;
         setOrigin((getWidth() / 2.f), (getHeight() / 2.f));
     }
 
-    public void setRotation(int angle)
+    public GridPoint3 getHex()
     {
-        super.setRotation(angle);
-        cell.z = angle;
+        if (path.size() == 0) return null;
+        return path.getFirst();
     }
 
-    public void moveTo(int col, int row)
+    public void moveTo(GridPoint2 hex)
     {
-        moveTo(new GridPoint3(col, row, cell.z));
+        moveTo(new GridPoint3(hex.x, hex.y, (int) getRotation()));
     }
 
     public void moveTo(int col, int row, int angle)
@@ -43,44 +42,42 @@ public class Tile extends Image
         moveTo(new GridPoint3(col, row, angle));
     }
 
-    private void moveTo(GridPoint3 nextCell)
+    private void moveTo(GridPoint3 hex)
     {
-        if ((nextCell.x == -1) || (nextCell.y == -1)) {
+        if ((hex.x == -1) || (hex.y == -1)) {
             resetMoves();
         } else {
-            map.setTileOn(this, nextCell);
-            path.push(nextCell);
-            cell = nextCell;
+            map.setPawnOn(this, hex);
+            path.push(hex);
         }
     }
 
     public void resetMoves()
     {
-        final Tile self = this;
-        final GridPoint3 finalPos = path.getLast();
+        final Pawn self = this;
+        final GridPoint3 finalHex = path.getLast();
 
         SequenceAction seq = new SequenceAction();
         while(path.size() != 0) {
-            Vector2 v = map.getTilePosAt(this, path.pop());
+            Vector2 v = map.getPawnPosAt(this, path.pop());
             seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
         }
 
         seq.addAction( Actions.run(new Runnable() {
             @Override
             public void run() {
-                map.setTileOn(self, finalPos);
-                path.push(finalPos);
-                cell = finalPos;
+                map.setPawnOn(self, finalHex);
+                path.push(finalHex);
             }
         }));
 
         addAction(seq);
     }
 
-    public void done()
+    public void moveDone()
     {
-        GridPoint3 p = path.pop();
+        GridPoint3 hex = path.pop();
         path.clear();
-        path.push(p);
+        path.push(hex);
     }
 }

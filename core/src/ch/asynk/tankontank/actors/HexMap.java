@@ -24,7 +24,7 @@ public class HexMap extends Image
 
     private int cols;
     private int rows;
-    private ArrayDeque<Tile>[][] cells;
+    private ArrayDeque<Pawn>[][] cells;
 
     @SuppressWarnings("unchecked")
     public HexMap(int cols, int rows, Texture texture)
@@ -39,15 +39,15 @@ public class HexMap extends Image
         this.rows = rows - 1;
     }
 
-    public Tile getTopTileAt(GridPoint2 cell)
+    public Pawn getTopPawnAt(GridPoint2 cell)
     {
-        return getTopTileAt(cell.x, cell.y);
+        return getTopPawnAt(cell.x, cell.y);
     }
 
-    private Tile getTopTileAt(int col, int row)
+    private Pawn getTopPawnAt(int col, int row)
     {
         if ((col < 0) || (row < 0)) return null;
-        ArrayDeque<Tile> st = cells[row][col];
+        ArrayDeque<Pawn> st = cells[row][col];
         if ((st == null) || (st.size() == 0)) return null;
         return st.getFirst();
     }
@@ -60,48 +60,53 @@ public class HexMap extends Image
         image.setCenterPosition(x, y);
     }
 
-    public Vector2 getTilePosAt(Tile tile, GridPoint3 cell)
+    // public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
+    // {
+    //     return getPawnPosAt(pawn, cell.x, cell.y);
+    // }
+
+    public Vector2 getPawnPosAt(Pawn pawn, GridPoint3 cell)
     {
-        return getTilePosAt(tile, cell.x, cell.y);
+        return getPawnPosAt(pawn, cell.x, cell.y);
     }
 
-    private Vector2 getTilePosAt(Tile tile, int col, int row)
+    private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
     {
-        float x = x0 + ((col * w) + ((w - tile.getHeight()) / 2));
-        float y = y0 + ((row * H) + ((h - tile.getWidth()) / 2));
+        float x = x0 + ((col * w) + ((w - pawn.getHeight()) / 2));
+        float y = y0 + ((row * H) + ((h - pawn.getWidth()) / 2));
         if ((row % 2) == 1) x += dw;
         return new Vector2(x, y);
     }
 
-    private void removeTileFrom(Tile tile, int col, int row)
+    private void removePawnFrom(Pawn pawn, int col, int row)
     {
         if ((col> 0) && (row > 0)) {
-            ArrayDeque<Tile> st = cells[row][col];
+            ArrayDeque<Pawn> st = cells[row][col];
             if ((st == null) || (st.size() == 0))
-                Gdx.app.error("GameScreen", "remove tile from " + col + ";" + row + " but tile stack is empty");
+                Gdx.app.error("GameScreen", "remove pawn from " + col + ";" + row + " but pawn stack is empty");
             else
-                st.remove(tile);
+                st.remove(pawn);
         }
     }
 
-    public void setTileOn(Tile tile, GridPoint3 cell)
+    public void setPawnOn(Pawn pawn, GridPoint3 cell)
     {
-        setTileOn(tile, cell.x, cell.y, cell.z);
+        setPawnOn(pawn, cell.x, cell.y, cell.z);
     }
 
-    private void setTileOn(Tile tile, int col, int row, int angle)
+    private void setPawnOn(Pawn pawn, int col, int row, int angle)
     {
-        GridPoint3 prev = tile.cell;
-        if (prev != null) removeTileFrom(tile, prev.x, prev.y);
+        GridPoint3 prev = pawn.getHex();
+        if (prev != null) removePawnFrom(pawn, prev.x, prev.y);
 
-        Vector2 pos = getTilePosAt(tile, col, row);
-        tile.setPosition(pos.x, pos.y);
-        tile.setRotation(angle);
+        Vector2 pos = getPawnPosAt(pawn, col, row);
+        pawn.setPosition(pos.x, pos.y);
+        pawn.setRotation(angle);
 
-        ArrayDeque<Tile> st = cells[row][col];
-        if (st == null) st = cells[row][col] = new ArrayDeque<Tile>();
-        st.push(tile);
-        tile.setZIndex(st.size());
+        ArrayDeque<Pawn> st = cells[row][col];
+        if (st == null) st = cells[row][col] = new ArrayDeque<Pawn>();
+        st.push(pawn);
+        pawn.setZIndex(st.size());
     }
 
     public GridPoint2 getCellAt(GridPoint2 cell, float cx, float cy)
