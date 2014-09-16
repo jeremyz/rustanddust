@@ -7,76 +7,64 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.GridPoint3;
+import com.badlogic.gdx.math.Vector3;
 
 public class PawnImage extends Image implements Pawn
 {
     private static final float MOVE_TIME = 0.3f;
+    private static final float ROTATE_TIME = 0.2f;
 
-    private HexMap map;
-    private ArrayDeque<GridPoint3> path = new ArrayDeque<GridPoint3>();
+    private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
-    public PawnImage(TextureRegion region, HexMap map)
+    public PawnImage(TextureRegion region)
     {
         super(region);
-        this.map = map;
         setOrigin((getWidth() / 2.f), (getHeight() / 2.f));
     }
 
-    public GridPoint3 getBoardPosition()
+    public Vector3 getLastPosition()
     {
-        if (path.size() == 0) return null;
+        if ((path == null) || (path.size() == 0)) return null;
         return path.getFirst();
     }
 
-    public void moveTo(GridPoint2 hex)
+    public void pushMove(float x, float y, int z, HexOrientation r)
     {
-        moveTo(new GridPoint3(hex.x, hex.y, (int) getRotation()));
+        setPosition(x, y);
+        if (r != HexOrientation.KEEP) setRotation(r.v);
+        setZIndex(z);
+        path.push(new Vector3(x, y, r.v));
     }
 
-    public void moveTo(int col, int row, int angle)
-    {
-        moveTo(new GridPoint3(col, row, angle));
-    }
-
-    private void moveTo(GridPoint3 hex)
-    {
-        if ((hex.x == -1) || (hex.y == -1)) {
-            resetMoves();
-        } else {
-            map.setPawnAt(this, hex);
-            path.push(hex);
-        }
-    }
-
-    public void resetMoves()
+    public void resetMoves(Runnable cb)
     {
         final Pawn self = this;
-        final GridPoint3 finalHex = path.getLast();
+        final Vector3 finalPos = path.getLast();
 
         SequenceAction seq = new SequenceAction();
         while(path.size() != 0) {
-            Vector2 v = map.getPawnPosAt(this, path.pop());
+            Vector3 v = path.pop();
             seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
+            seq.addAction(Actions.rotateTo(v.z, ROTATE_TIME));
         }
 
         seq.addAction( Actions.run(new Runnable() {
             @Override
             public void run() {
-                map.setPawnAt(self, finalHex);
-                path.push(finalHex);
+                path.push(finalPos);
             }
         }));
+
+        // map set z index and push me in hex stack
+        seq.addAction(Actions.run(cb));
 
         addAction(seq);
     }
 
     public void moveDone()
     {
-        GridPoint3 hex = path.pop();
+        Vector3 v = path.pop();
         path.clear();
-        path.push(hex);
+        path.push(v);
     }
 }

@@ -1,33 +1,24 @@
 package ch.asynk.tankontank.game;
 
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.GridPoint3;
+import com.badlogic.gdx.math.Vector3;
 
 public interface Pawn
 {
-    // Gfx related
-
-    public float getHeight();
+    // libgdx
 
     public float getWidth();
+    public float getHeight();
+    public void setZIndex(int z);
+
+    // game
+
+    public Vector3 getLastPosition();
 
     public void moveBy(float x, float y);
 
-    public void setPosition(float x, float y);
+    public void pushMove(float x, float y, int z, HexOrientation o);
 
-    public void setRotation(float angle);
-
-    public void setZIndex(int zIndex);
-
-    // Board related
-
-    public GridPoint3 getBoardPosition();
-
-    public void moveTo(GridPoint2 hex);
-
-    public void moveTo(int col, int row, int angle);
-
-    public void resetMoves();
+    public void resetMoves(Runnable cb);
 
     public void moveDone();
 }

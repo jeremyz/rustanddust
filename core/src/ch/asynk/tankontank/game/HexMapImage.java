@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.GridPoint3;
 
 public class HexMapImage extends Image implements HexMap
 {
@@ -60,12 +60,7 @@ public class HexMapImage extends Image implements HexMap
         return new Vector2(x, y);
     }
 
-    // public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
-    // {
-    //     return getPawnPosAt(pawn, cell.x, cell.y);
-    // }
-
-    public Vector2 getPawnPosAt(Pawn pawn, GridPoint3 cell)
+    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
     {
         return getPawnPosAt(pawn, cell.x, cell.y);
     }
@@ -78,6 +73,15 @@ public class HexMapImage extends Image implements HexMap
         return new Vector2(x, y);
     }
 
+    private int pushPawnAt(Pawn pawn, int col, int row)
+    {
+        ArrayDeque<Pawn> st = cells[row][col];
+        if (st == null) st = cells[row][col] = new ArrayDeque<Pawn>();
+        st.push(pawn);
+        System.out.println("pushed at: "+col+" " +row);
+        return st.size();
+    }
+
     private void removePawnFrom(Pawn pawn, int col, int row)
     {
         if ((col> 0) && (row > 0)) {
@@ -86,31 +90,47 @@ public class HexMapImage extends Image implements HexMap
                 Gdx.app.error("GameScreen", "remove pawn from " + col + ";" + row + " but pawn stack is empty");
             else
                 st.remove(pawn);
+            System.out.println("poped from: "+col+" " +row);
         }
     }
 
-    public void setPawnAt(Pawn pawn, GridPoint3 cell)
+    public void movePawnTo(Pawn pawn, Vector3 coords)
     {
-        setPawnAt(pawn, cell.x, cell.y, cell.z);
+        GridPoint2 p = getHexAt(null, coords.x, coords.y);
+        movePawnTo(pawn, p.x, p.y, HexOrientation.KEEP);
     }
 
-    private void setPawnAt(Pawn pawn, int col, int row, int angle)
+    public void movePawnTo(final Pawn pawn, final int col, final int row, HexOrientation o)
     {
-        GridPoint3 prev = pawn.getBoardPosition();
+        GridPoint2 prev = getHexAt(pawn.getLastPosition());
         if (prev != null) removePawnFrom(pawn, prev.x, prev.y);
 
-        Vector2 pos = getPawnPosAt(pawn, col, row);
-        pawn.setPosition(pos.x, pos.y);
-        pawn.setRotation(angle);
-
-        ArrayDeque<Pawn> st = cells[row][col];
-        if (st == null) st = cells[row][col] = new ArrayDeque<Pawn>();
-        st.push(pawn);
-        pawn.setZIndex(st.size());
+        if ((col < 0) || (row < 0)) {
+            pawn.resetMoves(new Runnable() {
+                @Override
+                public void run() {
+                    GridPoint2 hex = getHexAt(pawn.getLastPosition());
+                    pawn.setZIndex(pushPawnAt(pawn, hex.x, hex.y));
+                }
+            });
+            return;
+        } else {
+            int z = pushPawnAt(pawn, col, row);
+            Vector2 pos = getPawnPosAt(pawn, col, row);
+            pawn.pushMove(pos.x, pos.y, z, o);
+        }
     }
 
-    public GridPoint2 getHexAt(GridPoint2 cell, float cx, float cy)
+    private GridPoint2 getHexAt(Vector3 v)
     {
+        if (v == null) return null;
+        return getHexAt(null, v.x, v.y);
+    }
+
+    public GridPoint2 getHexAt(GridPoint2 hex, float cx, float cy)
+    {
+        if (hex == null) hex = new GridPoint2();
+
         // compute row
         int row;
         boolean oddRow = true;
@@ -152,12 +172,12 @@ public class HexMapImage extends Image implements HexMap
             }
         }
 
-        // validate cell
+        // validate hex
         if ((col < 0) || (row < 0) || (row > rows) || (col > cols) || (oddRow && ((col +1)> cols)))
-            cell.set(-1, -1);
+            hex.set(-1, -1);
         else
-            cell.set(col, row);
+            hex.set(col, row);
 
-        return cell;
+        return hex;
     }
 }

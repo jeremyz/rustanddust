@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.Pawn;
 import ch.asynk.tankontank.game.HexMap;
+import ch.asynk.tankontank.game.HexOrientation;
 import ch.asynk.tankontank.game.HexMapImage;
 import ch.asynk.tankontank.game.HexMapFactory;
 import ch.asynk.tankontank.game.Unit;
@@ -76,23 +77,26 @@ public class GameScreen extends AbstractScreen
         gameStage.addActor((HexMapImage) map);
         gameStage.addActor(selectedHex);
 
-        UnitFactory.init(game.manager, map);
-        addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, 0);
-        addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, 0);
-        addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, 0);
-        addUnit(gameStage, UnitType.GE_PANZER_IV, 4, 4, 0);
-        addUnit(gameStage, UnitType.GE_PANZER_IV_HQ, 5, 4, 0);
-        addUnit(gameStage, UnitType.GE_TIGER, 6, 4, 0);
-        addUnit(gameStage, UnitType.GE_WESPE, 7, 4, 0);
+        UnitFactory.init(game.manager);
 
-        addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, 0);
-        addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, 0);
-        addUnit(gameStage, UnitType.US_PERSHING, 3, 3, 0);
-        addUnit(gameStage, UnitType.US_PERSHING_HQ, 4, 3, 0);
-        addUnit(gameStage, UnitType.US_PRIEST, 5, 3, 0);
-        addUnit(gameStage, UnitType.US_SHERMAN, 6, 3, 0);
-        addUnit(gameStage, UnitType.US_SHERMAN_HQ, 7, 3, 0);
-        addUnit(gameStage, UnitType.US_WOLVERINE, 8, 3, 0);
+        HexOrientation o = HexOrientation.SOUTH_EAST;
+        addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
+        addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, o);
+        addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, o);
+        addUnit(gameStage, UnitType.GE_PANZER_IV, 4, 4, o);
+        addUnit(gameStage, UnitType.GE_PANZER_IV_HQ, 5, 4, o);
+        addUnit(gameStage, UnitType.GE_TIGER, 6, 4, o);
+        addUnit(gameStage, UnitType.GE_WESPE, 7, 4, o);
+
+        o = HexOrientation.NORTH_WEST;
+        addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, o);
+        addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, o);
+        addUnit(gameStage, UnitType.US_PERSHING, 3, 3, o);
+        addUnit(gameStage, UnitType.US_PERSHING_HQ, 4, 3, o);
+        addUnit(gameStage, UnitType.US_PRIEST, 5, 3, o);
+        addUnit(gameStage, UnitType.US_SHERMAN, 6, 3, o);
+        addUnit(gameStage, UnitType.US_SHERMAN_HQ, 7, 3, o);
+        addUnit(gameStage, UnitType.US_WOLVERINE, 8, 3, o);
 
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
@@ -100,10 +104,10 @@ public class GameScreen extends AbstractScreen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(Stage stage, UnitType t, int col, int row, int angle)
+    private void addUnit(Stage stage, UnitType t, int col, int row, HexOrientation o)
     {
         Unit u = UnitFactory.getUnit(t);
-        u.moveTo(col, row, angle);
+        map.movePawnTo((Pawn) u, col, row, o);
         stage.addActor(u);
     }
 
@@ -150,7 +154,9 @@ public class GameScreen extends AbstractScreen
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getHexAt(cell, touchPos.x, touchPos.y);
                     draggedPawn = map.getTopPawnAt(cell);
-                    if (draggedPawn != null) draggedPawn.setZIndex(DRAGGED_Z_INDEX);
+                    if (draggedPawn != null) {
+                        draggedPawn.setZIndex(DRAGGED_Z_INDEX);
+                    }
                     Vector2 v = map.getHexCenterAt(cell);
                     selectedHex.setCenterPosition(v.x, v.y);
                     selectedHex.setVisible(true);
@@ -163,8 +169,7 @@ public class GameScreen extends AbstractScreen
                 if (button == Input.Buttons.LEFT) {
                     cam.unproject(touchPos.set(x, y, 0));
                     if (draggedPawn != null) {
-                        map.getHexAt(cell, touchPos.x, touchPos.y);
-                        draggedPawn.moveTo(cell);
+                        map.movePawnTo(draggedPawn, touchPos);
                     }
                     selectedHex.setVisible(false);
                 }
