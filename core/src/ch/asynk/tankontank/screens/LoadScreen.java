@@ -14,8 +14,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.loading.LoadingBar;
 
-public class LoadScreen extends AbstractScreen
+public class LoadScreen implements Screen
 {
+    private final TankOnTank game;
+
     private Stage stage;
 
     private Image logo;
@@ -34,7 +36,7 @@ public class LoadScreen extends AbstractScreen
 
     public LoadScreen(final TankOnTank game)
     {
-        super(game);
+        this.game = game;
     }
 
     @Override

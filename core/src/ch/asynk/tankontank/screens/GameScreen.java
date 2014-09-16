@@ -2,6 +2,7 @@ package ch.asynk.tankontank.screens;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
@@ -37,12 +38,14 @@ import ch.asynk.tankontank.game.Pawn;
 import ch.asynk.tankontank.game.MapImage;   // addActor
 import ch.asynk.tankontank.game.Unit;       // addActor
 
-public class GameScreen extends AbstractScreen
+public class GameScreen implements Screen
 {
     private static final float ZOOM_MAX = 0.2f;
     private static final float ZOOM_GESTURE_FACTOR = .01f;
     private static final float ZOOM_SCROLL_FACTOR = .1f;
     private static final int DRAGGED_Z_INDEX = 10;
+
+    private final TankOnTank game;
 
     private float maxZoomOut;
     final OrthographicCamera cam;
@@ -63,7 +66,7 @@ public class GameScreen extends AbstractScreen
 
     public GameScreen(final TankOnTank game)
     {
-        super(game);
+        this.game = game;
 
         GameFactory.init(game.manager);
 
