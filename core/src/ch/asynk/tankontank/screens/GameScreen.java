@@ -27,9 +27,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.actors.Pawn;
 import ch.asynk.tankontank.actors.HexMap;
-import ch.asynk.tankontank.actors.Unit;
-import ch.asynk.tankontank.utils.UnitFactory;
-import ch.asynk.tankontank.utils.UnitFactory.UnitType;
+import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.UnitFactory;
+import ch.asynk.tankontank.game.UnitFactory.UnitType;
 
 public class GameScreen extends AbstractScreen
 {

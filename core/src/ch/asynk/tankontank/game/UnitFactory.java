@@ -1,10 +1,9 @@
-package ch.asynk.tankontank.utils;
+package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.asynk.tankontank.actors.Unit;
 import ch.asynk.tankontank.actors.HexMap;
 
 public class UnitFactory
