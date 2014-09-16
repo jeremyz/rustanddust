@@ -33,9 +33,9 @@ import ch.asynk.tankontank.game.UnitFactory.UnitType;
 
 public class GameScreen extends AbstractScreen
 {
-    static private final float ZOOM_MAX = 0.2f;
-    static private final float ZOOM_GESTURE_FACTOR = .01f;
-    static private final float ZOOM_SCROLL_FACTOR = .1f;
+    private static final float ZOOM_MAX = 0.2f;
+    private static final float ZOOM_GESTURE_FACTOR = .01f;
+    private static final float ZOOM_SCROLL_FACTOR = .1f;
     private static final int DRAGGED_Z_INDEX = 10;
 
     private float maxZoomOut;
