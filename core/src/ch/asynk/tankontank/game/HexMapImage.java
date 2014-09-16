@@ -78,7 +78,6 @@ public class HexMapImage extends Image implements HexMap
         ArrayDeque<Pawn> st = cells[row][col];
         if (st == null) st = cells[row][col] = new ArrayDeque<Pawn>();
         st.push(pawn);
-        System.out.println("pushed at: "+col+" " +row);
         return st.size();
     }
 
@@ -90,7 +89,6 @@ public class HexMapImage extends Image implements HexMap
                 Gdx.app.error("GameScreen", "remove pawn from " + col + ";" + row + " but pawn stack is empty");
             else
                 st.remove(pawn);
-            System.out.println("poped from: "+col+" " +row);
         }
     }
 
