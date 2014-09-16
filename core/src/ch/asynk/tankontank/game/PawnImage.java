@@ -45,7 +45,8 @@ public class PawnImage extends Image implements Pawn
         while(path.size() != 0) {
             Vector3 v = path.pop();
             seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
-            seq.addAction(Actions.rotateTo(v.z, ROTATE_TIME));
+            if (v.z != HexOrientation.KEEP.v)
+                seq.addAction(Actions.rotateTo(v.z, ROTATE_TIME));
         }
 
         seq.addAction( Actions.run(new Runnable() {
