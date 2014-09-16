@@ -50,49 +50,49 @@ public class UnitFactory
         Unit u = null;
         switch(t) {
             case GE_AT_GUN:
-                u = new Unit(false, 3, 8, 9, 1, geAtlas.findRegion("at-gun"), map);
+                u = new Unit(Army.GE, false, 3, 8, 9, 1, geAtlas.findRegion("at-gun"), map);
                 break;
             case GE_INFANTRY:
-                u = new Unit(false, 1, 7, 10, 1, geAtlas.findRegion("infantry"), map);
+                u = new Unit(Army.GE, false, 1, 7, 10, 1, geAtlas.findRegion("infantry"), map);
                 break;
             case GE_KINGTIGER:
-                u = new Unit(false, 3, 12, 1, geAtlas.findRegion("kingtiger"), map);
+                u = new Unit(Army.GE, false, 3, 12, 1, geAtlas.findRegion("kingtiger"), map);
                 break;
             case GE_PANZER_IV:
-                u = new Unit(false, 2, 9, 2, geAtlas.findRegion("panzer-iv"), map);
+                u = new Unit(Army.GE, false, 2, 9, 2, geAtlas.findRegion("panzer-iv"), map);
                 break;
             case GE_PANZER_IV_HQ:
-                u = new Unit(true, 2, 9, 2, geAtlas.findRegion("panzer-iv-hq"), map);
+                u = new Unit(Army.GE, true, 2, 9, 2, geAtlas.findRegion("panzer-iv-hq"), map);
                 break;
             case GE_TIGER:
-                u = new Unit(false, 3, 11, 1, geAtlas.findRegion("tiger"), map);
+                u = new Unit(Army.GE, false, 3, 11, 1, geAtlas.findRegion("tiger"), map);
                 break;
             case GE_WESPE:
-                u = new Unit(false, 5, 8, 1, geAtlas.findRegion("wespe"), map);
+                u = new Unit(Army.GE, false, 5, 8, 1, geAtlas.findRegion("wespe"), map);
                 break;
             case US_AT_GUN:
-                u = new Unit(false, 1, 7, 10, 1, usAtlas.findRegion("at-gun"), map);
+                u = new Unit(Army.US, false, 1, 7, 10, 1, usAtlas.findRegion("at-gun"), map);
                 break;
             case US_INFANTRY:
-                u = new Unit(false, 1, 7, 10, 1, usAtlas.findRegion("infantry"), map);
+                u = new Unit(Army.US, false, 1, 7, 10, 1, usAtlas.findRegion("infantry"), map);
                 break;
             case US_PERSHING:
-                u = new Unit(false, 3, 10, 2, usAtlas.findRegion("pershing"), map);
+                u = new Unit(Army.US, false, 3, 10, 2, usAtlas.findRegion("pershing"), map);
                 break;
             case US_PERSHING_HQ:
-                u = new Unit(true, 3, 10, 2, usAtlas.findRegion("pershing-hq"), map);
+                u = new Unit(Army.US, true, 3, 10, 2, usAtlas.findRegion("pershing-hq"), map);
                 break;
             case US_PRIEST:
-                u = new Unit(false, 5, 8, 1, usAtlas.findRegion("priest"), map);
+                u = new Unit(Army.US, false, 5, 8, 1, usAtlas.findRegion("priest"), map);
                 break;
             case US_SHERMAN:
-                u = new Unit(false, 2, 9, 2, usAtlas.findRegion("sherman"), map);
+                u = new Unit(Army.US, false, 2, 9, 2, usAtlas.findRegion("sherman"), map);
                 break;
             case US_SHERMAN_HQ:
-                u = new Unit(true, 2, 9, 2, usAtlas.findRegion("sherman-hq"), map);
+                u = new Unit(Army.US, true, 2, 9, 2, usAtlas.findRegion("sherman-hq"), map);
                 break;
             case US_WOLVERINE:
-                u = new Unit(false, 3, 8, 3, usAtlas.findRegion("wolverine"), map);
+                u = new Unit(Army.US, false, 3, 8, 3, usAtlas.findRegion("wolverine"), map);
                 break;
         }
 
