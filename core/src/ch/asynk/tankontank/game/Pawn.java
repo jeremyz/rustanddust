@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.actors;
+package ch.asynk.tankontank.game;
 
 import java.util.ArrayDeque;
 

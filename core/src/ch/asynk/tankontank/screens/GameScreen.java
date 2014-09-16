@@ -25,8 +25,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.actors.Pawn;
-import ch.asynk.tankontank.actors.HexMap;
+import ch.asynk.tankontank.game.Pawn;
+import ch.asynk.tankontank.game.HexMap;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.UnitFactory;
 import ch.asynk.tankontank.game.UnitFactory.UnitType;

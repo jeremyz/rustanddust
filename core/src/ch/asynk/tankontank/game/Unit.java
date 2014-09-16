@@ -2,9 +2,6 @@ package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.asynk.tankontank.actors.Pawn;
-import ch.asynk.tankontank.actors.HexMap;
-
 public class Unit extends Pawn
 {
     public int rng;
