@@ -25,14 +25,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.game.GameFactory;
+import ch.asynk.tankontank.game.GameFactory.UnitType;
 import ch.asynk.tankontank.game.Pawn;
 import ch.asynk.tankontank.game.HexMap;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.HexMapImage;
-import ch.asynk.tankontank.game.HexMapFactory;
 import ch.asynk.tankontank.game.Unit;
-import ch.asynk.tankontank.game.UnitFactory;
-import ch.asynk.tankontank.game.UnitFactory.UnitType;
 
 public class GameScreen extends AbstractScreen
 {
@@ -62,10 +61,12 @@ public class GameScreen extends AbstractScreen
     {
         super(game);
 
+        GameFactory.init(game.manager);
+
         fps = new Label("FPS: 0", game.skin);
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
 
-        map = HexMapFactory.getMap(game.manager, HexMapFactory.MapType.MAP_A);
+        map = GameFactory.getMap(game.manager, GameFactory.MapType.MAP_A);
         selectedHex = new Image(game.manager.get("images/hex.png", Texture.class));
         selectedHex.setVisible(false);
 
@@ -77,7 +78,6 @@ public class GameScreen extends AbstractScreen
         gameStage.addActor((HexMapImage) map);
         gameStage.addActor(selectedHex);
 
-        UnitFactory.init(game.manager);
 
         Hex.Orientation o = Hex.Orientation.SOUTH_EAST;
         addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
@@ -106,7 +106,7 @@ public class GameScreen extends AbstractScreen
 
     private void addUnit(Stage stage, UnitType t, int col, int row, Hex.Orientation o)
     {
-        Unit u = UnitFactory.getUnit(t);
+        Unit u = GameFactory.getUnit(t);
         map.setPawnAt((Pawn) u, col, row, o);
         stage.addActor(u);
     }
@@ -230,7 +230,7 @@ public class GameScreen extends AbstractScreen
         Gdx.app.debug("GameScreen", "dispose()");
         hud.dispose();
         gameStage.dispose();
-        UnitFactory.dispose();
+        GameFactory.dispose();
         game.unloadAssets();
     }
 

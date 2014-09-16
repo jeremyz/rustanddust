@@ -1,11 +1,27 @@
 package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class UnitFactory
+public class GameFactory
 {
+    private static TextureAtlas usAtlas;
+    private static TextureAtlas geAtlas;
+
+    public static void init(AssetManager manager)
+    {
+        usAtlas = manager.get("images/us.pack", TextureAtlas.class);
+        geAtlas = manager.get("images/ge.pack", TextureAtlas.class);
+    }
+
+    public static void dispose()
+    {
+        usAtlas.dispose();
+        geAtlas.dispose();
+    }
+
     public enum UnitType
     {
         GE_AT_GUN,
@@ -24,21 +40,6 @@ public class UnitFactory
         US_SHERMAN,
         US_SHERMAN_HQ,
         US_WOLVERINE
-    }
-
-    private static TextureAtlas usAtlas;
-    private static TextureAtlas geAtlas;
-
-    public static void init(AssetManager manager)
-    {
-        usAtlas = manager.get("images/us.pack", TextureAtlas.class);
-        geAtlas = manager.get("images/ge.pack", TextureAtlas.class);
-    }
-
-    public static void dispose()
-    {
-        usAtlas.dispose();
-        geAtlas.dispose();
     }
 
     public static Unit getUnit(UnitType t)
@@ -93,5 +94,54 @@ public class UnitFactory
         }
 
         return u;
+    }
+
+    public enum MapType
+    {
+        MAP_A,
+        MAP_B
+    }
+
+    private static Map.Config config()
+    {
+        Map.Config cfg = new Map.Config();
+        cfg.cols = 11;
+        cfg.rows = 9;
+        cfg.x0 = 83;
+        cfg.y0 = 182;
+        cfg.h = 110;
+        cfg.dh = 53.6f;
+        cfg.w = 189;
+        cfg.dw = 94;
+        cfg.H = cfg.h + cfg.dh;
+        cfg.slope = (cfg.dh / (float) cfg.dw);
+
+        return cfg;
+    }
+
+    public static Map getMap(AssetManager manager, MapType t)
+    {
+        Map.Config cfg = config();
+
+        Hex[][] board = new Hex[cfg.rows][];
+        for (int i = 0; i < cfg.rows; i++) {
+            int c = cfg.cols;
+            if ((i % 2) == 1) c -= 1;
+            board[i] = new Hex[c];
+            for ( int j = 0; j < c; j ++)
+                board[i][j] = new MapHex(MapHex.Terrain.CLEAR);
+        }
+
+        Map m = null;
+        switch(t) {
+            case MAP_A:
+                m = new MapImage(config(), board, manager.get("images/map_a.png", Texture.class));
+                break;
+            case MAP_B:
+                m = new MapImage(config(), board, manager.get("images/map_b.png", Texture.class));
+                break;
+        }
+
+        return m;
     }
 }
