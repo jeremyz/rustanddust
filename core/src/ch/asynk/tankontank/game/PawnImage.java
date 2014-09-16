@@ -46,7 +46,7 @@ public class PawnImage extends Image implements Pawn
         if ((hex.x == -1) || (hex.y == -1)) {
             resetMoves();
         } else {
-            map.setPawnOn(this, hex);
+            map.setPawnAt(this, hex);
             path.push(hex);
         }
     }
@@ -65,7 +65,7 @@ public class PawnImage extends Image implements Pawn
         seq.addAction( Actions.run(new Runnable() {
             @Override
             public void run() {
-                map.setPawnOn(self, finalHex);
+                map.setPawnAt(self, finalHex);
                 path.push(finalHex);
             }
         }));
