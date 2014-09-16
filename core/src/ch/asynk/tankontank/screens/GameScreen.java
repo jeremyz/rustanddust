@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.Pawn;
 import ch.asynk.tankontank.game.HexMap;
-import ch.asynk.tankontank.game.HexOrientation;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.HexMapImage;
 import ch.asynk.tankontank.game.HexMapFactory;
 import ch.asynk.tankontank.game.Unit;
@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen
 
         UnitFactory.init(game.manager);
 
-        HexOrientation o = HexOrientation.SOUTH_EAST;
+        Hex.Orientation o = Hex.Orientation.SOUTH_EAST;
         addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
         addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, o);
         addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, o);
@@ -88,7 +88,7 @@ public class GameScreen extends AbstractScreen
         addUnit(gameStage, UnitType.GE_TIGER, 6, 4, o);
         addUnit(gameStage, UnitType.GE_WESPE, 7, 4, o);
 
-        o = HexOrientation.NORTH_WEST;
+        o = Hex.Orientation.NORTH_WEST;
         addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, o);
         addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, o);
         addUnit(gameStage, UnitType.US_PERSHING, 3, 3, o);
@@ -104,7 +104,7 @@ public class GameScreen extends AbstractScreen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(Stage stage, UnitType t, int col, int row, HexOrientation o)
+    private void addUnit(Stage stage, UnitType t, int col, int row, Hex.Orientation o)
     {
         Unit u = UnitFactory.getUnit(t);
         map.setPawnAt((Pawn) u, col, row, o);
