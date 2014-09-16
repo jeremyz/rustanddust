@@ -96,7 +96,7 @@ public class HexMap extends Image
 
     private void setPawnOn(Pawn pawn, int col, int row, int angle)
     {
-        GridPoint3 prev = pawn.getHex();
+        GridPoint3 prev = pawn.getBoardPosition();
         if (prev != null) removePawnFrom(pawn, prev.x, prev.y);
 
         Vector2 pos = getPawnPosAt(pawn, col, row);

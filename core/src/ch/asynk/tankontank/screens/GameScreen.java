@@ -36,6 +36,7 @@ public class GameScreen extends AbstractScreen
     static private final float ZOOM_MAX = 0.2f;
     static private final float ZOOM_GESTURE_FACTOR = .01f;
     static private final float ZOOM_SCROLL_FACTOR = .1f;
+    private static final int DRAGGED_Z_INDEX = 10;
 
     private float maxZoomOut;
     final OrthographicCamera cam;
@@ -147,7 +148,7 @@ public class GameScreen extends AbstractScreen
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getCellAt(cell, touchPos.x, touchPos.y);
                     draggedPawn = map.getTopPawnAt(cell);
-                    if (draggedPawn != null) draggedPawn.setZIndex(Pawn.DRAGGED_Z_INDEX);
+                    if (draggedPawn != null) draggedPawn.setZIndex(DRAGGED_Z_INDEX);
                     map.setImageCenterAt(selectedHex, cell);
                     selectedHex.setVisible(true);
                 }

@@ -1,83 +1,33 @@
 package ch.asynk.tankontank.game;
 
-import java.util.ArrayDeque;
-
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.GridPoint3;
 
-public class Pawn extends Image
+public interface Pawn
 {
-    public static final int DRAGGED_Z_INDEX = 10;
-    private static final float MOVE_TIME = 0.3f;
+    // Gfx related
 
-    private HexMap map;
-    private ArrayDeque<GridPoint3> path = new ArrayDeque<GridPoint3>();
+    public float getHeight();
 
-    public Pawn(TextureRegion region, HexMap map)
-    {
-        super(region);
-        this.map = map;
-        setOrigin((getWidth() / 2.f), (getHeight() / 2.f));
-    }
+    public float getWidth();
 
-    public GridPoint3 getHex()
-    {
-        if (path.size() == 0) return null;
-        return path.getFirst();
-    }
+    public void moveBy(float x, float y);
 
-    public void moveTo(GridPoint2 hex)
-    {
-        moveTo(new GridPoint3(hex.x, hex.y, (int) getRotation()));
-    }
+    public void setPosition(float x, float y);
 
-    public void moveTo(int col, int row, int angle)
-    {
-        moveTo(new GridPoint3(col, row, angle));
-    }
+    public void setRotation(float angle);
 
-    private void moveTo(GridPoint3 hex)
-    {
-        if ((hex.x == -1) || (hex.y == -1)) {
-            resetMoves();
-        } else {
-            map.setPawnOn(this, hex);
-            path.push(hex);
-        }
-    }
+    public void setZIndex(int zIndex);
 
-    public void resetMoves()
-    {
-        final Pawn self = this;
-        final GridPoint3 finalHex = path.getLast();
+    // Board related
 
-        SequenceAction seq = new SequenceAction();
-        while(path.size() != 0) {
-            Vector2 v = map.getPawnPosAt(this, path.pop());
-            seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
-        }
+    public GridPoint3 getBoardPosition();
 
-        seq.addAction( Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                map.setPawnOn(self, finalHex);
-                path.push(finalHex);
-            }
-        }));
+    public void moveTo(GridPoint2 hex);
 
-        addAction(seq);
-    }
+    public void moveTo(int col, int row, int angle);
 
-    public void moveDone()
-    {
-        GridPoint3 hex = path.pop();
-        path.clear();
-        path.push(hex);
-    }
+    public void resetMoves();
+
+    public void moveDone();
 }
