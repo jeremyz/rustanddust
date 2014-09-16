@@ -2,6 +2,12 @@ package ch.asynk.tankontank.game;
 
 public interface Hex
 {
+    public int push(Pawn pawn);
+
+    public void remove(Pawn pawn);
+
+    public Pawn getTop();
+
     public enum Orientation
     {
         KEEP(0),

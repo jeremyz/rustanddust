@@ -30,13 +30,24 @@ public class HexMapFactory
 
     public static HexMap getMap(AssetManager manager, MapType t)
     {
+        HexMap.Config cfg = config();
+
+        Hex[][] board = new Hex[cfg.rows][];
+        for (int i = 0; i < cfg.rows; i++) {
+            int c = cfg.cols;
+            if ((i % 2) == 1) c -= 1;
+            board[i] = new Hex[c];
+            for ( int j = 0; j < c; j ++)
+                board[i][j] = new MapHex(MapHex.Terrain.CLEAR);
+        }
+
         HexMap m = null;
         switch(t) {
             case MAP_A:
-                m = new HexMapImage(config(), manager.get("images/map_a.png", Texture.class));
+                m = new HexMapImage(config(), board, manager.get("images/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                m = new HexMapImage(config(), manager.get("images/map_b.png", Texture.class));
+                m = new HexMapImage(config(), board, manager.get("images/map_b.png", Texture.class));
                 break;
         }
 

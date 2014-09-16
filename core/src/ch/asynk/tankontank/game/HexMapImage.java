@@ -1,7 +1,5 @@
 package ch.asynk.tankontank.game;
 
-import java.util.ArrayDeque;
-
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -16,18 +14,14 @@ public class HexMapImage extends Image implements HexMap
     private HexMap.Config cfg;
     private int cols;
     private int rows;
-    private ArrayDeque<Pawn>[][] cells;
+    private Hex[][] board;
 
     @SuppressWarnings("unchecked")
-    public HexMapImage(HexMap.Config cfg, Texture texture)
+    public HexMapImage(HexMap.Config cfg, Hex[][] board, Texture texture)
     {
         super(texture);
-        cells = new ArrayDeque[cfg.rows][];
-        for (int i = 0; i < cfg.rows; i++) {
-            if ((i % 2) == 1) cells[i] = new ArrayDeque[cfg.cols - 1];
-            else cells[i] = new ArrayDeque[cfg.cols];
-        }
         this.cfg = cfg;
+        this.board = board;
         this.cols = cfg.cols - 1;
         this.rows = cfg.rows - 1;
     }
@@ -39,10 +33,20 @@ public class HexMapImage extends Image implements HexMap
 
     private Pawn getTopPawnAt(int col, int row)
     {
-        if ((col < 0) || (row < 0)) return null;
-        ArrayDeque<Pawn> st = cells[row][col];
-        if ((st == null) || (st.size() == 0)) return null;
-        return st.getFirst();
+        // if ((col < 0) || (row < 0)) throw new ();
+        return board[row][col].getTop();
+    }
+
+    private int pushPawnAt(Pawn pawn, int col, int row)
+    {
+        // if ((col < 0) || (row < 0)) throw new ();
+        return board[row][col].push(pawn);
+    }
+
+    private void removePawnFrom(Pawn pawn, int col, int row)
+    {
+        // if ((col < 0) || (row < 0)) throw new ();
+        board[row][col].remove(pawn);
     }
 
     public Vector2 getHexCenterAt(GridPoint2 cell)
@@ -66,25 +70,6 @@ public class HexMapImage extends Image implements HexMap
         return new Vector2(x, y);
     }
 
-    private int pushPawnAt(Pawn pawn, int col, int row)
-    {
-        ArrayDeque<Pawn> st = cells[row][col];
-        if (st == null) st = cells[row][col] = new ArrayDeque<Pawn>();
-        st.push(pawn);
-        return st.size();
-    }
-
-    private void removePawnFrom(Pawn pawn, int col, int row)
-    {
-        if ((col> 0) && (row > 0)) {
-            ArrayDeque<Pawn> st = cells[row][col];
-            if ((st == null) || (st.size() == 0))
-                Gdx.app.error("GameScreen", "remove pawn from " + col + ";" + row + " but pawn stack is empty");
-            else
-                st.remove(pawn);
-        }
-    }
-
     public void movePawnTo(Pawn pawn, Vector3 coords)
     {
         GridPoint2 p = getHexAt(null, coords.x, coords.y);
@@ -101,7 +86,8 @@ public class HexMapImage extends Image implements HexMap
     public void movePawnTo(final Pawn pawn, final int col, final int row, Hex.Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
-        if (prev != null) removePawnFrom(pawn, prev.x, prev.y);
+        // if (prev == null) throw new ();
+        removePawnFrom(pawn, prev.x, prev.y);
 
         if ((col < 0) || (row < 0)) {
             pawn.resetMoves(new Runnable() {
