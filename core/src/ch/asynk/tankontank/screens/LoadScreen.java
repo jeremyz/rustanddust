@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.actors.LoadingBar;
+import ch.asynk.tankontank.loading.LoadingBar;
 
 public class LoadScreen extends AbstractScreen
 {
