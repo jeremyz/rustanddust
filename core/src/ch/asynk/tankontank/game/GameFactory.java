@@ -123,13 +123,13 @@ public class GameFactory
     {
         Map.Config cfg = config();
 
-        Hex[][] board = new Hex[cfg.rows][];
+        Tile[][] board = new Tile[cfg.rows][];
         for (int i = 0; i < cfg.rows; i++) {
             int c = cfg.cols;
             if ((i % 2) == 1) c -= 1;
-            board[i] = new Hex[c];
+            board[i] = new Tile[c];
             for ( int j = 0; j < c; j ++)
-                board[i][j] = new MapHex(MapHex.Terrain.CLEAR);
+                board[i][j] = new Hex(Hex.Terrain.CLEAR);
         }
 
         Map m = null;

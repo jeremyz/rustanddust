@@ -16,7 +16,7 @@ public interface Pawn
 
     public void moveBy(float x, float y);
 
-    public void pushMove(float x, float y, int z, Hex.Orientation o);
+    public void pushMove(float x, float y, int z, Tile.Orientation o);
 
     public void resetMoves(Runnable cb);
 

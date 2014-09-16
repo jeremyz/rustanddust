@@ -25,13 +25,17 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
+
 import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
+
+// interfaces
+import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Tile;
 import ch.asynk.tankontank.game.Pawn;
-import ch.asynk.tankontank.game.HexMap;
-import ch.asynk.tankontank.game.Hex;
-import ch.asynk.tankontank.game.HexMapImage;
-import ch.asynk.tankontank.game.Unit;
+
+import ch.asynk.tankontank.game.MapImage;   // addActor
+import ch.asynk.tankontank.game.Unit;       // addActor
 
 public class GameScreen extends AbstractScreen
 {
@@ -43,7 +47,7 @@ public class GameScreen extends AbstractScreen
     private float maxZoomOut;
     final OrthographicCamera cam;
 
-    private HexMap map;
+    private Map map;
     private Image selectedHex;
     private Label fps;
 
@@ -75,11 +79,11 @@ public class GameScreen extends AbstractScreen
         // cam.position.set((map.getWidth()/2), (map.getHeight()/2), 0);
 
         gameStage = new Stage(new FitViewport(map.getWidth(), map.getHeight(), cam));
-        gameStage.addActor((HexMapImage) map);
+        gameStage.addActor((MapImage) map);
         gameStage.addActor(selectedHex);
 
 
-        Hex.Orientation o = Hex.Orientation.SOUTH_EAST;
+        Tile.Orientation o = Tile.Orientation.SOUTH_EAST;
         addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
         addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, o);
         addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, o);
@@ -88,7 +92,7 @@ public class GameScreen extends AbstractScreen
         addUnit(gameStage, UnitType.GE_TIGER, 6, 4, o);
         addUnit(gameStage, UnitType.GE_WESPE, 7, 4, o);
 
-        o = Hex.Orientation.NORTH_WEST;
+        o = Tile.Orientation.NORTH_WEST;
         addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, o);
         addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, o);
         addUnit(gameStage, UnitType.US_PERSHING, 3, 3, o);
@@ -104,7 +108,7 @@ public class GameScreen extends AbstractScreen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(Stage stage, UnitType t, int col, int row, Hex.Orientation o)
+    private void addUnit(Stage stage, UnitType t, int col, int row, Tile.Orientation o)
     {
         Unit u = GameFactory.getUnit(t);
         map.setPawnAt((Pawn) u, col, row, o);

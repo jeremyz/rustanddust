@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
 
-public interface HexMap
+public interface Map
 {
     // libgdx
 
@@ -23,9 +23,9 @@ public interface HexMap
 
     public void movePawnTo(Pawn pawn, Vector3 coords);
 
-    public void setPawnAt(Pawn pawn, int col, int row, Hex.Orientation o);
+    public void setPawnAt(Pawn pawn, int col, int row, Tile.Orientation o);
 
-    public void movePawnTo(Pawn pawn, int col, int row, Hex.Orientation o);
+    public void movePawnTo(Pawn pawn, int col, int row, Tile.Orientation o);
 
     public class Config
     {

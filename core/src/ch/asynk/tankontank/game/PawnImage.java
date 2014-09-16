@@ -28,10 +28,10 @@ public class PawnImage extends Image implements Pawn
         return path.getFirst();
     }
 
-    public void pushMove(float x, float y, int z, Hex.Orientation r)
+    public void pushMove(float x, float y, int z, Tile.Orientation r)
     {
         setPosition(x, y);
-        if (r != Hex.Orientation.KEEP) setRotation(r.v);
+        if (r != Tile.Orientation.KEEP) setRotation(r.v);
         setZIndex(z);
         path.push(new Vector3(x, y, r.v));
     }
@@ -45,7 +45,7 @@ public class PawnImage extends Image implements Pawn
         while(path.size() != 0) {
             Vector3 v = path.pop();
             seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
-            if (v.z != Hex.Orientation.KEEP.v)
+            if (v.z != Tile.Orientation.KEEP.v)
                 seq.addAction(Actions.rotateTo(v.z, ROTATE_TIME));
         }
 
