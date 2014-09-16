@@ -98,6 +98,13 @@ public class HexMapImage extends Image implements HexMap
         movePawnTo(pawn, p.x, p.y, HexOrientation.KEEP);
     }
 
+    public void setPawnAt(final Pawn pawn, final int col, final int row, HexOrientation o)
+    {
+        int z = pushPawnAt(pawn, col, row);
+        Vector2 pos = getPawnPosAt(pawn, col, row);
+        pawn.pushMove(pos.x, pos.y, z, o);
+    }
+
     public void movePawnTo(final Pawn pawn, final int col, final int row, HexOrientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());

@@ -23,6 +23,8 @@ public interface HexMap
 
     public void movePawnTo(Pawn pawn, Vector3 coords);
 
+    public void setPawnAt(Pawn pawn, int col, int row, HexOrientation o);
+
     public void movePawnTo(Pawn pawn, int col, int row, HexOrientation o);
 
 }

@@ -107,7 +107,7 @@ public class GameScreen extends AbstractScreen
     private void addUnit(Stage stage, UnitType t, int col, int row, HexOrientation o)
     {
         Unit u = UnitFactory.getUnit(t);
-        map.movePawnTo((Pawn) u, col, row, o);
+        map.setPawnAt((Pawn) u, col, row, o);
         stage.addActor(u);
     }
 
