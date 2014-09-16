@@ -13,30 +13,23 @@ import com.badlogic.gdx.math.GridPoint2;
 
 public class HexMapImage extends Image implements HexMap
 {
-    static final int x0 = 83;       // map offset
-    static final int y0 = 182;      // map offset
-    static final int h = 110;       // hex side
-    static final float dh = 53.6f;  // hex top     should be h/2
-    static final int w = 189;       // hex width
-    static final int dw = 94;       // half hex    should be w/2
-    static final float H = h + dh;  // total height
-    static final float slope = (dh / (float) dw);
-
+    private HexMap.Config cfg;
     private int cols;
     private int rows;
     private ArrayDeque<Pawn>[][] cells;
 
     @SuppressWarnings("unchecked")
-    public HexMapImage(int cols, int rows, Texture texture)
+    public HexMapImage(HexMap.Config cfg, Texture texture)
     {
         super(texture);
-        cells = new ArrayDeque[rows][];
-        for (int i = 0; i < rows; i++) {
-            if ((i % 2) == 1) cells[i] = new ArrayDeque[cols - 1];
-            else cells[i] = new ArrayDeque[cols];
+        cells = new ArrayDeque[cfg.rows][];
+        for (int i = 0; i < cfg.rows; i++) {
+            if ((i % 2) == 1) cells[i] = new ArrayDeque[cfg.cols - 1];
+            else cells[i] = new ArrayDeque[cfg.cols];
         }
-        this.cols = cols - 1;
-        this.rows = rows - 1;
+        this.cfg = cfg;
+        this.cols = cfg.cols - 1;
+        this.rows = cfg.rows - 1;
     }
 
     public Pawn getTopPawnAt(GridPoint2 cell)
@@ -54,9 +47,9 @@ public class HexMapImage extends Image implements HexMap
 
     public Vector2 getHexCenterAt(GridPoint2 cell)
     {
-        float x = x0 + ((cell.x * w) + (w / 2));
-        float y = y0 + ((cell.y * H) + (h / 2));
-        if ((cell.y % 2) == 1) x += dw;
+        float x = cfg.x0 + ((cell.x * cfg.w) + (cfg.w / 2));
+        float y = cfg.y0 + ((cell.y * cfg.H) + (cfg.h / 2));
+        if ((cell.y % 2) == 1) x += cfg.dw;
         return new Vector2(x, y);
     }
 
@@ -67,9 +60,9 @@ public class HexMapImage extends Image implements HexMap
 
     private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
     {
-        float x = x0 + ((col * w) + ((w - pawn.getHeight()) / 2));
-        float y = y0 + ((row * H) + ((h - pawn.getWidth()) / 2));
-        if ((row % 2) == 1) x += dw;
+        float x = cfg.x0 + ((col * cfg.w) + ((cfg.w - pawn.getHeight()) / 2));
+        float y = cfg.y0 + ((row * cfg.H) + ((cfg.h - pawn.getWidth()) / 2));
+        if ((row % 2) == 1) x += cfg.dw;
         return new Vector2(x, y);
     }
 
@@ -139,37 +132,37 @@ public class HexMapImage extends Image implements HexMap
         // compute row
         int row;
         boolean oddRow = true;
-        float y = (cy - y0);
+        float y = (cy - cfg.y0);
         if (y < 0.f) {
             row = -1;
         } else {
-            row = (int) (y / H);
+            row = (int) (y / cfg.H);
             oddRow = ((row % 2) == 1);
         }
 
         // compute col
         int col;
-        float x = (cx - x0);
-        if (oddRow) x -= dw;
+        float x = (cx - cfg.x0);
+        if (oddRow) x -= cfg.dw;
         if (x < 0.f) {
             col = -1;
         } else {
-            col = (int) (x / w);
+            col = (int) (x / cfg.w);
         }
 
         // check upper boundaries
-        float dy = (y - (row * H));
-        if (dy > h) {
-            dy -= h;
-            float dx = (x - (col * w));
-            if (dx < dw) {
-                if ((dx * slope) < dy) {
+        float dy = (y - (row * cfg.H));
+        if (dy > cfg.h) {
+            dy -= cfg.h;
+            float dx = (x - (col * cfg.w));
+            if (dx < cfg.dw) {
+                if ((dx * cfg.slope) < dy) {
                     row += 1;
                     if (!oddRow) col -= 1;
                     oddRow = !oddRow;
                 }
             } else {
-                if (((w - dx) * slope) < dy) {
+                if (((cfg.w - dx) * cfg.slope) < dy) {
                     row += 1;
                     if (oddRow) col += 1;
                     oddRow = !oddRow;
