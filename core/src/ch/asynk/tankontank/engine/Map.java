@@ -35,9 +35,9 @@ public interface Map
         public int y0;          // bottom left y offset
         public int w;           // hex width
         public int dw;          // half hex : w/2
-        public int h;           // hex side
-        public float dh;        // hex top : h/2
-        public float H;         // square height : h + dh
+        public int s;           // hex side
+        public float dh;        // hex top : s/2
+        public float h;         // square height : s + dh
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
 }

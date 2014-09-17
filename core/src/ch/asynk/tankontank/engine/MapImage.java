@@ -52,7 +52,7 @@ public class MapImage extends Image implements Map
     public Vector2 getHexCenterAt(GridPoint2 cell)
     {
         float x = cfg.x0 + ((cell.x * cfg.w) + (cfg.w / 2));
-        float y = cfg.y0 + ((cell.y * cfg.H) + (cfg.h / 2));
+        float y = cfg.y0 + ((cell.y * cfg.h) + (cfg.s / 2));
         if ((cell.y % 2) == 1) x += cfg.dw;
         return new Vector2(x, y);
     }
@@ -65,7 +65,7 @@ public class MapImage extends Image implements Map
     private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
     {
         float x = cfg.x0 + ((col * cfg.w) + ((cfg.w - pawn.getHeight()) / 2));
-        float y = cfg.y0 + ((row * cfg.H) + ((cfg.h - pawn.getWidth()) / 2));
+        float y = cfg.y0 + ((row * cfg.h) + ((cfg.s - pawn.getWidth()) / 2));
         if ((row % 2) == 1) x += cfg.dw;
         return new Vector2(x, y);
     }
@@ -122,7 +122,7 @@ public class MapImage extends Image implements Map
         if (y < 0.f) {
             row = -1;
         } else {
-            row = (int) (y / cfg.H);
+            row = (int) (y / cfg.h);
             oddRow = ((row % 2) == 1);
         }
 
@@ -137,9 +137,9 @@ public class MapImage extends Image implements Map
         }
 
         // check upper boundaries
-        float dy = (y - (row * cfg.H));
-        if (dy > cfg.h) {
-            dy -= cfg.h;
+        float dy = (y - (row * cfg.h));
+        if (dy > cfg.s) {
+            dy -= cfg.s;
             float dx = (x - (col * cfg.w));
             if (dx < cfg.dw) {
                 if ((dx * cfg.slope) < dy) {

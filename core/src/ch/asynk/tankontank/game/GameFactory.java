@@ -113,11 +113,11 @@ public class GameFactory
         cfg.rows = 9;
         cfg.x0 = 83;
         cfg.y0 = 182;
-        cfg.h = 110;
-        cfg.dh = 53.6f;
         cfg.w = 189;
         cfg.dw = 94;
-        cfg.H = cfg.h + cfg.dh;
+        cfg.s = 110;
+        cfg.dh = 53.6f;
+        cfg.h = cfg.s + cfg.dh;
         cfg.slope = (cfg.dh / (float) cfg.dw);
 
         return cfg;
