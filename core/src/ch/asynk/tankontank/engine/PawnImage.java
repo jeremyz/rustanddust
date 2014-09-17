@@ -33,15 +33,17 @@ public class PawnImage extends Image implements Pawn
         setPosition(x, y);
         if (r != Tile.Orientation.KEEP) setRotation(r.v);
         setZIndex(z);
-        path.push(new Vector3(x, y, r.v));
+        Vector3 v = new Vector3(x, y, r.v);
+        if ((path.size() == 0) || (!v.equals(path.getFirst())))
+            path.push(new Vector3(x, y, r.v));
     }
 
     public void resetMoves(Runnable cb)
     {
-        final Pawn self = this;
         final Vector3 finalPos = path.getLast();
 
         SequenceAction seq = new SequenceAction();
+
         while(path.size() != 0) {
             Vector3 v = path.pop();
             seq.addAction(Actions.moveTo(v.x, v.y, MOVE_TIME));
@@ -56,7 +58,7 @@ public class PawnImage extends Image implements Pawn
             }
         }));
 
-        // map set z index and push me in hex stack
+        // the map must finalize this move
         seq.addAction(Actions.run(cb));
 
         addAction(seq);
