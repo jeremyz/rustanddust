@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.engine;
 
 import com.badlogic.gdx.Gdx;
 

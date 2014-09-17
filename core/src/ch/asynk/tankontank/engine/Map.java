@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.engine;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -31,13 +31,13 @@ public interface Map
     {
         public int cols;
         public int rows;
-        public int x0 = 83;       // map offset
-        public int y0 = 182;      // map offset
-        public int h = 110;       // hex side
-        public float dh = 53.6f;  // hex top     should be h/2
-        public int w = 189;       // hex width
-        public int dw = 94;       // half hex    should be w/2
-        public float H = h + dh;  // total height
-        public float slope = (dh / (float) dw);
+        public int x0;          // bottom left x offset
+        public int y0;          // bottom left y offset
+        public int w;           // hex width
+        public int dw;          // half hex : w/2
+        public int h;           // hex side
+        public float dh;        // hex top : h/2
+        public float H;         // square height : h + dh
+        public float slope;     // north-west side slope : (dh / (float) dw)
     }
 }

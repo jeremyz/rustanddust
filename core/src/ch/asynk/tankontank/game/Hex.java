@@ -2,6 +2,9 @@ package ch.asynk.tankontank.game;
 
 import java.util.ArrayDeque;
 
+import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Pawn;
+
 public class Hex implements Tile
 {
     public enum Terrain

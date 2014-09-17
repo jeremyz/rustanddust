@@ -30,13 +30,12 @@ import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
 
-// interfaces
-import ch.asynk.tankontank.game.Map;
-import ch.asynk.tankontank.game.Tile;
-import ch.asynk.tankontank.game.Pawn;
+import ch.asynk.tankontank.engine.Map;
+import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Pawn;
 
-import ch.asynk.tankontank.game.MapImage;   // addActor
-import ch.asynk.tankontank.game.Unit;       // addActor
+import ch.asynk.tankontank.engine.PawnImage;    // addActor
+import ch.asynk.tankontank.engine.MapImage;     // addActor
 
 public class GameScreen implements Screen
 {
@@ -113,9 +112,9 @@ public class GameScreen implements Screen
 
     private void addUnit(Stage stage, UnitType t, int col, int row, Tile.Orientation o)
     {
-        Unit u = GameFactory.getUnit(t);
-        map.setPawnAt((Pawn) u, col, row, o);
-        stage.addActor(u);
+        PawnImage p = GameFactory.getUnit(t);
+        map.setPawnAt(p, col, row, o);
+        stage.addActor(p);
     }
 
     private InputMultiplexer getMultiplexer()

@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import ch.asynk.tankontank.engine.Map;
+import ch.asynk.tankontank.engine.MapImage;
+import ch.asynk.tankontank.engine.Tile;
+
 public class GameFactory
 {
     private static TextureAtlas usAtlas;

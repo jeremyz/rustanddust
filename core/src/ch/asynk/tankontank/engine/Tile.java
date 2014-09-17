@@ -1,4 +1,6 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.engine;
+
+import java.util.List;
 
 public interface Tile
 {
@@ -7,6 +9,8 @@ public interface Tile
     public void remove(Pawn pawn);
 
     public Pawn getTop();
+
+    public int costFrom(Side side);
 
     public enum Orientation
     {
