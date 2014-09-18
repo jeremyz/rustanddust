@@ -23,9 +23,9 @@ public interface Map
 
     public void movePawnTo(Pawn pawn, Vector3 coords);
 
-    public void setPawnAt(Pawn pawn, int col, int row, Tile.Orientation o);
+    public void setPawnAt(Pawn pawn, int col, int row, Pawn.Orientation o);
 
-    public void movePawnTo(Pawn pawn, int col, int row, Tile.Orientation o);
+    public void movePawnTo(Pawn pawn, int col, int row, Pawn.Orientation o);
 
     public class Config
     {

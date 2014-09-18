@@ -73,17 +73,17 @@ public class MapImage extends Image implements Map
     public void movePawnTo(Pawn pawn, Vector3 coords)
     {
         GridPoint2 p = getHexAt(null, coords.x, coords.y);
-        movePawnTo(pawn, p.x, p.y, Tile.Orientation.KEEP);
+        movePawnTo(pawn, p.x, p.y, Pawn.Orientation.KEEP);
     }
 
-    public void setPawnAt(final Pawn pawn, final int col, final int row, Tile.Orientation o)
+    public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         int z = pushPawnAt(pawn, col, row);
         Vector2 pos = getPawnPosAt(pawn, col, row);
         pawn.pushMove(pos.x, pos.y, z, o);
     }
 
-    public void movePawnTo(final Pawn pawn, final int col, final int row, Tile.Orientation o)
+    public void movePawnTo(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
         // if (prev == null) throw new ();

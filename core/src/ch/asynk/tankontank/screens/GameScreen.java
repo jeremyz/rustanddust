@@ -85,7 +85,7 @@ public class GameScreen implements Screen
         gameStage.addActor(selectedHex);
 
 
-        Tile.Orientation o = Tile.Orientation.SOUTH_EAST;
+        Pawn.Orientation o = Pawn.Orientation.SOUTH_EAST;
         addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
         addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, o);
         addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, o);
@@ -94,7 +94,7 @@ public class GameScreen implements Screen
         addUnit(gameStage, UnitType.GE_TIGER, 6, 4, o);
         addUnit(gameStage, UnitType.GE_WESPE, 7, 4, o);
 
-        o = Tile.Orientation.NORTH_WEST;
+        o = Pawn.Orientation.NORTH_EAST;
         addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, o);
         addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, o);
         addUnit(gameStage, UnitType.US_PERSHING, 3, 3, o);
@@ -110,7 +110,7 @@ public class GameScreen implements Screen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(Stage stage, UnitType t, int col, int row, Tile.Orientation o)
+    private void addUnit(Stage stage, UnitType t, int col, int row, Pawn.Orientation o)
     {
         PawnImage p = GameFactory.getUnit(t);
         map.setPawnAt(p, col, row, o);
