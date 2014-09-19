@@ -14,9 +14,9 @@ public interface Drawable extends Disposable
 
     public float getY();
 
-    public   int getRotation();
+    public float getRotation();
 
-    public void setRotation(int r);
+    public void setRotation(float r);
 
     public void setScale(float s);
 
@@ -24,7 +24,7 @@ public interface Drawable extends Disposable
 
     public void moveBy(float dx, float dy);
 
-    public void setCoords(float x, float y, int r);
+    public void setCoords(float x, float y, float r);
 
     public void draw(Batch batch, float parentAlpha);
 

@@ -1,6 +1,8 @@
 package ch.asynk.tankontank.engine.gfx;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.Layer;
 
