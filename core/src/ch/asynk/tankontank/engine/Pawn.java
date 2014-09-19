@@ -2,35 +2,30 @@ package ch.asynk.tankontank.engine;
 
 import com.badlogic.gdx.math.Vector3;
 
-public interface Pawn
+import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
+
+public interface Pawn extends Node
 {
-    // libgdx
-
-    public float getWidth();
-    public float getHeight();
-    public void setZIndex(int z);
-
-    // game
-
     public Vector3 getLastPosition();
 
     public void moveBy(float x, float y);
 
     public void pushMove(float x, float y, int z, Pawn.Orientation o);
 
-    public void resetMoves(Runnable cb);
+    public AnimationSequence getResetMovesAnimation();
 
     public void moveDone();
 
     public enum Orientation
     {
         KEEP(0),
-        WEST(-90),
-        NORTH_WEST(-30),
-        NORTH_EAST (30),
-        EAST(90),
-        SOUTH_EAST(150),
-        SOUTH_WEST(-150);
+        WEST(180),
+        NORTH_WEST(120),
+        NORTH_EAST (60),
+        EAST(0),
+        SOUTH_EAST(-60),
+        SOUTH_WEST(-120);
 
         public final int v;
         Orientation(int v) { this.v = v; }

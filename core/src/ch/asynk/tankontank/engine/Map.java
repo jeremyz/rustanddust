@@ -4,15 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
 
-public interface Map
+import ch.asynk.tankontank.engine.gfx.Node;
+
+public interface Map extends Node
 {
-    // libgdx
-
-    public float getWidth();
-    public float getHeight();
-
-    // game
-
     public GridPoint2 getHexAt(GridPoint2 hex, float x, float y);
 
     public Pawn getTopPawnAt(GridPoint2 hex);

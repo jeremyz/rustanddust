@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.asynk.tankontank.engine.Map;
-import ch.asynk.tankontank.engine.MapImage;
+import ch.asynk.tankontank.engine.MapNode;
 import ch.asynk.tankontank.engine.Tile;
 
 public class GameFactory
@@ -139,10 +139,10 @@ public class GameFactory
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapImage(config(), board, manager.get("images/map_a.png", Texture.class));
+                m = new MapNode(config(), board, manager.get("images/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                m = new MapImage(config(), board, manager.get("images/map_b.png", Texture.class));
+                m = new MapNode(config(), board, manager.get("images/map_b.png", Texture.class));
                 break;
         }
 

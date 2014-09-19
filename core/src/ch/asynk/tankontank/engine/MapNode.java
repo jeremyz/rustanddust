@@ -3,21 +3,25 @@ package ch.asynk.tankontank.engine;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
 
-public class MapImage extends Image implements Map
+import ch.asynk.tankontank.engine.gfx.TextureDrawable;
+import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
+import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
+
+public class MapNode extends TextureDrawable implements Map
 {
+    private Layer layer;
     private Map.Config cfg;
     private int cols;
     private int rows;
     private Tile[][] board;
 
-    @SuppressWarnings("unchecked")
-    public MapImage(Map.Config cfg, Tile[][] board, Texture texture)
+    public MapNode(Map.Config cfg, Tile[][] board, Texture texture)
     {
         super(texture);
         this.cfg = cfg;
@@ -26,6 +30,24 @@ public class MapImage extends Image implements Map
         this.rows = cfg.rows - 1;
     }
 
+    @Override
+    public void setLayer(Layer layer)
+    {
+        this.layer = layer;
+    }
+
+    @Override
+    public void clear()
+    {
+        dispose();
+    }
+
+    @Override
+    public void act(float delta)
+    {
+    }
+
+    @Override
     public Pawn getTopPawnAt(GridPoint2 cell)
     {
         return getTopPawnAt(cell.x, cell.y);
@@ -33,22 +55,20 @@ public class MapImage extends Image implements Map
 
     private Pawn getTopPawnAt(int col, int row)
     {
-        // if ((col < 0) || (row < 0)) throw new ();
         return board[row][col].getTop();
     }
 
     private int pushPawnAt(Pawn pawn, int col, int row)
     {
-        // if ((col < 0) || (row < 0)) throw new ();
         return board[row][col].push(pawn);
     }
 
     private void removePawnFrom(Pawn pawn, int col, int row)
     {
-        // if ((col < 0) || (row < 0)) throw new ();
         board[row][col].remove(pawn);
     }
 
+    @Override
     public Vector2 getHexCenterAt(GridPoint2 cell)
     {
         float x = cfg.x0 + ((cell.x * cfg.w) + (cfg.w / 2));
@@ -57,6 +77,7 @@ public class MapImage extends Image implements Map
         return new Vector2(x, y);
     }
 
+    @Override
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
     {
         return getPawnPosAt(pawn, cell.x, cell.y);
@@ -70,12 +91,14 @@ public class MapImage extends Image implements Map
         return new Vector2(x, y);
     }
 
+    @Override
     public void movePawnTo(Pawn pawn, Vector3 coords)
     {
         GridPoint2 p = getHexAt(null, coords.x, coords.y);
         movePawnTo(pawn, p.x, p.y, Pawn.Orientation.KEEP);
     }
 
+    @Override
     public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         int z = pushPawnAt(pawn, col, row);
@@ -83,21 +106,22 @@ public class MapImage extends Image implements Map
         pawn.pushMove(pos.x, pos.y, z, o);
     }
 
+    @Override
     public void movePawnTo(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
-        // if (prev == null) throw new ();
         removePawnFrom(pawn, prev.x, prev.y);
 
         if ((col < 0) || (row < 0)) {
-            pawn.resetMoves(new Runnable() {
+            AnimationSequence seq = pawn.getResetMovesAnimation();
+            seq.addAnimation(RunnableAnimation.get(new Runnable() {
                 @Override
                 public void run() {
                     GridPoint2 hex = getHexAt(pawn.getLastPosition());
-                    pawn.setZIndex(pushPawnAt(pawn, hex.x, hex.y));
+                    pushPawnAt(pawn, hex.x, hex.y);
                 }
-            });
-            return;
+            }));
+            layer.addAnimation(seq);
         } else {
             int z = pushPawnAt(pawn, col, row);
             Vector2 pos = getPawnPosAt(pawn, col, row);
@@ -111,6 +135,7 @@ public class MapImage extends Image implements Map
         return getHexAt(null, v.x, v.y);
     }
 
+    @Override
     public GridPoint2 getHexAt(GridPoint2 hex, float cx, float cy)
     {
         if (hex == null) hex = new GridPoint2();
@@ -165,3 +190,4 @@ public class MapImage extends Image implements Map
         return hex;
     }
 }
+
