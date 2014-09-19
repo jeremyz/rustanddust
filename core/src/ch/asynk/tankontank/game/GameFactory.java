@@ -16,8 +16,8 @@ public class GameFactory
 
     public static void init(AssetManager manager)
     {
-        usAtlas = manager.get("images/us.pack", TextureAtlas.class);
-        geAtlas = manager.get("images/ge.pack", TextureAtlas.class);
+        usAtlas = manager.get("images/us.atlas", TextureAtlas.class);
+        geAtlas = manager.get("images/ge.atlas", TextureAtlas.class);
     }
 
     public static void dispose()

@@ -1,60 +1,61 @@
+
 us.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 at-gun
   rotate: false
-  xy: 1, 1
+  xy: 2, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 infantry
   rotate: false
-  xy: 125, 1
+  xy: 128, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 pershing
   rotate: false
-  xy: 249, 1
+  xy: 380, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 pershing-hq
   rotate: false
-  xy: 373, 1
+  xy: 254, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 priest
   rotate: false
-  xy: 497, 1
+  xy: 506, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 sherman
   rotate: false
-  xy: 621, 1
+  xy: 758, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 sherman-hq
   rotate: false
-  xy: 745, 1
+  xy: 632, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
 wolverine
   rotate: false
-  xy: 869, 1
+  xy: 884, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
-  index: 1
+  index: -1
