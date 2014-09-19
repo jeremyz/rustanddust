@@ -67,9 +67,7 @@ public class Layer
 
     public void act(float delta)
     {
-        Iterator<Animation> iter;
-
-        iter = animations.iterator();
+        Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
             Animation a = iter.next();
             Node n = a.getNode();
