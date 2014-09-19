@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.engine.gfx;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class AbstractDrawable implements Drawable
 {
@@ -22,6 +23,9 @@ public abstract class AbstractDrawable implements Drawable
         this.s = 1f;
         this.color = new Color(1, 1, 1, 1);
     }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes) {}
 
     @Override
     public float getWidth()

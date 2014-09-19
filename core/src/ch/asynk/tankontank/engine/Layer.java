@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ch.asynk.tankontank.engine.gfx.Node;
@@ -98,6 +99,15 @@ public class Layer
                 nodes.get(i).draw(batch, 1);
             batch.end();
         }
+    }
+
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        debugShapes.setProjectionMatrix(viewport.getCamera().combined);
+        debugShapes.begin();
+        for (int i = 0, n = nodes.size(); i < n; i++)
+            nodes.get(i).drawDebug(debugShapes);
+        debugShapes.end();
     }
 
     public void clear()
