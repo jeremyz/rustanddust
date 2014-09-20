@@ -54,12 +54,13 @@ public class AnimationSequence implements Animation, Pool.Poolable
         animations.add(animation);
     }
 
-    public boolean act(float delta)
+    @Override
+    public boolean animate(float delta)
     {
         if(animations.isEmpty()) return true;
 
         Animation animation = animations.get(0);
-        if (animation.act(delta)) {
+        if (animation.animate(delta)) {
             animations.removeElementAt(0);
         }
 

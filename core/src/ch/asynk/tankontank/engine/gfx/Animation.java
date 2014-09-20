@@ -6,5 +6,5 @@ public interface Animation extends Disposable
 {
     public Node getNode();
 
-    public boolean act(float delta);
+    public boolean animate(float delta);
 }

@@ -22,18 +22,6 @@ public class MoveToAnimation extends TimedAnimation
         }
     };
 
-    @Override
-    public Node getNode()
-    {
-        return node;
-    }
-
-    @Override
-    public void dispose()
-    {
-        moveToAnimationPool.free(this);
-    }
-
     public static MoveToAnimation get(Node node, Vector3 v, float duration)
     {
         return get(node, v.x, v.y, v.z, duration);
@@ -52,6 +40,19 @@ public class MoveToAnimation extends TimedAnimation
         return a;
     }
 
+    @Override
+    public Node getNode()
+    {
+        return node;
+    }
+
+    @Override
+    public void dispose()
+    {
+        moveToAnimationPool.free(this);
+    }
+
+    @Override
     protected void begin()
     {
         fromX = node.getX();
@@ -59,11 +60,13 @@ public class MoveToAnimation extends TimedAnimation
         fromR = node.getRotation();
     }
 
+    @Override
     protected void end()
     {
         dispose();
     }
 
+    @Override
     protected void update(float percent)
     {
         if (percent == 1f)

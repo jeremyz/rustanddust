@@ -43,7 +43,7 @@ public class RunnableAnimation implements Animation, Pool.Poolable
     }
 
     @Override
-    public boolean act(float delta)
+    public boolean animate(float delta)
     {
         if (ran) return true;
 

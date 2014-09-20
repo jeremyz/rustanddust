@@ -1,15 +1,19 @@
 package ch.asynk.tankontank.engine.gfx.animations;
 
-import com.badlogic.gdx.utils.Pool.Poolable;
+import com.badlogic.gdx.utils.Pool;
 
 import ch.asynk.tankontank.engine.gfx.Animation;
 
-abstract public class TimedAnimation implements Animation, Poolable
+public abstract class TimedAnimation implements Animation, Pool.Poolable
 {
     private float time;
     private boolean began;
     private boolean completed;
     protected float duration;
+
+    abstract protected void begin();
+    abstract protected void end();
+    abstract protected void update(float percent);
 
     @Override
     public void reset()
@@ -19,11 +23,8 @@ abstract public class TimedAnimation implements Animation, Poolable
         completed = false;
     }
 
-    abstract protected void begin();
-    abstract protected void end();
-    abstract protected void update(float percent);
-
-    public boolean act(float delta)
+    @Override
+    public boolean animate(float delta)
     {
         if (completed) return true;
 
