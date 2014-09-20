@@ -2,6 +2,8 @@ package ch.asynk.tankontank.engine;
 
 import java.util.List;
 
+import ch.asynk.tankontank.engine.gfx.BasicDrawable;
+
 public interface Tile extends BasicDrawable
 {
     public int push(Pawn pawn);
