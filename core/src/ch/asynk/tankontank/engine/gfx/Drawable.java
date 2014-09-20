@@ -1,32 +1,22 @@
 package ch.asynk.tankontank.engine.gfx;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Disposable;
-
-public interface Drawable extends Disposable
+public interface Drawable extends BasicDrawable
 {
-    public float getWidth();
-
-    public float getHeight();
-
     public float getX();
 
     public float getY();
 
-    public float getRotation();
+    public float getWidth();
 
-    public void setRotation(float r);
+    public float getHeight();
+
+    public float getRotation();
 
     public void setScale(float s);
 
+    public void setRotation(float r);
+
+    public void translate(float dx, float dy);
+
     public void setPosition(float x, float y);
-
-    public void moveBy(float dx, float dy);
-
-    public void setCoords(float x, float y, float r);
-
-    public void draw(Batch batch, float parentAlpha);
-
-    public void drawDebug(ShapeRenderer debugShapes);
 }
