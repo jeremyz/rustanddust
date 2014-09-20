@@ -33,12 +33,12 @@ public class AnimationSequence implements Animation, Pool.Poolable
     public void reset()
     {
         for (int i = 0, n = animations.size(); i < n; i++)
-            animations.get(i).free();
+            animations.get(i).dispose();
         animations.clear();
     }
 
     @Override
-    public void free()
+    public void dispose()
     {
         animationSequencePool.free(this);
     }

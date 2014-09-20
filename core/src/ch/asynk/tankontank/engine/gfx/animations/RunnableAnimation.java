@@ -31,7 +31,7 @@ public class RunnableAnimation implements Animation, Pool.Poolable
     }
 
     @Override
-    public void free()
+    public void dispose()
     {
         runnableAnimationPool.free(this);
     }
@@ -50,7 +50,7 @@ public class RunnableAnimation implements Animation, Pool.Poolable
         runnable.run();
         runnable = null;
         ran = true;
-        free();
+        dispose();
 
         return true;
     }

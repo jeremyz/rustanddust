@@ -115,11 +115,11 @@ public class Layer
         nodes.clear();
 
         for (int i = 0, n = animations.size(); i < n; i++)
-            animations.get(i).free();
+            animations.get(i).dispose();
         animations.clear();
 
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
-            nextAnimations.get(i).free();
+            nextAnimations.get(i).dispose();
         nextAnimations.clear();
 
         batch.dispose();

@@ -29,7 +29,7 @@ public class MoveToAnimation extends TimedAnimation
     }
 
     @Override
-    public void free()
+    public void dispose()
     {
         moveToAnimationPool.free(this);
     }
@@ -61,14 +61,14 @@ public class MoveToAnimation extends TimedAnimation
 
     protected void end()
     {
-        free();
+        dispose();
     }
 
     protected void update(float percent)
     {
         if (percent == 1f)
-            node.setCoords(toX, toY, (int) toR);
+            node.setPosition(toX, toY, (int) toR);
         else
-            node.setCoords(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (int) (fromR + ((toR - fromR) * percent)));
+            node.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (int) (fromR + ((toR - fromR) * percent)));
     }
 }
