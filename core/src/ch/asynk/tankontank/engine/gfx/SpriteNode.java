@@ -7,30 +7,28 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class SpriteNode extends Sprite implements Node
 {
+    private Texture texture;
+
     public SpriteNode(Texture texture)
     {
         super(texture);
+        this.texture = texture;
     }
 
     public SpriteNode(TextureRegion region)
     {
         super(region);
+        this.texture = null;
     }
 
     @Override
     public void dispose()
     {
-        // FIXME : what to do with dispose in SpriteNode
+        if (texture != null) texture.dispose();
     }
 
     @Override
-    public void moveBy(float dx, float dy)
-    {
-        translate(dx, dy);
-    }
-
-    @Override
-    public void setCoords(float x, float y, float r)
+    public void setPosition(float x, float y, float r)
     {
         setPosition(x, y);
         setRotation(r);
