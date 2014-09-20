@@ -9,23 +9,21 @@ public interface Pawn extends Node
 {
     public Vector3 getLastPosition();
 
-    public void moveBy(float x, float y);
+    public void moveDone();
 
-    public void pushMove(float x, float y, int z, Pawn.Orientation o);
+    public void pushMove(float x, float y, Pawn.Orientation o);
 
     public AnimationSequence getResetMovesAnimation();
-
-    public void moveDone();
 
     public enum Orientation
     {
         KEEP(0),
-        WEST(180),
-        NORTH_WEST(120),
-        NORTH_EAST (60),
-        EAST(0),
-        SOUTH_EAST(-60),
-        SOUTH_WEST(-120);
+        NORTH_WEST(30),
+        WEST(90),
+        SOUTH_WEST(150),
+        NORTH_EAST (-30),
+        EAST(-90),
+        SOUTH_EAST(-150);
 
         public final int v;
         Orientation(int v) { this.v = v; }

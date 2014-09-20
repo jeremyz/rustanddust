@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.badlogic.gdx.math.Vector3;
 
-import ch.asynk.tankontank.engine.gfx.TextureRegionDrawable;
+import ch.asynk.tankontank.engine.gfx.SpriteNode;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public class PawnNode extends TextureRegionDrawable implements Pawn
+public class PawnNode extends SpriteNode implements Pawn
 {
     private static final float MOVE_TIME = 0.3f;
-    private static final float ROTATE_TIME = 0.2f;
 
-    private Layer layer;
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
     public PawnNode(TextureRegion region)
@@ -25,37 +23,31 @@ public class PawnNode extends TextureRegionDrawable implements Pawn
     }
 
     @Override
-    public void setLayer(Layer layer)
-    {
-        this.layer = layer;
-    }
-
-    @Override
-    public void clear()
-    {
-        dispose();
-    }
-
-    @Override
-    public void act(float delta)
-    {
-    }
-
     public Vector3 getLastPosition()
     {
         if ((path == null) || (path.size() == 0)) return null;
         return path.getFirst();
     }
 
-    public void pushMove(float x, float y, int z, Pawn.Orientation r)
+    @Override
+    public void moveDone()
     {
-        setCoords(x, y, z);
-        if (r != Pawn.Orientation.KEEP) setRotation(r.v);
-        Vector3 v = new Vector3(x, y, r.v);
-        if ((path.size() == 0) || (!v.equals(path.getFirst())))
-            path.push(new Vector3(x, y, r.v));
+        Vector3 v = path.pop();
+        path.clear();
+        path.push(v);
     }
 
+    @Override
+    public void pushMove(float x, float y, Pawn.Orientation o)
+    {
+        float r = ((o == Pawn.Orientation.KEEP) ? getRotation() : o.v);
+        setPosition(x, y, r);
+        Vector3 v = new Vector3(x, y, r);
+        if ((path.size() == 0) || (!v.equals(path.getFirst())))
+            path.push(new Vector3(x, y, r));
+    }
+
+    @Override
     public AnimationSequence getResetMovesAnimation()
     {
         final Vector3 finalPos = path.getLast();
@@ -74,12 +66,5 @@ public class PawnNode extends TextureRegionDrawable implements Pawn
         }));
 
         return seq;
-    }
-
-    public void moveDone()
-    {
-        Vector3 v = path.pop();
-        path.clear();
-        path.push(v);
     }
 }
