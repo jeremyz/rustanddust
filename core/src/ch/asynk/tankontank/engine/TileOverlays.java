@@ -29,9 +29,10 @@ public abstract class TileOverlays implements Tile
     }
 
     @Override
-    public void remove(Pawn pawn)
+    public int remove(Pawn pawn)
     {
         stack.remove(pawn);
+        return stack.size();
     }
 
     @Override

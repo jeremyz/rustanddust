@@ -8,7 +8,7 @@ public interface Tile extends BasicDrawable
 {
     public int push(Pawn pawn);
 
-    public void remove(Pawn pawn);
+    public int remove(Pawn pawn);
 
     public Pawn getTopPawn();
 
