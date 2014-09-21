@@ -13,9 +13,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import com.badlogic.gdx.math.GridPoint2;
@@ -31,11 +32,7 @@ import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
 
 import ch.asynk.tankontank.engine.Map;
-import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Pawn;
-
-import ch.asynk.tankontank.engine.PawnImage;    // addActor
-import ch.asynk.tankontank.engine.MapImage;     // addActor
 
 public class GameScreen implements Screen
 {
@@ -47,20 +44,19 @@ public class GameScreen implements Screen
     private final TankOnTank game;
 
     private float maxZoomOut;
+    final SpriteBatch mapBatch;
     final OrthographicCamera cam;
+    final FitViewport mapViewport;
 
     private Map map;
-    private Image selectedHex;
     private Label fps;
 
     private Stage hud;
-    private Stage gameStage;
 
     private Vector2 screenToViewport = new Vector2();       // ratio
     private Vector3 touchPos = new Vector3();               // world coordinates
     private Vector2 dragPos = new Vector2();                // screen coordinates
 
-    private Pawn draggedPawn = null;
     private GridPoint2 cell = new GridPoint2(-1, -1);    // current map cell
 
     public GameScreen(final TankOnTank game)
@@ -73,36 +69,33 @@ public class GameScreen implements Screen
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
 
         map = GameFactory.getMap(game.manager, GameFactory.MapType.MAP_A);
-        selectedHex = new Image(game.manager.get("images/hex.png", Texture.class));
-        selectedHex.setVisible(false);
+        map.setPosition(60, 60);
 
+        mapBatch = new SpriteBatch();
         cam = new OrthographicCamera();
         cam.setToOrtho(false);
         // cam.position.set((map.getWidth()/2), (map.getHeight()/2), 0);
+        mapViewport = new FitViewport(map.getWidth(), map.getHeight(), cam);
+        mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        gameStage = new Stage(new FitViewport(map.getWidth(), map.getHeight(), cam));
-        gameStage.addActor((MapImage) map);
-        gameStage.addActor(selectedHex);
+        Pawn.Orientation o = Pawn.Orientation.EAST;
+        addUnit(1, 7, o, UnitType.GE_AT_GUN);
+        addUnit(1, 6, o, UnitType.GE_INFANTRY);
+        addUnit(1, 5, o, UnitType.GE_KINGTIGER);
+        addUnit(1, 4, o, UnitType.GE_PANZER_IV);
+        addUnit(1, 3, o, UnitType.GE_PANZER_IV_HQ);
+        addUnit(1, 2, o, UnitType.GE_TIGER);
+        addUnit(1, 1, o, UnitType.GE_WESPE);
 
-
-        Pawn.Orientation o = Pawn.Orientation.SOUTH_EAST;
-        addUnit(gameStage, UnitType.GE_AT_GUN, 1, 4, o);
-        addUnit(gameStage, UnitType.GE_INFANTRY, 2, 4, o);
-        addUnit(gameStage, UnitType.GE_KINGTIGER, 3, 4, o);
-        addUnit(gameStage, UnitType.GE_PANZER_IV, 4, 4, o);
-        addUnit(gameStage, UnitType.GE_PANZER_IV_HQ, 5, 4, o);
-        addUnit(gameStage, UnitType.GE_TIGER, 6, 4, o);
-        addUnit(gameStage, UnitType.GE_WESPE, 7, 4, o);
-
-        o = Pawn.Orientation.NORTH_EAST;
-        addUnit(gameStage, UnitType.US_AT_GUN, 1, 3, o);
-        addUnit(gameStage, UnitType.US_INFANTRY, 2, 3, o);
-        addUnit(gameStage, UnitType.US_PERSHING, 3, 3, o);
-        addUnit(gameStage, UnitType.US_PERSHING_HQ, 4, 3, o);
-        addUnit(gameStage, UnitType.US_PRIEST, 5, 3, o);
-        addUnit(gameStage, UnitType.US_SHERMAN, 6, 3, o);
-        addUnit(gameStage, UnitType.US_SHERMAN_HQ, 7, 3, o);
-        addUnit(gameStage, UnitType.US_WOLVERINE, 8, 3, o);
+        o = Pawn.Orientation.WEST;
+        addUnit(9, 7, o, UnitType.US_AT_GUN);
+        addUnit(9, 6, o, UnitType.US_INFANTRY);
+        addUnit(9, 5, o, UnitType.US_PERSHING);
+        addUnit(9, 4, o, UnitType.US_PERSHING_HQ);
+        addUnit(9, 3, o, UnitType.US_PRIEST);
+        addUnit(9, 2, o, UnitType.US_SHERMAN);
+        addUnit(9, 1, o, UnitType.US_SHERMAN_HQ);
+        addUnit(9, 0, o, UnitType.US_WOLVERINE);
 
         hud = new Stage(new ScreenViewport());
         hud.addActor(fps);
@@ -110,11 +103,10 @@ public class GameScreen implements Screen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(Stage stage, UnitType t, int col, int row, Pawn.Orientation o)
+    private void addUnit(int col, int row, Pawn.Orientation o, UnitType t)
     {
-        PawnImage p = GameFactory.getUnit(t);
+        Pawn p = GameFactory.getUnit(t);
         map.setPawnAt(p, col, row, o);
-        stage.addActor(p);
     }
 
     private InputMultiplexer getMultiplexer()
@@ -140,15 +132,12 @@ public class GameScreen implements Screen
                 float deltaX = ((x - dragPos.x) * cam.zoom * screenToViewport.x);
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
                 dragPos.set(x, y);
-                if (draggedPawn == null) {
-                    cam.translate(-deltaX, -deltaY, 0);
-                    clampCameraPos();
-                } else {
-                    draggedPawn.moveBy(deltaX, deltaY);
+                if(map.drag(deltaX, deltaY)) {
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getHexAt(cell, touchPos.x, touchPos.y);
-                    Vector2 v = map.getHexCenterAt(cell);
-                    selectedHex.setCenterPosition(v.x, v.y);
+                } else {
+                    cam.translate(-deltaX, -deltaY, 0);
+                    clampCameraPos();
                 }
                 return true;
             }
@@ -158,14 +147,8 @@ public class GameScreen implements Screen
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
                     cam.unproject(touchPos.set(x, y, 0));
-                    map.getHexAt(cell, touchPos.x, touchPos.y);
-                    draggedPawn = map.getTopPawnAt(cell);
-                    if (draggedPawn != null) {
-                        draggedPawn.setZIndex(DRAGGED_Z_INDEX);
-                    }
-                    Vector2 v = map.getHexCenterAt(cell);
-                    selectedHex.setCenterPosition(v.x, v.y);
-                    selectedHex.setVisible(true);
+                    map.touchDown(touchPos.x, touchPos.y);
+                    // map.setPosition(map.getX()-20, map.getY()-20);
                 }
                 return true;
             }
@@ -174,10 +157,7 @@ public class GameScreen implements Screen
             {
                 if (button == Input.Buttons.LEFT) {
                     cam.unproject(touchPos.set(x, y, 0));
-                    if (draggedPawn != null) {
-                        map.movePawnTo(draggedPawn, touchPos);
-                    }
-                    selectedHex.setVisible(false);
+                    map.touchUp(touchPos.x, touchPos.y);
                 }
                 return true;
             }
@@ -205,18 +185,32 @@ public class GameScreen implements Screen
     @Override
     public void render(float delta)
     {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         cam.update();
 
         fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 
-        gameStage.act(delta);
-        gameStage.draw();
+        map.animate(delta);
+
+        mapBatch.setProjectionMatrix(cam.combined);
+        mapBatch.begin();
+        map.draw(mapBatch, 1);
+        mapBatch.end();
 
         hud.act(delta);
         hud.draw();
+
+        if (true) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            ShapeRenderer debugShapes = new ShapeRenderer();
+            debugShapes.setAutoShapeType(true);
+            debugShapes.setProjectionMatrix(cam.combined);
+            debugShapes.begin();
+            map.drawDebug(debugShapes);
+            debugShapes.end();
+        }
     }
 
     @Override
@@ -224,7 +218,7 @@ public class GameScreen implements Screen
     {
         Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
         hud.getViewport().update(width, height, true);
-        gameStage.getViewport().update(width, height);
+        mapViewport.update(width, height);
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
         screenToViewport.set((cam.viewportWidth / width), (cam.viewportHeight / height));
@@ -235,7 +229,7 @@ public class GameScreen implements Screen
     {
         Gdx.app.debug("GameScreen", "dispose()");
         hud.dispose();
-        gameStage.dispose();
+        map.dispose();
         GameFactory.dispose();
         game.unloadAssets();
     }
