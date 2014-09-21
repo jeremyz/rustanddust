@@ -13,17 +13,20 @@ public class GameFactory
 {
     private static TextureAtlas usAtlas;
     private static TextureAtlas geAtlas;
+    private static TextureAtlas hexAtlas;
 
     public static void init(AssetManager manager)
     {
         usAtlas = manager.get("images/us.atlas", TextureAtlas.class);
         geAtlas = manager.get("images/ge.atlas", TextureAtlas.class);
+        hexAtlas = manager.get("images/hex.atlas", TextureAtlas.class);
     }
 
     public static void dispose()
     {
         usAtlas.dispose();
         geAtlas.dispose();
+        hexAtlas.dispose();
     }
 
     public enum UnitType
@@ -128,12 +131,19 @@ public class GameFactory
         Map.Config cfg = config();
 
         Tile[][] board = new Tile[cfg.rows][];
+        boolean evenRow = true;
         for (int i = 0; i < cfg.rows; i++) {
-            int c = cfg.cols;
-            if ((i % 2) == 1) c -= 1;
+            float y = cfg.y0 + (i * cfg.h) - cfg.dh;
+            int c = (evenRow ? cfg.cols : cfg.cols - 1);
             board[i] = new Tile[c];
-            for ( int j = 0; j < c; j ++)
-                board[i][j] = new Hex(Hex.Terrain.CLEAR);
+            for ( int j = 0; j < c; j ++) {
+                float x = cfg.x0 + (j * cfg.w) ;//+ (cfg.w / 2f);
+                if (!evenRow) x += cfg.dw;
+                Hex hex = new Hex(Hex.Terrain.CLEAR, hexAtlas);
+                hex.setPosition(x, y, 0);
+                board[i][j] = hex;
+            }
+            evenRow = !evenRow;
         }
 
         Map m = null;

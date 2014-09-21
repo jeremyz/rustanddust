@@ -1,11 +1,10 @@
 package ch.asynk.tankontank.game;
 
-import java.util.ArrayDeque;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.TileOverlays;
 
-public class Hex implements Tile
+public class Hex extends TileOverlays
 {
     public enum Terrain
     {
@@ -17,20 +16,19 @@ public class Hex implements Tile
 
     public Terrain terrain;
     public int roads;
-    private ArrayDeque<Pawn> stack;
 
-    public Hex(Terrain t)
+    public Hex(Terrain t, TextureAtlas atlas)
     {
+        super(atlas);
         this.terrain = t;
         this.roads = 0;
-        this.stack = null;
     }
 
-    public Hex(Terrain t, int roads)
+    public Hex(Terrain t, int roads, TextureAtlas atlas)
     {
+        super(atlas);
         this.terrain = t;
         this.roads = roads;
-        this.stack = null;
     }
 
     public int costFrom(Side side)
@@ -50,23 +48,5 @@ public class Hex implements Tile
         }
 
         return c;
-    }
-
-    public int push(Pawn pawn)
-    {
-        if (stack == null) stack = new ArrayDeque<Pawn>();
-        stack.push(pawn);
-        return stack.size();
-    }
-
-    public void remove(Pawn pawn)
-    {
-        stack.remove(pawn);
-    }
-
-    public Pawn getTop()
-    {
-        if ((stack == null) || (stack.size() == 0)) return null;
-        return stack.getFirst();
     }
 }
