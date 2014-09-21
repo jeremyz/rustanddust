@@ -31,6 +31,9 @@ public class MapNode extends Image implements Map
     private Matrix4 prevTransform;
     private Matrix4 nextTransform;
 
+    private Pawn currentPawn;
+    private GridPoint2 currentHex = new GridPoint2(-1, -1);
+
     private final Vector<Animation> animations = new Vector<Animation>(2);
     private final Vector<Animation> nextAnimations = new Vector<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
@@ -276,6 +279,32 @@ public class MapNode extends Image implements Map
             hex.set(col, row);
 
         return hex;
+    }
+
+    @Override
+    public boolean drag(float dx, float dy)
+    {
+        if (currentPawn == null) return false;
+        currentPawn.translate(dx, dy);
+        return true;
+    }
+
+    @Override
+    public void touchDown(float x, float y)
+    {
+        getHexAt(currentHex, x, y);
+        if (currentHex.x != -1) {
+            currentPawn = getTopPawnAt(currentHex);
+        }
+    }
+
+    @Override
+    public void touchUp(float x, float y)
+    {
+        getHexAt(currentHex, x, y);
+        if (currentPawn != null) {
+            movePawnTo(currentPawn, currentHex);
+        }
     }
 }
 

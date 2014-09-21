@@ -40,4 +40,8 @@ public interface Map extends Drawable, Disposable
         public float h;         // square height : s + dh
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
+
+    public void touchUp(float x, float y);
+    public void touchDown(float x, float y);
+    public boolean drag(float dx, float dy);
 }
