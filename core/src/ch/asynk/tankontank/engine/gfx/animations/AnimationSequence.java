@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.utils.Pool;
 
-import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Animation;
 
 public class AnimationSequence implements Animation, Pool.Poolable
@@ -44,9 +44,9 @@ public class AnimationSequence implements Animation, Pool.Poolable
     }
 
     @Override
-    public Node getNode()
+    public Pawn getPawn()
     {
-        return animations.get(0).getNode();
+        return animations.get(0).getPawn();
     }
 
     public void addAnimation(Animation animation)

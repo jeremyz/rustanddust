@@ -3,11 +3,11 @@ package ch.asynk.tankontank.engine.gfx.animations;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 
-import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.Pawn;
 
 public class MoveToAnimation extends TimedAnimation
 {
-    private Node node;
+    private Pawn pawn;
     private float fromX;
     private float fromY;
     private float fromR;
@@ -22,16 +22,16 @@ public class MoveToAnimation extends TimedAnimation
         }
     };
 
-    public static MoveToAnimation get(Node node, Vector3 v, float duration)
+    public static MoveToAnimation get(Pawn pawn, Vector3 v, float duration)
     {
-        return get(node, v.x, v.y, v.z, duration);
+        return get(pawn, v.x, v.y, v.z, duration);
     }
 
-    public static MoveToAnimation get(Node node, float x, float y, float r, float duration)
+    public static MoveToAnimation get(Pawn pawn, float x, float y, float r, float duration)
     {
         MoveToAnimation a = moveToAnimationPool.obtain();
 
-        a.node = node;
+        a.pawn = pawn;
         a.toX = x;
         a.toY = y;
         a.toR = r;
@@ -41,9 +41,9 @@ public class MoveToAnimation extends TimedAnimation
     }
 
     @Override
-    public Node getNode()
+    public Pawn getPawn()
     {
-        return node;
+        return pawn;
     }
 
     @Override
@@ -55,9 +55,9 @@ public class MoveToAnimation extends TimedAnimation
     @Override
     protected void begin()
     {
-        fromX = node.getX();
-        fromY = node.getY();
-        fromR = node.getRotation();
+        fromX = pawn.getX();
+        fromY = pawn.getY();
+        fromR = pawn.getRotation();
     }
 
     @Override
@@ -70,8 +70,8 @@ public class MoveToAnimation extends TimedAnimation
     protected void update(float percent)
     {
         if (percent == 1f)
-            node.setPosition(toX, toY, (int) toR);
+            pawn.setPosition(toX, toY, (int) toR);
         else
-            node.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (int) (fromR + ((toR - fromR) * percent)));
+            pawn.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (int) (fromR + ((toR - fromR) * percent)));
     }
 }

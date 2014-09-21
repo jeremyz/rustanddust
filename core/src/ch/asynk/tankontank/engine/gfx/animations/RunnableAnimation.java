@@ -2,7 +2,7 @@ package ch.asynk.tankontank.engine.gfx.animations;
 
 import com.badlogic.gdx.utils.Pool;
 
-import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Animation;
 
 public class RunnableAnimation implements Animation, Pool.Poolable
@@ -37,7 +37,7 @@ public class RunnableAnimation implements Animation, Pool.Poolable
     }
 
     @Override
-    public Node getNode()
+    public Pawn getPawn()
     {
         return null;
     }
