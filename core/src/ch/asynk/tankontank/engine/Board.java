@@ -4,7 +4,7 @@ import java.util.Vector;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,9 +20,23 @@ import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
-public class MapNode extends Image implements Map
+public abstract class Board extends Image implements Disposable
 {
-    private Map.Config cfg;
+    public static class Config
+    {
+        public int cols;
+        public int rows;
+        public int x0;          // bottom left x offset
+        public int y0;          // bottom left y offset
+        public int w;           // hex width
+        public int dw;          // half hex : w/2
+        public int s;           // hex side
+        public float dh;        // hex top : s/2
+        public float h;         // square height : s + dh
+        public float slope;     // north-west side slope : (dh / (float) dw)
+    }
+
+    private Config cfg;
     private int cols;
     private int rows;
     private Tile[][] board;
@@ -31,15 +45,12 @@ public class MapNode extends Image implements Map
     private Matrix4 prevTransform;
     private Matrix4 nextTransform;
 
-    private Pawn currentPawn;
-    private GridPoint2 currentHex = new GridPoint2(-1, -1);
-
     private final Vector<Animation> animations = new Vector<Animation>(2);
     private final Vector<Animation> nextAnimations = new Vector<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
     private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
-    public MapNode(Map.Config cfg, Tile[][] board, Texture texture)
+    public Board(Config cfg, Tile[][] board, Texture texture)
     {
         super(texture);
         this.cfg = cfg;
@@ -67,7 +78,6 @@ public class MapNode extends Image implements Map
         nextAnimations.add(seq);
     }
 
-    @Override
     public void animate(float delta)
     {
         Iterator<Animation> iter = animations.iterator();
@@ -126,7 +136,6 @@ public class MapNode extends Image implements Map
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    @Override
     public Pawn getTopPawnAt(GridPoint2 cell)
     {
         return getTopPawnAt(cell.x, cell.y);
@@ -153,7 +162,6 @@ public class MapNode extends Image implements Map
         return n;
     }
 
-    @Override
     public Vector2 getHexCenterAt(GridPoint2 cell)
     {
         float x = cfg.x0 + ((cell.x * cfg.w) + (cfg.w / 2));
@@ -162,7 +170,6 @@ public class MapNode extends Image implements Map
         return new Vector2(x, y);
     }
 
-    @Override
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
     {
         return getPawnPosAt(pawn, cell.x, cell.y);
@@ -176,7 +183,6 @@ public class MapNode extends Image implements Map
         return new Vector2(x, y);
     }
 
-    @Override
     public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         Vector2 pos = getPawnPosAt(pawn, col, row);
@@ -184,20 +190,17 @@ public class MapNode extends Image implements Map
         pushPawnAt(pawn, col, row);
     }
 
-    @Override
     public void movePawnTo(Pawn pawn, Vector3 coords)
     {
         GridPoint2 hex = getHexAt(null, coords.x, coords.y);
         movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
     }
 
-    @Override
     public void movePawnTo(Pawn pawn, GridPoint2 hex)
     {
         movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
     }
 
-    @Override
     public void movePawnTo(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
@@ -226,7 +229,6 @@ public class MapNode extends Image implements Map
         return getHexAt(null, v.x, v.y);
     }
 
-    @Override
     public GridPoint2 getHexAt(GridPoint2 hex, float cx, float cy)
     {
         if (hex == null) hex = new GridPoint2();
@@ -279,32 +281,6 @@ public class MapNode extends Image implements Map
             hex.set(col, row);
 
         return hex;
-    }
-
-    @Override
-    public boolean drag(float dx, float dy)
-    {
-        if (currentPawn == null) return false;
-        currentPawn.translate(dx, dy);
-        return true;
-    }
-
-    @Override
-    public void touchDown(float x, float y)
-    {
-        getHexAt(currentHex, x, y);
-        if (currentHex.x != -1) {
-            currentPawn = getTopPawnAt(currentHex);
-        }
-    }
-
-    @Override
-    public void touchUp(float x, float y)
-    {
-        getHexAt(currentHex, x, y);
-        if (currentPawn != null) {
-            movePawnTo(currentPawn, currentHex);
-        }
     }
 }
 
