@@ -10,11 +10,17 @@ public interface Tile extends BasicDrawable
 
     public void remove(Pawn pawn);
 
-    public Pawn getTop();
+    public Pawn getTopPawn();
 
-    public int costFrom(Side side);
+    public boolean mustBeDrawn();
 
+    public boolean occupied();
 
+    public boolean hasOverlayEnabled();
+
+    public void enableOverlay(int i, boolean enable);
+
+    public List<Tile> adjacents();
 
     public enum Side
     {
