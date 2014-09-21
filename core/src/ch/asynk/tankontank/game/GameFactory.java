@@ -110,9 +110,9 @@ public class GameFactory
     private static Board.Config config()
     {
         Board.Config cfg = new Board.Config();
-        cfg.cols = 11;
+        cfg.cols = 10;
         cfg.rows = 9;
-        cfg.x0 = 83;
+        cfg.x0 = 272;
         cfg.y0 = 182;
         cfg.w = 189;
         cfg.dw = 94;
