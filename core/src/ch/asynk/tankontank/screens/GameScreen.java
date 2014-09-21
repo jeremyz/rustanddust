@@ -31,7 +31,7 @@ import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
 
-import ch.asynk.tankontank.engine.Map;
+import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.engine.Pawn;
 
 public class GameScreen implements Screen
@@ -69,12 +69,10 @@ public class GameScreen implements Screen
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
 
         map = GameFactory.getMap(game.manager, GameFactory.MapType.MAP_A);
-        map.setPosition(60, 60);
 
         mapBatch = new SpriteBatch();
         cam = new OrthographicCamera();
         cam.setToOrtho(false);
-        // cam.position.set((map.getWidth()/2), (map.getHeight()/2), 0);
         mapViewport = new FitViewport(map.getWidth(), map.getHeight(), cam);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 

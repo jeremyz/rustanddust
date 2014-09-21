@@ -2,9 +2,9 @@ package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.tankontank.engine.TileOverlays;
+import ch.asynk.tankontank.engine.Tile;
 
-public class Hex extends TileOverlays
+public class Hex extends Tile
 {
     public enum Terrain
     {

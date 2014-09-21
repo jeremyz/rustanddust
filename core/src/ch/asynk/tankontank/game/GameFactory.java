@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.asynk.tankontank.engine.Map;
-import ch.asynk.tankontank.engine.MapNode;
-import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Board;
 
 public class GameFactory
 {
@@ -109,9 +107,9 @@ public class GameFactory
         MAP_B
     }
 
-    private static Map.Config config()
+    private static Board.Config config()
     {
-        Map.Config cfg = new Map.Config();
+        Board.Config cfg = new Board.Config();
         cfg.cols = 11;
         cfg.rows = 9;
         cfg.x0 = 83;
@@ -128,14 +126,14 @@ public class GameFactory
 
     public static Map getMap(AssetManager manager, MapType t)
     {
-        Map.Config cfg = config();
+        Board.Config cfg = config();
 
-        Tile[][] board = new Tile[cfg.rows][];
+        Hex[][] board = new Hex[cfg.rows][];
         boolean evenRow = true;
         for (int i = 0; i < cfg.rows; i++) {
             float y = cfg.y0 + (i * cfg.h) - cfg.dh;
             int c = (evenRow ? cfg.cols : cfg.cols - 1);
-            board[i] = new Tile[c];
+            board[i] = new Hex[c];
             for ( int j = 0; j < c; j ++) {
                 float x = cfg.x0 + (j * cfg.w) ;//+ (cfg.w / 2f);
                 if (!evenRow) x += cfg.dw;
@@ -149,10 +147,10 @@ public class GameFactory
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapNode(config(), board, manager.get("images/map_a.png", Texture.class));
+                m = new Map(config(), board, manager.get("images/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                m = new MapNode(config(), board, manager.get("images/map_b.png", Texture.class));
+                m = new Map(config(), board, manager.get("images/map_b.png", Texture.class));
                 break;
         }
 
