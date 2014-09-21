@@ -144,9 +144,10 @@ public class MapNode extends Image implements Map
     private int removePawnFrom(Pawn pawn, int col, int row)
     {
         Tile tile = board[row][col];
+        int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
-        return tile.remove(pawn);
+        return n;
     }
 
     @Override
