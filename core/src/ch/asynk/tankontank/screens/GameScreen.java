@@ -44,9 +44,10 @@ public class GameScreen implements Screen
     private final TankOnTank game;
 
     private float maxZoomOut;
-    final SpriteBatch mapBatch;
-    final OrthographicCamera cam;
-    final FitViewport mapViewport;
+    private final SpriteBatch mapBatch;
+    private final OrthographicCamera cam;
+    private final FitViewport mapViewport;
+    private final ShapeRenderer debugShapes;
 
     private Map map;
     private Label fps;
@@ -75,6 +76,8 @@ public class GameScreen implements Screen
         cam.setToOrtho(false);
         mapViewport = new FitViewport(map.getWidth(), map.getHeight(), cam);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        debugShapes = new ShapeRenderer();
 
         Pawn.Orientation o = Pawn.Orientation.EAST;
         addUnit(1, 7, o, UnitType.GE_AT_GUN);
@@ -202,7 +205,6 @@ public class GameScreen implements Screen
 
         if (true) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
-            ShapeRenderer debugShapes = new ShapeRenderer();
             debugShapes.setAutoShapeType(true);
             debugShapes.setProjectionMatrix(cam.combined);
             debugShapes.begin();
@@ -230,6 +232,8 @@ public class GameScreen implements Screen
         map.dispose();
         GameFactory.dispose();
         game.unloadAssets();
+        mapBatch.dispose();
+        debugShapes.dispose();
     }
 
     @Override
