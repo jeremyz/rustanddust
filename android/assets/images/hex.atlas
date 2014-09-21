@@ -1,0 +1,19 @@
+
+hex.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blank
+  rotate: false
+  xy: 2, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+fog
+  rotate: false
+  xy: 194, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
