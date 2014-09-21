@@ -58,7 +58,7 @@ public class PawnImage extends Image implements Pawn
             seq.addAnimation(MoveToAnimation.get(this, path.pop(), MOVE_TIME));
         }
 
-        seq.addAnimation(RunnableAnimation.get(new Runnable() {
+        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
             @Override
             public void run() {
                 path.push(finalPos);

@@ -8,6 +8,7 @@ import ch.asynk.tankontank.engine.gfx.Animation;
 public class RunnableAnimation implements Animation, Pool.Poolable
 {
     private Runnable runnable;
+    private Pawn pawn;
     private boolean ran;
 
     private static final Pool<RunnableAnimation> runnableAnimationPool = new Pool<RunnableAnimation>() {
@@ -17,10 +18,11 @@ public class RunnableAnimation implements Animation, Pool.Poolable
         }
     };
 
-    public static RunnableAnimation get(Runnable runnable)
+    public static RunnableAnimation get(Pawn pawn, Runnable runnable)
     {
         RunnableAnimation a = runnableAnimationPool.obtain();
         a.runnable = runnable;
+        a.pawn = pawn;
         return a;
     }
 
@@ -39,7 +41,7 @@ public class RunnableAnimation implements Animation, Pool.Poolable
     @Override
     public Pawn getPawn()
     {
-        return null;
+        return pawn;
     }
 
     @Override
