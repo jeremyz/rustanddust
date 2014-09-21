@@ -22,6 +22,13 @@ public class StackedSpriteNode implements BasicDrawable
         enabled[i] = enable;
     }
 
+    public boolean isEnabled()
+    {
+        for (int i = 0; i < sprites.size; i++)
+            if (enabled[i]) return true;
+        return false;
+    }
+
     @Override
     public void setPosition(float x, float y, float r)
     {
