@@ -3,11 +3,14 @@ package ch.asynk.tankontank.engine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.gfx.Drawable;
 
-public interface Map extends Node
+public interface Map extends Drawable, Disposable
 {
+    public void animate(float delta);
+
     public GridPoint2 getHexAt(GridPoint2 hex, float x, float y);
 
     public Pawn getTopPawnAt(GridPoint2 hex);
