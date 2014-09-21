@@ -18,17 +18,17 @@ public class Hex extends Tile
     public Terrain terrain;
     public int roads;
 
-    public Hex(Terrain t, TextureAtlas atlas)
+    public Hex(Terrain terrain, TextureAtlas atlas)
     {
         super(atlas);
-        this.terrain = t;
+        this.terrain = terrain;
         this.roads = 0;
     }
 
-    public Hex(Terrain t, int roads, TextureAtlas atlas)
+    public Hex(Terrain terrain, int roads, TextureAtlas atlas)
     {
         super(atlas);
-        this.terrain = t;
+        this.terrain = terrain;
         this.roads = roads;
     }
 
