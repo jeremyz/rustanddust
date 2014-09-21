@@ -269,7 +269,7 @@ public class MapNode extends Image implements Map
         }
 
         // validate hex
-        if ((col < 0) || (row < 0) || (row > rows) || (col > cols) || (oddRow && ((col +1)> cols)))
+        if ((col < 0) || (row < 0) || (row > rows) || (col > cols) || (oddRow && ((col + 1)> cols)))
             hex.set(-1, -1);
         else
             hex.set(col, row);
