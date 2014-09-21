@@ -16,9 +16,11 @@ public interface Map extends Node
 
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 hex);
 
+    public void setPawnAt(Pawn pawn, int col, int row, Pawn.Orientation o);
+
     public void movePawnTo(Pawn pawn, Vector3 coords);
 
-    public void setPawnAt(Pawn pawn, int col, int row, Pawn.Orientation o);
+    public void movePawnTo(Pawn pawn, GridPoint2 hex);
 
     public void movePawnTo(Pawn pawn, int col, int row, Pawn.Orientation o);
 

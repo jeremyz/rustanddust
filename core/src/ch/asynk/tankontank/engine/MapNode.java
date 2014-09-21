@@ -1,25 +1,40 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.Vector;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Matrix4;
 
-import ch.asynk.tankontank.engine.gfx.TextureDrawable;
+import ch.asynk.tankontank.engine.gfx.Image;
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
-public class MapNode extends TextureDrawable implements Map
+public class MapNode extends Image implements Map
 {
-    private Layer layer;
     private Map.Config cfg;
     private int cols;
     private int rows;
     private Tile[][] board;
+
+    boolean transform;
+    private Matrix4 prevTransform;
+    private Matrix4 nextTransform;
+
+    private final Vector<Animation> animations = new Vector<Animation>(2);
+    private final Vector<Animation> nextAnimations = new Vector<Animation>(2);
+    private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
+    private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
     public MapNode(Map.Config cfg, Tile[][] board, Texture texture)
     {
@@ -31,20 +46,81 @@ public class MapNode extends TextureDrawable implements Map
     }
 
     @Override
-    public void setLayer(Layer layer)
+    public void setPosition(float x, float y)
     {
-        this.layer = layer;
+        super.setPosition(x, y);
+        if ((x != 0.0f) || (y != 0.0f)) {
+            transform = true;
+            prevTransform = new Matrix4();
+            nextTransform = new Matrix4();
+            nextTransform.translate(x, y, 0);
+        } else
+            transform = false;
+    }
+
+    private void addPawnAnimation(Pawn pawn, AnimationSequence seq)
+    {
+        pawnsToDraw.add(pawn);
+        nextAnimations.add(seq);
     }
 
     @Override
-    public void clear()
+    public void animate(float delta)
     {
-        dispose();
+        Iterator<Animation> iter = animations.iterator();
+        while (iter.hasNext()) {
+            Animation a = iter.next();
+            Pawn p = a.getPawn();
+            if (a.animate(delta)) {
+                iter.remove();
+                pawnsToDraw.remove(p);
+            }
+        }
+
+        for (int i = 0, n = nextAnimations.size(); i < n; i++)
+            animations.add(nextAnimations.get(i));
+        nextAnimations.clear();
     }
 
     @Override
-    public void act(float delta)
+    public void draw(Batch batch, float parentAlpha)
     {
+        super.draw(batch, parentAlpha);
+
+        if (transform) {
+            prevTransform.set(batch.getTransformMatrix());
+            batch.setTransformMatrix(nextTransform);
+        }
+
+        Iterator<Tile> tileIter = tilesToDraw.iterator();
+        while (tileIter.hasNext()) {
+            tileIter.next().draw(batch, parentAlpha);
+        }
+
+        Iterator<Pawn> pawnIter = pawnsToDraw.iterator();
+        while (pawnIter.hasNext()) {
+            pawnIter.next().draw(batch, parentAlpha);
+        }
+
+        if (transform)
+            batch.setTransformMatrix(prevTransform);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        if (transform) {
+            prevTransform.set(debugShapes.getTransformMatrix());
+            debugShapes.setTransformMatrix(nextTransform);
+        }
+
+        Iterator<Tile> iter = tilesToDraw.iterator();
+        while (iter.hasNext()) {
+            iter.next().drawDebug(debugShapes);
+        }
+
+        if (transform)
+            debugShapes.setTransformMatrix(prevTransform);
     }
 
     @Override
@@ -55,17 +131,22 @@ public class MapNode extends TextureDrawable implements Map
 
     private Pawn getTopPawnAt(int col, int row)
     {
-        return board[row][col].getTop();
+        return board[row][col].getTopPawn();
     }
 
     private int pushPawnAt(Pawn pawn, int col, int row)
     {
-        return board[row][col].push(pawn);
+        Tile tile = board[row][col];
+        tilesToDraw.add(tile);
+        return tile.push(pawn);
     }
 
-    private void removePawnFrom(Pawn pawn, int col, int row)
+    private int removePawnFrom(Pawn pawn, int col, int row)
     {
-        board[row][col].remove(pawn);
+        Tile tile = board[row][col];
+        if (!tile.mustBeDrawn())
+            tilesToDraw.remove(tile);
+        return tile.remove(pawn);
     }
 
     @Override
@@ -92,18 +173,24 @@ public class MapNode extends TextureDrawable implements Map
     }
 
     @Override
-    public void movePawnTo(Pawn pawn, Vector3 coords)
+    public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
     {
-        GridPoint2 p = getHexAt(null, coords.x, coords.y);
-        movePawnTo(pawn, p.x, p.y, Pawn.Orientation.KEEP);
+        Vector2 pos = getPawnPosAt(pawn, col, row);
+        pawn.pushMove(pos.x, pos.y, o);
+        pushPawnAt(pawn, col, row);
     }
 
     @Override
-    public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
+    public void movePawnTo(Pawn pawn, Vector3 coords)
     {
-        int z = pushPawnAt(pawn, col, row);
-        Vector2 pos = getPawnPosAt(pawn, col, row);
-        pawn.pushMove(pos.x, pos.y, z, o);
+        GridPoint2 hex = getHexAt(null, coords.x, coords.y);
+        movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
+    }
+
+    @Override
+    public void movePawnTo(Pawn pawn, GridPoint2 hex)
+    {
+        movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
     }
 
     @Override
@@ -114,18 +201,18 @@ public class MapNode extends TextureDrawable implements Map
 
         if ((col < 0) || (row < 0)) {
             AnimationSequence seq = pawn.getResetMovesAnimation();
-            seq.addAnimation(RunnableAnimation.get(new Runnable() {
+            seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
                 @Override
                 public void run() {
                     GridPoint2 hex = getHexAt(pawn.getLastPosition());
                     pushPawnAt(pawn, hex.x, hex.y);
                 }
             }));
-            layer.addAnimation(seq);
+            addPawnAnimation(pawn, seq);
         } else {
-            int z = pushPawnAt(pawn, col, row);
+            pushPawnAt(pawn, col, row);
             Vector2 pos = getPawnPosAt(pawn, col, row);
-            pawn.pushMove(pos.x, pos.y, z, o);
+            pawn.pushMove(pos.x, pos.y, o);
         }
     }
 
