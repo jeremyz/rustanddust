@@ -69,9 +69,11 @@ public abstract class Tile implements BasicDrawable
         return overlays.isEnabled();
     }
 
-    public void enableOverlay(int i, boolean enable)
+    public boolean enableOverlay(int i, boolean enable)
     {
         overlays.enable(i, enable);
+        if (enable) return true;
+        return mustBeDrawn();
     }
 
     public List<Tile> adjacents()

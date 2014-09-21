@@ -136,6 +136,19 @@ public abstract class Board extends Image implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
+    public void enableOverlayOn(int col, int row, int i, boolean enable)
+    {
+        enableOverlayOn(board[row][col], i, enable);
+    }
+
+    public void enableOverlayOn(Tile tile, int i, boolean enable)
+    {
+        if(tile.enableOverlay(i, enable))
+            tilesToDraw.add(tile);
+        else
+            tilesToDraw.remove(tile);
+    }
+
     public Pawn getTopPawnAt(GridPoint2 cell)
     {
         return getTopPawnAt(cell.x, cell.y);
