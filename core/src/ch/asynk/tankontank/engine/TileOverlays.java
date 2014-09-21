@@ -7,17 +7,17 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.gfx.StackedSpriteNode;
+import ch.asynk.tankontank.engine.gfx.StackedImages;
 
 public abstract class TileOverlays implements Tile
 {
-    private StackedSpriteNode overlays;
+    private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
     public TileOverlays(TextureAtlas atlas)
     {
         this.stack = null;
-        this.overlays = new StackedSpriteNode(atlas);
+        this.overlays = new StackedImages(atlas);
     }
 
     @Override

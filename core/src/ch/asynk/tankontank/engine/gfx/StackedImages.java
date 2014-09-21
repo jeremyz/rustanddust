@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class StackedSpriteNode implements BasicDrawable
+public class StackedImages implements BasicDrawable
 {
     private boolean enabled[];
     private Array<Sprite> sprites;
 
-    public StackedSpriteNode(TextureAtlas atlas)
+    public StackedImages(TextureAtlas atlas)
     {
         this.sprites = atlas.createSprites();
         this.enabled = new boolean[sprites.size];
