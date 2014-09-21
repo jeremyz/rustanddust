@@ -1,11 +1,12 @@
 package ch.asynk.tankontank.engine;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.tankontank.engine.gfx.Node;
+import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public interface Pawn extends Node
+public interface Pawn extends Drawable, Disposable
 {
     public Vector3 getLastPosition();
 

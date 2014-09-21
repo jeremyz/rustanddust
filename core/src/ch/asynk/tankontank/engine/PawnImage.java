@@ -11,13 +11,13 @@ import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public class PawnNode extends Image implements Pawn
+public class PawnImage extends Image implements Pawn
 {
     private static final float MOVE_TIME = 0.3f;
 
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
-    public PawnNode(TextureRegion region)
+    public PawnImage(TextureRegion region)
     {
         super(region);
     }

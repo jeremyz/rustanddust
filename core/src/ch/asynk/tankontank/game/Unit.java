@@ -2,9 +2,9 @@ package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.asynk.tankontank.engine.PawnNode;
+import ch.asynk.tankontank.engine.PawnImage;
 
-public class Unit extends PawnNode
+public class Unit extends PawnImage
 {
     public int rng;
     public int def;
