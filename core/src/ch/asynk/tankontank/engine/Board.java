@@ -4,6 +4,8 @@ import java.util.Vector;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -45,6 +47,9 @@ public abstract class Board extends Image implements Disposable
     private Matrix4 prevTransform;
     private Matrix4 nextTransform;
 
+    private int tileCount = 0;
+    private int pawnCount = 0;
+    private int animationCount = 0;
     private final Vector<Animation> animations = new Vector<Animation>(2);
     private final Vector<Animation> nextAnimations = new Vector<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
@@ -78,8 +83,32 @@ public abstract class Board extends Image implements Disposable
         nextAnimations.add(seq);
     }
 
+    private void stats()
+    {
+        boolean print = false;
+
+        if (tileCount != tilesToDraw.size()) {
+            tileCount = tilesToDraw.size();
+            print = true;
+        }
+
+        if (pawnCount != pawnsToDraw.size()) {
+            pawnCount = pawnsToDraw.size();
+            print = true;
+        }
+
+        if (animationCount != animations.size()) {
+            animationCount = animations.size();
+            print = true;
+        }
+
+        if (print)
+            Gdx.app.debug("Board", " tiles:" + tileCount + " pawns:" + pawnCount + " animations:" + animationCount);
+    }
+
     public void animate(float delta)
     {
+
         Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
             Animation a = iter.next();
@@ -122,6 +151,7 @@ public abstract class Board extends Image implements Disposable
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
+        stats();
         if (transform) {
             prevTransform.set(debugShapes.getTransformMatrix());
             debugShapes.setTransformMatrix(nextTransform);
