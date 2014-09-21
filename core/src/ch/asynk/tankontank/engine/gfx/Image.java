@@ -1,21 +1,22 @@
 package ch.asynk.tankontank.engine.gfx;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public abstract class SpriteNode extends Sprite implements Node
+public abstract class Image extends Sprite implements Drawable, Disposable
 {
     private Texture texture;
 
-    public SpriteNode(Texture texture)
+    public Image(Texture texture)
     {
         super(texture);
         this.texture = texture;
     }
 
-    public SpriteNode(TextureRegion region)
+    public Image(TextureRegion region)
     {
         super(region);
         this.texture = null;

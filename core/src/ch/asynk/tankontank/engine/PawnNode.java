@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.badlogic.gdx.math.Vector3;
 
-import ch.asynk.tankontank.engine.gfx.SpriteNode;
+import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public class PawnNode extends SpriteNode implements Pawn
+public class PawnNode extends Image implements Pawn
 {
     private static final float MOVE_TIME = 0.3f;
 
