@@ -58,8 +58,6 @@ public abstract class Board extends Image implements Disposable
     }
 
     private Config cfg;
-    private int cols;
-    private int rows;
     private Tile[][] board;
 
     boolean transform;
@@ -79,8 +77,6 @@ public abstract class Board extends Image implements Disposable
         super(texture);
         this.cfg = cfg;
         this.board = board;
-        this.cols = cfg.cols - 1;
-        this.rows = cfg.rows - 1;
     }
 
     @Override
@@ -337,7 +333,7 @@ public abstract class Board extends Image implements Disposable
         }
 
         // validate hex
-        if ((col < 0) || (row < 0) || (row > rows) || (col > cols) || (oddRow && ((col + 1)> cols)))
+        if ((col < 0) || (row < 0) || (row >= cfg.rows) || (col >= cfg.cols) || (oddRow && ((col + 1) >= cfg.cols)))
             hex.set(-1, -1);
         else
             hex.set(col, row);
