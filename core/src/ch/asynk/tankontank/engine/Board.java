@@ -198,9 +198,9 @@ public abstract class Board extends Image implements Disposable
             tilesToDraw.remove(tile);
     }
 
-    public Pawn getTopPawnAt(GridPoint2 cell)
+    public Pawn getTopPawnAt(GridPoint2 tile)
     {
-        return getTopPawnAt(cell.x, cell.y);
+        return getTopPawnAt(tile.x, tile.y);
     }
 
     private Pawn getTopPawnAt(int col, int row)
@@ -224,17 +224,17 @@ public abstract class Board extends Image implements Disposable
         return n;
     }
 
-    public Vector2 getHexCenterAt(GridPoint2 cell)
+    public Vector2 getHexCenterAt(GridPoint2 tile)
     {
-        float x = cfg.x0 + ((cell.x * cfg.w) + (cfg.w / 2));
-        float y = cfg.y0 + ((cell.y * cfg.h) + (cfg.s / 2));
-        if ((cell.y % 2) == 1) x += cfg.dw;
+        float x = cfg.x0 + ((tile.x * cfg.w) + (cfg.w / 2));
+        float y = cfg.y0 + ((tile.y * cfg.h) + (cfg.s / 2));
+        if ((tile.y % 2) == 1) x += cfg.dw;
         return new Vector2(x, y);
     }
 
-    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 cell)
+    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 tile)
     {
-        return getPawnPosAt(pawn, cell.x, cell.y);
+        return getPawnPosAt(pawn, tile.x, tile.y);
     }
 
     private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
