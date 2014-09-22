@@ -32,6 +32,7 @@ import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
 
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
 
 public class GameScreen implements Screen
@@ -79,7 +80,7 @@ public class GameScreen implements Screen
 
         debugShapes = new ShapeRenderer();
 
-        Pawn.Orientation o = Pawn.Orientation.EAST;
+        Board.Orientation o = Board.Orientation.NORTH;
         addUnit(1, 7, o, UnitType.GE_AT_GUN);
         addUnit(1, 6, o, UnitType.GE_INFANTRY);
         addUnit(1, 5, o, UnitType.GE_KINGTIGER);
@@ -88,7 +89,7 @@ public class GameScreen implements Screen
         addUnit(1, 2, o, UnitType.GE_TIGER);
         addUnit(1, 1, o, UnitType.GE_WESPE);
 
-        o = Pawn.Orientation.WEST;
+        o = Board.Orientation.SOUTH;
         addUnit(9, 7, o, UnitType.US_AT_GUN);
         addUnit(9, 6, o, UnitType.US_INFANTRY);
         addUnit(9, 5, o, UnitType.US_PERSHING);
@@ -104,7 +105,7 @@ public class GameScreen implements Screen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(int col, int row, Pawn.Orientation o, UnitType t)
+    private void addUnit(int col, int row, Board.Orientation o, UnitType t)
     {
         Pawn p = GameFactory.getUnit(t);
         map.setPawnAt(p, col, row, o);

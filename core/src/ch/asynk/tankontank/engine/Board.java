@@ -24,6 +24,25 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board extends Image implements Disposable
 {
+    public enum Orientation
+    {
+        KEEP(0, 0),
+        NORTH(-90, 1),
+        NORTH_EAST(-150, 2),
+        SOUTH_EAST(150, 3),
+        SOUTH(90, 4),
+        SOUTH_WEST (30, 5),
+        NORTH_WEST(-30, 6);
+
+        public static int offset = 0;
+        private final int r;
+        public final int s;
+
+        Orientation(int r, int s) { this.r = r; this.s = s; }
+
+        public float r() { return offset + r; }
+    }
+
     public static class Config
     {
         public int cols;
@@ -226,7 +245,7 @@ public abstract class Board extends Image implements Disposable
         return new Vector2(x, y);
     }
 
-    public void setPawnAt(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
+    public void setPawnAt(final Pawn pawn, final int col, final int row, Orientation o)
     {
         Vector2 pos = getPawnPosAt(pawn, col, row);
         pawn.pushMove(pos.x, pos.y, o);
@@ -236,15 +255,15 @@ public abstract class Board extends Image implements Disposable
     public void movePawnTo(Pawn pawn, Vector3 coords)
     {
         GridPoint2 hex = getHexAt(null, coords.x, coords.y);
-        movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
+        movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
     }
 
     public void movePawnTo(Pawn pawn, GridPoint2 hex)
     {
-        movePawnTo(pawn, hex.x, hex.y, Pawn.Orientation.KEEP);
+        movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
     }
 
-    public void movePawnTo(final Pawn pawn, final int col, final int row, Pawn.Orientation o)
+    public void movePawnTo(final Pawn pawn, final int col, final int row, Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
         removePawnFrom(pawn, prev.x, prev.y);

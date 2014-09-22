@@ -3,6 +3,7 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Board;
 
 public class Hex extends Tile
 {
@@ -31,9 +32,9 @@ public class Hex extends Tile
         this.roads = roads;
     }
 
-    public int costFrom(Side side)
+    public int costFrom(Board.Orientation side)
     {
-        if (side.v == (roads & side.v)) return 1;
+        if (side.s == (roads & side.s)) return 1;
 
         int c = 0;
         switch(terrain) {

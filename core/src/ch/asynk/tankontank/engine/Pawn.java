@@ -15,20 +15,6 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
 public abstract class Pawn extends Image implements Disposable
 {
-    public enum Orientation
-    {
-        KEEP(0),
-        NORTH_WEST(30),
-        WEST(90),
-        SOUTH_WEST(150),
-        NORTH_EAST (-30),
-        EAST(-90),
-        SOUTH_EAST(-150);
-
-        public final int v;
-        Orientation(int v) { this.v = v; }
-    }
-
     private static final float MOVE_TIME = 0.3f;
 
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
@@ -51,9 +37,9 @@ public abstract class Pawn extends Image implements Disposable
         path.push(v);
     }
 
-    public void pushMove(float x, float y, Pawn.Orientation o)
+    public void pushMove(float x, float y, Board.Orientation o)
     {
-        float r = ((o == Pawn.Orientation.KEEP) ? getRotation() : o.v);
+        float r = ((o == Board.Orientation.KEEP) ? getRotation() : o.r());
         setPosition(x, y, r);
         Vector3 v = new Vector3(x, y, r);
         if ((path.size() == 0) || (!v.equals(path.getFirst())))

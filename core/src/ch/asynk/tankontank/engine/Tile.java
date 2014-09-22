@@ -12,19 +12,6 @@ import ch.asynk.tankontank.engine.gfx.StackedImages;
 
 public abstract class Tile implements BasicDrawable
 {
-    public enum Side
-    {
-        WEST(1),
-        NORTH_WEST(2),
-        NORTH_EAST (4),
-        EAST(8),
-        SOUTH_EAST(16),
-        SOUTH_WEST(32);
-
-        public final int v;
-        Side(int v) { this.v = v; }
-    }
-
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
