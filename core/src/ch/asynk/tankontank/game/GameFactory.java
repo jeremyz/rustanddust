@@ -124,10 +124,8 @@ public class GameFactory
         return cfg;
     }
 
-    public static Map getMap(AssetManager manager, MapType t)
+    public static Hex[][] createEmptyBoard(Board.Config cfg)
     {
-        Board.Config cfg = config();
-
         Hex[][] board = new Hex[cfg.rows][];
         boolean evenRow = true;
         for (int i = 0; i < cfg.rows; i++) {
@@ -135,7 +133,7 @@ public class GameFactory
             int c = (evenRow ? cfg.cols : cfg.cols - 1);
             board[i] = new Hex[c];
             for ( int j = 0; j < c; j ++) {
-                float x = cfg.x0 + (j * cfg.w) ;//+ (cfg.w / 2f);
+                float x = cfg.x0 + (j * cfg.w);
                 if (!evenRow) x += cfg.dw;
                 Hex hex = new Hex(Hex.Terrain.CLEAR, hexAtlas);
                 hex.setPosition(x, y, 0);
@@ -143,6 +141,14 @@ public class GameFactory
             }
             evenRow = !evenRow;
         }
+        return board;
+    }
+
+    public static Map getMap(AssetManager manager, MapType t)
+    {
+        Board.Config cfg = config();
+
+        Hex[][] board = createEmptyBoard(cfg);
 
         Map m = null;
         switch(t) {
@@ -155,5 +161,62 @@ public class GameFactory
         }
 
         return m;
+    }
+
+    public static void feedMapA(Hex[][] board)
+    {
+        // board[ row ][ col ]
+        board[1][4].terrain = Hex.Terrain.HILLS;
+        board[3][5].terrain = Hex.Terrain.HILLS;
+        board[8][3].terrain = Hex.Terrain.HILLS;
+        board[8][4].terrain = Hex.Terrain.HILLS;
+
+        board[0][5].terrain = Hex.Terrain.WOODS;
+        board[0][6].terrain = Hex.Terrain.WOODS;
+        board[3][1].terrain = Hex.Terrain.WOODS;
+        board[3][2].terrain = Hex.Terrain.WOODS;
+        board[7][6].terrain = Hex.Terrain.WOODS;
+        board[7][7].terrain = Hex.Terrain.WOODS;
+        board[8][7].terrain = Hex.Terrain.WOODS;
+
+        board[1][5].terrain = Hex.Terrain.TOWN;
+        board[2][1].terrain = Hex.Terrain.TOWN;
+        board[4][4].terrain = Hex.Terrain.TOWN;
+        board[5][7].terrain = Hex.Terrain.TOWN;
+        board[6][1].terrain = Hex.Terrain.TOWN;
+        board[7][3].terrain = Hex.Terrain.TOWN;
+
+        int N = Map.Orientation.NORTH.s;
+        int S = Map.Orientation.SOUTH.s;
+        int NE = Map.Orientation.NORTH_EAST.s;
+        int NW = Map.Orientation.NORTH_WEST.s;
+        int SE = Map.Orientation.SOUTH_EAST.s;
+        int SW = Map.Orientation.SOUTH_WEST.s;
+
+        board[1][5].roads = (NW | SW);
+        for (int i = 0; i < 10; i++) {
+            if (i == 5)
+                board[2][i].roads = (NE | S | SW);
+            else if (i == 6)
+                board[2][i].roads = (N | SE);
+            else
+                board[2][i].roads = (N | S);
+        }
+        board[3][4].roads = (NE | SW);
+        board[4][4].roads = (N | NE | SW);
+        board[4][5].roads = (N | S);
+        board[4][6].roads = (NW | S);
+        board[5][3].roads = (NE | SW);
+        board[5][5].roads = (N | SW);
+        board[5][6].roads = (N | S | NE);
+        board[5][7].roads = (N | S);
+        board[5][8].roads = (N | S);
+        board[6][0].roads = (N | S);
+        board[6][1].roads = (N | S);
+        board[6][2].roads = (N | S);
+        board[6][3].roads = (NE | NW | S);
+        board[6][5].roads = (NE | SW);
+        board[7][3].roads = (N | SE);
+        board[7][4].roads = (NE | S);
     }
 }
