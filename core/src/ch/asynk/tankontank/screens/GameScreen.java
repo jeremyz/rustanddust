@@ -217,7 +217,7 @@ public class GameScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
+        // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
         hud.getViewport().update(width, height, true);
         mapViewport.update(width, height);
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
@@ -228,7 +228,7 @@ public class GameScreen implements Screen
     @Override
     public void dispose()
     {
-        Gdx.app.debug("GameScreen", "dispose()");
+        // Gdx.app.debug("GameScreen", "dispose()");
         hud.dispose();
         map.dispose();
         GameFactory.dispose();
@@ -240,24 +240,24 @@ public class GameScreen implements Screen
     @Override
     public void show()
     {
-        Gdx.app.debug("GameScreen", "show()");
+        // Gdx.app.debug("GameScreen", "show()");
     }
 
     @Override
     public void hide()
     {
-        Gdx.app.debug("GameScreen", "hide()");
+        // Gdx.app.debug("GameScreen", "hide()");
     }
 
     @Override
     public void pause()
     {
-        Gdx.app.debug("GameScreen", "pause()");
+        // Gdx.app.debug("GameScreen", "pause()");
     }
 
     @Override
     public void resume()
     {
-        Gdx.app.debug("GameScreen", "resume()");
+        // Gdx.app.debug("GameScreen", "resume()");
     }
 }

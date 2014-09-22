@@ -100,7 +100,7 @@ public class LoadScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        Gdx.app.debug("LoadScreen", "resize (" + width + "," + height + ")");
+        // Gdx.app.debug("LoadScreen", "resize (" + width + "," + height + ")");
 
         stage.getViewport().update(width, height, true);
 
@@ -128,26 +128,26 @@ public class LoadScreen implements Screen
     @Override
     public void dispose()
     {
-        Gdx.app.debug("LoadScreen", "dispose()");
+        // Gdx.app.debug("LoadScreen", "dispose()");
         stage.dispose();
     }
 
     @Override
     public void hide()
     {
-        Gdx.app.debug("LoadScreen", "hide()");
+        // Gdx.app.debug("LoadScreen", "hide()");
         game.manager.unload("loading.pack");
     }
 
     @Override
     public void pause()
     {
-        Gdx.app.debug("LoadScreen", "pause()");
+        // Gdx.app.debug("LoadScreen", "pause()");
     }
 
     @Override
     public void resume()
     {
-        Gdx.app.debug("LoadScreen", "resume()");
+        // Gdx.app.debug("LoadScreen", "resume()");
     }
 }
