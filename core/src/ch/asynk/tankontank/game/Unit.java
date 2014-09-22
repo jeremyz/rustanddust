@@ -16,9 +16,9 @@ public class Unit extends Pawn
     public Army army;
 
     // hard tager
-    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region)
+    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region, TextureAtlas atlas)
     {
-        super(region);
+        super(region, atlas);
         this.army = army;
         this.hq = hq;
         this.rng = range;
@@ -28,9 +28,9 @@ public class Unit extends Pawn
     }
 
     // soft tager
-    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureRegion region)
+    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureRegion region, TextureAtlas atlas)
     {
-        super(region);
+        super(region, atlas);
         this.army = army;
         this.hq = hq;
         this.rng = range;
