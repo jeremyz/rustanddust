@@ -70,7 +70,7 @@ public abstract class Board extends Image implements Disposable
     private final Vector<Animation> animations = new Vector<Animation>(2);
     private final Vector<Animation> nextAnimations = new Vector<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
-    private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
+    protected final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
     public Board(Config cfg, Tile[][] board, Texture texture)
     {
@@ -192,6 +192,19 @@ public abstract class Board extends Image implements Disposable
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
+    }
+
+    public Pawn removeTopPawnFrom(GridPoint2 tile)
+    {
+        return removeTopPawnFrom(tile.x, tile.y);
+    }
+
+    public Pawn removeTopPawnFrom(int col, int row)
+    {
+        Pawn pawn = getTopPawnAt(col, row);
+        if (pawn != null)
+            removePawnFrom(pawn, col, row);
+        return pawn;
     }
 
     public Pawn getTopPawnAt(GridPoint2 tile)

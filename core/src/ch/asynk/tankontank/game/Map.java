@@ -27,7 +27,8 @@ public class Map extends Board
     {
         getHexAt(currentHex, x, y);
         if (currentHex.x != -1) {
-            currentPawn = getTopPawnAt(currentHex);
+            currentPawn = removeTopPawnFrom(currentHex);
+            if (currentPawn != null) pawnsToDraw.add(currentPawn);
         }
     }
 
@@ -35,6 +36,7 @@ public class Map extends Board
     {
         getHexAt(currentHex, x, y);
         if (currentPawn != null) {
+            pawnsToDraw.remove(currentPawn);
             movePawnTo(currentPawn, currentHex);
         }
     }
