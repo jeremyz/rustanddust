@@ -4,11 +4,15 @@ import java.util.ArrayDeque;
 
 import com.badlogic.gdx.utils.Disposable;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Vector3;
 
 import ch.asynk.tankontank.engine.gfx.Image;
+import ch.asynk.tankontank.engine.gfx.StackedImages;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
@@ -17,11 +21,14 @@ public abstract class Pawn extends Image implements Disposable
 {
     private static final float MOVE_TIME = 0.3f;
 
+    private StackedImages overlays;
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
-    public Pawn(TextureRegion region)
+    public Pawn(TextureRegion region, TextureAtlas atlas)
     {
         super(region);
+        if (atlas != null)
+            this.overlays = new StackedImages(atlas);
     }
 
     public Vector3 getLastPosition()
@@ -64,5 +71,47 @@ public abstract class Pawn extends Image implements Disposable
         }));
 
         return seq;
+    }
+
+    public boolean hasOverlayEnabled()
+    {
+        if (overlays == null) return false;
+        return overlays.isEnabled();
+    }
+
+    public boolean enableOverlay(int i, boolean enable)
+    {
+        if (overlays == null) return false;
+        overlays.enable(i, enable);
+        if (enable) return true;
+        return hasOverlayEnabled();
+    }
+
+    @Override
+    public void translate(float x, float y)
+    {
+        super.translate(x, y);
+        if (overlays != null) overlays.translate(x, y);
+    }
+
+    @Override
+    public void setPosition(float x, float y, float z)
+    {
+        super.setPosition(x, y, z);
+        if (overlays != null) overlays.setPosition(x, y, z);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        super.draw(batch, parentAlpha);
+        if (overlays != null) overlays.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        super.drawDebug(debugShapes);
+        if (overlays != null) overlays.drawDebug(debugShapes);
     }
 }
