@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public interface BasicDrawable
 {
+    public void translate(float dx, float dy);
+
     public void setPosition(float x, float y, float r);
 
     public void draw(Batch batch, float parentAlpha);

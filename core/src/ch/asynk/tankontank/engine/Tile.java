@@ -70,11 +70,19 @@ public abstract class Tile implements BasicDrawable
         return null;
     }
 
+    @Override
+    public void translate(float x, float y)
+    {
+        overlays.translate(x, y);
+    }
+
+    @Override
     public void setPosition(float x, float y, float z)
     {
         overlays.setPosition(x, y, z);
     }
 
+    @Override
     public void draw(Batch batch, float parentAlpha)
     {
         overlays.draw(batch, parentAlpha);
@@ -83,6 +91,7 @@ public abstract class Tile implements BasicDrawable
             pawn.draw(batch, parentAlpha);
     }
 
+    @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
         overlays.drawDebug(debugShapes);

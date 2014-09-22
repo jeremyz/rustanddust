@@ -16,7 +16,5 @@ public interface Drawable extends BasicDrawable
 
     public void setRotation(float r);
 
-    public void translate(float dx, float dy);
-
     public void setPosition(float x, float y);
 }

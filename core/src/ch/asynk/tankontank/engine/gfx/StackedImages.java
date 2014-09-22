@@ -30,6 +30,14 @@ public class StackedImages implements BasicDrawable
     }
 
     @Override
+    public void translate(float x, float y)
+    {
+        for (int i = 0; i < sprites.size; i++) {
+            sprites.get(i).translate(x, y);
+        }
+    }
+
+    @Override
     public void setPosition(float x, float y, float r)
     {
         for (int i = 0; i < sprites.size; i++) {
