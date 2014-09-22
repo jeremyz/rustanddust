@@ -1,0 +1,12 @@
+
+unit.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+disabled
+  rotate: false
+  xy: 2, 2
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: -1

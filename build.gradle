@@ -41,6 +41,7 @@ allprojects {
             add 'us'
             add 'ge'
             add 'hex'
+            add 'unit'
         }
     }
 }
