@@ -1,0 +1,19 @@
+fix commit names
+
+fix resize issues
+
+Board
+    - build possible moves List<GridPoint3>
+    - build possible attacks List<GridPoint3>
+    - build possible assits List<PawnGridPoint3 ??>
+    - add debug mode: click out of mpa -> circle through show ROADS TOWN HILLS
+    - support Orientation offset
+    - support inverted even/odd row scheme
+
+Tile
+    - automatic overlays to show unit stack depth
+
+Pawn
+    - public abstract boolean isUnit(); => unit stack depth
+
+might think about decorator pattern for overlays
