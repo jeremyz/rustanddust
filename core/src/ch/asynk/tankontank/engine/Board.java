@@ -57,7 +57,7 @@ public abstract class Board extends Image implements Disposable
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
 
-    private Config cfg;
+    protected Config cfg;
     protected Tile[][] board;
 
     boolean transform;
