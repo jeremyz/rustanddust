@@ -15,6 +15,11 @@ public class Hex extends Tile
         TOWN
     }
 
+    public static final int FOG = 1;
+    public static final int RED = 3;
+    public static final int GREEN = 2;
+    public static final int BLUE = 0;
+
     public static TextureAtlas atlas = null;
 
     public Terrain terrain;
