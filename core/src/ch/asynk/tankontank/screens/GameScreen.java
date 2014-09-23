@@ -43,6 +43,7 @@ public class GameScreen implements Screen
     private static final int DRAGGED_Z_INDEX = 10;
 
     private final TankOnTank game;
+    private GameFactory factory;
 
     private float maxZoomOut;
     private final SpriteBatch mapBatch;
@@ -51,8 +52,8 @@ public class GameScreen implements Screen
     private final ShapeRenderer debugShapes;
 
     private Map map;
-    private Label fps;
 
+    private Label fps;
     private Stage hud;
 
     private Vector2 screenToViewport = new Vector2();       // ratio
@@ -65,12 +66,12 @@ public class GameScreen implements Screen
     {
         this.game = game;
 
-        GameFactory.init(game.manager);
+        factory = new GameFactory(game.manager);
 
         fps = new Label("FPS: 0", game.skin);
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
 
-        map = GameFactory.getMap(game.manager, GameFactory.MapType.MAP_A);
+        map = factory.getMap(game.manager, GameFactory.MapType.MAP_A);
 
         mapBatch = new SpriteBatch();
         cam = new OrthographicCamera();
@@ -107,7 +108,7 @@ public class GameScreen implements Screen
 
     private void addUnit(int col, int row, Board.Orientation o, UnitType t)
     {
-        Pawn p = GameFactory.getUnit(t);
+        Pawn p = factory.getUnit(t);
         map.setPawnAt(p, col, row, o);
     }
 
@@ -231,7 +232,7 @@ public class GameScreen implements Screen
         // Gdx.app.debug("GameScreen", "dispose()");
         hud.dispose();
         map.dispose();
-        GameFactory.dispose();
+        factory.dispose();
         game.unloadAssets();
         mapBatch.dispose();
         debugShapes.dispose();
