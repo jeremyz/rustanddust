@@ -9,6 +9,10 @@ import ch.asynk.tankontank.engine.Pawn;
 
 public abstract class Map extends Board
 {
+    private boolean roadsOn = false;
+    private boolean hexOn = false;
+    private Hex.Terrain t = Hex.Terrain.CLEAR;
+
     private Pawn currentPawn;
     private GridPoint2 currentHex = new GridPoint2(-1, -1);
 
@@ -47,6 +51,47 @@ public abstract class Map extends Board
         if (currentPawn != null) {
             pawnsToDraw.remove(currentPawn);
             movePawnTo(currentPawn, currentHex);
+            currentPawn = null;
+        } else {
+            debugMap();
+        }
+    }
+
+    private void debugMap()
+    {
+        if (hexOn && (t == Hex.Terrain.CLEAR)) {
+            hexOn = false;
+        } else {
+            hexOn = true;
+            if (roadsOn) {
+                roadsOn = false;
+                t = Hex.Terrain.CLEAR;
+            }
+            else if (t == Hex.Terrain.CLEAR)
+                t = Hex.Terrain.WOODS;
+            else if (t == Hex.Terrain.WOODS)
+                t = Hex.Terrain.HILLS;
+            else if (t == Hex.Terrain.HILLS)
+                t = Hex.Terrain.TOWN;
+            else if (t == Hex.Terrain.TOWN)
+                roadsOn = true;
+        }
+
+        boolean evenRow = true;
+        for (int j = 0; j < cfg.rows; j++) {
+            int c = (evenRow ? cfg.cols : cfg.cols - 1);
+            for (int i = 0; i < c; i++) {
+                Hex hex = getHex(i,j);
+                clearOverlaysOn(i, j);
+                if (hexOn) {
+                    if (roadsOn) {
+                        if (hex.roads != 0)
+                            enableOverlayOn(i, j, 1, true);
+                    } else if (hex.terrain == t)
+                        enableOverlayOn(i, j, 1, true);
+                }
+            }
+            evenRow = !evenRow;
         }
     }
 }
