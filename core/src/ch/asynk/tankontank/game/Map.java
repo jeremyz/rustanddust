@@ -78,14 +78,15 @@ public abstract class Map extends Board
                 t = Hex.Terrain.TOWN;
             } else if (t == Hex.Terrain.TOWN) {
                 o = Hex.FOG;
+                t = Hex.Terrain.OFFMAP;
+            } else if (t == Hex.Terrain.OFFMAP) {
+                o = Hex.FOG;
                 roadsOn = true;
             }
         }
 
-        boolean evenRow = true;
         for (int j = 0; j < cfg.rows; j++) {
-            int c = (evenRow ? cfg.cols : cfg.cols - 1);
-            for (int i = 0; i < c; i++) {
+            for (int i = 0; i < cfg.cols; i++) {
                 Hex hex = getHex(i,j);
                 clearOverlaysOn(i, j);
                 if (hexOn) {
@@ -96,7 +97,6 @@ public abstract class Map extends Board
                         enableOverlayOn(i, j, o, true);
                 }
             }
-            evenRow = !evenRow;
         }
     }
 }
