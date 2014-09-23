@@ -48,6 +48,7 @@ public abstract class Tile implements BasicDrawable
 
     public boolean occupied()
     {
+        if (stack == null) return false;
         return (stack.size() != 0);
     }
 
