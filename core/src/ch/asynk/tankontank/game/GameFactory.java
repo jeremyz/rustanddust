@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.game;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -7,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.asynk.tankontank.engine.Board;
 
-public class GameFactory
+public class GameFactory implements Disposable
 {
-    private static TextureAtlas usAtlas;
-    private static TextureAtlas geAtlas;
-    private static TextureAtlas hexAtlas;
-    private static TextureAtlas unitAtlas;
+    private TextureAtlas usAtlas;
+    private TextureAtlas geAtlas;
+    private TextureAtlas hexAtlas;
+    private TextureAtlas unitAtlas;
 
-    public static void init(AssetManager manager)
+    public GameFactory(AssetManager manager)
     {
         usAtlas = manager.get("images/us.atlas", TextureAtlas.class);
         geAtlas = manager.get("images/ge.atlas", TextureAtlas.class);
@@ -22,7 +23,8 @@ public class GameFactory
         unitAtlas = manager.get("images/unit.atlas", TextureAtlas.class);
     }
 
-    public static void dispose()
+    @Override
+    public void dispose()
     {
         usAtlas.dispose();
         geAtlas.dispose();
@@ -50,7 +52,7 @@ public class GameFactory
         US_WOLVERINE
     }
 
-    public static Unit getUnit(UnitType t)
+    public Unit getUnit(UnitType t)
     {
         Unit u = null;
         switch(t) {
@@ -110,7 +112,7 @@ public class GameFactory
         MAP_B
     }
 
-    private static Board.Config config()
+    private Board.Config config()
     {
         Board.Config cfg = new Board.Config();
         cfg.cols = 10;
@@ -127,7 +129,7 @@ public class GameFactory
         return cfg;
     }
 
-    public static Hex[][] createEmptyBoard(Board.Config cfg)
+    public Hex[][] createEmptyBoard(Board.Config cfg)
     {
         Hex[][] board = new Hex[cfg.rows][];
         boolean evenRow = true;
@@ -147,7 +149,7 @@ public class GameFactory
         return board;
     }
 
-    public static Map getMap(AssetManager manager, MapType t)
+    public Map getMap(AssetManager manager, MapType t)
     {
         Board.Config cfg = config();
 
@@ -166,7 +168,7 @@ public class GameFactory
         return m;
     }
 
-    public static void feedMapA(Hex[][] board)
+    public void feedMapA(Hex[][] board)
     {
         // board[ row ][ col ]
         board[1][4].terrain = Hex.Terrain.HILLS;
