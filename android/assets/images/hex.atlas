@@ -3,7 +3,7 @@ hex.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-blank
+blue
   rotate: false
   xy: 2, 2
   size: 190, 217
@@ -13,6 +13,20 @@ blank
 fog
   rotate: false
   xy: 194, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+green
+  rotate: false
+  xy: 386, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 578, 2
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
