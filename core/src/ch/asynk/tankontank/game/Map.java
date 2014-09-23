@@ -59,6 +59,7 @@ public abstract class Map extends Board
 
     private void debugMap()
     {
+        int o = Hex.FOG;
         if (hexOn && (t == Hex.Terrain.CLEAR)) {
             hexOn = false;
         } else {
@@ -66,15 +67,19 @@ public abstract class Map extends Board
             if (roadsOn) {
                 roadsOn = false;
                 t = Hex.Terrain.CLEAR;
-            }
-            else if (t == Hex.Terrain.CLEAR)
+            } else if (t == Hex.Terrain.CLEAR) {
+                o = Hex.GREEN;
                 t = Hex.Terrain.WOODS;
-            else if (t == Hex.Terrain.WOODS)
+            } else if (t == Hex.Terrain.WOODS) {
+                o = Hex.BLUE;
                 t = Hex.Terrain.HILLS;
-            else if (t == Hex.Terrain.HILLS)
+            } else if (t == Hex.Terrain.HILLS) {
+                o = Hex.RED;
                 t = Hex.Terrain.TOWN;
-            else if (t == Hex.Terrain.TOWN)
+            } else if (t == Hex.Terrain.TOWN) {
+                o = Hex.FOG;
                 roadsOn = true;
+            }
         }
 
         boolean evenRow = true;
@@ -86,9 +91,9 @@ public abstract class Map extends Board
                 if (hexOn) {
                     if (roadsOn) {
                         if (hex.roads != 0)
-                            enableOverlayOn(i, j, 1, true);
+                            enableOverlayOn(i, j, o, true);
                     } else if (hex.terrain == t)
-                        enableOverlayOn(i, j, 1, true);
+                        enableOverlayOn(i, j, o, true);
                 }
             }
             evenRow = !evenRow;
