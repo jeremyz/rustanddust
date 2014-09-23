@@ -15,6 +15,8 @@ public abstract class Tile implements BasicDrawable
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
+    public abstract Tile getNewAt(float x, float y);
+
     public Tile(TextureAtlas atlas)
     {
         this.stack = null;

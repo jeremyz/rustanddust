@@ -58,7 +58,7 @@ public abstract class Board extends Image implements Disposable
     }
 
     private Config cfg;
-    private Tile[][] board;
+    protected Tile[][] board;
 
     boolean transform;
     private Matrix4 prevTransform;
@@ -72,11 +72,24 @@ public abstract class Board extends Image implements Disposable
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
     protected final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
-    public Board(Config cfg, Tile[][] board, Texture texture)
+    public Board(Config cfg, Texture texture, Tile tileBuilder)
     {
         super(texture);
         this.cfg = cfg;
-        this.board = board;
+
+        this.board = new Tile[cfg.rows][];
+        boolean evenRow = true;
+        for (int i = 0; i < cfg.rows; i++) {
+            float y = cfg.y0 + (i * cfg.h) - cfg.dh;
+            int c = (evenRow ? cfg.cols : cfg.cols - 1);
+            this.board[i] = new Tile[c];
+            for ( int j = 0; j < c; j ++) {
+                float x = cfg.x0 + (j * cfg.w);
+                if (!evenRow) x += cfg.dw;
+                this.board[i][j] = tileBuilder.getNewAt(x, y);
+            }
+            evenRow = !evenRow;
+        }
     }
 
     @Override

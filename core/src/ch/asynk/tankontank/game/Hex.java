@@ -15,21 +15,25 @@ public class Hex extends Tile
         TOWN
     }
 
+    public static TextureAtlas atlas = null;
+
     public Terrain terrain;
     public int roads;
 
-    public Hex(Terrain terrain, TextureAtlas atlas)
+    @Override
+    public Hex getNewAt(float x, float y)
     {
-        super(atlas);
-        this.terrain = terrain;
-        this.roads = 0;
+        Hex hex = new Hex(atlas);
+        hex.setPosition(x, y, 0);
+        return hex;
     }
 
-    public Hex(Terrain terrain, int roads, TextureAtlas atlas)
+    public Hex(TextureAtlas atlas)
     {
         super(atlas);
-        this.terrain = terrain;
-        this.roads = roads;
+        this.terrain = Terrain.CLEAR;
+        this.roads = 0;
+        Hex.atlas = atlas;
     }
 
     public int costFrom(Board.Orientation side)
