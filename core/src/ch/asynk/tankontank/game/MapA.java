@@ -35,6 +35,11 @@ public class MapA extends Map
         getHex(1, 6).terrain = Hex.Terrain.TOWN;
         getHex(3, 7).terrain = Hex.Terrain.TOWN;
 
+        getHex(9, 1).terrain = Hex.Terrain.OFFMAP;
+        getHex(9, 3).terrain = Hex.Terrain.OFFMAP;
+        getHex(9, 5).terrain = Hex.Terrain.OFFMAP;
+        getHex(9, 7).terrain = Hex.Terrain.OFFMAP;
+
         int N = Map.Orientation.NORTH.s;
         int S = Map.Orientation.SOUTH.s;
         int NE = Map.Orientation.NORTH_EAST.s;

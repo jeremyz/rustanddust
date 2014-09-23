@@ -9,6 +9,8 @@ public class Hex extends Tile
 {
     public enum Terrain
     {
+        OFFMAP,
+        BLOCKED,
         CLEAR,
         HILLS,
         WOODS,

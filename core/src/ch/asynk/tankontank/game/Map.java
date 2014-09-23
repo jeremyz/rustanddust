@@ -26,7 +26,7 @@ public abstract class Map extends Board
 
     protected Hex getHex(int col, int row)
     {
-        return (Hex) board[row][col];
+        return (Hex) getTile(col, row);
     }
 
     public boolean drag(float dx, float dy)

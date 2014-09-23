@@ -58,7 +58,7 @@ public abstract class Board extends Image implements Disposable
     }
 
     protected Config cfg;
-    protected Tile[][] board;
+    private Tile[] board;
 
     boolean transform;
     private Matrix4 prevTransform;
@@ -76,20 +76,25 @@ public abstract class Board extends Image implements Disposable
     {
         super(texture);
         this.cfg = cfg;
+        this.board = new Tile[cfg.rows * cfg.cols];
 
-        this.board = new Tile[cfg.rows][];
         boolean evenRow = true;
+        int idx = 0;
         for (int i = 0; i < cfg.rows; i++) {
             float y = cfg.y0 + (i * cfg.h) - cfg.dh;
-            int c = (evenRow ? cfg.cols : cfg.cols - 1);
-            this.board[i] = new Tile[c];
-            for ( int j = 0; j < c; j ++) {
+            for ( int j = 0; j < cfg.cols; j ++) {
                 float x = cfg.x0 + (j * cfg.w);
                 if (!evenRow) x += cfg.dw;
-                this.board[i][j] = tileBuilder.getNewAt(x, y);
+                this.board[idx] = tileBuilder.getNewAt(x, y);
+                idx += 1;
             }
             evenRow = !evenRow;
         }
+    }
+
+    public Tile getTile(int col, int row)
+    {
+        return board[col + (row * cfg.cols)];
     }
 
     @Override
@@ -196,7 +201,7 @@ public abstract class Board extends Image implements Disposable
 
     public void clearOverlaysOn(int col, int row)
     {
-        clearOverlaysOn(board[row][col]);
+        clearOverlaysOn(getTile(col, row));
     }
 
     public void clearOverlaysOn(Tile tile)
@@ -209,7 +214,7 @@ public abstract class Board extends Image implements Disposable
 
     public void enableOverlayOn(int col, int row, int i, boolean enable)
     {
-        enableOverlayOn(board[row][col], i, enable);
+        enableOverlayOn(getTile(col, row), i, enable);
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
@@ -240,19 +245,19 @@ public abstract class Board extends Image implements Disposable
 
     private Pawn getTopPawnAt(int col, int row)
     {
-        return board[row][col].getTopPawn();
+        return getTile(col, row).getTopPawn();
     }
 
     private int pushPawnAt(Pawn pawn, int col, int row)
     {
-        Tile tile = board[row][col];
+        Tile tile = getTile(col, row);
         tilesToDraw.add(tile);
         return tile.push(pawn);
     }
 
     private int removePawnFrom(Pawn pawn, int col, int row)
     {
-        Tile tile = board[row][col];
+        Tile tile = getTile(col, row);
         int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
@@ -261,6 +266,7 @@ public abstract class Board extends Image implements Disposable
 
     public Vector2 getHexCenterAt(GridPoint2 tile)
     {
+        // FIXME could ask it to the Tile
         float x = cfg.x0 + ((tile.x * cfg.w) + (cfg.w / 2));
         float y = cfg.y0 + ((tile.y * cfg.h) + (cfg.s / 2));
         if ((tile.y % 2) == 1) x += cfg.dw;
@@ -274,6 +280,7 @@ public abstract class Board extends Image implements Disposable
 
     private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
     {
+        // FIXME could ask it to the Tile
         float x = cfg.x0 + ((col * cfg.w) + ((cfg.w - pawn.getHeight()) / 2));
         float y = cfg.y0 + ((row * cfg.h) + ((cfg.s - pawn.getWidth()) / 2));
         if ((row % 2) == 1) x += cfg.dw;
