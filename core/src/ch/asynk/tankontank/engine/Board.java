@@ -181,6 +181,19 @@ public abstract class Board extends Image implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
+    public void clearOverlaysOn(int col, int row)
+    {
+        clearOverlaysOn(board[row][col]);
+    }
+
+    public void clearOverlaysOn(Tile tile)
+    {
+        if (tile.clearOverlays())
+            tilesToDraw.add(tile);
+        else
+            tilesToDraw.remove(tile);
+    }
+
     public void enableOverlayOn(int col, int row, int i, boolean enable)
     {
         enableOverlayOn(board[row][col], i, enable);
