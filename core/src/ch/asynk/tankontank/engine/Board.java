@@ -29,10 +29,10 @@ public abstract class Board extends Image implements Disposable
         KEEP(0, 0),
         NORTH(-90, 1),
         NORTH_EAST(-150, 2),
-        SOUTH_EAST(150, 3),
-        SOUTH(90, 4),
-        SOUTH_WEST (30, 5),
-        NORTH_WEST(-30, 6);
+        SOUTH_EAST(150, 4),
+        SOUTH(90, 8),
+        SOUTH_WEST (30, 16),
+        NORTH_WEST(-30, 32);
 
         public static int offset = 0;
         private final int r;
