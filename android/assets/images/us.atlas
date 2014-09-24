@@ -5,56 +5,63 @@ filter: Nearest,Nearest
 repeat: none
 at-gun
   rotate: false
-  xy: 2, 2
+  xy: 179, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
+head
+  rotate: false
+  xy: 2, 77
+  size: 175, 175
+  orig: 175, 175
+  offset: 0, 0
+  index: -1
 infantry
   rotate: false
-  xy: 128, 2
+  xy: 305, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 pershing
   rotate: false
-  xy: 380, 2
+  xy: 557, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 pershing-hq
   rotate: false
-  xy: 254, 2
+  xy: 431, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 priest
   rotate: false
-  xy: 506, 2
+  xy: 683, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 sherman
   rotate: false
-  xy: 758, 2
+  xy: 179, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 sherman-hq
   rotate: false
-  xy: 632, 2
+  xy: 809, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 wolverine
   rotate: false
-  xy: 884, 2
+  xy: 305, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
