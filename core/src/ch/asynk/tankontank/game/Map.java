@@ -57,6 +57,18 @@ public abstract class Map extends Board
         }
     }
 
+    public void showMoves(float x, float y)
+    {
+        for(GridPoint2 hex : areaPoints)
+            enableOverlayOn(hex.x, hex.y, Hex.GREEN, false);
+
+        getHexAt(currentHex, x, y);
+        Pawn pawn = getTopPawnAt(currentHex);
+        if (pawn == null) return;
+        for(GridPoint2 hex : reachableFrom(pawn, currentHex.x, currentHex.y))
+            enableOverlayOn(hex.x, hex.y, Hex.GREEN, true);
+    }
+
     private void debugMap()
     {
         int o = Hex.FOG;

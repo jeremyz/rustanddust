@@ -151,7 +151,9 @@ public class GameScreen implements Screen
                     dragPos.set(x, y);
                     cam.unproject(touchPos.set(x, y, 0));
                     map.touchDown(touchPos.x, touchPos.y);
-                    // map.setPosition(map.getX()-20, map.getY()-20);
+                } else if (button == Input.Buttons.RIGHT) {
+                    cam.unproject(touchPos.set(x, y, 0));
+                    map.showMoves(touchPos.x, touchPos.y);
                 }
                 return true;
             }
