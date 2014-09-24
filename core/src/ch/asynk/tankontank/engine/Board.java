@@ -294,12 +294,6 @@ public abstract class Board extends Image implements Disposable
         pushPawnAt(pawn, col, row);
     }
 
-    public void movePawnTo(Pawn pawn, Vector3 coords)
-    {
-        GridPoint2 hex = getHexAt(null, coords.x, coords.y);
-        movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
-    }
-
     public void movePawnTo(Pawn pawn, GridPoint2 hex)
     {
         movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
