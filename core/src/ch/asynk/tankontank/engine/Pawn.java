@@ -24,6 +24,8 @@ public abstract class Pawn extends Image implements Disposable
     private StackedImages overlays;
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
+    public abstract int getMvt();
+
     public Pawn(TextureRegion region, TextureAtlas atlas)
     {
         super(region);

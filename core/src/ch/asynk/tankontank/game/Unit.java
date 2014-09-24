@@ -15,6 +15,9 @@ public class Unit extends Pawn
     public boolean ht;
     public Army army;
 
+    @Override
+    public int getMvt() { return mp; }
+
     // hard tager
     public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region, TextureAtlas atlas)
     {
