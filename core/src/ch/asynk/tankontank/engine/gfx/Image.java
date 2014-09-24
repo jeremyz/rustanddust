@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public abstract class Image extends Sprite implements Drawable, Disposable
+public class Image extends Sprite implements Drawable, Disposable
 {
     private Texture texture;
 
