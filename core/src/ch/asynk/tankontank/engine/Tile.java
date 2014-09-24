@@ -16,6 +16,10 @@ public abstract class Tile implements BasicDrawable
     private ArrayDeque<Pawn> stack;
 
     public abstract Tile getNewAt(float x, float y);
+    public abstract boolean atLeastOneMove(Pawn pawn);
+    public abstract int roadMarchBonus(Pawn pawn);
+    public abstract boolean road(Board.Orientation side);
+    public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
 
     public Tile(TextureAtlas atlas)
     {
@@ -70,13 +74,6 @@ public abstract class Tile implements BasicDrawable
         overlays.enable(i, enable);
         if (enable) return true;
         return mustBeDrawn();
-    }
-
-    public List<Tile> adjacents()
-    {
-        // FIXME
-        System.err.println("adjacents() Not implemented yet");
-        return null;
     }
 
     @Override
