@@ -28,11 +28,10 @@ public abstract class Pawn extends Image implements Disposable
     public abstract int roadMarch();
     public abstract boolean isEnemy(Pawn other);
 
-    public Pawn(TextureRegion region, TextureAtlas atlas)
+    public Pawn(TextureRegion pawn, TextureAtlas overlays)
     {
-        super(region);
-        if (atlas != null)
-            this.overlays = new StackedImages(atlas);
+        super(pawn);
+        this.overlays = new StackedImages(overlays);
     }
 
     public Vector3 getLastPosition()
@@ -79,13 +78,11 @@ public abstract class Pawn extends Image implements Disposable
 
     public boolean hasOverlayEnabled()
     {
-        if (overlays == null) return false;
         return overlays.isEnabled();
     }
 
     public boolean enableOverlay(int i, boolean enable)
     {
-        if (overlays == null) return false;
         overlays.enable(i, enable);
         if (enable) return true;
         return hasOverlayEnabled();
@@ -95,27 +92,27 @@ public abstract class Pawn extends Image implements Disposable
     public void translate(float dx, float dy)
     {
         super.translate(dx, dy);
-        if (overlays != null) overlays.translate(dx, dy);
+        overlays.translate(dx, dy);
     }
 
     @Override
     public void setPosition(float x, float y, float z)
     {
         super.setPosition(x, y, z);
-        if (overlays != null) overlays.setPosition(x, y, z);
+        overlays.setPosition(x, y, z);
     }
 
     @Override
     public void draw(Batch batch)
     {
         super.draw(batch);
-        if (overlays != null) overlays.draw(batch);
+        overlays.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
         super.drawDebug(debugShapes);
-        if (overlays != null) overlays.drawDebug(debugShapes);
+        overlays.drawDebug(debugShapes);
     }
 }
