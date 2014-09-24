@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
@@ -57,8 +59,16 @@ public abstract class Board extends Image implements Disposable
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
 
+    private final Pool<GridPoint2> gridPoint2Pool = new Pool<GridPoint2>() {
+        @Override
+        protected GridPoint2 newObject() {
+            return new GridPoint2();
+        }
+    };
+
     protected Config cfg;
-    private Tile[] board;
+    private Tile[] tiles;
+    private SearchBoard searchBoard;
 
     boolean transform;
     private Matrix4 prevTransform;
@@ -72,11 +82,14 @@ public abstract class Board extends Image implements Disposable
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
     protected final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
+    protected final List<GridPoint2> areaPoints = new Vector<GridPoint2>(10);
+
     public Board(Config cfg, Texture texture, Tile tileBuilder)
     {
         super(texture);
         this.cfg = cfg;
-        this.board = new Tile[cfg.rows * cfg.cols];
+        this.tiles = new Tile[cfg.cols * cfg.rows];
+        searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
 
         boolean evenRow = true;
         int idx = 0;
@@ -85,7 +98,7 @@ public abstract class Board extends Image implements Disposable
             for ( int j = 0; j < cfg.cols; j ++) {
                 float x = cfg.x0 + (j * cfg.w);
                 if (!evenRow) x += cfg.dw;
-                this.board[idx] = tileBuilder.getNewAt(x, y);
+                this.tiles[idx] = tileBuilder.getNewAt(x, y);
                 idx += 1;
             }
             evenRow = !evenRow;
@@ -94,7 +107,7 @@ public abstract class Board extends Image implements Disposable
 
     public Tile getTile(int col, int row)
     {
-        return board[col + (row * cfg.cols)];
+        return tiles[col + (row * cfg.cols)];
     }
 
     @Override
@@ -197,6 +210,21 @@ public abstract class Board extends Image implements Disposable
 
         if (transform)
             debugShapes.setTransformMatrix(prevTransform);
+    }
+
+    public List<GridPoint2> reachableFrom(Pawn pawn, int col, int row)
+    {
+        for (GridPoint2 p : areaPoints)
+            gridPoint2Pool.free(p);
+        areaPoints.clear();
+
+        for (SearchBoard.Node node : searchBoard.reachableFrom(pawn, col, row)) {
+            GridPoint2 point = gridPoint2Pool.obtain();
+            point.set(node.col, node.row);
+            areaPoints.add(point);
+        }
+
+        return areaPoints;
     }
 
     public void clearOverlaysOn(int col, int row)
