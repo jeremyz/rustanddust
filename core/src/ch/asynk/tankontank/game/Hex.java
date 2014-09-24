@@ -53,12 +53,6 @@ public class Hex extends Tile
     }
 
     @Override
-    public int roadMarchBonus(Pawn pawn)
-    {
-        return 1;
-    }
-
-    @Override
     public boolean road(Board.Orientation side)
     {
         return (side.s == (roads & side.s));

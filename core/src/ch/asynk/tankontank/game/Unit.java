@@ -16,7 +16,16 @@ public class Unit extends Pawn
     public Army army;
 
     @Override
-    public int getMvt() { return mp; }
+    public int getMvt()
+    {
+        return mp;
+    }
+
+    @Override
+    public int roadMarch()
+    {
+        return 1;
+    }
 
     // hard tager
     public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region, TextureAtlas atlas)

@@ -17,7 +17,6 @@ public abstract class Tile implements BasicDrawable
 
     public abstract Tile getNewAt(float x, float y);
     public abstract boolean atLeastOneMove(Pawn pawn);
-    public abstract int roadMarchBonus(Pawn pawn);
     public abstract boolean road(Board.Orientation side);
     public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
 
