@@ -76,9 +76,9 @@ public abstract class Tile implements BasicDrawable
     }
 
     @Override
-    public void translate(float x, float y)
+    public void translate(float dx, float dy)
     {
-        overlays.translate(x, y);
+        overlays.translate(dx, dy);
     }
 
     @Override

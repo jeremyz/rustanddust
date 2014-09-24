@@ -92,10 +92,10 @@ public abstract class Pawn extends Image implements Disposable
     }
 
     @Override
-    public void translate(float x, float y)
+    public void translate(float dx, float dy)
     {
-        super.translate(x, y);
-        if (overlays != null) overlays.translate(x, y);
+        super.translate(dx, dy);
+        if (overlays != null) overlays.translate(dx, dy);
     }
 
     @Override
