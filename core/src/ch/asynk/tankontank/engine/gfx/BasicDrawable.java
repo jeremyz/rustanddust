@@ -9,7 +9,7 @@ public interface BasicDrawable
 
     public void setPosition(float x, float y, float r);
 
-    public void draw(Batch batch, float parentAlpha);
+    public void draw(Batch batch);
 
     public void drawDebug(ShapeRenderer debugShapes);
 }

@@ -106,10 +106,10 @@ public abstract class Pawn extends Image implements Disposable
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha)
+    public void draw(Batch batch)
     {
-        super.draw(batch, parentAlpha);
-        if (overlays != null) overlays.draw(batch, parentAlpha);
+        super.draw(batch);
+        if (overlays != null) overlays.draw(batch);
     }
 
     @Override

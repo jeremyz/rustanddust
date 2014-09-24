@@ -53,11 +53,11 @@ public class StackedImages implements BasicDrawable
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha)
+    public void draw(Batch batch)
     {
         for (int i = 0; i < sprites.size; i++) {
             if (enabled[i])
-                sprites.get(i).draw(batch, parentAlpha);
+                sprites.get(i).draw(batch);
         }
     }
 

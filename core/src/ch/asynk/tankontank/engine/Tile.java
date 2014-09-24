@@ -88,12 +88,12 @@ public abstract class Tile implements BasicDrawable
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha)
+    public void draw(Batch batch)
     {
-        overlays.draw(batch, parentAlpha);
+        overlays.draw(batch);
         Pawn pawn = getTopPawn();
         if (pawn != null)
-            pawn.draw(batch, parentAlpha);
+            pawn.draw(batch);
     }
 
     @Override

@@ -171,9 +171,9 @@ public abstract class Board extends Image implements Disposable
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha)
+    public void draw(Batch batch)
     {
-        super.draw(batch, parentAlpha);
+        super.draw(batch);
 
         if (transform) {
             prevTransform.set(batch.getTransformMatrix());
@@ -182,12 +182,12 @@ public abstract class Board extends Image implements Disposable
 
         Iterator<Tile> tileIter = tilesToDraw.iterator();
         while (tileIter.hasNext()) {
-            tileIter.next().draw(batch, parentAlpha);
+            tileIter.next().draw(batch);
         }
 
         Iterator<Pawn> pawnIter = pawnsToDraw.iterator();
         while (pawnIter.hasNext()) {
-            pawnIter.next().draw(batch, parentAlpha);
+            pawnIter.next().draw(batch);
         }
 
         if (transform)
