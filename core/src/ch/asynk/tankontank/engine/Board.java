@@ -110,6 +110,29 @@ public abstract class Board extends Image implements Disposable
         return tiles[col + (row * cfg.cols)];
     }
 
+    public int distance(int col0, int row0, int col1, int row1)
+    {
+        int a = (row1 - row0);
+        // transform into a system where all tiles in the same row have the same value of X
+        // and all tiles in the same column have the same value of Y non-staggering coordinates
+        int b = ((col1 + ((row1 + 1) / 2)) - (col0 + ((row0 + 1) / 2)));
+        int c = (b - a);
+        int aa = Math.abs(a);
+        int ab = Math.abs(b);
+        int ac = Math.abs(c);
+        if (ac > aa) {
+            if (ac > ab)
+                return ac;
+            else
+                return ab;
+        } else {
+            if (aa > ab)
+                return aa;
+            else
+                return ab;
+        }
+    }
+
     @Override
     public void setPosition(float x, float y)
     {
