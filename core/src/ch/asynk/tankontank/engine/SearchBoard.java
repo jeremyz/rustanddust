@@ -91,6 +91,8 @@ public class SearchBoard
         start.roadMarch = true;
         stack.push(start);
 
+        int roadMarchBonus = pawn.roadMarch();
+
         boolean first = true;
 
         while (stack.size() != 0) {
@@ -98,7 +100,7 @@ public class SearchBoard
 
             if (src.mvtLeft <= 0) {
                 if (src.roadMarch) {
-                    src.mvtLeft = board.getTile(src.col, src.row).roadMarchBonus(pawn);
+                    src.mvtLeft = roadMarchBonus;
                     roadMarch.push(src);
                 }
                 continue;
@@ -118,7 +120,7 @@ public class SearchBoard
                     boolean roadMarch = road && src.roadMarch;
 
                     if (dst.search == searchCount) {
-                        if ((r >= 0) && ((r > dst.mvtLeft) || roadMarch)) {
+                        if ((r >= 0) && ((r > dst.mvtLeft) || (roadMarch && ((r + roadMarchBonus) >= dst.mvtLeft)))) {
                             dst.mvtLeft = r;
                             dst.parent = src;
                             dst.roadMarch = roadMarch;
