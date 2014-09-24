@@ -27,6 +27,12 @@ public class Unit extends Pawn
         return 1;
     }
 
+    @Override
+    public boolean isEnemy(Pawn other)
+    {
+        return army.isEnemy(((Unit) other).army);
+    }
+
     // hard tager
     public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region, TextureAtlas atlas)
     {
