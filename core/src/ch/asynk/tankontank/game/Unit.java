@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.HeadedPawn;
 
-public class Unit extends Pawn
+public class Unit extends HeadedPawn
 {
+    public static final int DISABLED = 0;
+
     public int rng;
     public int def;
     public int cdef;
@@ -34,9 +37,9 @@ public class Unit extends Pawn
     }
 
     // hard tager
-    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion region, TextureAtlas atlas)
+    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion unit, TextureRegion head, TextureAtlas overlays)
     {
-        super(region, atlas);
+        super(unit, head, overlays);
         this.army = army;
         this.hq = hq;
         this.rng = range;
@@ -46,9 +49,9 @@ public class Unit extends Pawn
     }
 
     // soft tager
-    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureRegion region, TextureAtlas atlas)
+    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureRegion unit, TextureRegion head, TextureAtlas overlays)
     {
-        super(region, atlas);
+        super(unit, head, overlays);
         this.army = army;
         this.hq = hq;
         this.rng = range;
