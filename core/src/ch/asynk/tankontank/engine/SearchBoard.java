@@ -187,5 +187,95 @@ public class SearchBoard
 
         return result;
     }
+
+    private void adjacentAttacks(Node src, int attackAngle)
+    {
+        // move in allowed directions
+        if (Board.Orientation.NORTH.isInSides(attackAngle))
+            adjacents[0] = getNode((src.col + 1), src.row);
+        if (Board.Orientation.SOUTH.isInSides(attackAngle))
+            adjacents[3] = getNode((src.col - 1), src.row);
+        if ((src.row % 2) == 0) {
+            if (Board.Orientation.NORTH_EAST.isInSides(attackAngle))
+                adjacents[1] = getNode(src.col, (src.row - 1));
+            if (Board.Orientation.SOUTH_EAST.isInSides(attackAngle))
+                adjacents[2] = getNode((src.col - 1), (src.row - 1));
+            if (Board.Orientation.NORTH_WEST.isInSides(attackAngle))
+                adjacents[4] = getNode(src.col, (src.row + 1));
+            if (Board.Orientation.SOUTH_WEST.isInSides(attackAngle))
+                adjacents[5] = getNode((src.col - 1), (src.row + 1));
+        } else {
+            if (Board.Orientation.NORTH_EAST.isInSides(attackAngle))
+                adjacents[1] = getNode((src.col + 1), (src.row - 1));
+            if (Board.Orientation.SOUTH_EAST.isInSides(attackAngle))
+                adjacents[2] = getNode(src.col, (src.row - 1));
+            if (Board.Orientation.NORTH_WEST.isInSides(attackAngle))
+                adjacents[4] = getNode((src.col + 1), (src.row + 1));
+            if (Board.Orientation.SOUTH_WEST.isInSides(attackAngle))
+                adjacents[5] = getNode(src.col, (src.row + 1));
+        }
+    }
+
+    private boolean hasClearLineOfSight(Tile from, Tile to)
+    {
+        // FIXME
+        return true;
+    }
+
+    public List<Node> openToAttackFrom(Pawn pawn, int col, int row)
+    {
+        searchCount += 1;
+        result.clear();
+
+        Tile tile = board.getTile(col, row);
+
+        Node start = getNode(col, row);
+        start.search = searchCount;
+        start.remaining = pawn.getAttackRangeFrom(tile);
+
+        if (start.remaining <= 0)
+            return result;
+
+        adjacents[0] = null;
+        adjacents[1] = null;
+        adjacents[2] = null;
+        adjacents[3] = null;
+        adjacents[4] = null;
+        adjacents[5] = null;
+
+        int attackAngle = pawn.getAngleOfAttack();
+
+        stack.push(start);
+
+        while (stack.size() != 0) {
+            Node src = stack.pop();
+
+            if (src.remaining <= 0)
+                continue;
+
+            adjacentAttacks(src, attackAngle);
+            int rangeLeft = src.remaining - 1;
+
+            for(int i = 0; i < 6; i++) {
+                Node dst = adjacents[i];
+                if (dst != null) {
+                    if (dst.search == searchCount) {
+                        if ((rangeLeft > dst.remaining)) {
+                            dst.remaining = rangeLeft;
+                            stack.push(dst);
+                        }
+                    } else {
+                        dst.search = searchCount;
+                        dst.remaining = rangeLeft;
+                        stack.push(dst);
+                        Tile t = board.getTile(dst.col, dst.row);
+                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(tile, t)) result.add(dst);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
