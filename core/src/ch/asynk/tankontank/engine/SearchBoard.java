@@ -87,7 +87,7 @@ public class SearchBoard
         Node start = getNode(col, row);
         start.parent = null;
         start.search = searchCount;
-        start.mvtLeft = pawn.getMvt();;
+        start.mvtLeft = pawn.getMovementPoints();
         start.roadMarch = true;
         stack.push(start);
 

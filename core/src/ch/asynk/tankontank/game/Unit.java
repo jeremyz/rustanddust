@@ -19,7 +19,7 @@ public class Unit extends HeadedPawn
     public Army army;
 
     @Override
-    public int getMvt()
+    public int getMovementPoints()
     {
         return mp;
     }

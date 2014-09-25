@@ -24,7 +24,7 @@ public abstract class Pawn extends Image implements Disposable
     private StackedImages overlays;
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
-    public abstract int getMvt();
+    public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
     public abstract boolean isEnemy(Pawn other);
     public abstract int getAngleOfAttack();
