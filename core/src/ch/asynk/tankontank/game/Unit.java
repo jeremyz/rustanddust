@@ -34,6 +34,7 @@ public class Unit extends HeadedPawn
     @Override
     public int getAttackRangeFrom(Tile tile)
     {
+        if (ht && ((Hex) tile).terrain == Hex.Terrain.HILLS) return rng + 1;
         return rng;
     }
 
