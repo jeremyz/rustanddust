@@ -1,12 +1,9 @@
-fix commit names
 
 fix resize issues
 
 Board
-    - build possible moves List<GridPoint3>
-    - build possible attacks List<GridPoint3>
-    - build possible assits List<PawnGridPoint3 ??>
-    - add debug mode: click out of mpa -> circle through show ROADS TOWN HILLS
+    - build possible attacks List<GridPoint2>
+    - build possible assits List<Pawn / GridPoint2>
     - support Orientation offset
     - support inverted even/odd row scheme
 
@@ -17,3 +14,27 @@ Pawn
     - public abstract boolean isUnit(); => unit stack depth
 
 might think about decorator pattern for overlays
+
+
+
+us decorator pattern, No can Do ??
+
+    + interface Pawn
+
+    + !!! abstract class SimplePawn implements Pawn
+        protected Image OR extends Image
+
+    + abstract class PawnDecorator implements Pawn
+        potected Pawn pawn;
+        PawnDecorator(Pawn pawn) { this.pawn = pawn; }
+        public _method_() { pawn._method_(); }
+
+    + ?! abstract class OverlayPawnDecorator extends PawnDecorator
+        ...
+    + ?! abstract class HeadedPawnDecorator extends PawnDecorator
+        ...
+
+    * class Unit extends SimplePawn
+        getUnit(_args_) {
+            return new HeadedPawnDecorator( new OverlayPawnDecorator ( new Unit(_args_) ) )
+        }
