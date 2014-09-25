@@ -67,6 +67,8 @@ public abstract class Map extends Board
         if (pawn == null) return;
         for(GridPoint2 hex : reachableFrom(pawn, currentHex.x, currentHex.y))
             enableOverlayOn(hex.x, hex.y, Hex.GREEN, true);
+        for(GridPoint2 hex : openToAttackFrom(pawn, currentHex.x, currentHex.y))
+            enableOverlayOn(hex.x, hex.y, Hex.RED, true);
     }
 
     private void debugMap()
