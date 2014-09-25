@@ -31,6 +31,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public int getAngleOfAttack()
+    {
+        return orientation.getFrontSides();
+    }
+
+    @Override
     public boolean isEnemy(Pawn other)
     {
         return army.isEnemy(((Unit) other).army);
