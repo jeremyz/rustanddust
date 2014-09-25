@@ -13,12 +13,13 @@ import ch.asynk.tankontank.engine.gfx.StackedImages;
 public abstract class Tile implements BasicDrawable
 {
     private StackedImages overlays;
-    private ArrayDeque<Pawn> stack;
+    protected ArrayDeque<Pawn> stack;
 
     public abstract Tile getNewAt(float x, float y);
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean road(Board.Orientation side);
     public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
+    public abstract boolean hasTargetsFor(Pawn pawn);
 
     public Tile(TextureAtlas atlas)
     {

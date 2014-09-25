@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.game;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Pawn;
@@ -81,5 +83,17 @@ public class Hex extends Tile
         }
 
         return c;
+    }
+
+    @Override
+    public boolean hasTargetsFor(Pawn pawn)
+    {
+        if (!occupied()) return false;
+
+        Iterator<Pawn> itr = stack.iterator();
+        while(itr.hasNext())
+            if (itr.next().isEnemy(pawn)) return true;
+
+        return false;
     }
 }
