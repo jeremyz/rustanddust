@@ -25,7 +25,7 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public int roadMarch()
+    public int getRoadMarchBonus()
     {
         return 1;
     }

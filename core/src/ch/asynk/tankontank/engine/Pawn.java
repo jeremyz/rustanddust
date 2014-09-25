@@ -25,7 +25,7 @@ public abstract class Pawn extends Image implements Disposable
     private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
 
     public abstract int getMvt();
-    public abstract int roadMarch();
+    public abstract int getRoadMarchBonus();
     public abstract boolean isEnemy(Pawn other);
 
     public Pawn(TextureRegion pawn, TextureAtlas overlays)

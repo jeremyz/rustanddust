@@ -91,7 +91,7 @@ public class SearchBoard
         start.roadMarch = true;
         stack.push(start);
 
-        int roadMarchBonus = pawn.roadMarch();
+        int roadMarchBonus = pawn.getRoadMarchBonus();
 
         boolean first = true;
 
