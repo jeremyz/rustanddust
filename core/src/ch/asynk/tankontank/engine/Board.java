@@ -45,6 +45,11 @@ public abstract class Board extends Image implements Disposable
 
         public float r() { return offset + r; }
 
+        public boolean isInSides(int sides)
+        {
+            return ((sides & s) == s);
+        }
+
         public Orientation left()
         {
             if (this == NORTH) return NORTH_WEST;
