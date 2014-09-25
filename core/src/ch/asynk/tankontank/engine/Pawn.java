@@ -28,6 +28,7 @@ public abstract class Pawn extends Image implements Disposable
     public abstract int getRoadMarchBonus();
     public abstract boolean isEnemy(Pawn other);
     public abstract int getAngleOfAttack();
+    public abstract int getAttackRangeFrom(Tile tile);
 
     public Pawn(TextureRegion pawn, TextureAtlas overlays)
     {

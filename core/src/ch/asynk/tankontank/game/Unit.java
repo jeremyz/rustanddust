@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;
 
 public class Unit extends HeadedPawn
@@ -28,6 +29,12 @@ public class Unit extends HeadedPawn
     public int getRoadMarchBonus()
     {
         return 1;
+    }
+
+    @Override
+    public int getAttackRangeFrom(Tile tile)
+    {
+        return rng;
     }
 
     @Override
