@@ -306,6 +306,21 @@ public abstract class Board extends Image implements Disposable
         return areaPoints;
     }
 
+    public List<GridPoint2> openToAttackFrom(Pawn pawn, int col, int row)
+    {
+        for (GridPoint2 p : areaPoints)
+            gridPoint2Pool.free(p);
+        areaPoints.clear();
+
+        for (SearchBoard.Node node : searchBoard.openToAttackFrom(pawn, col, row)) {
+            GridPoint2 point = gridPoint2Pool.obtain();
+            point.set(node.col, node.row);
+            areaPoints.add(point);
+        }
+
+        return areaPoints;
+    }
+
     public void clearOverlaysOn(int col, int row)
     {
         clearOverlaysOn(getTile(col, row));
