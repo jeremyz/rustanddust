@@ -11,7 +11,7 @@ public class SearchBoard
         public int col;
         public int row;
         public int search;
-        public int mvtLeft;
+        public int remaining;
         public Node parent;
         public boolean roadMarch;
 
@@ -62,8 +62,9 @@ public class SearchBoard
         return nodes[col + (row * cols)];
     }
 
-    public void adjacents(Node src)
+    public void adjacentMoves(Node src)
     {
+        // move to enter dst by
         adjacents[0] = getNode((src.col - 1), src.row);
         adjacents[3] = getNode((src.col + 1), src.row);
         if ((src.row % 2) == 0) {
@@ -87,26 +88,29 @@ public class SearchBoard
         Node start = getNode(col, row);
         start.parent = null;
         start.search = searchCount;
-        start.mvtLeft = pawn.getMovementPoints();
+        start.remaining = pawn.getMovementPoints();
         start.roadMarch = true;
-        stack.push(start);
+
+        if (start.remaining <= 0)
+            return result;
 
         int roadMarchBonus = pawn.getRoadMarchBonus();
-
         boolean first = true;
+
+        stack.push(start);
 
         while (stack.size() != 0) {
             Node src = stack.pop();
 
-            if (src.mvtLeft <= 0) {
+            if (src.remaining <= 0) {
                 if (src.roadMarch) {
-                    src.mvtLeft = roadMarchBonus;
+                    src.remaining = roadMarchBonus;
                     roadMarch.push(src);
                 }
                 continue;
             }
 
-            adjacents(src);
+            adjacentMoves(src);
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
@@ -116,12 +120,12 @@ public class SearchBoard
                     boolean road = t.road(directions[i]);
                     int cost = t.costFrom(pawn, directions[i], road);
                     boolean mayMoveOne = first && t.atLeastOneMove(pawn);
-                    int r = src.mvtLeft - cost;
+                    int r = src.remaining - cost;
                     boolean roadMarch = road && src.roadMarch;
 
                     if (dst.search == searchCount) {
-                        if ((r >= 0) && ((r > dst.mvtLeft) || (roadMarch && ((r + roadMarchBonus) >= dst.mvtLeft)))) {
-                            dst.mvtLeft = r;
+                        if ((r >= 0) && ((r > dst.remaining) || (roadMarch && ((r + roadMarchBonus) >= dst.remaining)))) {
+                            dst.remaining = r;
                             dst.parent = src;
                             dst.roadMarch = roadMarch;
                         }
@@ -129,13 +133,13 @@ public class SearchBoard
                         dst.search = searchCount;
                         if ((r >= 0) || mayMoveOne) {
                             dst.parent = src;
-                            dst.mvtLeft = r;
+                            dst.remaining = r;
                             dst.roadMarch = roadMarch;
                             stack.push(dst);
                             result.add(dst);
                         } else {
                             dst.parent = null;
-                            dst.mvtLeft = Integer.MAX_VALUE;
+                            dst.remaining = Integer.MAX_VALUE;
                         }
                     }
                 }
@@ -146,7 +150,7 @@ public class SearchBoard
         while(roadMarch.size() != 0) {
             Node src = roadMarch.pop();
 
-            adjacents(src);
+            adjacentMoves(src);
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
@@ -156,11 +160,11 @@ public class SearchBoard
                     if (!t.road(directions[i]))
                         continue;
                     int cost = t.costFrom(pawn, directions[i], true);
-                    int r = src.mvtLeft - cost;
+                    int r = src.remaining - cost;
 
                     if (dst.search == searchCount) {
-                        if ((r >= 0) && (r > dst.mvtLeft)) {
-                            dst.mvtLeft = r;
+                        if ((r >= 0) && (r > dst.remaining)) {
+                            dst.remaining = r;
                             dst.parent = src;
                             dst.roadMarch = true;
                         }
@@ -168,13 +172,13 @@ public class SearchBoard
                         dst.search = searchCount;
                         if (r >= 0) {
                             dst.parent = src;
-                            dst.mvtLeft = r;
+                            dst.remaining = r;
                             dst.roadMarch = true;
                             roadMarch.push(dst);
                             result.add(dst);
                         } else {
                             dst.parent = null;
-                            dst.mvtLeft = Integer.MAX_VALUE;
+                            dst.remaining = Integer.MAX_VALUE;
                         }
                     }
                 }
