@@ -42,6 +42,11 @@ public abstract class Pawn extends Image implements Disposable
         return path.getFirst();
     }
 
+    public Board.Orientation getOrientation()
+    {
+        return Board.Orientation.fromRotation(getRotation());
+    }
+
     public void moveDone()
     {
         Vector3 v = path.pop();
