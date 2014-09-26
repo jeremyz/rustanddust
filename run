@@ -1,0 +1,3 @@
+#! /bin/bash
+[ -d out ] && rm -fr out
+./gradlew clean packs desktop:run
