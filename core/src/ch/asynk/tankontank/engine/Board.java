@@ -28,6 +28,7 @@ public abstract class Board extends Image implements Disposable
 {
     public enum Orientation
     {
+        ALL(0, 63),
         KEEP(0, 0),
         NORTH(270, 1),
         NORTH_EAST(210, 2),
@@ -62,9 +63,14 @@ public abstract class Board extends Image implements Disposable
             else return fromSide(s << 1);
         }
 
-        public Orientation oppositeSide()
+        public Orientation opposite()
         {
             return left().left().left();
+        }
+
+        public int allBut()
+        {
+            return ALL.s & (s ^ 0xFFFF);
         }
 
         public int getFrontSides()
@@ -74,7 +80,7 @@ public abstract class Board extends Image implements Disposable
 
         public int getBackSides()
         {
-            return oppositeSide().getFrontSides();
+            return opposite().getFrontSides();
         }
 
         public static Orientation fromSide(int s)
