@@ -37,6 +37,8 @@ import ch.asynk.tankontank.engine.Pawn;
 
 public class GameScreen implements Screen
 {
+    private static final boolean DEBUG = false;
+
     private static final float ZOOM_MAX = 0.2f;
     private static final float ZOOM_GESTURE_FACTOR = .01f;
     private static final float ZOOM_SCROLL_FACTOR = .1f;
@@ -207,7 +209,7 @@ public class GameScreen implements Screen
         hud.act(delta);
         hud.draw();
 
-        if (true) {
+        if (DEBUG) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             debugShapes.setAutoShapeType(true);
             debugShapes.setProjectionMatrix(cam.combined);
