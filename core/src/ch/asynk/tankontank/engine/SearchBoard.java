@@ -2,6 +2,7 @@ package ch.asynk.tankontank.engine;
 
 import java.util.List;
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Vector;
 
 public class SearchBoard
@@ -27,6 +28,7 @@ public class SearchBoard
     private Board board;
     private Node nodes[];
     private int searchCount;
+    private LinkedList<Node> queue;
     private ArrayDeque<Node> stack;
     private ArrayDeque<Node> roadMarch;
     private List<Node> result;
@@ -43,6 +45,7 @@ public class SearchBoard
             for (int i = 0; i < cols; i++)
                 nodes[i + (j * cols)] = new Node(i, j);
         this.searchCount = 0;
+        this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
         this.result = new Vector<Node>(10);
@@ -188,31 +191,51 @@ public class SearchBoard
         return result;
     }
 
-    private void adjacentAttacks(Node src, int attackAngle)
+    private void adjacentAttacks(Node src, int angle)
     {
         // move in allowed directions
-        if (Board.Orientation.NORTH.isInSides(attackAngle))
+        if (Board.Orientation.NORTH.isInSides(angle))
             adjacents[0] = getNode((src.col + 1), src.row);
-        if (Board.Orientation.SOUTH.isInSides(attackAngle))
+        else
+            adjacents[0] = null;
+        if (Board.Orientation.SOUTH.isInSides(angle))
             adjacents[3] = getNode((src.col - 1), src.row);
+        else
+            adjacents[3] = null;
         if ((src.row % 2) == 0) {
-            if (Board.Orientation.NORTH_EAST.isInSides(attackAngle))
+            if (Board.Orientation.NORTH_EAST.isInSides(angle))
                 adjacents[1] = getNode(src.col, (src.row - 1));
-            if (Board.Orientation.SOUTH_EAST.isInSides(attackAngle))
+            else
+                adjacents[1] = null;
+            if (Board.Orientation.SOUTH_EAST.isInSides(angle))
                 adjacents[2] = getNode((src.col - 1), (src.row - 1));
-            if (Board.Orientation.NORTH_WEST.isInSides(attackAngle))
+            else
+                adjacents[2] = null;
+            if (Board.Orientation.NORTH_WEST.isInSides(angle))
                 adjacents[4] = getNode(src.col, (src.row + 1));
-            if (Board.Orientation.SOUTH_WEST.isInSides(attackAngle))
+            else
+                adjacents[4] = null;
+            if (Board.Orientation.SOUTH_WEST.isInSides(angle))
                 adjacents[5] = getNode((src.col - 1), (src.row + 1));
+            else
+                adjacents[5] = null;
         } else {
-            if (Board.Orientation.NORTH_EAST.isInSides(attackAngle))
+            if (Board.Orientation.NORTH_EAST.isInSides(angle))
                 adjacents[1] = getNode((src.col + 1), (src.row - 1));
-            if (Board.Orientation.SOUTH_EAST.isInSides(attackAngle))
+            else
+                adjacents[1] = null;
+            if (Board.Orientation.SOUTH_EAST.isInSides(angle))
                 adjacents[2] = getNode(src.col, (src.row - 1));
-            if (Board.Orientation.NORTH_WEST.isInSides(attackAngle))
+            else
+                adjacents[2] = null;
+            if (Board.Orientation.NORTH_WEST.isInSides(angle))
                 adjacents[4] = getNode((src.col + 1), (src.row + 1));
-            if (Board.Orientation.SOUTH_WEST.isInSides(attackAngle))
+            else
+                adjacents[4] = null;
+            if (Board.Orientation.SOUTH_WEST.isInSides(angle))
                 adjacents[5] = getNode(src.col, (src.row + 1));
+            else
+                adjacents[5] = null;
         }
     }
 
@@ -229,45 +252,44 @@ public class SearchBoard
 
         Tile tile = board.getTile(col, row);
 
+        int range = pawn.getAttackRangeFrom(tile);
+        int angle = pawn.getAngleOfAttack();
+        int extendedAngle = pawn.getOrientation().opposite().allBut();
+
         Node start = getNode(col, row);
         start.search = searchCount;
-        start.remaining = pawn.getAttackRangeFrom(tile);
+        start.remaining = range;
 
-        if (start.remaining <= 0)
+        if (range <= 0)
             return result;
 
-        adjacents[0] = null;
-        adjacents[1] = null;
-        adjacents[2] = null;
-        adjacents[3] = null;
-        adjacents[4] = null;
-        adjacents[5] = null;
+        queue.add(start);
 
-        int attackAngle = pawn.getAngleOfAttack();
-
-        stack.push(start);
-
-        while (stack.size() != 0) {
-            Node src = stack.pop();
+        boolean first = true;
+        while (queue.size() != 0) {
+            Node src = queue.remove();
 
             if (src.remaining <= 0)
                 continue;
 
-            adjacentAttacks(src, attackAngle);
+            if (!first && (((range - src.remaining) % 2) == 0))
+                adjacentAttacks(src, extendedAngle);
+            else
+                adjacentAttacks(src, angle);
+
+            first = false;
             int rangeLeft = src.remaining - 1;
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
                 if (dst != null) {
                     if (dst.search == searchCount) {
-                        if ((rangeLeft > dst.remaining)) {
+                        if ((rangeLeft > dst.remaining))
                             dst.remaining = rangeLeft;
-                            stack.push(dst);
-                        }
                     } else {
                         dst.search = searchCount;
                         dst.remaining = rangeLeft;
-                        stack.push(dst);
+                        queue.add(dst);
                         Tile t = board.getTile(dst.col, dst.row);
                         if (t.hasTargetsFor(pawn) && hasClearLineOfSight(tile, t)) result.add(dst);
                     }
