@@ -80,7 +80,7 @@ public abstract class Map extends Board
             hexOn = true;
             if (roadsOn) {
                 roadsOn = false;
-                t = Hex.Terrain.CLEAR;
+                t = Hex.Terrain.OFFMAP;
             } else if (t == Hex.Terrain.CLEAR) {
                 o = Hex.GREEN;
                 t = Hex.Terrain.WOODS;
@@ -92,10 +92,10 @@ public abstract class Map extends Board
                 t = Hex.Terrain.TOWN;
             } else if (t == Hex.Terrain.TOWN) {
                 o = Hex.FOG;
-                t = Hex.Terrain.OFFMAP;
+                roadsOn = true;
             } else if (t == Hex.Terrain.OFFMAP) {
                 o = Hex.FOG;
-                roadsOn = true;
+                t = Hex.Terrain.CLEAR;
             }
         }
 
