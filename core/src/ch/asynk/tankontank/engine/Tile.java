@@ -58,9 +58,9 @@ public abstract class Tile implements BasicDrawable
         return (stack.size() != 0);
     }
 
-    public boolean clearOverlays()
+    public boolean disableOverlays()
     {
-        overlays.clear();
+        overlays.disableAll();
         return occupied();
     }
 

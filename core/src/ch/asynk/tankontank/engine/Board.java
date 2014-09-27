@@ -327,14 +327,14 @@ public abstract class Board extends Image implements Disposable
         return areaPoints;
     }
 
-    public void clearOverlaysOn(int col, int row)
+    public void disableOverlaysOn(int col, int row)
     {
-        clearOverlaysOn(getTile(col, row));
+        disableOverlaysOn(getTile(col, row));
     }
 
-    public void clearOverlaysOn(Tile tile)
+    public void disableOverlaysOn(Tile tile)
     {
-        if (tile.clearOverlays())
+        if (tile.disableOverlays())
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);

@@ -17,7 +17,7 @@ public class StackedImages implements BasicDrawable
         this.enabled = new boolean[sprites.size];
     }
 
-    public void clear()
+    public void disableAll()
     {
         for (int i = 0; i < sprites.size; i++)
             enabled[i] = false;

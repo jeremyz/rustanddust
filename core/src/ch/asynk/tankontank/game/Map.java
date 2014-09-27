@@ -102,7 +102,7 @@ public abstract class Map extends Board
         for (int j = 0; j < cfg.rows; j++) {
             for (int i = 0; i < cfg.cols; i++) {
                 Hex hex = getHex(i,j);
-                clearOverlaysOn(i, j);
+                disableOverlaysOn(i, j);
                 if (hexOn) {
                     if (roadsOn) {
                         if (hex.roads != 0)
