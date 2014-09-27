@@ -399,15 +399,6 @@ public abstract class Board extends Image implements Disposable
         return n;
     }
 
-    public Vector2 getHexCenterAt(GridPoint2 tile)
-    {
-        // FIXME could ask it to the Tile
-        float x = cfg.x0 + ((tile.x * cfg.w) + (cfg.w / 2));
-        float y = cfg.y0 + ((tile.y * cfg.h) + (cfg.s / 2));
-        if ((tile.y % 2) == 1) x += cfg.dw;
-        return new Vector2(x, y);
-    }
-
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 tile)
     {
         return getPawnPosAt(pawn, tile.x, tile.y);
@@ -415,10 +406,9 @@ public abstract class Board extends Image implements Disposable
 
     private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
     {
-        // FIXME could ask it to the Tile
-        float x = cfg.x0 + ((col * cfg.w) + ((cfg.w - pawn.getHeight()) / 2));
-        float y = cfg.y0 + ((row * cfg.h) + ((cfg.s - pawn.getWidth()) / 2));
-        if ((row % 2) == 1) x += cfg.dw;
+        Vector2 center = getTile(col, row).getCenter();
+        float x = (center.x - (pawn.getWidth() / 2));
+        float y = (center.y - (pawn.getHeight() / 2));
         return new Vector2(x, y);
     }
 

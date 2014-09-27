@@ -30,6 +30,11 @@ public abstract class Tile implements Drawable
         this.overlays.centerOn(x, y);
     }
 
+    public Vector2 getCenter()
+    {
+        return center;
+    }
+
     public int push(Pawn pawn)
     {
         if (stack == null) stack = new ArrayDeque<Pawn>();
