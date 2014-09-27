@@ -176,15 +176,15 @@ public abstract class Board extends Image implements Disposable
 
     public Tile getTile(int col, int row)
     {
-        return tiles[col + (row * cfg.cols)];
+        int idx = ((col - ((row + 1) / 2))) + (row * cfg.cols);
+        // Gdx.app.debug("Board", " getTile: " + col + " ; " + row + " -> " + idx);
+        return tiles[idx];
     }
 
     public int distance(int col0, int row0, int col1, int row1)
     {
         int a = (row1 - row0);
-        // transform into a system where all tiles in the same row have the same value of X
-        // and all tiles in the same column have the same value of Y non-staggering coordinates
-        int b = ((col1 + ((row1 + 1) / 2)) - (col0 + ((row0 + 1) / 2)));
+        int b = (col1 - col0);
         int c = (b - a);
         int aa = Math.abs(a);
         int ab = Math.abs(b);
@@ -452,57 +452,59 @@ public abstract class Board extends Image implements Disposable
         return getHexAt(null, v.x, v.y);
     }
 
-    public GridPoint2 getHexAt(GridPoint2 hex, float cx, float cy)
+    public GridPoint2 getHexAt(GridPoint2 hex, float mx, float my)
     {
         if (hex == null) hex = new GridPoint2();
 
         // compute row
-        int row;
-        boolean oddRow = true;
-        float y = (cy - cfg.y0);
+        float y = (my - cfg.y0);
+        int row = (int) (y / cfg.h);
+        boolean oddRow = ((row % 2) == 1);
         if (y < 0.f) {
             row = -1;
-        } else {
-            row = (int) (y / cfg.h);
-            oddRow = ((row % 2) == 1);
+            oddRow = true;
         }
 
         // compute col
-        int col;
-        float x = (cx - cfg.x0);
+        float x = (mx - cfg.x0);
         if (oddRow) x -= cfg.dw;
-        if (x < 0.f) {
+        int col = (int) (x / cfg.w);
+        if (x < 0.f)
             col = -1;
-        } else {
-            col = (int) (x / cfg.w);
-        }
+
+        int colOffset = ((row +1) / 2);
 
         // check upper boundaries
         float dy = (y - (row * cfg.h));
         if (dy > cfg.s) {
             dy -= cfg.s;
             float dx = (x - (col * cfg.w));
+            col += colOffset;
             if (dx < cfg.dw) {
                 if ((dx * cfg.slope) < dy) {
+                    // upper left corner
                     row += 1;
-                    if (!oddRow) col -= 1;
-                    oddRow = !oddRow;
+                    colOffset = ((row +1) / 2);
                 }
             } else {
                 if (((cfg.w - dx) * cfg.slope) < dy) {
+                    // upper right corner
                     row += 1;
-                    if (oddRow) col += 1;
-                    oddRow = !oddRow;
+                    col += 1;
+                    colOffset = ((row +1) / 2);
                 }
             }
-        }
+        } else
+            col += colOffset;
+
 
         // validate hex
-        if ((col < 0) || (row < 0) || (row >= cfg.rows) || (col >= cfg.cols) || (oddRow && ((col + 1) >= cfg.cols)))
+        if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
             hex.set(-1, -1);
         else
             hex.set(col, row);
 
+        Gdx.app.debug("Board", " hex: " + hex.x + " ; " + hex.y);
         return hex;
     }
 }

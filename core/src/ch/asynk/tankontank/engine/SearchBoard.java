@@ -41,9 +41,11 @@ public class SearchBoard
         this.rows = rows;
         this.board = board;
         this.nodes = new Node[cols * rows];
-        for (int j = 0; j < rows; j++)
+        for (int j = 0; j < rows; j++) {
+            int dx = ((j + 1) / 2);
             for (int i = 0; i < cols; i++)
-                nodes[i + (j * cols)] = new Node(i, j);
+                nodes[i + (j * cols)] = new Node((i + dx), j);
+        }
         this.searchCount = 0;
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
@@ -61,26 +63,22 @@ public class SearchBoard
 
     private Node getNode(int col, int row)
     {
-        if ((col < 0) || (col >= cols) || (row < 0) || (row >= rows)) return null;
-        return nodes[col + (row * cols)];
+        int colOffset = ((row +1) / 2);
+        if ((col < colOffset) || (row < 0) || (row >= rows) || ((col - colOffset) >= cols))
+            return null;
+
+        return nodes[((col - ((row + 1) / 2))) + (row * cols)];
     }
 
     public void adjacentMoves(Node src)
     {
-        // move to enter dst by
+        // move to enter dst by directions[i]
         adjacents[0] = getNode((src.col - 1), src.row);
+        adjacents[1] = getNode(src.col, (src.row + 1));
+        adjacents[2] = getNode((src.col + 1), (src.row + 1));
         adjacents[3] = getNode((src.col + 1), src.row);
-        if ((src.row % 2) == 0) {
-            adjacents[1] = getNode((src.col - 1), (src.row + 1));
-            adjacents[2] = getNode(src.col, (src.row + 1));
-            adjacents[4] = getNode(src.col, (src.row - 1));
-            adjacents[5] = getNode((src.col - 1), (src.row - 1));
-        } else {
-            adjacents[1] = getNode(src.col, (src.row + 1));
-            adjacents[2] = getNode((src.col + 1), (src.row + 1));
-            adjacents[4] = getNode((src.col + 1), (src.row - 1));
-            adjacents[5] = getNode(src.col, (src.row - 1));
-        }
+        adjacents[4] = getNode(src.col, (src.row - 1));
+        adjacents[5] = getNode((src.col - 1), (src.row - 1));
     }
 
     public List<Node> reachableFrom(Pawn pawn, int col, int row)
@@ -198,45 +196,31 @@ public class SearchBoard
             adjacents[0] = getNode((src.col + 1), src.row);
         else
             adjacents[0] = null;
+
+        if (Board.Orientation.NORTH_EAST.isInSides(angle))
+            adjacents[1] = getNode(src.col, (src.row - 1));
+        else
+            adjacents[1] = null;
+
+        if (Board.Orientation.SOUTH_EAST.isInSides(angle))
+            adjacents[2] = getNode((src.col - 1), (src.row - 1));
+        else
+            adjacents[2] = null;
+
         if (Board.Orientation.SOUTH.isInSides(angle))
             adjacents[3] = getNode((src.col - 1), src.row);
         else
             adjacents[3] = null;
-        if ((src.row % 2) == 0) {
-            if (Board.Orientation.NORTH_EAST.isInSides(angle))
-                adjacents[1] = getNode(src.col, (src.row - 1));
-            else
-                adjacents[1] = null;
-            if (Board.Orientation.SOUTH_EAST.isInSides(angle))
-                adjacents[2] = getNode((src.col - 1), (src.row - 1));
-            else
-                adjacents[2] = null;
-            if (Board.Orientation.NORTH_WEST.isInSides(angle))
-                adjacents[4] = getNode(src.col, (src.row + 1));
-            else
-                adjacents[4] = null;
-            if (Board.Orientation.SOUTH_WEST.isInSides(angle))
-                adjacents[5] = getNode((src.col - 1), (src.row + 1));
-            else
-                adjacents[5] = null;
-        } else {
-            if (Board.Orientation.NORTH_EAST.isInSides(angle))
-                adjacents[1] = getNode((src.col + 1), (src.row - 1));
-            else
-                adjacents[1] = null;
-            if (Board.Orientation.SOUTH_EAST.isInSides(angle))
-                adjacents[2] = getNode(src.col, (src.row - 1));
-            else
-                adjacents[2] = null;
-            if (Board.Orientation.NORTH_WEST.isInSides(angle))
-                adjacents[4] = getNode((src.col + 1), (src.row + 1));
-            else
-                adjacents[4] = null;
-            if (Board.Orientation.SOUTH_WEST.isInSides(angle))
-                adjacents[5] = getNode(src.col, (src.row + 1));
-            else
-                adjacents[5] = null;
-        }
+
+        if (Board.Orientation.SOUTH_WEST.isInSides(angle))
+            adjacents[4] = getNode(src.col, (src.row + 1));
+        else
+            adjacents[4] = null;
+
+        if (Board.Orientation.NORTH_WEST.isInSides(angle))
+            adjacents[5] = getNode((src.col + 1), (src.row + 1));
+        else
+            adjacents[5] = null;
     }
 
     private boolean hasClearLineOfSight(Tile from, Tile to)
