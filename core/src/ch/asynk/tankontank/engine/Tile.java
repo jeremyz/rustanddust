@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.gfx.BasicDrawable;
+import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 
-public abstract class Tile implements BasicDrawable
+public abstract class Tile implements Drawable
 {
     private StackedImages overlays;
     protected ArrayDeque<Pawn> stack;
@@ -76,13 +76,6 @@ public abstract class Tile implements BasicDrawable
         return mustBeDrawn();
     }
 
-    @Override
-    public void translate(float dx, float dy)
-    {
-        overlays.translate(dx, dy);
-    }
-
-    @Override
     public void setPosition(float x, float y, float z)
     {
         overlays.setPosition(x, y, z);

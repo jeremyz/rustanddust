@@ -103,6 +103,19 @@ public abstract class Pawn extends Image implements Disposable
     }
 
     @Override
+    public void centerOn(float cx, float cy)
+    {
+        setPosition((cx - (getWidth() / 2f)), (cy - (getHeight() / 2f)));
+    }
+
+    @Override
+    public void setPosition(float x, float y)
+    {
+        super.setPosition(x, y);
+        overlays.setPosition(x, y);
+    }
+
+    @Override
     public void setPosition(float x, float y, float z)
     {
         super.setPosition(x, y, z);

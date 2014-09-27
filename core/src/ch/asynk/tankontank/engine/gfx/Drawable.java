@@ -1,20 +1,11 @@
 package ch.asynk.tankontank.engine.gfx;
 
-public interface Drawable extends BasicDrawable
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+public interface Drawable
 {
-    public float getX();
+    public void draw(Batch batch);
 
-    public float getY();
-
-    public float getWidth();
-
-    public float getHeight();
-
-    public float getRotation();
-
-    public void setScale(float s);
-
-    public void setRotation(float r);
-
-    public void setPosition(float x, float y);
+    public void drawDebug(ShapeRenderer debugShapes);
 }
