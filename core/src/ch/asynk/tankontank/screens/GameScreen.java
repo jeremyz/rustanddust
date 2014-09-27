@@ -84,22 +84,22 @@ public class GameScreen implements Screen
         debugShapes = new ShapeRenderer();
 
         Board.Orientation o = Board.Orientation.NORTH;
-        addUnit(0, 7, o, UnitType.GE_AT_GUN);
-        addUnit(0, 6, o, UnitType.GE_INFANTRY);
-        addUnit(0, 5, o, UnitType.GE_KINGTIGER);
-        addUnit(0, 4, o, UnitType.GE_PANZER_IV);
-        addUnit(0, 3, o, UnitType.GE_PANZER_IV_HQ);
-        addUnit(0, 2, o, UnitType.GE_TIGER);
-        addUnit(0, 1, o, UnitType.GE_WESPE);
+        addUnit(4, 7, o, UnitType.GE_AT_GUN);
+        addUnit(3, 6, o, UnitType.GE_INFANTRY);
+        addUnit(3, 5, o, UnitType.GE_KINGTIGER);
+        addUnit(2, 4, o, UnitType.GE_PANZER_IV);
+        addUnit(2, 3, o, UnitType.GE_PANZER_IV_HQ);
+        addUnit(1, 2, o, UnitType.GE_TIGER);
+        addUnit(1, 1, o, UnitType.GE_WESPE);
 
         o = Board.Orientation.SOUTH;
-        addUnit(8, 7, o, UnitType.US_AT_GUN);
-        addUnit(8, 6, o, UnitType.US_INFANTRY);
-        addUnit(8, 5, o, UnitType.US_PERSHING);
-        addUnit(8, 4, o, UnitType.US_PERSHING_HQ);
-        addUnit(8, 3, o, UnitType.US_PRIEST);
-        addUnit(8, 2, o, UnitType.US_SHERMAN);
-        addUnit(8, 1, o, UnitType.US_SHERMAN_HQ);
+        addUnit(12, 7, o, UnitType.US_AT_GUN);
+        addUnit(11, 6, o, UnitType.US_INFANTRY);
+        addUnit(11, 5, o, UnitType.US_PERSHING);
+        addUnit(10, 4, o, UnitType.US_PERSHING_HQ);
+        addUnit(10, 3, o, UnitType.US_PRIEST);
+        addUnit(9, 2, o, UnitType.US_SHERMAN);
+        addUnit(9, 1, o, UnitType.US_SHERMAN_HQ);
         addUnit(8, 0, o, UnitType.US_WOLVERINE);
 
         hud = new Stage(new ScreenViewport());

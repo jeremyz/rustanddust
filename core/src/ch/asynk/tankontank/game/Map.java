@@ -100,7 +100,8 @@ public abstract class Map extends Board
         }
 
         for (int j = 0; j < cfg.rows; j++) {
-            for (int i = 0; i < cfg.cols; i++) {
+            int colOffset = ((j +1) / 2);
+            for (int i = colOffset; i < (cfg.cols + colOffset); i++) {
                 Hex hex = getHex(i,j);
                 disableOverlaysOn(i, j);
                 if (hexOn) {
