@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.asynk.tankontank.engine.Board;
 
-public class GameFactory implements Disposable
+public class GameFactory implements Board.TileBuilder, Disposable
 {
     private TextureAtlas usAtlas;
     private TextureAtlas geAtlas;
@@ -136,8 +136,7 @@ public class GameFactory implements Disposable
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapA(config(), manager.get("images/map_a.png", Texture.class), hexAtlas);
-                // m = new Map(config(), manager.get("images/map_a.png", Texture.class), hexAtlas);
+                m = new MapA(this, config(), manager.get("images/map_a.png", Texture.class));
                 break;
             case MAP_B:
                 // m = new Map(config(), manager.get("images/map_b.png", Texture.class), hexAtlas);
@@ -145,5 +144,10 @@ public class GameFactory implements Disposable
         }
 
         return m;
+    }
+
+    public Hex getNewTile(float cx, float cy)
+    {
+        return new Hex(cx, cy, hexAtlas);
     }
 }

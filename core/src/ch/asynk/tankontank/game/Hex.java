@@ -25,25 +25,14 @@ public class Hex extends Tile
     public static final int GREEN = 2;
     public static final int BLUE = 0;
 
-    public static TextureAtlas atlas = null;
-
     public Terrain terrain;
     public int roads;
 
-    @Override
-    public Hex getNewAt(float x, float y)
+    public Hex(float x, float y, TextureAtlas atlas)
     {
-        Hex hex = new Hex(atlas);
-        hex.setPosition(x, y, 0);
-        return hex;
-    }
-
-    public Hex(TextureAtlas atlas)
-    {
-        super(atlas);
+        super(x, y, atlas);
         this.terrain = Terrain.CLEAR;
         this.roads = 0;
-        Hex.atlas = atlas;
     }
 
     @Override

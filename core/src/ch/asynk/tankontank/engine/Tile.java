@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
@@ -14,17 +15,19 @@ public abstract class Tile implements Drawable
 {
     private StackedImages overlays;
     protected ArrayDeque<Pawn> stack;
+    private Vector2 center;
 
-    public abstract Tile getNewAt(float x, float y);
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean road(Board.Orientation side);
     public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
     public abstract boolean hasTargetsFor(Pawn pawn);
 
-    public Tile(TextureAtlas atlas)
+    public Tile(float x, float y, TextureAtlas atlas)
     {
         this.stack = null;
+        this.center = new Vector2(x, y);
         this.overlays = new StackedImages(atlas);
+        this.overlays.centerOn(x, y);
     }
 
     public int push(Pawn pawn)
@@ -74,11 +77,6 @@ public abstract class Tile implements Drawable
         overlays.enable(i, enable);
         if (enable) return true;
         return mustBeDrawn();
-    }
-
-    public void setPosition(float x, float y, float z)
-    {
-        overlays.setPosition(x, y, z);
     }
 
     @Override

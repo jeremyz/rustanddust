@@ -18,9 +18,9 @@ public abstract class Map extends Board
 
     protected abstract void setup();
 
-    public Map(Board.Config cfg, Texture texture, TextureAtlas hexAtlas)
+    public Map(GameFactory gameFactory, Board.Config cfg, Texture texture)
     {
-        super(cfg, texture, new Hex(hexAtlas));
+        super(gameFactory, cfg, texture);
         setup();
     }
 

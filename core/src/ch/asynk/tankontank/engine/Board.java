@@ -26,6 +26,11 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board extends Image implements Disposable
 {
+    public interface TileBuilder
+    {
+        public Tile getNewTile(float cx, float cy);
+    }
+
     public enum Orientation
     {
         ALL(0, 63),
@@ -146,23 +151,25 @@ public abstract class Board extends Image implements Disposable
 
     protected final List<GridPoint2> areaPoints = new Vector<GridPoint2>(10);
 
-    public Board(Config cfg, Texture texture, Tile tileBuilder)
+    public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
     {
         super(texture);
         this.cfg = cfg;
         this.tiles = new Tile[cfg.cols * cfg.rows];
         searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
 
-        boolean evenRow = true;
         int idx = 0;
+        boolean evenRow = true;
+        float y = cfg.y0 - cfg.dh + cfg.s;
         for (int i = 0; i < cfg.rows; i++) {
-            float y = cfg.y0 + (i * cfg.h) - cfg.dh;
+            float x = cfg.x0 + cfg.dw;
+            if (!evenRow) x += cfg.dw;
             for ( int j = 0; j < cfg.cols; j ++) {
-                float x = cfg.x0 + (j * cfg.w);
-                if (!evenRow) x += cfg.dw;
-                this.tiles[idx] = tileBuilder.getNewAt(x, y);
+                this.tiles[idx] = tileBuilder.getNewTile(x, y);
                 idx += 1;
+                x += cfg.w;
             }
+            y += cfg.h;
             evenRow = !evenRow;
         }
     }

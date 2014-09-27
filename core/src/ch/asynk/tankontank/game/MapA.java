@@ -7,9 +7,9 @@ import ch.asynk.tankontank.engine.Board;
 
 public class MapA extends Map
 {
-    public MapA(Board.Config cfg, Texture texture, TextureAtlas hexAtlas)
+    public MapA(GameFactory gameFactory, Board.Config cfg, Texture texture)
     {
-        super(cfg, texture, hexAtlas);
+        super(gameFactory, cfg, texture);
     }
 
     @Override
