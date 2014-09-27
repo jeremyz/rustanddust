@@ -139,7 +139,7 @@ public class GameFactory implements Board.TileBuilder, Disposable
                 m = new MapA(this, config(), manager.get("images/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                // m = new Map(config(), manager.get("images/map_b.png", Texture.class), hexAtlas);
+                m = new MapB(this, config(), manager.get("images/map_b.png", Texture.class));
                 break;
         }
 
