@@ -42,6 +42,18 @@ public class Hex extends Tile
     }
 
     @Override
+    public boolean blockLineOfSightFrom(Tile tile)
+    {
+        if ((terrain == Terrain.CLEAR) && !occupied())
+            return false;
+
+        if ((((Hex) tile).terrain == Terrain.HILLS) && (terrain == Terrain.CLEAR))
+            return false;
+
+        return true;
+    }
+
+    @Override
     public boolean atLeastOneMove(Pawn pawn)
     {
         if (occupied() || (terrain == Terrain.BLOCKED) || (terrain == Terrain.OFFMAP))

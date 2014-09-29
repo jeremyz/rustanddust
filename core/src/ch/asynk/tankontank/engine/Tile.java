@@ -22,6 +22,7 @@ public abstract class Tile implements Drawable
     public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
     public abstract boolean hasTargetsFor(Pawn pawn);
     public abstract boolean isOffMap();
+    public abstract boolean blockLineOfSightFrom(Tile tile);
 
     protected Tile()
     {
