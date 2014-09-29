@@ -36,6 +36,12 @@ public class Hex extends Tile
     }
 
     @Override
+    public boolean isOffMap()
+    {
+        return terrain == Terrain.OFFMAP;
+    }
+
+    @Override
     public boolean atLeastOneMove(Pawn pawn)
     {
         if (occupied() || (terrain == Terrain.BLOCKED) || (terrain == Terrain.OFFMAP))

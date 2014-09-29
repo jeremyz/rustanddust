@@ -21,6 +21,7 @@ public abstract class Tile implements Drawable
     public abstract boolean road(Board.Orientation side);
     public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
     public abstract boolean hasTargetsFor(Pawn pawn);
+    public abstract boolean isOffMap();
 
     public Tile(float x, float y, TextureAtlas atlas)
     {
