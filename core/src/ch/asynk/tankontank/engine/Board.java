@@ -152,6 +152,10 @@ public abstract class Board implements Disposable
 
     protected final List<GridPoint2> areaPoints = new Vector<GridPoint2>(10);
 
+    protected Board()
+    {
+    }
+
     public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
     {
         image = new Image(texture);

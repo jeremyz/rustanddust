@@ -23,6 +23,10 @@ public abstract class Tile implements Drawable
     public abstract boolean hasTargetsFor(Pawn pawn);
     public abstract boolean isOffMap();
 
+    protected Tile()
+    {
+    }
+
     public Tile(float x, float y, TextureAtlas atlas)
     {
         this.stack = null;
