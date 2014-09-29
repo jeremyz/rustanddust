@@ -283,5 +283,109 @@ public class SearchBoard
 
         return result;
     }
-}
 
+    public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
+    {
+        return lineOfSight(x0, y0, x1, y1, true);
+    }
+
+    public List<Node> lineOfSight(int x0, int y0, int x1, int y1, boolean check)
+    {
+        result.clear();
+
+        // orthogonal axis
+        int ox0 = x0 - ((y0 +1) / 2);
+        int ox1 = x1 - ((y1 +1) / 2);
+
+        int dy = y1 - y0;
+        int dx = ox1 - ox0;
+
+        int xs = 1;
+        int ys = 1;
+        if (dx < 0) xs = -1;
+        if (dy < 0) ys = -1;
+        boolean sig = !(((dx < 0) && (dy >= 0)) || ((dx >= 0) && (dy < 0)));
+
+        dy = Math.abs(dy);
+        dx = Math.abs(2 * dx);
+        if ((dy % 2) == 1) {
+            if ((y0 % 2) == 0) dx += xs;
+            else {
+                dx -= xs;
+                Math.abs(dx);
+            }
+        }
+        if (dx == 0)
+            return verticalLineOfSight(x0, y0, x1, y1, check);
+
+        int dx3 = 3 * dx;
+        int dy3 = 3 * dy;
+
+        int x = x0;
+        int y = y0;
+        int e = -2 * dx;
+
+        boolean vert = (dx == 0);
+        boolean flat = (dx > (3 * dy));
+        boolean diag = (dx == (3 * dy));
+
+        int step = 0;
+        result.add(getNode(x, y));
+        while((x != x1) || (y != y1)) {
+            if (e > 0) {
+                e -= (dy3 + dx3);
+                y += ys;
+                if (!sig)
+                    x -= xs;
+            } else {
+                e += dy3;
+                if ((e > -dx) || (!flat && (e == -dx))) {
+                    e -= dx3;
+                    y += ys;
+                    if (sig)
+                        x += xs;
+                } else if ((e < -dx3) || (diag && (e == -dx3))) {
+                    e += dx3;
+                    y -= ys;
+                    if (!sig)
+                        x += xs;
+                } else {
+                    e += dy3;
+                    x += xs;
+                }
+            }
+            result.add(getNode(x, y));
+            step += 1;
+            if (step > 20) {
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1, boolean check)
+    {
+        int d = ( (y1 > y0) ? 1 : -1);
+        int x = x0;
+        int y = y0;
+
+        Tile t = null;
+        result.add(getNode(x, y));
+        while((x != x1) || (y != y1)) {
+            y += d;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) result.add(getNode(x, y));
+
+            x += d;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) result.add(getNode(x, y));
+
+            y += d;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) result.add(getNode(x, y));
+        }
+
+        return result;
+    }
+}
