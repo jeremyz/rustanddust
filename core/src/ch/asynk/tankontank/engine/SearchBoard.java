@@ -317,8 +317,11 @@ public class SearchBoard
                 Math.abs(dx);
             }
         }
+
         if (dx == 0)
             return verticalLineOfSight(x0, y0, x1, y1, check);
+        if (dx == (3 * dy))
+            return diagonalLineOfSight(x0, y0, x1, y1, check);
 
         int dx3 = 3 * dx;
         int dy3 = 3 * dy;
@@ -327,7 +330,6 @@ public class SearchBoard
         int y = y0;
         int e = -2 * dx;
 
-        boolean vert = (dx == 0);
         boolean flat = (dx > (3 * dy));
         boolean diag = (dx == (3 * dy));
 
@@ -379,6 +381,36 @@ public class SearchBoard
             if (!t.isOffMap()) los.add(getNode(x, y));
 
             y += d;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) los.add(getNode(x, y));
+        }
+
+        return los;
+    }
+
+    private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1, boolean check)
+    {
+        int dy = ( (y1 > y0) ? 1 : -1);
+        int dx = ( (x1 > x0) ? 1 : -1);
+        boolean sig = !(((dx < 0) && (dy >= 0)) || ((dx >= 0) && (dy < 0)));
+
+        int x = x0;
+        int y = y0;
+
+        Tile t = null;
+        los.add(getNode(x, y));
+        while((x != x1) || (y != y1)) {
+            x += dx;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) los.add(getNode(x, y));
+
+            y += dy;
+            if (!sig)
+                x -= dx;
+            t = board.getTile(x, y);
+            if (!t.isOffMap()) los.add(getNode(x, y));
+
+            x += dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
         }
