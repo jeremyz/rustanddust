@@ -288,11 +288,6 @@ public class SearchBoard
 
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
     {
-        return lineOfSight(x0, y0, x1, y1, true);
-    }
-
-    public List<Node> lineOfSight(int x0, int y0, int x1, int y1, boolean check)
-    {
         los.clear();
 
         // orthogonal axis
@@ -319,9 +314,9 @@ public class SearchBoard
         }
 
         if (dx == 0)
-            return verticalLineOfSight(x0, y0, x1, y1, check);
+            return verticalLineOfSight(x0, y0, x1, y1);
         if (dx == (3 * dy))
-            return diagonalLineOfSight(x0, y0, x1, y1, check);
+            return diagonalLineOfSight(x0, y0, x1, y1);
 
         int dx3 = 3 * dx;
         int dy3 = 3 * dy;
@@ -363,7 +358,7 @@ public class SearchBoard
         return los;
     }
 
-    private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1, boolean check)
+    private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1)
     {
         int d = ( (y1 > y0) ? 1 : -1);
         int x = x0;
@@ -388,7 +383,7 @@ public class SearchBoard
         return los;
     }
 
-    private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1, boolean check)
+    private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1)
     {
         int dy = ( (y1 > y0) ? 1 : -1);
         int dx = ( (x1 > x0) ? 1 : -1);
