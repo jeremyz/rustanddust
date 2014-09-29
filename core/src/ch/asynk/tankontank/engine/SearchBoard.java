@@ -32,6 +32,7 @@ public class SearchBoard
     private ArrayDeque<Node> stack;
     private ArrayDeque<Node> roadMarch;
     private List<Node> result;
+    private List<Node> los;
     private Node adjacents[];
     private Board.Orientation directions[];
 
@@ -51,6 +52,7 @@ public class SearchBoard
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
         this.result = new Vector<Node>(10);
+        this.los = new Vector<Node>(10);
         this.adjacents = new Node[6];
         this.directions = new Board.Orientation[6];
         directions[0] = Board.Orientation.NORTH;
@@ -291,7 +293,7 @@ public class SearchBoard
 
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1, boolean check)
     {
-        result.clear();
+        los.clear();
 
         // orthogonal axis
         int ox0 = x0 - ((y0 +1) / 2);
@@ -329,8 +331,7 @@ public class SearchBoard
         boolean flat = (dx > (3 * dy));
         boolean diag = (dx == (3 * dy));
 
-        int step = 0;
-        result.add(getNode(x, y));
+        los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
             if (e > 0) {
                 e -= (dy3 + dx3);
@@ -354,14 +355,10 @@ public class SearchBoard
                     x += xs;
                 }
             }
-            result.add(getNode(x, y));
-            step += 1;
-            if (step > 20) {
-                return result;
-            }
+            los.add(getNode(x, y));
         }
 
-        return result;
+        return los;
     }
 
     private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1, boolean check)
@@ -371,21 +368,21 @@ public class SearchBoard
         int y = y0;
 
         Tile t = null;
-        result.add(getNode(x, y));
+        los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
             y += d;
             t = board.getTile(x, y);
-            if (!t.isOffMap()) result.add(getNode(x, y));
+            if (!t.isOffMap()) los.add(getNode(x, y));
 
             x += d;
             t = board.getTile(x, y);
-            if (!t.isOffMap()) result.add(getNode(x, y));
+            if (!t.isOffMap()) los.add(getNode(x, y));
 
             y += d;
             t = board.getTile(x, y);
-            if (!t.isOffMap()) result.add(getNode(x, y));
+            if (!t.isOffMap()) los.add(getNode(x, y));
         }
 
-        return result;
+        return los;
     }
 }
