@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -48,7 +49,7 @@ public class GameScreen implements Screen
     private GameFactory factory;
 
     private float maxZoomOut;
-    private final SpriteBatch mapBatch;
+    private final Batch mapBatch;
     private final OrthographicCamera cam;
     private final FitViewport mapViewport;
     private final ShapeRenderer debugShapes;
@@ -206,7 +207,7 @@ public class GameScreen implements Screen
 
         mapBatch.setProjectionMatrix(cam.combined);
         mapBatch.begin();
-        map.draw(mapBatch, 1);
+        map.draw(mapBatch);
         mapBatch.end();
 
         hud.act(delta);
