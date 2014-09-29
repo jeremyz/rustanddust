@@ -63,11 +63,11 @@ public class SearchBoard
 
     private Node getNode(int col, int row)
     {
-        int colOffset = ((row +1) / 2);
+        int colOffset = ((row + 1) / 2);
         if ((col < colOffset) || (row < 0) || (row >= rows) || ((col - colOffset) >= cols))
             return null;
 
-        return nodes[((col - ((row + 1) / 2))) + (row * cols)];
+        return nodes[((col - colOffset)) + (row * cols)];
     }
 
     public void adjacentMoves(Node src)
