@@ -225,10 +225,11 @@ public class SearchBoard
             adjacents[5] = null;
     }
 
-    private boolean hasClearLineOfSight(Tile from, Tile to)
+    private boolean hasClearLineOfSight(Node from, Node to)
     {
-        // FIXME
-        return true;
+        List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
+        Node last = nodes.get(nodes.size() -1);
+        return ((last.col == to.col) && (last.row == to.row));
     }
 
     public List<Node> openToAttackFrom(Pawn pawn, int col, int row)
@@ -277,7 +278,7 @@ public class SearchBoard
                         dst.remaining = rangeLeft;
                         queue.add(dst);
                         Tile t = board.getTile(dst.col, dst.row);
-                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(tile, t)) result.add(dst);
+                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(start, dst)) result.add(dst);
                     }
                 }
             }
@@ -289,6 +290,7 @@ public class SearchBoard
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
     {
         los.clear();
+        Tile from = board.getTile(x0, y0);
 
         // orthogonal axis
         int ox0 = x0 - ((y0 +1) / 2);
@@ -353,6 +355,7 @@ public class SearchBoard
                 }
             }
             los.add(getNode(x, y));
+            if(board.getTile(x, y).blockLineOfSightFrom(from)) return los;
         }
 
         return los;
@@ -360,6 +363,8 @@ public class SearchBoard
 
     private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1)
     {
+        Tile from = board.getTile(x0, y0);
+
         int d = ( (y1 > y0) ? 1 : -1);
         int x = x0;
         int y = y0;
@@ -367,13 +372,22 @@ public class SearchBoard
         Tile t = null;
         los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
+            boolean ok = false;
+
             y += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
+            if (!t.blockLineOfSightFrom(from))
+                ok = true;
 
             x += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
+            if (!t.blockLineOfSightFrom(from))
+                ok = true;
+
+            if (!ok)
+                return los;
 
             y += d;
             t = board.getTile(x, y);
@@ -385,6 +399,8 @@ public class SearchBoard
 
     private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1)
     {
+        Tile from = board.getTile(x0, y0);
+
         int dy = ( (y1 > y0) ? 1 : -1);
         int dx = ( (x1 > x0) ? 1 : -1);
         boolean sig = !(((dx < 0) && (dy >= 0)) || ((dx >= 0) && (dy < 0)));
@@ -395,15 +411,24 @@ public class SearchBoard
         Tile t = null;
         los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
+            boolean ok = false;
+
             x += dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
+            if (!t.blockLineOfSightFrom(from))
+                ok = true;
 
             y += dy;
             if (!sig)
                 x -= dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
+            if (!t.blockLineOfSightFrom(from))
+                ok = true;
+
+            if (!ok)
+                return los;
 
             x += dx;
             t = board.getTile(x, y);
