@@ -348,6 +348,25 @@ public abstract class Board implements Disposable
         return areaPoints;
     }
 
+    public List<GridPoint2> lineOfSight(int col0, int row0, int col1, int row1)
+    {
+        for (GridPoint2 p : areaPoints)
+            gridPoint2Pool.free(p);
+        areaPoints.clear();
+
+        for (SearchBoard.Node node : searchBoard.lineOfSight(col0, row0, col1, row1)) {
+            GridPoint2 point = gridPoint2Pool.obtain();
+            if (point != null) {
+                point.set(node.col, node.row);
+                areaPoints.add(point);
+            } else {
+                System.err.println("null point");
+            }
+        }
+
+        return areaPoints;
+    }
+
     public void disableOverlaysOn(int col, int row)
     {
         disableOverlaysOn(getTile(col, row));
@@ -411,6 +430,11 @@ public abstract class Board implements Disposable
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
         return n;
+    }
+
+    public Vector2 getTileCenter(int col, int row)
+    {
+        return getTile(col, row).getCenter();
     }
 
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 tile)

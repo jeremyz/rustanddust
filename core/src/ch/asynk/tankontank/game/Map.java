@@ -2,7 +2,9 @@ package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
@@ -15,6 +17,9 @@ public abstract class Map extends Board
 
     private Pawn currentPawn;
     private GridPoint2 currentHex = new GridPoint2(-1, -1);
+    private GridPoint2 lineHex = new GridPoint2(-1, -1);
+    private Vector2 line0 = new Vector2(0, 0);
+    private Vector2 line1 = new Vector2(0, 0);
 
     protected abstract void setup();
 
@@ -42,6 +47,7 @@ public abstract class Map extends Board
         if (currentHex.x != -1) {
             currentPawn = removeTopPawnFrom(currentHex);
             if (currentPawn != null) pawnsToDraw.add(currentPawn);
+            line0 = getTileCenter(currentHex.x, currentHex.y);
         }
     }
 
@@ -69,6 +75,25 @@ public abstract class Map extends Board
             enableOverlayOn(hex.x, hex.y, Hex.GREEN, true);
         for(GridPoint2 hex : openToAttackFrom(pawn, currentHex.x, currentHex.y))
             enableOverlayOn(hex.x, hex.y, Hex.RED, true);
+    }
+
+    public void lineOfSight(float x, float y)
+    {
+        getHexAt(lineHex, x, y);
+        line1 = getTileCenter(lineHex.x, lineHex.y);
+
+        for(GridPoint2 hex : areaPoints)
+            enableOverlayOn(hex.x, hex.y, Hex.RED, false);
+
+        for(GridPoint2 hex : lineOfSight(currentHex.x, currentHex.y, lineHex.x, lineHex.y))
+            enableOverlayOn(hex.x, hex.y, Hex.RED, true);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        super.drawDebug(debugShapes);
+        debugShapes.line(line0.x, line0.y, line1.x, line1.y);
     }
 
     private void debugMap()

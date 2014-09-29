@@ -156,6 +156,9 @@ public class GameScreen implements Screen
                 } else if (button == Input.Buttons.RIGHT) {
                     cam.unproject(touchPos.set(x, y, 0));
                     map.showMoves(touchPos.x, touchPos.y);
+                } else {
+                    cam.unproject(touchPos.set(x, y, 0));
+                    map.lineOfSight(touchPos.x, touchPos.y);
                 }
                 return true;
             }
