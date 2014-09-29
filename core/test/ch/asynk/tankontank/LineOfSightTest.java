@@ -32,6 +32,7 @@ class FakeTile extends Tile
     {
         return offMap;
     }
+    public boolean blockLineOfSightFrom(Tile from)  { return false; }
     public boolean atLeastOneMove(Pawn pawn) { return true; }
     public boolean road(Board.Orientation side) { return false; }
     public int costFrom(Pawn pawn, Board.Orientation side, boolean road) { return 1; }
@@ -101,8 +102,8 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 2, 1);
         assertTrue(s.size() == 4);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
     }
 
@@ -144,11 +145,11 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 4, 2);
         assertTrue(s.size() == 7);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
-        checkNode(s, 4, 3, 2);
-        checkNode(s, 5, 3, 1);
+        checkNode(s, 4, 3, 1);
+        checkNode(s, 5, 3, 2);
         checkNode(s, 6, 4, 2);
     }
 
@@ -185,14 +186,14 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 6, 3);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
-        checkNode(s, 4, 3, 2);
-        checkNode(s, 5, 3, 1);
+        checkNode(s, 4, 3, 1);
+        checkNode(s, 5, 3, 2);
         checkNode(s, 6, 4, 2);
-        checkNode(s, 7, 5, 3);
-        checkNode(s, 8, 5, 2);
+        checkNode(s, 7, 5, 2);
+        checkNode(s, 8, 5, 3);
         checkNode(s, 9, 6, 3);
     }
 
@@ -221,17 +222,17 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 8, 4);
         assertTrue(s.size() == 13);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
-        checkNode(s, 4, 3, 2);
-        checkNode(s, 5, 3, 1);
+        checkNode(s, 4, 3, 1);
+        checkNode(s, 5, 3, 2);
         checkNode(s, 6, 4, 2);
-        checkNode(s, 7, 5, 3);
-        checkNode(s, 8, 5, 2);
+        checkNode(s, 7, 5, 2);
+        checkNode(s, 8, 5, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 7, 3);
+        checkNode(s, 10, 7, 3);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
     }
 
@@ -280,20 +281,20 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 10, 5);
         assertTrue(s.size() == 16);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
-        checkNode(s, 4, 3, 2);
-        checkNode(s, 5, 3, 1);
+        checkNode(s, 4, 3, 1);
+        checkNode(s, 5, 3, 2);
         checkNode(s, 6, 4, 2);
-        checkNode(s, 7, 5, 3);
-        checkNode(s, 8, 5, 2);
+        checkNode(s, 7, 5, 2);
+        checkNode(s, 8, 5, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 7, 3);
+        checkNode(s, 10, 7, 3);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
-        checkNode(s, 13, 9, 5);
-        checkNode(s, 14, 9, 4);
+        checkNode(s, 13, 9, 4);
+        checkNode(s, 14, 9, 5);
         checkNode(s, 15, 10, 5);
     }
 
@@ -313,23 +314,23 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(0, 0, 12, 6);
         assertTrue(s.size() == 19);
         checkNode(s, 0, 0, 0);
-        checkNode(s, 1, 1, 1);
-        checkNode(s, 2, 1, 0);
+        checkNode(s, 1, 1, 0);
+        checkNode(s, 2, 1, 1);
         checkNode(s, 3, 2, 1);
-        checkNode(s, 4, 3, 2);
-        checkNode(s, 5, 3, 1);
+        checkNode(s, 4, 3, 1);
+        checkNode(s, 5, 3, 2);
         checkNode(s, 6, 4, 2);
-        checkNode(s, 7, 5, 3);
-        checkNode(s, 8, 5, 2);
+        checkNode(s, 7, 5, 2);
+        checkNode(s, 8, 5, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 7, 3);
+        checkNode(s, 10, 7, 3);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
-        checkNode(s, 13, 9, 5);
-        checkNode(s, 14, 9, 4);
+        checkNode(s, 13, 9, 4);
+        checkNode(s, 14, 9, 5);
         checkNode(s, 15, 10, 5);
-        checkNode(s, 16, 11, 6);
-        checkNode(s, 17, 11, 5);
+        checkNode(s, 16, 11, 5);
+        checkNode(s, 17, 11, 6);
         checkNode(s, 18, 12, 6);
     }
 
@@ -447,8 +448,8 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(13, 8, 11, 7);
         assertTrue(s.size() == 4);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
     }
 
@@ -478,23 +479,23 @@ public class LineOfSightTest
         checkNode(s, 9, 5, 7);
     }
 
-    // @Test public void test_28() {
-    //     List<Node> s = lineOfSight(13, 8, 12, 6);
-    //     assertTrue(s.size() == 3);
-    //     checkNode(s, 0, 13, 8);
-    //     checkNode(s, 1, 12, 7);
-    //     checkNode(s, 2, 12, 6);
-    // }
+    @Test public void test_28() {
+        List<Node> s = lineOfSight(13, 8, 12, 6);
+        assertTrue(s.size() == 3);
+        checkNode(s, 0, 13, 8);
+        checkNode(s, 1, 12, 7);
+        checkNode(s, 2, 12, 6);
+    }
 
     @Test public void test_29() {
         List<Node> s = lineOfSight(13, 8, 9, 6);
         assertTrue(s.size() == 7);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
-        checkNode(s, 4, 10, 6);
-        checkNode(s, 5, 10, 7);
+        checkNode(s, 4, 10, 7);
+        checkNode(s, 5, 10, 6);
         checkNode(s, 6, 9, 6);
     }
 
@@ -531,26 +532,26 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(13, 8, 7, 5);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
-        checkNode(s, 4, 10, 6);
-        checkNode(s, 5, 10, 7);
+        checkNode(s, 4, 10, 7);
+        checkNode(s, 5, 10, 6);
         checkNode(s, 6, 9, 6);
-        checkNode(s, 7, 8, 5);
-        checkNode(s, 8, 8, 6);
+        checkNode(s, 7, 8, 6);
+        checkNode(s, 8, 8, 5);
         checkNode(s, 9, 7, 5);
     }
 
-    // @Test public void test_33() {
-    //     List<Node> s = lineOfSight(13, 8, 11, 4);
-    //     assertTrue(s.size() == 5);
-    //     checkNode(s, 0, 13, 8);
-    //     checkNode(s, 1, 12, 7);
-    //     checkNode(s, 2, 12, 6);
-    //     checkNode(s, 3, 11, 5);
-    //     checkNode(s, 4, 11, 4);
-    // }
+    @Test public void test_33() {
+        List<Node> s = lineOfSight(13, 8, 11, 4);
+        assertTrue(s.size() == 5);
+        checkNode(s, 0, 13, 8);
+        checkNode(s, 1, 12, 7);
+        checkNode(s, 2, 12, 6);
+        checkNode(s, 3, 11, 5);
+        checkNode(s, 4, 11, 4);
+    }
 
     @Test public void test_34() {
         List<Node> s = lineOfSight(13, 8, 8, 4);
@@ -567,17 +568,17 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(13, 8, 5, 4);
         assertTrue(s.size() == 13);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
-        checkNode(s, 4, 10, 6);
-        checkNode(s, 5, 10, 7);
+        checkNode(s, 4, 10, 7);
+        checkNode(s, 5, 10, 6);
         checkNode(s, 6, 9, 6);
-        checkNode(s, 7, 8, 5);
-        checkNode(s, 8, 8, 6);
+        checkNode(s, 7, 8, 6);
+        checkNode(s, 8, 8, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 6, 5);
+        checkNode(s, 10, 6, 5);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
     }
 
@@ -626,20 +627,20 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(13, 8, 3, 3);
         assertTrue(s.size() == 16);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
-        checkNode(s, 4, 10, 6);
-        checkNode(s, 5, 10, 7);
+        checkNode(s, 4, 10, 7);
+        checkNode(s, 5, 10, 6);
         checkNode(s, 6, 9, 6);
-        checkNode(s, 7, 8, 5);
-        checkNode(s, 8, 8, 6);
+        checkNode(s, 7, 8, 6);
+        checkNode(s, 8, 8, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 6, 5);
+        checkNode(s, 10, 6, 5);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
-        checkNode(s, 13, 4, 3);
-        checkNode(s, 14, 4, 4);
+        checkNode(s, 13, 4, 4);
+        checkNode(s, 14, 4, 3);
         checkNode(s, 15, 3, 3);
     }
 
@@ -659,23 +660,23 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(13, 8, 1, 2);
         assertTrue(s.size() == 19);
         checkNode(s, 0, 13, 8);
-        checkNode(s, 1, 12, 7);
-        checkNode(s, 2, 12, 8);
+        checkNode(s, 1, 12, 8);
+        checkNode(s, 2, 12, 7);
         checkNode(s, 3, 11, 7);
-        checkNode(s, 4, 10, 6);
-        checkNode(s, 5, 10, 7);
+        checkNode(s, 4, 10, 7);
+        checkNode(s, 5, 10, 6);
         checkNode(s, 6, 9, 6);
-        checkNode(s, 7, 8, 5);
-        checkNode(s, 8, 8, 6);
+        checkNode(s, 7, 8, 6);
+        checkNode(s, 8, 8, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 6, 5);
+        checkNode(s, 10, 6, 5);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
-        checkNode(s, 13, 4, 3);
-        checkNode(s, 14, 4, 4);
+        checkNode(s, 13, 4, 4);
+        checkNode(s, 14, 4, 3);
         checkNode(s, 15, 3, 3);
-        checkNode(s, 16, 2, 2);
-        checkNode(s, 17, 2, 3);
+        checkNode(s, 16, 2, 3);
+        checkNode(s, 17, 2, 2);
         checkNode(s, 18, 1, 2);
     }
 
@@ -793,8 +794,8 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 5, 7);
         assertTrue(s.size() == 4);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
     }
 
@@ -836,11 +837,11 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 6, 6);
         assertTrue(s.size() == 7);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
-        checkNode(s, 4, 5, 6);
-        checkNode(s, 5, 6, 7);
+        checkNode(s, 4, 6, 7);
+        checkNode(s, 5, 5, 6);
         checkNode(s, 6, 6, 6);
     }
 
@@ -877,14 +878,14 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 7, 5);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
-        checkNode(s, 4, 5, 6);
-        checkNode(s, 5, 6, 7);
+        checkNode(s, 4, 6, 7);
+        checkNode(s, 5, 5, 6);
         checkNode(s, 6, 6, 6);
-        checkNode(s, 7, 6, 5);
-        checkNode(s, 8, 7, 6);
+        checkNode(s, 7, 7, 6);
+        checkNode(s, 8, 6, 5);
         checkNode(s, 9, 7, 5);
     }
 
@@ -913,17 +914,17 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 8, 4);
         assertTrue(s.size() == 13);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
-        checkNode(s, 4, 5, 6);
-        checkNode(s, 5, 6, 7);
+        checkNode(s, 4, 6, 7);
+        checkNode(s, 5, 5, 6);
         checkNode(s, 6, 6, 6);
-        checkNode(s, 7, 6, 5);
-        checkNode(s, 8, 7, 6);
+        checkNode(s, 7, 7, 6);
+        checkNode(s, 8, 6, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 8, 5);
+        checkNode(s, 10, 8, 5);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
     }
 
@@ -972,20 +973,20 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 9, 3);
         assertTrue(s.size() == 16);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
-        checkNode(s, 4, 5, 6);
-        checkNode(s, 5, 6, 7);
+        checkNode(s, 4, 6, 7);
+        checkNode(s, 5, 5, 6);
         checkNode(s, 6, 6, 6);
-        checkNode(s, 7, 6, 5);
-        checkNode(s, 8, 7, 6);
+        checkNode(s, 7, 7, 6);
+        checkNode(s, 8, 6, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 8, 5);
+        checkNode(s, 10, 8, 5);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
-        checkNode(s, 13, 8, 3);
-        checkNode(s, 14, 9, 4);
+        checkNode(s, 13, 9, 4);
+        checkNode(s, 14, 8, 3);
         checkNode(s, 15, 9, 3);
     }
 
@@ -1005,23 +1006,23 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(4, 8, 10, 2);
         assertTrue(s.size() == 19);
         checkNode(s, 0, 4, 8);
-        checkNode(s, 1, 4, 7);
-        checkNode(s, 2, 5, 8);
+        checkNode(s, 1, 5, 8);
+        checkNode(s, 2, 4, 7);
         checkNode(s, 3, 5, 7);
-        checkNode(s, 4, 5, 6);
-        checkNode(s, 5, 6, 7);
+        checkNode(s, 4, 6, 7);
+        checkNode(s, 5, 5, 6);
         checkNode(s, 6, 6, 6);
-        checkNode(s, 7, 6, 5);
-        checkNode(s, 8, 7, 6);
+        checkNode(s, 7, 7, 6);
+        checkNode(s, 8, 6, 5);
         checkNode(s, 9, 7, 5);
-        checkNode(s, 10, 7, 4);
-        checkNode(s, 11, 8, 5);
+        checkNode(s, 10, 8, 5);
+        checkNode(s, 11, 7, 4);
         checkNode(s, 12, 8, 4);
-        checkNode(s, 13, 8, 3);
-        checkNode(s, 14, 9, 4);
+        checkNode(s, 13, 9, 4);
+        checkNode(s, 14, 8, 3);
         checkNode(s, 15, 9, 3);
-        checkNode(s, 16, 9, 2);
-        checkNode(s, 17, 10, 3);
+        checkNode(s, 16, 10, 3);
+        checkNode(s, 17, 9, 2);
         checkNode(s, 18, 10, 2);
     }
 
@@ -1139,8 +1140,8 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 8, 1);
         assertTrue(s.size() == 4);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
     }
 
@@ -1182,11 +1183,11 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 7, 2);
         assertTrue(s.size() == 7);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
-        checkNode(s, 4, 8, 2);
-        checkNode(s, 5, 7, 1);
+        checkNode(s, 4, 7, 1);
+        checkNode(s, 5, 8, 2);
         checkNode(s, 6, 7, 2);
     }
 
@@ -1223,14 +1224,14 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 6, 3);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
-        checkNode(s, 4, 8, 2);
-        checkNode(s, 5, 7, 1);
+        checkNode(s, 4, 7, 1);
+        checkNode(s, 5, 8, 2);
         checkNode(s, 6, 7, 2);
-        checkNode(s, 7, 7, 3);
-        checkNode(s, 8, 6, 2);
+        checkNode(s, 7, 6, 2);
+        checkNode(s, 8, 7, 3);
         checkNode(s, 9, 6, 3);
     }
 
@@ -1259,17 +1260,17 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 5, 4);
         assertTrue(s.size() == 13);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
-        checkNode(s, 4, 8, 2);
-        checkNode(s, 5, 7, 1);
+        checkNode(s, 4, 7, 1);
+        checkNode(s, 5, 8, 2);
         checkNode(s, 6, 7, 2);
-        checkNode(s, 7, 7, 3);
-        checkNode(s, 8, 6, 2);
+        checkNode(s, 7, 6, 2);
+        checkNode(s, 8, 7, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 5, 3);
+        checkNode(s, 10, 5, 3);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
     }
 
@@ -1318,20 +1319,20 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 4, 5);
         assertTrue(s.size() == 16);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
-        checkNode(s, 4, 8, 2);
-        checkNode(s, 5, 7, 1);
+        checkNode(s, 4, 7, 1);
+        checkNode(s, 5, 8, 2);
         checkNode(s, 6, 7, 2);
-        checkNode(s, 7, 7, 3);
-        checkNode(s, 8, 6, 2);
+        checkNode(s, 7, 6, 2);
+        checkNode(s, 8, 7, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 5, 3);
+        checkNode(s, 10, 5, 3);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
-        checkNode(s, 13, 5, 5);
-        checkNode(s, 14, 4, 4);
+        checkNode(s, 13, 4, 4);
+        checkNode(s, 14, 5, 5);
         checkNode(s, 15, 4, 5);
     }
 
@@ -1351,23 +1352,23 @@ public class LineOfSightTest
         List<Node> s = lineOfSight(9, 0, 3, 6);
         assertTrue(s.size() == 19);
         checkNode(s, 0, 9, 0);
-        checkNode(s, 1, 9, 1);
-        checkNode(s, 2, 8, 0);
+        checkNode(s, 1, 8, 0);
+        checkNode(s, 2, 9, 1);
         checkNode(s, 3, 8, 1);
-        checkNode(s, 4, 8, 2);
-        checkNode(s, 5, 7, 1);
+        checkNode(s, 4, 7, 1);
+        checkNode(s, 5, 8, 2);
         checkNode(s, 6, 7, 2);
-        checkNode(s, 7, 7, 3);
-        checkNode(s, 8, 6, 2);
+        checkNode(s, 7, 6, 2);
+        checkNode(s, 8, 7, 3);
         checkNode(s, 9, 6, 3);
-        checkNode(s, 10, 6, 4);
-        checkNode(s, 11, 5, 3);
+        checkNode(s, 10, 5, 3);
+        checkNode(s, 11, 6, 4);
         checkNode(s, 12, 5, 4);
-        checkNode(s, 13, 5, 5);
-        checkNode(s, 14, 4, 4);
+        checkNode(s, 13, 4, 4);
+        checkNode(s, 14, 5, 5);
         checkNode(s, 15, 4, 5);
-        checkNode(s, 16, 4, 6);
-        checkNode(s, 17, 3, 5);
+        checkNode(s, 16, 3, 5);
+        checkNode(s, 17, 4, 6);
         checkNode(s, 18, 3, 6);
     }
 
