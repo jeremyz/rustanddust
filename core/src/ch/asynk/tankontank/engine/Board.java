@@ -24,7 +24,7 @@ import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
-public abstract class Board extends Image implements Disposable
+public abstract class Board implements Disposable
 {
     public interface TileBuilder
     {
@@ -136,6 +136,7 @@ public abstract class Board extends Image implements Disposable
     protected Config cfg;
     private Tile[] tiles;
     private SearchBoard searchBoard;
+    private Image image;
 
     boolean transform;
     private Matrix4 prevTransform;
@@ -153,7 +154,7 @@ public abstract class Board extends Image implements Disposable
 
     public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
     {
-        super(texture);
+        image = new Image(texture);
         this.cfg = cfg;
         this.tiles = new Tile[cfg.cols * cfg.rows];
         searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
@@ -172,6 +173,12 @@ public abstract class Board extends Image implements Disposable
             y += cfg.h;
             evenRow = !evenRow;
         }
+    }
+
+    @Override
+    public void dispose()
+    {
+        image.dispose();
     }
 
     public Tile getTile(int col, int row)
@@ -202,10 +209,19 @@ public abstract class Board extends Image implements Disposable
         }
     }
 
-    @Override
+    public float getWidth()
+    {
+        return image.getWidth();
+    }
+
+    public float getHeight()
+    {
+        return image.getHeight();
+    }
+
     public void setPosition(float x, float y)
     {
-        super.setPosition(x, y);
+        image.setPosition(x, y);
         if ((x != 0.0f) || (y != 0.0f)) {
             transform = true;
             prevTransform = new Matrix4();
@@ -262,10 +278,9 @@ public abstract class Board extends Image implements Disposable
         nextAnimations.clear();
     }
 
-    @Override
     public void draw(Batch batch)
     {
-        super.draw(batch);
+        image.draw(batch);
 
         if (transform) {
             prevTransform.set(batch.getTransformMatrix());
@@ -286,7 +301,6 @@ public abstract class Board extends Image implements Disposable
             batch.setTransformMatrix(prevTransform);
     }
 
-    @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
         stats();
