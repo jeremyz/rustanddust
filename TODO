@@ -1,6 +1,4 @@
 
-fix resize issues
-
 Board
     - build possible assits List<Pawn / GridPoint2>
     - support different Tiles layout
