@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.engine;
 
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayDeque;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -60,22 +61,33 @@ public abstract class Tile implements Drawable
         return stack.getFirst();
     }
 
-    public boolean mustBeDrawn()
+    public boolean hasUnits()
     {
-        if (occupied()) return true;
-        return hasOverlayEnabled();
+        if (isEmpty()) return false;
+        Iterator<Pawn> itr = stack.iterator();
+        while(itr.hasNext()) {
+            if (itr.next().isUnit())
+                return true;
+        }
+        return false;
     }
 
-    public boolean occupied()
+    public boolean isEmpty()
     {
-        if (stack == null) return false;
-        return (stack.size() != 0);
+        if (stack == null) return true;
+        return (stack.size() == 0);
+    }
+
+    public boolean mustBeDrawn()
+    {
+        if (!isEmpty()) return true;
+        return hasOverlayEnabled();
     }
 
     public boolean disableOverlays()
     {
         overlays.disableAll();
-        return occupied();
+        return !isEmpty();
     }
 
     public boolean hasOverlayEnabled()

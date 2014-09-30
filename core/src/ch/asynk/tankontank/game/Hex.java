@@ -44,7 +44,7 @@ public class Hex extends Tile
     @Override
     public boolean blockLineOfSightFrom(Tile tile)
     {
-        if ((terrain == Terrain.CLEAR) && !occupied())
+        if ((terrain == Terrain.CLEAR) && !hasUnits())
             return false;
 
         if ((((Hex) tile).terrain == Terrain.HILLS) && (terrain == Terrain.CLEAR))
@@ -56,7 +56,7 @@ public class Hex extends Tile
     @Override
     public boolean atLeastOneMove(Pawn pawn)
     {
-        if (occupied() || (terrain == Terrain.BLOCKED) || (terrain == Terrain.OFFMAP))
+        if (hasUnits() || (terrain == Terrain.BLOCKED) || (terrain == Terrain.OFFMAP))
             return false;
         return true;
     }
@@ -70,7 +70,7 @@ public class Hex extends Tile
     @Override
     public int costFrom(Pawn pawn, Board.Orientation side, boolean road)
     {
-        if (occupied()) return Integer.MAX_VALUE;
+        if (hasUnits()) return Integer.MAX_VALUE;
         if (road) return 1;
 
         int c = 0;
@@ -95,7 +95,7 @@ public class Hex extends Tile
     @Override
     public boolean hasTargetsFor(Pawn pawn)
     {
-        if (!occupied()) return false;
+        if (!hasUnits()) return false;
 
         Iterator<Pawn> itr = stack.iterator();
         while(itr.hasNext())
