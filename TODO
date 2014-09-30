@@ -2,10 +2,10 @@
 fix resize issues
 
 Board
-    - build possible attacks List<GridPoint2>
     - build possible assits List<Pawn / GridPoint2>
-    - support Orientation offset
-    - support inverted even/odd row scheme
+    - support different Tiles layout
+        Board.Orientation offset
+        inverted even/odd row scheme
 
 Tile
     - automatic overlays to show unit stack depth
@@ -13,9 +13,11 @@ Tile
 Pawn
     - public abstract boolean isUnit(); => unit stack depth
 
+
+
+Maybe ???
+
 might think about decorator pattern for overlays
-
-
 
 us decorator pattern, No can Do ??
 
