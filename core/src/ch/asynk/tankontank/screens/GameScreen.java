@@ -46,6 +46,8 @@ public class GameScreen implements Screen
     private static final int DRAGGED_Z_INDEX = 10;
 
     private float maxZoomOut;
+    private float virtualWidth;
+    private float virtualHeight;
 
     private final OrthographicCamera cam;
     private final FitViewport mapViewport;
@@ -76,11 +78,13 @@ public class GameScreen implements Screen
         fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
 
         map = factory.getMap(game.manager, GameFactory.MapType.MAP_A);
+        virtualWidth = map.getWidth();
+        virtualHeight = map.getHeight();
 
         mapBatch = new SpriteBatch();
-        cam = new OrthographicCamera();
+        cam = new OrthographicCamera(virtualWidth, virtualHeight);
         cam.setToOrtho(false);
-        mapViewport = new FitViewport(map.getWidth(), map.getHeight(), cam);
+        mapViewport = new FitViewport(virtualWidth, virtualHeight, cam);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         debugShapes = new ShapeRenderer();
@@ -184,8 +188,8 @@ public class GameScreen implements Screen
     {
         float cx = cam.viewportWidth * cam.zoom / 2f;
         float cy = cam.viewportHeight * cam.zoom / 2f;
-        cam.position.x = MathUtils.clamp(cam.position.x, cx, (map.getWidth() - cx));
-        cam.position.y = MathUtils.clamp(cam.position.y, cy, (map.getHeight() - cy));
+        cam.position.x = MathUtils.clamp(cam.position.x, cx, (virtualWidth - cx));
+        cam.position.y = MathUtils.clamp(cam.position.y, cy, (virtualHeight - cy));
     }
 
     @Override
