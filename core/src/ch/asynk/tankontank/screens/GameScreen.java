@@ -144,7 +144,7 @@ public class GameScreen implements Screen
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
                 dragPos.set(x, y);
                 if (map.drag(deltaX, deltaY)) {
-                    cam.unproject(touchPos.set(x, y, 0));
+                    unproject(x, y, touchPos);
                     map.getHexAt(cell, touchPos.x, touchPos.y);
                 } else {
                     cam.translate(-deltaX, -deltaY, 0);
@@ -157,16 +157,17 @@ public class GameScreen implements Screen
             {
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
-                    cam.unproject(touchPos.set(x, y, 0));
+                    unproject(x, y, touchPos);
                     map.touchDown(touchPos.x, touchPos.y);
                 }
+
                 return true;
             }
             @Override
             public boolean touchUp(int x, int y, int pointer, int button)
             {
                 if (button == Input.Buttons.LEFT) {
-                    cam.unproject(touchPos.set(x, y, 0));
+                    unproject(x, y, touchPos);
                     map.touchUp(touchPos.x, touchPos.y);
                 }
                 return true;
@@ -182,6 +183,11 @@ public class GameScreen implements Screen
         });
 
         return multiplexer;
+    }
+
+    private void unproject(int x, int y, Vector3 v)
+    {
+        cam.unproject(v.set(x, y, 0), mapViewport.getScreenX(), mapViewport.getScreenY(), mapViewport.getScreenWidth(), mapViewport.getScreenHeight());
     }
 
     private void clampCameraPos()
