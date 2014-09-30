@@ -150,8 +150,6 @@ public abstract class Board implements Disposable
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
     protected final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
-    protected final List<GridPoint2> areaPoints = new Vector<GridPoint2>(10);
-
     protected Board()
     {
     }
@@ -322,53 +320,50 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    public List<GridPoint2> reachableFrom(Pawn pawn, int col, int row)
+    private void nodesToPoints(List<SearchBoard.Node> nodes, Vector<GridPoint2> points)
     {
-        for (GridPoint2 p : areaPoints)
-            gridPoint2Pool.free(p);
-        areaPoints.clear();
+        // for (GridPoint2 point : points)
+        //     gridPoint2Pool.free(point);
+        // points.clear();
 
-        for (SearchBoard.Node node : searchBoard.reachableFrom(pawn, col, row)) {
-            GridPoint2 point = gridPoint2Pool.obtain();
-            point.set(node.col, node.row);
-            areaPoints.add(point);
+        // for (SearchBoard.Node node : nodes) {
+        //     GridPoint2 point = gridPoint2Pool.obtain();
+        //     point.set(node.col, node.row);
+        //     points.add(point);
+        // }
+
+        int ns = nodes.size();
+        int ps = points.size();
+
+        if (ps > ns) {
+            for (int i = ns; i < ps; i++)
+                gridPoint2Pool.free(points.get(i));
         }
 
-        return areaPoints;
-    }
-
-    public List<GridPoint2> openToAttackFrom(Pawn pawn, int col, int row)
-    {
-        for (GridPoint2 p : areaPoints)
-            gridPoint2Pool.free(p);
-        areaPoints.clear();
-
-        for (SearchBoard.Node node : searchBoard.openToAttackFrom(pawn, col, row)) {
-            GridPoint2 point = gridPoint2Pool.obtain();
-            point.set(node.col, node.row);
-            areaPoints.add(point);
-        }
-
-        return areaPoints;
-    }
-
-    public List<GridPoint2> lineOfSight(int col0, int row0, int col1, int row1)
-    {
-        for (GridPoint2 p : areaPoints)
-            gridPoint2Pool.free(p);
-        areaPoints.clear();
-
-        for (SearchBoard.Node node : searchBoard.lineOfSight(col0, row0, col1, row1)) {
-            GridPoint2 point = gridPoint2Pool.obtain();
-            if (point != null) {
-                point.set(node.col, node.row);
-                areaPoints.add(point);
+        int i = 0;
+        for (SearchBoard.Node node : nodes) {
+            if (i < ps) {
+                points.get(i).set(node.col, node.row);
             } else {
-                System.err.println("null point");
+                GridPoint2 point = gridPoint2Pool.obtain();
+                point.set(node.col, node.row);
+                points.add(point);
             }
+            i += 1;
         }
+        points.setSize(ns);
+    }
 
-        return areaPoints;
+    public void possibleMovesFrom(Pawn pawn, int col, int row, Vector<GridPoint2> moves)
+    {
+        List <SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, col, row);
+        nodesToPoints(nodes, moves);
+    }
+
+    public void possibleTargetsFrom(Pawn pawn, int col, int row, Vector<GridPoint2> targets)
+    {
+        List <SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, col, row);
+        nodesToPoints(nodes, targets);
     }
 
     public void disableOverlaysOn(int col, int row)
@@ -454,7 +449,7 @@ public abstract class Board implements Disposable
         return new Vector2(x, y);
     }
 
-    public void setPawnAt(final Pawn pawn, final int col, final int row, Orientation o)
+    public void setPawnAt(Pawn pawn, int col, int row, Orientation o)
     {
         Vector2 pos = getPawnPosAt(pawn, col, row);
         pawn.pushMove(pos.x, pos.y, o);
@@ -466,26 +461,30 @@ public abstract class Board implements Disposable
         movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
     }
 
-    public void movePawnTo(final Pawn pawn, final int col, final int row, Orientation o)
+    public void movePawnTo(Pawn pawn, int col, int row, Orientation o)
     {
         GridPoint2 prev = getHexAt(pawn.getLastPosition());
         removePawnFrom(pawn, prev.x, prev.y);
 
-        if ((col < 0) || (row < 0)) {
-            AnimationSequence seq = pawn.getResetMovesAnimation();
-            seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
-                @Override
-                public void run() {
-                    GridPoint2 hex = getHexAt(pawn.getLastPosition());
-                    pushPawnAt(pawn, hex.x, hex.y);
-                }
-            }));
-            addPawnAnimation(pawn, seq);
-        } else {
-            pushPawnAt(pawn, col, row);
-            Vector2 pos = getPawnPosAt(pawn, col, row);
-            pawn.pushMove(pos.x, pos.y, o);
-        }
+        pushPawnAt(pawn, col, row);
+        Vector2 pos = getPawnPosAt(pawn, col, row);
+        pawn.pushMove(pos.x, pos.y, o);
+    }
+
+    public void resetPawnMoves(final Pawn pawn)
+    {
+        GridPoint2 prev = getHexAt(pawn.getLastPosition());
+        removePawnFrom(pawn, prev.x, prev.y);
+
+        AnimationSequence seq = pawn.getResetMovesAnimation();
+        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                GridPoint2 hex = getHexAt(pawn.getLastPosition());
+                pushPawnAt(pawn, hex.x, hex.y);
+            }
+        }));
+        addPawnAnimation(pawn, seq);
     }
 
     private GridPoint2 getHexAt(Vector3 v)
@@ -546,7 +545,7 @@ public abstract class Board implements Disposable
         else
             hex.set(col, row);
 
-        Gdx.app.debug("Board", " hex: " + hex.x + " ; " + hex.y);
+        // Gdx.app.debug("Board", " hex: " + hex.x + " ; " + hex.y);
         return hex;
     }
 }

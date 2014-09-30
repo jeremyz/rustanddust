@@ -26,41 +26,49 @@ public class SearchBoard
     private int cols;
     private int rows;
     private Board board;
-    private Node nodes[];
     private int searchCount;
-    private LinkedList<Node> queue;
-    private ArrayDeque<Node> stack;
-    private ArrayDeque<Node> roadMarch;
-    private List<Node> result;
-    private List<Node> los;
+    private Node nodes[];
     private Node adjacents[];
-    private Board.Orientation directions[];
+    private Board.Orientation sides[];
+
+    private ArrayDeque<Node> stack;
+    private LinkedList<Node> queue;
+    private ArrayDeque<Node> roadMarch;
+
+    private List<Node> moves;
+    private List<Node> targets;
+    private List<Node> los;
 
     public SearchBoard(Board board, int cols, int rows)
     {
         this.cols = cols;
         this.rows = rows;
         this.board = board;
+        this.searchCount = 0;
+
         this.nodes = new Node[cols * rows];
         for (int j = 0; j < rows; j++) {
             int dx = ((j + 1) / 2);
             for (int i = 0; i < cols; i++)
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
-        this.searchCount = 0;
+
+        this.adjacents = new Node[6];
+        this.sides = new Board.Orientation[6];
+        sides[0] = Board.Orientation.NORTH;
+        sides[1] = Board.Orientation.NORTH_EAST;
+        sides[2] = Board.Orientation.SOUTH_EAST;
+        sides[3] = Board.Orientation.SOUTH;
+        sides[4] = Board.Orientation.SOUTH_WEST;
+        sides[5] = Board.Orientation.NORTH_WEST;
+
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
-        this.result = new Vector<Node>(10);
+
+        this.moves = new Vector<Node>(20);
+        this.targets = new Vector<Node>(10);
         this.los = new Vector<Node>(10);
-        this.adjacents = new Node[6];
-        this.directions = new Board.Orientation[6];
-        directions[0] = Board.Orientation.NORTH;
-        directions[1] = Board.Orientation.NORTH_EAST;
-        directions[2] = Board.Orientation.SOUTH_EAST;
-        directions[3] = Board.Orientation.SOUTH;
-        directions[4] = Board.Orientation.SOUTH_WEST;
-        directions[5] = Board.Orientation.NORTH_WEST;
     }
 
     private Node getNode(int col, int row)
@@ -74,7 +82,7 @@ public class SearchBoard
 
     public void adjacentMoves(Node src)
     {
-        // move to enter dst by directions[i]
+        // move to enter dst by sides[i]
         adjacents[0] = getNode((src.col - 1), src.row);
         adjacents[1] = getNode(src.col, (src.row + 1));
         adjacents[2] = getNode((src.col + 1), (src.row + 1));
@@ -83,24 +91,24 @@ public class SearchBoard
         adjacents[5] = getNode((src.col - 1), (src.row - 1));
     }
 
-    public List<Node> reachableFrom(Pawn pawn, int col, int row)
+    public List<Node> possibleMovesFrom(Pawn pawn, int col, int row)
     {
         searchCount += 1;
-        result.clear();
+        moves.clear();
 
-        Node start = getNode(col, row);
-        start.parent = null;
-        start.search = searchCount;
-        start.remaining = pawn.getMovementPoints();
-        start.roadMarch = true;
+        Node from = getNode(col, row);
+        from.parent = null;
+        from.search = searchCount;
+        from.remaining = pawn.getMovementPoints();
+        from.roadMarch = true;
 
-        if (start.remaining <= 0)
-            return result;
+        if (from.remaining <= 0)
+            return moves;
 
         int roadMarchBonus = pawn.getRoadMarchBonus();
         boolean first = true;
 
-        stack.push(start);
+        stack.push(from);
 
         while (stack.size() != 0) {
             Node src = stack.pop();
@@ -120,8 +128,8 @@ public class SearchBoard
                 if (dst != null) {
 
                     Tile t = board.getTile(dst.col, dst.row);
-                    boolean road = t.road(directions[i]);
-                    int cost = t.costFrom(pawn, directions[i], road);
+                    boolean road = t.road(sides[i]);
+                    int cost = t.costFrom(pawn, sides[i], road);
                     boolean mayMoveOne = first && t.atLeastOneMove(pawn);
                     int r = src.remaining - cost;
                     boolean roadMarch = road && src.roadMarch;
@@ -139,7 +147,7 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.roadMarch = roadMarch;
                             stack.push(dst);
-                            result.add(dst);
+                            moves.add(dst);
                         } else {
                             dst.parent = null;
                             dst.remaining = Integer.MAX_VALUE;
@@ -160,9 +168,9 @@ public class SearchBoard
                 if (dst != null) {
 
                     Tile t = board.getTile(dst.col, dst.row);
-                    if (!t.road(directions[i]))
+                    if (!t.road(sides[i]))
                         continue;
-                    int cost = t.costFrom(pawn, directions[i], true);
+                    int cost = t.costFrom(pawn, sides[i], true);
                     int r = src.remaining - cost;
 
                     if (dst.search == searchCount) {
@@ -178,7 +186,7 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.roadMarch = true;
                             roadMarch.push(dst);
-                            result.add(dst);
+                            moves.add(dst);
                         } else {
                             dst.parent = null;
                             dst.remaining = Integer.MAX_VALUE;
@@ -188,10 +196,10 @@ public class SearchBoard
             }
         }
 
-        return result;
+        return moves;
     }
 
-    private void adjacentAttacks(Node src, int angle)
+    private void adjacentTargets(Node src, int angle)
     {
         // move in allowed directions
         if (Board.Orientation.NORTH.isInSides(angle))
@@ -225,17 +233,10 @@ public class SearchBoard
             adjacents[5] = null;
     }
 
-    private boolean hasClearLineOfSight(Node from, Node to)
-    {
-        List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
-        Node last = nodes.get(nodes.size() -1);
-        return ((last.col == to.col) && (last.row == to.row));
-    }
-
-    public List<Node> openToAttackFrom(Pawn pawn, int col, int row)
+    public List<Node> possibleTargetsFrom(Pawn pawn, int col, int row)
     {
         searchCount += 1;
-        result.clear();
+        targets.clear();
 
         Tile tile = board.getTile(col, row);
 
@@ -243,14 +244,14 @@ public class SearchBoard
         int angle = pawn.getAngleOfAttack();
         int extendedAngle = pawn.getOrientation().opposite().allBut();
 
-        Node start = getNode(col, row);
-        start.search = searchCount;
-        start.remaining = range;
+        Node from = getNode(col, row);
+        from.search = searchCount;
+        from.remaining = range;
 
         if (range <= 0)
-            return result;
+            return targets;
 
-        queue.add(start);
+        queue.add(from);
 
         boolean first = true;
         while (queue.size() != 0) {
@@ -260,9 +261,9 @@ public class SearchBoard
                 continue;
 
             if (!first && (((range - src.remaining) % 2) == 0))
-                adjacentAttacks(src, extendedAngle);
+                adjacentTargets(src, extendedAngle);
             else
-                adjacentAttacks(src, angle);
+                adjacentTargets(src, angle);
 
             first = false;
             int rangeLeft = src.remaining - 1;
@@ -278,13 +279,20 @@ public class SearchBoard
                         dst.remaining = rangeLeft;
                         queue.add(dst);
                         Tile t = board.getTile(dst.col, dst.row);
-                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(start, dst)) result.add(dst);
+                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(from, dst)) targets.add(dst);
                     }
                 }
             }
         }
 
-        return result;
+        return targets;
+    }
+
+    private boolean hasClearLineOfSight(Node from, Node to)
+    {
+        List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
+        Node last = nodes.get(nodes.size() -1);
+        return ((last.col == to.col) && (last.row == to.row));
     }
 
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
