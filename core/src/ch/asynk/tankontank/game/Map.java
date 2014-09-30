@@ -47,6 +47,7 @@ public abstract class Map extends Board
     {
         if (currentHex.x != -1)
             enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, false);
+
         getHexAt(currentHex, x, y);
         if (currentHex.x != -1) {
             enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, true);
@@ -63,15 +64,18 @@ public abstract class Map extends Board
     {
         if (currentHex.x != -1)
             enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, false);
+
         getHexAt(currentHex, x, y);
-        if (currentPawn != null) {
-            enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, true);
-            pawnsToDraw.remove(currentPawn);
-            if (currentHex.x != -1) {
-                movePawnTo(currentPawn, currentHex);
-                showPossibleActions(currentPawn);
-            } else {
-                resetPawnMoves(currentPawn);
+        if (currentHex.x == -1) {
+            resetPawnMoves(currentPawn);
+        } else {
+            if (currentPawn != null) {
+                enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, true);
+                pawnsToDraw.remove(currentPawn);
+                if (currentHex.x != -1) {
+                    movePawnTo(currentPawn, currentHex);
+                    showPossibleActions(currentPawn);
+                }
             }
         }
     }
