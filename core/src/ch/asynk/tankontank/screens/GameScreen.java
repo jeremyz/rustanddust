@@ -62,7 +62,7 @@ public class GameScreen implements Screen
     private Label fps;
     private Stage hud;
 
-    private Vector2 screenToViewport = new Vector2();       // ratio
+    private Vector2 screenToWorld = new Vector2();          // ratio
     private Vector3 touchPos = new Vector3();               // world coordinates
     private Vector2 dragPos = new Vector2();                // screen coordinates
 
@@ -140,8 +140,8 @@ public class GameScreen implements Screen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                float deltaX = ((x - dragPos.x) * cam.zoom * screenToViewport.x);
-                float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
+                float deltaX = ((x - dragPos.x) * cam.zoom * screenToWorld.x);
+                float deltaY = ((dragPos.y - y) * cam.zoom * screenToWorld.y);
                 dragPos.set(x, y);
                 if (map.drag(deltaX, deltaY)) {
                     unproject(x, y, touchPos);
@@ -238,7 +238,7 @@ public class GameScreen implements Screen
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
 
-        screenToViewport.set((cam.viewportWidth / width), (cam.viewportHeight / height));
+        screenToWorld.set((cam.viewportWidth / width), (cam.viewportHeight / height));
     }
 
     @Override
