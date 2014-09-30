@@ -138,7 +138,7 @@ public class GameScreen implements Screen
                 float deltaX = ((x - dragPos.x) * cam.zoom * screenToViewport.x);
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToViewport.y);
                 dragPos.set(x, y);
-                if(map.drag(deltaX, deltaY)) {
+                if (map.drag(deltaX, deltaY)) {
                     cam.unproject(touchPos.set(x, y, 0));
                     map.getHexAt(cell, touchPos.x, touchPos.y);
                 } else {
@@ -154,12 +154,6 @@ public class GameScreen implements Screen
                     dragPos.set(x, y);
                     cam.unproject(touchPos.set(x, y, 0));
                     map.touchDown(touchPos.x, touchPos.y);
-                } else if (button == Input.Buttons.RIGHT) {
-                    cam.unproject(touchPos.set(x, y, 0));
-                    map.showMoves(touchPos.x, touchPos.y);
-                } else {
-                    cam.unproject(touchPos.set(x, y, 0));
-                    map.lineOfSight(touchPos.x, touchPos.y);
                 }
                 return true;
             }

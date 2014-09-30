@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.game;
 
+import java.util.Vector;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -17,9 +19,9 @@ public abstract class Map extends Board
 
     private Pawn currentPawn;
     private GridPoint2 currentHex = new GridPoint2(-1, -1);
-    private GridPoint2 lineHex = new GridPoint2(-1, -1);
-    private Vector2 line0 = new Vector2(0, 0);
-    private Vector2 line1 = new Vector2(0, 0);
+
+    private final Vector<GridPoint2> possibleMoves = new Vector<GridPoint2>(20);
+    private final Vector<GridPoint2> possibleTargets = new Vector<GridPoint2>(10);
 
     protected abstract void setup();
 
@@ -43,100 +45,55 @@ public abstract class Map extends Board
 
     public void touchDown(float x, float y)
     {
+        if (currentHex.x != -1)
+            enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, false);
         getHexAt(currentHex, x, y);
         if (currentHex.x != -1) {
+            enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, true);
             currentPawn = removeTopPawnFrom(currentHex);
-            if (currentPawn != null) pawnsToDraw.add(currentPawn);
-            line0 = getTileCenter(currentHex.x, currentHex.y);
+            if (currentPawn != null) {
+                enablePossibleMoves(false);
+                enablePossibleTargets(false);
+                pawnsToDraw.add(currentPawn);
+            }
         }
     }
 
     public void touchUp(float x, float y)
     {
+        if (currentHex.x != -1)
+            enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, false);
         getHexAt(currentHex, x, y);
         if (currentPawn != null) {
+            enableOverlayOn(currentHex.x, currentHex.y, Hex.BLUE, true);
             pawnsToDraw.remove(currentPawn);
-            movePawnTo(currentPawn, currentHex);
-            currentPawn = null;
-        } else {
-            debugMap();
-        }
-    }
-
-    public void showMoves(float x, float y)
-    {
-        for(GridPoint2 hex : areaPoints)
-            enableOverlayOn(hex.x, hex.y, Hex.GREEN, false);
-
-        getHexAt(currentHex, x, y);
-        Pawn pawn = getTopPawnAt(currentHex);
-        if (pawn == null) return;
-        for(GridPoint2 hex : reachableFrom(pawn, currentHex.x, currentHex.y))
-            enableOverlayOn(hex.x, hex.y, Hex.GREEN, true);
-        for(GridPoint2 hex : openToAttackFrom(pawn, currentHex.x, currentHex.y))
-            enableOverlayOn(hex.x, hex.y, Hex.RED, true);
-    }
-
-    public void lineOfSight(float x, float y)
-    {
-        getHexAt(lineHex, x, y);
-        line1 = getTileCenter(lineHex.x, lineHex.y);
-
-        for(GridPoint2 hex : areaPoints)
-            enableOverlayOn(hex.x, hex.y, Hex.RED, false);
-
-        for(GridPoint2 hex : lineOfSight(currentHex.x, currentHex.y, lineHex.x, lineHex.y))
-            enableOverlayOn(hex.x, hex.y, Hex.RED, true);
-    }
-
-    @Override
-    public void drawDebug(ShapeRenderer debugShapes)
-    {
-        super.drawDebug(debugShapes);
-        debugShapes.line(line0.x, line0.y, line1.x, line1.y);
-    }
-
-    private void debugMap()
-    {
-        int o = Hex.FOG;
-        if (hexOn && (t == Hex.Terrain.CLEAR)) {
-            hexOn = false;
-        } else {
-            hexOn = true;
-            if (roadsOn) {
-                roadsOn = false;
-                t = Hex.Terrain.OFFMAP;
-            } else if (t == Hex.Terrain.CLEAR) {
-                o = Hex.GREEN;
-                t = Hex.Terrain.WOODS;
-            } else if (t == Hex.Terrain.WOODS) {
-                o = Hex.BLUE;
-                t = Hex.Terrain.HILLS;
-            } else if (t == Hex.Terrain.HILLS) {
-                o = Hex.RED;
-                t = Hex.Terrain.TOWN;
-            } else if (t == Hex.Terrain.TOWN) {
-                o = Hex.FOG;
-                roadsOn = true;
-            } else if (t == Hex.Terrain.OFFMAP) {
-                o = Hex.FOG;
-                t = Hex.Terrain.CLEAR;
+            if (currentHex.x != -1) {
+                movePawnTo(currentPawn, currentHex);
+                showPossibleActions(currentPawn);
+            } else {
+                resetPawnMoves(currentPawn);
             }
         }
+    }
 
-        for (int j = 0; j < cfg.rows; j++) {
-            int colOffset = ((j +1) / 2);
-            for (int i = colOffset; i < (cfg.cols + colOffset); i++) {
-                Hex hex = getHex(i,j);
-                disableOverlaysOn(i, j);
-                if (hexOn) {
-                    if (roadsOn) {
-                        if (hex.roads != 0)
-                            enableOverlayOn(i, j, o, true);
-                    } else if (hex.terrain == t)
-                        enableOverlayOn(i, j, o, true);
-                }
-            }
-        }
+    public void showPossibleActions(Pawn pawn)
+    {
+        possibleMovesFrom(pawn, currentHex.x, currentHex.y, possibleMoves);
+        enablePossibleMoves(true);
+
+        possibleTargetsFrom(pawn, currentHex.x, currentHex.y, possibleTargets);
+        enablePossibleTargets(true);
+    }
+
+    public void enablePossibleMoves(boolean enable)
+    {
+        for(GridPoint2 hex : possibleMoves)
+            enableOverlayOn(hex.x, hex.y, Hex.GREEN, enable);
+    }
+
+    public void enablePossibleTargets(boolean enable)
+    {
+        for(GridPoint2 hex : possibleTargets)
+            enableOverlayOn(hex.x, hex.y, Hex.RED, enable);
     }
 }
