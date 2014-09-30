@@ -232,10 +232,12 @@ public class GameScreen implements Screen
     public void resize(int width, int height)
     {
         // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
-        hud.getViewport().update(width, height, true);
+        hud.getViewport().update(width, height);
         mapViewport.update(width, height);
+
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
+
         screenToViewport.set((cam.viewportWidth / width), (cam.viewportHeight / height));
     }
 
