@@ -40,7 +40,7 @@ public class GameScreen implements Screen
 {
     private static final boolean DEBUG = false;
 
-    private static final float ZOOM_MAX = 0.2f;
+    private static final float ZOOM_IN_MAX = 0.2f;
     private static final float ZOOM_GESTURE_FACTOR = .01f;
     private static final float ZOOM_SCROLL_FACTOR = .1f;
     private static final int DRAGGED_Z_INDEX = 10;
@@ -126,7 +126,7 @@ public class GameScreen implements Screen
                     cam.zoom += ZOOM_GESTURE_FACTOR;
                 else
                     cam.zoom -= ZOOM_GESTURE_FACTOR;
-                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
+                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
             }
@@ -170,7 +170,7 @@ public class GameScreen implements Screen
             public boolean scrolled(int amount)
             {
                 cam.zoom += amount * ZOOM_SCROLL_FACTOR;
-                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
+                cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
                 clampCameraPos();
                 return true;
             }
@@ -224,7 +224,7 @@ public class GameScreen implements Screen
         hud.getViewport().update(width, height, true);
         mapViewport.update(width, height);
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
-        cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_MAX, maxZoomOut);
+        cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
         screenToViewport.set((cam.viewportWidth / width), (cam.viewportHeight / height));
     }
 
