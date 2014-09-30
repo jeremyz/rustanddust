@@ -45,6 +45,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isUnit()
+    {
+        return true;
+    }
+
+    @Override
     public boolean isEnemy(Pawn other)
     {
         return army.isEnemy(((Unit) other).army);
