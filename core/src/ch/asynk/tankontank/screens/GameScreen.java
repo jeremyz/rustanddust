@@ -17,9 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -29,10 +26,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
 
+import ch.asynk.tankontank.game.Hud;
+import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
-
-import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
 
@@ -58,9 +55,7 @@ public class GameScreen implements Screen
     private final TankOnTank game;
     private GameFactory factory;
     private Map map;
-
-    private Label fps;
-    private Stage hud;
+    private Hud hud;
 
     private Vector2 screenToWorld = new Vector2();          // ratio
     private Vector3 touchPos = new Vector3();               // world coordinates
@@ -74,8 +69,7 @@ public class GameScreen implements Screen
 
         factory = new GameFactory(game.manager);
 
-        fps = new Label("FPS: 0", game.skin);
-        fps.setPosition( 10, Gdx.graphics.getHeight() - 40);
+        hud = new Hud(game, new ScreenViewport());
 
         map = factory.getMap(game.manager, GameFactory.MapType.MAP_A);
         virtualWidth = map.getWidth();
@@ -107,9 +101,6 @@ public class GameScreen implements Screen
         addUnit(9, 2, o, UnitType.US_SHERMAN);
         addUnit(9, 1, o, UnitType.US_SHERMAN_HQ);
         addUnit(8, 0, o, UnitType.US_WOLVERINE);
-
-        hud = new Stage(new ScreenViewport());
-        hud.addActor(fps);
 
         Gdx.input.setInputProcessor(getMultiplexer());
     }
@@ -206,8 +197,6 @@ public class GameScreen implements Screen
 
         cam.update();
 
-        fps.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
-
         map.animate(delta);
 
         mapBatch.setProjectionMatrix(cam.combined);
@@ -232,7 +221,6 @@ public class GameScreen implements Screen
     public void resize(int width, int height)
     {
         // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
-        hud.getViewport().update(width, height);
         mapViewport.update(width, height);
 
         maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
