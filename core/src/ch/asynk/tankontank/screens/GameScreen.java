@@ -45,15 +45,16 @@ public class GameScreen implements Screen
     private static final float ZOOM_SCROLL_FACTOR = .1f;
     private static final int DRAGGED_Z_INDEX = 10;
 
-    private final TankOnTank game;
-    private GameFactory factory;
-
     private float maxZoomOut;
-    private final Batch mapBatch;
+
     private final OrthographicCamera cam;
     private final FitViewport mapViewport;
+
+    private final Batch mapBatch;
     private final ShapeRenderer debugShapes;
 
+    private final TankOnTank game;
+    private GameFactory factory;
     private Map map;
 
     private Label fps;
