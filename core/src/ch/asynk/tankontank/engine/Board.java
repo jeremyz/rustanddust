@@ -384,6 +384,11 @@ public abstract class Board implements Disposable
         disableOverlaysOn(getTile(col, row));
     }
 
+    public boolean isOverlayEnabledOn(int col, int row, int i)
+    {
+        return getTile(col, row).isOverlayEnabled(i);
+    }
+
     public void disableOverlaysOn(Tile tile)
     {
         if (tile.disableOverlays())

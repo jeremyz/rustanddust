@@ -35,6 +35,11 @@ public class StackedImages implements Moveable
         return false;
     }
 
+    public boolean isEnabled(int i)
+    {
+        return enabled[i];
+    }
+
     @Override
     public float getX()
     {

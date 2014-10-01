@@ -95,6 +95,11 @@ public abstract class Tile implements Drawable
         return overlays.isEnabled();
     }
 
+    public boolean isOverlayEnabled(int i)
+    {
+        return overlays.isEnabled(i);
+    }
+
     public boolean enableOverlay(int i, boolean enable)
     {
         overlays.enable(i, enable);
