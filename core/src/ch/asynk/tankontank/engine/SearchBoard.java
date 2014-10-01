@@ -80,6 +80,25 @@ public class SearchBoard
         return nodes[((col - colOffset)) + (row * cols)];
     }
 
+    public int distance(int col0, int row0, int col1, int row1)
+    {
+        int dx = Math.abs(col1 - col0);
+        int dy = Math.abs(row1 - row0);
+        int dz = Math.abs((col0 - row0) - (col1 - row1));
+
+        if (dx > dy) {
+            if (dx > dz)
+                return dx;
+            else
+                return dz;
+        } else {
+            if (dy > dz)
+                return dy;
+            else
+                return dz;
+        }
+    }
+
     public void adjacentMoves(Node src)
     {
         // move to enter dst by sides[i]

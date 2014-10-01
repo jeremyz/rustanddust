@@ -190,27 +190,6 @@ public abstract class Board implements Disposable
         return tiles[idx];
     }
 
-    public int distance(int col0, int row0, int col1, int row1)
-    {
-        int a = (row1 - row0);
-        int b = (col1 - col0);
-        int c = (b - a);
-        int aa = Math.abs(a);
-        int ab = Math.abs(b);
-        int ac = Math.abs(c);
-        if (ac > aa) {
-            if (ac > ab)
-                return ac;
-            else
-                return ab;
-        } else {
-            if (aa > ab)
-                return aa;
-            else
-                return ab;
-        }
-    }
-
     public float getWidth()
     {
         return image.getWidth();
