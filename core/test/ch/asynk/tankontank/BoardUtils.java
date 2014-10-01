@@ -108,8 +108,17 @@ public class BoardUtils
         Helpers.FakePawn p = new Helpers.FakePawn(3);
         HashSet<GridPoint2> points = new HashSet<GridPoint2>();
 
-        b.possiblePaths(p, 2, 2, 4, 3, points);
+        int n = b.possiblePaths(p, 2, 2, 4, 3, points);
+        assertTrue(n == 8);
         assertTrue(points.size() == 8);
+
+        n = b.possiblePathsFilterAdd(3, 3, points);
+        assertTrue(n == 5);
+        assertTrue(points.size() == 6);
+
+        n = b.possiblePathsFilterAdd(4, 4, points);
+        assertTrue(n == 1);
+        assertTrue(points.size() == 4);
     }
 
     @Test
