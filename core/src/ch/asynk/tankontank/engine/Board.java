@@ -346,16 +346,16 @@ public abstract class Board implements Disposable
         nodesToPoints(nodes, targets);
     }
 
-    public void possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1, Set<GridPoint2> points)
+    public int nodesToSet(List<Vector<SearchBoard.Node>> nodes, Set<GridPoint2> points)
     {
         // FIXME : optimize this
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
         points.clear();
 
-        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, col0, row0, col1, row1);
-        for (Vector<SearchBoard.Node> path : paths) {
+        for (Vector<SearchBoard.Node> path : nodes) {
             for (int i = 0, n = path.size(); i < n; i++) {
+                // FIXME : optimize this
                 GridPoint2 point = gridPoint2Pool.obtain();
                 SearchBoard.Node node = path.get(i);
                 point.set(node.col, node.row);
@@ -363,6 +363,20 @@ public abstract class Board implements Disposable
                     gridPoint2Pool.free(point);
             }
         }
+
+        return nodes.size();
+    }
+
+    public int possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1, Set<GridPoint2> points)
+    {
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, col0, row0, col1, row1);
+        return nodesToSet(paths, points);
+    }
+
+    public int possiblePathsFilterAdd(int col, int row, Set<GridPoint2> points)
+    {
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterAdd(col, row);
+        return nodesToSet(paths, points);
     }
 
     public void disableOverlaysOn(int col, int row)

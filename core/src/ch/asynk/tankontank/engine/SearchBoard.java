@@ -36,6 +36,7 @@ public class SearchBoard
 
     private ArrayDeque<Node> path = new ArrayDeque<Node>(20);
     private List<Vector<Node>> possiblePaths = new LinkedList<Vector<Node>>();
+    private List<Node> possiblePathsFilters = new Vector<Node>(5);
 
     private List<Node> moves;
     private List<Node> targets;
@@ -487,10 +488,37 @@ public class SearchBoard
         return los;
     }
 
-    public List<Vector<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
+    public void clearPossiblePaths()
     {
         path.clear();
+        for (Vector<Node> v : possiblePaths)
+            v.clear();
         possiblePaths.clear();
+        possiblePathsFilters.clear();
+    }
+
+    public List<Vector<Node>> possiblePathsFilterAdd(int col, int row)
+    {
+        possiblePathsFilters.add(getNode(col, row));
+        int n = possiblePathsFilters.size();
+
+        List<Vector<Node>> paths = new LinkedList<Vector<Node>>();
+        for (Vector<Node> path : possiblePaths) {
+            int ok = 0;
+            for (Node filter : possiblePathsFilters) {
+                if (path.contains(filter))
+                    ok += 1;
+            }
+            if (ok == n)
+                paths.add(path);
+        }
+
+        return paths;
+    }
+
+    public List<Vector<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
+    {
+        clearPossiblePaths();
 
         Node from = getNode(col0, row0);
         Node to = getNode(col1, row1);
