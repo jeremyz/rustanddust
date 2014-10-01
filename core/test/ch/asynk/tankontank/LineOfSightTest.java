@@ -5,9 +5,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.tankontank.engine.Board;
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.SearchBoard;
 import ch.asynk.tankontank.engine.SearchBoard.Node;
 
