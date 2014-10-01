@@ -2,9 +2,12 @@ package ch.asynk.tankontank;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.HashSet;
 
 import org.junit.Test;
 import org.junit.Before;
+
+import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.engine.SearchBoard;
 
@@ -13,14 +16,15 @@ import static org.junit.Assert.assertTrue;
 public class BoardUtils
 {
     private SearchBoard sb;
+    private Helpers.FakeBoard b;
 
     @Before
     public void initialize()
     {
         int cols = 10;
         int rows = 9;
-        Helpers.FakeBoard fakeBoard = new Helpers.FakeBoard(cols, rows);
-        sb = new SearchBoard(fakeBoard, cols, rows);
+        b = new Helpers.FakeBoard(cols, rows);
+        sb = new SearchBoard(b, cols, rows);
     }
 
     @Test
@@ -96,6 +100,16 @@ public class BoardUtils
                 }
             }
         }
+    }
+
+    @Test
+    public void testPathSet()
+    {
+        Helpers.FakePawn p = new Helpers.FakePawn(3);
+        HashSet<GridPoint2> points = new HashSet<GridPoint2>();
+
+        b.possiblePaths(p, 2, 2, 4, 3, points);
+        assertTrue(points.size() == 8);
     }
 
     @Test
