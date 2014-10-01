@@ -28,7 +28,6 @@ public class SearchBoard
     private Board board;
     private int searchCount;
     private Node nodes[];
-    private Node adjacents[];
     private Board.Orientation sides[];
 
     private ArrayDeque<Node> stack;
@@ -53,7 +52,6 @@ public class SearchBoard
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
 
-        this.adjacents = new Node[6];
         this.sides = new Board.Orientation[6];
         sides[0] = Board.Orientation.NORTH;
         sides[1] = Board.Orientation.NORTH_EAST;
@@ -116,21 +114,23 @@ public class SearchBoard
         }
     }
 
-    public void adjacentMoves(Node src)
+    public void adjacentMoves(Node src, Node a[])
     {
         // move to enter dst by sides[i]
-        adjacents[0] = getNode((src.col - 1), src.row);
-        adjacents[1] = getNode(src.col, (src.row + 1));
-        adjacents[2] = getNode((src.col + 1), (src.row + 1));
-        adjacents[3] = getNode((src.col + 1), src.row);
-        adjacents[4] = getNode(src.col, (src.row - 1));
-        adjacents[5] = getNode((src.col - 1), (src.row - 1));
+        a[0] = getNode((src.col - 1), src.row);
+        a[1] = getNode(src.col, (src.row + 1));
+        a[2] = getNode((src.col + 1), (src.row + 1));
+        a[3] = getNode((src.col + 1), src.row);
+        a[4] = getNode(src.col, (src.row - 1));
+        a[5] = getNode((src.col - 1), (src.row - 1));
     }
 
     public List<Node> possibleMovesFrom(Pawn pawn, int col, int row)
     {
         searchCount += 1;
         moves.clear();
+
+        Node adjacents[] = new Node[6];
 
         Node from = getNode(col, row);
         from.parent = null;
@@ -157,7 +157,7 @@ public class SearchBoard
                 continue;
             }
 
-            adjacentMoves(src);
+            adjacentMoves(src, adjacents);
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
@@ -197,7 +197,7 @@ public class SearchBoard
         while(roadMarch.size() != 0) {
             Node src = roadMarch.pop();
 
-            adjacentMoves(src);
+            adjacentMoves(src, adjacents);
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
@@ -235,44 +235,46 @@ public class SearchBoard
         return moves;
     }
 
-    private void adjacentTargets(Node src, int angle)
+    private void adjacentTargets(Node src, int angle, Node a[])
     {
         // move in allowed directions
         if (Board.Orientation.NORTH.isInSides(angle))
-            adjacents[0] = getNode((src.col + 1), src.row);
+            a[0] = getNode((src.col + 1), src.row);
         else
-            adjacents[0] = null;
+            a[0] = null;
 
         if (Board.Orientation.NORTH_EAST.isInSides(angle))
-            adjacents[1] = getNode(src.col, (src.row - 1));
+            a[1] = getNode(src.col, (src.row - 1));
         else
-            adjacents[1] = null;
+            a[1] = null;
 
         if (Board.Orientation.SOUTH_EAST.isInSides(angle))
-            adjacents[2] = getNode((src.col - 1), (src.row - 1));
+            a[2] = getNode((src.col - 1), (src.row - 1));
         else
-            adjacents[2] = null;
+            a[2] = null;
 
         if (Board.Orientation.SOUTH.isInSides(angle))
-            adjacents[3] = getNode((src.col - 1), src.row);
+            a[3] = getNode((src.col - 1), src.row);
         else
-            adjacents[3] = null;
+            a[3] = null;
 
         if (Board.Orientation.SOUTH_WEST.isInSides(angle))
-            adjacents[4] = getNode(src.col, (src.row + 1));
+            a[4] = getNode(src.col, (src.row + 1));
         else
-            adjacents[4] = null;
+            a[4] = null;
 
         if (Board.Orientation.NORTH_WEST.isInSides(angle))
-            adjacents[5] = getNode((src.col + 1), (src.row + 1));
+            a[5] = getNode((src.col + 1), (src.row + 1));
         else
-            adjacents[5] = null;
+            a[5] = null;
     }
 
     public List<Node> possibleTargetsFrom(Pawn pawn, int col, int row)
     {
         searchCount += 1;
         targets.clear();
+
+        Node adjacents[] = new Node[6];
 
         Tile tile = board.getTile(col, row);
 
@@ -297,9 +299,9 @@ public class SearchBoard
                 continue;
 
             if (!first && (((range - src.remaining) % 2) == 0))
-                adjacentTargets(src, extendedAngle);
+                adjacentTargets(src, extendedAngle, adjacents);
             else
-                adjacentTargets(src, angle);
+                adjacentTargets(src, angle, adjacents);
 
             first = false;
             int rangeLeft = src.remaining - 1;
