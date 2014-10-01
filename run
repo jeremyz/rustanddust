@@ -1,3 +1,14 @@
 #! /bin/bash
 [ -d out ] && rm -fr out
-./gradlew clean packs desktop:run
+
+if [ $# -gt 0 ]; then
+    if [ "$1" = "c" ]; then
+        ./gradlew clean packs desktop:run
+    elif [ "$1" = "a" ]; then
+        ./gradlew android:installDebug android:run
+    else
+        ./gradlew desktop:run
+    fi
+else
+    ./gradlew desktop:run
+fi
