@@ -34,6 +34,9 @@ public class SearchBoard
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
 
+    private ArrayDeque<Node> path = new ArrayDeque<Node>(20);
+    private List<ArrayDeque<Node>> possiblePaths = new LinkedList<ArrayDeque<Node>>();
+
     private List<Node> moves;
     private List<Node> targets;
     private List<Node> los;
@@ -482,5 +485,55 @@ public class SearchBoard
         }
 
         return los;
+    }
+
+    public List<ArrayDeque<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
+    {
+        path.clear();
+        possiblePaths.clear();
+
+        Node from = getNode(col0, row0);
+        Node to = getNode(col1, row1);
+
+        searchCount += 1;
+        // TODO : search
+        from.search = searchCount;
+        from.remaining = pawn.getMovementPoints();
+        // TODO : roadMarch
+        from.roadMarch = true;
+
+        path.add(from);
+        findAllPaths(pawn, from, to);
+
+        return possiblePaths;
+    }
+
+    private void findAllPaths(Pawn pawn, Node from, Node to)
+    {
+        Node moves[] = new Node[6];
+        adjacentMoves(from, moves);
+
+        for(int i = 0; i < 6; i++) {
+            Node next = moves[i];
+            if (next != null) {
+                Tile t = board.getTile(next.col, next.row);
+                boolean road = t.road(sides[i]);
+                int r = (from.remaining - t.costFrom(pawn, sides[i], road));
+                if ((r >= 0) && (distance(next, to) <= r)) {
+                    if (next == to) {
+                        ArrayDeque<Node> temp = new ArrayDeque<Node>(path.size() + 1);
+                        temp.add(next);
+                        for (Node n: path)
+                            temp.add(n);
+                        possiblePaths.add(temp);
+                    } else {
+                        next.remaining = r;
+                        path.push(next);
+                        findAllPaths(pawn, next, to);
+                        path.pop();
+                    }
+                }
+            }
+        }
     }
 }
