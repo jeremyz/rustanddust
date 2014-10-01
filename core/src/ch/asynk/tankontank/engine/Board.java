@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.Set;
 import java.util.List;
 import java.util.Vector;
 import java.util.Iterator;
@@ -335,14 +336,33 @@ public abstract class Board implements Disposable
 
     public void possibleMovesFrom(Pawn pawn, int col, int row, Vector<GridPoint2> moves)
     {
-        List <SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, col, row);
+        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, col, row);
         nodesToPoints(nodes, moves);
     }
 
     public void possibleTargetsFrom(Pawn pawn, int col, int row, Vector<GridPoint2> targets)
     {
-        List <SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, col, row);
+        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, col, row);
         nodesToPoints(nodes, targets);
+    }
+
+    public void possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1, Set<GridPoint2> points)
+    {
+        // FIXME : optimize this
+        for (GridPoint2 point : points)
+            gridPoint2Pool.free(point);
+        points.clear();
+
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, col0, row0, col1, row1);
+        for (Vector<SearchBoard.Node> path : paths) {
+            for (int i = 0, n = path.size(); i < n; i++) {
+                GridPoint2 point = gridPoint2Pool.obtain();
+                SearchBoard.Node node = path.get(i);
+                point.set(node.col, node.row);
+                if (!points.add(point))
+                    gridPoint2Pool.free(point);
+            }
+        }
     }
 
     public void disableOverlaysOn(int col, int row)
