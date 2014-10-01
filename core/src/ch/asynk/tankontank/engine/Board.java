@@ -135,7 +135,7 @@ public abstract class Board implements Disposable
 
     protected Config cfg;
     private Tile[] tiles;
-    private SearchBoard searchBoard;
+    protected SearchBoard searchBoard;
     private Image image;
 
     boolean transform;
