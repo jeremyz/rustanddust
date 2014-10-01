@@ -71,6 +71,18 @@ public class SearchBoard
         this.los = new Vector<Node>(10);
     }
 
+    private boolean inMap(int col, int row)
+    {
+        if ((row < 0) || (row >= rows))
+            return false;
+
+        int colOffset = ((row + 1) / 2);
+        if ((col < colOffset) || ((col - colOffset) >= cols))
+            return false;
+
+        return true;
+    }
+
     private Node getNode(int col, int row)
     {
         int colOffset = ((row + 1) / 2);
