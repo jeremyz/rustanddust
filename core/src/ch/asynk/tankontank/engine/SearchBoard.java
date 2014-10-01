@@ -92,6 +92,11 @@ public class SearchBoard
         return nodes[((col - colOffset)) + (row * cols)];
     }
 
+    public int distance(Node from, Node to)
+    {
+        return distance(from.col, from.row, to.col, to.row);
+    }
+
     public int distance(int col0, int row0, int col1, int row1)
     {
         int dx = Math.abs(col1 - col0);
