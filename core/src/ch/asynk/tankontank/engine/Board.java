@@ -373,9 +373,9 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    public int possiblePathsFilterAdd(int col, int row, Set<GridPoint2> points)
+    public int possiblePathsFilterToggle(int col, int row, Set<GridPoint2> points)
     {
-        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterAdd(col, row);
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(col, row);
         return nodesToSet(paths, points);
     }
 

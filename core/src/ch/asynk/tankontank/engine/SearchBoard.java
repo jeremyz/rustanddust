@@ -497,10 +497,15 @@ public class SearchBoard
         possiblePathsFilters.clear();
     }
 
-    public List<Vector<Node>> possiblePathsFilterAdd(int col, int row)
+    public List<Vector<Node>> possiblePathsFilterToggle(int col, int row)
     {
-        possiblePathsFilters.add(getNode(col, row));
-        int n = possiblePathsFilters.size();
+        Node n = getNode(col, row);
+        if (possiblePathsFilters.contains(n))
+            possiblePathsFilters.remove(n);
+        else
+            possiblePathsFilters.add(n);
+
+        int s = possiblePathsFilters.size();
 
         List<Vector<Node>> paths = new LinkedList<Vector<Node>>();
         for (Vector<Node> path : possiblePaths) {
@@ -509,7 +514,7 @@ public class SearchBoard
                 if (path.contains(filter))
                     ok += 1;
             }
-            if (ok == n)
+            if (ok == s)
                 paths.add(path);
         }
 
