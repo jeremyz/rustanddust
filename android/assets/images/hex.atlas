@@ -12,29 +12,43 @@ repeat: none
   index: -1
 02_blue
   rotate: false
-  xy: 194, 2
+  xy: 234, 244
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 03_green
   rotate: false
-  xy: 386, 2
+  xy: 426, 244
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 04_red
   rotate: false
-  xy: 578, 2
+  xy: 618, 244
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 05_dot
   rotate: false
-  xy: 770, 2
+  xy: 810, 244
   size: 190, 217
   orig: 190, 217
+  offset: 0, 0
+  index: -1
+06_move
+  rotate: false
+  xy: 194, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+07_rose
+  rotate: false
+  xy: 2, 221
+  size: 230, 240
+  orig: 230, 240
   offset: 0, 0
   index: -1
