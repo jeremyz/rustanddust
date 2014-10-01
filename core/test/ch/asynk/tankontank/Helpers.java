@@ -6,6 +6,22 @@ import ch.asynk.tankontank.engine.Pawn;
 
 public class Helpers
 {
+    public static class FakePawn extends Pawn
+    {
+        private int mvt;
+        public FakePawn (int mvt)
+        {
+            this.mvt = mvt;
+        }
+
+        public int getMovementPoints()              { return mvt; }
+        public int getRoadMarchBonus()              { return 1; }
+        public boolean isUnit()                     { return true; }
+        public boolean isEnemy(Pawn other)          { return true; }
+        public int getAngleOfAttack()               { return 0; }
+        public int getAttackRangeFrom(Tile tile)    { return 3; }
+    }
+
     public static class FakeTile extends Tile
     {
         public boolean offMap;
@@ -26,10 +42,10 @@ public class Helpers
             return offMap;
         }
         public boolean blockLineOfSightFrom(Tile from)  { return false; }
-        public boolean atLeastOneMove(Pawn pawn) { return true; }
-        public boolean road(Board.Orientation side) { return false; }
+        public boolean atLeastOneMove(Pawn pawn)        { return true; }
+        public boolean road(Board.Orientation side)     { return false; }
+        public boolean hasTargetsFor(Pawn pawn)         { return false; }
         public int costFrom(Pawn pawn, Board.Orientation side, boolean road) { return 1; }
-        public boolean hasTargetsFor(Pawn pawn) { return false; }
     }
 
     public static class FakeBoard extends Board
@@ -59,7 +75,7 @@ public class Helpers
         {
             int colOffset = ((row + 1) / 2);
             if ((col < colOffset) || (row < 0) || (row >= rows) || ((col - colOffset) >= cols))
-                return new FakeTile(true);;
+                return new FakeTile(true);
             int idx = ((col - colOffset)) + (row * cols);
             return fakeTiles[idx];
         }
