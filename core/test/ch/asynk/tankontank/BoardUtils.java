@@ -1,7 +1,7 @@
 package ch.asynk.tankontank;
 
 import java.util.List;
-import java.util.ArrayDeque;
+import java.util.Vector;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -27,40 +27,43 @@ public class BoardUtils
     public void testPaths()
     {
         Helpers.FakePawn p = new Helpers.FakePawn(3);
-        List<ArrayDeque<SearchBoard.Node>> paths = sb.possiblePaths(p, 2, 2, 4, 3);
+        List<Vector<SearchBoard.Node>> paths = sb.possiblePaths(p, 2, 2, 4, 3);
 
         assertTrue(paths.size() == 8);
 
-        for(ArrayDeque<SearchBoard.Node> path : paths) {
+        for(Vector<SearchBoard.Node> path : paths) {
 
             assertTrue((path.size() == 3) || (path.size() == 4));
-            SearchBoard.Node n = path.removeFirst();
+            SearchBoard.Node n = path.get(0);
             assertTrue(n.col == 4);
             assertTrue(n.row == 3);
-            n = path.removeLast();
+            n = path.get(path.size() - 1);
             assertTrue(n.col == 2);
             assertTrue(n.row == 2);
 
-            if (path.size() == 1) {
-                n = path.pop();
+            int i = 1;
+            if (path.size() == 3) {
+                n = path.get(i);
                 assertTrue(n.col == 3);
                 assertTrue((n.row == 3) || (n.row == 2));
             } else {
-                n = path.pop();
+                n = path.get(i);
                 if (n.col == 2) {
-                    if (n.col == 1) {
-                        n = path.pop();
+                    i += 1;
+                    if (n.row == 1) {
+                        n = path.get(i);
                         assert(n.col == 3);
                         assert(n.row == 2);
                     } else {
                         assert(n.col == 3);
-                        n = path.pop();
+                        n = path.get(i);
                         assert(n.col == 2);
                         assert(n.row == 3);
                     }
                 } else if (n.col == 3) {
+                    i += 1;
                     if (n.row == 2) {
-                        n = path.pop();
+                        n = path.get(i);
                         if (n.col == 2)
                             assert(n.row == 1);
                         else {
@@ -69,7 +72,7 @@ public class BoardUtils
                         }
                     } else {
                         assert(n.col == 3);
-                        n = path.pop();
+                        n = path.get(i);
                         if (n.col == 2)
                             assert(n.row == 3);
                         else {
@@ -78,14 +81,15 @@ public class BoardUtils
                         }
                     }
                 } else {
+                    i += 1;
                     assertTrue(n.col == 4);
                     if (n.row == 4) {
-                        n = path.pop();
+                        n = path.get(i);
                         assert(n.col == 3);
                         assert(n.row == 3);
                     } else {
                         assert(n.row == 2);
-                        n = path.pop();
+                        n = path.get(i);
                         assert(n.col == 3);
                         assert(n.row == 2);
                     }
