@@ -31,6 +31,11 @@ public abstract class Pawn extends Image implements Disposable
     public abstract int getAngleOfAttack();
     public abstract int getAttackRangeFrom(Tile tile);
 
+    protected Pawn()
+    {
+        super();
+    }
+
     public Pawn(TextureRegion pawn, TextureAtlas overlays)
     {
         super(pawn);

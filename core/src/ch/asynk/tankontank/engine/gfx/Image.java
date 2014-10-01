@@ -10,6 +10,10 @@ public class Image extends Sprite implements Moveable, Disposable
 {
     private Texture texture;
 
+    protected Image()
+    {
+    }
+
     public Image(Texture texture)
     {
         super(texture);
