@@ -1,8 +1,9 @@
 package ch.asynk.tankontank;
 
-import ch.asynk.tankontank.engine.Board;
-import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.SearchBoard;
 
 public class Helpers
 {
@@ -68,6 +69,7 @@ public class Helpers
             fakeTiles[39].offMap = true;
             fakeTiles[59].offMap = true;
             fakeTiles[79].offMap = true;
+            this.searchBoard = new SearchBoard(this, cols, rows);
         }
 
         @Override
