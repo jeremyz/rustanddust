@@ -83,8 +83,8 @@ public abstract class Map extends Board
                     action = Action.PATH;
                     if (possiblePaths.size() > 0) {
                         enablePossiblePaths(false, true);
-                        paths = possiblePathsFilterAdd(touchHex.x, touchHex.y, possiblePaths);
-                        enableOverlayOn(touchHex.x, touchHex.y, Hex.DOT, true);
+                        paths = possiblePathsFilterToggle(touchHex.x, touchHex.y, possiblePaths);
+                        toggleDotOverlay(touchHex.x, touchHex.y);
                     } else {
                         enablePossibleMoves(false);
                         from.set(hex.x, hex.y);
@@ -142,6 +142,12 @@ public abstract class Map extends Board
     {
         for(GridPoint2 hex : possibleMoves)
             enableOverlayOn(hex.x, hex.y, Hex.GREEN, enable);
+    }
+
+    private void toggleDotOverlay(int col, int row)
+    {
+        boolean enable= !isOverlayEnabledOn(col, row, Hex.DOT);
+        enableOverlayOn(col, row, Hex.DOT, enable);
     }
 
     private void enableFinalPath(boolean enable)
