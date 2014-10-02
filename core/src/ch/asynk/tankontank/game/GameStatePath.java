@@ -29,7 +29,7 @@ public class GameStatePath extends GameStateCommon
         }
 
         if (s == 1) {
-            map.enableFinalPath(true);
+            map.enableFinalPath(downHex, true);
             ctrl.setState(State.DIRECTION, true);
         }
     }

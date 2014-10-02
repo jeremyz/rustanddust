@@ -115,12 +115,13 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.DOT, enable);
     }
 
-    public void enableFinalPath(boolean enable)
+    public void enableFinalPath(GridPoint2 dst, boolean enable)
     {
         for(GridPoint2 hex : possiblePaths) {
             enableOverlayOn(hex, Hex.GREEN, false);
             enableOverlayOn(hex, Hex.DOT, false);
             enableOverlayOn(hex, Hex.MOVE, enable);
         }
+        enableOverlayOn(dst, Hex.ROSE, true);
     }
 }
