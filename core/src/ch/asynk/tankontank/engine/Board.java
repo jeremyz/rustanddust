@@ -300,6 +300,13 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
+    public void clearNodesVector(Vector<GridPoint2> points)
+    {
+        for (GridPoint2 point : points)
+            gridPoint2Pool.free(point);
+        points.clear();
+    }
+
     private void nodesToPoints(List<SearchBoard.Node> nodes, Vector<GridPoint2> points)
     {
         // for (GridPoint2 point : points)
@@ -334,19 +341,26 @@ public abstract class Board implements Disposable
         points.setSize(ns);
     }
 
-    public void possibleMovesFrom(Pawn pawn, int col, int row, Vector<GridPoint2> moves)
+    public void possibleMovesFrom(Pawn pawn, GridPoint2 hex, Vector<GridPoint2> moves)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, col, row);
+        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, hex.x, hex.y);
         nodesToPoints(nodes, moves);
     }
 
-    public void possibleTargetsFrom(Pawn pawn, int col, int row, Vector<GridPoint2> targets)
+    public void possibleTargetsFrom(Pawn pawn, GridPoint2 hex, Vector<GridPoint2> targets)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, col, row);
+        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, hex.x, hex.y);
         nodesToPoints(nodes, targets);
     }
 
-    public int nodesToSet(List<Vector<SearchBoard.Node>> nodes, Set<GridPoint2> points)
+    public void clearNodesSet(Set<GridPoint2> points)
+    {
+        for (GridPoint2 point : points)
+            gridPoint2Pool.free(point);
+        points.clear();
+    }
+
+    private int nodesToSet(List<Vector<SearchBoard.Node>> nodes, Set<GridPoint2> points)
     {
         // FIXME : optimize this
         for (GridPoint2 point : points)
@@ -367,9 +381,9 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
-    public int possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1, Set<GridPoint2> points)
+    public int possiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, Set<GridPoint2> points)
     {
-        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, col0, row0, col1, row1);
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
         return nodesToSet(paths, points);
     }
 
@@ -379,14 +393,24 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    public void disableOverlaysOn(int col, int row)
+    public boolean hasUnits(GridPoint2 hex)
     {
-        disableOverlaysOn(getTile(col, row));
+        return getTile(hex.x, hex.y).hasUnits();
+    }
+
+    public boolean isOffMap(GridPoint2 hex)
+    {
+        return getTile(hex.x, hex.y).isOffMap();
     }
 
     public boolean isOverlayEnabledOn(int col, int row, int i)
     {
         return getTile(col, row).isOverlayEnabled(i);
+    }
+
+    public void disableOverlaysOn(int col, int row)
+    {
+        disableOverlaysOn(getTile(col, row));
     }
 
     public void disableOverlaysOn(Tile tile)
@@ -397,9 +421,9 @@ public abstract class Board implements Disposable
             tilesToDraw.remove(tile);
     }
 
-    public void enableOverlayOn(int col, int row, int i, boolean enable)
+    public void enableOverlayOn(GridPoint2 hex, int i, boolean enable)
     {
-        enableOverlayOn(getTile(col, row), i, enable);
+        enableOverlayOn(getTile(hex.x, hex.y) , i, enable);
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
