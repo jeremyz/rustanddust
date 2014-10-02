@@ -529,7 +529,7 @@ public class SearchBoard
         Node to = getNode(col1, row1);
 
         path.add(from);
-        findAllPaths(pawn, from, to, pawn.getMovementPoints(), true, pawn.getMovementPoints());
+        findAllPaths(pawn, from, to, pawn.getMovementPoints(), true, pawn.getRoadMarchBonus());
 
         return possiblePaths;
     }
@@ -547,10 +547,9 @@ public class SearchBoard
             boolean road = t.road(sides[i]);
             int cost = t.costFrom(pawn, sides[i], road);
             int r = (mvtLeft - cost);
-            roadMarch = roadMarch & road;
-            if (roadMarch) r += roadMarchBonus;
+            if (roadMarch & road) r += roadMarchBonus;
 
-            if ((r >= 0) && (distance(next, to) <= r)) {
+            if ((distance(next, to) <= r)) {
                 if (next == to) {
                     Vector<Node> temp = new Vector<Node>(path.size() + 1);
                     temp.add(next);
@@ -560,7 +559,7 @@ public class SearchBoard
                 } else {
                     next.remaining = r;
                     path.push(next);
-                    findAllPaths(pawn, next, to, (mvtLeft - cost), roadMarch, roadMarchBonus);
+                    findAllPaths(pawn, next, to, (mvtLeft - cost), (roadMarch & road), roadMarchBonus);
                     path.pop();
                 }
             }
