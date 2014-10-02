@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.GridPoint3;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.tankontank.engine.gfx.Image;
@@ -131,6 +132,13 @@ public abstract class Board implements Disposable
         @Override
         protected GridPoint2 newObject() {
             return new GridPoint2();
+        }
+    };
+
+    private final Pool<GridPoint3> gridPoint3Pool = new Pool<GridPoint3>() {
+        @Override
+        protected GridPoint3 newObject() {
+            return new GridPoint3();
         }
     };
 
@@ -391,6 +399,48 @@ public abstract class Board implements Disposable
     {
         List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(col, row);
         return nodesToSet(paths, points);
+    }
+
+    private Orientation getOrientation(SearchBoard.Node from, SearchBoard.Node to)
+    {
+        int dx = to.col - from .col;
+        int dy = to.row - from.row;
+
+        if (dy == 0) {
+            if (dx > 0) return Orientation.NORTH;
+            return Orientation.SOUTH;
+        }
+        if (dy > 0) {
+            if (dx > 0) return Orientation.NORTH_WEST;
+            return Orientation.SOUTH_WEST;
+        } else {
+            if (dx > 0) return Orientation.NORTH_EAST;
+            return Orientation.SOUTH_EAST;
+        }
+    }
+
+    public int getFinalPath(Vector<GridPoint3> path)
+    {
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths();
+
+        for (GridPoint3 v : path)
+            gridPoint3Pool.free(v);
+        path.clear();
+
+        if (paths.size() != 1)
+            return 0;
+
+        Vector<SearchBoard.Node> nodes = paths.get(0);
+        SearchBoard.Node prev = nodes.get(nodes.size() - 1);
+        for (int i = (nodes.size() - 2); i >= 0; i--) {
+            SearchBoard.Node node = nodes.get(i);
+            GridPoint3 point = gridPoint3Pool.obtain();
+            point.set(node.col, node.row, getOrientation(prev, node).r);
+            path.add(point);
+            prev = node;
+        }
+
+        return path.size();
     }
 
     public boolean hasUnits(GridPoint2 hex)

@@ -504,7 +504,11 @@ public class SearchBoard
             possiblePathsFilters.remove(n);
         else
             possiblePathsFilters.add(n);
+        return possiblePaths();
+    }
 
+    public List<Vector<Node>> possiblePaths()
+    {
         int s = possiblePathsFilters.size();
 
         List<Vector<Node>> paths = new LinkedList<Vector<Node>>();
