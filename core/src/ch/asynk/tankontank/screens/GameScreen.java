@@ -28,8 +28,10 @@ import ch.asynk.tankontank.TankOnTank;
 
 import ch.asynk.tankontank.game.Hud;
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.GameCtrl;
 import ch.asynk.tankontank.game.GameFactory;
 import ch.asynk.tankontank.game.GameFactory.UnitType;
+// TEST
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
 
@@ -56,6 +58,7 @@ public class GameScreen implements Screen
     private GameFactory factory;
     private Map map;
     private Hud hud;
+    private GameCtrl ctrl;
 
     private Vector2 screenToWorld = new Vector2();          // ratio
     private Vector3 touchPos = new Vector3();               // world coordinates
@@ -81,8 +84,12 @@ public class GameScreen implements Screen
         mapViewport = new FitViewport(virtualWidth, virtualHeight, cam);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
+        ctrl = new GameCtrl(map);
+
+        // DEBUG
         debugShapes = new ShapeRenderer();
 
+        // TEST
         Board.Orientation o = Board.Orientation.NORTH;
         addUnit(4, 7, o, UnitType.GE_AT_GUN);
         addUnit(3, 6, o, UnitType.GE_INFANTRY);
@@ -101,6 +108,7 @@ public class GameScreen implements Screen
         addUnit(9, 2, o, UnitType.US_SHERMAN);
         addUnit(9, 1, o, UnitType.US_SHERMAN_HQ);
         addUnit(8, 0, o, UnitType.US_WOLVERINE);
+        // TEST
 
         Gdx.input.setInputProcessor(getMultiplexer());
     }
@@ -134,10 +142,7 @@ public class GameScreen implements Screen
                 float deltaX = ((x - dragPos.x) * cam.zoom * screenToWorld.x);
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToWorld.y);
                 dragPos.set(x, y);
-                if (map.drag(deltaX, deltaY)) {
-                    unproject(x, y, touchPos);
-                    map.getHexAt(cell, touchPos.x, touchPos.y);
-                } else {
+                if (!ctrl.drag(deltaX, deltaY)) {
                     cam.translate(-deltaX, -deltaY, 0);
                     clampCameraPos();
                 }
@@ -149,7 +154,7 @@ public class GameScreen implements Screen
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
                     unproject(x, y, touchPos);
-                    map.touchDown(touchPos.x, touchPos.y);
+                    ctrl.touchDown(touchPos.x, touchPos.y);
                 }
 
                 return true;
@@ -159,7 +164,7 @@ public class GameScreen implements Screen
             {
                 if (button == Input.Buttons.LEFT) {
                     unproject(x, y, touchPos);
-                    map.touchUp(touchPos.x, touchPos.y);
+                    ctrl.touchUp(touchPos.x, touchPos.y);
                 }
                 return true;
             }
