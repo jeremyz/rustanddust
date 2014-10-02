@@ -45,9 +45,9 @@ public abstract class HeadedPawn extends Pawn
     public void setPosition(float x, float y, float z)
     {
         super.setPosition(x, y);
-        float cx = x + (getWidth() / 2f) - (head.getWidth() / 2f);
-        float cy = y + (getHeight() / 2f) - (head.getHeight() / 2f);
-        head.setPosition(cx, cy);
+        float cx = x + (getWidth() / 2f);
+        float cy = y + (getHeight() / 2f);
+        head.centerOn(cx, cy);
         head.setRotation(z);
         this.orientation = Board.Orientation.fromRotation(z);
     }
