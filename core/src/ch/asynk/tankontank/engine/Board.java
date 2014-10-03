@@ -417,17 +417,21 @@ public abstract class Board implements Disposable
         return getTile(coords).getCenter();
     }
 
-    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords)
+    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
         Vector2 center = getTile(coords).getCenter();
         float x = (center.x - (pawn.getWidth() / 2));
         float y = (center.y - (pawn.getHeight() / 2));
-        return new Vector2(x, y);
+        if (pos == null)
+            return new Vector2(x, y);
+        else
+            pos.set(x, y);
+        return pos;
     }
 
     public void setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
     {
-        Vector2 pos = getPawnPosAt(pawn, coords);
+        Vector2 pos = getPawnPosAt(pawn, coords, null);
         pawn.pushMove(pos.x, pos.y, o);
         pushPawnAt(pawn, coords);
     }
@@ -442,7 +446,7 @@ public abstract class Board implements Disposable
         removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
 
         pushPawnAt(pawn, coords);
-        Vector2 pos = getPawnPosAt(pawn, coords);
+        Vector2 pos = getPawnPosAt(pawn, coords, null);
         pawn.pushMove(pos.x, pos.y, o);
     }
 
