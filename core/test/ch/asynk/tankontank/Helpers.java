@@ -3,6 +3,7 @@ package ch.asynk.tankontank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.SearchBoard;
 
 public class Helpers
@@ -44,9 +45,9 @@ public class Helpers
         }
         public boolean blockLineOfSightFrom(Tile from)  { return false; }
         public boolean atLeastOneMove(Pawn pawn)        { return true; }
-        public boolean road(Board.Orientation side)     { return false; }
+        public boolean road(Orientation side)     { return false; }
         public boolean hasTargetsFor(Pawn pawn)         { return false; }
-        public int costFrom(Pawn pawn, Board.Orientation side, boolean road) { return 1; }
+        public int costFrom(Pawn pawn, Orientation side, boolean road) { return 1; }
     }
 
     public static class FakeBoard extends Board
