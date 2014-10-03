@@ -335,10 +335,15 @@ public abstract class Board implements Disposable
         if (paths.size() != 1)
             return 0;
 
-        Vector2 pawnPos = new Vector2();
+
         SearchBoard.Node prevNode = null;
-        Vector3 prevVector = null;
-        Orientation o = Orientation.KEEP;
+
+        Vector3 v = pawn.getLastPosition();
+        Vector3 prevVector = vector3Pool.obtain();
+        prevVector.set(v.x, v.y, v.z);
+        Orientation prevOrientation = pawn.getOrientation();
+
+        Vector2 pawnPos = new Vector2();
         GridPoint2 coords = gridPoint2Pool.obtain();
 
         Vector<SearchBoard.Node> nodes = paths.get(0);
@@ -346,16 +351,18 @@ public abstract class Board implements Disposable
         for (int i = (nodes.size() - 1); i >= 0; i--) {
             SearchBoard.Node node = nodes.get(i);
 
-            if (prevVector == null) {
-                Vector3 p = pawn.getLastPosition();
-                prevVector = vector3Pool.obtain();
-                prevVector.set(p.x, p.y, 0f);
-            } else {
-                o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
-                prevVector.z = o.r();
-                path.add(prevVector);
+            if (prevNode != null) {
+                Orientation o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
+                if (o != prevOrientation) {
+                    prevVector.z = o.r();
+                    path.add(prevVector);
+                    prevVector = vector3Pool.obtain();
+                }
                 coords.set(node.col, node.row);
                 getPawnPosAt(pawn, coords, pawnPos);
+                prevVector.set(pawnPos.x, pawnPos.y, o.r());
+                path.add(prevVector);
+                prevOrientation = o;
                 prevVector = vector3Pool.obtain();
                 prevVector.set(pawnPos.x, pawnPos.y, 0f);
             }
@@ -363,8 +370,12 @@ public abstract class Board implements Disposable
             prevNode = node;
         }
 
-        prevVector.z = finalOrientation.r();
-        path.add(prevVector);
+        if (finalOrientation != prevOrientation) {
+            prevVector.z = finalOrientation.r();
+            path.add(prevVector);
+        } else {
+            vector3Pool.free(prevVector);
+        }
 
         gridPoint2Pool.free(coords);
 
