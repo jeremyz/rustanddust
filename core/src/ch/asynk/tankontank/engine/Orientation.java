@@ -79,4 +79,22 @@ public enum Orientation
         else if ((r > (NORTH_WEST.r - delta)) && (r < (NORTH_WEST.r + delta))) return NORTH_WEST;
         else return KEEP;
     }
+
+    public static Orientation fromMove(int col0, int row0, int col1, int row1)
+    {
+        int dx = col1 - col0;
+        int dy = row1 - row0;
+
+        if (dy == 0) {
+            if (dx > 0) return Orientation.NORTH;
+            return Orientation.SOUTH;
+        }
+        if (dy > 0) {
+            if (dx > 0) return Orientation.NORTH_WEST;
+            return Orientation.SOUTH_WEST;
+        } else {
+            if (dx > 0) return Orientation.NORTH_EAST;
+            return Orientation.SOUTH_EAST;
+        }
+    }
 }
