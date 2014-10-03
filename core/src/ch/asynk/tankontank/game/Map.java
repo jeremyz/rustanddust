@@ -6,14 +6,17 @@ import java.util.HashSet;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Orientation;
 
 public abstract class Map extends Board
 {
+    private final Vector<Vector3> finalPath = new Vector<Vector3>(10);
     private final Vector<GridPoint2> possibleMoves = new Vector<GridPoint2>(20);
     private final Vector<GridPoint2> possibleTargets = new Vector<GridPoint2>(10);
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
@@ -97,6 +100,14 @@ public abstract class Map extends Board
     public int possiblePathsPointToggle(GridPoint2 hex)
     {
         return possiblePathsFilterToggle(hex, possiblePaths);
+    }
+
+    public void movePawn(Pawn pawn, Orientation o)
+    {
+        int s = getFinalPath(pawn, finalPath, o);
+        if (s > 0) {
+            movePawn(pawn, finalPath);
+        }
     }
 
     public void clearPossibles()
