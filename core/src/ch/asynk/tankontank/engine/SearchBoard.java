@@ -179,6 +179,8 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.parent = src;
                             dst.roadMarch = roadMarch;
+                            stack.push(dst);
+                            if (!moves.contains(dst)) moves.add(dst);
                         }
                     } else {
                         dst.search = searchCount;
@@ -190,7 +192,7 @@ public class SearchBoard
                             moves.add(dst);
                         } else {
                             dst.parent = null;
-                            dst.remaining = Integer.MAX_VALUE;
+                            dst.remaining = -1;
                         }
                     }
                 }
@@ -218,6 +220,8 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.parent = src;
                             dst.roadMarch = true;
+                            roadMarch.push(dst);
+                            if (!moves.contains(dst)) moves.add(dst);
                         }
                     } else {
                         dst.search = searchCount;
@@ -229,7 +233,7 @@ public class SearchBoard
                             moves.add(dst);
                         } else {
                             dst.parent = null;
-                            dst.remaining = Integer.MAX_VALUE;
+                            dst.remaining = -1;
                         }
                     }
                 }
