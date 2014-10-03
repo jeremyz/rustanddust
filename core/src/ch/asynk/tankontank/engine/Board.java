@@ -345,7 +345,6 @@ public abstract class Board implements Disposable
 
         for (int i = (nodes.size() - 1); i >= 0; i--) {
             SearchBoard.Node node = nodes.get(i);
-            System.out.println(node.col+" "+node.row);
 
             if (prevVector == null) {
                 Vector3 p = pawn.getLastPosition();

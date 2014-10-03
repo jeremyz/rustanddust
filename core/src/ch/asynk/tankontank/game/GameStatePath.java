@@ -22,8 +22,9 @@ public class GameStatePath extends GameStateCommon
         }
 
         if (s == 1) {
+            hex.set(to.x, to.y);
             map.enableFinalPath(to, true);
-            ctrl.setState(State.DIRECTION, true);
+            ctrl.setState(State.DIRECTION, false);
         }
     }
 
