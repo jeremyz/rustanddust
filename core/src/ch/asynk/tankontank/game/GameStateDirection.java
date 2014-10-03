@@ -34,10 +34,8 @@ public class GameStateDirection extends GameStateCommon
             }
         }
 
-        if (o != Orientation.KEEP) {
-            selectHex();
+        if (o != Orientation.KEEP)
             map.movePawn(pawn, o);
-        }
         map.enableFinalPath(hex, false);
         map.resetPaths();
         ctrl.setState(State.NONE, false);
