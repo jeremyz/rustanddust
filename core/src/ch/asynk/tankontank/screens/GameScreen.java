@@ -144,10 +144,8 @@ public class GameScreen implements Screen
                 float deltaX = ((x - dragPos.x) * cam.zoom * screenToWorld.x);
                 float deltaY = ((dragPos.y - y) * cam.zoom * screenToWorld.y);
                 dragPos.set(x, y);
-                if (!ctrl.drag(deltaX, deltaY)) {
-                    cam.translate(-deltaX, -deltaY, 0);
-                    clampCameraPos();
-                }
+                cam.translate(-deltaX, -deltaY, 0);
+                clampCameraPos();
                 return true;
             }
             @Override

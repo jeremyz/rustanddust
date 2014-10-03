@@ -50,9 +50,4 @@ public class GameCtrl
         if (GameStateCommon.up(x, y))
             state.touchUp();
     }
-
-    public boolean drag(float dx, float dy)
-    {
-        return state.drag(dx, dy);
-    }
 }

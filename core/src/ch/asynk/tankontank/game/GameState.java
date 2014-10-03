@@ -8,11 +8,7 @@ public interface GameState
         DIRECTION
     };
 
-    public void abort();
-
     public void touchDown();
 
     public void touchUp();
-
-    public boolean drag(float dx, float dy);
 }

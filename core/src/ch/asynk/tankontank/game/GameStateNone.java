@@ -15,15 +15,8 @@ public class GameStateNone extends GameStateCommon
     }
 
     @Override
-    public boolean drag(float dx, float dy)
-    {
-        return false;
-    }
-
-    @Override
     public void touchDown()
     {
-        System.out.println("GameStateNone: touchDown()");
         if (map.isInPossibleMoves(downHex)) {
             ctrl.setState(State.PATH, true);
         } else {
@@ -42,14 +35,7 @@ public class GameStateNone extends GameStateCommon
     @Override
     public void touchUp()
     {
-        System.out.println("GameStateNone: touchUp()");
         if (!hexHasUnit())
             unselectHex();
-    }
-
-    @Override
-    public void abort()
-    {
-        System.err.println("GameStateNone: abort");
     }
 }

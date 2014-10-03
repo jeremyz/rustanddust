@@ -8,15 +8,8 @@ public class GameStatePath extends GameStateCommon
     private GridPoint2 to = new GridPoint2(-1, -1);
 
     @Override
-    public boolean drag(float dx, float dy)
-    {
-        return false;
-    }
-
-    @Override
     public void touchDown()
     {
-        System.out.println("GameStatePath: touchDown()");
         int s = map.possiblePathsSize();
         if (s == 0) {
             s = buildPaths();
@@ -37,13 +30,6 @@ public class GameStatePath extends GameStateCommon
     @Override
     public void touchUp()
     {
-        System.out.println("GameStatePath: touchUp()");
-    }
-
-    @Override
-    public void abort()
-    {
-        System.err.println("GameStatePath: abort");
     }
 
     private int buildPaths()
