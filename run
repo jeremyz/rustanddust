@@ -1,14 +1,18 @@
 #! /bin/bash
 [ -d out ] && rm -fr out
 
-if [ $# -gt 0 ]; then
-    if [ "$1" = "c" ]; then
-        ./gradlew clean packs desktop:run
-    elif [ "$1" = "a" ]; then
-        ./gradlew android:installDebug android:run
-    else
-        ./gradlew desktop:run
-    fi
-else
-    ./gradlew desktop:run
-fi
+ARGS="desktop:run"
+
+case "$1" in
+    "c")
+        ARGS="packs $ARGS"
+        ;;
+    "a")
+        ARGS="android:installDebug android:run"
+        ;;
+    "t")
+        ARGS="core:test"
+        ;;
+esac
+
+echo "./gradlew $ARGS" && ./gradlew $ARGS
