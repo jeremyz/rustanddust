@@ -30,26 +30,18 @@ public class TankOnTank extends Game
     public void loadAssets()
     {
         Gdx.app.debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-        manager.load("images/map_a.png", Texture.class);
-        manager.load("images/map_b.png", Texture.class);
-        manager.load("images/counters.atlas", TextureAtlas.class);
-        manager.load("images/ge.atlas", TextureAtlas.class);
-        manager.load("images/us.atlas", TextureAtlas.class);
-        manager.load("images/hex.atlas", TextureAtlas.class);
-        manager.load("images/unit.atlas", TextureAtlas.class);
+        manager.load("data/map_a.png", Texture.class);
+        manager.load("data/map_b.png", Texture.class);
+        manager.load("data/pawns.atlas", TextureAtlas.class);
     }
 
     public void unloadAssets()
     {
         Gdx.app.debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
-        manager.unload("images/map_a.png");
-        manager.unload("images/map_b.png");
-        manager.unload("images/counters.atlas");
-        manager.unload("images/ge.atlas");
-        manager.unload("images/us.atlas");
-        manager.unload("images/hex.atlas");
-        manager.unload("images/unit.atlas");
+        manager.unload("data/map_a.png");
+        manager.unload("data/map_b.png");
+        manager.unload("data/pawns.atlas");
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 

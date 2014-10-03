@@ -10,26 +10,17 @@ import ch.asynk.tankontank.engine.Board;
 
 public class GameFactory implements Board.TileBuilder, Disposable
 {
-    private TextureAtlas usAtlas;
-    private TextureAtlas geAtlas;
-    private TextureAtlas hexAtlas;
-    private TextureAtlas unitAtlas;
+    private TextureAtlas pawnAtlas;
 
     public GameFactory(AssetManager manager)
     {
-        usAtlas = manager.get("images/us.atlas", TextureAtlas.class);
-        geAtlas = manager.get("images/ge.atlas", TextureAtlas.class);
-        hexAtlas = manager.get("images/hex.atlas", TextureAtlas.class);
-        unitAtlas = manager.get("images/unit.atlas", TextureAtlas.class);
+        pawnAtlas = manager.get("data/pawns.atlas", TextureAtlas.class);
     }
 
     @Override
     public void dispose()
     {
-        usAtlas.dispose();
-        geAtlas.dispose();
-        hexAtlas.dispose();
-        unitAtlas.dispose();
+        pawnAtlas.dispose();
     }
 
     public enum UnitType
@@ -57,49 +48,49 @@ public class GameFactory implements Board.TileBuilder, Disposable
         Unit u = null;
         switch(t) {
             case GE_AT_GUN:
-                u = new Unit(Army.GE, false, 3, 8, 9, 1, geAtlas.findRegion("at-gun"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 3, 8, 9, 1, pawnAtlas, "ge-at-gun", "head");
                 break;
             case GE_INFANTRY:
-                u = new Unit(Army.GE, false, 1, 7, 10, 1, geAtlas.findRegion("infantry"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 1, 7, 10, 1, pawnAtlas, "ge-infantry", "head");
                 break;
             case GE_KINGTIGER:
-                u = new Unit(Army.GE, false, 3, 12, 1, geAtlas.findRegion("kingtiger"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 3, 12, 1, pawnAtlas, "ge-kingtiger", "head");
                 break;
             case GE_PANZER_IV:
-                u = new Unit(Army.GE, false, 2, 9, 2, geAtlas.findRegion("panzer-iv"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 2, 9, 2, pawnAtlas, "ge-panzer-iv", "head");
                 break;
             case GE_PANZER_IV_HQ:
-                u = new Unit(Army.GE, true, 2, 9, 2, geAtlas.findRegion("panzer-iv-hq"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, true, 2, 9, 2, pawnAtlas, "ge-panzer-iv-hq", "head");
                 break;
             case GE_TIGER:
-                u = new Unit(Army.GE, false, 3, 11, 1, geAtlas.findRegion("tiger"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 3, 11, 1, pawnAtlas, "ge-tiger", "head");
                 break;
             case GE_WESPE:
-                u = new Unit(Army.GE, false, 5, 8, 1, geAtlas.findRegion("wespe"), geAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.GE, false, 5, 8, 1, pawnAtlas, "ge-wespe", "head");
                 break;
             case US_AT_GUN:
-                u = new Unit(Army.US, false, 1, 7, 10, 1, usAtlas.findRegion("at-gun"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 1, 7, 10, 1, pawnAtlas, "us-at-gun", "head");
                 break;
             case US_INFANTRY:
-                u = new Unit(Army.US, false, 1, 7, 10, 1, usAtlas.findRegion("infantry"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 1, 7, 10, 1, pawnAtlas, "us-infantry", "head");
                 break;
             case US_PERSHING:
-                u = new Unit(Army.US, false, 3, 10, 2, usAtlas.findRegion("pershing"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 3, 10, 2, pawnAtlas, "us-pershing", "head");
                 break;
             case US_PERSHING_HQ:
-                u = new Unit(Army.US, true, 3, 10, 2, usAtlas.findRegion("pershing-hq"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, true, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
                 break;
             case US_PRIEST:
-                u = new Unit(Army.US, false, 5, 8, 1, usAtlas.findRegion("priest"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 5, 8, 1, pawnAtlas, "us-priest", "head");
                 break;
             case US_SHERMAN:
-                u = new Unit(Army.US, false, 2, 9, 2, usAtlas.findRegion("sherman"), usAtlas.findRegion("sherman-head"), unitAtlas);
+                u = new Unit(Army.US, false, 2, 9, 2, pawnAtlas, "us-sherman", "us-sherman-head");
                 break;
             case US_SHERMAN_HQ:
-                u = new Unit(Army.US, true, 2, 9, 2, usAtlas.findRegion("sherman-hq"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, true, 2, 9, 2, pawnAtlas, "us-sherman-hq", "head");
                 break;
             case US_WOLVERINE:
-                u = new Unit(Army.US, false, 3, 8, 3, usAtlas.findRegion("wolverine"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 3, 8, 3, pawnAtlas, "us-wolverine", "head");
                 break;
         }
 
@@ -136,10 +127,10 @@ public class GameFactory implements Board.TileBuilder, Disposable
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapA(this, config(), manager.get("images/map_a.png", Texture.class));
+                m = new MapA(this, config(), manager.get("data/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                m = new MapB(this, config(), manager.get("images/map_b.png", Texture.class));
+                m = new MapB(this, config(), manager.get("data/map_b.png", Texture.class));
                 break;
         }
 
@@ -148,6 +139,6 @@ public class GameFactory implements Board.TileBuilder, Disposable
 
     public Hex getNewTile(float cx, float cy)
     {
-        return new Hex(cx, cy, hexAtlas);
+        return new Hex(cx, cy, pawnAtlas);
     }
 }

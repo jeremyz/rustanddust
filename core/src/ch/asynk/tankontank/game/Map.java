@@ -61,15 +61,15 @@ public abstract class Map extends Board
             enableOverlayOn(hex, Hex.RED, enable);
     }
 
-    public void enablePossiblePaths(boolean enable, boolean keepDots)
+    public void enablePossiblePaths(boolean enable, boolean keepMoves)
     {
-        if (keepDots) {
+        if (keepMoves) {
             for(GridPoint2 hex : possiblePaths)
                 enableOverlayOn(hex, Hex.GREEN, enable);
         } else {
             for(GridPoint2 hex : possiblePaths) {
                 enableOverlayOn(hex, Hex.GREEN, enable);
-                enableOverlayOn(hex, Hex.DOT, false);
+                enableOverlayOn(hex, Hex.MOVE, false);
             }
         }
     }
@@ -126,15 +126,14 @@ public abstract class Map extends Board
 
     public void toggleDotOverlay(GridPoint2 hex)
     {
-        boolean enable= !isOverlayEnabledOn(hex, Hex.DOT);
-        enableOverlayOn(hex, Hex.DOT, enable);
+        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE);
+        enableOverlayOn(hex, Hex.MOVE, enable);
     }
 
     public void enableFinalPath(GridPoint2 dst, boolean enable)
     {
         for(GridPoint2 hex : possiblePaths) {
             enableOverlayOn(hex, Hex.GREEN, false);
-            enableOverlayOn(hex, Hex.DOT, false);
             enableOverlayOn(hex, Hex.MOVE, enable);
         }
         enableOverlayOn(dst, Hex.ROSE, enable);

@@ -57,9 +57,9 @@ public class Unit extends HeadedPawn
     }
 
     // hard tager
-    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureRegion unit, TextureRegion head, TextureAtlas overlays)
+    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
-        super(unit, head, overlays);
+        super(atlas, unit, head);
         this.army = army;
         this.hq = hq;
         this.rng = range;
@@ -69,9 +69,9 @@ public class Unit extends HeadedPawn
     }
 
     // soft tager
-    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureRegion unit, TextureRegion head, TextureAtlas overlays)
+    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
-        super(unit, head, overlays);
+        super(atlas, unit, head);
         this.army = army;
         this.hq = hq;
         this.rng = range;

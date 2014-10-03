@@ -39,10 +39,10 @@ public abstract class Pawn implements Drawable, Disposable
     {
     }
 
-    public Pawn(TextureRegion pawn, TextureAtlas overlays)
+    public Pawn(TextureAtlas atlas, String pawn)
     {
-        image = new Image(pawn);
-        this.overlays = new StackedImages(overlays);
+        image = new Image(atlas.findRegion(pawn));
+        this.overlays = new StackedImages(atlas);
     }
 
     public Vector3 getLastPosition()
