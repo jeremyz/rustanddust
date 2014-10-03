@@ -115,11 +115,13 @@ public class BoardUtils
         assertTrue(n == 8);
         assertTrue(points.size() == 8);
 
-        n = b.possiblePathsFilterToggle(3, 3, points);
+        GridPoint2 p0 = new GridPoint2(3, 3);
+        n = b.possiblePathsFilterToggle(p0, points);
         assertTrue(n == 5);
         assertTrue(points.size() == 6);
 
-        n = b.possiblePathsFilterToggle(4, 4, points);
+        GridPoint2 p1 = new GridPoint2(4, 4);
+        n = b.possiblePathsFilterToggle(p1, points);
         assertTrue(n == 1);
         assertTrue(points.size() == 4);
     }

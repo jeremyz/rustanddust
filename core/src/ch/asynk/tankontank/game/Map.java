@@ -94,9 +94,9 @@ public abstract class Map extends Board
         return possiblePaths(pawn, from, to, possiblePaths);
     }
 
-    public int possiblePathsPointToggle(GridPoint2 point)
+    public int possiblePathsPointToggle(GridPoint2 hex)
     {
-        return possiblePathsFilterToggle(point.x, point.y, possiblePaths);
+        return possiblePathsFilterToggle(hex, possiblePaths);
     }
 
     public void clearPossibles()
@@ -111,7 +111,7 @@ public abstract class Map extends Board
 
     public void toggleDotOverlay(GridPoint2 hex)
     {
-        boolean enable= !isOverlayEnabledOn(hex.x, hex.y, Hex.DOT);
+        boolean enable= !isOverlayEnabledOn(hex, Hex.DOT);
         enableOverlayOn(hex, Hex.DOT, enable);
     }
 

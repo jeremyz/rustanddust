@@ -111,6 +111,11 @@ public abstract class Board implements Disposable
         image.dispose();
     }
 
+    public Tile getTile(GridPoint2 coords)
+    {
+        return getTile(coords.x, coords.y);
+    }
+
     public Tile getTile(int col, int row)
     {
         int idx = ((col - ((row + 1) / 2))) + (row * cfg.cols);
@@ -268,15 +273,15 @@ public abstract class Board implements Disposable
         points.setSize(ns);
     }
 
-    public void possibleMovesFrom(Pawn pawn, GridPoint2 hex, Vector<GridPoint2> moves)
+    public void possibleMovesFrom(Pawn pawn, GridPoint2 coords, Vector<GridPoint2> moves)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, hex.x, hex.y);
+        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, moves);
     }
 
-    public void possibleTargetsFrom(Pawn pawn, GridPoint2 hex, Vector<GridPoint2> targets)
+    public void possibleTargetsFrom(Pawn pawn, GridPoint2 coords, Vector<GridPoint2> targets)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, hex.x, hex.y);
+        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, targets);
     }
 
@@ -314,9 +319,9 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    public int possiblePathsFilterToggle(int col, int row, Set<GridPoint2> points)
+    public int possiblePathsFilterToggle(GridPoint2 coords, Set<GridPoint2> points)
     {
-        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(col, row);
+        List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
         return nodesToSet(paths, points);
     }
 
@@ -345,137 +350,112 @@ public abstract class Board implements Disposable
         return path.size();
     }
 
-    public boolean hasUnits(GridPoint2 hex)
+    public boolean hasUnits(GridPoint2 coords)
     {
-        return getTile(hex.x, hex.y).hasUnits();
+        return getTile(coords).hasUnits();
     }
 
-    public boolean isOffMap(GridPoint2 hex)
+    public boolean isOffMap(GridPoint2 coords)
     {
-        return getTile(hex.x, hex.y).isOffMap();
+        return getTile(coords).isOffMap();
     }
 
-    public boolean isOverlayEnabledOn(int col, int row, int i)
+    public boolean isOverlayEnabledOn(GridPoint2 coords, int i)
     {
-        return getTile(col, row).isOverlayEnabled(i);
+        return getTile(coords).isOverlayEnabled(i);
     }
 
-    public void disableOverlaysOn(int col, int row)
+    public void disableOverlaysOn(GridPoint2 coords)
     {
-        disableOverlaysOn(getTile(col, row));
-    }
-
-    public void disableOverlaysOn(Tile tile)
-    {
+        Tile tile = getTile(coords);
         if (tile.disableOverlays())
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
     }
 
-    public void enableOverlayOn(GridPoint2 hex, int i, boolean enable)
+    public void enableOverlayOn(GridPoint2 coords, int i, boolean enable)
     {
-        enableOverlayOn(getTile(hex.x, hex.y) , i, enable);
-    }
-
-    public void enableOverlayOn(Tile tile, int i, boolean enable)
-    {
+        Tile tile = getTile(coords);
         if(tile.enableOverlay(i, enable))
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
     }
 
-    public Pawn removeTopPawnFrom(GridPoint2 tile)
+    public Pawn removeTopPawnFrom(GridPoint2 coords)
     {
-        return removeTopPawnFrom(tile.x, tile.y);
-    }
-
-    public Pawn removeTopPawnFrom(int col, int row)
-    {
-        Pawn pawn = getTopPawnAt(col, row);
+        Pawn pawn = getTopPawnAt(coords);
         if (pawn != null)
-            removePawnFrom(pawn, col, row);
+            removePawnFrom(pawn, coords);
         return pawn;
     }
 
-    public Pawn getTopPawnAt(GridPoint2 tile)
+    public Pawn getTopPawnAt(GridPoint2 coords)
     {
-        return getTopPawnAt(tile.x, tile.y);
+        return getTile(coords).getTopPawn();
     }
 
-    private Pawn getTopPawnAt(int col, int row)
+    private int pushPawnAt(Pawn pawn, GridPoint2 coords)
     {
-        return getTile(col, row).getTopPawn();
-    }
-
-    private int pushPawnAt(Pawn pawn, int col, int row)
-    {
-        Tile tile = getTile(col, row);
+        Tile tile = getTile(coords);
         tilesToDraw.add(tile);
         return tile.push(pawn);
     }
 
-    private int removePawnFrom(Pawn pawn, int col, int row)
+    private int removePawnFrom(Pawn pawn, GridPoint2 coords)
     {
-        Tile tile = getTile(col, row);
+        Tile tile = getTile(coords);
         int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
         return n;
     }
 
-    public Vector2 getTileCenter(int col, int row)
+    public Vector2 getTileCenter(GridPoint2 coords)
     {
-        return getTile(col, row).getCenter();
+        return getTile(coords).getCenter();
     }
 
-    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 tile)
+    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords)
     {
-        return getPawnPosAt(pawn, tile.x, tile.y);
-    }
-
-    private Vector2 getPawnPosAt(Pawn pawn, int col, int row)
-    {
-        Vector2 center = getTile(col, row).getCenter();
+        Vector2 center = getTile(coords).getCenter();
         float x = (center.x - (pawn.getWidth() / 2));
         float y = (center.y - (pawn.getHeight() / 2));
         return new Vector2(x, y);
     }
 
-    public void setPawnAt(Pawn pawn, int col, int row, Orientation o)
+    public void setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
     {
-        Vector2 pos = getPawnPosAt(pawn, col, row);
+        Vector2 pos = getPawnPosAt(pawn, coords);
         pawn.pushMove(pos.x, pos.y, o);
-        pushPawnAt(pawn, col, row);
+        pushPawnAt(pawn, coords);
     }
 
-    public void movePawnTo(Pawn pawn, GridPoint2 hex)
+    public void movePawnTo(Pawn pawn, GridPoint2 coords)
     {
-        movePawnTo(pawn, hex.x, hex.y, Orientation.KEEP);
+        movePawnTo(pawn, coords, Orientation.KEEP);
     }
 
-    public void movePawnTo(Pawn pawn, int col, int row, Orientation o)
+    public void movePawnTo(Pawn pawn, GridPoint2 coords, Orientation o)
     {
-        GridPoint2 prev = getHexAt(pawn.getLastPosition());
-        removePawnFrom(pawn, prev.x, prev.y);
+        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
 
-        pushPawnAt(pawn, col, row);
-        Vector2 pos = getPawnPosAt(pawn, col, row);
+        pushPawnAt(pawn, coords);
+        Vector2 pos = getPawnPosAt(pawn, coords);
         pawn.pushMove(pos.x, pos.y, o);
     }
 
     public void resetPawnMoves(final Pawn pawn)
     {
-        GridPoint2 prev = getHexAt(pawn.getLastPosition());
-        removePawnFrom(pawn, prev.x, prev.y);
+        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
 
         AnimationSequence seq = pawn.getResetMovesAnimation();
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                GridPoint2 hex = getHexAt(pawn.getLastPosition());
-                pushPawnAt(pawn, hex.x, hex.y);
+                GridPoint2 coords = getHexAt(pawn.getLastPosition());
+                pushPawnAt(pawn, coords);
             }
         }));
         addPawnAnimation(pawn, seq);

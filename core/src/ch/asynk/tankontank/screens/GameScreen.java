@@ -117,7 +117,8 @@ public class GameScreen implements Screen
     private void addUnit(int col, int row, Orientation o, UnitType t)
     {
         Pawn p = factory.getUnit(t);
-        map.setPawnAt(p, col, row, o);
+        GridPoint2 coords = new GridPoint2(col, row);
+        map.setPawnAt(p, coords, o);
     }
 
     private InputMultiplexer getMultiplexer()
