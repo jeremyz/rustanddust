@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Image extends Sprite implements Moveable, Disposable
+public class Image extends Sprite implements Drawable, Disposable
 {
     private Texture texture;
 
@@ -32,14 +32,12 @@ public class Image extends Sprite implements Moveable, Disposable
         if (texture != null) texture.dispose();
     }
 
-    @Override
     public void setPosition(float x, float y, float r)
     {
         setPosition(x, y);
         setRotation(r);
     }
 
-    @Override
     public void centerOn(float cx, float cy)
     {
         setPosition((cx - (getWidth() / 2f)), (cy - (getHeight() / 2f)));

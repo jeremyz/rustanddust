@@ -61,6 +61,7 @@ public class StackedImages implements Drawable
         }
     }
 
+    @Override
     public void draw(Batch batch)
     {
         for (int i = 0, n = sprites.size; i < n; i++) {
@@ -69,6 +70,7 @@ public class StackedImages implements Drawable
         }
     }
 
+    @Override
     public void drawDebug(ShapeRenderer shapes)
     {
         Sprite sprite = sprites.get(0);
