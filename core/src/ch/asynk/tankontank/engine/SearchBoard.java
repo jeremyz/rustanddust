@@ -522,8 +522,14 @@ public class SearchBoard
                 if (path.contains(filter))
                     ok += 1;
             }
-            if (ok == s)
-                paths.add(path);
+            if (ok == s) {
+                if (path.size() == (s + 2)) {
+                    paths.clear();
+                    paths.add(path);
+                    return paths;
+                } else
+                    paths.add(path);
+            }
         }
 
         return paths;
