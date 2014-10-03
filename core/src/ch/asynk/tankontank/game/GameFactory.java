@@ -93,7 +93,7 @@ public class GameFactory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, false, 5, 8, 1, usAtlas.findRegion("priest"), usAtlas.findRegion("head"), unitAtlas);
                 break;
             case US_SHERMAN:
-                u = new Unit(Army.US, false, 2, 9, 2, usAtlas.findRegion("sherman"), usAtlas.findRegion("head"), unitAtlas);
+                u = new Unit(Army.US, false, 2, 9, 2, usAtlas.findRegion("sherman"), usAtlas.findRegion("sherman-head"), unitAtlas);
                 break;
             case US_SHERMAN_HQ:
                 u = new Unit(Army.US, true, 2, 9, 2, usAtlas.findRegion("sherman-hq"), usAtlas.findRegion("head"), unitAtlas);
