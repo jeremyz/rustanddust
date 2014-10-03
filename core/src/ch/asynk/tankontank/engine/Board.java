@@ -441,13 +441,7 @@ public abstract class Board implements Disposable
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
         Vector2 center = getTile(coords).getCenter();
-        float x = (center.x - (pawn.getWidth() / 2));
-        float y = (center.y - (pawn.getHeight() / 2));
-        if (pos == null)
-            return new Vector2(x, y);
-        else
-            pos.set(x, y);
-        return pos;
+        return pawn.getPosAt(center, pos);
     }
 
     public void setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
@@ -481,7 +475,7 @@ public abstract class Board implements Disposable
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, new GridPoint2(getHexAt(finalPos)));
+                pushPawnAt(pawn, getHexAt(finalPos));
             }
         }));
         addPawnAnimation(pawn, seq);
