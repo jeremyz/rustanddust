@@ -90,6 +90,27 @@ public abstract class Pawn extends Image implements Disposable
         return seq;
     }
 
+    public AnimationSequence getMoveAnimation(Vector<Vector3> path)
+    {
+        int s = path.size();
+        final Vector3 finalPos = path.get(s - 1);
+
+        AnimationSequence seq = AnimationSequence.get(s + 1);
+
+        for (Vector3 v : path) {
+            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+        }
+
+        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
+            @Override
+            public void run() {
+                moves.push(finalPos);
+            }
+        }));
+
+        return seq;
+    }
+
     public boolean hasOverlayEnabled()
     {
         return overlays.isEnabled();
