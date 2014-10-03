@@ -93,8 +93,8 @@ public enum Orientation
             if (dx > 0) return Orientation.NORTH_WEST;
             return Orientation.SOUTH_WEST;
         } else {
-            if (dx > 0) return Orientation.NORTH_EAST;
-            return Orientation.SOUTH_EAST;
+            if (dx < 0) return Orientation.SOUTH_EAST;
+            return Orientation.NORTH_EAST;
         }
     }
 }
