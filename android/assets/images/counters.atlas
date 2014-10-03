@@ -1,74 +1,67 @@
 
-us.png
+counters.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-at-gun
+ace
   rotate: false
-  xy: 346, 280
+  xy: 2, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-head
+ap
   rotate: false
-  xy: 2, 10
-  size: 175, 175
-  orig: 175, 175
+  xy: 2, 2
+  size: 124, 124
+  orig: 124, 124
   offset: 0, 0
-  index: -1
-infantry
+  index: 1
+ap
   rotate: false
-  xy: 472, 280
+  xy: 128, 128
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 2
+ap
+  rotate: false
+  xy: 128, 2
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 3
+ap
+  rotate: false
+  xy: 254, 128
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: 4
+ap_spent
+  rotate: false
+  xy: 254, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-pershing
+back
   rotate: false
-  xy: 724, 280
+  xy: 380, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-pershing-hq
+turn_back
   rotate: false
-  xy: 598, 280
+  xy: 380, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-priest
+turn_front
   rotate: false
-  xy: 850, 280
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
-sherman
-  rotate: false
-  xy: 2, 187
-  size: 190, 217
-  orig: 190, 217
-  offset: 0, 0
-  index: -1
-sherman-head
-  rotate: false
-  xy: 194, 254
-  size: 150, 150
-  orig: 150, 150
-  offset: 0, 0
-  index: -1
-sherman-hq
-  rotate: false
-  xy: 194, 128
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
-wolverine
-  rotate: false
-  xy: 179, 2
+  xy: 506, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0

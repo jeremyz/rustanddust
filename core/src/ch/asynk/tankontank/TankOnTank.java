@@ -32,14 +32,11 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.load("images/map_a.png", Texture.class);
         manager.load("images/map_b.png", Texture.class);
-        manager.load("images/dice.pack", TextureAtlas.class);
         manager.load("images/counters.pack", TextureAtlas.class);
         manager.load("images/ge.atlas", TextureAtlas.class);
         manager.load("images/us.atlas", TextureAtlas.class);
         manager.load("images/hex.atlas", TextureAtlas.class);
         manager.load("images/unit.atlas", TextureAtlas.class);
-        // manager.load("images/cup.jpg", Texture.class);
-        // manager.load("images/small.png", Texture.class);
     }
 
     public void unloadAssets()
@@ -48,14 +45,11 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         manager.unload("images/map_a.png");
         manager.unload("images/map_b.png");
-        manager.unload("images/dice.pack");
         manager.unload("images/counters.pack");
         manager.unload("images/ge.atlas");
         manager.unload("images/us.atlas");
         manager.unload("images/hex.atlas");
         manager.unload("images/unit.atlas");
-        // manager.unload("images/cup.jpg");
-        // manager.unload("images/small.png");
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 

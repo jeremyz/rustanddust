@@ -42,6 +42,7 @@ allprojects {
             add 'ge'
             add 'hex'
             add 'unit'
+            add 'counters'
         }
     }
 }

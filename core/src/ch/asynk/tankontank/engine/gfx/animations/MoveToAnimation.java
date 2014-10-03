@@ -14,6 +14,7 @@ public class MoveToAnimation extends TimedAnimation
     private float toX;
     private float toY;
     private float toR;
+    private float rDelta;
 
     private static final Pool<MoveToAnimation> moveToAnimationPool = new Pool<MoveToAnimation>() {
         @Override
@@ -36,6 +37,7 @@ public class MoveToAnimation extends TimedAnimation
         a.toY = y;
         a.toR = r;
         a.duration = duration;
+        a.rDelta = 0;
 
         return a;
     }
@@ -58,6 +60,15 @@ public class MoveToAnimation extends TimedAnimation
         fromX = pawn.getX();
         fromY = pawn.getY();
         fromR = pawn.getRotation();
+
+        if (Math.abs(toR - fromR) <= 180.f)
+            rDelta = (toR - fromR);
+        else {
+            if (toR > fromR)
+                rDelta = (toR - 360 - fromR);
+            else
+                rDelta = (toR + 360 - fromR);
+        }
     }
 
     @Override
@@ -72,6 +83,6 @@ public class MoveToAnimation extends TimedAnimation
         if (percent == 1f)
             pawn.setPosition(toX, toY, (int) toR);
         else
-            pawn.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (int) (fromR + ((toR - fromR) * percent)));
+            pawn.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (fromR + (rDelta * percent)));
     }
 }
