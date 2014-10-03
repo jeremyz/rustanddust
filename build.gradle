@@ -36,13 +36,9 @@ allprojects {
 
     task packs(type: com.eowise.packer.Packer) {
         resourcesInputPath 'data'
-        atlasesOutputPath 'android/assets/images/'
+        atlasesOutputPath 'android/assets/data/'
         atlases {
-            add 'us'
-            add 'ge'
-            add 'hex'
-            add 'unit'
-            add 'counters'
+            add 'pawns'
         }
     }
 }
