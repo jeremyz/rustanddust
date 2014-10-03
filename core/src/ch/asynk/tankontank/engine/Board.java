@@ -386,14 +386,14 @@ public abstract class Board implements Disposable
         return getTile(coords).isOverlayEnabled(i);
     }
 
-    public void disableOverlaysOn(GridPoint2 coords)
-    {
-        Tile tile = getTile(coords);
-        if (tile.disableOverlays())
-            tilesToDraw.add(tile);
-        else
-            tilesToDraw.remove(tile);
-    }
+    // public void disableOverlaysOn(GridPoint2 coords)
+    // {
+    //     Tile tile = getTile(coords);
+    //     if (tile.disableOverlays())
+    //         tilesToDraw.add(tile);
+    //     else
+    //         tilesToDraw.remove(tile);
+    // }
 
     public void enableOverlayOn(GridPoint2 coords, int i, boolean enable)
     {
@@ -404,13 +404,13 @@ public abstract class Board implements Disposable
             tilesToDraw.remove(tile);
     }
 
-    public Pawn removeTopPawnFrom(GridPoint2 coords)
-    {
-        Pawn pawn = getTopPawnAt(coords);
-        if (pawn != null)
-            removePawnFrom(pawn, coords);
-        return pawn;
-    }
+    // public Pawn removeTopPawnFrom(GridPoint2 coords)
+    // {
+    //     Pawn pawn = getTopPawnAt(coords);
+    //     if (pawn != null)
+    //         removePawnFrom(pawn, coords);
+    //     return pawn;
+    // }
 
     public Pawn getTopPawnAt(GridPoint2 coords)
     {
@@ -433,10 +433,10 @@ public abstract class Board implements Disposable
         return n;
     }
 
-    public Vector2 getTileCenter(GridPoint2 coords)
-    {
-        return getTile(coords).getCenter();
-    }
+    // public Vector2 getTileCenter(GridPoint2 coords)
+    // {
+    //     return getTile(coords).getCenter();
+    // }
 
     public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
@@ -457,19 +457,19 @@ public abstract class Board implements Disposable
         pushPawnAt(pawn, coords);
     }
 
-    public void movePawnTo(Pawn pawn, GridPoint2 coords)
-    {
-        movePawnTo(pawn, coords, Orientation.KEEP);
-    }
+    // public void movePawnTo(Pawn pawn, GridPoint2 coords)
+    // {
+    //     movePawnTo(pawn, coords, Orientation.KEEP);
+    // }
 
-    public void movePawnTo(Pawn pawn, GridPoint2 coords, Orientation o)
-    {
-        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
+    // public void movePawnTo(Pawn pawn, GridPoint2 coords, Orientation o)
+    // {
+    //     removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
 
-        pushPawnAt(pawn, coords);
-        Vector2 pos = getPawnPosAt(pawn, coords, null);
-        pawn.pushMove(pos.x, pos.y, o);
-    }
+    //     pushPawnAt(pawn, coords);
+    //     Vector2 pos = getPawnPosAt(pawn, coords, null);
+    //     pawn.pushMove(pos.x, pos.y, o);
+    // }
 
     public void movePawn(final Pawn pawn, Vector<Vector3> path)
     {
@@ -487,20 +487,20 @@ public abstract class Board implements Disposable
         addPawnAnimation(pawn, seq);
     }
 
-    public void resetPawnMoves(final Pawn pawn)
-    {
-        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
+    // public void resetPawnMoves(final Pawn pawn)
+    // {
+    //     removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
 
-        AnimationSequence seq = pawn.getResetMovesAnimation();
-        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                GridPoint2 coords = getHexAt(pawn.getLastPosition());
-                pushPawnAt(pawn, coords);
-            }
-        }));
-        addPawnAnimation(pawn, seq);
-    }
+    //     AnimationSequence seq = pawn.getResetMovesAnimation();
+    //     seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+    //         @Override
+    //         public void run() {
+    //             GridPoint2 coords = getHexAt(pawn.getLastPosition());
+    //             pushPawnAt(pawn, coords);
+    //         }
+    //     }));
+    //     addPawnAnimation(pawn, seq);
+    // }
 
     private GridPoint2 getHexAt(Vector3 v)
     {
