@@ -10,27 +10,29 @@ public class GameStatePath extends GameStateCommon
     @Override
     public void touchDown()
     {
-        int s = map.possiblePathsSize();
-        if (s == 0) {
-            s = buildPaths();
-        } else {
-            if (map.isInPossiblePaths(downHex)) {
-                s = togglePoint();
-            } else {
-                s = reset(false);
-            }
-        }
-
-        if (s == 1) {
-            hex.set(to.x, to.y);
-            map.enableFinalPath(to, true);
-            ctrl.setState(State.DIRECTION, false);
-        }
     }
 
     @Override
     public void touchUp()
     {
+        int s = map.possiblePathsSize();
+        if (s == 0) {
+            s = buildPaths();
+        } else {
+            if (map.isInPossiblePaths(downHex))
+                s = togglePoint();
+            else
+                s = reset();
+        }
+
+        // FIXME maybe there's more than one path left,
+        // but that's irrelevant, ie 1 hex far
+        if (s == 1) {
+            unselectHex();
+            hex.set(to.x, to.y);
+            map.enableFinalPath(to, true);
+            ctrl.setState(State.DIRECTION, false);
+        }
     }
 
     private int buildPaths()
@@ -50,7 +52,7 @@ public class GameStatePath extends GameStateCommon
         if ((downHex.x == from.x) && (downHex.y == from.y)) {
             s = map.possiblePathsSize();
         } else if ((downHex.x == to.x) && (downHex.y == to.y)) {
-            s = reset(true);
+            s = reset();
         } else {
             map.enablePossiblePaths(false, true);
             map.toggleDotOverlay(downHex);
@@ -60,13 +62,12 @@ public class GameStatePath extends GameStateCommon
         return s;
     }
 
-    private int reset(boolean showMoves)
+    private int reset()
     {
         to.set(-1, -1);
         from.set(-1, -1);
-        map.clearPossibles();
-        if (showMoves)
-            map.enablePossibleMoves(true);
+        map.hidePaths();
+        map.resetPaths();
         ctrl.setState(State.NONE, false);
         return -1;
     }

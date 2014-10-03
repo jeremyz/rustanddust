@@ -23,19 +23,18 @@ public class GameStateNone extends GameStateCommon
             unselectHex();
             setHex();
             selectHex();
-            if (hexHasUnit()) {
-                setPawn();
-                map.showPossibleActions(pawn, hex, true);
-            } else {
-                map.showPossibleActions(pawn, hex, false);
-            }
         }
     }
 
     @Override
     public void touchUp()
     {
-        if (!hexHasUnit())
+        if (hexHasUnit()) {
+            setPawn();
+            map.showPossibleActions(pawn, hex, true);
+        } else {
+            map.showPossibleActions(pawn, hex, false);
             unselectHex();
+        }
     }
 }
