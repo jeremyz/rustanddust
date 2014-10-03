@@ -320,24 +320,6 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    private Orientation getOrientation(SearchBoard.Node from, SearchBoard.Node to)
-    {
-        int dx = to.col - from .col;
-        int dy = to.row - from.row;
-
-        if (dy == 0) {
-            if (dx > 0) return Orientation.NORTH;
-            return Orientation.SOUTH;
-        }
-        if (dy > 0) {
-            if (dx > 0) return Orientation.NORTH_WEST;
-            return Orientation.SOUTH_WEST;
-        } else {
-            if (dx > 0) return Orientation.NORTH_EAST;
-            return Orientation.SOUTH_EAST;
-        }
-    }
-
     public int getFinalPath(Vector<GridPoint3> path)
     {
         List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths();
@@ -354,7 +336,8 @@ public abstract class Board implements Disposable
         for (int i = (nodes.size() - 2); i >= 0; i--) {
             SearchBoard.Node node = nodes.get(i);
             GridPoint3 point = gridPoint3Pool.obtain();
-            point.set(node.col, node.row, (int) getOrientation(prev, node).r());
+            Orientation o = Orientation.fromMove(prev.col, prev.row, node.col, node.row);
+            point.set(node.col, node.row, (int) o.r());
             path.add(point);
             prev = node;
         }
