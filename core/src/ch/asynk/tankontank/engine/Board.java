@@ -458,7 +458,7 @@ public abstract class Board implements Disposable
 
     // public void movePawnTo(Pawn pawn, GridPoint2 coords, Orientation o)
     // {
-    //     removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
+    //     removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
     //     pushPawnAt(pawn, coords);
     //     Vector2 pos = getPawnPosAt(pawn, coords, null);
@@ -467,15 +467,13 @@ public abstract class Board implements Disposable
 
     public void movePawn(final Pawn pawn, Vector<Vector3> path)
     {
-        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
-
-        final Vector3 finalPos = path.get(path.size() - 1);
+        removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
         AnimationSequence seq = pawn.getMoveAnimation(path);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, getHexAt(finalPos));
+                pushPawnAt(pawn, getHexAt(pawn.getCenter()));
             }
         }));
         addPawnAnimation(pawn, seq);
@@ -483,18 +481,24 @@ public abstract class Board implements Disposable
 
     // public void resetPawnMoves(final Pawn pawn)
     // {
-    //     removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
+    //     removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
     //     AnimationSequence seq = pawn.getResetMovesAnimation();
     //     seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
     //         @Override
     //         public void run() {
-    //             GridPoint2 coords = getHexAt(pawn.getLastPosition());
+    //             GridPoint2 coords = getHexAt(pawn.getCenter());
     //             pushPawnAt(pawn, coords);
     //         }
     //     }));
     //     addPawnAnimation(pawn, seq);
     // }
+
+    private GridPoint2 getHexAt(Vector2 v)
+    {
+        if (v == null) return null;
+        return getHexAt(null, v.x, v.y);
+    }
 
     private GridPoint2 getHexAt(Vector3 v)
     {
