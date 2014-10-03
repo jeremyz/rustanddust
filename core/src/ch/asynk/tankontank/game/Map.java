@@ -110,14 +110,18 @@ public abstract class Map extends Board
         }
     }
 
-    public void clearPossibles()
+    public void hidePaths()
     {
+        enablePossibleTargets(false);
         enablePossibleMoves(false);
         enablePossiblePaths(false, false);
-        enablePossibleTargets(false);
+    }
+
+    public void resetPaths()
+    {
         clearNodesSet(possiblePaths);
-        // clearNodesVector(possibleMoves);
-        // clearNodesVector(possibleTargets);
+        clearNodesVector(possibleMoves);
+        clearNodesVector(possibleTargets);
     }
 
     public void toggleDotOverlay(GridPoint2 hex)
