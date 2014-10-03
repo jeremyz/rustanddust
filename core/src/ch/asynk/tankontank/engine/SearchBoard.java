@@ -536,8 +536,15 @@ public class SearchBoard
         Node from = getNode(col0, row0);
         Node to = getNode(col1, row1);
 
-        path.add(from);
-        findAllPaths(pawn, from, to, pawn.getMovementPoints(), true, pawn.getRoadMarchBonus());
+        if (distance(from, to) == 1) {
+            Vector<Node> temp = new Vector<Node>(2);
+            temp.add(to);
+            temp.add(from);
+            possiblePaths.add(temp);
+        } else {
+            path.add(from);
+            findAllPaths(pawn, from, to, pawn.getMovementPoints(), true, pawn.getRoadMarchBonus());
+        }
 
         return possiblePaths;
     }
