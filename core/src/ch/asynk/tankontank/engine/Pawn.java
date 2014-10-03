@@ -51,6 +51,13 @@ public abstract class Pawn implements Drawable, Disposable
         return moves.getFirst();
     }
 
+    public Vector2 getCenter()
+    {
+        float x = (image.getX() + (image.getWidth() / 2f));
+        float y = (image.getY() + (image.getHeight() / 2f));
+        return new Vector2(x, y);
+    }
+
     public Vector2 getPosAt(Vector2 center, Vector2 pos)
     {
         float x = (center.x - (image.getWidth() / 2f));
