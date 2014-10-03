@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.GridPoint3;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.tankontank.engine.gfx.Image;
@@ -54,10 +53,10 @@ public abstract class Board implements Disposable
         }
     };
 
-    private final Pool<GridPoint3> gridPoint3Pool = new Pool<GridPoint3>() {
+    private final Pool<Vector3> vector3Pool = new Pool<Vector3>() {
         @Override
-        protected GridPoint3 newObject() {
-            return new GridPoint3();
+        protected Vector3 newObject() {
+            return new Vector3();
         }
     };
 
@@ -325,27 +324,50 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    public int getFinalPath(Vector<GridPoint3> path)
+    public int getFinalPath(Pawn pawn, Vector<Vector3> path, Orientation finalOrientation)
     {
         List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths();
 
-        for (GridPoint3 v : path)
-            gridPoint3Pool.free(v);
+        for (Vector3 v : path)
+            vector3Pool.free(v);
         path.clear();
 
         if (paths.size() != 1)
             return 0;
 
+        Vector2 pawnPos = new Vector2();
+        SearchBoard.Node prevNode = null;
+        Vector3 prevVector = null;
+        Orientation o = Orientation.KEEP;
+        GridPoint2 coords = gridPoint2Pool.obtain();
+
         Vector<SearchBoard.Node> nodes = paths.get(0);
-        SearchBoard.Node prev = nodes.get(nodes.size() - 1);
-        for (int i = (nodes.size() - 2); i >= 0; i--) {
+
+        for (int i = (nodes.size() - 1); i >= 0; i--) {
             SearchBoard.Node node = nodes.get(i);
-            GridPoint3 point = gridPoint3Pool.obtain();
-            Orientation o = Orientation.fromMove(prev.col, prev.row, node.col, node.row);
-            point.set(node.col, node.row, (int) o.r());
-            path.add(point);
-            prev = node;
+            System.out.println(node.col+" "+node.row);
+
+            if (prevVector == null) {
+                Vector3 p = pawn.getLastPosition();
+                prevVector = vector3Pool.obtain();
+                prevVector.set(p.x, p.y, 0f);
+            } else {
+                o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
+                prevVector.z = o.r();
+                path.add(prevVector);
+                coords.set(node.col, node.row);
+                getPawnPosAt(pawn, coords, pawnPos);
+                prevVector = vector3Pool.obtain();
+                prevVector.set(pawnPos.x, pawnPos.y, 0f);
+            }
+
+            prevNode = node;
         }
+
+        prevVector.z = finalOrientation.r();
+        path.add(prevVector);
+
+        gridPoint2Pool.free(coords);
 
         return path.size();
     }
@@ -448,6 +470,22 @@ public abstract class Board implements Disposable
         pushPawnAt(pawn, coords);
         Vector2 pos = getPawnPosAt(pawn, coords, null);
         pawn.pushMove(pos.x, pos.y, o);
+    }
+
+    public void movePawn(final Pawn pawn, Vector<Vector3> path)
+    {
+        removePawnFrom(pawn, getHexAt(pawn.getLastPosition()));
+
+        final Vector3 finalPos = path.get(path.size() - 1);
+
+        AnimationSequence seq = pawn.getMoveAnimation(path);
+        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                pushPawnAt(pawn, new GridPoint2(getHexAt(finalPos)));
+            }
+        }));
+        addPawnAnimation(pawn, seq);
     }
 
     public void resetPawnMoves(final Pawn pawn)
