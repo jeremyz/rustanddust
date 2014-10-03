@@ -1,31 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-// import java.util.Set;
-// import java.util.List;
-// import java.util.Vector;
-// import java.util.Iterator;
-// import java.util.LinkedHashSet;
-
-// import com.badlogic.gdx.Gdx;
-
-// import com.badlogic.gdx.utils.Disposable;
-
-// import com.badlogic.gdx.graphics.Texture;
-// import com.badlogic.gdx.graphics.g2d.Batch;
-// import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-// import com.badlogic.gdx.utils.Pool;
-// import com.badlogic.gdx.math.Vector2;
-// import com.badlogic.gdx.math.Vector3;
-// import com.badlogic.gdx.math.GridPoint2;
-// import com.badlogic.gdx.math.GridPoint3;
-// import com.badlogic.gdx.math.Matrix4;
-
-// import ch.asynk.tankontank.engine.gfx.Image;
-// import ch.asynk.tankontank.engine.gfx.Animation;
-// import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
-// import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
-
 public enum Orientation
 {
     ALL(0, 63),
