@@ -20,7 +20,7 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
 public abstract class Pawn extends Image implements Disposable
 {
-    private static final float MOVE_TIME = 0.3f;
+    private static final float MOVE_TIME = 0.4f;
 
     private StackedImages overlays;
     private ArrayDeque<Vector3> moves = new ArrayDeque<Vector3>();
