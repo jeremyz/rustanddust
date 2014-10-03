@@ -14,9 +14,9 @@ public abstract class HeadedPawn extends Pawn
     private Image head;
     protected Orientation orientation;
 
-    public HeadedPawn(TextureRegion region, TextureRegion head, TextureAtlas atlas)
+    public HeadedPawn(TextureRegion pawn, TextureRegion head, TextureAtlas overlays)
     {
-        super(region, atlas);
+        super(pawn, overlays);
         this.head = new Image(head);
         this.orientation = Orientation.KEEP;
     }
@@ -32,13 +32,6 @@ public abstract class HeadedPawn extends Pawn
     public float getRotation()
     {
         return orientation.r();
-    }
-
-    @Override
-    public void translate(float dx, float dy)
-    {
-        super.translate(dx, dy);
-        head.translate(dx, dy);
     }
 
     @Override

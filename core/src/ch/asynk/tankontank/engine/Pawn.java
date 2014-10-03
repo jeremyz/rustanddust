@@ -10,18 +10,21 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import ch.asynk.tankontank.engine.gfx.Image;
+import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public abstract class Pawn extends Image implements Disposable
+public abstract class Pawn implements Drawable, Disposable
 {
     private static final float MOVE_TIME = 0.4f;
 
+    private Image image;
     private StackedImages overlays;
     private ArrayDeque<Vector3> moves = new ArrayDeque<Vector3>();
 
@@ -34,12 +37,11 @@ public abstract class Pawn extends Image implements Disposable
 
     protected Pawn()
     {
-        super();
     }
 
     public Pawn(TextureRegion pawn, TextureAtlas overlays)
     {
-        super(pawn);
+        image = new Image(pawn);
         this.overlays = new StackedImages(overlays);
     }
 
@@ -47,6 +49,17 @@ public abstract class Pawn extends Image implements Disposable
     {
         if ((moves == null) || (moves.size() == 0)) return null;
         return moves.getFirst();
+    }
+
+    public Vector2 getPosAt(Vector2 center, Vector2 pos)
+    {
+        float x = (center.x - (image.getWidth() / 2f));
+        float y = (center.y - (image.getHeight() / 2f));
+        if (pos == null)
+            return new Vector2(x, y);
+        else
+            pos.set(x, y);
+        return pos;
     }
 
     public Orientation getOrientation()
@@ -123,49 +136,62 @@ public abstract class Pawn extends Image implements Disposable
         return hasOverlayEnabled();
     }
 
-    @Override
-    public void translate(float dx, float dy)
+    public float getX()
     {
-        super.translate(dx, dy);
-        overlays.translate(dx, dy);
+        return image.getX();
     }
 
-    @Override
-    public void centerOn(float cx, float cy)
+    public float getY()
     {
-        setPosition((cx - (getWidth() / 2f)), (cy - (getHeight() / 2f)));
+        return image.getY();
     }
 
-    @Override
+    public float getWidth()
+    {
+        return image.getWidth();
+    }
+
+    public float getHeight()
+    {
+        return image.getHeight();
+    }
+
+    public float getRotation()
+    {
+        return image.getRotation();
+    }
+
     public void setPosition(float x, float y)
     {
-        super.setPosition(x, y);
+        image.setPosition(x, y);
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
         overlays.centerOn(cx, cy);
     }
 
-    @Override
     public void setPosition(float x, float y, float z)
     {
-        super.setPosition(x, y, z);
-        float cx = x + (getWidth() / 2f);
-        float cy = y + (getHeight() / 2f);
-        overlays.centerOn(cx, cy);
+        setPosition(x, y);
         overlays.setRotation(z);
+    }
+
+    @Override
+    public void dispose()
+    {
+        image.dispose();
     }
 
     @Override
     public void draw(Batch batch)
     {
-        super.draw(batch);
+        image.draw(batch);
         overlays.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
-        super.drawDebug(debugShapes);
+        image.drawDebug(debugShapes);
         overlays.drawDebug(debugShapes);
     }
 }
