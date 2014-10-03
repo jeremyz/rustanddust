@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.Vector;
 import java.util.ArrayDeque;
 
 import com.badlogic.gdx.utils.Disposable;
@@ -22,7 +23,7 @@ public abstract class Pawn extends Image implements Disposable
     private static final float MOVE_TIME = 0.3f;
 
     private StackedImages overlays;
-    private ArrayDeque<Vector3> path = new ArrayDeque<Vector3>();
+    private ArrayDeque<Vector3> moves = new ArrayDeque<Vector3>();
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
@@ -44,8 +45,8 @@ public abstract class Pawn extends Image implements Disposable
 
     public Vector3 getLastPosition()
     {
-        if ((path == null) || (path.size() == 0)) return null;
-        return path.getFirst();
+        if ((moves == null) || (moves.size() == 0)) return null;
+        return moves.getFirst();
     }
 
     public Orientation getOrientation()
@@ -55,9 +56,9 @@ public abstract class Pawn extends Image implements Disposable
 
     public void moveDone()
     {
-        Vector3 v = path.pop();
-        path.clear();
-        path.push(v);
+        Vector3 v = moves.pop();
+        moves.clear();
+        moves.push(v);
     }
 
     public void pushMove(float x, float y, Orientation o)
@@ -65,24 +66,24 @@ public abstract class Pawn extends Image implements Disposable
         float r = ((o == Orientation.KEEP) ? getRotation() : o.r());
         setPosition(x, y, r);
         Vector3 v = new Vector3(x, y, r);
-        if ((path.size() == 0) || (!v.equals(path.getFirst())))
-            path.push(new Vector3(x, y, r));
+        if ((moves.size() == 0) || (!v.equals(moves.getFirst())))
+            moves.push(new Vector3(x, y, r));
     }
 
     public AnimationSequence getResetMovesAnimation()
     {
-        final Vector3 finalPos = path.getLast();
+        final Vector3 finalPos = moves.getLast();
 
-        AnimationSequence seq = AnimationSequence.get(path.size() + 1);
+        AnimationSequence seq = AnimationSequence.get(moves.size() + 1);
 
-        while(path.size() != 0) {
-            seq.addAnimation(MoveToAnimation.get(this, path.pop(), MOVE_TIME));
+        while(moves.size() != 0) {
+            seq.addAnimation(MoveToAnimation.get(this, moves.pop(), MOVE_TIME));
         }
 
         seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
             @Override
             public void run() {
-                path.push(finalPos);
+                moves.push(finalPos);
             }
         }));
 
