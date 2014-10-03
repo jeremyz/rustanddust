@@ -5,7 +5,7 @@ ARGS="desktop:run"
 
 case "$1" in
     "c")
-        ARGS="packs $ARGS"
+        ARGS="clean packs $ARGS"
         ;;
     "a")
         ARGS="android:installDebug android:run"
