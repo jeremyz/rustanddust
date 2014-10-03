@@ -28,7 +28,7 @@ public class SearchBoard
     private Board board;
     private int searchCount;
     private Node nodes[];
-    private Board.Orientation sides[];
+    private Orientation sides[];
 
     private ArrayDeque<Node> stack;
     private LinkedList<Node> queue;
@@ -56,13 +56,13 @@ public class SearchBoard
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
 
-        this.sides = new Board.Orientation[6];
-        sides[0] = Board.Orientation.NORTH;
-        sides[1] = Board.Orientation.NORTH_EAST;
-        sides[2] = Board.Orientation.SOUTH_EAST;
-        sides[3] = Board.Orientation.SOUTH;
-        sides[4] = Board.Orientation.SOUTH_WEST;
-        sides[5] = Board.Orientation.NORTH_WEST;
+        this.sides = new Orientation[6];
+        sides[0] = Orientation.NORTH;
+        sides[1] = Orientation.NORTH_EAST;
+        sides[2] = Orientation.SOUTH_EAST;
+        sides[3] = Orientation.SOUTH;
+        sides[4] = Orientation.SOUTH_WEST;
+        sides[5] = Orientation.NORTH_WEST;
 
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
@@ -242,32 +242,32 @@ public class SearchBoard
     private void adjacentTargets(Node src, int angle, Node a[])
     {
         // move in allowed directions
-        if (Board.Orientation.NORTH.isInSides(angle))
+        if (Orientation.NORTH.isInSides(angle))
             a[0] = getNode((src.col + 1), src.row);
         else
             a[0] = null;
 
-        if (Board.Orientation.NORTH_EAST.isInSides(angle))
+        if (Orientation.NORTH_EAST.isInSides(angle))
             a[1] = getNode(src.col, (src.row - 1));
         else
             a[1] = null;
 
-        if (Board.Orientation.SOUTH_EAST.isInSides(angle))
+        if (Orientation.SOUTH_EAST.isInSides(angle))
             a[2] = getNode((src.col - 1), (src.row - 1));
         else
             a[2] = null;
 
-        if (Board.Orientation.SOUTH.isInSides(angle))
+        if (Orientation.SOUTH.isInSides(angle))
             a[3] = getNode((src.col - 1), src.row);
         else
             a[3] = null;
 
-        if (Board.Orientation.SOUTH_WEST.isInSides(angle))
+        if (Orientation.SOUTH_WEST.isInSides(angle))
             a[4] = getNode(src.col, (src.row + 1));
         else
             a[4] = null;
 
-        if (Board.Orientation.NORTH_WEST.isInSides(angle))
+        if (Orientation.NORTH_WEST.isInSides(angle))
             a[5] = getNode((src.col + 1), (src.row + 1));
         else
             a[5] = null;

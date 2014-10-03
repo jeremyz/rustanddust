@@ -48,9 +48,9 @@ public abstract class Pawn extends Image implements Disposable
         return path.getFirst();
     }
 
-    public Board.Orientation getOrientation()
+    public Orientation getOrientation()
     {
-        return Board.Orientation.fromRotation(getRotation());
+        return Orientation.fromRotation(getRotation());
     }
 
     public void moveDone()
@@ -60,9 +60,9 @@ public abstract class Pawn extends Image implements Disposable
         path.push(v);
     }
 
-    public void pushMove(float x, float y, Board.Orientation o)
+    public void pushMove(float x, float y, Orientation o)
     {
-        float r = ((o == Board.Orientation.KEEP) ? getRotation() : o.r());
+        float r = ((o == Orientation.KEEP) ? getRotation() : o.r());
         setPosition(x, y, r);
         Vector3 v = new Vector3(x, y, r);
         if ((path.size() == 0) || (!v.equals(path.getFirst())))

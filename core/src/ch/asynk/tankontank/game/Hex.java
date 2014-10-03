@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Orientation;
 
 public class Hex extends Tile
 {
@@ -65,13 +66,13 @@ public class Hex extends Tile
     }
 
     @Override
-    public boolean road(Board.Orientation side)
+    public boolean road(Orientation side)
     {
         return (side.s == (roads & side.s));
     }
 
     @Override
-    public int costFrom(Pawn pawn, Board.Orientation side, boolean road)
+    public int costFrom(Pawn pawn, Orientation side, boolean road)
     {
         if (hasUnits()) return Integer.MAX_VALUE;
         if (road) return 1;

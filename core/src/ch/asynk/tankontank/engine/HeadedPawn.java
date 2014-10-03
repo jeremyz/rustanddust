@@ -12,13 +12,13 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class HeadedPawn extends Pawn
 {
     private Image head;
-    protected Board.Orientation orientation;
+    protected Orientation orientation;
 
     public HeadedPawn(TextureRegion region, TextureRegion head, TextureAtlas atlas)
     {
         super(region, atlas);
         this.head = new Image(head);
-        this.orientation = Board.Orientation.KEEP;
+        this.orientation = Orientation.KEEP;
     }
 
     @Override
@@ -49,7 +49,7 @@ public abstract class HeadedPawn extends Pawn
         float cy = y + (getHeight() / 2f);
         head.centerOn(cx, cy);
         head.setRotation(z);
-        this.orientation = Board.Orientation.fromRotation(z);
+        this.orientation = Orientation.fromRotation(z);
     }
 
     @Override

@@ -19,8 +19,8 @@ public abstract class Tile implements Drawable
     private Vector2 center;
 
     public abstract boolean atLeastOneMove(Pawn pawn);
-    public abstract boolean road(Board.Orientation side);
-    public abstract int costFrom(Pawn pawn, Board.Orientation side, boolean road);
+    public abstract boolean road(Orientation side);
+    public abstract int costFrom(Pawn pawn, Orientation side, boolean road);
     public abstract boolean hasTargetsFor(Pawn pawn);
     public abstract boolean isOffMap();
     public abstract boolean blockLineOfSightFrom(Tile tile);

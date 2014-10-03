@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Orientation;
 
 public class MapA extends Map
 {
@@ -40,12 +41,12 @@ public class MapA extends Map
         getHex(12, 5).terrain = Hex.Terrain.OFFMAP;
         getHex(13, 7).terrain = Hex.Terrain.OFFMAP;
 
-        int N = Map.Orientation.NORTH.s;
-        int S = Map.Orientation.SOUTH.s;
-        int NE = Map.Orientation.NORTH_EAST.s;
-        int NW = Map.Orientation.NORTH_WEST.s;
-        int SE = Map.Orientation.SOUTH_EAST.s;
-        int SW = Map.Orientation.SOUTH_WEST.s;
+        int N = Orientation.NORTH.s;
+        int S = Orientation.SOUTH.s;
+        int NE = Orientation.NORTH_EAST.s;
+        int NW = Orientation.NORTH_WEST.s;
+        int SE = Orientation.SOUTH_EAST.s;
+        int SW = Orientation.SOUTH_WEST.s;
 
         getHex(6, 1).roads = (NW | SW);
         for (int i = 1; i < 11; i++) {
