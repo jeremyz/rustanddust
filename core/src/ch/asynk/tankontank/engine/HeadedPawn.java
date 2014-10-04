@@ -35,14 +35,32 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
-    public void setPosition(float x, float y, float z)
+    public Orientation getOrientation()
+    {
+        return orientation;
+    }
+
+    @Override
+    public void setPosition(float x, float y)
     {
         super.setPosition(x, y);
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
         head.centerOn(cx, cy);
+    }
+
+    @Override
+    public void setRotation(float z)
+    {
         head.setRotation(z);
         this.orientation = Orientation.fromRotation(z);
+    }
+
+    @Override
+    public void setPosition(float x, float y, float z)
+    {
+        setPosition(x, y);
+        setRotation(z);
     }
 
     @Override
