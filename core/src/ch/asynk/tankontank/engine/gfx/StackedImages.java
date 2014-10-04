@@ -1,12 +1,14 @@
 package ch.asynk.tankontank.engine.gfx;
 
+import com.badlogic.gdx.utils.Disposable;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class StackedImages implements Drawable
+public class StackedImages implements Drawable, Disposable
 {
     private boolean enabled[];
     private Array<Sprite> sprites;
@@ -15,6 +17,11 @@ public class StackedImages implements Drawable
     {
         this.sprites = atlas.createSprites();
         this.enabled = new boolean[sprites.size];
+    }
+
+    @Override
+    public void dispose()
+    {
     }
 
     public void disableAll()
