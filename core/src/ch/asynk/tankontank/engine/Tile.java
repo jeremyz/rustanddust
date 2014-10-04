@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayDeque;
 
@@ -14,14 +13,13 @@ import ch.asynk.tankontank.engine.gfx.StackedImages;
 
 public abstract class Tile implements Drawable
 {
-    private StackedImages overlays;
-    protected ArrayDeque<Pawn> stack;
     private Vector2 center;
+    private StackedImages overlays;
+    private ArrayDeque<Pawn> stack;
 
+    public abstract int costFrom(Pawn pawn, Orientation side, boolean road);
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean road(Orientation side);
-    public abstract int costFrom(Pawn pawn, Orientation side, boolean road);
-    public abstract boolean hasTargetsFor(Pawn pawn);
     public abstract boolean isOffMap();
     public abstract boolean blockLineOfSightFrom(Tile tile);
 
@@ -42,6 +40,17 @@ public abstract class Tile implements Drawable
         return center;
     }
 
+    public boolean isEmpty()
+    {
+        if (stack == null) return true;
+        return stack.isEmpty();
+    }
+
+    public Iterator<Pawn> getIterator()
+    {
+        return stack.iterator();
+    }
+
     public int push(Pawn pawn)
     {
         if (stack == null) stack = new ArrayDeque<Pawn>();
@@ -57,14 +66,14 @@ public abstract class Tile implements Drawable
 
     public Pawn getTopPawn()
     {
-        if ((stack == null) || (stack.size() == 0)) return null;
+        if (isEmpty()) return null;
         return stack.getFirst();
     }
 
     public boolean hasUnits()
     {
         if (isEmpty()) return false;
-        Iterator<Pawn> itr = stack.iterator();
+        Iterator<Pawn> itr = getIterator();
         while(itr.hasNext()) {
             if (itr.next().isUnit())
                 return true;
@@ -72,10 +81,16 @@ public abstract class Tile implements Drawable
         return false;
     }
 
-    public boolean isEmpty()
+    public boolean hasTargetsFor(Pawn pawn)
     {
-        if (stack == null) return true;
-        return (stack.size() == 0);
+        if (isEmpty()) return false;
+        Iterator<Pawn> itr = getIterator();
+        while(itr.hasNext()) {
+            Pawn target = itr.next();
+            if (pawn.canAttack(target)) return true;
+        }
+
+        return false;
     }
 
     public boolean mustBeDrawn()
