@@ -17,7 +17,7 @@ public class GameFactory implements Board.TileBuilder, Disposable
 
     public GameFactory(AssetManager manager)
     {
-        pawnAtlas = manager.get("data/pawns.atlas", TextureAtlas.class);
+        pawnAtlas = manager.get("data/assets.atlas", TextureAtlas.class);
     }
 
     @Override

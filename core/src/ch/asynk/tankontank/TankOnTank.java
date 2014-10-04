@@ -32,7 +32,7 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
-        manager.load("data/pawns.atlas", TextureAtlas.class);
+        manager.load("data/assets.atlas", TextureAtlas.class);
     }
 
     public void unloadAssets()
@@ -41,7 +41,7 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
-        manager.unload("data/pawns.atlas");
+        manager.unload("data/assets.atlas");
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 

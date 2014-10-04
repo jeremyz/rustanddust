@@ -38,7 +38,7 @@ allprojects {
         resourcesInputPath 'data'
         atlasesOutputPath 'android/assets/data/'
         atlases {
-            add 'pawns'
+            add 'assets'
         }
     }
 }
