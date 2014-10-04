@@ -24,9 +24,9 @@ public abstract class Pawn implements Drawable, Disposable
 {
     private static final float MOVE_TIME = 0.4f;
 
+    private Vector3 position = new Vector3(0f, 0f, 0f);
     private Image image;
     private StackedImages overlays;
-    private ArrayDeque<Vector3> moves = new ArrayDeque<Vector3>();
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
@@ -46,10 +46,15 @@ public abstract class Pawn implements Drawable, Disposable
         this.overlays = new StackedImages(atlas);
     }
 
-    public Vector3 getLastPosition()
+    @Override
+    public void dispose()
     {
-        if ((moves == null) || (moves.size() == 0)) return null;
-        return moves.getFirst();
+        image.dispose();
+    }
+
+    public Vector3 getPosition()
+    {
+        return position;
     }
 
     public Vector2 getCenter()
@@ -68,80 +73,6 @@ public abstract class Pawn implements Drawable, Disposable
         else
             pos.set(x, y);
         return pos;
-    }
-
-    public Orientation getOrientation()
-    {
-        return Orientation.fromRotation(getRotation());
-    }
-
-    public void moveDone()
-    {
-        Vector3 v = moves.pop();
-        moves.clear();
-        moves.push(v);
-    }
-
-    public void pushMove(float x, float y, Orientation o)
-    {
-        float r = ((o == Orientation.KEEP) ? getRotation() : o.r());
-        setPosition(x, y, r);
-        Vector3 v = new Vector3(x, y, r);
-        if ((moves.size() == 0) || (!v.equals(moves.getFirst())))
-            moves.push(new Vector3(x, y, r));
-    }
-
-    public AnimationSequence getResetMovesAnimation()
-    {
-        final Vector3 finalPos = moves.getLast();
-
-        AnimationSequence seq = AnimationSequence.get(moves.size() + 1);
-
-        while(moves.size() != 0) {
-            seq.addAnimation(MoveToAnimation.get(this, moves.pop(), MOVE_TIME));
-        }
-
-        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
-            @Override
-            public void run() {
-                moves.push(finalPos);
-            }
-        }));
-
-        return seq;
-    }
-
-    public AnimationSequence getMoveAnimation(Vector<Vector3> path)
-    {
-        int s = path.size();
-        final Vector3 finalPos = path.get(s - 1);
-
-        AnimationSequence seq = AnimationSequence.get(s + 1);
-
-        for (Vector3 v : path) {
-            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
-        }
-
-        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
-            @Override
-            public void run() {
-                moves.push(finalPos);
-            }
-        }));
-
-        return seq;
-    }
-
-    public boolean hasOverlayEnabled()
-    {
-        return overlays.isEnabled();
-    }
-
-    public boolean enableOverlay(int i, boolean enable)
-    {
-        overlays.enable(i, enable);
-        if (enable) return true;
-        return hasOverlayEnabled();
     }
 
     public float getX()
@@ -169,24 +100,64 @@ public abstract class Pawn implements Drawable, Disposable
         return image.getRotation();
     }
 
+    public Orientation getOrientation()
+    {
+        return Orientation.fromRotation(getRotation());
+    }
+
     public void setPosition(float x, float y)
     {
+        position.set(x, y, 0f);
         image.setPosition(x, y);
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
         overlays.centerOn(cx, cy);
     }
 
-    public void setPosition(float x, float y, float z)
+    public void setRotation(float z)
     {
-        setPosition(x, y);
+        position.z = z;
+        image.setRotation(z);
         overlays.setRotation(z);
     }
 
-    @Override
-    public void dispose()
+    public void setPosition(float x, float y, float z)
     {
-        image.dispose();
+        setPosition(x, y);
+        setRotation(z);
+    }
+
+    public boolean hasOverlayEnabled()
+    {
+        return overlays.isEnabled();
+    }
+
+    public boolean enableOverlay(int i, boolean enable)
+    {
+        overlays.enable(i, enable);
+        if (enable) return true;
+        return hasOverlayEnabled();
+    }
+
+    public AnimationSequence getMoveAnimation(Vector<Vector3> path)
+    {
+        int s = path.size();
+        final Vector3 finalPos = path.get(s - 1);
+
+        AnimationSequence seq = AnimationSequence.get(s + 1);
+
+        for (Vector3 v : path) {
+            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+        }
+
+        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
+            @Override
+            public void run() {
+                setPosition(finalPos.x, finalPos.y, finalPos.z);
+            }
+        }));
+
+        return seq;
     }
 
     @Override
