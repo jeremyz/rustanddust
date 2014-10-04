@@ -81,6 +81,22 @@ public abstract class Board implements Disposable
     {
     }
 
+    @Override
+    public void dispose()
+    {
+        image.dispose();
+        for (int i = 0; i < (cfg.cols * cfg.rows); i++)
+            tiles[i].dispose();
+        tilesToDraw.clear();
+        pawnsToDraw.clear();
+        for (int i = 0, n = nextAnimations.size(); i < n; i++)
+            nextAnimations.get(i).dispose();
+        animations.clear();
+        for (int i = 0, n = animations.size(); i < n; i++)
+            animations.get(i).dispose();
+        animations.clear();
+    }
+
     public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
     {
         image = new Image(texture);
@@ -102,12 +118,6 @@ public abstract class Board implements Disposable
             y += cfg.h;
             evenRow = !evenRow;
         }
-    }
-
-    @Override
-    public void dispose()
-    {
-        image.dispose();
     }
 
     public Tile getTile(GridPoint2 coords)
