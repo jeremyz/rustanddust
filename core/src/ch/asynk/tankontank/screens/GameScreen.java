@@ -30,11 +30,6 @@ import ch.asynk.tankontank.game.Hud;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.GameCtrl;
 import ch.asynk.tankontank.game.GameFactory;
-import ch.asynk.tankontank.game.GameFactory.UnitType;
-// TEST
-import ch.asynk.tankontank.engine.Pawn;
-import ch.asynk.tankontank.engine.Board;
-import ch.asynk.tankontank.engine.Orientation;
 
 public class GameScreen implements Screen
 {
@@ -87,39 +82,12 @@ public class GameScreen implements Screen
 
         ctrl = new GameCtrl(map);
 
+        factory.fakeSetup(map);
         // DEBUG
         debugShapes = new ShapeRenderer();
-
-        // TEST
-        Orientation o = Orientation.NORTH;
-        addUnit(4, 7, o, UnitType.GE_AT_GUN);
-        addUnit(3, 6, o, UnitType.GE_INFANTRY);
-        addUnit(3, 5, o, UnitType.GE_KINGTIGER);
-        addUnit(2, 4, o, UnitType.GE_PANZER_IV);
-        addUnit(2, 3, o, UnitType.GE_PANZER_IV_HQ);
-        addUnit(1, 2, o, UnitType.GE_TIGER);
-        addUnit(1, 1, o, UnitType.GE_WESPE);
-
-        o = Orientation.SOUTH;
-        addUnit(12, 7, o, UnitType.US_AT_GUN);
-        addUnit(11, 6, o, UnitType.US_INFANTRY);
-        addUnit(11, 5, o, UnitType.US_PERSHING);
-        addUnit(10, 4, o, UnitType.US_PERSHING_HQ);
-        addUnit(10, 3, o, UnitType.US_PRIEST);
-        addUnit(9, 2, o, UnitType.US_SHERMAN);
-        addUnit(9, 1, o, UnitType.US_SHERMAN_HQ);
-        addUnit(8, 0, o, UnitType.US_WOLVERINE);
-        // TEST
-
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-    private void addUnit(int col, int row, Orientation o, UnitType t)
-    {
-        Pawn p = factory.getUnit(t);
-        GridPoint2 coords = new GridPoint2(col, row);
-        map.setPawnAt(p, coords, o);
-    }
 
     private InputMultiplexer getMultiplexer()
     {
