@@ -3,6 +3,8 @@ package ch.asynk.tankontank.engine;
 import java.util.Iterator;
 import java.util.ArrayDeque;
 
+import com.badlogic.gdx.utils.Disposable;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 
-public abstract class Tile implements Drawable
+public abstract class Tile implements Drawable, Disposable
 {
     private Vector2 center;
     private StackedImages overlays;
@@ -33,6 +35,13 @@ public abstract class Tile implements Drawable
         this.center = new Vector2(x, y);
         this.overlays = new StackedImages(atlas);
         this.overlays.centerOn(x, y);
+    }
+
+    @Override
+    public void dispose()
+    {
+        if(stack != null) stack.clear();
+        overlays.dispose();
     }
 
     public Vector2 getCenter()
