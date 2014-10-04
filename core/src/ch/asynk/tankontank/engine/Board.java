@@ -446,7 +446,7 @@ public abstract class Board implements Disposable
     public void setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
     {
         Vector2 pos = getPawnPosAt(pawn, coords, null);
-        pawn.pushMove(pos.x, pos.y, o);
+        pawn.setPosition(pos.x, pos.y, o.r());
         pushPawnAt(pawn, coords);
     }
 
