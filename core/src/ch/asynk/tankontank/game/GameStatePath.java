@@ -25,8 +25,6 @@ public class GameStatePath extends GameStateCommon
                 s = reset();
         }
 
-        // FIXME maybe there's more than one path left,
-        // but that's irrelevant, ie 1 hex far
         if (s == 1) {
             unselectHex();
             hex.set(to.x, to.y);
