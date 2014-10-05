@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.engine.gfx.animations;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Pool;
 
@@ -9,7 +9,7 @@ import ch.asynk.tankontank.engine.gfx.Animation;
 
 public class AnimationSequence implements Animation, Pool.Poolable
 {
-    private Vector<Animation> animations;
+    private ArrayList<Animation> animations;
 
     private static final Pool<AnimationSequence> animationSequencePool = new Pool<AnimationSequence>() {
         @Override
@@ -22,9 +22,9 @@ public class AnimationSequence implements Animation, Pool.Poolable
     {
         AnimationSequence seq = animationSequencePool.obtain();
         if (seq.animations == null)
-            seq.animations = new Vector<Animation>(capacity);
+            seq.animations = new ArrayList<Animation>(capacity);
         else
-            seq.animations.setSize(capacity);
+            seq.animations.ensureCapacity(capacity);
 
         return seq;
     }
@@ -61,7 +61,7 @@ public class AnimationSequence implements Animation, Pool.Poolable
 
         Animation animation = animations.get(0);
         if (animation.animate(delta)) {
-            animations.removeElementAt(0);
+            animations.remove(0);
         }
 
         return (animations.isEmpty());

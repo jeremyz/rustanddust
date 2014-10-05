@@ -1,7 +1,7 @@
 package ch.asynk.tankontank;
 
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.junit.Test;
@@ -31,11 +31,11 @@ public class BoardUtils
     public void testPaths()
     {
         Helpers.FakePawn p = new Helpers.FakePawn(3);
-        List<Vector<SearchBoard.Node>> paths = sb.possiblePaths(p, 2, 2, 4, 3);
+        List<ArrayList<SearchBoard.Node>> paths = sb.possiblePaths(p, 2, 2, 4, 3);
 
         assertTrue(paths.size() == 8);
 
-        for(Vector<SearchBoard.Node> path : paths) {
+        for(ArrayList<SearchBoard.Node> path : paths) {
 
             assertTrue((path.size() == 3) || (path.size() == 4));
             SearchBoard.Node n = path.get(0);

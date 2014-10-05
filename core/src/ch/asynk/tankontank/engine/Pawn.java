@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.ArrayDeque;
 
 import com.badlogic.gdx.utils.Disposable;
@@ -139,7 +139,7 @@ public abstract class Pawn implements Drawable, Disposable
         return hasOverlayEnabled();
     }
 
-    public AnimationSequence getMoveAnimation(Vector<Vector3> path)
+    public AnimationSequence getMoveAnimation(ArrayList<Vector3> path)
     {
         int s = path.size();
         final Vector3 finalPos = path.get(s - 1);

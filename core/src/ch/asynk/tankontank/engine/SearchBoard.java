@@ -3,7 +3,7 @@ package ch.asynk.tankontank.engine;
 import java.util.List;
 import java.util.ArrayDeque;
 import java.util.LinkedList;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class SearchBoard
 {
@@ -34,9 +34,9 @@ public class SearchBoard
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
 
-    private ArrayDeque<Node> path = new ArrayDeque<Node>(20);
-    private List<Vector<Node>> possiblePaths = new LinkedList<Vector<Node>>();
-    private List<Node> possiblePathsFilters = new Vector<Node>(5);
+    private ArrayList<Node> path = new ArrayList<Node>(20);
+    private List<ArrayList<Node>> possiblePaths = new LinkedList<ArrayList<Node>>();
+    private List<Node> possiblePathsFilters = new ArrayList<Node>(5);
 
     private List<Node> moves;
     private List<Node> targets;
@@ -68,9 +68,9 @@ public class SearchBoard
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
 
-        this.moves = new Vector<Node>(20);
-        this.targets = new Vector<Node>(10);
-        this.los = new Vector<Node>(10);
+        this.moves = new ArrayList<Node>(40);
+        this.targets = new ArrayList<Node>(10);
+        this.los = new ArrayList<Node>(10);
     }
 
     private boolean inMap(int col, int row)
@@ -495,13 +495,13 @@ public class SearchBoard
     public void clearPossiblePaths()
     {
         path.clear();
-        for (Vector<Node> v : possiblePaths)
+        for (ArrayList<Node> v : possiblePaths)
             v.clear();
         possiblePaths.clear();
         possiblePathsFilters.clear();
     }
 
-    public List<Vector<Node>> possiblePathsFilterToggle(int col, int row)
+    public List<ArrayList<Node>> possiblePathsFilterToggle(int col, int row)
     {
         Node n = getNode(col, row);
         if (possiblePathsFilters.contains(n))
@@ -511,12 +511,12 @@ public class SearchBoard
         return possiblePaths();
     }
 
-    public List<Vector<Node>> possiblePaths()
+    public List<ArrayList<Node>> possiblePaths()
     {
         int s = possiblePathsFilters.size();
 
-        List<Vector<Node>> paths = new LinkedList<Vector<Node>>();
-        for (Vector<Node> path : possiblePaths) {
+        List<ArrayList<Node>> paths = new LinkedList<ArrayList<Node>>();
+        for (ArrayList<Node> path : possiblePaths) {
             int ok = 0;
             for (Node filter : possiblePathsFilters) {
                 if (path.contains(filter))
@@ -535,7 +535,7 @@ public class SearchBoard
         return paths;
     }
 
-    public List<Vector<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
+    public List<ArrayList<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
     {
         clearPossiblePaths();
 
@@ -543,7 +543,7 @@ public class SearchBoard
         Node to = getNode(col1, row1);
 
         if (distance(from, to) == 1) {
-            Vector<Node> temp = new Vector<Node>(2);
+            ArrayList<Node> temp = new ArrayList<Node>(2);
             temp.add(to);
             temp.add(from);
             possiblePaths.add(temp);
@@ -572,16 +572,15 @@ public class SearchBoard
 
             if ((distance(next, to) <= r)) {
                 if (next == to) {
-                    Vector<Node> temp = new Vector<Node>(path.size() + 1);
-                    temp.add(next);
+                    ArrayList<Node> temp = new ArrayList<Node>(path.size() + 1);
                     for (Node n: path)
                         temp.add(n);
+                    temp.add(next);
                     possiblePaths.add(temp);
                 } else {
-                    next.remaining = r;
-                    path.push(next);
+                    path.add(next);
                     findAllPaths(pawn, next, to, (mvtLeft - cost), (roadMarch & road), roadMarchBonus);
-                    path.pop();
+                    path.remove(path.size() - 1);
                 }
             }
         }

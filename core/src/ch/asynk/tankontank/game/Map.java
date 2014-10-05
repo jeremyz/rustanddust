@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.game;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -16,9 +16,9 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public abstract class Map extends Board
 {
-    private final Vector<Vector3> finalPath = new Vector<Vector3>(10);
-    private final Vector<GridPoint2> possibleMoves = new Vector<GridPoint2>(20);
-    private final Vector<GridPoint2> possibleTargets = new Vector<GridPoint2>(10);
+    private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
+    private final ArrayList<GridPoint2> possibleMoves = new ArrayList<GridPoint2>(40);
+    private final ArrayList<GridPoint2> possibleTargets = new ArrayList<GridPoint2>(10);
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
 
     protected abstract void setup();
