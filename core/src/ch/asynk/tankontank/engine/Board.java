@@ -347,49 +347,44 @@ public abstract class Board implements Disposable
         if (paths.size() != 1)
             return 0;
 
+        Vector2 tmpCoords = new Vector2();
+        GridPoint2 tmpHex = gridPoint2Pool.obtain();
 
-        SearchBoard.Node prevNode = null;
-
-        Vector3 v = pawn.getLastPosition();
-        Vector3 prevVector = vector3Pool.obtain();
-        prevVector.set(v.x, v.y, v.z);
+        Vector3 p = pawn.getPosition();
+        Vector3 v = vector3Pool.obtain();
+        v.set(p.x, p.y, 0f);
         Orientation prevOrientation = pawn.getOrientation();
 
-        Vector2 pawnPos = new Vector2();
-        GridPoint2 coords = gridPoint2Pool.obtain();
+        ArrayList<SearchBoard.Node> nodes = paths.get(0);
+        SearchBoard.Node prevNode = nodes.get(0);
 
-        Vector<SearchBoard.Node> nodes = paths.get(0);
-
-        for (int i = (nodes.size() - 1); i >= 0; i--) {
+        for (int i = 1, n = nodes.size(); i < n; i++) {
             SearchBoard.Node node = nodes.get(i);
-
-            if (prevNode != null) {
-                Orientation o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
-                if (o != prevOrientation) {
-                    prevVector.z = o.r();
-                    path.add(prevVector);
-                    prevVector = vector3Pool.obtain();
-                }
-                coords.set(node.col, node.row);
-                getPawnPosAt(pawn, coords, pawnPos);
-                prevVector.set(pawnPos.x, pawnPos.y, o.r());
-                path.add(prevVector);
-                prevOrientation = o;
-                prevVector = vector3Pool.obtain();
-                prevVector.set(pawnPos.x, pawnPos.y, 0f);
+            Orientation o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
+            if ((o != Orientation.KEEP) && (o != prevOrientation)) {
+                v.z = o.r();
+                path.add(v);
+                v = vector3Pool.obtain();
             }
+            tmpHex.set(node.col, node.row);
+            getPawnPosAt(pawn, tmpHex, tmpCoords);
+            v.set(tmpCoords.x, tmpCoords.y, o.r());
+            path.add(v);
+            prevOrientation = o;
+            v = vector3Pool.obtain();
+            v.set(tmpCoords.x, tmpCoords.y, 0f);
 
             prevNode = node;
         }
 
         if (finalOrientation != prevOrientation) {
-            prevVector.z = finalOrientation.r();
-            path.add(prevVector);
+            v.z = finalOrientation.r();
+            path.add(v);
         } else {
-            vector3Pool.free(prevVector);
+            vector3Pool.free(v);
         }
 
-        gridPoint2Pool.free(coords);
+        gridPoint2Pool.free(tmpHex);
 
         return path.size();
     }
