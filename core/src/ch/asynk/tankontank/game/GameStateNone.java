@@ -18,6 +18,7 @@ public class GameStateNone extends GameStateCommon
     public void touchDown()
     {
         if (map.isInPossibleMoves(downHex)) {
+            map.enablePossibleTargets(false);
             ctrl.setState(State.PATH, true);
         } else {
             unselectHex();
