@@ -86,6 +86,7 @@ public enum Orientation
         int dy = row1 - row0;
 
         if (dy == 0) {
+            if (dx == 0) return Orientation.KEEP;
             if (dx > 0) return Orientation.NORTH;
             return Orientation.SOUTH;
         }
