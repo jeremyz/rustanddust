@@ -21,6 +21,12 @@ public class SearchBoard
             this.col = col;
             this.row = row;
         }
+
+        @Override
+        public String toString()
+        {
+            return col + ";" + row;
+        }
     }
 
     private int cols;
