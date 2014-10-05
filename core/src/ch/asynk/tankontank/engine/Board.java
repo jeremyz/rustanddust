@@ -303,16 +303,13 @@ public abstract class Board implements Disposable
 
     private int nodesToSet(List<Vector<SearchBoard.Node>> nodes, Set<GridPoint2> points)
     {
-        // FIXME : optimize this
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
         points.clear();
 
         for (Vector<SearchBoard.Node> path : nodes) {
-            for (int i = 0, n = path.size(); i < n; i++) {
-                // FIXME : optimize this
+            for (SearchBoard.Node node : path) {
                 GridPoint2 point = gridPoint2Pool.obtain();
-                SearchBoard.Node node = path.get(i);
                 point.set(node.col, node.row);
                 if (!points.add(point))
                     gridPoint2Pool.free(point);
