@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,10 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
 
-import ch.asynk.tankontank.game.Hud;
-import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.GameCtrl;
-import ch.asynk.tankontank.game.GameFactory;
 
 public class GameScreen implements Screen
 {
@@ -46,14 +42,13 @@ public class GameScreen implements Screen
 
     private final OrthographicCamera cam;
     private final FitViewport mapViewport;
+    private final ScreenViewport hudViewport;
 
     private final Batch mapBatch;
+    private final Batch hudBatch;
     private ShapeRenderer debugShapes = null;
 
     private final TankOnTank game;
-    private GameFactory factory;
-    private Map map;
-    private Hud hud;
     private GameCtrl ctrl;
 
     private Vector2 dragPos = new Vector2();
@@ -64,25 +59,23 @@ public class GameScreen implements Screen
     {
         this.game = game;
 
-        factory = new GameFactory(game.manager);
+        ctrl = new GameCtrl(game);
 
-        hud = new Hud(game, new ScreenViewport());
-
-        map = factory.getMap(game.manager, GameFactory.MapType.MAP_A);
-        virtualWidth = map.getWidth();
-        virtualHeight = map.getHeight();
+        virtualWidth = ctrl.map.getWidth();
+        virtualHeight = ctrl.map.getHeight();
 
         cam = new OrthographicCamera(virtualWidth, virtualHeight);
         cam.setToOrtho(false);
         mapViewport = new FitViewport(virtualWidth, virtualHeight, cam);
         mapViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        ctrl = new GameCtrl(map);
+        hudViewport = new  ScreenViewport();
+        hudViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         mapBatch = new SpriteBatch();
+        hudBatch = new SpriteBatch();
         if (DEBUG) debugShapes = new ShapeRenderer();
 
-        factory.fakeSetup(map);
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
@@ -119,8 +112,11 @@ public class GameScreen implements Screen
             {
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
-                    unproject(x, y, touchPos);
-                    ctrl.touchDown(touchPos.x, touchPos.y);
+                    unprojectToHud(x, y, touchPos);
+                    if (!ctrl.hud.touchDown(touchPos.x, touchPos.y)) {
+                        unprojectToMap(x, y, touchPos);
+                        ctrl.touchDown(touchPos.x, touchPos.y);
+                    }
                 }
 
                 return true;
@@ -129,8 +125,11 @@ public class GameScreen implements Screen
             public boolean touchUp(int x, int y, int pointer, int button)
             {
                 if (button == Input.Buttons.LEFT) {
-                    unproject(x, y, touchPos);
-                    ctrl.touchUp(touchPos.x, touchPos.y);
+                    unprojectToHud(x, y, touchPos);
+                    if (!ctrl.hud.touchUp(touchPos.x, touchPos.y)) {
+                        unprojectToMap(x, y, touchPos);
+                        ctrl.touchUp(touchPos.x, touchPos.y);
+                    }
                 }
                 return true;
             }
@@ -147,9 +146,17 @@ public class GameScreen implements Screen
         return multiplexer;
     }
 
-    private void unproject(int x, int y, Vector3 v)
+    private void unprojectToMap(int x, int y, Vector3 v)
     {
         cam.unproject(v.set(x, y, 0), mapViewport.getScreenX(), mapViewport.getScreenY(),
+                mapViewport.getScreenWidth(), mapViewport.getScreenHeight());
+    }
+
+    private void unprojectToHud(int x, int y, Vector3 v)
+    {
+        x -= mapViewport.getLeftGutterWidth();
+        y += mapViewport.getBottomGutterHeight();
+        hudViewport.getCamera().unproject(v.set(x, y, 0), hudViewport.getScreenX(), hudViewport.getScreenY(),
                 mapViewport.getScreenWidth(), mapViewport.getScreenHeight());
     }
 
@@ -169,24 +176,29 @@ public class GameScreen implements Screen
 
         cam.update();
 
-        map.animate(delta);
+        ctrl.hud.animate(delta);
+        ctrl.map.animate(delta);
 
         mapBatch.setProjectionMatrix(cam.combined);
         mapBatch.begin();
-        map.draw(mapBatch);
+        ctrl.map.draw(mapBatch);
         mapBatch.end();
-
-        hud.act(delta);
-        hud.draw();
 
         if (DEBUG) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             debugShapes.setAutoShapeType(true);
             debugShapes.setProjectionMatrix(cam.combined);
             debugShapes.begin();
-            map.drawDebug(debugShapes);
+            ctrl.map.drawDebug(debugShapes);
             debugShapes.end();
         }
+
+        Camera hudCam = hudViewport.getCamera();
+        hudCam.update();
+        hudBatch.setProjectionMatrix(hudCam.combined);
+        hudBatch.begin();
+        ctrl.hud.draw(hudBatch);
+        hudBatch.end();
     }
 
     @Override
@@ -194,6 +206,7 @@ public class GameScreen implements Screen
     {
         // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
         mapViewport.update(width, height);
+        // hudViewport.update(width, height);
 
         maxZoomOut = Math.min((virtualWidth / cam.viewportWidth), (virtualHeight / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
@@ -205,12 +218,11 @@ public class GameScreen implements Screen
     public void dispose()
     {
         // Gdx.app.debug("GameScreen", "dispose()");
-        hud.dispose();
-        map.dispose();
-        factory.dispose();
         game.unloadAssets();
         mapBatch.dispose();
+        hudBatch.dispose();
         if (DEBUG) debugShapes.dispose();
+        ctrl.dispose();
     }
 
     @Override
