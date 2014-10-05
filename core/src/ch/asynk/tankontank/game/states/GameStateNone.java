@@ -1,14 +1,10 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.GameCtrl;
 
 public class GameStateNone extends GameStateCommon
 {
-    public GameStateNone()
-    {
-        super();
-    }
-
     public GameStateNone(GameCtrl ctrl, Map map)
     {
         super(ctrl, map);

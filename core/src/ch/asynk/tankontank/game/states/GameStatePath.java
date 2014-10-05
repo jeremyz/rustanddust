@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.game.states;
 
 import com.badlogic.gdx.math.GridPoint2;
 

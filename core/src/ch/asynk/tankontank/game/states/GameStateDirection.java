@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
 
@@ -13,6 +13,7 @@ public class GameStateDirection extends GameStateCommon
     public void touchUp()
     {
         Orientation o = Orientation.KEEP;;
+
         if (downHex.y == hex.y) {
             if (downHex.x == (hex.x - 1)) {
                 o = Orientation.SOUTH;
@@ -36,6 +37,7 @@ public class GameStateDirection extends GameStateCommon
 
         if (o != Orientation.KEEP)
             map.movePawn(pawn, o);
+
         map.enableFinalPath(hex, false);
         map.resetPaths();
         ctrl.setState(State.NONE, false);

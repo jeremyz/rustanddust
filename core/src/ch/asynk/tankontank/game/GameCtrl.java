@@ -2,11 +2,16 @@ package ch.asynk.tankontank.game;
 
 import ch.asynk.tankontank.game.Map;
 
+import ch.asynk.tankontank.game.states.GameStateCommon;
+import ch.asynk.tankontank.game.states.GameStateNone;
+import ch.asynk.tankontank.game.states.GameStatePath;
+import ch.asynk.tankontank.game.states.GameStateDirection;
+
 public class GameCtrl
 {
-    private GameState noneState = new GameStateNone();
-    private GameState pathState = new GameStatePath();
-    private GameState directionState = new GameStateDirection();
+    private GameState noneState;
+    private GameState pathState;
+    private GameState directionState ;
 
     private GameState state;
 
@@ -41,13 +46,13 @@ public class GameCtrl
 
     public void touchDown(float x, float y)
     {
-        if (GameStateCommon.down(x, y))
+        if (state.downInMap(x, y))
             state.touchDown();
     }
 
     public void touchUp(float x, float y)
     {
-        if (GameStateCommon.up(x, y))
+        if (state.upInMap(x, y))
             state.touchUp();
     }
 }

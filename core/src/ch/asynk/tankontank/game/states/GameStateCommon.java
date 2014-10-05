@@ -1,9 +1,13 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.game.states;
 
 import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.GameCtrl;
+import ch.asynk.tankontank.game.GameState;
 
 public abstract class GameStateCommon implements GameState
 {
@@ -26,34 +30,28 @@ public abstract class GameStateCommon implements GameState
         this.map = map;
     }
 
-    // downHex
-
-    protected static boolean downHexInMap()
+    protected static boolean hexInMap(GridPoint2 hex)
     {
-        if (downHex.x == -1) return false;
-        return !map.isOffMap(downHex);
+        if (hex.x == -1) return false;
+        return !map.isOffMap(hex);
     }
 
-    protected static boolean down(float x, float y)
+    public boolean downInMap(float x, float y)
     {
         map.getHexAt(downHex, x, y);
-        return downHexInMap();
+        return hexInMap(downHex);
     }
 
-    protected static boolean up(float x, float y)
+    public boolean upInMap(float x, float y)
     {
         map.getHexAt(upHex, x, y);
-        return downHexInMap();
+        return hexInMap(upHex);
     }
-
-    // pawn
 
     protected void setPawn()
     {
         pawn = map.getTopPawnAt(hex);
     }
-
-    // hex
 
     protected void setHex()
     {
@@ -74,9 +72,4 @@ public abstract class GameStateCommon implements GameState
     {
         map.enableOverlayOn(hex, Hex.BLUE, true);
     }
-
-    // protected Hex getHex(int col, int row)
-    // {
-    //     return (Hex) map.getTile(col, row);
-    // }
 }
