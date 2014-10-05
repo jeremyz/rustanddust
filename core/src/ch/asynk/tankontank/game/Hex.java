@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class Hex extends Tile
@@ -93,17 +92,5 @@ public class Hex extends Tile
         }
 
         return c;
-    }
-
-    @Override
-    public boolean hasTargetsFor(Pawn pawn)
-    {
-        if (!hasUnits()) return false;
-
-        Iterator<Pawn> itr = stack.iterator();
-        while(itr.hasNext())
-            if (itr.next().isEnemy(pawn)) return true;
-
-        return false;
     }
 }
