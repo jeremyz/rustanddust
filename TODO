@@ -1,40 +1,19 @@
-
-Board
-    - build possible assits List<Pawn / GridPoint2>
-    - support different Tiles layout
-        Board.Orientation offset
-        inverted even/odd row scheme
-
-Tile
+Tile:
+    + a center (Vector2) to position overlays and center pawns on it
+    + multiple overlays (path,attack,wrecked,special terrains) centered on it
+    + a stack of pawn
     - automatic overlays to show unit stack depth
 
-Pawn
-    - public abstract boolean isUnit(); => unit stack depth
+
+Pawn:
+    + a position (Vector3) to position overlays
+    + an image
+    + multiple overlays centered on it
+    - a stack of moves to revert them
 
 
-
-Maybe ???
-
-might think about decorator pattern for overlays
-
-us decorator pattern, No can Do ??
-
-    + interface Pawn
-
-    + !!! abstract class SimplePawn implements Pawn
-        protected Image OR extends Image
-
-    + abstract class PawnDecorator implements Pawn
-        potected Pawn pawn;
-        PawnDecorator(Pawn pawn) { this.pawn = pawn; }
-        public _method_() { pawn._method_(); }
-
-    + ?! abstract class OverlayPawnDecorator extends PawnDecorator
-        ...
-    + ?! abstract class HeadedPawnDecorator extends PawnDecorator
-        ...
-
-    * class Unit extends SimplePawn
-        getUnit(_args_) {
-            return new HeadedPawnDecorator( new OverlayPawnDecorator ( new Unit(_args_) ) )
-        }
+Board:
+    - build possible assits List<Pawn / GridPoint2>
+    - support different grid direction
+        Board.Orientation offset
+        inverted even/odd row scheme
