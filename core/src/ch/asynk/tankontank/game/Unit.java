@@ -56,6 +56,12 @@ public class Unit extends HeadedPawn
         return army.isEnemy(((Unit) other).army);
     }
 
+    @Override
+    public boolean canAttack(Pawn other)
+    {
+        return isEnemy(other);
+    }
+
     // hard tager
     public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
