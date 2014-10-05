@@ -48,7 +48,7 @@ public class GameScreen implements Screen
     private final FitViewport mapViewport;
 
     private final Batch mapBatch;
-    private final ShapeRenderer debugShapes;
+    private ShapeRenderer debugShapes = null;
 
     private final TankOnTank game;
     private GameFactory factory;
@@ -56,11 +56,9 @@ public class GameScreen implements Screen
     private Hud hud;
     private GameCtrl ctrl;
 
-    private Vector2 screenToWorld = new Vector2();          // ratio
-    private Vector3 touchPos = new Vector3();               // world coordinates
-    private Vector2 dragPos = new Vector2();                // screen coordinates
-
-    private GridPoint2 cell = new GridPoint2(-1, -1);    // current map cell
+    private Vector2 dragPos = new Vector2();
+    private Vector3 touchPos = new Vector3();
+    private Vector2 screenToWorld = new Vector2();
 
     public GameScreen(final TankOnTank game)
     {
@@ -74,7 +72,6 @@ public class GameScreen implements Screen
         virtualWidth = map.getWidth();
         virtualHeight = map.getHeight();
 
-        mapBatch = new SpriteBatch();
         cam = new OrthographicCamera(virtualWidth, virtualHeight);
         cam.setToOrtho(false);
         mapViewport = new FitViewport(virtualWidth, virtualHeight, cam);
@@ -82,9 +79,10 @@ public class GameScreen implements Screen
 
         ctrl = new GameCtrl(map);
 
+        mapBatch = new SpriteBatch();
+        if (DEBUG) debugShapes = new ShapeRenderer();
+
         factory.fakeSetup(map);
-        // DEBUG
-        debugShapes = new ShapeRenderer();
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
@@ -151,7 +149,8 @@ public class GameScreen implements Screen
 
     private void unproject(int x, int y, Vector3 v)
     {
-        cam.unproject(v.set(x, y, 0), mapViewport.getScreenX(), mapViewport.getScreenY(), mapViewport.getScreenWidth(), mapViewport.getScreenHeight());
+        cam.unproject(v.set(x, y, 0), mapViewport.getScreenX(), mapViewport.getScreenY(),
+                mapViewport.getScreenWidth(), mapViewport.getScreenHeight());
     }
 
     private void clampCameraPos()
@@ -196,7 +195,7 @@ public class GameScreen implements Screen
         // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
         mapViewport.update(width, height);
 
-        maxZoomOut = Math.min((map.getWidth() / cam.viewportWidth), (map.getHeight() / cam.viewportHeight));
+        maxZoomOut = Math.min((virtualWidth / cam.viewportWidth), (virtualHeight / cam.viewportHeight));
         cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
 
         screenToWorld.set((cam.viewportWidth / width), (cam.viewportHeight / height));
@@ -211,7 +210,7 @@ public class GameScreen implements Screen
         factory.dispose();
         game.unloadAssets();
         mapBatch.dispose();
-        debugShapes.dispose();
+        if (DEBUG) debugShapes.dispose();
     }
 
     @Override
