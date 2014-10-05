@@ -241,7 +241,7 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    public void clearNodesVector(Vector<GridPoint2> points)
+    public void clearPointVector(Vector<GridPoint2> points)
     {
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
@@ -294,7 +294,7 @@ public abstract class Board implements Disposable
         nodesToPoints(nodes, targets);
     }
 
-    public void clearNodesSet(Set<GridPoint2> points)
+    public void clearPointSet(Set<GridPoint2> points)
     {
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
@@ -331,13 +331,18 @@ public abstract class Board implements Disposable
         return nodesToSet(paths, points);
     }
 
-    public int getFinalPath(Pawn pawn, Vector<Vector3> path, Orientation finalOrientation)
+    public void clearCoordinateVector(Vector<Vector3> points)
+    {
+        for (Vector3 point : points)
+            vector3Pool.free(point);
+        points.clear();
+    }
+
+    public int getCoordinatePath(Pawn pawn, Vector<Vector3> path, Orientation finalOrientation)
     {
         List<Vector<SearchBoard.Node>> paths = searchBoard.possiblePaths();
 
-        for (Vector3 v : path)
-            vector3Pool.free(v);
-        path.clear();
+        clearCoordinateVector(path);
 
         if (paths.size() != 1)
             return 0;

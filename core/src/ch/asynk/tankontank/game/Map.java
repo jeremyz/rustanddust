@@ -29,6 +29,14 @@ public abstract class Map extends Board
         setup();
     }
 
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+        resetPaths();
+        clearCoordinateVector(finalPath);
+    }
+
     protected Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
@@ -104,7 +112,7 @@ public abstract class Map extends Board
 
     public void movePawn(Pawn pawn, Orientation o)
     {
-        int s = getFinalPath(pawn, finalPath, o);
+        int s = getCoordinatePath(pawn, finalPath, o);
         if (s > 0) {
             movePawn(pawn, finalPath);
         }
@@ -119,9 +127,9 @@ public abstract class Map extends Board
 
     public void resetPaths()
     {
-        clearNodesSet(possiblePaths);
-        clearNodesVector(possibleMoves);
-        clearNodesVector(possibleTargets);
+        clearPointSet(possiblePaths);
+        clearPointVector(possibleMoves);
+        clearPointVector(possibleTargets);
     }
 
     public void toggleDotOverlay(GridPoint2 hex)
