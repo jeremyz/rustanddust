@@ -31,6 +31,16 @@ class ActionBtn implements Disposable
         enabled = !enabled;
     }
 
+    public void setOn()
+    {
+        enabled = true;
+    }
+
+    public void setOff()
+    {
+        enabled = false;
+    }
+
     public Image getImage()
     {
         return (enabled ? on : off);
@@ -129,13 +139,7 @@ public class Hud implements Disposable
     {
         if (!rect.contains(x,y)) return false;
 
-        if (moveAct.hit(x, y)) {
-            moveAct.toggle();
-        } else if (rotateAct.hit(x, y)) {
-            rotateAct.toggle();
-        } else if (attackAct.hit(x, y)) {
-            attackAct.toggle();
-        } else if (cancelAct.hit(x, y)) {
+        if (cancelAct.hit(x, y)) {
             cancelAct.toggle();
         }
 
@@ -147,11 +151,11 @@ public class Hud implements Disposable
         if (!rect.contains(x,y)) return false;
 
         if (moveAct.hit(x, y)) {
-            moveAct.toggle();
+            moveAct.setOn();
         } else if (rotateAct.hit(x, y)) {
-            rotateAct.toggle();
+            rotateAct.setOn();
         } else if (attackAct.hit(x, y)) {
-            attackAct.toggle();
+            attackAct.setOn();
         } else if (cancelAct.hit(x, y)) {
             cancelAct.toggle();
         }
