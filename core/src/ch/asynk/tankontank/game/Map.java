@@ -82,17 +82,30 @@ public abstract class Map extends Board
         }
     }
 
-    public void showPossibleActions(Pawn pawn, GridPoint2 hex, boolean enable)
+    public void showPossibleMoves(Pawn pawn, GridPoint2 hex, boolean enable)
     {
         enablePossibleMoves(false);
-        enablePossibleTargets(false);
         if (enable) {
             possibleMovesFrom(pawn, hex, possibleMoves);
             enablePossibleMoves(true);
+        }
+
+    }
+
+    public void showPossibleTargets(Pawn pawn, GridPoint2 hex, boolean enable)
+    {
+        enablePossibleTargets(false);
+        if (enable) {
             possibleTargetsFrom(pawn, hex, possibleTargets);
             enablePossibleTargets(true);
         }
 
+    }
+
+    public void showPossibleActions(Pawn pawn, GridPoint2 hex, boolean enable)
+    {
+        showPossibleMoves(pawn, hex, enable);
+        showPossibleTargets(pawn, hex, enable);
     }
 
     public int possiblePathsSize()
@@ -144,6 +157,11 @@ public abstract class Map extends Board
             enableOverlayOn(hex, Hex.GREEN, false);
             enableOverlayOn(hex, Hex.MOVE, enable);
         }
-        enableOverlayOn(dst, Hex.ROSE, enable);
+        enableDirections(dst, enable);
+    }
+
+    public void enableDirections(GridPoint2 hex, boolean enable)
+    {
+        enableOverlayOn(hex, Hex.ROSE, enable);
     }
 }
