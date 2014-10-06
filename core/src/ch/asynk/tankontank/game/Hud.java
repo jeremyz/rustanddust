@@ -13,61 +13,66 @@ import ch.asynk.tankontank.engine.gfx.Image;
 
 import ch.asynk.tankontank.TankOnTank;
 
-class ActionBtn implements Disposable
+class Button implements Disposable
 {
-    boolean enabled;
-    private Image on;
-    private Image off;
 
-    public ActionBtn(TextureAtlas atlas, String off, String on)
-    {
-        this.enabled = false;
-        this.on = new Image(atlas.findRegion(on));
-        this.off = new Image(atlas.findRegion(off));
-    }
+    int idx;
+    private Image images [];
+    private Image image;
 
-    public void toggle()
+    public Button(TextureAtlas atlas, String base)
     {
-        enabled = !enabled;
-    }
-
-    public void setOn()
-    {
-        enabled = true;
+        this.idx = 0;
+        this.images = new Image[3];
+        this.images[0] = new Image(atlas.findRegion(base + "-off"));
+        this.images[1] = new Image(atlas.findRegion(base + "-on"));
+        this.images[2] = new Image(atlas.findRegion(base + "-disabled"));
     }
 
     public void setOff()
     {
-        enabled = false;
+        idx = 0;
+    }
+
+    public void setOn()
+    {
+        idx = 1;
+    }
+
+    public void disable()
+    {
+        idx = 2;
     }
 
     public Image getImage()
     {
-        return (enabled ? on : off);
+        return images[idx];
     }
 
     public void setPosition(float x, float y)
     {
-        on.setPosition(x, y);
-        off.setPosition(x, y);
+        images[0].setPosition(x, y);
+        images[1].setPosition(x, y);
+        images[2].setPosition(x, y);
     }
 
     public boolean hit(float x, float y)
     {
-        return ((x > on.getX()) && (x < on.getX() + on.getWidth()) && (y > on.getY()) && (y < on.getY() + on.getHeight()));
+        return ((x > images[0].getX()) && (x < images[0].getX() + images[0].getWidth()) && (y > images[0].getY()) && (y < images[0].getY() + images[0].getHeight()));
     }
 
     @Override
     public void dispose()
     {
-        on.dispose();
-        off.dispose();
+        images[0].dispose();
+        images[1].dispose();
+        images[2].dispose();
     }
 
-    public float getX() { return on.getX(); }
-    public float getY() { return on.getY(); }
-    public float getWidth() { return on.getWidth(); }
-    public float getHeight() { return on.getHeight(); }
+    public float getX() { return images[0].getX(); }
+    public float getY() { return images[0].getY(); }
+    public float getWidth() { return images[0].getWidth(); }
+    public float getHeight() { return images[0].getHeight(); }
 }
 
 public class Hud implements Disposable
@@ -75,11 +80,14 @@ public class Hud implements Disposable
     private final TankOnTank game;
     private final GameCtrl ctrl;
 
-    private ActionBtn flagAct;
-    private ActionBtn moveAct;
-    private ActionBtn rotateAct;
-    private ActionBtn attackAct;
-    private ActionBtn cancelAct;
+    private Image flagUs;
+    private Image flagGe;
+    private Image flag;
+
+    private Button moveAct;
+    private Button rotateAct;
+    private Button attackAct;
+    private Button cancelAct;
 
     private Rectangle rect;
     private float elapsed;
@@ -91,20 +99,25 @@ public class Hud implements Disposable
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
-        flagAct = new ActionBtn(atlas, "us-flag", "ge-flag");
-        moveAct = new ActionBtn(atlas, "act-move", "act-move-on");
-        rotateAct = new ActionBtn(atlas, "act-rotate", "act-rotate-on");
-        attackAct = new ActionBtn(atlas, "act-attack", "act-attack-on");
-        cancelAct = new ActionBtn(atlas, "act-cancel", "act-cancel-on");
+        flagUs = new Image(atlas.findRegion("us-flag"));
+        flagGe = new Image(atlas.findRegion("ge-flag"));
+        moveAct = new Button(atlas, "btn-move");
+        rotateAct = new Button(atlas, "btn-rotate");
+        attackAct = new Button(atlas, "btn-attack");
+        cancelAct = new Button(atlas, "btn-cancel");
 
-        flagAct.setPosition(5, (Gdx.graphics.getHeight() - flagAct.getHeight() - 5));
-        moveAct.setPosition(flagAct.getX(), ( flagAct.getY() - moveAct.getHeight() - 5));
-        rotateAct.setPosition(flagAct.getX(), ( moveAct.getY() - rotateAct.getHeight() - 5));
-        attackAct.setPosition(flagAct.getX(), ( rotateAct.getY() - attackAct.getHeight() - 5));
-        cancelAct.setPosition(flagAct.getX(), ( attackAct.getY() - cancelAct.getHeight() - 5));
+        flag = flagUs;
 
-        rect = new Rectangle(cancelAct.getX(), cancelAct.getY(), flagAct.getWidth(),
-                (flagAct.getY() + flagAct.getHeight() - cancelAct.getY()));
+        flagUs.setPosition(5, (Gdx.graphics.getHeight() - flag.getHeight() - 5));
+        flagGe.setPosition(5, (Gdx.graphics.getHeight() - flag.getHeight() - 5));
+        moveAct.setPosition(flag.getX(), ( flag.getY() - moveAct.getHeight() - 5));
+        rotateAct.setPosition(flag.getX(), ( moveAct.getY() - rotateAct.getHeight() - 5));
+        attackAct.setPosition(flag.getX(), ( rotateAct.getY() - attackAct.getHeight() - 5));
+        cancelAct.setPosition(flag.getX(), ( attackAct.getY() - cancelAct.getHeight() - 5));
+        cancelAct.disable();
+
+        rect = new Rectangle(cancelAct.getX(), cancelAct.getY(), flag.getWidth(),
+                (flag.getY() + flag.getHeight() - cancelAct.getY()));
 
         elapsed = 0f;
     }
@@ -112,7 +125,8 @@ public class Hud implements Disposable
     @Override
     public void dispose()
     {
-        flagAct.dispose();
+        flagUs.dispose();
+        flagGe.dispose();
         moveAct.dispose();
         rotateAct.dispose();
         attackAct.dispose();
@@ -124,13 +138,13 @@ public class Hud implements Disposable
         elapsed += delta;
         if (elapsed > 5f) {
             elapsed = 0f;
-            flagAct.toggle();
+            flag = ((flag == flagUs) ? flagGe : flagUs);
         }
     }
 
     public void draw(Batch batch)
     {
-        flagAct.getImage().draw(batch);
+        flag.draw(batch);
         moveAct.getImage().draw(batch);
         rotateAct.getImage().draw(batch);
         attackAct.getImage().draw(batch);
@@ -142,7 +156,12 @@ public class Hud implements Disposable
         moveAct.setOff();
         rotateAct.setOff();
         attackAct.setOff();
-        cancelAct.setOff();
+        cancelAct.disable();
+    }
+
+    public void disableCancel()
+    {
+        cancelAct.disable();
     }
 
     public boolean touchDown(float x, float y)
@@ -162,18 +181,35 @@ public class Hud implements Disposable
         if (!rect.contains(x,y)) return false;
 
         if (moveAct.hit(x, y)) {
-            moveAct.setOn();
-            ctrl.setState(GameState.State.MOVE);
+            switchTo(GameState.State.MOVE);
         } else if (rotateAct.hit(x, y)) {
-            rotateAct.setOn();
-            ctrl.setState(GameState.State.ROTATE);
+            switchTo(GameState.State.ROTATE);
         } else if (attackAct.hit(x, y)) {
-            // TODO
+            // switchTo(GameState.State.ATTACK);
         } else if (cancelAct.hit(x, y)) {
             reset();
             ctrl.abort();
         }
 
         return true;
+    }
+
+    private void switchTo(GameState.State state)
+    {
+        switch(state) {
+            case MOVE:
+                moveAct.setOn();
+                rotateAct.disable();
+                attackAct.disable();
+                break;
+            case ROTATE:
+                moveAct.disable();
+                rotateAct.setOn();
+                attackAct.disable();
+                break;
+        }
+        cancelAct.setOff();
+
+        ctrl.setState(state);
     }
 }
