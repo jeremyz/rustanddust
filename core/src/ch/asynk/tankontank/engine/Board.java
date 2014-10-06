@@ -452,6 +452,17 @@ public abstract class Board implements Disposable
         addPawnAnimation(pawn, seq);
     }
 
+    public void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
+    {
+        Vector3 p = pawn.getPosition();
+        Vector3 v = vector3Pool.obtain();
+        v.set(p.x, p.y, o.r());
+        AnimationSequence seq = pawn.getRotateAnimation(v);
+        seq.addAnimation(whenDone);
+        addPawnAnimation(pawn, seq);
+        vector3Pool.free(v);
+    }
+
     private GridPoint2 getHexAt(Vector2 v)
     {
         if (v == null) return null;
