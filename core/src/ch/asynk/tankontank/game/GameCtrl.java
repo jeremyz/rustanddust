@@ -86,6 +86,7 @@ public class GameCtrl implements Disposable
                 break;
             case ANIMATION:
                 this.state = animationState;
+                hud.disableCancel();
                 break;
             default:
                 break;
