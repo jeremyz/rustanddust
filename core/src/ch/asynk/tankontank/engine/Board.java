@@ -250,23 +250,14 @@ public abstract class Board implements Disposable
 
     private void nodesToPoints(List<SearchBoard.Node> nodes, ArrayList<GridPoint2> points)
     {
-        // for (GridPoint2 point : points)
-        //     gridPoint2Pool.free(point);
-        // points.clear();
-
-        // for (SearchBoard.Node node : nodes) {
-        //     GridPoint2 point = gridPoint2Pool.obtain();
-        //     point.set(node.col, node.row);
-        //     points.add(point);
-        // }
-
         int ns = nodes.size();
         int ps = points.size();
 
         if (ps > ns) {
-            for (int i = ns; i < ps; i++)
-                gridPoint2Pool.free(points.get(i));
-        }
+            for (int i = (ps - 1); i >= ns; i--)
+                gridPoint2Pool.free(points.remove(i));
+        } else
+            points.ensureCapacity(ns);
 
         int i = 0;
         for (SearchBoard.Node node : nodes) {
@@ -279,7 +270,6 @@ public abstract class Board implements Disposable
             }
             i += 1;
         }
-        points.ensureCapacity(ns);
     }
 
     public void possibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
