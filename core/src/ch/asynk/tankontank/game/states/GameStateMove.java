@@ -9,15 +9,27 @@ public class GameStateMove extends GameStateCommon
     private GridPoint2 to = new GridPoint2(-1, -1);
 
     @Override
+    public void enter()
+    {
+        map.enablePossibleTargets(false);
+        map.enablePossiblePaths(false, false);
+        if (pawn != null) {
+            skipFirst = false;
+            map.clearPossiblePaths();
+            map.buildAndShowPossibleMoves(pawn, hex);
+        }
+    }
+
+    @Override
     public void touchDown()
     {
         if (pawn == null) {
             super.touchDown();
             if (hexHasUnit()) {
-                // TODO maybe keep the the previous hex
                 // FIXME must be one of it's own
                 setPawn();
                 skipFirst = true;
+                map.clearPossiblePaths();
                 map.buildAndShowPossibleMoves(pawn, hex);
             }
         }
