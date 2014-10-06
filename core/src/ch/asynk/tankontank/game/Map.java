@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Map extends Board
 {
@@ -120,8 +121,23 @@ public abstract class Map extends Board
     {
         int s = getCoordinatePath(pawn, finalPath, o);
         if (s > 0) {
-            movePawn(pawn, finalPath);
+            movePawn(pawn, finalPath, RunnableAnimation.get(pawn, new Runnable() {
+                @Override
+                public void run() {
+                    ctrl.animationDone();
+                }
+            }));
         }
+    }
+
+    public void rotatePawn(Pawn pawn, Orientation o)
+    {
+        rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                ctrl.animationDone();
+            }
+        }));
     }
 
     public void hidePossibles()
