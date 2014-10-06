@@ -143,7 +143,7 @@ public abstract class Map extends Board
         clearPointSet(possiblePaths);
     }
 
-    public void toggleDotOverlay(GridPoint2 hex)
+    public void togglePathOverlay(GridPoint2 hex)
     {
         boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE);
         enableOverlayOn(hex, Hex.MOVE, enable);
