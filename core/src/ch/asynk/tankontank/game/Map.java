@@ -36,7 +36,7 @@ public abstract class Map extends Board
     public void dispose()
     {
         super.dispose();
-        resetPaths();
+        clearPossibles();
         clearCoordinateVector(finalPath);
     }
 
@@ -85,30 +85,20 @@ public abstract class Map extends Board
         }
     }
 
-    public void showPossibleMoves(Pawn pawn, GridPoint2 hex, boolean enable)
+    public void buildAndShowPossibleMoves(Pawn pawn, GridPoint2 hex)
     {
         enablePossibleMoves(false);
-        if (enable) {
-            possibleMovesFrom(pawn, hex, possibleMoves);
-            enablePossibleMoves(true);
-        }
+        possibleMovesFrom(pawn, hex, possibleMoves);
+        enablePossibleMoves(true);
 
     }
 
-    public void showPossibleTargets(Pawn pawn, GridPoint2 hex, boolean enable)
+    public void buildAndShowPossibleTargets(Pawn pawn, GridPoint2 hex)
     {
         enablePossibleTargets(false);
-        if (enable) {
-            possibleTargetsFrom(pawn, hex, possibleTargets);
-            enablePossibleTargets(true);
-        }
+        possibleTargetsFrom(pawn, hex, possibleTargets);
+        enablePossibleTargets(true);
 
-    }
-
-    public void showPossibleActions(Pawn pawn, GridPoint2 hex, boolean enable)
-    {
-        showPossibleMoves(pawn, hex, enable);
-        showPossibleTargets(pawn, hex, enable);
     }
 
     public int possiblePathsSize()
@@ -134,18 +124,23 @@ public abstract class Map extends Board
         }
     }
 
-    public void hidePaths()
+    public void hidePossibles()
     {
         enablePossibleTargets(false);
         enablePossibleMoves(false);
         enablePossiblePaths(false, false);
     }
 
-    public void resetPaths()
+    public void clearPossibles()
     {
         clearPointSet(possiblePaths);
         clearPointVector(possibleMoves);
         clearPointVector(possibleTargets);
+    }
+
+    public void clearPossiblePaths()
+    {
+        clearPointSet(possiblePaths);
     }
 
     public void toggleDotOverlay(GridPoint2 hex)
