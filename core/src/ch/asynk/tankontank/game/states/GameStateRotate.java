@@ -51,8 +51,12 @@ public class GameStateRotate extends GameStateCommon
 
         if (o != Orientation.KEEP) {
             clear();
-            map.rotatePawn(pawn, o);
-            ctrl.setState(State.ANIMATION);
+            if (pawn.getOrientation() != o) {
+                map.rotatePawn(pawn, o);
+                ctrl.setState(State.ANIMATION);
+            } else {
+                ctrl.animationDone();
+            }
         }
 
     }
