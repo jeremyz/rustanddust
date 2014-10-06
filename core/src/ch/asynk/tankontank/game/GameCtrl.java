@@ -27,7 +27,7 @@ public class GameCtrl implements Disposable
         this.game = game;
 
         this.factory = new GameFactory(game.manager);
-        this.map = factory.getMap(game.manager, GameFactory.MapType.MAP_A);
+        this.map = factory.getMap(this, game.manager, GameFactory.MapType.MAP_A);
 
         this.hud = new Hud(game);
 

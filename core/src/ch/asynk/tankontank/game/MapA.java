@@ -8,9 +8,9 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class MapA extends Map
 {
-    public MapA(GameFactory gameFactory, Board.Config cfg, Texture texture)
+    public MapA(GameCtrl ctrl, GameFactory factory, Board.Config cfg, Texture texture)
     {
-        super(gameFactory, cfg, texture);
+        super(ctrl, factory, cfg, texture);
     }
 
     @Override

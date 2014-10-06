@@ -123,17 +123,17 @@ public class GameFactory implements Board.TileBuilder, Disposable
         return cfg;
     }
 
-    public Map getMap(AssetManager manager, MapType t)
+    public Map getMap(GameCtrl ctrl, AssetManager manager, MapType t)
     {
         Board.Config cfg = config();
 
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapA(this, config(), manager.get("data/map_a.png", Texture.class));
+                m = new MapA(ctrl, this, config(), manager.get("data/map_a.png", Texture.class));
                 break;
             case MAP_B:
-                m = new MapB(this, config(), manager.get("data/map_b.png", Texture.class));
+                m = new MapB(ctrl, this, config(), manager.get("data/map_b.png", Texture.class));
                 break;
         }
 
