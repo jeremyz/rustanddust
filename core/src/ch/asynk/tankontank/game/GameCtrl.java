@@ -4,9 +4,11 @@ import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.states.GameStateCommon;
-import ch.asynk.tankontank.game.states.GameStateNone;
-import ch.asynk.tankontank.game.states.GameStatePath;
+import ch.asynk.tankontank.game.states.GameStateView;
+import ch.asynk.tankontank.game.states.GameStateMove;
 import ch.asynk.tankontank.game.states.GameStateDirection;
+import ch.asynk.tankontank.game.states.GameStateRotate;
+import ch.asynk.tankontank.game.states.GameStateAnimation;
 
 public class GameCtrl implements Disposable
 {
@@ -16,9 +18,11 @@ public class GameCtrl implements Disposable
     public Map map;
     public Hud hud;
 
-    private GameState noneState;
+    private GameState viewState;
     private GameState pathState;
-    private GameState directionState ;
+    private GameState directionState;
+    private GameState rotateState;
+    private GameState animationState;
 
     private GameState state;
 
@@ -30,11 +34,13 @@ public class GameCtrl implements Disposable
         this.hud = new Hud(this, game);
         this.map = factory.getMap(this, game.manager, GameFactory.MapType.MAP_A);
 
-        this.noneState = new GameStateNone(this, map);
-        this.pathState = new GameStatePath();
+        this.viewState = new GameStateView(this, map);
+        this.pathState = new GameStateMove();
         this.directionState = new GameStateDirection();
+        this.rotateState = new GameStateRotate();
+        this.animationState = new GameStateAnimation();
 
-        this.state = noneState;
+        this.state = viewState;
 
         factory.fakeSetup(map);
     }
@@ -50,14 +56,20 @@ public class GameCtrl implements Disposable
     public void setState(GameState.State state)
     {
         switch(state) {
-            case NONE:
-                this.state = noneState;
+            case VIEW:
+                this.state = viewState;
                 break;
-            case PATH:
+            case MOVE:
                 this.state = pathState;
                 break;
             case DIRECTION:
                 this.state = directionState;
+                break;
+            case ROTATE:
+                this.state = rotateState;
+                break;
+            case ANIMATION:
+                this.state = animationState;
                 break;
             default:
                 break;
