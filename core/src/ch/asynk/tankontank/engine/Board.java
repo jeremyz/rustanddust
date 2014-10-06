@@ -437,7 +437,7 @@ public abstract class Board implements Disposable
         pushPawnAt(pawn, coords);
     }
 
-    public void movePawn(final Pawn pawn, ArrayList<Vector3> path)
+    public void movePawn(final Pawn pawn, ArrayList<Vector3> path, RunnableAnimation whenDone)
     {
         removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
@@ -448,6 +448,7 @@ public abstract class Board implements Disposable
                 pushPawnAt(pawn, getHexAt(pawn.getCenter()));
             }
         }));
+        seq.addAnimation(whenDone);
         addPawnAnimation(pawn, seq);
     }
 

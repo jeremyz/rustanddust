@@ -144,7 +144,7 @@ public abstract class Pawn implements Drawable, Disposable
         int s = path.size();
         final Vector3 finalPos = path.get(s - 1);
 
-        AnimationSequence seq = AnimationSequence.get(s + 1);
+        AnimationSequence seq = AnimationSequence.get(s + 3);
 
         for (Vector3 v : path) {
             seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
