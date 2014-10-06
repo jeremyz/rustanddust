@@ -52,62 +52,6 @@ ace
   orig: 124, 124
   offset: 0, 0
   index: -1
-act-attack
-  rotate: false
-  xy: 962, 699
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-attack-on
-  rotate: false
-  xy: 962, 761
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-cancel
-  rotate: false
-  xy: 698, 657
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-cancel-on
-  rotate: false
-  xy: 962, 637
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-move
-  rotate: false
-  xy: 698, 595
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-move-on
-  rotate: false
-  xy: 104, 39
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-rotate
-  rotate: false
-  xy: 698, 471
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
-act-rotate-on
-  rotate: false
-  xy: 698, 533
-  size: 60, 60
-  orig: 60, 60
-  offset: 0, 0
-  index: -1
 ap1
   rotate: false
   xy: 194, 506
@@ -148,6 +92,90 @@ back
   xy: 320, 529
   size: 124, 124
   orig: 124, 124
+  offset: 0, 0
+  index: -1
+btn-attack-disabled
+  rotate: false
+  xy: 962, 761
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-attack-off
+  rotate: false
+  xy: 962, 699
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-attack-on
+  rotate: false
+  xy: 962, 637
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-cancel-disabled
+  rotate: false
+  xy: 698, 657
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-cancel-off
+  rotate: false
+  xy: 104, 39
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-cancel-on
+  rotate: false
+  xy: 698, 595
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-move-disabled
+  rotate: false
+  xy: 698, 533
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-move-off
+  rotate: false
+  xy: 698, 471
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-move-on
+  rotate: false
+  xy: 698, 409
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-disabled
+  rotate: false
+  xy: 698, 347
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-off
+  rotate: false
+  xy: 698, 285
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-on
+  rotate: false
+  xy: 698, 223
+  size: 60, 60
+  orig: 60, 60
   offset: 0, 0
   index: -1
 disabled
