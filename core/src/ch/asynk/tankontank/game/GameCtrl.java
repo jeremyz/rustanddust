@@ -53,9 +53,9 @@ public class GameCtrl implements Disposable
         factory.dispose();
     }
 
-    public boolean inAnimation()
+    public boolean mayProcessTouch()
     {
-        return (state == animationState);
+        return (state != animationState);
     }
 
     public void animationDone()

@@ -147,7 +147,7 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (ctrl.inAnimation() || !rect.contains(x,y)) return false;
+        if (!rect.contains(x,y)) return false;
 
         if (cancelAct.hit(x, y)) {
             ctrl.abort();
@@ -159,7 +159,7 @@ public class Hud implements Disposable
 
     public boolean touchUp(float x, float y)
     {
-        if (ctrl.inAnimation() || !rect.contains(x,y)) return false;
+        if (!rect.contains(x,y)) return false;
 
         if (moveAct.hit(x, y)) {
             moveAct.setOn();

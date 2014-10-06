@@ -112,10 +112,12 @@ public class GameScreen implements Screen
             {
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
-                    unprojectToHud(x, y, touchPos);
-                    if (!ctrl.hud.touchDown(touchPos.x, touchPos.y)) {
-                        unprojectToMap(x, y, touchPos);
-                        ctrl.touchDown(touchPos.x, touchPos.y);
+                    if (ctrl.mayProcessTouch()) {
+                        unprojectToHud(x, y, touchPos);
+                        if (!ctrl.hud.touchDown(touchPos.x, touchPos.y)) {
+                            unprojectToMap(x, y, touchPos);
+                            ctrl.touchDown(touchPos.x, touchPos.y);
+                        }
                     }
                 }
 
@@ -125,10 +127,12 @@ public class GameScreen implements Screen
             public boolean touchUp(int x, int y, int pointer, int button)
             {
                 if (button == Input.Buttons.LEFT) {
-                    unprojectToHud(x, y, touchPos);
-                    if (!ctrl.hud.touchUp(touchPos.x, touchPos.y)) {
-                        unprojectToMap(x, y, touchPos);
-                        ctrl.touchUp(touchPos.x, touchPos.y);
+                    if (ctrl.mayProcessTouch()) {
+                        unprojectToHud(x, y, touchPos);
+                        if (!ctrl.hud.touchUp(touchPos.x, touchPos.y)) {
+                            unprojectToMap(x, y, touchPos);
+                            ctrl.touchUp(touchPos.x, touchPos.y);
+                        }
                     }
                 }
                 return true;
