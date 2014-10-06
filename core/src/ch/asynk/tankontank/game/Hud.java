@@ -73,6 +73,7 @@ class ActionBtn implements Disposable
 public class Hud implements Disposable
 {
     private final TankOnTank game;
+    private final GameCtrl ctrl;
 
     private ActionBtn flagAct;
     private ActionBtn moveAct;
@@ -83,9 +84,10 @@ public class Hud implements Disposable
     private Rectangle rect;
     private float elapsed;
 
-    public Hud(final TankOnTank game)
+    public Hud(final TankOnTank game, final GameCtrl ctrl)
     {
         this.game = game;
+        this.ctrl = ctrl;
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
@@ -140,6 +142,7 @@ public class Hud implements Disposable
         if (!rect.contains(x,y)) return false;
 
         if (cancelAct.hit(x, y)) {
+            ctrl.abort();
             cancelAct.toggle();
         }
 
@@ -152,11 +155,18 @@ public class Hud implements Disposable
 
         if (moveAct.hit(x, y)) {
             moveAct.setOn();
+            ctrl.setState(GameState.State.MOVE, false);
         } else if (rotateAct.hit(x, y)) {
             rotateAct.setOn();
+            ctrl.setState(GameState.State.ROTATE, false);
         } else if (attackAct.hit(x, y)) {
             attackAct.setOn();
+            ctrl.setState(GameState.State.ATTACK, false);
         } else if (cancelAct.hit(x, y)) {
+            ctrl.abort();
+            moveAct.setOff();
+            rotateAct.setOff();
+            attackAct.setOff();
             cancelAct.toggle();
         }
 
