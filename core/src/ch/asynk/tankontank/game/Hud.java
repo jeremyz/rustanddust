@@ -163,13 +163,12 @@ public class Hud implements Disposable
 
         if (moveAct.hit(x, y)) {
             moveAct.setOn();
-            ctrl.setState(GameState.State.MOVE, false);
+            ctrl.setState(GameState.State.MOVE);
         } else if (rotateAct.hit(x, y)) {
             rotateAct.setOn();
-            ctrl.setState(GameState.State.ROTATE, false);
+            ctrl.setState(GameState.State.ROTATE);
         } else if (attackAct.hit(x, y)) {
-            attackAct.setOn();
-            ctrl.setState(GameState.State.ATTACK, false);
+            // TODO
         } else if (cancelAct.hit(x, y)) {
             reset();
             ctrl.abort();
