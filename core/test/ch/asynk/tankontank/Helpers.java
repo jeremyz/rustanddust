@@ -20,6 +20,7 @@ public class Helpers
         public int getRoadMarchBonus()              { return 1; }
         public boolean isUnit()                     { return true; }
         public boolean isEnemy(Pawn other)          { return true; }
+        public boolean canAttack(Pawn other)        { return true; }
         public int getAngleOfAttack()               { return 0; }
         public int getAttackRangeFrom(Tile tile)    { return 3; }
     }

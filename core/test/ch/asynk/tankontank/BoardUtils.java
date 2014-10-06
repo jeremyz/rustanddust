@@ -39,11 +39,11 @@ public class BoardUtils
 
             assertTrue((path.size() == 3) || (path.size() == 4));
             SearchBoard.Node n = path.get(0);
-            assertTrue(n.col == 4);
-            assertTrue(n.row == 3);
-            n = path.get(path.size() - 1);
             assertTrue(n.col == 2);
             assertTrue(n.row == 2);
+            n = path.get(path.size() - 1);
+            assertTrue(n.col == 4);
+            assertTrue(n.row == 3);
 
             int i = 1;
             if (path.size() == 3) {
@@ -59,44 +59,33 @@ public class BoardUtils
                         assert(n.col == 3);
                         assert(n.row == 2);
                     } else {
-                        assert(n.col == 3);
+                        assert(n.row == 3);
                         n = path.get(i);
-                        assert(n.col == 2);
+                        assert(n.col == 3);
                         assert(n.row == 3);
                     }
                 } else if (n.col == 3) {
                     i += 1;
                     if (n.row == 2) {
                         n = path.get(i);
-                        if (n.col == 2)
-                            assert(n.row == 1);
-                        else {
-                            assert(n.col == 3);
+                        if (n.col == 3)
                             assert(n.row == 3);
+                        else {
+                            assert(n.col == 4);
+                            assert(n.row == 2);
                         }
                     } else {
-                        assert(n.col == 3);
+                        assert(n.row == 3);
                         n = path.get(i);
-                        if (n.col == 2)
-                            assert(n.row == 3);
-                        else {
-                            assert(n.col == 3);
+                        if (n.col == 3)
                             assert(n.row == 2);
+                        else {
+                            assert(n.col == 4);
+                            assert(n.row == 4);
                         }
                     }
                 } else {
-                    i += 1;
-                    assertTrue(n.col == 4);
-                    if (n.row == 4) {
-                        n = path.get(i);
-                        assert(n.col == 3);
-                        assert(n.row == 3);
-                    } else {
-                        assert(n.row == 2);
-                        n = path.get(i);
-                        assert(n.col == 3);
-                        assert(n.row == 2);
-                    }
+                    assertTrue(false);
                 }
             }
         }
@@ -109,21 +98,43 @@ public class BoardUtils
         HashSet<GridPoint2> points = new HashSet<GridPoint2>();
 
         GridPoint2 from = new GridPoint2(2, 2);
-        GridPoint2 to = new GridPoint2(4, 3);
+        GridPoint2 to = new GridPoint2(3, 3);
 
         int n = b.possiblePaths(p, from, to, points);
+        assertTrue(n == 1);
+        assertTrue(points.size() == 2);
+
+        to.set(4, 3);
+
+        n = b.possiblePaths(p, from, to, points);
         assertTrue(n == 8);
         assertTrue(points.size() == 8);
 
         GridPoint2 p0 = new GridPoint2(3, 3);
         n = b.possiblePathsFilterToggle(p0, points);
-        assertTrue(n == 5);
-        assertTrue(points.size() == 6);
 
-        GridPoint2 p1 = new GridPoint2(4, 4);
-        n = b.possiblePathsFilterToggle(p1, points);
         assertTrue(n == 1);
-        assertTrue(points.size() == 4);
+        assertTrue(points.size() == 3);
+
+        to.set(5, 3);
+
+        n = b.possiblePaths(p, from, to, points);
+        assertTrue(n == 3);
+
+        p0.set(3, 3);
+        n = b.possiblePathsFilterToggle(p0, points);
+        assertTrue(n == 1);
+        n = b.possiblePathsFilterToggle(p0, points);
+        assertTrue(n == 3);
+
+        GridPoint2 p1 = new GridPoint2(3, 2);
+        n = b.possiblePathsFilterToggle(p1, points);
+        assertTrue(n == 2);
+
+        GridPoint2 p2 = new GridPoint2(4, 2);
+        n = b.possiblePathsFilterToggle(p2, points);
+        assertTrue(n == 1);
+
     }
 
     @Test
