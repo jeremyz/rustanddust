@@ -3,10 +3,16 @@ package ch.asynk.tankontank.game;
 public interface GameState
 {
     enum State {
-        NONE,
-        PATH,
-        DIRECTION
+        VIEW,
+        MOVE,
+        DIRECTION,
+        ROTATE,
+        ANIMATION
     };
+
+    public void enter();
+
+    public void abort();
 
     public void touchDown();
 

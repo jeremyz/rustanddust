@@ -30,6 +30,28 @@ public abstract class GameStateCommon implements GameState
         this.map = map;
     }
 
+    @Override
+    public void enter()
+    {
+        map.hidePossibles();
+        unselectHex();
+        pawn = null;
+    }
+
+    @Override
+    public void abort()
+    {
+        ctrl.setState(State.VIEW);
+    }
+
+    @Override
+    public void touchDown()
+    {
+        unselectHex();
+        setHex();
+        selectHex();
+    }
+
     protected static boolean hexInMap(GridPoint2 hex)
     {
         if (hex.x == -1) return false;
@@ -71,5 +93,10 @@ public abstract class GameStateCommon implements GameState
     protected void selectHex()
     {
         map.enableOverlayOn(hex, Hex.BLUE, true);
+    }
+
+    protected boolean downIsHex()
+    {
+        return ((downHex.x == hex.x) && (upHex.y == hex.y));
     }
 }

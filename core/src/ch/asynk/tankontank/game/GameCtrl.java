@@ -47,7 +47,7 @@ public class GameCtrl implements Disposable
         factory.dispose();
     }
 
-    public void setState(GameState.State state, boolean forward)
+    public void setState(GameState.State state)
     {
         switch(state) {
             case NONE:
@@ -63,8 +63,12 @@ public class GameCtrl implements Disposable
                 break;
         }
 
-        if (forward)
-            this.state.touchDown();
+        this.state.enter();
+    }
+
+    public void abort()
+    {
+        state.abort();
     }
 
     public void touchDown(float x, float y)
