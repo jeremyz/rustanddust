@@ -78,6 +78,7 @@ public abstract class GameStateCommon implements GameState
     protected void setHex()
     {
         hex.set(downHex.x, downHex.y);
+        pawn = null;
     }
 
     protected boolean hexHasUnit()
