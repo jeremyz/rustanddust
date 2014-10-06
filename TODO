@@ -17,3 +17,9 @@ Board:
     - support different grid direction
         Board.Orientation offset
         inverted even/odd row scheme
+
+Game:
+    - hq move
+    - promote
+    - attack
+        - assists
