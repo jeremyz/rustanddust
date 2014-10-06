@@ -180,13 +180,16 @@ public class Hud implements Disposable
     {
         if (!rect.contains(x,y)) return false;
 
-        if (moveAct.hit(x, y)) {
-            switchTo(GameState.State.MOVE);
-        } else if (rotateAct.hit(x, y)) {
-            switchTo(GameState.State.ROTATE);
-        } else if (attackAct.hit(x, y)) {
-            // switchTo(GameState.State.ATTACK);
-        } else if (cancelAct.hit(x, y)) {
+        if (!ctrl.isInAction()) {
+            if (moveAct.hit(x, y)) {
+                switchTo(GameState.State.MOVE);
+            } else if (rotateAct.hit(x, y)) {
+                switchTo(GameState.State.ROTATE);
+            } else if (attackAct.hit(x, y)) {
+                // switchTo(GameState.State.ATTACK);
+            }
+        }
+        if (cancelAct.hit(x, y)) {
             reset();
             ctrl.abort();
         }

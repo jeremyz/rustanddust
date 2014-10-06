@@ -58,6 +58,11 @@ public class GameCtrl implements Disposable
         return (state != animationState);
     }
 
+    public boolean isInAction()
+    {
+        return (state != viewState);
+    }
+
     public void animationDone()
     {
         hud.reset();
