@@ -14,6 +14,7 @@ public class GameStateMove extends GameStateCommon
         map.enablePossibleTargets(false);
         map.enablePossiblePaths(false, false);
         if (pawn != null) {
+            // FIXME must be one of it's own
             skipFirst = false;
             map.clearPossiblePaths();
             map.buildAndShowPossibleMoves(pawn, hex);

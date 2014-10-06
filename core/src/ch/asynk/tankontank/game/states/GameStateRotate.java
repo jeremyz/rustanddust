@@ -5,12 +5,21 @@ import ch.asynk.tankontank.engine.Orientation;
 public class GameStateRotate extends GameStateCommon
 {
     @Override
+    public void enter()
+    {
+        map.hidePossibles();
+        if (pawn != null) {
+            // FIXME must be one of it's own
+            map.enableDirections(hex, true);
+        }
+    }
+
+    @Override
     public void touchDown()
     {
         if (pawn == null) {
             super.touchDown();
             if (hexHasUnit()) {
-                // TODO maybe keep the the previous hex
                 // FIXME must be one of it's own
                 setPawn();
                 map.enableDirections(hex, true);
