@@ -53,6 +53,17 @@ public class GameCtrl implements Disposable
         factory.dispose();
     }
 
+    public boolean inAnimation()
+    {
+        return (state == animationState);
+    }
+
+    public void animationDone()
+    {
+        hud.reset();
+        setState(GameState.State.VIEW);
+    }
+
     public void setState(GameState.State state)
     {
         switch(state) {
