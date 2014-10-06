@@ -84,7 +84,7 @@ public class Hud implements Disposable
     private Rectangle rect;
     private float elapsed;
 
-    public Hud(final TankOnTank game, final GameCtrl ctrl)
+    public Hud(final GameCtrl ctrl, final TankOnTank game)
     {
         this.game = game;
         this.ctrl = ctrl;
