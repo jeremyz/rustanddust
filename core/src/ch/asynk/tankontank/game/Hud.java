@@ -137,6 +137,14 @@ public class Hud implements Disposable
         cancelAct.getImage().draw(batch);
     }
 
+    public void reset()
+    {
+        moveAct.setOff();
+        rotateAct.setOff();
+        attackAct.setOff();
+        cancelAct.setOff();
+    }
+
     public boolean touchDown(float x, float y)
     {
         if (!rect.contains(x,y)) return false;
@@ -163,11 +171,8 @@ public class Hud implements Disposable
             attackAct.setOn();
             ctrl.setState(GameState.State.ATTACK, false);
         } else if (cancelAct.hit(x, y)) {
+            reset();
             ctrl.abort();
-            moveAct.setOff();
-            rotateAct.setOff();
-            attackAct.setOff();
-            cancelAct.toggle();
         }
 
         return true;
