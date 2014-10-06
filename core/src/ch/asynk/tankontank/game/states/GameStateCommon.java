@@ -95,8 +95,8 @@ public abstract class GameStateCommon implements GameState
         map.enableOverlayOn(hex, Hex.BLUE, true);
     }
 
-    protected boolean downIsHex()
+    protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
     {
-        return ((downHex.x == hex.x) && (upHex.y == hex.y));
+        return ((a.x == b.x) && (a.y == b.y));
     }
 }
