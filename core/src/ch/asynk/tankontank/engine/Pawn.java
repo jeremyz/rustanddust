@@ -160,6 +160,14 @@ public abstract class Pawn implements Drawable, Disposable
         return seq;
     }
 
+    public AnimationSequence getRotateAnimation(Vector3 v)
+    {
+        AnimationSequence seq = AnimationSequence.get(2);
+        seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+
+        return seq;
+    }
+
     @Override
     public void draw(Batch batch)
     {
