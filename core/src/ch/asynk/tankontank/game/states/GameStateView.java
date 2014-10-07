@@ -27,6 +27,7 @@ public class GameStateView extends GameStateCommon
         if (hasPawn()) {
             map.buildAndShowPossibleMoves(pawn, hex);
             map.buildAndShowPossibleTargets(pawn, hex);
+            map.buildAndShowMoveAssist(pawn, hex);
         } else {
             clear();
         }
@@ -43,5 +44,6 @@ public class GameStateView extends GameStateCommon
     {
         map.enablePossibleMoves(false);
         map.enablePossibleTargets(false);
+        map.enableMoveAssist(false);
     }
 }
