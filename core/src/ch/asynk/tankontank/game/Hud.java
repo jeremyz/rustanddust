@@ -93,10 +93,10 @@ public class Hud implements Disposable
     private Image geFlag;
     private Image flag;
 
-    private Button moveAct;
-    private Button rotateAct;
-    private Button attackAct;
-    private Button cancelAct;
+    private Button moveBtn;
+    private Button rotateBtn;
+    private Button attackBtn;
+    private Button cancelBtn;
 
     private Rectangle rect;
     private float elapsed;
@@ -110,24 +110,24 @@ public class Hud implements Disposable
 
         usFlag = new Image(atlas.findRegion("us-flag"));
         geFlag = new Image(atlas.findRegion("ge-flag"));
-        moveAct = new Button(atlas, "btn-move");
-        rotateAct = new Button(atlas, "btn-rotate");
-        attackAct = new Button(atlas, "btn-attack");
-        cancelAct = new Button(atlas, "btn-cancel");
+        moveBtn = new Button(atlas, "btn-move");
+        rotateBtn = new Button(atlas, "btn-rotate");
+        attackBtn = new Button(atlas, "btn-attack");
+        cancelBtn = new Button(atlas, "btn-cancel");
 
         flag = usFlag;
 
         int left = Gdx.graphics.getWidth() - 5;
         usFlag.setPosition((left - flag.getWidth()), (Gdx.graphics.getHeight() - flag.getHeight() - 5));
         geFlag.setPosition(flag.getX(), flag.getY());
-        moveAct.setPosition((left - moveAct.getWidth()), ( flag.getY() - moveAct.getHeight() - 5));
-        rotateAct.setPosition((left - rotateAct.getWidth()), ( moveAct.getY() - rotateAct.getHeight() - 5));
-        attackAct.setPosition((left - attackAct.getWidth()), ( rotateAct.getY() - attackAct.getHeight() - 5));
-        cancelAct.setPosition((left - cancelAct.getWidth()), ( attackAct.getY() - cancelAct.getHeight() - 5));
-        cancelAct.disable();
+        moveBtn.setPosition((left - moveBtn.getWidth()), ( flag.getY() - moveBtn.getHeight() - 5));
+        rotateBtn.setPosition((left - rotateBtn.getWidth()), ( moveBtn.getY() - rotateBtn.getHeight() - 5));
+        attackBtn.setPosition((left - attackBtn.getWidth()), ( rotateBtn.getY() - attackBtn.getHeight() - 5));
+        cancelBtn.setPosition((left - cancelBtn.getWidth()), ( attackBtn.getY() - cancelBtn.getHeight() - 5));
+        cancelBtn.disable();
 
-        rect = new Rectangle(cancelAct.getX(), cancelAct.getY(), flag.getWidth(),
-                (flag.getY() + flag.getHeight() - cancelAct.getY()));
+        rect = new Rectangle(cancelBtn.getX(), cancelBtn.getY(), flag.getWidth(),
+                (flag.getY() + flag.getHeight() - cancelBtn.getY()));
 
         elapsed = 0f;
     }
@@ -137,10 +137,10 @@ public class Hud implements Disposable
     {
         usFlag.dispose();
         geFlag.dispose();
-        moveAct.dispose();
-        rotateAct.dispose();
-        attackAct.dispose();
-        cancelAct.dispose();
+        moveBtn.dispose();
+        rotateBtn.dispose();
+        attackBtn.dispose();
+        cancelBtn.dispose();
     }
 
     public void animate(float delta)
@@ -155,31 +155,31 @@ public class Hud implements Disposable
     public void draw(Batch batch)
     {
         flag.draw(batch);
-        moveAct.getImage().draw(batch);
-        rotateAct.getImage().draw(batch);
-        attackAct.getImage().draw(batch);
-        cancelAct.getImage().draw(batch);
+        moveBtn.getImage().draw(batch);
+        rotateBtn.getImage().draw(batch);
+        attackBtn.getImage().draw(batch);
+        cancelBtn.getImage().draw(batch);
     }
 
     public void reset()
     {
-        moveAct.setOff();
-        rotateAct.setOff();
-        attackAct.setOff();
-        cancelAct.disable();
+        moveBtn.setOff();
+        rotateBtn.setOff();
+        attackBtn.setOff();
+        cancelBtn.disable();
     }
 
     public void disableCancel()
     {
-        cancelAct.disable();
+        cancelBtn.disable();
     }
 
     public boolean touchDown(float x, float y)
     {
         if (!rect.contains(x,y)) return false;
 
-        if (cancelAct.hit(x, y)) {
-            cancelAct.setOn();
+        if (cancelBtn.hit(x, y)) {
+            cancelBtn.setOn();
         }
 
         return true;
@@ -190,15 +190,15 @@ public class Hud implements Disposable
         if (!rect.contains(x,y)) return false;
 
         if (!ctrl.isInAction()) {
-            if (moveAct.hit(x, y)) {
+            if (moveBtn.hit(x, y)) {
                 switchTo(GameState.State.MOVE);
-            } else if (rotateAct.hit(x, y)) {
+            } else if (rotateBtn.hit(x, y)) {
                 switchTo(GameState.State.ROTATE);
-            } else if (attackAct.hit(x, y)) {
+            } else if (attackBtn.hit(x, y)) {
                 // switchTo(GameState.State.ATTACK);
             }
         }
-        if (cancelAct.hit(x, y)) {
+        if (cancelBtn.hit(x, y)) {
             reset();
             ctrl.abort();
         }
@@ -210,17 +210,17 @@ public class Hud implements Disposable
     {
         switch(state) {
             case MOVE:
-                moveAct.setOn();
-                rotateAct.disable();
-                attackAct.disable();
+                moveBtn.setOn();
+                rotateBtn.disable();
+                attackBtn.disable();
                 break;
             case ROTATE:
-                moveAct.disable();
-                rotateAct.setOn();
-                attackAct.disable();
+                moveBtn.disable();
+                rotateBtn.setOn();
+                attackBtn.disable();
                 break;
         }
-        cancelAct.setOff();
+        cancelBtn.setOff();
 
         ctrl.setState(state);
     }
