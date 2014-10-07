@@ -20,28 +20,32 @@ class Button implements Disposable
     private Image images [];
     private Image image;
 
+    private static final int OFF = 0;
+    private static final int ON = 1;
+    private static final int DISABLED = 2;
+
     public Button(TextureAtlas atlas, String base)
     {
-        this.idx = 0;
+        this.idx = OFF;
         this.images = new Image[3];
-        this.images[0] = new Image(atlas.findRegion(base + "-off"));
-        this.images[1] = new Image(atlas.findRegion(base + "-on"));
-        this.images[2] = new Image(atlas.findRegion(base + "-disabled"));
+        this.images[OFF] = new Image(atlas.findRegion(base + "-off"));
+        this.images[ON] = new Image(atlas.findRegion(base + "-on"));
+        this.images[DISABLED] = new Image(atlas.findRegion(base + "-disabled"));
     }
 
     public void setOff()
     {
-        idx = 0;
+        idx = OFF;
     }
 
     public void setOn()
     {
-        idx = 1;
+        idx = ON;
     }
 
     public void disable()
     {
-        idx = 2;
+        idx = DISABLED;
     }
 
     public Image getImage()
@@ -49,11 +53,16 @@ class Button implements Disposable
         return images[idx];
     }
 
+    public boolean isDisabled()
+    {
+        return (idx == DISABLED);
+    }
+
     public void setPosition(float x, float y)
     {
-        images[0].setPosition(x, y);
-        images[1].setPosition(x, y);
-        images[2].setPosition(x, y);
+        images[OFF].setPosition(x, y);
+        images[ON].setPosition(x, y);
+        images[DISABLED].setPosition(x, y);
     }
 
     public boolean hit(float x, float y)
@@ -64,9 +73,9 @@ class Button implements Disposable
     @Override
     public void dispose()
     {
-        images[0].dispose();
-        images[1].dispose();
-        images[2].dispose();
+        images[OFF].dispose();
+        images[ON].dispose();
+        images[DISABLED].dispose();
     }
 
     public float getX() { return images[0].getX(); }
