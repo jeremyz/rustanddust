@@ -13,13 +13,20 @@ Pawn:
 
 
 Board:
-    - build possible assits List<Pawn / GridPoint2>
     - support different grid direction
         Board.Orientation offset
         inverted even/odd row scheme
 
 Game:
     - hq move
-    - promote
     - attack
-        - assists
+    - assists
+    - promote
+
+
+Config:
+    - show possible moves
+    - show possible targets
+    - show possible assist
+    - can reset actions
+    - must validate actions
