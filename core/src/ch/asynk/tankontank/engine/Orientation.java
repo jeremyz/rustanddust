@@ -59,7 +59,7 @@ public enum Orientation
 
     public static Orientation fromSide(int s)
     {
-        if (s == 1) return NORTH;
+        if (s == NORTH.s) return NORTH;
         else if (s == NORTH_EAST.s) return NORTH_EAST;
         else if (s == SOUTH_EAST.s) return SOUTH_EAST;
         else if (s == SOUTH.s) return SOUTH;
