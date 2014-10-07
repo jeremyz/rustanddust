@@ -86,16 +86,16 @@ public enum Orientation
         int dy = row1 - row0;
 
         if (dy == 0) {
-            if (dx == 0) return Orientation.KEEP;
-            if (dx > 0) return Orientation.NORTH;
-            return Orientation.SOUTH;
+            if (dx == 0) return KEEP;
+            if (dx > 0) return NORTH;
+            return SOUTH;
         }
         if (dy > 0) {
-            if (dx > 0) return Orientation.NORTH_WEST;
-            return Orientation.SOUTH_WEST;
+            if (dx > 0) return NORTH_WEST;
+            return SOUTH_WEST;
         } else {
-            if (dx < 0) return Orientation.SOUTH_EAST;
-            return Orientation.NORTH_EAST;
+            if (dx < 0) return SOUTH_EAST;
+            return NORTH_EAST;
         }
     }
 }
