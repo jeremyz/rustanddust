@@ -151,6 +151,19 @@ public abstract class Board implements Disposable
         tiles[5] = getTileSafe((hex.x - 1), (hex.y - 1));
     }
 
+    public GridPoint2 setNeighbour(GridPoint2 hex, Orientation o, GridPoint2 n)
+    {
+        if (o == Orientation.NORTH) n.set((hex.x + 1), hex.y);
+        else if (o == Orientation.NORTH_EAST) n.set(hex.x, (hex.y - 1));
+        else if (o == Orientation.SOUTH_EAST) n.set((hex.x - 1), (hex.y - 1));
+        else if (o == Orientation.SOUTH) n.set((hex.x - 1), hex.y);
+        else if (o == Orientation.SOUTH_WEST) n.set(hex.x, (hex.y + 1));
+        else if (o == Orientation.NORTH_WEST) n.set((hex.x + 1), (hex.y + 1));
+        else n.set(hex.x, hex.y);
+
+        return n;
+    }
+
     public float getWidth()
     {
         return image.getWidth();
