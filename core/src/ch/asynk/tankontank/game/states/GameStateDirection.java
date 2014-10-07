@@ -24,7 +24,7 @@ public class GameStateDirection extends GameStateCommon
             clear();
             unselectHex();
             hex.set(tmp.x, tmp.y);
-            selectHex();
+            unselectHex();
             ctrl.setState(State.ANIMATION);
         }
     }

@@ -14,6 +14,7 @@ public class GameStateMove extends GameStateCommon
         map.enablePossibleTargets(false);
         map.enablePossiblePaths(false, false);
         if (hasPawn()) {
+            selectHex();
             skipFirst = false;
             map.clearPossiblePaths();
             map.buildAndShowPossibleMoves(pawn, hex);
@@ -77,7 +78,7 @@ public class GameStateMove extends GameStateCommon
         to.set(upHex.x, upHex.y);
         map.clearPossiblePaths();
         int s = map.buildPossiblePaths(pawn, from, to);
-        map.togglePathOverlay(downHex);
+        selectHex(downHex);
         map.enablePossibleMoves(false);
         map.enablePossiblePaths(true, true);
         return s;

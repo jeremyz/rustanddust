@@ -72,6 +72,11 @@ public abstract class GameStateCommon implements GameState
 
     protected void selectHex()
     {
+        selectHex(hex);
+    }
+
+    protected void selectHex(GridPoint2 hex)
+    {
         map.enableOverlayOn(hex, Hex.BLUE, true);
     }
 

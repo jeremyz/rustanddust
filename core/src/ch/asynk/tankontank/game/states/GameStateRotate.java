@@ -9,6 +9,7 @@ public class GameStateRotate extends GameStateCommon
     {
         map.hidePossibles();
         if (hasPawn()) {
+            selectHex();
             map.enableDirections(hex, true);
         }
     }
@@ -35,6 +36,7 @@ public class GameStateRotate extends GameStateCommon
         Orientation o = Orientation.fromAdj(hex.x, hex.y, downHex.x, downHex.y);
 
         if (o != Orientation.KEEP) {
+            unselectHex();
             map.enableDirections(hex, false);
             if (pawn.getOrientation() != o) {
                 map.rotatePawn(pawn, o);
