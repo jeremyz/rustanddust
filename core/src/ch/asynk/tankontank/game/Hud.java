@@ -170,7 +170,6 @@ public class Hud implements Disposable
         if (!rect.contains(x,y)) return false;
 
         if (cancelAct.hit(x, y)) {
-            ctrl.abort();
             cancelAct.setOn();
         }
 
