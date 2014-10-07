@@ -19,10 +19,12 @@ public abstract class Map extends Board
 {
     private final GameCtrl ctrl;
 
+    private final GridPoint2 neighbours[] = new GridPoint2[6];
     private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
     private final ArrayList<GridPoint2> possibleMoves = new ArrayList<GridPoint2>(40);
     private final ArrayList<GridPoint2> possibleTargets = new ArrayList<GridPoint2>(10);
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
+    private final ArrayList<GridPoint2> moveAssist = new ArrayList<GridPoint2>(6);
 
     protected abstract void setup();
 
@@ -31,6 +33,8 @@ public abstract class Map extends Board
         super(factory, cfg, texture);
         this.ctrl = ctrl;
         setup();
+        for (int i = 0; i < 6; i++)
+            neighbours[i] = new GridPoint2(-1, -1);
     }
 
     @Override
@@ -41,9 +45,24 @@ public abstract class Map extends Board
         clearCoordinateVector(finalPath);
     }
 
+    public void buildNeighbours(GridPoint2 hex)
+    {
+        setNeighbour(hex, Orientation.SOUTH, neighbours[0]);
+        setNeighbour(hex, Orientation.SOUTH_WEST, neighbours[1]);
+        setNeighbour(hex, Orientation.NORTH_WEST, neighbours[2]);
+        setNeighbour(hex, Orientation.NORTH, neighbours[3]);
+        setNeighbour(hex, Orientation.NORTH_EAST, neighbours[4]);
+        setNeighbour(hex, Orientation.SOUTH_EAST, neighbours[5]);
+    }
+
     protected Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
+    }
+
+    protected Hex getHexSafe(GridPoint2 hex)
+    {
+        return (Hex) getTileSafe(hex.x, hex.y);
     }
 
     public boolean isInPossibleMoves(GridPoint2 hex)
@@ -65,6 +84,12 @@ public abstract class Map extends Board
     {
         for(GridPoint2 hex : possibleMoves)
             enableOverlayOn(hex, Hex.GREEN, enable);
+    }
+
+    public void enableMoveAssist(boolean enable)
+    {
+        for(GridPoint2 hex : moveAssist)
+            enableOverlayOn(hex, Hex.ASSIST, enable);
     }
 
     public void enablePossibleTargets(boolean enable)
@@ -92,6 +117,23 @@ public abstract class Map extends Board
         possibleMovesFrom(pawn, hex, possibleMoves);
         enablePossibleMoves(true);
 
+    }
+
+    public void buildAndShowMoveAssist(Pawn pawn, GridPoint2 hex)
+    {
+        enableMoveAssist(false);
+        moveAssist.clear();
+        buildNeighbours(hex);
+        for (int i = 0; i < 6; i++) {
+            GridPoint2 neighbour = neighbours[i];
+            Hex h = getHexSafe(neighbour);
+            if (h != null) {
+                Pawn p = h.getTopPawn();
+                if ((p != null) && (!pawn.isEnemy(p)))
+                    moveAssist.add(neighbour);
+            }
+        }
+        enableMoveAssist(true);
     }
 
     public void buildAndShowPossibleTargets(Pawn pawn, GridPoint2 hex)
