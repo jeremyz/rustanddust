@@ -132,6 +132,25 @@ public abstract class Board implements Disposable
         return tiles[idx];
     }
 
+    public Tile getTileSafe(int col, int row)
+    {
+        int colOffset = ((row + 1) / 2);
+        if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
+            return null;
+
+        return tiles[((col - colOffset)) + (row * cfg.cols)];
+    }
+
+    public void getAdjacentTiles(GridPoint2 hex, Tile tiles[])
+    {
+        tiles[0] = getTileSafe((hex.x - 1), hex.y);
+        tiles[1] = getTileSafe(hex.x, (hex.y + 1));
+        tiles[2] = getTileSafe((hex.x + 1), (hex.y + 1));
+        tiles[3] = getTileSafe((hex.x + 1), hex.y);
+        tiles[4] = getTileSafe(hex.x, (hex.y - 1));
+        tiles[5] = getTileSafe((hex.x - 1), (hex.y - 1));
+    }
+
     public float getWidth()
     {
         return image.getWidth();
