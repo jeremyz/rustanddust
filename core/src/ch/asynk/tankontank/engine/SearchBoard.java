@@ -550,8 +550,8 @@ public class SearchBoard
 
         if (distance(from, to) == 1) {
             ArrayList<Node> temp = new ArrayList<Node>(2);
-            temp.add(to);
             temp.add(from);
+            temp.add(to);
             possiblePaths.add(temp);
         } else {
             path.add(from);
