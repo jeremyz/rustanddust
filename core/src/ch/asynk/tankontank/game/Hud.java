@@ -178,7 +178,7 @@ public class Hud implements Disposable
     {
         if (!rect.contains(x,y)) return false;
 
-        if (cancelBtn.hit(x, y)) {
+        if (!cancelBtn.isDisabled() && cancelBtn.hit(x, y)) {
             cancelBtn.setOn();
         }
 
@@ -198,7 +198,7 @@ public class Hud implements Disposable
                 // switchTo(GameState.State.ATTACK);
             }
         }
-        if (cancelBtn.hit(x, y)) {
+        if (!cancelBtn.isDisabled() && cancelBtn.hit(x, y)) {
             reset();
             ctrl.abort();
         }
