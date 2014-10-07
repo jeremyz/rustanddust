@@ -143,44 +143,65 @@ btn-cancel-on
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-disabled
+btn-check-disabled
   rotate: false
   xy: 698, 180
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-off
+btn-check-off
   rotate: false
   xy: 760, 242
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-on
+btn-check-on
   rotate: false
   xy: 822, 304
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-disabled
+btn-move-disabled
   rotate: false
   xy: 546, 52
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-off
+btn-move-off
   rotate: false
   xy: 698, 118
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-on
+btn-move-on
   rotate: false
   xy: 760, 180
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-disabled
+  rotate: false
+  xy: 822, 242
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-off
+  rotate: false
+  xy: 884, 304
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+btn-rotate-on
+  rotate: false
+  xy: 608, 52
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
