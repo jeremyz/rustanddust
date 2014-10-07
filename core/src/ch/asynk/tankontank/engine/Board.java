@@ -146,25 +146,25 @@ public abstract class Board implements Disposable
         return tiles[((col - colOffset)) + (row * cfg.cols)];
     }
 
-    public void getAdjacentTiles(GridPoint2 hex, Tile tiles[])
+    public void getAdjacentTiles(GridPoint2 coords, Tile tiles[])
     {
-        tiles[0] = getTileSafe((hex.x - 1), hex.y);
-        tiles[1] = getTileSafe(hex.x, (hex.y + 1));
-        tiles[2] = getTileSafe((hex.x + 1), (hex.y + 1));
-        tiles[3] = getTileSafe((hex.x + 1), hex.y);
-        tiles[4] = getTileSafe(hex.x, (hex.y - 1));
-        tiles[5] = getTileSafe((hex.x - 1), (hex.y - 1));
+        tiles[0] = getTileSafe((coords.x - 1), coords.y);
+        tiles[1] = getTileSafe(coords.x, (coords.y + 1));
+        tiles[2] = getTileSafe((coords.x + 1), (coords.y + 1));
+        tiles[3] = getTileSafe((coords.x + 1), coords.y);
+        tiles[4] = getTileSafe(coords.x, (coords.y - 1));
+        tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
     }
 
-    public GridPoint2 setNeighbour(GridPoint2 hex, Orientation o, GridPoint2 n)
+    public GridPoint2 setNeighbour(GridPoint2 coords, Orientation o, GridPoint2 n)
     {
-        if (o == Orientation.NORTH) n.set((hex.x + 1), hex.y);
-        else if (o == Orientation.NORTH_EAST) n.set(hex.x, (hex.y - 1));
-        else if (o == Orientation.SOUTH_EAST) n.set((hex.x - 1), (hex.y - 1));
-        else if (o == Orientation.SOUTH) n.set((hex.x - 1), hex.y);
-        else if (o == Orientation.SOUTH_WEST) n.set(hex.x, (hex.y + 1));
-        else if (o == Orientation.NORTH_WEST) n.set((hex.x + 1), (hex.y + 1));
-        else n.set(hex.x, hex.y);
+        if (o == Orientation.NORTH) n.set((coords.x + 1), coords.y);
+        else if (o == Orientation.NORTH_EAST) n.set(coords.x, (coords.y - 1));
+        else if (o == Orientation.SOUTH_EAST) n.set((coords.x - 1), (coords.y - 1));
+        else if (o == Orientation.SOUTH) n.set((coords.x - 1), coords.y);
+        else if (o == Orientation.SOUTH_WEST) n.set(coords.x, (coords.y + 1));
+        else if (o == Orientation.NORTH_WEST) n.set((coords.x + 1), (coords.y + 1));
+        else n.set(coords.x, coords.y);
 
         return n;
     }
