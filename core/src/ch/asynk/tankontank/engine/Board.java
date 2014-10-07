@@ -298,7 +298,8 @@ public abstract class Board implements Disposable
         points.clear();
 
         for (ArrayList<SearchBoard.Node> path : nodes) {
-            for (SearchBoard.Node node : path) {
+            for (int i = 1, n = (path.size() - 1); i < n; i++) {
+                SearchBoard.Node node = path.get(i);
                 GridPoint2 point = gridPoint2Pool.obtain();
                 point.set(node.col, node.row);
                 if (!points.add(point))

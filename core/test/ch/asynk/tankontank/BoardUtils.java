@@ -102,19 +102,19 @@ public class BoardUtils
 
         int n = b.possiblePaths(p, from, to, points);
         assertTrue(n == 1);
-        assertTrue(points.size() == 2);
+        assertTrue(points.size() == 0);
 
         to.set(4, 3);
 
         n = b.possiblePaths(p, from, to, points);
         assertTrue(n == 8);
-        assertTrue(points.size() == 8);
+        assertTrue(points.size() == 6);
 
         GridPoint2 p0 = new GridPoint2(3, 3);
         n = b.possiblePathsFilterToggle(p0, points);
 
         assertTrue(n == 1);
-        assertTrue(points.size() == 3);
+        assertTrue(points.size() == 1);
 
         to.set(5, 3);
 
