@@ -19,6 +19,9 @@ public abstract class GameStateCommon implements GameState
     protected static GridPoint2 downHex = new GridPoint2(-1, -1);
     protected static GridPoint2 upHex = new GridPoint2(-1, -1);
 
+    protected static GridPoint2 from = new GridPoint2(-1, -1);
+    protected static GridPoint2 to = new GridPoint2(-1, -1);
+
     protected GameStateCommon()
     {
     }
@@ -66,6 +69,11 @@ public abstract class GameStateCommon implements GameState
     }
 
     protected void unselectHex()
+    {
+        unselectHex(hex);
+    }
+
+    protected void unselectHex(GridPoint2 hex)
     {
         map.enableOverlayOn(hex, Hex.BLUE, false);
     }
