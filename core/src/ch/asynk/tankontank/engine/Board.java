@@ -132,6 +132,11 @@ public abstract class Board implements Disposable
         return tiles[idx];
     }
 
+    public Tile getTileSafe(GridPoint2 coords)
+    {
+        return getTileSafe(coords.x, coords.y);
+    }
+
     public Tile getTileSafe(int col, int row)
     {
         int colOffset = ((row + 1) / 2);
