@@ -30,6 +30,11 @@ public class Hex extends Tile
     public Terrain terrain;
     public int roads;
 
+    public String toString()
+    {
+        return "[" + getCenter().x + ";" + getCenter().y + "]  " + "t:" + terrain + " r:" + roads;
+    }
+
     public Hex(float x, float y, TextureAtlas atlas)
     {
         super(x, y, atlas);
