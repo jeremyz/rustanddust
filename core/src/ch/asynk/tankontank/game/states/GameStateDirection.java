@@ -32,12 +32,17 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void abort()
     {
-        super.abort();
         clear();
+        super.abort();
     }
 
     private void clear()
     {
         map.enableFinalPath(tmp, false);
+        map.enableMoveAssist(false);
+        if (to.x != -1) unselectHex(to);
+        if (from.x != -1) unselectHex(to);
+        to.set(-1, -1);
+        from.set(-1, -1);
     }
 }
