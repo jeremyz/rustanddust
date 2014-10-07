@@ -124,13 +124,15 @@ public abstract class Map extends Board
         enableMoveAssist(false);
         moveAssist.clear();
         buildNeighbours(hex);
-        for (int i = 0; i < 6; i++) {
-            GridPoint2 neighbour = neighbours[i];
-            Hex h = getHexSafe(neighbour);
-            if (h != null) {
-                Pawn p = h.getTopPawn();
-                if ((p != null) && (!pawn.isEnemy(p)))
-                    moveAssist.add(neighbour);
+        if (pawn.isHq()) {
+            for (int i = 0; i < 6; i++) {
+                GridPoint2 neighbour = neighbours[i];
+                Hex h = getHexSafe(neighbour);
+                if (h != null) {
+                    Pawn p = h.getTopPawn();
+                    if ((p != null) && (!pawn.isEnemy(p)))
+                        moveAssist.add(neighbour);
+                }
             }
         }
         enableMoveAssist(true);
