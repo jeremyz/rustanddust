@@ -30,6 +30,7 @@ public abstract class Pawn implements Drawable, Disposable
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
+    public abstract boolean isHq();
     public abstract boolean isUnit();
     public abstract boolean isEnemy(Pawn other);
     public abstract boolean canAttack(Pawn other);

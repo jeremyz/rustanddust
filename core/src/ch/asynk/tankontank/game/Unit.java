@@ -45,6 +45,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isHq()
+    {
+        return hq;
+    }
+
+    @Override
     public boolean isUnit()
     {
         return true;
