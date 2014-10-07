@@ -17,32 +17,14 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void touchUp()
     {
-        Orientation o = Orientation.KEEP;;
-
-        if (downHex.y == hex.y) {
-            if (downHex.x == (hex.x - 1)) {
-                o = Orientation.SOUTH;
-            } else if (downHex.x == (hex.x + 1)) {
-                o = Orientation.NORTH;
-            }
-        } else if (downHex.y == (hex.y - 1)) {
-            if (downHex.x == (hex.x - 1)) {
-                o = Orientation.SOUTH_EAST;
-            } else if (downHex.x == hex.x) {
-                o = Orientation.NORTH_EAST;
-            }
-
-        } else if (downHex.y == (hex.y + 1)) {
-            if (downHex.x == hex.x) {
-                o = Orientation.SOUTH_WEST;
-            } else if (downHex.x == (hex.x + 1)) {
-                o = Orientation.NORTH_WEST;
-            }
-        }
+        Orientation o = Orientation.fromAdj(tmp.x, tmp.y, downHex.x, downHex.y);
 
         if (o != Orientation.KEEP) {
             map.movePawn(pawn, o);
             clear();
+            unselectHex();
+            hex.set(tmp.x, tmp.y);
+            selectHex();
             ctrl.setState(State.ANIMATION);
         }
     }
@@ -56,6 +38,6 @@ public class GameStateDirection extends GameStateCommon
 
     private void clear()
     {
-        map.enableFinalPath(hex, false);
+        map.enableFinalPath(tmp, false);
     }
 }

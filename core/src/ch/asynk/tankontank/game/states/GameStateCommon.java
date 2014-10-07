@@ -3,7 +3,6 @@ package ch.asynk.tankontank.game.states;
 import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.engine.Pawn;
-import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.GameCtrl;
@@ -14,8 +13,8 @@ public abstract class GameStateCommon implements GameState
     protected static GameCtrl ctrl;
     protected static Map map;
     protected static Pawn pawn;
-    protected static Tile tile;
     protected static GridPoint2 hex = new GridPoint2(0, 0);
+    protected static GridPoint2 tmp = new GridPoint2(0, 0);
 
     protected static GridPoint2 downHex = new GridPoint2(-1, -1);
     protected static GridPoint2 upHex = new GridPoint2(-1, -1);
@@ -31,25 +30,9 @@ public abstract class GameStateCommon implements GameState
     }
 
     @Override
-    public void enter()
-    {
-        map.hidePossibles();
-        unselectHex();
-        pawn = null;
-    }
-
-    @Override
     public void abort()
     {
         ctrl.setState(State.VIEW);
-    }
-
-    @Override
-    public void touchDown()
-    {
-        unselectHex();
-        setHex();
-        selectHex();
     }
 
     protected static boolean hexInMap(GridPoint2 hex)
@@ -70,20 +53,16 @@ public abstract class GameStateCommon implements GameState
         return hexInMap(upHex);
     }
 
-    protected void setPawn()
+    protected void setHexAndPawn(GridPoint2 point)
     {
+        hex.set(point.x, point.y);
+        // TODO : is an enemy or not ?
         pawn = map.getTopPawnAt(hex);
     }
 
-    protected void setHex()
+    protected boolean hasPawn()
     {
-        hex.set(downHex.x, downHex.y);
-        pawn = null;
-    }
-
-    protected boolean hexHasUnit()
-    {
-        return map.hasUnits(hex);
+        return (pawn != null);
     }
 
     protected void unselectHex()
@@ -94,6 +73,13 @@ public abstract class GameStateCommon implements GameState
     protected void selectHex()
     {
         map.enableOverlayOn(hex, Hex.BLUE, true);
+    }
+
+    protected void reselect()
+    {
+        unselectHex();
+        setHexAndPawn(downHex);
+        selectHex();
     }
 
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)

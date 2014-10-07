@@ -11,11 +11,20 @@ public class GameStateView extends GameStateCommon
     }
 
     @Override
+    public void enter()
+    {
+    }
+
+    @Override
+    public void touchDown()
+    {
+        reselect();
+    }
+
+    @Override
     public void touchUp()
     {
-        if (hexHasUnit()) {
-            // FIXME must be one of it's own
-            setPawn();
+        if (hasPawn()) {
             map.buildAndShowPossibleMoves(pawn, hex);
             map.buildAndShowPossibleTargets(pawn, hex);
         } else {
@@ -34,6 +43,5 @@ public class GameStateView extends GameStateCommon
     {
         map.enablePossibleMoves(false);
         map.enablePossibleTargets(false);
-        unselectHex();
     }
 }

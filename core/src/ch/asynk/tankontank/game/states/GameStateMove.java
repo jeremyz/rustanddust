@@ -13,8 +13,7 @@ public class GameStateMove extends GameStateCommon
     {
         map.enablePossibleTargets(false);
         map.enablePossiblePaths(false, false);
-        if (pawn != null) {
-            // FIXME must be one of it's own
+        if (hasPawn()) {
             skipFirst = false;
             map.clearPossiblePaths();
             map.buildAndShowPossibleMoves(pawn, hex);
@@ -24,11 +23,9 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void touchDown()
     {
-        if (pawn == null) {
-            super.touchDown();
-            if (hexHasUnit()) {
-                // FIXME must be one of it's own
-                setPawn();
+        if (!hasPawn()) {
+            reselect();
+            if (hasPawn()) {
                 skipFirst = true;
                 map.clearPossiblePaths();
                 map.buildAndShowPossibleMoves(pawn, hex);
@@ -39,7 +36,7 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void touchUp()
     {
-        if (pawn == null) {
+        if (!hasPawn()) {
             unselectHex();
             return;
         }
@@ -56,12 +53,11 @@ public class GameStateMove extends GameStateCommon
                 s = buildPaths();
         } else {
             if (map.isInPossiblePaths(upHex))
-                s = togglePoint();
+                s = togglePoint(s);
         }
 
         if (s == 1) {
-            unselectHex();
-            hex.set(to.x, to.y);
+            tmp.set(to.x, to.y);
             map.enableFinalPath(to, true);
             ctrl.setState(State.DIRECTION);
         }
@@ -87,19 +83,19 @@ public class GameStateMove extends GameStateCommon
         return s;
     }
 
-    private int togglePoint()
+    private int togglePoint(int s)
     {
-        int s = 0;
-        if ((downHex.x == from.x) && (downHex.y == from.y)) {
-            // s = map.possiblePathsSize();
-        } else if ((downHex.x == to.x) && (downHex.y == to.y)) {
-            // s = map.possiblePathsSize();
+        if (sameHexes(downHex, from)) {
+            //
+        } else if (sameHexes(downHex, to)) {
+            //
         } else {
             map.enablePossiblePaths(false, true);
             map.togglePathOverlay(downHex);
             s = map.possiblePathsPointToggle(downHex);
             map.enablePossiblePaths(true, true);
         }
+
         return s;
     }
 }
