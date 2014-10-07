@@ -1,12 +1,8 @@
 package ch.asynk.tankontank.game.states;
 
-import com.badlogic.gdx.math.GridPoint2;
-
 public class GameStateMove extends GameStateCommon
 {
     private boolean skipFirst;
-    private GridPoint2 from = new GridPoint2(-1, -1);
-    private GridPoint2 to = new GridPoint2(-1, -1);
 
     @Override
     public void enter()
@@ -18,6 +14,7 @@ public class GameStateMove extends GameStateCommon
             skipFirst = false;
             map.clearPossiblePaths();
             map.buildAndShowPossibleMoves(pawn, hex);
+            map.buildAndShowMoveAssist(pawn, hex);
         }
     }
 
@@ -30,6 +27,7 @@ public class GameStateMove extends GameStateCommon
                 skipFirst = true;
                 map.clearPossiblePaths();
                 map.buildAndShowPossibleMoves(pawn, hex);
+                map.buildAndShowMoveAssist(pawn, hex);
             }
         }
     }
@@ -67,6 +65,10 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void abort()
     {
+        map.enableMoveAssist(false);
+        map.enablePossibleMoves(false);
+        if (to.x != -1) unselectHex(to);
+        if (from.x != -1) unselectHex(to);
         to.set(-1, -1);
         from.set(-1, -1);
         super.abort();
@@ -78,7 +80,7 @@ public class GameStateMove extends GameStateCommon
         to.set(upHex.x, upHex.y);
         map.clearPossiblePaths();
         int s = map.buildPossiblePaths(pawn, from, to);
-        selectHex(downHex);
+        selectHex(to);
         map.enablePossibleMoves(false);
         map.enablePossiblePaths(true, true);
         return s;
