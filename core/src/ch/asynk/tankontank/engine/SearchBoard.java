@@ -159,11 +159,11 @@ public class SearchBoard
         while (stack.size() != 0) {
             Node src = stack.pop();
 
-            if (src.remaining <= 0) {
-                if (src.roadMarch) {
-                    src.remaining = roadMarchBonus;
+            if (src.remaining < 0)
+                continue;
+            if (src.remaining == 0) {
+                if (src.roadMarch)
                     roadMarch.push(src);
-                }
                 continue;
             }
 
@@ -206,6 +206,7 @@ public class SearchBoard
             first = false;
         }
 
+        for (Node n : roadMarch) n.remaining = roadMarchBonus;
         while(roadMarch.size() != 0) {
             Node src = roadMarch.pop();
 
