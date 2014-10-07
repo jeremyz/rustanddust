@@ -26,6 +26,7 @@ public class Hex extends Tile
     public static final int RED = 3;
     public static final int MOVE = 4;
     public static final int ROSE = 5;
+    public static final int ASSIST = 6;
 
     public Terrain terrain;
     public int roads;

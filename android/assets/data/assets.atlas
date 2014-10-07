@@ -5,329 +5,336 @@ filter: Nearest,Nearest
 repeat: none
 01_fog
   rotate: false
-  xy: 2, 539
+  xy: 2, 502
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 02_blue
   rotate: false
-  xy: 234, 781
+  xy: 234, 744
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 03_green
   rotate: false
-  xy: 2, 320
+  xy: 2, 283
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 04_red
   rotate: false
-  xy: 426, 781
+  xy: 426, 744
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 05_move
   rotate: false
-  xy: 2, 101
+  xy: 2, 64
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 06_rose
   rotate: false
-  xy: 2, 758
+  xy: 2, 721
   size: 230, 240
   orig: 230, 240
   offset: 0, 0
   index: -1
+07_assist
+  rotate: false
+  xy: 618, 744
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
 ace
   rotate: false
-  xy: 194, 632
+  xy: 194, 266
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ap1
   rotate: false
-  xy: 194, 506
+  xy: 194, 140
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ap2
   rotate: false
-  xy: 194, 380
+  xy: 371, 618
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ap3
   rotate: false
-  xy: 194, 254
+  xy: 497, 618
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ap4
   rotate: false
-  xy: 194, 128
+  xy: 623, 618
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ap_spent
   rotate: false
-  xy: 320, 655
+  xy: 749, 618
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 back
   rotate: false
-  xy: 320, 529
+  xy: 875, 618
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 btn-attack-disabled
   rotate: false
-  xy: 962, 761
+  xy: 698, 304
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-off
   rotate: false
-  xy: 962, 699
+  xy: 104, 2
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-on
   rotate: false
-  xy: 962, 637
+  xy: 422, 52
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-disabled
   rotate: false
-  xy: 698, 657
+  xy: 698, 242
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-off
   rotate: false
-  xy: 104, 39
+  xy: 760, 304
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-on
   rotate: false
-  xy: 698, 595
+  xy: 484, 52
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-disabled
   rotate: false
-  xy: 698, 533
+  xy: 698, 180
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-off
   rotate: false
-  xy: 698, 471
+  xy: 760, 242
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-on
   rotate: false
-  xy: 698, 409
+  xy: 822, 304
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-disabled
   rotate: false
-  xy: 698, 347
+  xy: 546, 52
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-off
   rotate: false
-  xy: 698, 285
+  xy: 698, 118
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-on
   rotate: false
-  xy: 698, 223
+  xy: 760, 180
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 446, 655
+  xy: 194, 14
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-at-gun
   rotate: false
-  xy: 320, 403
+  xy: 371, 492
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 2, 39
+  xy: 2, 2
   size: 100, 60
   orig: 100, 60
   offset: 0, 0
   index: -1
 ge-infantry
   rotate: false
-  xy: 446, 529
+  xy: 497, 492
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-kingtiger
   rotate: false
-  xy: 572, 655
+  xy: 623, 492
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv
   rotate: false
-  xy: 446, 403
+  xy: 875, 492
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv-hq
   rotate: false
-  xy: 320, 277
+  xy: 749, 492
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-tiger
   rotate: false
-  xy: 572, 529
+  xy: 346, 366
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-wespe
   rotate: false
-  xy: 320, 151
+  xy: 472, 366
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 head
   rotate: false
-  xy: 810, 823
+  xy: 194, 544
   size: 175, 175
   orig: 175, 175
   offset: 0, 0
   index: -1
 turn_back
   rotate: false
-  xy: 446, 277
+  xy: 598, 366
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 turn_front
   rotate: false
-  xy: 572, 403
+  xy: 724, 366
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-at-gun
   rotate: false
-  xy: 446, 151
+  xy: 850, 366
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 698, 719
+  xy: 320, 52
   size: 100, 60
   orig: 100, 60
   offset: 0, 0
   index: -1
 us-infantry
   rotate: false
-  xy: 572, 277
+  xy: 320, 240
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing
   rotate: false
-  xy: 194, 2
+  xy: 446, 240
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing-hq
   rotate: false
-  xy: 572, 151
+  xy: 320, 114
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-priest
   rotate: false
-  xy: 320, 25
+  xy: 446, 114
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-sherman
   rotate: false
-  xy: 618, 781
+  xy: 810, 744
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 us-sherman-head
   rotate: false
-  xy: 810, 671
+  xy: 194, 392
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 us-sherman-hq
   rotate: false
-  xy: 446, 25
+  xy: 572, 240
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-wolverine
   rotate: false
-  xy: 572, 25
+  xy: 572, 114
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
