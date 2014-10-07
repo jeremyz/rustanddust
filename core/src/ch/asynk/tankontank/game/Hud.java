@@ -96,6 +96,7 @@ public class Hud implements Disposable
     private Button moveBtn;
     private Button rotateBtn;
     private Button attackBtn;
+    private Button checkBtn;
     private Button cancelBtn;
 
     private Rectangle rect;
@@ -113,6 +114,7 @@ public class Hud implements Disposable
         moveBtn = new Button(atlas, "btn-move");
         rotateBtn = new Button(atlas, "btn-rotate");
         attackBtn = new Button(atlas, "btn-attack");
+        checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
 
         flag = usFlag;
@@ -123,8 +125,10 @@ public class Hud implements Disposable
         moveBtn.setPosition((left - moveBtn.getWidth()), ( flag.getY() - moveBtn.getHeight() - 5));
         rotateBtn.setPosition((left - rotateBtn.getWidth()), ( moveBtn.getY() - rotateBtn.getHeight() - 5));
         attackBtn.setPosition((left - attackBtn.getWidth()), ( rotateBtn.getY() - attackBtn.getHeight() - 5));
-        cancelBtn.setPosition((left - cancelBtn.getWidth()), ( attackBtn.getY() - cancelBtn.getHeight() - 5));
+        checkBtn.setPosition((left - checkBtn.getWidth()), ( attackBtn.getY() - checkBtn.getHeight() - 5));
+        cancelBtn.setPosition((left - cancelBtn.getWidth()), ( checkBtn.getY() - cancelBtn.getHeight() - 5));
         cancelBtn.disable();
+        checkBtn.disable();
 
         rect = new Rectangle(cancelBtn.getX(), cancelBtn.getY(), flag.getWidth(),
                 (flag.getY() + flag.getHeight() - cancelBtn.getY()));
@@ -140,6 +144,7 @@ public class Hud implements Disposable
         moveBtn.dispose();
         rotateBtn.dispose();
         attackBtn.dispose();
+        checkBtn.dispose();
         cancelBtn.dispose();
     }
 
@@ -158,6 +163,7 @@ public class Hud implements Disposable
         moveBtn.getImage().draw(batch);
         rotateBtn.getImage().draw(batch);
         attackBtn.getImage().draw(batch);
+        checkBtn.getImage().draw(batch);
         cancelBtn.getImage().draw(batch);
     }
 
@@ -166,12 +172,18 @@ public class Hud implements Disposable
         moveBtn.setOff();
         rotateBtn.setOff();
         attackBtn.setOff();
+        checkBtn.disable();
         cancelBtn.disable();
     }
 
     public void disableCancel()
     {
         cancelBtn.disable();
+    }
+
+    public void enableCheck()
+    {
+        cancelBtn.setOff();
     }
 
     public boolean touchDown(float x, float y)
