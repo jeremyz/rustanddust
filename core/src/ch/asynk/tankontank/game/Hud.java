@@ -80,8 +80,8 @@ public class Hud implements Disposable
     private final TankOnTank game;
     private final GameCtrl ctrl;
 
-    private Image flagUs;
-    private Image flagGe;
+    private Image usFlag;
+    private Image geFlag;
     private Image flag;
 
     private Button moveAct;
@@ -99,21 +99,22 @@ public class Hud implements Disposable
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
-        flagUs = new Image(atlas.findRegion("us-flag"));
-        flagGe = new Image(atlas.findRegion("ge-flag"));
+        usFlag = new Image(atlas.findRegion("us-flag"));
+        geFlag = new Image(atlas.findRegion("ge-flag"));
         moveAct = new Button(atlas, "btn-move");
         rotateAct = new Button(atlas, "btn-rotate");
         attackAct = new Button(atlas, "btn-attack");
         cancelAct = new Button(atlas, "btn-cancel");
 
-        flag = flagUs;
+        flag = usFlag;
 
-        flagUs.setPosition(5, (Gdx.graphics.getHeight() - flag.getHeight() - 5));
-        flagGe.setPosition(5, (Gdx.graphics.getHeight() - flag.getHeight() - 5));
-        moveAct.setPosition(flag.getX(), ( flag.getY() - moveAct.getHeight() - 5));
-        rotateAct.setPosition(flag.getX(), ( moveAct.getY() - rotateAct.getHeight() - 5));
-        attackAct.setPosition(flag.getX(), ( rotateAct.getY() - attackAct.getHeight() - 5));
-        cancelAct.setPosition(flag.getX(), ( attackAct.getY() - cancelAct.getHeight() - 5));
+        int left = Gdx.graphics.getWidth() - 5;
+        usFlag.setPosition((left - flag.getWidth()), (Gdx.graphics.getHeight() - flag.getHeight() - 5));
+        geFlag.setPosition(flag.getX(), flag.getY());
+        moveAct.setPosition((left - moveAct.getWidth()), ( flag.getY() - moveAct.getHeight() - 5));
+        rotateAct.setPosition((left - rotateAct.getWidth()), ( moveAct.getY() - rotateAct.getHeight() - 5));
+        attackAct.setPosition((left - attackAct.getWidth()), ( rotateAct.getY() - attackAct.getHeight() - 5));
+        cancelAct.setPosition((left - cancelAct.getWidth()), ( attackAct.getY() - cancelAct.getHeight() - 5));
         cancelAct.disable();
 
         rect = new Rectangle(cancelAct.getX(), cancelAct.getY(), flag.getWidth(),
@@ -125,8 +126,8 @@ public class Hud implements Disposable
     @Override
     public void dispose()
     {
-        flagUs.dispose();
-        flagGe.dispose();
+        usFlag.dispose();
+        geFlag.dispose();
         moveAct.dispose();
         rotateAct.dispose();
         attackAct.dispose();
@@ -138,7 +139,7 @@ public class Hud implements Disposable
         elapsed += delta;
         if (elapsed > 5f) {
             elapsed = 0f;
-            flag = ((flag == flagUs) ? flagGe : flagUs);
+            flag = ((flag == usFlag) ? geFlag : usFlag);
         }
     }
 
