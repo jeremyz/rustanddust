@@ -347,9 +347,12 @@ public abstract class Board implements Disposable
 
         ArrayList<SearchBoard.Node> nodes = paths.get(0);
         SearchBoard.Node prevNode = nodes.get(0);
+        // Gdx.app.debug("Board", "getCoordinatePath()");
+        // Gdx.app.debug("Board", "  " + prevNode);
 
         for (int i = 1, n = nodes.size(); i < n; i++) {
             SearchBoard.Node node = nodes.get(i);
+            // Gdx.app.debug("Board", "  " + node);
             Orientation o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
             if ((o != Orientation.KEEP) && (o != prevOrientation)) {
                 v.z = o.r();
@@ -375,6 +378,10 @@ public abstract class Board implements Disposable
         }
 
         gridPoint2Pool.free(tmpHex);
+
+        // Gdx.app.debug("Board", " =>");
+        // for (Vector3 vector :path)
+        //     Gdx.app.debug("Board", "  " + vector);
 
         return path.size();
     }
