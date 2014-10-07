@@ -98,4 +98,31 @@ public enum Orientation
             return NORTH_EAST;
         }
     }
+
+    public static Orientation fromAdj(int col0, int row0, int col1, int row1)
+    {
+        Orientation o = KEEP;
+        if (row1 == row0) {
+            if (col1 == (col0 - 1)) {
+                o = SOUTH;
+            } else if (col1 == (col0 + 1)) {
+                o = NORTH;
+            }
+        } else if (row1 == (row0 - 1)) {
+            if (col1 == (col0 - 1)) {
+                o = SOUTH_EAST;
+            } else if (col1 == col0) {
+                o = NORTH_EAST;
+            }
+
+        } else if (row1 == (row0 + 1)) {
+            if (col1 == col0) {
+                o = SOUTH_WEST;
+            } else if (col1 == (col0 + 1)) {
+                o = NORTH_WEST;
+            }
+        }
+
+        return o;
+    }
 }
