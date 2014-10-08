@@ -83,12 +83,13 @@ public class GameCtrl implements Disposable
 
     public void animationDone()
     {
-        hud.reset();
         setState(GameState.State.VIEW);
     }
 
     public void setState(GameState.State state)
     {
+        this.state.leave();
+
         switch(state) {
             case VIEW:
                 this.state = selectState;
@@ -104,7 +105,6 @@ public class GameCtrl implements Disposable
                 break;
             case ANIMATION:
                 this.state = animationState;
-                hud.disableCancel();
                 break;
             default:
                 break;

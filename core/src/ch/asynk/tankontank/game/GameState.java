@@ -12,6 +12,8 @@ public interface GameState
 
     public void enter();
 
+    public void leave();
+
     public void abort();
 
     public void touchDown();

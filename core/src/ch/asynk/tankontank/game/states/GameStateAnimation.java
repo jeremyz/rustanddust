@@ -8,6 +8,11 @@ public class GameStateAnimation extends GameStateCommon
     }
 
     @Override
+    public void leave()
+    {
+    }
+
+    @Override
     public void touchDown()
     {
     }

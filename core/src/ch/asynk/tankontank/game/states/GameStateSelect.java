@@ -16,6 +16,12 @@ public class GameStateSelect extends GameStateCommon
     }
 
     @Override
+    public void leave()
+    {
+        showPossibleTargetsMovesAssists(false);
+    }
+
+    @Override
     public void touchDown()
     {
         reselectHex();
@@ -24,17 +30,23 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void touchUp()
     {
-        int moves = 0;
-        int targets = 0;
-        int assists = 0;
         showPossibleTargetsMovesAssists(false);
         if (hasPawn()) {
-            moves = map.buildPossibleMoves(pawn, hex);
-            targets = map.buildPossibleTargets(pawn, hex);
-            assists = map.buildMoveAssists(pawn, hex);
+            int moves = map.buildPossibleMoves(pawn, hex);
+            int targets = map.buildPossibleTargets(pawn, hex);
+            int assists = map.buildMoveAssists(pawn, hex);
             showPossibleTargetsMovesAssists(true);
-        } else
+            ctrl.hud.show(
+                pawn.canMove(),
+                (pawn.canMove() && (moves > 0)),
+                (pawn.canAttack() && (targets > 0)),
+                false,
+                false
+                );
+        } else {
+            ctrl.hud.hide();
             map.clearPossibleTargetsMovesAssists();
+        }
     }
 
     @Override

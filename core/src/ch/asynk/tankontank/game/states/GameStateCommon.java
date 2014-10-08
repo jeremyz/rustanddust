@@ -14,7 +14,6 @@ public abstract class GameStateCommon implements GameState
     protected static Map map;
     protected static Pawn pawn;
     protected static GridPoint2 hex = new GridPoint2(0, 0);
-    protected static GridPoint2 tmp = new GridPoint2(0, 0);
 
     protected static GridPoint2 downHex = new GridPoint2(-1, -1);
     protected static GridPoint2 upHex = new GridPoint2(-1, -1);
@@ -35,6 +34,10 @@ public abstract class GameStateCommon implements GameState
     @Override
     public void abort()
     {
+        unselectHex(hex);
+        hex.set(0, 0);
+        pawn = null;
+        ctrl.hud.hide();
         ctrl.setState(State.VIEW);
     }
 

@@ -2,47 +2,27 @@ package ch.asynk.tankontank.game.states;
 
 public class GameStateMove extends GameStateCommon
 {
-    private boolean skipFirst;
-
     @Override
     public void enter()
     {
-        map.enablePossibleTargets(false);
-        map.enablePossiblePaths(false, false);
-        if (hasPawn()) {
-            selectHex(hex);
-            skipFirst = false;
-            map.clearPossiblePaths();
-            buildAndShowMoves();
-        }
+        map.clearPossiblePaths();
+        buildAndShowMoves();
+        ctrl.hud.show(false, true, false, true, true);
+    }
+
+    @Override
+    public void leave()
+    {
     }
 
     @Override
     public void touchDown()
     {
-        if (!hasPawn()) {
-            reselectHex();
-            if (hasPawn()) {
-                skipFirst = true;
-                map.clearPossiblePaths();
-                buildAndShowMoves();
-            }
-        }
     }
 
     @Override
     public void touchUp()
     {
-        if (!hasPawn()) {
-            unselectHex(hex);
-            return;
-        }
-
-        if (skipFirst) {
-            skipFirst = false;
-            return;
-        }
-
         int s = map.possiblePathsSize();
 
         if (s == 0) {
@@ -53,17 +33,24 @@ public class GameStateMove extends GameStateCommon
                 s = togglePoint(s);
         }
 
-        if (s == 1) {
-            tmp.set(to.x, to.y);
-            map.enableFinalPath(to, true);
+        if (s == 1)
             ctrl.setState(State.DIRECTION);
-        }
     }
 
     @Override
     public void abort()
     {
-        clear();
+        map.enableMoveAssists(false);
+        map.enablePossibleMoves(false);
+        if (from.x != -1) {
+            unselectHex(from);
+            from.set(-1, -1);
+        }
+        if (to.x != -1) {
+            unselectHex(to);
+            map.enableFinalPath(to, false);
+            to.set(-1, -1);
+        }
         super.abort();
     }
 
@@ -77,22 +64,10 @@ public class GameStateMove extends GameStateCommon
         map.enableMoveAssists(true);
     }
 
-    private void clear()
-    {
-        map.enableMoveAssists(false);
-        map.enablePossibleMoves(false);
-        map.enableFinalPath(tmp, false);
-        if (to.x != -1) unselectHex(to);
-        if (from.x != -1) unselectHex(to);
-        to.set(-1, -1);
-        from.set(-1, -1);
-    }
-
     private int buildPaths()
     {
         from.set(hex.x, hex.y);
         to.set(upHex.x, upHex.y);
-        map.clearPossiblePaths();
         int s = map.buildPossiblePaths(pawn, from, to);
         selectHex(to);
         map.enablePossibleMoves(false);

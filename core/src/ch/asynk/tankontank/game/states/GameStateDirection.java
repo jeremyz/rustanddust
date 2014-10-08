@@ -7,6 +7,18 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void enter()
     {
+        map.enableFinalPath(to, true);
+    }
+
+    @Override
+    public void leave()
+    {
+        map.enableMoveAssists(false);
+        map.enableFinalPath(to, false);
+        if (to.x != -1) unselectHex(to);
+        if (from.x != -1) unselectHex(from);
+        to.set(-1, -1);
+        from.set(-1, -1);
     }
 
     @Override
@@ -17,14 +29,11 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void touchUp()
     {
-        Orientation o = Orientation.fromAdj(tmp.x, tmp.y, downHex.x, downHex.y);
+        Orientation o = Orientation.fromAdj(to.x, to.y, downHex.x, downHex.y);
 
         if (o != Orientation.KEEP) {
             map.movePawn(pawn, o);
-            clear();
-            unselectHex(hex);
-            hex.set(tmp.x, tmp.y);
-            unselectHex(hex);
+            ctrl.hud.hide();
             ctrl.setState(State.ANIMATION);
         }
     }
@@ -32,17 +41,6 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void abort()
     {
-        clear();
         super.abort();
-    }
-
-    private void clear()
-    {
-        map.enableFinalPath(tmp, false);
-        if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(false);
-        if (to.x != -1) unselectHex(to);
-        if (from.x != -1) unselectHex(to);
-        to.set(-1, -1);
-        from.set(-1, -1);
     }
 }
