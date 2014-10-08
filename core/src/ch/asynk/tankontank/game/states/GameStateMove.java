@@ -22,7 +22,7 @@ public class GameStateMove extends GameStateCommon
     public void touchDown()
     {
         if (!hasPawn()) {
-            reselect(hex);
+            reselectHex();
             if (hasPawn()) {
                 skipFirst = true;
                 map.clearPossiblePaths();
