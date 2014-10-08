@@ -24,32 +24,23 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void touchUp()
     {
+        int moves = 0;
+        int targets = 0;
+        int assists = 0;
+        showPossibleTargetsMovesAssists(false);
         if (hasPawn()) {
-            if (ctrl.cfg.showMoves) map.enablePossibleMoves(false);
-            if (ctrl.cfg.showTargets) map.enablePossibleTargets(false);
-            if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(false);
-            map.buildPossibleMoves(pawn, hex);
-            map.buildPossibleTargets(pawn, hex);
-            map.buildMoveAssists(pawn, hex);
-            if (ctrl.cfg.showMoves) map.enablePossibleMoves(true);
-            if (ctrl.cfg.showTargets) map.enablePossibleTargets(true);
-            if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(true);
-        } else {
-            clear();
-        }
+            moves = map.buildPossibleMoves(pawn, hex);
+            targets = map.buildPossibleTargets(pawn, hex);
+            assists = map.buildMoveAssists(pawn, hex);
+            showPossibleTargetsMovesAssists(true);
+        } else
+            map.clearPossibleTargetsMovesAssists();
     }
 
     @Override
     public void abort()
     {
-        clear();
+        showPossibleTargetsMovesAssists(false);
         super.abort();
-    }
-
-    private void clear()
-    {
-        map.enablePossibleMoves(false);
-        map.enablePossibleTargets(false);
-        map.enableMoveAssists(false);
     }
 }

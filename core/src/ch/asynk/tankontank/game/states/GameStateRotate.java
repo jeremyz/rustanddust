@@ -7,7 +7,7 @@ public class GameStateRotate extends GameStateCommon
     @Override
     public void enter()
     {
-        map.hidePossibles();
+        showPossibleTargetsMovesAssists(false);
         if (hasPawn()) {
             selectHex(hex);
             map.enableDirections(hex, true);
