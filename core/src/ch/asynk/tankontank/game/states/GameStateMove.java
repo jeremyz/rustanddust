@@ -13,8 +13,7 @@ public class GameStateMove extends GameStateCommon
             selectHex(hex);
             skipFirst = false;
             map.clearPossiblePaths();
-            map.buildAndShowPossibleMoves(pawn, hex);
-            map.buildAndShowMoveAssist(pawn, hex);
+            buildAndShowMoves();
         }
     }
 
@@ -26,8 +25,7 @@ public class GameStateMove extends GameStateCommon
             if (hasPawn()) {
                 skipFirst = true;
                 map.clearPossiblePaths();
-                map.buildAndShowPossibleMoves(pawn, hex);
-                map.buildAndShowMoveAssist(pawn, hex);
+                buildAndShowMoves();
             }
         }
     }
@@ -65,13 +63,29 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void abort()
     {
-        map.enableMoveAssist(false);
+        clear();
+        super.abort();
+    }
+
+    private void buildAndShowMoves()
+    {
         map.enablePossibleMoves(false);
+        map.enableMoveAssists(false);
+        map.buildPossibleMoves(pawn, hex);
+        map.buildMoveAssists(pawn, hex);
+        map.enablePossibleMoves(true);
+        map.enableMoveAssists(true);
+    }
+
+    private void clear()
+    {
+        map.enableMoveAssists(false);
+        map.enablePossibleMoves(false);
+        map.enableFinalPath(tmp, false);
         if (to.x != -1) unselectHex(to);
         if (from.x != -1) unselectHex(to);
         to.set(-1, -1);
         from.set(-1, -1);
-        super.abort();
     }
 
     private int buildPaths()

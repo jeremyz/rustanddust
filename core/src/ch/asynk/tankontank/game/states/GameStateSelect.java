@@ -25,9 +25,15 @@ public class GameStateSelect extends GameStateCommon
     public void touchUp()
     {
         if (hasPawn()) {
-            map.buildAndShowPossibleMoves(pawn, hex);
-            map.buildAndShowPossibleTargets(pawn, hex);
-            map.buildAndShowMoveAssist(pawn, hex);
+            map.enablePossibleMoves(false);
+            map.enablePossibleTargets(false);
+            map.enableMoveAssists(false);
+            map.buildPossibleMoves(pawn, hex);
+            map.buildPossibleTargets(pawn, hex);
+            map.buildMoveAssists(pawn, hex);
+            map.enablePossibleMoves(true);
+            map.enablePossibleTargets(true);
+            map.enableMoveAssists(true);
         } else {
             clear();
         }
@@ -44,6 +50,6 @@ public class GameStateSelect extends GameStateCommon
     {
         map.enablePossibleMoves(false);
         map.enablePossibleTargets(false);
-        map.enableMoveAssist(false);
+        map.enableMoveAssists(false);
     }
 }

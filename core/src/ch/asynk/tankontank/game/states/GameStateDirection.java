@@ -39,7 +39,7 @@ public class GameStateDirection extends GameStateCommon
     private void clear()
     {
         map.enableFinalPath(tmp, false);
-        map.enableMoveAssist(false);
+        map.enableMoveAssists(false);
         if (to.x != -1) unselectHex(to);
         if (from.x != -1) unselectHex(to);
         to.set(-1, -1);
