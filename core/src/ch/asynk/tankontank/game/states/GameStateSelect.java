@@ -3,9 +3,9 @@ package ch.asynk.tankontank.game.states;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.GameCtrl;
 
-public class GameStateView extends GameStateCommon
+public class GameStateSelect extends GameStateCommon
 {
-    public GameStateView(GameCtrl ctrl, Map map)
+    public GameStateSelect(GameCtrl ctrl, Map map)
     {
         super(ctrl, map);
     }
@@ -18,7 +18,7 @@ public class GameStateView extends GameStateCommon
     @Override
     public void touchDown()
     {
-        reselectHex();
+        reselect(hex);
     }
 
     @Override

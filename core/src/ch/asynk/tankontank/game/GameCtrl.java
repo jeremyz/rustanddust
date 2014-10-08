@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.states.GameStateCommon;
-import ch.asynk.tankontank.game.states.GameStateView;
+import ch.asynk.tankontank.game.states.GameStateSelect;
 import ch.asynk.tankontank.game.states.GameStateMove;
 import ch.asynk.tankontank.game.states.GameStateDirection;
 import ch.asynk.tankontank.game.states.GameStateRotate;
@@ -18,7 +18,7 @@ public class GameCtrl implements Disposable
     public Map map;
     public Hud hud;
 
-    private GameState viewState;
+    private GameState selectState;
     private GameState pathState;
     private GameState directionState;
     private GameState rotateState;
@@ -34,13 +34,13 @@ public class GameCtrl implements Disposable
         this.hud = new Hud(this, game);
         this.map = factory.getMap(this, game.manager, GameFactory.MapType.MAP_A);
 
-        this.viewState = new GameStateView(this, map);
+        this.selectState = new GameStateSelect(this, map);
         this.pathState = new GameStateMove();
         this.directionState = new GameStateDirection();
         this.rotateState = new GameStateRotate();
         this.animationState = new GameStateAnimation();
 
-        this.state = viewState;
+        this.state = selectState;
 
         factory.fakeSetup(map);
     }
@@ -60,7 +60,7 @@ public class GameCtrl implements Disposable
 
     public boolean isInAction()
     {
-        return (state != viewState);
+        return (state != selectState);
     }
 
     public void animationDone()
@@ -73,7 +73,7 @@ public class GameCtrl implements Disposable
     {
         switch(state) {
             case VIEW:
-                this.state = viewState;
+                this.state = selectState;
                 break;
             case MOVE:
                 this.state = pathState;
