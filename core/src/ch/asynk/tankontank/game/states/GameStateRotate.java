@@ -9,7 +9,7 @@ public class GameStateRotate extends GameStateCommon
     {
         map.hidePossibles();
         if (hasPawn()) {
-            selectHex();
+            selectHex(hex);
             map.enableDirections(hex, true);
         }
     }
@@ -18,7 +18,7 @@ public class GameStateRotate extends GameStateCommon
     public void touchDown()
     {
         if (!hasPawn()) {
-            reselect();
+            reselectHex();
             if (hasPawn()) {
                 map.enableDirections(hex, true);
             }
@@ -29,14 +29,14 @@ public class GameStateRotate extends GameStateCommon
     public void touchUp()
     {
         if (!hasPawn()) {
-            unselectHex();
+            unselectHex(hex);
             return;
         }
 
         Orientation o = Orientation.fromAdj(hex.x, hex.y, downHex.x, downHex.y);
 
         if (o != Orientation.KEEP) {
-            unselectHex();
+            unselectHex(hex);
             map.enableDirections(hex, false);
             if (pawn.getOrientation() != o) {
                 map.rotatePawn(pawn, o);

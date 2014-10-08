@@ -68,19 +68,9 @@ public abstract class GameStateCommon implements GameState
         return (pawn != null);
     }
 
-    protected void unselectHex()
-    {
-        unselectHex(hex);
-    }
-
     protected void unselectHex(GridPoint2 hex)
     {
         map.enableOverlayOn(hex, Hex.BLUE, false);
-    }
-
-    protected void selectHex()
-    {
-        selectHex(hex);
     }
 
     protected void selectHex(GridPoint2 hex)
@@ -88,11 +78,11 @@ public abstract class GameStateCommon implements GameState
         map.enableOverlayOn(hex, Hex.BLUE, true);
     }
 
-    protected void reselect()
+    protected void reselectHex()
     {
-        unselectHex();
+        unselectHex(hex);
         setHexAndPawn(downHex);
-        selectHex();
+        selectHex(hex);
     }
 
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)

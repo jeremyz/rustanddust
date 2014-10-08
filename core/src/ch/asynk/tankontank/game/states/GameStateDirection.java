@@ -22,9 +22,9 @@ public class GameStateDirection extends GameStateCommon
         if (o != Orientation.KEEP) {
             map.movePawn(pawn, o);
             clear();
-            unselectHex();
+            unselectHex(hex);
             hex.set(tmp.x, tmp.y);
-            unselectHex();
+            unselectHex(hex);
             ctrl.setState(State.ANIMATION);
         }
     }

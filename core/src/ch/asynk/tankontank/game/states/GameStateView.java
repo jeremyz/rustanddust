@@ -18,7 +18,7 @@ public class GameStateView extends GameStateCommon
     @Override
     public void touchDown()
     {
-        reselect();
+        reselectHex();
     }
 
     @Override

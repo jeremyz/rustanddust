@@ -10,7 +10,7 @@ public class GameStateMove extends GameStateCommon
         map.enablePossibleTargets(false);
         map.enablePossiblePaths(false, false);
         if (hasPawn()) {
-            selectHex();
+            selectHex(hex);
             skipFirst = false;
             map.clearPossiblePaths();
             map.buildAndShowPossibleMoves(pawn, hex);
@@ -22,7 +22,7 @@ public class GameStateMove extends GameStateCommon
     public void touchDown()
     {
         if (!hasPawn()) {
-            reselect();
+            reselect(hex);
             if (hasPawn()) {
                 skipFirst = true;
                 map.clearPossiblePaths();
@@ -36,7 +36,7 @@ public class GameStateMove extends GameStateCommon
     public void touchUp()
     {
         if (!hasPawn()) {
-            unselectHex();
+            unselectHex(hex);
             return;
         }
 

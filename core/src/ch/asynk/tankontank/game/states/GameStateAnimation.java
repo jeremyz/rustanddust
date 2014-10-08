@@ -20,7 +20,7 @@ public class GameStateAnimation extends GameStateCommon
     @Override
     public void abort()
     {
-        unselectHex();
+        unselectHex(hex);
         pawn = null;
         super.abort();
     }
