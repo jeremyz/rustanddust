@@ -62,12 +62,13 @@ public abstract class Board implements Disposable
         }
     };
 
-    protected Config cfg;
+    private Config cfg;
     private Tile[] tiles;
+    // protected for tests
     protected SearchBoard searchBoard;
     private Image image;
 
-    boolean transform;
+    private boolean transform;
     private Matrix4 prevTransform;
     private Matrix4 nextTransform;
 
@@ -77,7 +78,7 @@ public abstract class Board implements Disposable
     private final ArrayList<Animation> animations = new ArrayList<Animation>(2);
     private final ArrayList<Animation> nextAnimations = new ArrayList<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
-    protected final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
+    private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
     protected Board()
     {
@@ -153,7 +154,7 @@ public abstract class Board implements Disposable
         return tiles[((col - colOffset)) + (row * cfg.cols)];
     }
 
-    public void getAdjacentTiles(GridPoint2 coords, Tile tiles[])
+    private void getAdjacentTiles(GridPoint2 coords, Tile tiles[])
     {
         tiles[0] = getTileSafe((coords.x - 1), coords.y);
         tiles[1] = getTileSafe(coords.x, (coords.y + 1));
@@ -163,7 +164,7 @@ public abstract class Board implements Disposable
         tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
     }
 
-    public void buildNeighboursFor(GridPoint2 coords)
+    private void buildNeighboursFor(GridPoint2 coords)
     {
         neighbours[0].set((coords.x - 1), coords.y);
         neighbours[1].set(coords.x, (coords.y + 1));
@@ -282,7 +283,7 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    public void clearPointVector(ArrayList<GridPoint2> points)
+    protected void clearPointVector(ArrayList<GridPoint2> points)
     {
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
@@ -313,19 +314,19 @@ public abstract class Board implements Disposable
         }
     }
 
-    public void buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
+    protected void buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, moves);
     }
 
-    public void buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
+    protected void buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, targets);
     }
 
-    public void buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
+    protected void buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
     {
         assists.clear();
         buildNeighboursFor(coords);
@@ -340,7 +341,7 @@ public abstract class Board implements Disposable
         }
     }
 
-    public void clearPointSet(Set<GridPoint2> points)
+    protected void clearPointSet(Set<GridPoint2> points)
     {
         for (GridPoint2 point : points)
             gridPoint2Pool.free(point);
@@ -366,26 +367,28 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
+    // public for tests
     public int possiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, Set<GridPoint2> points)
     {
         List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
         return nodesToSet(paths, points);
     }
 
+    // public for tests
     public int possiblePathsFilterToggle(GridPoint2 coords, Set<GridPoint2> points)
     {
         List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
         return nodesToSet(paths, points);
     }
 
-    public void clearCoordinateVector(ArrayList<Vector3> points)
+    protected void clearCoordinateVector(ArrayList<Vector3> points)
     {
         for (Vector3 point : points)
             vector3Pool.free(point);
         points.clear();
     }
 
-    public int getCoordinatePath(Pawn pawn, ArrayList<Vector3> path, Orientation finalOrientation)
+    protected int getCoordinatePath(Pawn pawn, ArrayList<Vector3> path, Orientation finalOrientation)
     {
         List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePaths();
 
@@ -443,7 +446,7 @@ public abstract class Board implements Disposable
         return path.size();
     }
 
-    public boolean hasUnits(GridPoint2 coords)
+    protected boolean hasUnits(GridPoint2 coords)
     {
         return getTile(coords).hasUnits();
     }
@@ -453,7 +456,7 @@ public abstract class Board implements Disposable
         return getTile(coords).isOffMap();
     }
 
-    public boolean isOverlayEnabledOn(GridPoint2 coords, int i)
+    protected boolean isOverlayEnabledOn(GridPoint2 coords, int i)
     {
         return getTile(coords).isOverlayEnabled(i);
     }
@@ -488,7 +491,7 @@ public abstract class Board implements Disposable
         return n;
     }
 
-    public Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
+    protected Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
         Vector2 center = getTile(coords).getCenter();
         return pawn.getPosAt(center, pos);
@@ -501,7 +504,7 @@ public abstract class Board implements Disposable
         pushPawnAt(pawn, coords);
     }
 
-    public void movePawn(final Pawn pawn, ArrayList<Vector3> path, RunnableAnimation whenDone)
+    protected void movePawn(final Pawn pawn, ArrayList<Vector3> path, RunnableAnimation whenDone)
     {
         removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
@@ -516,7 +519,7 @@ public abstract class Board implements Disposable
         addPawnAnimation(pawn, seq);
     }
 
-    public void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
+    protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
     {
         Vector3 p = pawn.getPosition();
         Vector3 v = vector3Pool.obtain();
@@ -527,13 +530,13 @@ public abstract class Board implements Disposable
         vector3Pool.free(v);
     }
 
-    private GridPoint2 getHexAt(Vector2 v)
+    public GridPoint2 getHexAt(Vector2 v)
     {
         if (v == null) return null;
         return getHexAt(null, v.x, v.y);
     }
 
-    private GridPoint2 getHexAt(Vector3 v)
+    public GridPoint2 getHexAt(Vector3 v)
     {
         if (v == null) return null;
         return getHexAt(null, v.x, v.y);
