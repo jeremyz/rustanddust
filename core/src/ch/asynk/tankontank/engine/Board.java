@@ -27,6 +27,8 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board implements Disposable
 {
+    private final GridPoint2 neighbours[] = new GridPoint2[6];
+
     public interface TileBuilder
     {
         public Tile getNewTile(float cx, float cy);
@@ -79,6 +81,8 @@ public abstract class Board implements Disposable
 
     protected Board()
     {
+        for (int i = 0; i < 6; i++)
+            neighbours[i] = new GridPoint2(-1, -1);
     }
 
     @Override
@@ -118,6 +122,9 @@ public abstract class Board implements Disposable
             y += cfg.h;
             evenRow = !evenRow;
         }
+
+        for (int i = 0; i < 6; i++)
+            neighbours[i] = new GridPoint2(-1, -1);
     }
 
     public Tile getTile(GridPoint2 coords)
@@ -156,17 +163,14 @@ public abstract class Board implements Disposable
         tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
     }
 
-    public GridPoint2 setNeighbour(GridPoint2 coords, Orientation o, GridPoint2 n)
+    public void buildNeighboursFor(GridPoint2 coords)
     {
-        if (o == Orientation.NORTH) n.set((coords.x + 1), coords.y);
-        else if (o == Orientation.NORTH_EAST) n.set(coords.x, (coords.y - 1));
-        else if (o == Orientation.SOUTH_EAST) n.set((coords.x - 1), (coords.y - 1));
-        else if (o == Orientation.SOUTH) n.set((coords.x - 1), coords.y);
-        else if (o == Orientation.SOUTH_WEST) n.set(coords.x, (coords.y + 1));
-        else if (o == Orientation.NORTH_WEST) n.set((coords.x + 1), (coords.y + 1));
-        else n.set(coords.x, coords.y);
-
-        return n;
+        neighbours[0].set((coords.x - 1), coords.y);
+        neighbours[1].set(coords.x, (coords.y + 1));
+        neighbours[2].set((coords.x + 1), (coords.y + 1));
+        neighbours[3].set((coords.x + 1), coords.y);
+        neighbours[4].set(coords.x, (coords.y - 1));
+        neighbours[5].set((coords.x - 1), (coords.y - 1));
     }
 
     public float getWidth()
