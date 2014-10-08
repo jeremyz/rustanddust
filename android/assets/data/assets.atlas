@@ -101,7 +101,7 @@ back
   orig: 124, 124
   offset: 0, 0
   index: -1
-btn-attack-disabled
+btn-attack-down
   rotate: false
   xy: 698, 304
   size: 60, 60
@@ -122,7 +122,7 @@ btn-attack-on
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-disabled
+btn-cancel-down
   rotate: false
   xy: 698, 242
   size: 60, 60
@@ -143,7 +143,7 @@ btn-cancel-on
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-disabled
+btn-check-down
   rotate: false
   xy: 698, 180
   size: 60, 60
@@ -164,7 +164,7 @@ btn-check-on
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-disabled
+btn-move-down
   rotate: false
   xy: 546, 52
   size: 60, 60
@@ -185,7 +185,7 @@ btn-move-on
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-disabled
+btn-rotate-down
   rotate: false
   xy: 822, 242
   size: 60, 60
