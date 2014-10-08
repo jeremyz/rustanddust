@@ -16,7 +16,7 @@ import ch.asynk.tankontank.TankOnTank;
 class Button implements Disposable
 {
 
-    int idx;
+    public int idx;
     private Image images [];
     private Image image;
 
@@ -31,6 +31,13 @@ class Button implements Disposable
         this.images[OFF] = new Image(atlas.findRegion(base + "-off"));
         this.images[ON] = new Image(atlas.findRegion(base + "-on"));
         this.images[DISABLED] = new Image(atlas.findRegion(base + "-disabled"));
+    }
+
+    @Override
+    public void dispose()
+    {
+        for (Image image : images)
+            image.dispose();
     }
 
     public void setOff()
@@ -48,9 +55,14 @@ class Button implements Disposable
         idx = DISABLED;
     }
 
-    public Image getImage()
+    public boolean isOn()
     {
-        return images[idx];
+        return (idx == ON);
+    }
+
+    public boolean isOff()
+    {
+        return (idx == OFF);
     }
 
     public boolean isDisabled()
@@ -58,24 +70,20 @@ class Button implements Disposable
         return (idx == DISABLED);
     }
 
+    public Image getImage()
+    {
+        return images[idx];
+    }
+
     public void setPosition(float x, float y)
     {
-        images[OFF].setPosition(x, y);
-        images[ON].setPosition(x, y);
-        images[DISABLED].setPosition(x, y);
+        for (Image image : images)
+            image.setPosition(x, y);
     }
 
     public boolean hit(float x, float y)
     {
         return ((x > images[0].getX()) && (x < images[0].getX() + images[0].getWidth()) && (y > images[0].getY()) && (y < images[0].getY() + images[0].getHeight()));
-    }
-
-    @Override
-    public void dispose()
-    {
-        images[OFF].dispose();
-        images[ON].dispose();
-        images[DISABLED].dispose();
     }
 
     public float getX() { return images[0].getX(); }
