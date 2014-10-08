@@ -313,16 +313,31 @@ public abstract class Board implements Disposable
         }
     }
 
-    public void possibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
+    public void buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, moves);
     }
 
-    public void possibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
+    public void buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, targets);
+    }
+
+    public void buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
+    {
+        assists.clear();
+        buildNeighboursFor(coords);
+        for (int i = 0; i < 6; i++) {
+            GridPoint2 neighbour = neighbours[i];
+            Tile t = getTileSafe(neighbour);
+            if (t != null) {
+                Pawn p = t.getTopPawn();
+                if ((p != null) && (!pawn.isEnemy(p)))
+                    assists.add(neighbour);
+            }
+        }
     }
 
     public void clearPointSet(Set<GridPoint2> points)
