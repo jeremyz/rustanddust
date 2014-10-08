@@ -12,11 +12,27 @@ import ch.asynk.tankontank.game.states.GameStateAnimation;
 
 public class GameCtrl implements Disposable
 {
+
+    public class Config
+    {
+        public boolean showMoves;
+        public boolean showTargets;
+        public boolean showMoveAssists;
+
+        public Config()
+        {
+            this.showMoves = true;;
+            this.showTargets = true;;
+            this.showMoveAssists= true;;
+        }
+    }
+
     private final TankOnTank game;
 
     private GameFactory factory;
     public Map map;
     public Hud hud;
+    public Config cfg;
 
     private GameState selectState;
     private GameState pathState;
@@ -29,6 +45,8 @@ public class GameCtrl implements Disposable
     public GameCtrl(final TankOnTank game)
     {
         this.game = game;
+
+        this.cfg = new Config();
 
         this.factory = new GameFactory(game.manager);
         this.hud = new Hud(this, game);
