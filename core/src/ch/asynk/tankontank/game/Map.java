@@ -70,7 +70,7 @@ public abstract class Map extends Board
     public void enablePossibleMoves(boolean enable)
     {
         for(GridPoint2 hex : possibleMoves)
-            enableOverlayOn(hex, Hex.GREEN, enable);
+            enableOverlayOn(hex, Hex.MOVE1, enable);
     }
 
     public void enableMoveAssists(boolean enable)
@@ -82,18 +82,18 @@ public abstract class Map extends Board
     public void enablePossibleTargets(boolean enable)
     {
         for(GridPoint2 hex : possibleTargets)
-            enableOverlayOn(hex, Hex.RED, enable);
+            enableOverlayOn(hex, Hex.TARGET, enable);
     }
 
     public void enablePossiblePaths(boolean enable, boolean keepMoves)
     {
         if (keepMoves) {
             for(GridPoint2 hex : possiblePaths)
-                enableOverlayOn(hex, Hex.GREEN, enable);
+                enableOverlayOn(hex, Hex.MOVE1, enable);
         } else {
             for(GridPoint2 hex : possiblePaths) {
-                enableOverlayOn(hex, Hex.GREEN, enable);
-                enableOverlayOn(hex, Hex.MOVE, false);
+                enableOverlayOn(hex, Hex.MOVE1, enable);
+                enableOverlayOn(hex, Hex.MOVE2, false);
             }
         }
     }
@@ -175,21 +175,21 @@ public abstract class Map extends Board
 
     public void togglePathOverlay(GridPoint2 hex)
     {
-        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE);
-        enableOverlayOn(hex, Hex.MOVE, enable);
+        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE2);
+        enableOverlayOn(hex, Hex.MOVE2, enable);
     }
 
     public void enableFinalPath(GridPoint2 dst, boolean enable)
     {
         for(GridPoint2 hex : possiblePaths) {
-            enableOverlayOn(hex, Hex.GREEN, false);
-            enableOverlayOn(hex, Hex.MOVE, enable);
+            enableOverlayOn(hex, Hex.MOVE1, false);
+            enableOverlayOn(hex, Hex.MOVE2, enable);
         }
         enableDirections(dst, enable);
     }
 
     public void enableDirections(GridPoint2 hex, boolean enable)
     {
-        enableOverlayOn(hex, Hex.ROSE, enable);
+        enableOverlayOn(hex, Hex.DIRECTIONS, enable);
     }
 }

@@ -20,13 +20,13 @@ public class Hex extends Tile
         TOWN
     }
 
-    public static final int FOG = 0;
-    public static final int BLUE = 1;
-    public static final int GREEN = 2;
-    public static final int RED = 3;
-    public static final int MOVE = 4;
-    public static final int ROSE = 5;
-    public static final int ASSIST = 6;
+    public static final int FOG         = 0;
+    public static final int SELECT      = 1;
+    public static final int MOVE1       = 2;
+    public static final int TARGET      = 3;
+    public static final int MOVE2       = 4;
+    public static final int DIRECTIONS  = 5;
+    public static final int ASSIST      = 6;
 
     public Terrain terrain;
     public int roads;
