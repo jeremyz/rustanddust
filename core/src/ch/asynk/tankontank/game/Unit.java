@@ -63,6 +63,20 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean canMove()
+    {
+        // TODO
+        return true;
+    }
+
+    @Override
+    public boolean canAttack()
+    {
+        // TODO
+        return true;
+    }
+
+    @Override
     public boolean canAttack(Pawn other)
     {
         return isEnemy(other);
