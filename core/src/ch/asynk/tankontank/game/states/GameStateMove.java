@@ -40,15 +40,15 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void abort()
     {
-        map.enableMoveAssists(false);
-        map.enablePossibleMoves(false);
+        map.showMoveAssists(false);
+        map.showPossibleMoves(false);
         if (from.x != -1) {
             unselectHex(from);
             from.set(-1, -1);
         }
         if (to.x != -1) {
             unselectHex(to);
-            map.enableFinalPath(to, false);
+            map.showFinalPath(to, false);
             to.set(-1, -1);
         }
         super.abort();
@@ -56,12 +56,12 @@ public class GameStateMove extends GameStateCommon
 
     private void buildAndShowMoves()
     {
-        map.enablePossibleMoves(false);
-        map.enableMoveAssists(false);
+        map.showPossibleMoves(false);
+        map.showMoveAssists(false);
         map.buildPossibleMoves(pawn, hex);
         map.buildMoveAssists(pawn, hex);
-        map.enablePossibleMoves(true);
-        map.enableMoveAssists(true);
+        map.showPossibleMoves(true);
+        map.showMoveAssists(true);
     }
 
     private int buildPaths()
@@ -70,8 +70,8 @@ public class GameStateMove extends GameStateCommon
         to.set(upHex.x, upHex.y);
         int s = map.buildPossiblePaths(pawn, from, to);
         selectHex(to);
-        map.enablePossibleMoves(false);
-        map.enablePossiblePaths(true, true);
+        map.showPossibleMoves(false);
+        map.showPossiblePaths(true, true);
         return s;
     }
 
@@ -82,10 +82,10 @@ public class GameStateMove extends GameStateCommon
         } else if (sameHexes(downHex, to)) {
             //
         } else {
-            map.enablePossiblePaths(false, true);
+            map.showPossiblePaths(false, true);
             map.togglePathOverlay(downHex);
             s = map.possiblePathsPointToggle(downHex);
-            map.enablePossiblePaths(true, true);
+            map.showPossiblePaths(true, true);
         }
 
         return s;

@@ -95,8 +95,8 @@ public abstract class GameStateCommon implements GameState
 
     protected void showPossibleTargetsMovesAssists(boolean enable)
     {
-        if (ctrl.cfg.showMoves) map.enablePossibleMoves(enable);
-        if (ctrl.cfg.showTargets) map.enablePossibleTargets(enable);
-        if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(enable);
+        if (ctrl.cfg.showMoves) map.showPossibleMoves(enable);
+        if (ctrl.cfg.showTargets) map.showPossibleTargets(enable);
+        if (ctrl.cfg.showMoveAssists) map.showMoveAssists(enable);
     }
 }

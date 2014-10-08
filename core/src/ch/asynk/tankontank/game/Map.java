@@ -70,25 +70,25 @@ public abstract class Map extends Board
         return possibleTargets.contains(hex);
     }
 
-    public void enablePossibleMoves(boolean enable)
+    public void showPossibleMoves(boolean enable)
     {
         for(GridPoint2 hex : possibleMoves)
             enableOverlayOn(hex, Hex.MOVE1, enable);
     }
 
-    public void enableMoveAssists(boolean enable)
+    public void showMoveAssists(boolean enable)
     {
         for(GridPoint2 hex : moveAssists)
             enableOverlayOn(hex, Hex.ASSIST, enable);
     }
 
-    public void enablePossibleTargets(boolean enable)
+    public void showPossibleTargets(boolean enable)
     {
         for(GridPoint2 hex : possibleTargets)
             enableOverlayOn(hex, Hex.TARGET, enable);
     }
 
-    public void enablePossiblePaths(boolean enable, boolean keepFinal)
+    public void showPossiblePaths(boolean enable, boolean keepFinal)
     {
         if (keepFinal) {
             for(GridPoint2 hex : possiblePaths)
@@ -99,6 +99,31 @@ public abstract class Map extends Board
                 enableOverlayOn(hex, Hex.MOVE2, false);
             }
         }
+    }
+
+    public void showFinalPath(GridPoint2 dst, boolean enable)
+    {
+        for(GridPoint2 hex : possiblePaths) {
+            enableOverlayOn(hex, Hex.MOVE1, false);
+            enableOverlayOn(hex, Hex.MOVE2, enable);
+        }
+        showDirections(dst, enable);
+    }
+
+    public void showDirections(GridPoint2 hex, boolean enable)
+    {
+        enableOverlayOn(hex, Hex.DIRECTIONS, enable);
+    }
+
+    public int possiblePathsSize()
+    {
+        return possiblePaths.size();
+    }
+
+    public void togglePathOverlay(GridPoint2 hex)
+    {
+        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE2);
+        enableOverlayOn(hex, Hex.MOVE2, enable);
     }
 
     public int buildPossibleMoves(Pawn pawn, GridPoint2 hex)
@@ -123,11 +148,6 @@ public abstract class Map extends Board
         return moveAssists.size();
     }
 
-    public int possiblePathsSize()
-    {
-        return possiblePaths.size();
-    }
-
     public int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to)
     {
         return possiblePaths(pawn, from, to, possiblePaths);
@@ -148,21 +168,6 @@ public abstract class Map extends Board
         clearPointSet(possiblePaths);
         clearPointVector(possibleMoves);
         clearPointVector(possibleTargets);
-    }
-
-    public void togglePathOverlay(GridPoint2 hex)
-    {
-        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE2);
-        enableOverlayOn(hex, Hex.MOVE2, enable);
-    }
-
-    public void enableFinalPath(GridPoint2 dst, boolean enable)
-    {
-        for(GridPoint2 hex : possiblePaths) {
-            enableOverlayOn(hex, Hex.MOVE1, false);
-            enableOverlayOn(hex, Hex.MOVE2, enable);
-        }
-        enableDirections(dst, enable);
     }
 
     public void movePawn(Pawn pawn, Orientation o)
@@ -186,10 +191,5 @@ public abstract class Map extends Board
                 ctrl.animationDone();
             }
         }));
-    }
-
-    public void enableDirections(GridPoint2 hex, boolean enable)
-    {
-        enableOverlayOn(hex, Hex.DIRECTIONS, enable);
     }
 }

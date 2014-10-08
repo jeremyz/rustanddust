@@ -7,7 +7,7 @@ public class GameStateRotate extends GameStateCommon
     @Override
     public void enter()
     {
-        map.enableDirections(hex, true);
+        map.showDirections(hex, true);
         ctrl.hud.show(true, false, false, true, true);
     }
 
@@ -15,7 +15,7 @@ public class GameStateRotate extends GameStateCommon
     public void leave()
     {
         unselectHex(hex);
-        map.enableDirections(hex, false);
+        map.showDirections(hex, false);
     }
 
     @Override

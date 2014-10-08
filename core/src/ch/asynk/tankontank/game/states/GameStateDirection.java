@@ -7,14 +7,14 @@ public class GameStateDirection extends GameStateCommon
     @Override
     public void enter()
     {
-        map.enableFinalPath(to, true);
+        map.showFinalPath(to, true);
     }
 
     @Override
     public void leave()
     {
-        map.enableMoveAssists(false);
-        map.enableFinalPath(to, false);
+        map.showMoveAssists(false);
+        map.showFinalPath(to, false);
         if (to.x != -1) unselectHex(to);
         if (from.x != -1) unselectHex(from);
         to.set(-1, -1);
