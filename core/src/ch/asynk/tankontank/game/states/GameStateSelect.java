@@ -25,15 +25,15 @@ public class GameStateSelect extends GameStateCommon
     public void touchUp()
     {
         if (hasPawn()) {
-            map.enablePossibleMoves(false);
-            map.enablePossibleTargets(false);
-            map.enableMoveAssists(false);
+            if (ctrl.cfg.showMoves) map.enablePossibleMoves(false);
+            if (ctrl.cfg.showTargets) map.enablePossibleTargets(false);
+            if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(false);
             map.buildPossibleMoves(pawn, hex);
             map.buildPossibleTargets(pawn, hex);
             map.buildMoveAssists(pawn, hex);
-            map.enablePossibleMoves(true);
-            map.enablePossibleTargets(true);
-            map.enableMoveAssists(true);
+            if (ctrl.cfg.showMoves) map.enablePossibleMoves(true);
+            if (ctrl.cfg.showTargets) map.enablePossibleTargets(true);
+            if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(true);
         } else {
             clear();
         }
