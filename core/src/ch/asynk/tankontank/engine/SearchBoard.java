@@ -40,13 +40,13 @@ public class SearchBoard
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
 
-    private ArrayList<Node> path = new ArrayList<Node>(20);
-    private List<ArrayList<Node>> possiblePaths = new LinkedList<ArrayList<Node>>();
-    private List<Node> possiblePathsFilters = new ArrayList<Node>(5);
-
     private List<Node> moves;
     private List<Node> targets;
     private List<Node> los;
+
+    private List<Node> path;
+    private List<ArrayList<Node>> possiblePaths;
+    private List<Node> possiblePathsFilters;
 
     public SearchBoard(Board board, int cols, int rows)
     {
@@ -77,6 +77,10 @@ public class SearchBoard
         this.moves = new ArrayList<Node>(40);
         this.targets = new ArrayList<Node>(10);
         this.los = new ArrayList<Node>(10);
+
+        this.path = new ArrayList<Node>(20);
+        this.possiblePaths = new LinkedList<ArrayList<Node>>();
+        this.possiblePathsFilters = new ArrayList<Node>(5);
     }
 
     private boolean inMap(int col, int row)
@@ -502,7 +506,7 @@ public class SearchBoard
     public void clearPossiblePaths()
     {
         path.clear();
-        for (ArrayList<Node> v : possiblePaths)
+        for (List<Node> v : possiblePaths)
             v.clear();
         possiblePaths.clear();
         possiblePathsFilters.clear();
