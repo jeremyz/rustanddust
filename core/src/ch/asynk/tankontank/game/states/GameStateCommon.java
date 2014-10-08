@@ -89,4 +89,11 @@ public abstract class GameStateCommon implements GameState
     {
         return ((a.x == b.x) && (a.y == b.y));
     }
+
+    protected void showPossibleTargetsMovesAssists(boolean enable)
+    {
+        if (ctrl.cfg.showMoves) map.enablePossibleMoves(enable);
+        if (ctrl.cfg.showTargets) map.enablePossibleTargets(enable);
+        if (ctrl.cfg.showMoveAssists) map.enableMoveAssists(enable);
+    }
 }
