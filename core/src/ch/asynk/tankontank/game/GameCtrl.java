@@ -21,9 +21,9 @@ public class GameCtrl implements Disposable
 
         public Config()
         {
-            this.showMoves = true;;
-            this.showTargets = true;;
-            this.showMoveAssists= true;;
+            this.showMoves = true;
+            this.showTargets = true;
+            this.showMoveAssists = true;
         }
     }
 
