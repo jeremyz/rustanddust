@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
@@ -17,20 +18,25 @@ class Button implements Disposable
 {
 
     public int idx;
+    public boolean visible;
     private Image images [];
     private Image image;
+    private Rectangle rect;
 
     private static final int OFF = 0;
     private static final int ON = 1;
-    private static final int DISABLED = 2;
+    private static final int DOWN = 2;
 
     public Button(TextureAtlas atlas, String base)
     {
         this.idx = OFF;
+        this.visible = false;
         this.images = new Image[3];
         this.images[OFF] = new Image(atlas.findRegion(base + "-off"));
         this.images[ON] = new Image(atlas.findRegion(base + "-on"));
-        this.images[DISABLED] = new Image(atlas.findRegion(base + "-disabled"));
+        this.images[DOWN] = new Image(atlas.findRegion(base + "-down"));
+
+        this.rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
@@ -38,6 +44,12 @@ class Button implements Disposable
     {
         for (Image image : images)
             image.dispose();
+    }
+
+    public void hide()
+    {
+        idx = OFF;
+        visible = false;
     }
 
     public void setOff()
@@ -50,9 +62,9 @@ class Button implements Disposable
         idx = ON;
     }
 
-    public void disable()
+    public void setDown()
     {
-        idx = DISABLED;
+        idx = DOWN;
     }
 
     public boolean isOn()
@@ -67,7 +79,7 @@ class Button implements Disposable
 
     public boolean isDisabled()
     {
-        return (idx == DISABLED);
+        return (idx == DOWN);
     }
 
     public Image getImage()
@@ -79,11 +91,13 @@ class Button implements Disposable
     {
         for (Image image : images)
             image.setPosition(x, y);
+        rect.set(x, y, getWidth(), getHeight());
     }
 
     public boolean hit(float x, float y)
     {
-        return ((x > images[0].getX()) && (x < images[0].getX() + images[0].getWidth()) && (y > images[0].getY()) && (y < images[0].getY() + images[0].getHeight()));
+        if (!visible) return false;
+        return rect.contains(x,y);
     }
 
     public float getX() { return images[0].getX(); }
@@ -94,6 +108,8 @@ class Button implements Disposable
 
 public class Hud implements Disposable
 {
+    private static final float OFFSET = 15f;
+
     private final TankOnTank game;
     private final GameCtrl ctrl;
 
@@ -107,13 +123,18 @@ public class Hud implements Disposable
     private Button checkBtn;
     private Button cancelBtn;
 
-    private Rectangle rect;
+    private Button btn;
+
+    private Rectangle infoRect;
+    private Rectangle buttonsRect;
     private float elapsed;
+    private Vector2 bottomLeft;
 
     public Hud(final GameCtrl ctrl, final TankOnTank game)
     {
         this.game = game;
         this.ctrl = ctrl;
+        this.bottomLeft = new Vector2((Gdx.graphics.getWidth() - OFFSET), OFFSET);
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
@@ -127,19 +148,14 @@ public class Hud implements Disposable
 
         flag = usFlag;
 
-        int left = Gdx.graphics.getWidth() - 5;
-        usFlag.setPosition((left - flag.getWidth()), (Gdx.graphics.getHeight() - flag.getHeight() - 5));
+        usFlag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
         geFlag.setPosition(flag.getX(), flag.getY());
-        moveBtn.setPosition((left - moveBtn.getWidth()), ( flag.getY() - moveBtn.getHeight() - 5));
-        rotateBtn.setPosition((left - rotateBtn.getWidth()), ( moveBtn.getY() - rotateBtn.getHeight() - 5));
-        attackBtn.setPosition((left - attackBtn.getWidth()), ( rotateBtn.getY() - attackBtn.getHeight() - 5));
-        checkBtn.setPosition((left - checkBtn.getWidth()), ( attackBtn.getY() - checkBtn.getHeight() - 5));
-        cancelBtn.setPosition((left - cancelBtn.getWidth()), ( checkBtn.getY() - cancelBtn.getHeight() - 5));
-        cancelBtn.disable();
-        checkBtn.disable();
+        // TODO add counters for
+        //  - Action Points
+        //  - Turn
 
-        rect = new Rectangle(cancelBtn.getX(), cancelBtn.getY(), flag.getWidth(),
-                (flag.getY() + flag.getHeight() - cancelBtn.getY()));
+        infoRect = new Rectangle(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
+        buttonsRect = new Rectangle(0, 0, 0, 0);
 
         elapsed = 0f;
     }
@@ -168,80 +184,96 @@ public class Hud implements Disposable
     public void draw(Batch batch)
     {
         flag.draw(batch);
-        moveBtn.getImage().draw(batch);
-        rotateBtn.getImage().draw(batch);
-        attackBtn.getImage().draw(batch);
-        checkBtn.getImage().draw(batch);
-        cancelBtn.getImage().draw(batch);
+        if (moveBtn.visible) moveBtn.getImage().draw(batch);
+        if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
+        if (attackBtn.visible) attackBtn.getImage().draw(batch);
+        if (checkBtn.visible) checkBtn.getImage().draw(batch);
+        if (cancelBtn.visible) cancelBtn.getImage().draw(batch);
     }
 
-    public void reset()
+    private float setButton(Button btn, float x, float y)
     {
-        moveBtn.setOff();
-        rotateBtn.setOff();
-        attackBtn.setOff();
-        checkBtn.disable();
-        cancelBtn.disable();
+        // btn.setOff();
+        btn.visible = true;
+        btn.setPosition(x, y);
+        return (y + btn.getHeight() + OFFSET);
     }
 
-    public void disableCancel()
+    public void show(boolean rotate, boolean move, boolean attack, boolean check, boolean cancel)
     {
-        cancelBtn.disable();
+        float x =  (bottomLeft.x - checkBtn.getWidth());
+        float y =  bottomLeft.y;
+
+        if (rotate) y = setButton(rotateBtn, x, y);
+        else rotateBtn.hide();
+        if (move)   y = setButton(moveBtn, x, y);
+        else moveBtn.hide();
+        if (attack) y = setButton(attackBtn, x, y);
+        else attackBtn.hide();
+        if (cancel) y = setButton(cancelBtn, x, y);
+        else cancelBtn.hide();
+        if (check)  y = setButton(checkBtn, x, y);
+        else checkBtn.hide();
+
+        buttonsRect.set(x, bottomLeft.y, checkBtn.getWidth(), (y - bottomLeft.y));
     }
 
-    public void enableCheck()
+    public void hide()
     {
-        cancelBtn.setOff();
+        moveBtn.hide();
+        rotateBtn.hide();
+        attackBtn.hide();
+        checkBtn.hide();
+        cancelBtn.hide();
     }
 
     public boolean touchDown(float x, float y)
     {
-        if (!rect.contains(x,y)) return false;
+        if (infoRect.contains(x,y)) return true;
+        if (!buttonsRect.contains(x,y)) return false;
 
-        if (!cancelBtn.isDisabled() && cancelBtn.hit(x, y)) {
-            cancelBtn.setOn();
+        btn = null;
+
+        if (!ctrl.isInAction()) {
+            if (moveBtn.hit(x, y))
+                btn = moveBtn;
+            else if (rotateBtn.hit(x, y))
+                btn = rotateBtn;
+            else if (attackBtn.hit(x, y))
+                btn = attackBtn;
         }
+
+        if (checkBtn.hit(x, y))
+            btn = checkBtn;
+        else if (cancelBtn.hit(x, y))
+            btn = cancelBtn;
+
+        if (btn != null)
+            btn.setDown();
 
         return true;
     }
 
     public boolean touchUp(float x, float y)
     {
-        if (!rect.contains(x,y)) return false;
+        if (btn != null)
+            btn.setOn();
 
-        if (!ctrl.isInAction()) {
-            if (moveBtn.hit(x, y)) {
-                switchTo(GameState.State.MOVE);
-            } else if (rotateBtn.hit(x, y)) {
-                switchTo(GameState.State.ROTATE);
-            } else if (attackBtn.hit(x, y)) {
-                // switchTo(GameState.State.ATTACK);
-            }
-        }
-        if (!cancelBtn.isDisabled() && cancelBtn.hit(x, y)) {
-            reset();
+        if (infoRect.contains(x,y)) return true;
+        if (!buttonsRect.contains(x,y)) return false;
+
+        if (btn == moveBtn)
+            ctrl.setState(GameState.State.MOVE);
+        else if (btn == rotateBtn)
+            ctrl.setState(GameState.State.ROTATE);
+        // else if (btn == attackBtn)
+            // ctrl.setState(GameState.State.ATTACK);
+        // else if (btn == checkBtn)
+        else if (btn == cancelBtn)
             ctrl.abort();
-        }
+
+        btn = null;
 
         return true;
-    }
-
-    private void switchTo(GameState.State state)
-    {
-        switch(state) {
-            case MOVE:
-                moveBtn.setOn();
-                rotateBtn.disable();
-                attackBtn.disable();
-                break;
-            case ROTATE:
-                moveBtn.disable();
-                rotateBtn.setOn();
-                attackBtn.disable();
-                break;
-        }
-        cancelBtn.setOff();
-
-        ctrl.setState(state);
     }
 }
