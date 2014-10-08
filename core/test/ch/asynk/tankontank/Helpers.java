@@ -18,6 +18,7 @@ public class Helpers
 
         public int getMovementPoints()              { return mvt; }
         public int getRoadMarchBonus()              { return 1; }
+        public boolean isHq()                       { return true; }
         public boolean isUnit()                     { return true; }
         public boolean isEnemy(Pawn other)          { return true; }
         public boolean canAttack(Pawn other)        { return true; }
