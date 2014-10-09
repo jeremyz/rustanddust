@@ -28,6 +28,7 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 public abstract class Board implements Disposable
 {
     private final GridPoint2 neighbours[] = new GridPoint2[6];
+    protected List<ArrayList<SearchBoard.Node>> paths;
 
     public interface TileBuilder
     {
@@ -64,8 +65,7 @@ public abstract class Board implements Disposable
 
     private Config cfg;
     private Tile[] tiles;
-    // protected for tests
-    protected SearchBoard searchBoard;
+    private SearchBoard searchBoard;
     private Image image;
 
     private boolean transform;
@@ -80,10 +80,11 @@ public abstract class Board implements Disposable
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
     private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
-    protected Board()
+    protected Board(int cols, int rows)
     {
         for (int i = 0; i < 6; i++)
             neighbours[i] = new GridPoint2(-1, -1);
+        searchBoard = new SearchBoard(this, cols, rows);
     }
 
     @Override
@@ -126,6 +127,28 @@ public abstract class Board implements Disposable
 
         for (int i = 0; i < 6; i++)
             neighbours[i] = new GridPoint2(-1, -1);
+    }
+
+    public float getWidth()
+    {
+        return image.getWidth();
+    }
+
+    public float getHeight()
+    {
+        return image.getHeight();
+    }
+
+    public void setPosition(float x, float y)
+    {
+        image.setPosition(x, y);
+        if ((x != 0.0f) || (y != 0.0f)) {
+            transform = true;
+            prevTransform = new Matrix4();
+            nextTransform = new Matrix4();
+            nextTransform.translate(x, y, 0);
+        } else
+            transform = false;
     }
 
     public Tile getTile(GridPoint2 coords)
@@ -172,28 +195,6 @@ public abstract class Board implements Disposable
         neighbours[3].set((coords.x + 1), coords.y);
         neighbours[4].set(coords.x, (coords.y - 1));
         neighbours[5].set((coords.x - 1), (coords.y - 1));
-    }
-
-    public float getWidth()
-    {
-        return image.getWidth();
-    }
-
-    public float getHeight()
-    {
-        return image.getHeight();
-    }
-
-    public void setPosition(float x, float y)
-    {
-        image.setPosition(x, y);
-        if ((x != 0.0f) || (y != 0.0f)) {
-            transform = true;
-            prevTransform = new Matrix4();
-            nextTransform = new Matrix4();
-            nextTransform.translate(x, y, 0);
-        } else
-            transform = false;
     }
 
     private void addPawnAnimation(Pawn pawn, AnimationSequence seq)
@@ -367,17 +368,15 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
-    // public for tests
-    public int possiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, Set<GridPoint2> points)
+    protected int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, Set<GridPoint2> points)
     {
-        List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
+        paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
         return nodesToSet(paths, points);
     }
 
-    // public for tests
-    public int possiblePathsFilterToggle(GridPoint2 coords, Set<GridPoint2> points)
+    protected int possiblePathsFilterToggle(GridPoint2 coords, Set<GridPoint2> points)
     {
-        List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
+        paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
         return nodesToSet(paths, points);
     }
 
@@ -388,14 +387,9 @@ public abstract class Board implements Disposable
         points.clear();
     }
 
-    protected int getCoordinatePath(Pawn pawn, ArrayList<Vector3> path, Orientation finalOrientation)
+    protected int getCoordinatePath(Pawn pawn, int idx, ArrayList<Vector3> path, Orientation finalOrientation)
     {
-        List<ArrayList<SearchBoard.Node>> paths = searchBoard.possiblePaths();
-
         clearCoordinateVector(path);
-
-        if (paths.size() != 1)
-            return 0;
 
         Vector2 tmpCoords = new Vector2();
         GridPoint2 tmpHex = gridPoint2Pool.obtain();
@@ -405,7 +399,7 @@ public abstract class Board implements Disposable
         v.set(p.x, p.y, 0f);
         Orientation prevOrientation = pawn.getOrientation();
 
-        ArrayList<SearchBoard.Node> nodes = paths.get(0);
+        ArrayList<SearchBoard.Node> nodes = paths.get(idx);
         SearchBoard.Node prevNode = nodes.get(0);
         // Gdx.app.debug("Board", "getCoordinatePath()");
         // Gdx.app.debug("Board", "  " + prevNode);

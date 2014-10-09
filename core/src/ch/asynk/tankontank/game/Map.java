@@ -150,7 +150,7 @@ public abstract class Map extends Board
 
     public int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to)
     {
-        return possiblePaths(pawn, from, to, possiblePaths);
+        return buildPossiblePaths(pawn, from, to, possiblePaths);
     }
 
     public int possiblePathsPointToggle(GridPoint2 hex)
@@ -172,7 +172,7 @@ public abstract class Map extends Board
 
     public void movePawn(Pawn pawn, Orientation o)
     {
-        int s = getCoordinatePath(pawn, finalPath, o);
+        int s = getCoordinatePath(pawn, 0, finalPath, o);
         if (s > 0) {
             movePawn(pawn, finalPath, RunnableAnimation.get(pawn, new Runnable() {
                 @Override
