@@ -102,6 +102,7 @@ public enum Orientation
     public static Orientation fromAdj(int col0, int row0, int col1, int row1)
     {
         Orientation o = KEEP;
+
         if (row1 == row0) {
             if (col1 == (col0 - 1)) {
                 o = SOUTH;
