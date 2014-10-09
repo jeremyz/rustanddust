@@ -87,15 +87,22 @@ public class GameCtrl implements Disposable
 
     public void animationDone()
     {
-        setState(GameState.State.VIEW);
+        GameState.State next = state.getNextState();
+        state.setNextState(GameState.State.SELECT);
+        setState(next, (next == GameState.State.SELECT));
     }
 
     public void setState(GameState.State state)
     {
+        setState(state, true);
+    }
+
+    public void setState(GameState.State state, boolean reset)
+    {
         this.state.leave();
 
         switch(state) {
-            case VIEW:
+            case SELECT:
                 this.state = selectState;
                 break;
             case MOVE:
@@ -114,7 +121,7 @@ public class GameCtrl implements Disposable
                 break;
         }
 
-        this.state.enter();
+        this.state.enter(reset);
     }
 
     public void abort()

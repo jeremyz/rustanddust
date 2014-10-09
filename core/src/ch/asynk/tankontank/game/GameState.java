@@ -3,14 +3,14 @@ package ch.asynk.tankontank.game;
 public interface GameState
 {
     enum State {
-        VIEW,
+        SELECT,
         MOVE,
         DIRECTION,
         ROTATE,
         ANIMATION
     };
 
-    public void enter();
+    public void enter(boolean reset);
 
     public void leave();
 
@@ -23,4 +23,8 @@ public interface GameState
     public boolean downInMap(float x, float y);
 
     public boolean upInMap(float x, float y);
+
+    public GameState.State getNextState();
+
+    public void setNextState(GameState.State next);
 }

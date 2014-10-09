@@ -5,7 +5,7 @@ import ch.asynk.tankontank.engine.Orientation;
 public class GameStateDirection extends GameStateCommon
 {
     @Override
-    public void enter()
+    public void enter(boolean reset)
     {
         map.showFinalPath(to, true);
     }

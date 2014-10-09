@@ -21,6 +21,8 @@ public abstract class GameStateCommon implements GameState
     protected static GridPoint2 from = new GridPoint2(-1, -1);
     protected static GridPoint2 to = new GridPoint2(-1, -1);
 
+    protected static GameState.State nextState = GameState.State.SELECT;
+
     protected GameStateCommon()
     {
     }
@@ -32,13 +34,25 @@ public abstract class GameStateCommon implements GameState
     }
 
     @Override
+    public GameState.State getNextState()
+    {
+        return nextState;
+    }
+
+    @Override
+    public void setNextState(GameState.State state)
+    {
+        nextState = state;
+    }
+
+    @Override
     public void abort()
     {
         unselectHex(hex);
         hex.set(0, 0);
         pawn = null;
         ctrl.hud.hide();
-        ctrl.setState(State.VIEW);
+        ctrl.setState(State.SELECT);
     }
 
     protected static boolean hexInMap(GridPoint2 hex)

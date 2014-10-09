@@ -5,7 +5,7 @@ import ch.asynk.tankontank.engine.Orientation;
 public class GameStateRotate extends GameStateCommon
 {
     @Override
-    public void enter()
+    public void enter(boolean reset)
     {
         map.showDirections(hex, true);
         ctrl.hud.show(true, false, false, ctrl.cfg.mustValidate, ctrl.cfg.canCancel);

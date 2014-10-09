@@ -3,7 +3,7 @@ package ch.asynk.tankontank.game.states;
 public class GameStateMove extends GameStateCommon
 {
     @Override
-    public void enter()
+    public void enter(boolean reset)
     {
         map.clearPossiblePaths();
         buildAndShowMoves();

@@ -11,7 +11,7 @@ public class GameStateSelect extends GameStateCommon
     }
 
     @Override
-    public void enter()
+    public void enter(boolean reset)
     {
     }
 
