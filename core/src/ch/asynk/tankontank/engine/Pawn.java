@@ -34,6 +34,7 @@ public abstract class Pawn implements Drawable, Disposable
     public abstract boolean isUnit();
     public abstract boolean isEnemy(Pawn other);
     public abstract boolean canMove();
+    public abstract boolean canRotate();
     public abstract boolean canAttack();
     public abstract boolean canAttack(Pawn other);
     public abstract int getAngleOfAttack();

@@ -28,6 +28,7 @@ public class Helpers
         public boolean isUnit()                     { return true; }
         public boolean isEnemy(Pawn other)          { return true; }
         public boolean canMove()                    { return true; }
+        public boolean canRotate()                  { return true; }
         public boolean canAttack()                  { return true; }
         public boolean canAttack(Pawn other)        { return true; }
         public int getAngleOfAttack()               { return 0; }

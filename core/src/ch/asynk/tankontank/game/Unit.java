@@ -18,6 +18,15 @@ public class Unit extends HeadedPawn
     public boolean hq;
     public boolean ht;
     public Army army;
+    private boolean hasMoved;
+    private boolean hasFired;
+
+    public Unit(TextureAtlas atlas, String pawn, String head)
+    {
+        super(atlas, pawn, head);
+        hasMoved = false;
+        hasFired = false;
+    }
 
     @Override
     public int getMovementPoints()
@@ -63,23 +72,52 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean canRotate()
+    {
+        if (ht) return !hasMoved;
+        return (!hasMoved && !hasFired);
+    }
+
+    @Override
     public boolean canMove()
     {
-        // TODO
-        return true;
+        if (ht) return !hasMoved;
+        return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canAttack()
     {
-        // TODO
-        return true;
+        if (ht) return !hasFired;
+        return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canAttack(Pawn other)
     {
         return isEnemy(other);
+    }
+
+    public void fire()
+    {
+        hasFired = true;
+    }
+
+    public void rotate()
+    {
+        hasMoved = true;
+    }
+
+    public void move(int cost)
+    {
+        hasMoved = true;
+        if (cost > mp) System.err.println("Movement point exceeded: " + cost + "/" + mp);
+    }
+
+    public void reset()
+    {
+        hasFired = false;
+        hasMoved = false;
     }
 
     // hard tager
