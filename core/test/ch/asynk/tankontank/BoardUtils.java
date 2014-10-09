@@ -23,15 +23,15 @@ public class BoardUtils
     {
         int cols = 10;
         int rows = 9;
-        b = new Helpers.FakeBoard(cols, rows);
+        int mvt = 3;
+        b = new Helpers.FakeBoard(cols, rows, 3);
         sb = new SearchBoard(b, cols, rows);
     }
 
     @Test
     public void testPaths()
     {
-        Helpers.FakePawn p = new Helpers.FakePawn(3);
-        List<ArrayList<SearchBoard.Node>> paths = sb.possiblePaths(p, 2, 2, 4, 3);
+        List<ArrayList<SearchBoard.Node>> paths = b.buildPossiblePaths(2, 2, 4, 3);
 
         assertTrue(paths.size() == 8);
 
@@ -94,45 +94,32 @@ public class BoardUtils
     @Test
     public void testPathSet()
     {
-        Helpers.FakePawn p = new Helpers.FakePawn(3);
         HashSet<GridPoint2> points = new HashSet<GridPoint2>();
 
-        GridPoint2 from = new GridPoint2(2, 2);
-        GridPoint2 to = new GridPoint2(3, 3);
-
-        int n = b.possiblePaths(p, from, to, points);
+        int n = b.buildPossiblePaths(2, 2, 3, 3, points);
         assertTrue(n == 1);
         assertTrue(points.size() == 0);
 
-        to.set(4, 3);
-
-        n = b.possiblePaths(p, from, to, points);
+        n = b.buildPossiblePaths(2, 2, 4, 3, points);
         assertTrue(n == 8);
         assertTrue(points.size() == 6);
 
-        GridPoint2 p0 = new GridPoint2(3, 3);
-        n = b.possiblePathsFilterToggle(p0, points);
-
+        n = b.togglePoint(3, 3);
         assertTrue(n == 1);
-        assertTrue(points.size() == 1);
 
-        to.set(5, 3);
-
-        n = b.possiblePaths(p, from, to, points);
+        n = b.buildPossiblePaths(2, 2, 5, 3, points);
         assertTrue(n == 3);
 
-        p0.set(3, 3);
-        n = b.possiblePathsFilterToggle(p0, points);
+        n = b.togglePoint(3, 3);
         assertTrue(n == 1);
-        n = b.possiblePathsFilterToggle(p0, points);
+
+        n = b.togglePoint(3, 3);
         assertTrue(n == 3);
 
-        GridPoint2 p1 = new GridPoint2(3, 2);
-        n = b.possiblePathsFilterToggle(p1, points);
+        n = b.togglePoint(3, 2);
         assertTrue(n == 2);
 
-        GridPoint2 p2 = new GridPoint2(4, 2);
-        n = b.possiblePathsFilterToggle(p2, points);
+        n = b.togglePoint(4, 2);
         assertTrue(n == 1);
 
     }
@@ -140,7 +127,6 @@ public class BoardUtils
     @Test
     public void testDistance()
     {
-
         assertTrue(sb.distance(6, 4, 6, 4) == 0);
         assertTrue(sb.distance(6, 4, 5, 4) == 1);
         assertTrue(sb.distance(6, 4, 6, 5) == 1);

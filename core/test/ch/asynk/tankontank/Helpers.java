@@ -1,5 +1,11 @@
 package ch.asynk.tankontank;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import com.badlogic.gdx.math.GridPoint2;
+
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Board;
@@ -49,7 +55,7 @@ public class Helpers
         }
         public boolean blockLineOfSightFrom(Tile from)  { return false; }
         public boolean atLeastOneMove(Pawn pawn)        { return true; }
-        public boolean road(Orientation side)     { return false; }
+        public boolean road(Orientation side)           { return false; }
         public boolean hasTargetsFor(Pawn pawn)         { return false; }
         public int costFrom(Pawn pawn, Orientation side, boolean road) { return 1; }
     }
@@ -59,10 +65,11 @@ public class Helpers
         private int cols;
         private int rows;
         public FakeTile fakeTiles[];
+        public FakePawn pawn;
 
-        public FakeBoard(int cols, int rows)
+        public FakeBoard(int cols, int rows, int mvt)
         {
-            super();
+            super(cols, rows);
             this.cols = cols;
             this.rows = rows;
             fakeTiles = new FakeTile[cols * rows];
@@ -74,7 +81,7 @@ public class Helpers
             fakeTiles[39].offMap = true;
             fakeTiles[59].offMap = true;
             fakeTiles[79].offMap = true;
-            this.searchBoard = new SearchBoard(this, cols, rows);
+            pawn = new FakePawn(mvt);
         }
 
         @Override
@@ -85,6 +92,22 @@ public class Helpers
                 return new FakeTile(true);
             int idx = ((col - colOffset)) + (row * cols);
             return fakeTiles[idx];
+        }
+
+        public List<ArrayList<SearchBoard.Node>> buildPossiblePaths(int x0, int y0, int x1, int y1)
+        {
+            buildPossiblePaths(pawn, new GridPoint2(x0, y0), new GridPoint2(x1, y1), new HashSet<GridPoint2>());
+            return paths;
+        }
+
+        public int buildPossiblePaths(int x0, int y0, int x1, int y1, HashSet<GridPoint2> points)
+        {
+            return buildPossiblePaths(pawn, new GridPoint2(x0, y0), new GridPoint2(x1, y1), points);
+        }
+
+        public int togglePoint(int x, int y)
+        {
+            return possiblePathsFilterToggle(new GridPoint2(x, y), new HashSet<GridPoint2>());
         }
     }
 }
