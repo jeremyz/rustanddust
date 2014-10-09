@@ -387,6 +387,11 @@ public abstract class Board implements Disposable
         points.clear();
     }
 
+    protected int getPathCost(Pawn pawn, int i)
+    {
+        return searchBoard.pathCost(pawn, paths.get(i));
+    }
+
     protected int getCoordinatePath(Pawn pawn, int idx, ArrayList<Vector3> path, Orientation finalOrientation)
     {
         clearCoordinateVector(path);

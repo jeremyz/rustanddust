@@ -596,4 +596,29 @@ public class SearchBoard
             }
         }
     }
+
+    public int pathCost(Pawn pawn, List<Node> path)
+    {
+        int cost = 0;
+        boolean roadMarch = true;
+        Node prev = null;
+
+        for (Node next : path) {
+            if (prev != null) {
+                Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
+                Tile t = board.getTile(next.col, next.row);
+                boolean road = t.road(o);
+                cost += t.costFrom(pawn, o, road);
+                roadMarch &= road;
+            }
+            prev = next;
+        }
+
+        if (roadMarch)
+            cost -= pawn.getRoadMarchBonus();
+        if (cost < 1)
+            cost = 1;
+
+        return cost;
+    }
 }
