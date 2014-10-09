@@ -18,12 +18,16 @@ public class GameCtrl implements Disposable
         public boolean showMoves;
         public boolean showTargets;
         public boolean showMoveAssists;
+        public boolean canCancel;
+        public boolean mustValidate;
 
         public Config()
         {
             this.showMoves = true;
             this.showTargets = true;
             this.showMoveAssists = true;
+            this.mustValidate = false;
+            this.canCancel = true;
         }
     }
 

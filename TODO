@@ -22,8 +22,3 @@ Game:
     - attack
     - assists
     - promote
-
-
-Config:
-    - can reset actions
-    - must validate actions

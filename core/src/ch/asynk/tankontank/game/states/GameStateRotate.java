@@ -8,7 +8,7 @@ public class GameStateRotate extends GameStateCommon
     public void enter()
     {
         map.showDirections(hex, true);
-        ctrl.hud.show(true, false, false, true, true);
+        ctrl.hud.show(true, false, false, ctrl.cfg.mustValidate, ctrl.cfg.canCancel);
     }
 
     @Override

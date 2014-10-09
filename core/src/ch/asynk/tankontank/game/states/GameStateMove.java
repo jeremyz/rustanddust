@@ -7,7 +7,7 @@ public class GameStateMove extends GameStateCommon
     {
         map.clearPossiblePaths();
         buildAndShowMoves();
-        ctrl.hud.show(false, true, false, true, true);
+        ctrl.hud.show(false, true, false, ctrl.cfg.mustValidate, ctrl.cfg.canCancel);
     }
 
     @Override
