@@ -93,10 +93,17 @@ public abstract class GameStateCommon implements GameState
         return ((a.x == b.x) && (a.y == b.y));
     }
 
-    protected void showPossibleTargetsMovesAssists(boolean enable)
+    protected void hidePossibleTargetsMovesAssists()
     {
-        if (ctrl.cfg.showMoves) map.showPossibleMoves(enable);
-        if (ctrl.cfg.showTargets) map.showPossibleTargets(enable);
-        if (ctrl.cfg.showMoveAssists) map.showMoveAssists(enable);
+        map.showPossibleMoves(false);
+        map.showPossibleTargets(false);
+        map.showMoveAssists(false);
+    }
+
+    protected void showPossibleTargetsMovesAssists(Pawn pawn)
+    {
+        if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves(true);
+        if (ctrl.cfg.showTargets && pawn.canAttack()) map.showPossibleTargets(true);
+        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveAssists(true);
     }
 }

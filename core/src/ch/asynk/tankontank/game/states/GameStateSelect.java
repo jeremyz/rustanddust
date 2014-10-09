@@ -18,7 +18,7 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void leave()
     {
-        showPossibleTargetsMovesAssists(false);
+        hidePossibleTargetsMovesAssists();
     }
 
     @Override
@@ -30,14 +30,14 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void touchUp()
     {
-        showPossibleTargetsMovesAssists(false);
+        hidePossibleTargetsMovesAssists();
         if (hasPawn()) {
             int moves = map.buildPossibleMoves(pawn, hex);
             int targets = map.buildPossibleTargets(pawn, hex);
             int assists = map.buildMoveAssists(pawn, hex);
-            showPossibleTargetsMovesAssists(true);
+            showPossibleTargetsMovesAssists(pawn);
             ctrl.hud.show(
-                pawn.canMove(),
+                pawn.canRotate(),
                 (pawn.canMove() && (moves > 0)),
                 (pawn.canAttack() && (targets > 0)),
                 false,
@@ -52,7 +52,7 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void abort()
     {
-        showPossibleTargetsMovesAssists(false);
+        hidePossibleTargetsMovesAssists();
         super.abort();
     }
 }
