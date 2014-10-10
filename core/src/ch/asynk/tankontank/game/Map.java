@@ -175,8 +175,19 @@ public abstract class Map extends Board
         int cost = getPathCost(pawn, 0);
         int s = getCoordinatePath(pawn, 0, finalPath, o);
         if (s > 0) {
-            ((Unit) pawn).move(cost);
-            movePawn(pawn, finalPath, RunnableAnimation.get(pawn, new Runnable() {
+            movePawn(pawn, cost, finalPath, RunnableAnimation.get(pawn, new Runnable() {
+                @Override
+                public void run() {
+                    ctrl.animationDone();
+                }
+            }));
+        }
+    }
+
+    public void revertMoves()
+    {
+        for (Pawn pawn : activatedPawns) {
+            revertLastPawnMove(pawn, RunnableAnimation.get(pawn, new Runnable() {
                 @Override
                 public void run() {
                     ctrl.animationDone();
@@ -187,7 +198,6 @@ public abstract class Map extends Board
 
     public void rotatePawn(Pawn pawn, Orientation o)
     {
-        ((Unit) pawn).rotate();
         rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
