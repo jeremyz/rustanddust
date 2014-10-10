@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;
+import ch.asynk.tankontank.engine.Orientation;
 
 public class Unit extends HeadedPawn
 {
@@ -98,25 +99,35 @@ public class Unit extends HeadedPawn
         return isEnemy(other);
     }
 
-    public void fire()
-    {
-        hasFired = true;
-    }
-
-    public void rotate()
+    @Override
+    public void rotate(Orientation o)
     {
         hasMoved = true;
     }
 
+    @Override
     public void move(int cost)
     {
         hasMoved = true;
         if (cost > mp) System.err.println("Movement point exceeded: " + cost + "/" + mp);
     }
 
+    @Override
+    public void attack(Pawn target)
+    {
+        hasFired = true;
+    }
+
+    @Override
     public void reset()
     {
         hasFired = false;
+        hasMoved = false;
+    }
+
+    @Override
+    public void revertLastMove()
+    {
         hasMoved = false;
     }
 
