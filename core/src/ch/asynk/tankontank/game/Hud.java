@@ -170,7 +170,7 @@ public class Hud implements Disposable
         if (btn == moveBtn)
             ctrl.setState(GameState.State.MOVE);
         else if (btn == rotateBtn)
-            ctrl.setState(GameState.State.ROTATE);
+            ctrl.setState(GameState.State.ROTATE, false);
         else if (btn == attackBtn)
             // TODO ctrl.setState(GameState.State.ATTACK);
             System.out.println(" ATTACK not implemented yet");

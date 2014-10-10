@@ -11,8 +11,9 @@ public class GameStateSelect extends GameStateCommon
     }
 
     @Override
-    public void enter(boolean reset)
+    public void enter(boolean normal)
     {
+        ctrl.hud.hide();
     }
 
     @Override
@@ -37,7 +38,7 @@ public class GameStateSelect extends GameStateCommon
             int assists = map.buildMoveAssists(pawn, hex);
             showPossibleTargetsMovesAssists(pawn);
             ctrl.hud.show(
-                pawn.canRotate(),
+                false,
                 (pawn.canMove() && (moves > 0)),
                 (pawn.canAttack() && (targets > 0)),
                 false,
@@ -52,7 +53,10 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void abort()
     {
-        hidePossibleTargetsMovesAssists();
-        super.abort();
+    }
+
+    @Override
+    public void done()
+    {
     }
 }

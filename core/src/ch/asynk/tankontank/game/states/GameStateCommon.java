@@ -13,11 +13,11 @@ public abstract class GameStateCommon implements GameState
     protected static GameCtrl ctrl;
     protected static Map map;
     protected static Pawn pawn;
-    protected static GridPoint2 hex = new GridPoint2(0, 0);
+    protected static Pawn activePawn;
 
+    protected static GridPoint2 hex = new GridPoint2(-1, -1);
     protected static GridPoint2 downHex = new GridPoint2(-1, -1);
     protected static GridPoint2 upHex = new GridPoint2(-1, -1);
-
     protected static GridPoint2 from = new GridPoint2(-1, -1);
     protected static GridPoint2 to = new GridPoint2(-1, -1);
 
@@ -48,8 +48,19 @@ public abstract class GameStateCommon implements GameState
     @Override
     public void abort()
     {
+        clearAndGoToSelect();
+    }
+
+    @Override
+    public void done()
+    {
+        clearAndGoToSelect();
+    }
+
+    private void clearAndGoToSelect()
+    {
         unselectHex(hex);
-        hex.set(0, 0);
+        hex.set(-1, -1);
         pawn = null;
         ctrl.hud.hide();
         ctrl.setState(State.SELECT);
@@ -95,9 +106,14 @@ public abstract class GameStateCommon implements GameState
         map.enableOverlayOn(hex, Hex.SELECT, true);
     }
 
+    protected void showAssist(GridPoint2 hex, boolean enable)
+    {
+        map.enableOverlayOn(hex, Hex.ASSIST, enable);
+    }
+
     protected void reselectHex()
     {
-        unselectHex(hex);
+        if (hex.x != -1) unselectHex(hex);
         setHexAndPawn(downHex);
         selectHex(hex);
     }

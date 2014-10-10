@@ -1,18 +1,44 @@
 package ch.asynk.tankontank.game.states;
 
+import com.badlogic.gdx.math.GridPoint2;
+
 public class GameStateMove extends GameStateCommon
 {
     @Override
-    public void enter(boolean reset)
+    public void enter(boolean normal)
     {
         map.clearPossiblePaths();
-        buildAndShowMoves();
-        ctrl.hud.show(false, true, false, ctrl.cfg.mustValidate, ctrl.cfg.canCancel);
+
+        if (normal) {
+            from.set(hex);
+            activePawn = pawn;
+            map.buildAndShowMovesAndAssits(activePawn, from);
+        } else {
+            if ((activePawn == pawn) || !pawn.canMove()) {
+                upHex.set(map.getFirstMoveAssist());
+                activePawn = map.getTopPawnAt(upHex);
+            } else {
+                upHex.set(hex);
+            }
+            from.set(-1, -1);
+            changePawn(upHex);
+        }
+
+        ctrl.hud.show(true, true, false, ((map.activablePawnsCount() + map.activatedPawnsCount()) > 1), ctrl.cfg.canCancel);
+        ctrl.hud.moveBtn.setOn();
     }
 
     @Override
     public void leave()
     {
+        // hide all but assists
+        map.showPossibleMoves(false);
+        unselectHex(from);
+        if (to.x != -1) {
+            unselectHex(to);
+            map.showFinalPath(to, false);
+        }
+        ctrl.hud.hide();
     }
 
     @Override
@@ -25,50 +51,63 @@ public class GameStateMove extends GameStateCommon
     {
         int s = map.possiblePathsSize();
 
-        if (s == 0) {
-            if (map.isInPossibleMoves(upHex))
-                s = buildPaths();
-        } else {
-            if (map.isInPossiblePaths(upHex))
-                s = togglePoint(s);
+        if (sameHexes(hex, upHex) || map.isInPossibleMoveAssists(upHex)) {
+            if(!sameHexes(upHex, from))
+                changePawn(upHex);
+        } else if ((s == 0) && map.isInPossibleMoves(upHex)) {
+            s = buildPaths();
+        } else if (map.isInPossiblePaths(upHex)) {
+            s = togglePoint(s);
         }
 
         if (s == 1)
-            ctrl.setState(State.DIRECTION);
+            ctrl.setState(State.ROTATE);
     }
 
     @Override
     public void abort()
     {
-        map.showMoveAssists(false);
-        map.showPossibleMoves(false);
-        if (from.x != -1) {
-            unselectHex(from);
-            from.set(-1, -1);
-        }
-        if (to.x != -1) {
-            unselectHex(to);
-            map.showFinalPath(to, false);
-            to.set(-1, -1);
-        }
+        hideAssists();
+        ctrl.setAnimationCount(map.activatedPawnsCount());
+        map.revertMoves();
         super.abort();
     }
 
-    private void buildAndShowMoves()
+    @Override
+    public void done()
     {
-        map.showPossibleMoves(false);
+        if (pawn.canMove() && (map.activatedPawnsCount() > 0))
+            pawn.move(0);
+        hideAssists();
+        super.done();
+    }
+
+    private void hideAssists()
+    {
+        showAssist(hex, false);
         map.showMoveAssists(false);
-        map.buildPossibleMoves(pawn, hex);
-        map.buildMoveAssists(pawn, hex);
+    }
+
+    private void changePawn(GridPoint2 next)
+    {
+        // do not show the last moved assist
+        if (from.x != -1) {
+            unselectHex(from);
+            showAssist(from, true);
+        }
+        from.set(next);
+        selectHex(from);
+        showAssist(from, false);
+        activePawn = map.getTopPawnAt(from);
+        map.showPossibleMoves(false);
+        map.buildPossibleMoves(activePawn, from);
         map.showPossibleMoves(true);
-        map.showMoveAssists(true);
     }
 
     private int buildPaths()
     {
-        from.set(hex.x, hex.y);
         to.set(upHex.x, upHex.y);
-        int s = map.buildPossiblePaths(pawn, from, to);
+        int s = map.buildPossiblePaths(activePawn, from, to);
         selectHex(to);
         map.showPossibleMoves(false);
         map.showPossiblePaths(true, true);

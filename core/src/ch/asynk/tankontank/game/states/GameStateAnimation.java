@@ -3,7 +3,7 @@ package ch.asynk.tankontank.game.states;
 public class GameStateAnimation extends GameStateCommon
 {
     @Override
-    public void enter(boolean reset)
+    public void enter(boolean normal)
     {
     }
 
@@ -25,8 +25,10 @@ public class GameStateAnimation extends GameStateCommon
     @Override
     public void abort()
     {
-        unselectHex(hex);
-        pawn = null;
-        super.abort();
+    }
+
+    @Override
+    public void done()
+    {
     }
 }
