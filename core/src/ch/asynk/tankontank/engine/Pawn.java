@@ -25,6 +25,7 @@ public abstract class Pawn implements Drawable, Disposable
     private static final float MOVE_TIME = 0.4f;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
+    private Vector3 prevPosition = new Vector3(0f, 0f, 0f);
     private Image image;
     private StackedImages overlays;
 
@@ -68,6 +69,17 @@ public abstract class Pawn implements Drawable, Disposable
     public Vector3 getPosition()
     {
         return position;
+    }
+
+    public Vector3 getPreviousPosition()
+    {
+        return prevPosition;
+    }
+
+    private void revertPosition()
+    {
+        position.set(prevPosition);
+        prevPosition.set(0f, 0f, 0f);
     }
 
     public Vector2 getCenter()
@@ -160,8 +172,25 @@ public abstract class Pawn implements Drawable, Disposable
         return seq;
     }
 
+    public AnimationSequence getRevertLastMoveAnimation()
+    {
+        AnimationSequence seq = AnimationSequence.get(4);
+        seq.addAnimation(MoveToAnimation.get(this, prevPosition, MOVE_TIME));
+        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
+            @Override
+            public void run() {
+                revertPosition();
+                setPosition(position.x, position.y, position.z);
+            }
+        }));
+
+        return seq;
+    }
+
     public AnimationSequence getMoveAnimation(ArrayList<Vector3> path)
     {
+        prevPosition.set(position);
+
         int s = path.size();
         final Vector3 finalPos = path.get(s - 1);
 
