@@ -9,7 +9,7 @@ public interface GameState
         ANIMATION
     };
 
-    public void enter(boolean normal);
+    public void enter(boolean flag);
 
     public void leave();
 

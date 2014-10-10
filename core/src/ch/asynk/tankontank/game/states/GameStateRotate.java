@@ -10,10 +10,15 @@ public class GameStateRotate extends GameStateCommon
     private Orientation o = Orientation.KEEP;
 
     @Override
-    public void enter(boolean normal)
+    public void enter(boolean hasFinalMove)
     {
-        if (!normal)
+        if (!hasFinalMove) {
             to.set(-1, -1);
+            if (from.x == -1) {
+                from.set(hex);
+                activePawn = pawn;
+            }
+        }
 
         rotateOnly =  (to.x == -1);
 

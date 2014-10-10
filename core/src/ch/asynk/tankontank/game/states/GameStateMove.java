@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.GridPoint2;
 public class GameStateMove extends GameStateCommon
 {
     @Override
-    public void enter(boolean normal)
+    public void enter(boolean fromSelect)
     {
         map.clearPossiblePaths();
 
-        if (normal) {
+        if (fromSelect) {
             from.set(hex);
             activePawn = pawn;
             map.buildAndShowMovesAndAssits(activePawn, from);

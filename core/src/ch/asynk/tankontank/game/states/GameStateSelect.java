@@ -11,7 +11,7 @@ public class GameStateSelect extends GameStateCommon
     }
 
     @Override
-    public void enter(boolean normal)
+    public void enter(boolean flag)
     {
         ctrl.hud.hide();
     }

@@ -3,7 +3,7 @@ package ch.asynk.tankontank.game.states;
 public class GameStateAnimation extends GameStateCommon
 {
     @Override
-    public void enter(boolean normal)
+    public void enter(boolean flag)
     {
     }
 
