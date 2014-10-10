@@ -6,7 +6,6 @@ import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.states.GameStateCommon;
 import ch.asynk.tankontank.game.states.GameStateSelect;
 import ch.asynk.tankontank.game.states.GameStateMove;
-import ch.asynk.tankontank.game.states.GameStateDirection;
 import ch.asynk.tankontank.game.states.GameStateRotate;
 import ch.asynk.tankontank.game.states.GameStateAnimation;
 
@@ -40,7 +39,6 @@ public class GameCtrl implements Disposable
 
     private GameState selectState;
     private GameState pathState;
-    private GameState directionState;
     private GameState rotateState;
     private GameState animationState;
 
@@ -60,7 +58,6 @@ public class GameCtrl implements Disposable
 
         this.selectState = new GameStateSelect(this, map);
         this.pathState = new GameStateMove();
-        this.directionState = new GameStateDirection();
         this.rotateState = new GameStateRotate();
         this.animationState = new GameStateAnimation();
 
@@ -117,9 +114,6 @@ public class GameCtrl implements Disposable
                 break;
             case MOVE:
                 this.state = pathState;
-                break;
-            case DIRECTION:
-                this.state = directionState;
                 break;
             case ROTATE:
                 this.state = rotateState;

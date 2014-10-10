@@ -5,7 +5,6 @@ public interface GameState
     enum State {
         SELECT,
         MOVE,
-        DIRECTION,
         ROTATE,
         ANIMATION
     };
