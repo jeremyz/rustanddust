@@ -166,8 +166,19 @@ public abstract class Pawn implements Drawable, Disposable
 
     public AnimationSequence getRotateAnimation(Vector3 v)
     {
+        prevPosition.set(position);
         AnimationSequence seq = AnimationSequence.get(2);
         seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+
+        return seq;
+    }
+
+    public AnimationSequence getMoveAnimation(ArrayList<Vector3> path)
+    {
+        prevPosition.set(position);
+        AnimationSequence seq = AnimationSequence.get(path.size() + 2);
+        for (Vector3 v : path)
+            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
 
         return seq;
     }
@@ -181,29 +192,6 @@ public abstract class Pawn implements Drawable, Disposable
             public void run() {
                 revertPosition();
                 setPosition(position.x, position.y, position.z);
-            }
-        }));
-
-        return seq;
-    }
-
-    public AnimationSequence getMoveAnimation(ArrayList<Vector3> path)
-    {
-        prevPosition.set(position);
-
-        int s = path.size();
-        final Vector3 finalPos = path.get(s - 1);
-
-        AnimationSequence seq = AnimationSequence.get(s + 3);
-
-        for (Vector3 v : path) {
-            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
-        }
-
-        seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
-            @Override
-            public void run() {
-                setPosition(finalPos.x, finalPos.y, finalPos.z);
             }
         }));
 
