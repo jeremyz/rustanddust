@@ -18,7 +18,5 @@ Board:
         inverted even/odd row scheme
 
 Game:
-    - hq move
     - attack
-    - assists
     - promote
