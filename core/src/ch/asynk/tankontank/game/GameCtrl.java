@@ -107,7 +107,7 @@ public class GameCtrl implements Disposable
         setState(state, true);
     }
 
-    public void setState(GameState.State state, boolean reset)
+    public void setState(GameState.State state, boolean normal)
     {
         this.state.leave();
 
@@ -131,12 +131,17 @@ public class GameCtrl implements Disposable
                 break;
         }
 
-        this.state.enter(reset);
+        this.state.enter(normal);
     }
 
     public void abort()
     {
         state.abort();
+    }
+
+    public void done()
+    {
+        state.done();
     }
 
     public void touchDown(float x, float y)

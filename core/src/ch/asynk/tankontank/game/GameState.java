@@ -10,11 +10,13 @@ public interface GameState
         ANIMATION
     };
 
-    public void enter(boolean reset);
+    public void enter(boolean normal);
 
     public void leave();
 
     public void abort();
+
+    public void done();
 
     public void touchDown();
 
