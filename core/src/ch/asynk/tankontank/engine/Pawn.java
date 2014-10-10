@@ -152,6 +152,14 @@ public abstract class Pawn implements Drawable, Disposable
         return hasOverlayEnabled();
     }
 
+    public AnimationSequence getRotateAnimation(Vector3 v)
+    {
+        AnimationSequence seq = AnimationSequence.get(2);
+        seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+
+        return seq;
+    }
+
     public AnimationSequence getMoveAnimation(ArrayList<Vector3> path)
     {
         int s = path.size();
@@ -169,14 +177,6 @@ public abstract class Pawn implements Drawable, Disposable
                 setPosition(finalPos.x, finalPos.y, finalPos.z);
             }
         }));
-
-        return seq;
-    }
-
-    public AnimationSequence getRotateAnimation(Vector3 v)
-    {
-        AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
 
         return seq;
     }
