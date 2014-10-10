@@ -204,10 +204,10 @@ public class Hud implements Disposable
         float x =  (bottomLeft.x - checkBtn.getWidth());
         float y =  bottomLeft.y;
 
-        if (rotate) y = setButton(rotateBtn, x, y);
-        else rotateBtn.hide();
         if (move)   y = setButton(moveBtn, x, y);
         else moveBtn.hide();
+        if (rotate) y = setButton(rotateBtn, x, y);
+        else rotateBtn.hide();
         if (attack) y = setButton(attackBtn, x, y);
         else attackBtn.hide();
         if (cancel) y = setButton(cancelBtn, x, y);
@@ -225,6 +225,11 @@ public class Hud implements Disposable
         attackBtn.hide();
         checkBtn.hide();
         cancelBtn.hide();
+    }
+
+    public void setRotateOff()
+    {
+        rotateBtn.setOff();
     }
 
     public boolean touchDown(float x, float y)
