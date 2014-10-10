@@ -107,7 +107,6 @@ public abstract class Map extends Board
             enableOverlayOn(hex, Hex.MOVE1, false);
             enableOverlayOn(hex, Hex.MOVE2, enable);
         }
-        showDirections(dst, enable);
     }
 
     public void showDirections(GridPoint2 hex, boolean enable)
