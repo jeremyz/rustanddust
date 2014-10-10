@@ -503,7 +503,7 @@ public abstract class Board implements Disposable
         pushPawnAt(pawn, coords);
     }
 
-    protected void movePawn(final Pawn pawn, ArrayList<Vector3> path, RunnableAnimation whenDone)
+    protected void movePawn(final Pawn pawn, int cost, ArrayList<Vector3> path, RunnableAnimation whenDone)
     {
         removePawnFrom(pawn, getHexAt(pawn.getCenter()));
 
@@ -516,6 +516,23 @@ public abstract class Board implements Disposable
         }));
         seq.addAnimation(whenDone);
         addPawnAnimation(pawn, seq);
+        pawn.move(cost);
+    }
+
+    protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)
+    {
+        removePawnFrom(pawn, getHexAt(pawn.getCenter()));
+
+        AnimationSequence seq = pawn.getRevertLastMoveAnimation();
+        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                pushPawnAt(pawn, getHexAt(pawn.getCenter()));
+            }
+        }));
+        seq.addAnimation(whenDone);
+        addPawnAnimation(pawn, seq);
+        pawn.revertLastMove();
     }
 
     protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
@@ -527,6 +544,7 @@ public abstract class Board implements Disposable
         seq.addAnimation(whenDone);
         addPawnAnimation(pawn, seq);
         vector3Pool.free(v);
+        pawn.rotate(o);
     }
 
     public GridPoint2 getHexAt(Vector2 v)
