@@ -336,8 +336,9 @@ public abstract class Board implements Disposable
             Tile t = getTileSafe(neighbour);
             if (t != null) {
                 Pawn p = t.getTopPawn();
-                if ((p != null) && (!pawn.isEnemy(p)))
+                if ((p != null) && p.canMove() && !pawn.isEnemy(p)) {
                     assists.add(neighbour);
+                }
             }
         }
     }
