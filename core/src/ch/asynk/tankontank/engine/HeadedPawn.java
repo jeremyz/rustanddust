@@ -52,6 +52,7 @@ public abstract class HeadedPawn extends Pawn
     @Override
     public void setRotation(float z)
     {
+        getPosition().z = z;
         head.setRotation(z);
         this.orientation = Orientation.fromRotation(z);
     }
