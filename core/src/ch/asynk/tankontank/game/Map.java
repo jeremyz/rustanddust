@@ -25,6 +25,9 @@ public abstract class Map extends Board
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
     private final ArrayList<GridPoint2> moveAssists = new ArrayList<GridPoint2>(6);
 
+    private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
+    private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
+
     protected abstract void setup();
 
     public Map(GameCtrl ctrl, GameFactory factory, Board.Config cfg, Texture texture)
@@ -55,9 +58,29 @@ public abstract class Map extends Board
         return (Hex) getTileSafe(hex.x, hex.y);
     }
 
+    public GridPoint2 getFirstMoveAssist()
+    {
+        return moveAssists.get(0);
+    }
+
+    public int activablePawnsCount()
+    {
+        return activablePawns.size();
+    }
+
+    public int activatedPawnsCount()
+    {
+        return activatedPawns.size();
+    }
+
     public boolean isInPossibleMoves(GridPoint2 hex)
     {
         return possibleMoves.contains(hex);
+    }
+
+    public boolean isInPossibleMoveAssists(GridPoint2 hex)
+    {
+        return moveAssists.contains(hex);
     }
 
     public boolean isInPossiblePaths(GridPoint2 hex)
@@ -147,6 +170,21 @@ public abstract class Map extends Board
         return moveAssists.size();
     }
 
+    public void buildAndShowMovesAndAssits(Pawn pawn, GridPoint2 hex)
+    {
+        showPossibleMoves(false);
+        showMoveAssists(false);
+        activablePawns.clear();
+        activatedPawns.clear();
+        buildPossibleMoves(pawn, hex);
+        buildMoveAssists(pawn, hex);
+        activablePawns.add(pawn);
+        for (GridPoint2 p : moveAssists)
+            activablePawns.add(getTopPawnAt(p));
+        showPossibleMoves(true);
+        showMoveAssists(true);
+    }
+
     public int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to)
     {
         return buildPossiblePaths(pawn, from, to, possiblePaths);
@@ -169,7 +207,7 @@ public abstract class Map extends Board
         clearPointVector(possibleTargets);
     }
 
-    public void movePawn(Pawn pawn, Orientation o)
+    public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
     {
         int cost = getPathCost(pawn, 0);
         int s = getCoordinatePath(pawn, 0, finalPath, o);
@@ -181,6 +219,20 @@ public abstract class Map extends Board
                 }
             }));
         }
+
+        return finishMove(pawn, from);
+    }
+
+    public int rotatePawn(Pawn pawn, GridPoint2 from, Orientation o)
+    {
+        rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                ctrl.animationDone();
+            }
+        }));
+
+        return finishMove(pawn, from);
     }
 
     public void revertMoves()
@@ -195,13 +247,10 @@ public abstract class Map extends Board
         }
     }
 
-    public void rotatePawn(Pawn pawn, Orientation o)
-    {
-        rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                ctrl.animationDone();
-            }
-        }));
+    private int finishMove(Pawn pawn, GridPoint2 from) {
+        moveAssists.remove(from);
+        activablePawns.remove(pawn);
+        activatedPawns.add(pawn);
+        return activablePawns.size();
     }
 }
