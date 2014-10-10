@@ -24,15 +24,24 @@ public class Helpers
 
         public int getMovementPoints()              { return mvt; }
         public int getRoadMarchBonus()              { return 1; }
+        public int getAngleOfAttack()               { return 0; }
+        public int getAttackRangeFrom(Tile tile)    { return 3; }
+
         public boolean isHq()                       { return true; }
         public boolean isUnit()                     { return true; }
         public boolean isEnemy(Pawn other)          { return true; }
+
         public boolean canMove()                    { return true; }
         public boolean canRotate()                  { return true; }
         public boolean canAttack()                  { return true; }
         public boolean canAttack(Pawn other)        { return true; }
-        public int getAngleOfAttack()               { return 0; }
-        public int getAttackRangeFrom(Tile tile)    { return 3; }
+
+        public void move(int cost)                  { }
+        public void rotate(Orientation o)           { }
+        public void attack(Pawn target)             { }
+
+        public void reset()                         { }
+        public void revertLastMove()                { }
     }
 
     public static class FakeTile extends Tile
