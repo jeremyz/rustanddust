@@ -13,6 +13,10 @@ public class GameStateMove extends GameStateCommon
             from.set(hex);
             activePawn = pawn;
             map.buildAndShowMovesAndAssits(activePawn, from);
+            if (to.x != -1) {
+                upHex.set(to);
+                touchUp();
+            }
         } else {
             if ((activePawn == pawn) || !pawn.canMove()) {
                 upHex.set(map.getFirstMoveAssist());

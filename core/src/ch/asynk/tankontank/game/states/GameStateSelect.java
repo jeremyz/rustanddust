@@ -5,6 +5,8 @@ import ch.asynk.tankontank.game.GameCtrl;
 
 public class GameStateSelect extends GameStateCommon
 {
+    private boolean jumpToMove;
+
     public GameStateSelect(GameCtrl ctrl, Map map)
     {
         super(ctrl, map);
@@ -14,6 +16,7 @@ public class GameStateSelect extends GameStateCommon
     public void enter(boolean flag)
     {
         ctrl.hud.hide();
+        jumpToMove = false;
     }
 
     @Override
@@ -25,12 +28,21 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void touchDown()
     {
-        reselectHex();
+        if (map.isInPossibleMoves(downHex))
+            jumpToMove = true;
+        else
+            reselectHex();
     }
 
     @Override
     public void touchUp()
     {
+        if (jumpToMove) {
+            to.set(downHex);
+            ctrl.setState(State.MOVE);
+            return;
+        }
+
         hidePossibleTargetsMovesAssists();
         if (hasPawn()) {
             int moves = map.buildPossibleMoves(pawn, hex);
