@@ -239,16 +239,13 @@ public class Hud implements Disposable
 
         btn = null;
 
-        if (!ctrl.isInAction()) {
-            if (moveBtn.hit(x, y))
-                btn = moveBtn;
-            else if (rotateBtn.hit(x, y))
-                btn = rotateBtn;
-            else if (attackBtn.hit(x, y))
-                btn = attackBtn;
-        }
-
-        if (checkBtn.hit(x, y))
+        if (moveBtn.hit(x, y))
+            btn = moveBtn;
+        else if (rotateBtn.hit(x, y))
+            btn = rotateBtn;
+        else if (attackBtn.hit(x, y))
+            btn = attackBtn;
+        else if (checkBtn.hit(x, y))
             btn = checkBtn;
         else if (cancelBtn.hit(x, y))
             btn = cancelBtn;
@@ -271,9 +268,11 @@ public class Hud implements Disposable
             ctrl.setState(GameState.State.MOVE);
         else if (btn == rotateBtn)
             ctrl.setState(GameState.State.ROTATE);
-        // else if (btn == attackBtn)
-            // ctrl.setState(GameState.State.ATTACK);
-        // else if (btn == checkBtn)
+        else if (btn == attackBtn)
+            // TODO ctrl.setState(GameState.State.ATTACK);
+            System.out.println(" ATTACK not implemented yet");
+        else if (btn == checkBtn)
+            ctrl.done();
         else if (btn == cancelBtn)
             ctrl.abort();
 
