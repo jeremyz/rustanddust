@@ -44,6 +44,8 @@ public class GameCtrl implements Disposable
     private GameState rotateState;
     private GameState animationState;
 
+    private int animationCount = 0;
+
     private GameState state;
 
     public GameCtrl(final TankOnTank game)
@@ -85,11 +87,19 @@ public class GameCtrl implements Disposable
         return (state != selectState);
     }
 
+    public void setAnimationCount(int count)
+    {
+        animationCount = count;
+    }
+
     public void animationDone()
     {
-        GameState.State next = state.getNextState();
-        state.setNextState(GameState.State.SELECT);
-        setState(next, (next == GameState.State.SELECT));
+        animationCount -= 1;
+        if (animationCount == 0) {
+            GameState.State next = state.getNextState();
+            state.setNextState(GameState.State.SELECT);
+            setState(next, (next == GameState.State.SELECT));
+        }
     }
 
     public void setState(GameState.State state)
