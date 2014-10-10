@@ -30,15 +30,24 @@ public abstract class Pawn implements Drawable, Disposable
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
+    public abstract int getAngleOfAttack();
+    public abstract int getAttackRangeFrom(Tile tile);
+
     public abstract boolean isHq();
     public abstract boolean isUnit();
     public abstract boolean isEnemy(Pawn other);
+
     public abstract boolean canMove();
     public abstract boolean canRotate();
     public abstract boolean canAttack();
     public abstract boolean canAttack(Pawn other);
-    public abstract int getAngleOfAttack();
-    public abstract int getAttackRangeFrom(Tile tile);
+
+    public abstract void move(int cost);
+    public abstract void rotate(Orientation o);
+    public abstract void attack(Pawn target);
+
+    public abstract void reset();
+    public abstract void revertLastMove();
 
     protected Pawn()
     {
