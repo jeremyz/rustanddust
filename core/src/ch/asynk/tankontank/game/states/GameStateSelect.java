@@ -38,7 +38,7 @@ public class GameStateSelect extends GameStateCommon
             int assists = map.buildMoveAssists(pawn, hex);
             showPossibleTargetsMovesAssists(pawn);
             ctrl.hud.show(
-                false,
+                pawn.canMove(),
                 (pawn.canMove() && (moves > 0)),
                 (pawn.canAttack() && (targets > 0)),
                 false,
