@@ -91,7 +91,7 @@ public class Button implements Disposable
 
     public boolean hit(float x, float y)
     {
-        if (!visible) return false;
+        if (!visible || (idx == ON)) return false;
         return rect.contains(x,y);
     }
 
