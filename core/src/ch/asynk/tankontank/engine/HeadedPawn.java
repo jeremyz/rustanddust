@@ -22,6 +22,12 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
+    public String toString()
+    {
+        return super.toString() + " " + orientation;
+    }
+
+    @Override
     public void dispose()
     {
         super.dispose();
