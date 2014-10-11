@@ -245,6 +245,7 @@ public abstract class Map extends Board
                 }
             }));
         }
+        activatedPawns.clear();
     }
 
     private int finishMove(Pawn pawn, GridPoint2 from) {
