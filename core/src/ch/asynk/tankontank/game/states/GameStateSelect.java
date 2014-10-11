@@ -45,14 +45,14 @@ public class GameStateSelect extends GameStateCommon
 
         hidePossibleTargetsMovesAssists();
         if (hasPawn()) {
-            int moves = map.buildPossibleMoves(pawn, hex);
-            int targets = map.buildPossibleTargets(pawn, hex);
-            int assists = map.buildMoveAssists(pawn, hex);
-            showPossibleTargetsMovesAssists(pawn);
+            int moves = map.buildPossibleMoves(selectedPawn, selectedHex);
+            int targets = map.buildPossibleTargets(selectedPawn, selectedHex);
+            int assists = map.buildMoveAssists(selectedPawn, selectedHex);
+            showPossibleTargetsMovesAssists(selectedPawn);
             ctrl.hud.show(
-                pawn.canMove(),
-                (pawn.canMove() && (moves > 0)),
-                (pawn.canAttack() && (targets > 0)),
+                selectedPawn.canMove(),
+                (selectedPawn.canMove() && (moves > 0)),
+                (selectedPawn.canAttack() && (targets > 0)),
                 false,
                 false
                 );

@@ -15,8 +15,8 @@ public class GameStateRotate extends GameStateCommon
         if (!hasFinalMove) {
             to.set(-1, -1);
             if (from.x == -1) {
-                from.set(hex);
-                activePawn = pawn;
+                from.set(selectedHex);
+                activePawn = selectedPawn;
             }
         }
 
@@ -86,13 +86,13 @@ public class GameStateRotate extends GameStateCommon
     {
         // hideAssists();
         doRotation(o);
-        if (pawn.canMove() && (map.activatedPawnsCount() > 0))
-            pawn.move(0);
+        if (selectedPawn.canMove() && (map.activatedPawnsCount() > 0))
+            selectedPawn.move(0);
     }
 
     private void hideAssists()
     {
-        showAssist(hex, false);
+        showAssist(selectedHex, false);
         map.showMoveAssists(false);
     }
 

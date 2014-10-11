@@ -10,19 +10,19 @@ public class GameStateMove extends GameStateCommon
         map.clearPossiblePaths();
 
         if (fromSelect) {
-            from.set(hex);
-            activePawn = pawn;
+            from.set(selectedHex);
+            activePawn = selectedPawn;
             map.buildAndShowMovesAndAssits(activePawn, from);
             if (to.x != -1) {
                 upHex.set(to);
                 touchUp();
             }
         } else {
-            if ((activePawn == pawn) || !pawn.canMove()) {
+            if ((activePawn == selectedPawn) || !selectedPawn.canMove()) {
                 upHex.set(map.getFirstMoveAssist());
                 activePawn = map.getTopPawnAt(upHex);
             } else {
-                upHex.set(hex);
+                upHex.set(selectedHex);
             }
             from.set(-1, -1);
             changePawn(upHex);
@@ -55,7 +55,7 @@ public class GameStateMove extends GameStateCommon
     {
         int s = map.possiblePathsSize();
 
-        if (sameHexes(hex, upHex) || map.isInPossibleMoveAssists(upHex)) {
+        if (sameHexes(selectedHex, upHex) || map.isInPossibleMoveAssists(upHex)) {
             if(!sameHexes(upHex, from))
                 changePawn(upHex);
         } else if ((s == 0) && map.isInPossibleMoves(upHex)) {
@@ -80,15 +80,15 @@ public class GameStateMove extends GameStateCommon
     @Override
     public void done()
     {
-        if (pawn.canMove() && (map.activatedPawnsCount() > 0))
-            pawn.move(0);
+        if (selectedPawn.canMove() && (map.activatedPawnsCount() > 0))
+            selectedPawn.move(0);
         hideAssists();
         super.done();
     }
 
     private void hideAssists()
     {
-        showAssist(hex, false);
+        showAssist(selectedHex, false);
         map.showMoveAssists(false);
     }
 

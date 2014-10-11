@@ -12,10 +12,10 @@ public abstract class GameStateCommon implements GameState
 {
     protected static GameCtrl ctrl;
     protected static Map map;
-    protected static Pawn pawn;
     protected static Pawn activePawn;
+    protected static Pawn selectedPawn;
 
-    protected static GridPoint2 hex = new GridPoint2(-1, -1);
+    protected static GridPoint2 selectedHex = new GridPoint2(-1, -1);
     protected static GridPoint2 downHex = new GridPoint2(-1, -1);
     protected static GridPoint2 upHex = new GridPoint2(-1, -1);
     protected static GridPoint2 from = new GridPoint2(-1, -1);
@@ -59,9 +59,9 @@ public abstract class GameStateCommon implements GameState
 
     private void clearAndGoToSelect()
     {
-        unselectHex(hex);
-        hex.set(-1, -1);
-        pawn = null;
+        unselectHex(selectedHex);
+        selectedHex.set(-1, -1);
+        selectedPawn = null;
         ctrl.hud.hide();
         ctrl.setState(State.SELECT);
     }
@@ -86,14 +86,15 @@ public abstract class GameStateCommon implements GameState
 
     protected void setHexAndPawn(GridPoint2 point)
     {
-        hex.set(point.x, point.y);
+        selectedHex.set(point);
         // TODO : is an enemy or not ?
-        pawn = map.getTopPawnAt(hex);
+        selectedPawn = map.getTopPawnAt(selectedHex);
+        System.err.println("setHexAndPawn : " + selectedHex.x + ";" + selectedHex.y + " " + selectedPawn);
     }
 
     protected boolean hasPawn()
     {
-        return (pawn != null);
+        return (selectedPawn != null);
     }
 
     protected void unselectHex(GridPoint2 hex)
@@ -113,9 +114,9 @@ public abstract class GameStateCommon implements GameState
 
     protected void reselectHex()
     {
-        if (hex.x != -1) unselectHex(hex);
+        if (selectedHex.x != -1) unselectHex(selectedHex);
         setHexAndPawn(downHex);
-        selectHex(hex);
+        selectHex(selectedHex);
     }
 
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
