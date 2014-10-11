@@ -41,7 +41,14 @@ public abstract class Map extends Board
     public void dispose()
     {
         super.dispose();
+        clearAll();
+    }
+
+    public void clearAll()
+    {
         moveAssists.clear();
+        activablePawns.clear();
+        activatedPawns.clear();
         clearPointSet(possiblePaths);
         clearPointVector(possibleMoves);
         clearPointVector(possibleTargets);
@@ -198,13 +205,6 @@ public abstract class Map extends Board
     public void clearPossiblePaths()
     {
         clearPointSet(possiblePaths);
-    }
-
-    public void clearPossibleTargetsMovesAssists()
-    {
-        clearPointSet(possiblePaths);
-        clearPointVector(possibleMoves);
-        clearPointVector(possibleTargets);
     }
 
     public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
