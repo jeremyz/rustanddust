@@ -497,11 +497,12 @@ public abstract class Board implements Disposable
         return pawn.getPosAt(center, pos);
     }
 
-    public void setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
+    public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
     {
         Vector2 pos = getPawnPosAt(pawn, coords, null);
         pawn.setPosition(pos.x, pos.y, o.r());
         pushPawnAt(pawn, coords);
+        return pawn;
     }
 
     protected void movePawn(final Pawn pawn, int cost, ArrayList<Vector3> path, RunnableAnimation whenDone)
