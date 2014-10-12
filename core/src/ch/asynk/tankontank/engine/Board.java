@@ -353,7 +353,7 @@ public abstract class Board implements Disposable
             if ((p == pawn) || !p.canAttack()) continue;
             if (from == null)
                 from = gridPoint2Pool.obtain();
-            getHexAt(p.getPosition(), from);
+            getHexAt(p.getCenter(), from);
             if (searchBoard.canAttack(p, from.x, from.y, hex.x, hex.y)) {
                 assists.add(from);
                 from = null;
@@ -582,6 +582,12 @@ public abstract class Board implements Disposable
     {
         if (v == null) return null;
         return getHexAt(null, v.x, v.y);
+    }
+
+    public GridPoint2 getHexAt(Vector2 v, GridPoint2 hex)
+    {
+        if (v == null) return null;
+        return getHexAt(hex, v.x, v.y);
     }
 
     public GridPoint2 getHexAt(Vector3 v)
