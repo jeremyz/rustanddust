@@ -10,9 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-// import com.badlogic.gdx.math.Vector2;
-// import com.badlogic.gdx.math.Vector3;
-
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Drawable;
