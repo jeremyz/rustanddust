@@ -20,3 +20,4 @@ Board:
 Game:
     - attack
     - promote
+    - add options to hide moves/targets/assists even in action
