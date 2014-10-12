@@ -570,6 +570,12 @@ public abstract class Board implements Disposable
         return getHexAt(null, v.x, v.y);
     }
 
+    public GridPoint2 getHexAt(Vector3 v, GridPoint2 hex)
+    {
+        if (v == null) return null;
+        return getHexAt(hex, v.x, v.y);
+    }
+
     public GridPoint2 getHexAt(GridPoint2 hex, float mx, float my)
     {
         if (hex == null) hex = new GridPoint2();
