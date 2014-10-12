@@ -124,6 +124,7 @@ public class GameCtrl implements Disposable
     {
         this.state.leave(state);
 
+        System.err.println("Switch to : " + state + " " + normal);
         switch(state) {
             case SELECT:
                 this.state = selectState;

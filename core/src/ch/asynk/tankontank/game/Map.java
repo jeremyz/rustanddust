@@ -209,6 +209,7 @@ public abstract class Map extends Board
 
     public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
     {
+        System.err.println(" movePawn : " + from.x + ";" + from.y + " " + o);
         int cost = getPathCost(pawn, 0);
         int s = getCoordinatePath(pawn, 0, finalPath, o);
         if (s > 0) {
@@ -225,6 +226,7 @@ public abstract class Map extends Board
 
     public int rotatePawn(Pawn pawn, GridPoint2 from, Orientation o)
     {
+        System.err.println(" rotatePawn : " + from.x + ";" + from.y + " " +o);
         rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
@@ -237,6 +239,7 @@ public abstract class Map extends Board
 
     public void revertMoves()
     {
+        System.err.println(" revertMoves()");
         for (Pawn pawn : activatedPawns) {
             revertLastPawnMove(pawn, RunnableAnimation.get(pawn, new Runnable() {
                 @Override

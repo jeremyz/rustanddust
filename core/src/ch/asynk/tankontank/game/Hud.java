@@ -167,7 +167,7 @@ public class Hud implements Disposable
             ctrl.setState(GameState.State.ROTATE);
         else if (btn == attackBtn)
             // TODO ctrl.setState(GameState.State.ATTACK);
-            System.out.println(" ATTACK not implemented yet");
+            System.err.println(" ATTACK not implemented yet");
         else if (btn == checkBtn)
             ctrl.done();
         else if (btn == cancelBtn)

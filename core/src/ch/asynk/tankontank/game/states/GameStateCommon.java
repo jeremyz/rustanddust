@@ -103,6 +103,7 @@ public abstract class GameStateCommon implements GameState
             isEnemy = ctrl.currentPlayer.isEnemy(selectedPawn);
         else
             isEnemy = false;
+        System.err.println((isEnemy ? "enemy " : "friend ") + selectedPawn + " (" + selectedHex.x + ";" + selectedHex.y + ")");
     }
 
     protected boolean hasPawn()
