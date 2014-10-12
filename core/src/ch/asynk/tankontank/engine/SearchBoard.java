@@ -345,6 +345,16 @@ public class SearchBoard
         return targets;
     }
 
+    public boolean canAttack(Pawn pawn, int col0, int row0, int col1, int row1)
+    {
+        Node from = getNode(col0, row0);
+        Node to = getNode(col1, row1);
+        Tile tile = board.getTile(col0, row0);
+
+        if (distance(from, to) > pawn.getAttackRangeFrom(tile)) return false;
+        return hasClearLineOfSight(from, to);
+    }
+
     private boolean hasClearLineOfSight(Node from, Node to)
     {
         List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
