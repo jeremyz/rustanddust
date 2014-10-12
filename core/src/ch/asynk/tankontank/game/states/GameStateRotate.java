@@ -6,47 +6,46 @@ import ch.asynk.tankontank.game.GameState.State;
 public class GameStateRotate extends GameStateCommon
 {
     private boolean rotateOnly;
-    private boolean canDoRotation;
+    private boolean rotationSet;
     private Orientation o = Orientation.KEEP;
 
     @Override
-    public void enter(boolean hasFinalMove)
+    public void enter(boolean rotateOnly)
     {
-        if (!hasFinalMove) {
-            to.set(-1, -1);
-            if (from.x == -1) {
-                from.set(selectedHex);
-                activePawn = selectedPawn;
-            }
-        }
-
-        rotateOnly =  (to.x == -1);
-
-        selectHex(from);
-        if (rotateOnly) {
-            to.set(from);
-        } else {
-            selectHex(to);
-            map.showFinalPath(to, true);
-        }
-        map.showDirections(to, true);
+        this.rotateOnly = rotateOnly;
 
         // if ((map.activablePawnsCount() + map.activatedPawnsCount()) == 1)
         ctrl.hud.show(true, false, false, false, ctrl.cfg.canCancel);
         ctrl.hud.rotateBtn.setOn();
 
-        canDoRotation = false;
+        if (rotateOnly) {
+            if (from.x == -1) {
+                // rotateBtn  from Select state
+                from.set(selectedHex);
+                activePawn = selectedPawn;
+            }
+            to.set(from);
+        } else {
+            // show final path
+            selectHex(to);
+            map.showFinalPath(to, true);
+        }
+
+        selectHex(from);
+        map.showDirections(to, true);
+
+        rotationSet = false;
     }
 
     @Override
-    public void leave()
+    public void leave(State nextState)
     {
         unselectHex(to);
         unselectHex(from);
         map.showFinalPath(to, false);
         map.showDirections(to, false);
         to.set(-1, -1);
-        ctrl.hud.hide();
+        from.set(-1, -1);
     }
 
     @Override
@@ -57,13 +56,13 @@ public class GameStateRotate extends GameStateCommon
     @Override
     public void touchUp()
     {
-        if (canDoRotation) return;
+        if (rotationSet) return;
 
         // FIXME: if to is on the border of the board ...
         o = Orientation.fromAdj(to.x, to.y, downHex.x, downHex.y);
 
         if (o == Orientation.KEEP) return;
-        canDoRotation = true;
+        rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {
             // TODO show overlay
@@ -84,10 +83,10 @@ public class GameStateRotate extends GameStateCommon
     @Override
     public void done()
     {
-        // hideAssists();
         doRotation(o);
         if (selectedPawn.canMove() && (map.activatedPawnsCount() > 0))
             selectedPawn.move(0);
+        super.done();
     }
 
     private void hideAssists()
@@ -98,7 +97,7 @@ public class GameStateRotate extends GameStateCommon
 
     private void doRotation(Orientation o)
     {
-        if (!canDoRotation) return;
+        if (!rotationSet) return;
 
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
@@ -111,7 +110,5 @@ public class GameStateRotate extends GameStateCommon
                 setNextState(State.MOVE);
             ctrl.setState(State.ANIMATION);
         }
-
-        canDoRotation = false;
     }
 }

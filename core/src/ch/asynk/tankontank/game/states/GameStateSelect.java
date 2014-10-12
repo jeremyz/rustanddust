@@ -2,11 +2,10 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.GameCtrl;
+import ch.asynk.tankontank.game.GameState.State;
 
 public class GameStateSelect extends GameStateCommon
 {
-    private boolean jumpToMove;
-
     public GameStateSelect(GameCtrl ctrl, Map map)
     {
         super(ctrl, map);
@@ -15,12 +14,12 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void enter(boolean flag)
     {
-        ctrl.hud.hide();
-        jumpToMove = false;
+        clearAll();
+        map.clearAll();
     }
 
     @Override
-    public void leave()
+    public void leave(State nextState)
     {
         hidePossibleTargetsMovesAssists();
     }
@@ -28,23 +27,23 @@ public class GameStateSelect extends GameStateCommon
     @Override
     public void touchDown()
     {
-        if (map.isInPossibleMoves(downHex))
-            jumpToMove = true;
-        else
-            reselectHex();
+        if (selectedHex.x != -1) unselectHex(selectedHex);
     }
 
     @Override
     public void touchUp()
     {
-        if (jumpToMove) {
-            to.set(downHex);
+        if (!isEnemy && map.isInPossibleMoves(upHex)) {
+            // quick move
+            to.set(upHex);
             ctrl.setState(State.MOVE);
             return;
         }
 
+        selectHexAndPawn(upHex);
         hidePossibleTargetsMovesAssists();
-        if (hasPawn()) {
+
+        if (hasPawn() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
             int moves = map.buildPossibleMoves(selectedPawn, selectedHex);
             int targets = map.buildPossibleTargets(selectedPawn, selectedHex);
             int assists = map.buildMoveAssists(selectedPawn, selectedHex);
@@ -58,7 +57,7 @@ public class GameStateSelect extends GameStateCommon
                 );
         } else {
             ctrl.hud.hide();
-            map.clearPossibleTargetsMovesAssists();
+            map.clearAll();
         }
     }
 

@@ -28,7 +28,7 @@ public class GameCtrl implements Disposable
             this.showMoveAssists = true;
             this.canCancel = true;
             this.mustValidate = false;
-            this.showEnemyPossibilities = false;        // TODO
+            this.showEnemyPossibilities = false;
         }
     }
 
@@ -94,16 +94,16 @@ public class GameCtrl implements Disposable
     public void setAnimationCount(int count)
     {
         animationCount = count;
+        System.err.println(" setAnimationCount(" + count + ")");
     }
 
     public void animationDone()
     {
         animationCount -= 1;
-        if (animationCount == 0) {
-            GameState.State next = state.getNextState();
-            state.setNextState(GameState.State.SELECT);
-            setState(next, (next == GameState.State.SELECT));
-        }
+        if (animationCount == 0)
+            state.done();
+        if (animationCount < 0)
+            System.err.println("animationCount < 0");
     }
 
     private void nextPlayer()
@@ -122,7 +122,7 @@ public class GameCtrl implements Disposable
 
     public void setState(GameState.State state, boolean normal)
     {
-        this.state.leave();
+        this.state.leave(state);
 
         switch(state) {
             case SELECT:

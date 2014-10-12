@@ -11,7 +11,7 @@ public interface GameState
 
     public void enter(boolean flag);
 
-    public void leave();
+    public void leave(GameState.State nextState);
 
     public void abort();
 

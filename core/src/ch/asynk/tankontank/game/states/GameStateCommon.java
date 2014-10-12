@@ -21,6 +21,8 @@ public abstract class GameStateCommon implements GameState
     protected static GridPoint2 from = new GridPoint2(-1, -1);
     protected static GridPoint2 to = new GridPoint2(-1, -1);
 
+    protected boolean isEnemy;
+
     protected static GameState.State nextState = GameState.State.SELECT;
 
     protected GameStateCommon()
@@ -48,22 +50,30 @@ public abstract class GameStateCommon implements GameState
     @Override
     public void abort()
     {
-        clearAndGoToSelect();
+        goToNextState();
     }
 
     @Override
     public void done()
     {
-        clearAndGoToSelect();
+        goToNextState();
     }
 
-    private void clearAndGoToSelect()
+    public void clearAll()
     {
-        unselectHex(selectedHex);
+        from.set(-1, -1);
+        to.set(-1, -1);
         selectedHex.set(-1, -1);
         selectedPawn = null;
+        activePawn = null;
+    }
+
+    private void goToNextState()
+    {
         ctrl.hud.hide();
-        ctrl.setState(State.SELECT);
+        GameState.State next = nextState;
+        nextState = GameState.State.SELECT;
+        ctrl.setState(next, (next == GameState.State.SELECT));
     }
 
     protected static boolean hexInMap(GridPoint2 hex)
@@ -84,12 +94,15 @@ public abstract class GameStateCommon implements GameState
         return hexInMap(upHex);
     }
 
-    protected void setHexAndPawn(GridPoint2 point)
+    protected void selectHexAndPawn(GridPoint2 point)
     {
         selectedHex.set(point);
-        // TODO : is an enemy or not ?
         selectedPawn = map.getTopPawnAt(selectedHex);
-        System.err.println("setHexAndPawn : " + selectedHex.x + ";" + selectedHex.y + " " + selectedPawn);
+        selectHex(selectedHex);
+        if (selectedPawn != null)
+            isEnemy = ctrl.currentPlayer.isEnemy(selectedPawn);
+        else
+            isEnemy = false;
     }
 
     protected boolean hasPawn()
@@ -110,13 +123,6 @@ public abstract class GameStateCommon implements GameState
     protected void showAssist(GridPoint2 hex, boolean enable)
     {
         map.enableOverlayOn(hex, Hex.ASSIST, enable);
-    }
-
-    protected void reselectHex()
-    {
-        if (selectedHex.x != -1) unselectHex(selectedHex);
-        setHexAndPawn(downHex);
-        selectHex(selectedHex);
     }
 
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
