@@ -353,7 +353,7 @@ public abstract class Board implements Disposable
             if ((p == pawn) || !p.canAttack()) continue;
             if (from == null)
                 from = gridPoint2Pool.obtain();
-            getHexAt(p.getCenter(), from);
+            getHexUnder(p, from);
             if (searchBoard.canAttack(p, from.x, from.y, hex.x, hex.y)) {
                 assists.add(from);
                 from = null;
@@ -536,13 +536,13 @@ public abstract class Board implements Disposable
 
     protected void movePawn(final Pawn pawn, int cost, ArrayList<Vector3> path, RunnableAnimation whenDone)
     {
-        removePawnFrom(pawn, getHexAt(pawn.getCenter()));
+        removePawnFrom(pawn, getHexUnder(pawn));
 
         AnimationSequence seq = pawn.getMoveAnimation(path);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, getHexAt(pawn.getCenter()));
+                pushPawnAt(pawn, getHexUnder(pawn));
             }
         }));
         seq.addAnimation(whenDone);
@@ -564,13 +564,13 @@ public abstract class Board implements Disposable
 
     protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)
     {
-        removePawnFrom(pawn, getHexAt(pawn.getCenter()));
+        removePawnFrom(pawn, getHexUnder(pawn));
 
         AnimationSequence seq = pawn.getRevertLastMoveAnimation();
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, getHexAt(pawn.getCenter()));
+                pushPawnAt(pawn, getHexUnder(pawn));
             }
         }));
         seq.addAnimation(whenDone);
@@ -578,27 +578,18 @@ public abstract class Board implements Disposable
         pawn.revertLastMove();
     }
 
-    public GridPoint2 getHexAt(Vector2 v)
+    public GridPoint2 getHexUnder(Pawn pawn)
     {
-        if (v == null) return null;
-        return getHexAt(null, v.x, v.y);
+        return getHexAt(pawn.getCenter(), null);
+    }
+
+    public GridPoint2 getHexUnder(Pawn pawn, GridPoint2 hex)
+    {
+        return getHexAt(pawn.getCenter(), hex);
     }
 
     public GridPoint2 getHexAt(Vector2 v, GridPoint2 hex)
     {
-        if (v == null) return null;
-        return getHexAt(hex, v.x, v.y);
-    }
-
-    public GridPoint2 getHexAt(Vector3 v)
-    {
-        if (v == null) return null;
-        return getHexAt(null, v.x, v.y);
-    }
-
-    public GridPoint2 getHexAt(Vector3 v, GridPoint2 hex)
-    {
-        if (v == null) return null;
         return getHexAt(hex, v.x, v.y);
     }
 
