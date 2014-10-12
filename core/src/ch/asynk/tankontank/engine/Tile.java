@@ -131,6 +131,14 @@ public abstract class Tile implements Drawable, Disposable
         return mustBeDrawn();
     }
 
+    public boolean enableOverlay(int i, boolean enable, float r)
+    {
+        overlays.enable(i, enable);
+        overlays.rotate(i, r);
+        if (enable) return true;
+        return mustBeDrawn();
+    }
+
     @Override
     public void draw(Batch batch)
     {

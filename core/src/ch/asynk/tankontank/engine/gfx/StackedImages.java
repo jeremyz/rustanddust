@@ -47,6 +47,11 @@ public class StackedImages implements Drawable, Disposable
         return false;
     }
 
+    public void rotate(int i, float r)
+    {
+        sprites.get(i).setRotation(r);
+    }
+
     public void setRotation(float r)
     {
         for (int i = 0, n = sprites.size; i < n; i++)

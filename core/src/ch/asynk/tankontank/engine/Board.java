@@ -470,6 +470,15 @@ public abstract class Board implements Disposable
             tilesToDraw.remove(tile);
     }
 
+    public void enableOverlayOn(GridPoint2 coords, int i, boolean enable, Orientation o)
+    {
+        Tile tile = getTile(coords);
+        if(tile.enableOverlay(i, enable, o.r()))
+            tilesToDraw.add(tile);
+        else
+            tilesToDraw.remove(tile);
+    }
+
     public Pawn getTopPawnAt(GridPoint2 coords)
     {
         return getTile(coords).getTopPawn();
