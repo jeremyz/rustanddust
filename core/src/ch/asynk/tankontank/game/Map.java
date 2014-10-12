@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,6 +25,7 @@ public abstract class Map extends Board
     private final ArrayList<GridPoint2> possibleTargets = new ArrayList<GridPoint2>(10);
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
     private final ArrayList<GridPoint2> moveAssists = new ArrayList<GridPoint2>(6);
+    private final ArrayList<GridPoint2> attackAssists = new ArrayList<GridPoint2>(6);
 
     private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
     private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
@@ -47,6 +49,7 @@ public abstract class Map extends Board
     public void clearAll()
     {
         moveAssists.clear();
+        clearPointVector(attackAssists);
         activablePawns.clear();
         activatedPawns.clear();
         clearPointSet(possiblePaths);
@@ -180,6 +183,12 @@ public abstract class Map extends Board
             moveAssists.clear();
         }
         return moveAssists.size();
+    }
+
+    public int buildAttackAssists(Pawn pawn, GridPoint2 hex, Iterator<Pawn> units)
+    {
+        buildAttackAssists(pawn, hex, units, attackAssists);
+        return attackAssists.size();
     }
 
     public void buildAndShowMovesAndAssits(Pawn pawn, GridPoint2 hex)
