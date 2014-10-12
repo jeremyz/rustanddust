@@ -56,6 +56,11 @@ public class Unit extends HeadedPawn
         this.hasFired = false;
     }
 
+    public boolean isEnemy(Army other)
+    {
+        return army.isEnemy(other);
+    }
+
     @Override
     public int getMovementPoints()
     {
