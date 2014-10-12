@@ -9,7 +9,7 @@ import ch.asynk.tankontank.game.states.GameStateMove;
 import ch.asynk.tankontank.game.states.GameStateRotate;
 import ch.asynk.tankontank.game.states.GameStateAnimation;
 
-public class GameCtrl implements Disposable
+public class Ctrl implements Disposable
 {
 
     public class Config
@@ -51,7 +51,7 @@ public class GameCtrl implements Disposable
 
     private GameState state;
 
-    public GameCtrl(final TankOnTank game)
+    public Ctrl(final TankOnTank game)
     {
         this.game = game;
 

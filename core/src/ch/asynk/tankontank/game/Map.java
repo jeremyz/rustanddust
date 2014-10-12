@@ -17,7 +17,7 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Map extends Board
 {
-    private final GameCtrl ctrl;
+    private final Ctrl ctrl;
 
     private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
     private final ArrayList<GridPoint2> possibleMoves = new ArrayList<GridPoint2>(40);
@@ -30,7 +30,7 @@ public abstract class Map extends Board
 
     protected abstract void setup();
 
-    public Map(GameCtrl ctrl, GameFactory factory, Board.Config cfg, Texture texture)
+    public Map(Ctrl ctrl, GameFactory factory, Board.Config cfg, Texture texture)
     {
         super(factory, cfg, texture);
         this.ctrl = ctrl;

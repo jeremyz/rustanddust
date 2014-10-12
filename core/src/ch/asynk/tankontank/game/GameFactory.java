@@ -123,7 +123,7 @@ public class GameFactory implements Board.TileBuilder, Disposable
         return cfg;
     }
 
-    public Map getMap(GameCtrl ctrl, AssetManager manager, MapType t)
+    public Map getMap(Ctrl ctrl, AssetManager manager, MapType t)
     {
         Board.Config cfg = config();
 

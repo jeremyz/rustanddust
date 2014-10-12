@@ -1,12 +1,12 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
-import ch.asynk.tankontank.game.GameCtrl;
+import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.GameState.State;
 
 public class GameStateSelect extends GameStateCommon
 {
-    public GameStateSelect(GameCtrl ctrl, Map map)
+    public GameStateSelect(Ctrl ctrl, Map map)
     {
         super(ctrl, map);
     }

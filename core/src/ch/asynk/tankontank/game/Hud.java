@@ -19,7 +19,7 @@ public class Hud implements Disposable
     private static final float OFFSET = 15f;
 
     private final TankOnTank game;
-    private final GameCtrl ctrl;
+    private final Ctrl ctrl;
 
     private Image flag;
 
@@ -36,7 +36,7 @@ public class Hud implements Disposable
     private float elapsed;
     private Vector2 bottomLeft;
 
-    public Hud(final GameCtrl ctrl, final TankOnTank game)
+    public Hud(final Ctrl ctrl, final TankOnTank game)
     {
         this.game = game;
         this.ctrl = ctrl;

@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
 
-import ch.asynk.tankontank.game.GameCtrl;
+import ch.asynk.tankontank.game.Ctrl;
 
 public class GameScreen implements Screen
 {
@@ -49,7 +49,7 @@ public class GameScreen implements Screen
     private ShapeRenderer debugShapes = null;
 
     private final TankOnTank game;
-    private GameCtrl ctrl;
+    private Ctrl ctrl;
 
     private Vector2 dragPos = new Vector2();
     private Vector3 touchPos = new Vector3();
@@ -59,7 +59,7 @@ public class GameScreen implements Screen
     {
         this.game = game;
 
-        ctrl = new GameCtrl(game);
+        ctrl = new Ctrl(game);
 
         virtualWidth = ctrl.map.getWidth();
         virtualHeight = ctrl.map.getHeight();

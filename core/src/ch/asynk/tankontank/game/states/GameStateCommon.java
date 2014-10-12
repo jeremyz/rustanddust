@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.GridPoint2;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
-import ch.asynk.tankontank.game.GameCtrl;
+import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.GameState;
 
 public abstract class GameStateCommon implements GameState
 {
-    protected static GameCtrl ctrl;
+    protected static Ctrl ctrl;
     protected static Map map;
     protected static Pawn activePawn;
     protected static Pawn selectedPawn;
@@ -29,7 +29,7 @@ public abstract class GameStateCommon implements GameState
     {
     }
 
-    public GameStateCommon(GameCtrl ctrl, Map map)
+    public GameStateCommon(Ctrl ctrl, Map map)
     {
         this.ctrl = ctrl;
         this.map = map;
