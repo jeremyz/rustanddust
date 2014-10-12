@@ -343,6 +343,26 @@ public abstract class Board implements Disposable
         }
     }
 
+    protected void buildAttackAssists(Pawn pawn, GridPoint2 hex, Iterator<Pawn> units, ArrayList<GridPoint2> assists)
+    {
+        clearPointVector(assists);
+
+        GridPoint2 from = null;
+        while (units.hasNext()) {
+            Pawn p = units.next();
+            if ((p == pawn) || !p.canAttack()) continue;
+            if (from == null)
+                from = gridPoint2Pool.obtain();
+            getHexAt(p.getPosition(), from);
+            if (searchBoard.canAttack(p, from.x, from.y, hex.x, hex.y)) {
+                assists.add(from);
+                from = null;
+            }
+        }
+
+        if (from != null) gridPoint2Pool.free(from);
+    }
+
     protected void clearPointSet(Set<GridPoint2> points)
     {
         for (GridPoint2 point : points)
