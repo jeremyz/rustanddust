@@ -221,6 +221,11 @@ public abstract class Map extends Board
         clearPointSet(possiblePaths);
     }
 
+    public void clearPossibleTargets()
+    {
+        clearPointVector(possibleTargets);
+    }
+
     public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
     {
         System.err.println(" movePawn : " + from.x + ";" + from.y + " " + o);
