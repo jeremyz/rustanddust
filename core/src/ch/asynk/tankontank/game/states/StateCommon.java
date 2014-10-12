@@ -6,9 +6,10 @@ import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Ctrl;
-import ch.asynk.tankontank.game.GameState;
+import ch.asynk.tankontank.game.State;
+import ch.asynk.tankontank.game.State.StateType;
 
-public abstract class GameStateCommon implements GameState
+public abstract class StateCommon implements State
 {
     protected static Ctrl ctrl;
     protected static Map map;
@@ -23,26 +24,26 @@ public abstract class GameStateCommon implements GameState
 
     protected boolean isEnemy;
 
-    protected static GameState.State nextState = GameState.State.SELECT;
+    protected static StateType nextState = StateType.SELECT;
 
-    protected GameStateCommon()
+    protected StateCommon()
     {
     }
 
-    public GameStateCommon(Ctrl ctrl, Map map)
+    public StateCommon(Ctrl ctrl, Map map)
     {
         this.ctrl = ctrl;
         this.map = map;
     }
 
     @Override
-    public GameState.State getNextState()
+    public StateType getNextState()
     {
         return nextState;
     }
 
     @Override
-    public void setNextState(GameState.State state)
+    public void setNextState(StateType state)
     {
         nextState = state;
     }
@@ -71,9 +72,9 @@ public abstract class GameStateCommon implements GameState
     private void goToNextState()
     {
         ctrl.hud.hide();
-        GameState.State next = nextState;
-        nextState = GameState.State.SELECT;
-        ctrl.setState(next, (next == GameState.State.SELECT));
+        StateType next = nextState;
+        nextState = StateType.SELECT;
+        ctrl.setState(next, (next == StateType.SELECT));
     }
 
     protected static boolean hexInMap(GridPoint2 hex)

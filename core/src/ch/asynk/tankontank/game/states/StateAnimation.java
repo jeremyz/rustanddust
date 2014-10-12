@@ -1,8 +1,8 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.game.GameState.State;
+import ch.asynk.tankontank.game.State.StateType;
 
-public class GameStateAnimation extends GameStateCommon
+public class StateAnimation extends StateCommon
 {
     @Override
     public void enter(boolean flag)
@@ -10,9 +10,9 @@ public class GameStateAnimation extends GameStateCommon
     }
 
     @Override
-    public void leave(State nextState)
+    public void leave(StateType nextState)
     {
-        if (nextState != State.SELECT) {
+        if (nextState != StateType.SELECT) {
             from.set(-1, -1);
             to.set(-1, -1);
         }

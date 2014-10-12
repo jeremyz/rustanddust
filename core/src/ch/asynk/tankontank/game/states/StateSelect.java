@@ -2,11 +2,11 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Ctrl;
-import ch.asynk.tankontank.game.GameState.State;
+import ch.asynk.tankontank.game.State.StateType;
 
-public class GameStateSelect extends GameStateCommon
+public class StateSelect extends StateCommon
 {
-    public GameStateSelect(Ctrl ctrl, Map map)
+    public StateSelect(Ctrl ctrl, Map map)
     {
         super(ctrl, map);
     }
@@ -19,7 +19,7 @@ public class GameStateSelect extends GameStateCommon
     }
 
     @Override
-    public void leave(State nextState)
+    public void leave(StateType nextState)
     {
         hidePossibleTargetsMovesAssists();
     }
@@ -36,7 +36,7 @@ public class GameStateSelect extends GameStateCommon
         if (!isEnemy && map.isInPossibleMoves(upHex)) {
             // quick move
             to.set(upHex);
-            ctrl.setState(State.MOVE);
+            ctrl.setState(StateType.MOVE);
             return;
         }
 

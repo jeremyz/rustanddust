@@ -1,8 +1,8 @@
 package ch.asynk.tankontank.game;
 
-public interface GameState
+public interface State
 {
-    enum State {
+    enum StateType {
         SELECT,
         MOVE,
         ROTATE,
@@ -11,7 +11,7 @@ public interface GameState
 
     public void enter(boolean flag);
 
-    public void leave(GameState.State nextState);
+    public void leave(StateType nextState);
 
     public void abort();
 
@@ -25,7 +25,7 @@ public interface GameState
 
     public boolean upInMap(float x, float y);
 
-    public GameState.State getNextState();
+    public StateType getNextState();
 
-    public void setNextState(GameState.State next);
+    public void setNextState(StateType next);
 }

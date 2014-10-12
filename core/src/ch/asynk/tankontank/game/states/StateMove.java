@@ -2,9 +2,9 @@ package ch.asynk.tankontank.game.states;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-import ch.asynk.tankontank.game.GameState.State;
+import ch.asynk.tankontank.game.State.StateType;
 
-public class GameStateMove extends GameStateCommon
+public class StateMove extends StateCommon
 {
     @Override
     public void enter(boolean fromSelect)
@@ -36,7 +36,7 @@ public class GameStateMove extends GameStateCommon
     }
 
     @Override
-    public void leave(State nextState)
+    public void leave(StateType nextState)
     {
         // hide all but assists : want them when in rotation
         map.showPossibleMoves(false);
@@ -46,7 +46,7 @@ public class GameStateMove extends GameStateCommon
             map.showFinalPath(to, false);
         }
 
-        if (nextState != State.SELECT) {
+        if (nextState != StateType.SELECT) {
             if (to.x == -1 )
                 to.set(from);
         }
@@ -75,7 +75,7 @@ public class GameStateMove extends GameStateCommon
             // prevent changePawn
             if (sameHexes(from, selectedHex))
                 selectedHex.set(to);
-            ctrl.setState(State.ROTATE, false);
+            ctrl.setState(StateType.ROTATE, false);
         }
     }
 

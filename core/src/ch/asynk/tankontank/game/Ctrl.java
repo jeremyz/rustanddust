@@ -3,11 +3,11 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.game.states.GameStateCommon;
-import ch.asynk.tankontank.game.states.GameStateSelect;
-import ch.asynk.tankontank.game.states.GameStateMove;
-import ch.asynk.tankontank.game.states.GameStateRotate;
-import ch.asynk.tankontank.game.states.GameStateAnimation;
+import ch.asynk.tankontank.game.states.StateCommon;
+import ch.asynk.tankontank.game.states.StateSelect;
+import ch.asynk.tankontank.game.states.StateMove;
+import ch.asynk.tankontank.game.states.StateRotate;
+import ch.asynk.tankontank.game.states.StateAnimation;
 
 public class Ctrl implements Disposable
 {
@@ -42,14 +42,14 @@ public class Ctrl implements Disposable
     public Player usPlayer;
     public Player currentPlayer;
 
-    private GameState selectState;
-    private GameState pathState;
-    private GameState rotateState;
-    private GameState animationState;
+    private State selectState;
+    private State pathState;
+    private State rotateState;
+    private State animationState;
 
     private int animationCount = 0;
 
-    private GameState state;
+    private State state;
 
     public Ctrl(final TankOnTank game)
     {
@@ -62,10 +62,10 @@ public class Ctrl implements Disposable
         this.usPlayer = factory.getPlayer(Army.US);
         this.gePlayer = factory.getPlayer(Army.GE);
 
-        this.selectState = new GameStateSelect(this, map);
-        this.pathState = new GameStateMove();
-        this.rotateState = new GameStateRotate();
-        this.animationState = new GameStateAnimation();
+        this.selectState = new StateSelect(this, map);
+        this.pathState = new StateMove();
+        this.rotateState = new StateRotate();
+        this.animationState = new StateAnimation();
 
         this.state = selectState;
         this.currentPlayer = factory.fakeSetup(map, gePlayer, usPlayer);
@@ -115,12 +115,12 @@ public class Ctrl implements Disposable
 
     }
 
-    public void setState(GameState.State state)
+    public void setState(State.StateType state)
     {
         setState(state, true);
     }
 
-    public void setState(GameState.State state, boolean normal)
+    public void setState(State.StateType state, boolean normal)
     {
         this.state.leave(state);
 

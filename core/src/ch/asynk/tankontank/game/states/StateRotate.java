@@ -1,9 +1,9 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
-import ch.asynk.tankontank.game.GameState.State;
+import ch.asynk.tankontank.game.State.StateType;
 
-public class GameStateRotate extends GameStateCommon
+public class StateRotate extends StateCommon
 {
     private boolean rotateOnly;
     private boolean rotationSet;
@@ -38,7 +38,7 @@ public class GameStateRotate extends GameStateCommon
     }
 
     @Override
-    public void leave(State nextState)
+    public void leave(StateType nextState)
     {
         unselectHex(to);
         unselectHex(from);
@@ -102,13 +102,13 @@ public class GameStateRotate extends GameStateCommon
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
             if (map.rotatePawn(activePawn, from, o) > 0)
-                setNextState(State.MOVE);
-            ctrl.setState(State.ANIMATION);
+                setNextState(StateType.MOVE);
+            ctrl.setState(StateType.ANIMATION);
         } else {
             ctrl.setAnimationCount(1);
             if (map.movePawn(activePawn, from, o) > 0)
-                setNextState(State.MOVE);
-            ctrl.setState(State.ANIMATION);
+                setNextState(StateType.MOVE);
+            ctrl.setState(StateType.ANIMATION);
         }
     }
 }
