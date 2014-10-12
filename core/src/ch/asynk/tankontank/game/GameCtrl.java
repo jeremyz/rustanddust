@@ -38,6 +38,9 @@ public class GameCtrl implements Disposable
     public Map map;
     public Hud hud;
     public Config cfg;
+    public Player gePlayer;
+    public Player usPlayer;
+    public Player currentPlayer;
 
     private GameState selectState;
     private GameState pathState;
@@ -55,8 +58,9 @@ public class GameCtrl implements Disposable
         this.cfg = new Config();
 
         this.factory = new GameFactory(game.manager);
-        this.hud = new Hud(this, game);
         this.map = factory.getMap(this, game.manager, GameFactory.MapType.MAP_A);
+        this.usPlayer = factory.getPlayer(Army.US);
+        this.gePlayer = factory.getPlayer(Army.GE);
 
         this.selectState = new GameStateSelect(this, map);
         this.pathState = new GameStateMove();
@@ -64,8 +68,9 @@ public class GameCtrl implements Disposable
         this.animationState = new GameStateAnimation();
 
         this.state = selectState;
+        this.currentPlayer = factory.fakeSetup(map, gePlayer, usPlayer);
 
-        factory.fakeSetup(map);
+        this.hud = new Hud(this, game);
     }
 
     @Override
@@ -101,6 +106,15 @@ public class GameCtrl implements Disposable
         }
     }
 
+    private void nextPlayer()
+    {
+        currentPlayer.turnEnd();
+        currentPlayer = ((currentPlayer == usPlayer) ? gePlayer : usPlayer);
+        currentPlayer.turnStart();
+        hud.updatePlayer();
+
+    }
+
     public void setState(GameState.State state)
     {
         setState(state, true);
@@ -113,6 +127,7 @@ public class GameCtrl implements Disposable
         switch(state) {
             case SELECT:
                 this.state = selectState;
+                checkTurnEnd();
                 break;
             case MOVE:
                 this.state = pathState;
@@ -128,6 +143,16 @@ public class GameCtrl implements Disposable
         }
 
         this.state.enter(normal);
+    }
+
+    private void checkTurnEnd()
+    {
+        System.err.println(" current player : " + currentPlayer.toString());
+        if (map.activatedPawnsCount() > 0) {
+            currentPlayer.burnDownOneAp();
+        }
+        if (currentPlayer.apExhausted())
+            nextPlayer();
     }
 
     public void abort()

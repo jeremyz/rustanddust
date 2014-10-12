@@ -21,8 +21,6 @@ public class Hud implements Disposable
     private final TankOnTank game;
     private final GameCtrl ctrl;
 
-    private Image usFlag;
-    private Image geFlag;
     private Image flag;
 
     public Button moveBtn;
@@ -46,18 +44,15 @@ public class Hud implements Disposable
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
-        usFlag = new Image(atlas.findRegion("us-flag"));
-        geFlag = new Image(atlas.findRegion("ge-flag"));
         moveBtn = new Button(atlas, "btn-move");
         rotateBtn = new Button(atlas, "btn-rotate");
         attackBtn = new Button(atlas, "btn-attack");
         checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
 
-        flag = usFlag;
+        updatePlayer();
 
-        usFlag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
-        geFlag.setPosition(flag.getX(), flag.getY());
+        flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
         // TODO add counters for
         //  - Action Points
         //  - Turn
@@ -71,8 +66,6 @@ public class Hud implements Disposable
     @Override
     public void dispose()
     {
-        usFlag.dispose();
-        geFlag.dispose();
         moveBtn.dispose();
         rotateBtn.dispose();
         attackBtn.dispose();
@@ -82,11 +75,6 @@ public class Hud implements Disposable
 
     public void animate(float delta)
     {
-        elapsed += delta;
-        if (elapsed > 5f) {
-            elapsed = 0f;
-            flag = ((flag == usFlag) ? geFlag : usFlag);
-        }
     }
 
     public void draw(Batch batch)
@@ -97,6 +85,12 @@ public class Hud implements Disposable
         if (attackBtn.visible) attackBtn.getImage().draw(batch);
         if (checkBtn.visible) checkBtn.getImage().draw(batch);
         if (cancelBtn.visible) cancelBtn.getImage().draw(batch);
+    }
+
+    public void updatePlayer()
+    {
+        flag = ctrl.currentPlayer.getFlag();
+        flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
     }
 
     private float setButton(Button btn, float x, float y)
