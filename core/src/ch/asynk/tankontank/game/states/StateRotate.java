@@ -44,6 +44,7 @@ public class StateRotate extends StateCommon
         unselectHex(from);
         map.showFinalPath(to, false);
         map.showDirections(to, false);
+        map.showOrientation(to, false, o);
         to.set(-1, -1);
         from.set(-1, -1);
     }
@@ -65,7 +66,8 @@ public class StateRotate extends StateCommon
         rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {
-            // TODO show overlay
+            map.showDirections(to, false);
+            map.showOrientation(to, true, o);
             ctrl.hud.show(true, false, false, true, ctrl.cfg.canCancel);
         } else
             doRotation(o);

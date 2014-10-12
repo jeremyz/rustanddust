@@ -144,6 +144,11 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.DIRECTIONS, enable);
     }
 
+    public void showOrientation(GridPoint2 hex, boolean enable, Orientation o)
+    {
+        enableOverlayOn(hex, Hex.ORIENTATION, enable, o);
+    }
+
     public int possiblePathsSize()
     {
         return possiblePaths.size();
