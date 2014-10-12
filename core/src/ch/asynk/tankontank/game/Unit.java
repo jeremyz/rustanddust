@@ -22,11 +22,38 @@ public class Unit extends HeadedPawn
     private boolean hasMoved;
     private boolean hasFired;
 
-    public Unit(TextureAtlas atlas, String pawn, String head)
+    protected Unit(TextureAtlas atlas, String pawn, String head)
     {
         super(atlas, pawn, head);
-        hasMoved = false;
-        hasFired = false;
+    }
+
+    // hard tager
+    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    {
+        super(atlas, unit, head);
+        this.army = army;
+        this.hq = hq;
+        this.rng = range;
+        this.def = defense;
+        this.mp = movementPoints;
+        this.ht = true;
+        this.hasMoved = false;
+        this.hasFired = false;
+    }
+
+    // soft tager
+    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    {
+        super(atlas, unit, head);
+        this.army = army;
+        this.hq = hq;
+        this.rng = range;
+        this.def = defense;
+        this.cdef = concealedDefense;
+        this.mp = movementPoints;
+        this.ht = false;
+        this.hasMoved = false;
+        this.hasFired = false;
     }
 
     @Override
@@ -129,30 +156,5 @@ public class Unit extends HeadedPawn
     public void revertLastMove()
     {
         hasMoved = false;
-    }
-
-    // hard tager
-    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
-    {
-        super(atlas, unit, head);
-        this.army = army;
-        this.hq = hq;
-        this.rng = range;
-        this.def = defense;
-        this.mp = movementPoints;
-        this.ht = true;
-    }
-
-    // soft tager
-    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
-    {
-        super(atlas, unit, head);
-        this.army = army;
-        this.hq = hq;
-        this.rng = range;
-        this.def = defense;
-        this.cdef = concealedDefense;
-        this.mp = movementPoints;
-        this.ht = false;
     }
 }
