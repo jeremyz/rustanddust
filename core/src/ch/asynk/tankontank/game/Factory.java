@@ -11,11 +11,11 @@ import com.badlogic.gdx.math.GridPoint2;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 
-public class GameFactory implements Board.TileBuilder, Disposable
+public class Factory implements Board.TileBuilder, Disposable
 {
     private TextureAtlas pawnAtlas;
 
-    public GameFactory(AssetManager manager)
+    public Factory(AssetManager manager)
     {
         pawnAtlas = manager.get("data/assets.atlas", TextureAtlas.class);
     }

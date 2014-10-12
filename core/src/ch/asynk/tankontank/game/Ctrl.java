@@ -34,7 +34,7 @@ public class Ctrl implements Disposable
 
     private final TankOnTank game;
 
-    private GameFactory factory;
+    private Factory factory;
     public Map map;
     public Hud hud;
     public Config cfg;
@@ -57,8 +57,8 @@ public class Ctrl implements Disposable
 
         this.cfg = new Config();
 
-        this.factory = new GameFactory(game.manager);
-        this.map = factory.getMap(this, game.manager, GameFactory.MapType.MAP_A);
+        this.factory = new Factory(game.manager);
+        this.map = factory.getMap(this, game.manager, Factory.MapType.MAP_A);
         this.usPlayer = factory.getPlayer(Army.US);
         this.gePlayer = factory.getPlayer(Army.GE);
 

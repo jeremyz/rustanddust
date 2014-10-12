@@ -30,7 +30,7 @@ public abstract class Map extends Board
 
     protected abstract void setup();
 
-    public Map(Ctrl ctrl, GameFactory factory, Board.Config cfg, Texture texture)
+    public Map(Ctrl ctrl, Factory factory, Board.Config cfg, Texture texture)
     {
         super(factory, cfg, texture);
         this.ctrl = ctrl;
