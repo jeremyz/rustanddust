@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Disposable;
 
@@ -96,6 +97,11 @@ public class Player implements Drawable, Disposable
     public void setPosition(float x, float y)
     {
         flag.setPosition(x, y);
+    }
+
+    public Iterator<Pawn> unitIterator()
+    {
+        return units.iterator();
     }
 
     @Override
