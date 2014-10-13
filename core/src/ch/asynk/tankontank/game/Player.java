@@ -34,7 +34,7 @@ public class Player implements Drawable, Disposable
         this.units = new ArrayList<Pawn>(size);
         this.losses = new ArrayList<Pawn>(size);
         this.reinforcement = new ArrayList<Pawn>(size);
-        setActionPoints();
+        this.actionPoints = 0;
     }
 
     public String toString()
@@ -83,9 +83,19 @@ public class Player implements Drawable, Disposable
         System.err.println("TurnStart " + toString());
     }
 
+    public int d6()
+    {
+        return rand.nextInt(6) + 1;
+    }
+
     private void setActionPoints()
     {
-        this.actionPoints = 2 + rand.nextInt(3);
+        this.actionPoints = 2;
+        if (d6() > 2) {
+            this.actionPoints += 1;
+            if (d6() > 3)
+                this.actionPoints += 1;
+        }
     }
 
     public boolean isEnemy(Pawn pawn)
