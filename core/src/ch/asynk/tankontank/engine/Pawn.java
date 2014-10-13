@@ -22,6 +22,14 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
 public abstract class Pawn implements Drawable, Disposable
 {
+    public class Attack
+    {
+        int distance;
+        Pawn target;
+        boolean isClear;
+        boolean isFlankAttack;
+    }
+
     private static final float MOVE_TIME = 0.4f;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
@@ -29,6 +37,7 @@ public abstract class Pawn implements Drawable, Disposable
     private String name;
     private Image image;
     private StackedImages overlays;
+    public Attack attack;
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
