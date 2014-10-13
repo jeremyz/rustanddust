@@ -260,6 +260,28 @@ public abstract class Map extends Board
         clearPointVector(possibleTargets);
     }
 
+    public boolean attackPawn(Pawn pawn, GridPoint2 from, GridPoint2 to, int dice)
+    {
+        Hex hex = getHex(to.x, to.y);
+        Pawn target = hex.getTopPawn();
+
+        int activatedUnits = activatedPawns.size();
+
+        if (dice == 2) return false;
+        if (dice == 12) return true;
+
+        // TODO : flank attack
+        boolean success = (dice + activatedUnits >= hex.defenseFor(target, activatedPawns));
+
+        // TODO : free move for infantry
+        for (Pawn p : activatedPawns)
+            pawn.attack(target);
+        activablePawns.clear();
+        activatedPawns.clear();
+
+        return success;
+    }
+
     public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
     {
         System.err.println("    movePawn : " + from.x + ";" + from.y + " " + o);
