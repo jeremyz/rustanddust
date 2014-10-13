@@ -267,11 +267,15 @@ public abstract class Map extends Board
 
         int activatedUnits = activatedPawns.size();
 
-        if (dice == 2) return false;
-        if (dice == 12) return true;
-
-        // TODO : flank attack
-        boolean success = (dice + activatedUnits >= hex.defenseFor(target, activatedPawns));
+        boolean success;
+        if (dice == 2) {
+            success = false;
+        } else if (dice == 12) {
+            success = true;
+        } else {
+            // TODO : flank attack
+            success = (dice + activatedUnits >= hex.defenseFor(target, activatedPawns));
+        }
 
         // TODO : free move for infantry
         for (Pawn p : activatedPawns)
