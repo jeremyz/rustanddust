@@ -6,6 +6,7 @@ public interface State
         SELECT,
         MOVE,
         ROTATE,
+        ATTACK,
         ANIMATION
     };
 

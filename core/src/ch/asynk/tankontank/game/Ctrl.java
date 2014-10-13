@@ -7,6 +7,7 @@ import ch.asynk.tankontank.game.states.StateCommon;
 import ch.asynk.tankontank.game.states.StateSelect;
 import ch.asynk.tankontank.game.states.StateMove;
 import ch.asynk.tankontank.game.states.StateRotate;
+import ch.asynk.tankontank.game.states.StateAttack;
 import ch.asynk.tankontank.game.states.StateAnimation;
 
 public class Ctrl implements Disposable
@@ -24,6 +25,7 @@ public class Ctrl implements Disposable
     private State selectState;
     private State pathState;
     private State rotateState;
+    private State attackState;
     private State animationState;
 
     private int animationCount = 0;
@@ -44,6 +46,7 @@ public class Ctrl implements Disposable
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
         this.rotateState = new StateRotate();
+        this.attackState = new StateAttack();
         this.animationState = new StateAnimation();
 
         this.state = selectState;
@@ -116,6 +119,9 @@ public class Ctrl implements Disposable
                 break;
             case ROTATE:
                 this.state = rotateState;
+                break;
+            case ATTACK:
+                this.state = attackState;
                 break;
             case ANIMATION:
                 this.state = animationState;

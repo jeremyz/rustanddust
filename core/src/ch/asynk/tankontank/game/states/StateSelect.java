@@ -33,11 +33,19 @@ public class StateSelect extends StateCommon
     @Override
     public void touchUp()
     {
-        if (!isEnemy && map.isInPossibleMoves(upHex)) {
-            // quick move
-            to.set(upHex);
-            ctrl.setState(StateType.MOVE);
-            return;
+        if (!isEnemy) {
+            if (map.isInPossibleMoves(upHex)) {
+                // quick move
+                to.set(upHex);
+                ctrl.setState(StateType.MOVE);
+                return;
+            }
+            if (map.isInPossibleTargets(upHex)) {
+                // quick fire
+                to.set(upHex);
+                ctrl.setState(StateType.ATTACK);
+                return;
+            }
         }
 
         selectHexAndPawn(upHex);
