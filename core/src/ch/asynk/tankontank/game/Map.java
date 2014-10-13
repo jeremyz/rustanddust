@@ -127,8 +127,10 @@ public abstract class Map extends Board
 
     public void showAttackAssists(boolean enable)
     {
-        for(GridPoint2 hex : attackAssists)
+        for(GridPoint2 hex : attackAssists) {
             enableOverlayOn(hex, Hex.ASSIST, enable);
+            enableOverlayOn(hex, Hex.TARGET, false);
+        }
     }
 
     public void showPossibleTargets(boolean enable)
