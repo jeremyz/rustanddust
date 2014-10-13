@@ -9,7 +9,7 @@ Pawn:
     + a position (Vector3) to position overlays
     + an image
     + multiple overlays centered on it
-    - a stack of moves to revert them
+    + prevPosition to revert last move
 
 
 Board:
@@ -19,8 +19,8 @@ Board:
 
 Game:
     - attack
-        - flank bonus
-        - infantry move after fight
+        - artillery do not need LOS if assist
+        - infantry move after won fight
         - at bonus:  no AP used for AT only attack against HT (still must have > 0 AP left ;))
     - promote
     - add options to hide moves/targets/assists even in action
