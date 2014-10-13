@@ -37,7 +37,7 @@ public abstract class Pawn implements Drawable, Disposable
     private String name;
     private Image image;
     private StackedImages overlays;
-    public Attack attack;
+    public Attack attack = new Attack();
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
