@@ -206,6 +206,9 @@ public abstract class Map extends Board
     public int buildAttackAssists(Pawn pawn, GridPoint2 hex, Iterator<Pawn> units)
     {
         buildAttackAssists(pawn, hex, units, attackAssists);
+        activatedPawns.add(pawn);
+        for (GridPoint2 p : attackAssists)
+            activablePawns.add(getTopPawnAt(p));
         return attackAssists.size();
     }
 
