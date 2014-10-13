@@ -25,6 +25,7 @@ public class Helpers
         public int getMovementPoints()              { return mvt; }
         public int getRoadMarchBonus()              { return 1; }
         public int getAngleOfAttack()               { return 0; }
+        public int getFlankSides()                  { return 0; }
         public int getAttackRangeFrom(Tile tile)    { return 3; }
 
         public boolean isHq()                       { return true; }
