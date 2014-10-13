@@ -511,7 +511,7 @@ public abstract class Board implements Disposable
         return tile.push(pawn);
     }
 
-    private int removePawnFrom(Pawn pawn, GridPoint2 coords)
+    public int removePawnFrom(Pawn pawn, GridPoint2 coords)
     {
         Tile tile = getTile(coords);
         int n = tile.remove(pawn);
