@@ -15,6 +15,7 @@ public class Unit extends HeadedPawn
     enum UnitType
     {
         HARD_TARGET,
+        HARD_TARGET_HQ,
         INFANTRY,
         AT_GUN
     }
@@ -23,7 +24,6 @@ public class Unit extends HeadedPawn
     public int def;
     public int cdef;
     public int mp;
-    public boolean hq;
     public UnitType type;
     public Army army;
     private boolean hasMoved;
@@ -39,7 +39,6 @@ public class Unit extends HeadedPawn
     {
         super(atlas, unit, head);
         this.army = army;
-        this.hq = hq;
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
@@ -53,7 +52,6 @@ public class Unit extends HeadedPawn
     {
         super(atlas, unit, head);
         this.army = army;
-        this.hq = hq;
         this.rng = range;
         this.def = defense;
         this.cdef = concealedDefense;
@@ -103,7 +101,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHq()
     {
-        return hq;
+        return (type == UnitType.HARD_TARGET_HQ);
     }
 
     @Override
