@@ -315,19 +315,21 @@ public abstract class Board implements Disposable
         }
     }
 
-    protected void buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
+    protected int buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, moves);
+        return moves.size();
     }
 
-    protected void buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
+    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
         nodesToPoints(nodes, targets);
+        return targets.size();
     }
 
-    protected void buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
+    protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
     {
         assists.clear();
         buildNeighboursFor(coords);
@@ -341,6 +343,7 @@ public abstract class Board implements Disposable
                 }
             }
         }
+        return assists.size();
     }
 
     protected void buildAttackAssists(Pawn pawn, GridPoint2 hex, Iterator<Pawn> units, ArrayList<GridPoint2> assists)
