@@ -50,6 +50,7 @@ public class Factory implements Board.TileBuilder, Disposable
     {
         Unit u = null;
         Unit.UnitType ut = Unit.UnitType.HARD_TARGET;
+        Unit.UnitType utHq = Unit.UnitType.HARD_TARGET_HQ;
         switch(t) {
             case GE_AT_GUN:
                 ut = Unit.UnitType.AT_GUN;
@@ -66,7 +67,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.GE, ut, 2, 9, 2, pawnAtlas, "ge-panzer-iv", "head");
                 break;
             case GE_PANZER_IV_HQ:
-                u = new Unit(Army.GE, ut, 2, 9, 2, pawnAtlas, "ge-panzer-iv-hq", "head");
+                u = new Unit(Army.GE, utHq, 2, 9, 2, pawnAtlas, "ge-panzer-iv-hq", "head");
                 break;
             case GE_TIGER:
                 u = new Unit(Army.GE, ut, 3, 11, 1, pawnAtlas, "ge-tiger", "head");
@@ -86,7 +87,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, ut, 3, 10, 2, pawnAtlas, "us-pershing", "head");
                 break;
             case US_PERSHING_HQ:
-                u = new Unit(Army.US, ut, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
+                u = new Unit(Army.US, utHq, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
                 break;
             case US_PRIEST:
                 u = new Unit(Army.US, ut, 5, 8, 1, pawnAtlas, "us-priest", "head");
@@ -95,7 +96,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, ut, 2, 9, 2, pawnAtlas, "us-sherman", "us-sherman-head");
                 break;
             case US_SHERMAN_HQ:
-                u = new Unit(Army.US, ut, 2, 9, 2, pawnAtlas, "us-sherman-hq", "head");
+                u = new Unit(Army.US, utHq, 2, 9, 2, pawnAtlas, "us-sherman-hq", "head");
                 break;
             case US_WOLVERINE:
                 u = new Unit(Army.US, ut, 3, 8, 3, pawnAtlas, "us-wolverine", "head");
