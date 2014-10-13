@@ -83,6 +83,11 @@ public abstract class Map extends Board
         return activatedPawns.size();
     }
 
+    public int attackAssistsCount()
+    {
+        return attackAssists.size();
+    }
+
     public boolean isInPossibleMoves(GridPoint2 hex)
     {
         return possibleMoves.contains(hex);
