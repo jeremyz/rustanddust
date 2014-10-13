@@ -63,11 +63,13 @@ public class Helpers
         {
             return offMap;
         }
-        public boolean blockLineOfSightFrom(Tile from)  { return false; }
-        public boolean atLeastOneMove(Pawn pawn)        { return true; }
+        public int costFrom(Pawn pawn, Orientation side, boolean road)  { return 1; }
+        public int defenseFor(Pawn pawn ,List<Pawn> foes)               { return 8; }
+
         public boolean road(Orientation side)           { return false; }
+        public boolean atLeastOneMove(Pawn pawn)        { return true; }
         public boolean hasTargetsFor(Pawn pawn)         { return false; }
-        public int costFrom(Pawn pawn, Orientation side, boolean road) { return 1; }
+        public boolean blockLineOfSightFrom(Tile from)  { return false; }
     }
 
     public static class FakeBoard extends Board
