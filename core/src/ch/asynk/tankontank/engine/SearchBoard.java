@@ -336,7 +336,7 @@ public class SearchBoard
                         dst.remaining = rangeLeft;
                         queue.add(dst);
                         Tile t = board.getTile(dst.col, dst.row);
-                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(from, dst)) targets.add(dst);
+                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(from, dst, angle)) targets.add(dst);
                     }
                 }
             }
@@ -351,15 +351,33 @@ public class SearchBoard
         Node to = getNode(col1, row1);
         Tile tile = board.getTile(col0, row0);
 
-        if (distance(from, to) > pawn.getAttackRangeFrom(tile)) return false;
-        return hasClearLineOfSight(from, to);
+        if (distance(from, to) > pawn.getAttackRangeFrom(tile))
+            return false;
+        return hasClearLineOfSight(from, to, pawn.getAngleOfAttack());
     }
 
-    private boolean hasClearLineOfSight(Node from, Node to)
+    private boolean hasClearLineOfSight(Node from, Node to, int angleOfAttack)
     {
         List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
         Node last = nodes.get(nodes.size() -1);
-        return ((last.col == to.col) && (last.row == to.row));
+        if ((last.col != to.col) || (last.row != to.row))
+            return false;
+        return validatePathAngle(angleOfAttack, nodes);
+    }
+
+    public boolean validatePathAngle(int angle, List<Node> nodes)
+    {
+        Node prev = null;
+        for (Node next : nodes) {
+            if (prev != null) {
+                Orientation o = Orientation.fromMove(prev.col, prev.row, next.col, next.row);
+                if (!o.isInSides(angle))
+                    return false;
+            }
+            prev = next;
+        }
+
+        return true;
     }
 
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
