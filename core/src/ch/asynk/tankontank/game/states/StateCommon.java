@@ -127,6 +127,11 @@ public abstract class StateCommon implements State
         map.enableOverlayOn(hex, Hex.ASSIST, enable);
     }
 
+    protected void showTarget(GridPoint2 hex, boolean enable)
+    {
+        map.enableOverlayOn(hex, Hex.TARGET, enable);
+    }
+
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
     {
         return ((a.x == b.x) && (a.y == b.y));
