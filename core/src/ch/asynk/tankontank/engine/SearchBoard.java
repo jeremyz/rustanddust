@@ -389,12 +389,17 @@ public class SearchBoard
 
     private boolean validatePathAngle(int angle, List<Node> los)
     {
+        int forth = 0;
         Node prev = null;
         for (Node next : los) {
             if (prev != null) {
                 Orientation o = Orientation.fromMove(prev.col, prev.row, next.col, next.row);
-                if (!o.isInSides(angle))
-                    return false;
+                if (!o.isInSides(angle)) {
+                    forth -= 1;
+                    if (forth < 0)
+                        return false;
+                }
+                forth += 1;
             }
             prev = next;
         }
