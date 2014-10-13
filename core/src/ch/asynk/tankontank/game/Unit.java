@@ -95,6 +95,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public int getFlankSides()
+    {
+        return orientation.getBackSides();
+    }
+
+    @Override
     public boolean isHq()
     {
         return hq;
