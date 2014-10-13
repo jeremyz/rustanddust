@@ -345,30 +345,52 @@ public class SearchBoard
         return targets;
     }
 
-    public boolean canAttack(Pawn pawn, int col0, int row0, int col1, int row1)
+    public boolean buildAttack(Pawn pawn, Pawn target, int col0, int row0, int col1, int row1)
     {
-        Node from = getNode(col0, row0);
-        Node to = getNode(col1, row1);
-        Tile tile = board.getTile(col0, row0);
+        pawn.attack.isClear = false;
+        pawn.attack.target = target;
+        pawn.attack.distance = distance(col0, row0, col1, row1);
 
-        if (distance(from, to) > pawn.getAttackRangeFrom(tile))
+        if (pawn.attack.distance > pawn.getAttackRangeFrom(board.getTile(col0, row0)))
             return false;
-        return hasClearLineOfSight(from, to, pawn.getAngleOfAttack());
+
+        List<Node> los = lineOfSight(col0, row0, col1, row1);
+        Node last = los.get(los.size() -1);
+        if ((last.col != col1) || (last.row != row1))
+            return false;
+
+        if (!validatePathAngle(pawn.getAngleOfAttack(), los)) {
+            System.err.println("angleOfAttack is not respected");
+            return false;
+        }
+
+        pawn.attack.isClear = true;
+        pawn.attack.isFlankAttack = isFlankAttack(target.getFlankSides(), los);
+
+        return true;
     }
 
     private boolean hasClearLineOfSight(Node from, Node to, int angleOfAttack)
     {
-        List<Node> nodes = lineOfSight(from.col, from.row, to.col, to.row);
-        Node last = nodes.get(nodes.size() -1);
+        List<Node> los = lineOfSight(from.col, from.row, to.col, to.row);
+        Node last = los.get(los.size() -1);
         if ((last.col != to.col) || (last.row != to.row))
             return false;
-        return validatePathAngle(angleOfAttack, nodes);
+        return validatePathAngle(angleOfAttack, los);
     }
 
-    public boolean validatePathAngle(int angle, List<Node> nodes)
+    private boolean isFlankAttack(int angle, List<Node> los)
+    {
+        Node from = los.get(los.size() - 2);
+        Node to = los.get(los.size() - 1);
+        Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
+        return o.isInSides(angle);
+    }
+
+    private boolean validatePathAngle(int angle, List<Node> los)
     {
         Node prev = null;
-        for (Node next : nodes) {
+        for (Node next : los) {
             if (prev != null) {
                 Orientation o = Orientation.fromMove(prev.col, prev.row, next.col, next.row);
                 if (!o.isInSides(angle))
