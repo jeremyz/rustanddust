@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Map;
-import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State;
 import ch.asynk.tankontank.game.State.StateType;
@@ -95,41 +94,9 @@ public abstract class StateCommon implements State
         return hexInMap(upHex);
     }
 
-    protected void selectHexAndPawn(GridPoint2 point)
-    {
-        selectedHex.set(point);
-        selectedPawn = map.getTopPawnAt(selectedHex);
-        selectHex(selectedHex);
-        if (selectedPawn != null)
-            isEnemy = ctrl.currentPlayer.isEnemy(selectedPawn);
-        else
-            isEnemy = false;
-        System.err.println("  select (" + selectedHex.x + ";" + selectedHex.y + ") "  + selectedPawn + (isEnemy ? " enemy " : " friend "));
-    }
-
     protected boolean hasPawn()
     {
         return (selectedPawn != null);
-    }
-
-    protected void unselectHex(GridPoint2 hex)
-    {
-        map.enableOverlayOn(hex, Hex.SELECT, false);
-    }
-
-    protected void selectHex(GridPoint2 hex)
-    {
-        map.enableOverlayOn(hex, Hex.SELECT, true);
-    }
-
-    protected void showAssist(GridPoint2 hex, boolean enable)
-    {
-        map.enableOverlayOn(hex, Hex.ASSIST, enable);
-    }
-
-    protected void showTarget(GridPoint2 hex, boolean enable)
-    {
-        map.enableOverlayOn(hex, Hex.TARGET, enable);
     }
 
     protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
@@ -137,11 +104,16 @@ public abstract class StateCommon implements State
         return ((a.x == b.x) && (a.y == b.y));
     }
 
-    protected void hidePossibleTargetsMovesAssists()
+    protected void selectHexAndPawn(GridPoint2 point)
     {
-        map.showPossibleMoves(false);
-        map.showPossibleTargets(false);
-        map.showMoveAssists(false);
+        selectedHex.set(point);
+        selectedPawn = map.getTopPawnAt(selectedHex);
+        map.selectHex(selectedHex);
+        if (selectedPawn != null)
+            isEnemy = ctrl.currentPlayer.isEnemy(selectedPawn);
+        else
+            isEnemy = false;
+        System.err.println("  select (" + selectedHex.x + ";" + selectedHex.y + ") "  + selectedPawn + (isEnemy ? " enemy " : " friend "));
     }
 
     protected void showPossibleTargetsMovesAssists(Pawn pawn)

@@ -21,13 +21,13 @@ public class StateSelect extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        hidePossibleTargetsMovesAssists();
+        map.hidePossibleTargetsMovesAssists();
     }
 
     @Override
     public void touchDown()
     {
-        if (selectedHex.x != -1) unselectHex(selectedHex);
+        if (selectedHex.x != -1) map.unselectHex(selectedHex);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StateSelect extends StateCommon
         }
 
         selectHexAndPawn(upHex);
-        hidePossibleTargetsMovesAssists();
+        map.hidePossibleTargetsMovesAssists();
 
         if (hasPawn() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
             int moves = map.buildPossibleMoves(selectedPawn, selectedHex);

@@ -40,9 +40,9 @@ public class StateMove extends StateCommon
     {
         // hide all but assists : want them when in rotation
         map.showPossibleMoves(false);
-        unselectHex(from);
+        map.unselectHex(from);
         if (to.x != -1) {
-            unselectHex(to);
+            map.unselectHex(to);
             map.showFinalPath(to, false);
         }
 
@@ -99,7 +99,7 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        showAssist(selectedHex, false);
+        map.showAssist(selectedHex, false);
         map.showMoveAssists(false);
     }
 
@@ -107,13 +107,13 @@ public class StateMove extends StateCommon
     {
         if (from.x != -1) {
             // toggle selected to assist
-            unselectHex(from);
-            showAssist(from, true);
+            map.unselectHex(from);
+            map.showAssist(from, true);
         }
         from.set(next);
         activePawn = map.getTopPawnAt(from);
-        selectHex(from);
-        showAssist(from, false);
+        map.selectHex(from);
+        map.showAssist(from, false);
         map.showPossibleMoves(false);
         map.buildPossibleMoves(activePawn, from);
         map.showPossibleMoves(true);
@@ -123,7 +123,7 @@ public class StateMove extends StateCommon
     {
         to.set(upHex.x, upHex.y);
         int s = map.buildPossiblePaths(activePawn, from, to);
-        selectHex(to);
+        map.selectHex(to);
         map.showPossibleMoves(false);
         map.showPossiblePaths(true, true);
         return s;

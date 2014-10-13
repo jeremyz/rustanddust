@@ -26,7 +26,7 @@ public class StateAttack extends StateCommon
                 upHex.set(to);
                 touchUp();
             }
-            selectHex(from);
+            map.selectHex(from);
         }
     }
 
@@ -35,9 +35,9 @@ public class StateAttack extends StateCommon
     {
         map.showAttackAssists(false);
         map.showPossibleTargets(false);
-        unselectHex(from);
+        map.unselectHex(from);
         if (to.x != -1)
-            unselectHex(to);
+            map.unselectHex(to);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class StateAttack extends StateCommon
             map.showPossibleTargets(false);
             to.set(upHex);
             activePawn = map.getTopPawnAt(to);
-            showTarget(to, true);
+            map.showTarget(to, true);
             map.buildAttack(selectedPawn, activePawn, to, ctrl.currentPlayer.unitIterator());
             map.showAttackAssists(true);
             ctrl.hud.show(false, false, true, true, ctrl.cfg.canCancel);
@@ -61,11 +61,11 @@ public class StateAttack extends StateCommon
 
         if ((activePawn != null) && map.isInPossibleAttackAssists(upHex)) {
             if (map.toggleAttackAssist(map.getTopPawnAt(upHex))) {
-                showAssist(upHex, false);
-                showTarget(upHex, true);
+                map.showAssist(upHex, false);
+                map.showTarget(upHex, true);
             } else {
-                showAssist(upHex, true);
-                showTarget(upHex, false);
+                map.showAssist(upHex, true);
+                map.showTarget(upHex, false);
             }
         }
     }

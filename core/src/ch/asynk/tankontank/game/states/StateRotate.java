@@ -27,11 +27,11 @@ public class StateRotate extends StateCommon
             to.set(from);
         } else {
             // show final path
-            selectHex(to);
+            map.selectHex(to);
             map.showFinalPath(to, true);
         }
 
-        selectHex(from);
+        map.selectHex(from);
         map.showDirections(to, true);
 
         rotationSet = false;
@@ -40,8 +40,8 @@ public class StateRotate extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        unselectHex(to);
-        unselectHex(from);
+        map.unselectHex(to);
+        map.unselectHex(from);
         map.showFinalPath(to, false);
         map.showDirections(to, false);
         map.showOrientation(to, false, o);
@@ -93,7 +93,7 @@ public class StateRotate extends StateCommon
 
     private void hideAssists()
     {
-        showAssist(selectedHex, false);
+        map.showAssist(selectedHex, false);
         map.showMoveAssists(false);
     }
 

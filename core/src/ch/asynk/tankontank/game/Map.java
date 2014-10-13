@@ -83,9 +83,9 @@ public abstract class Map extends Board
         return activatedPawns.size();
     }
 
-    public int attackAssistsCount()
+    public int possiblePathsSize()
     {
-        return attackAssists.size();
+        return possiblePaths.size();
     }
 
     public boolean isInPossibleMoves(GridPoint2 hex)
@@ -111,6 +111,26 @@ public abstract class Map extends Board
     public boolean isInPossibleTargets(GridPoint2 hex)
     {
         return possibleTargets.contains(hex);
+    }
+
+    public void unselectHex(GridPoint2 hex)
+    {
+        enableOverlayOn(hex, Hex.SELECT, false);
+    }
+
+    public void selectHex(GridPoint2 hex)
+    {
+        enableOverlayOn(hex, Hex.SELECT, true);
+    }
+
+    public void showAssist(GridPoint2 hex, boolean enable)
+    {
+        enableOverlayOn(hex, Hex.ASSIST, enable);
+    }
+
+    public void showTarget(GridPoint2 hex, boolean enable)
+    {
+        enableOverlayOn(hex, Hex.TARGET, enable);
     }
 
     public void showPossibleMoves(boolean enable)
@@ -170,9 +190,11 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.ORIENTATION, enable, o);
     }
 
-    public int possiblePathsSize()
+    public void hidePossibleTargetsMovesAssists()
     {
-        return possiblePaths.size();
+        showPossibleMoves(false);
+        showPossibleTargets(false);
+        showMoveAssists(false);
     }
 
     public void togglePathOverlay(GridPoint2 hex)
