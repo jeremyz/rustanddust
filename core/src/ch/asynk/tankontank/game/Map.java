@@ -257,10 +257,9 @@ public abstract class Map extends Board
         clearPointVector(possibleTargets);
     }
 
-    public boolean attackPawn(Pawn pawn, GridPoint2 from, GridPoint2 to, int dice)
+    public boolean attackPawn(Pawn pawn, Pawn target, GridPoint2 from, GridPoint2 to, int dice)
     {
         Hex hex = getHex(to.x, to.y);
-        Pawn target = hex.getTopPawn();
 
         int activatedUnits = activatedPawns.size();
 
@@ -270,8 +269,15 @@ public abstract class Map extends Board
         } else if (dice == 12) {
             success = true;
         } else {
-            // TODO : flank attack
-            success = (dice + activatedUnits >= hex.defenseFor(target, activatedPawns));
+            int flankAttacks = 0;
+            for (Pawn assist : activatedPawns) {
+                if (assist.isFlankAttack()) {
+                    flankAttacks = 1;
+                    break;
+                }
+            }
+            System.err.print(" + " + activatedUnits + " + " + flankAttacks);
+            success = ((dice + activatedUnits + flankAttacks) >= hex.defenseFor(target, activatedPawns));
         }
 
         // TODO : free move for infantry

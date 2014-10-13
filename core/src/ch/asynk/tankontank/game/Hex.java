@@ -131,7 +131,7 @@ public class Hex extends Tile
                 break;
         }
 
-        System.err.println("    def:" + def);
+        System.err.println(" >= " + def);
         return def;
     }
 }
