@@ -212,6 +212,19 @@ public abstract class Map extends Board
         return attackAssists.size();
     }
 
+    public boolean toggleAttackAssist(Pawn pawn)
+    {
+        if (activablePawns.contains(pawn)) {
+            activablePawns.remove(pawn);
+            activatedPawns.add(pawn);
+            return true;
+        } else {
+            activatedPawns.remove(pawn);
+            activablePawns.add(pawn);
+            return false;
+        }
+    }
+
     public void buildAndShowMovesAndAssits(Pawn pawn, GridPoint2 hex)
     {
         showPossibleMoves(false);
