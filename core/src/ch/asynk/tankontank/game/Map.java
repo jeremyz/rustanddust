@@ -93,6 +93,11 @@ public abstract class Map extends Board
         return moveAssists.contains(hex);
     }
 
+    public boolean isInPossibleAttackAssists(GridPoint2 hex)
+    {
+        return attackAssists.contains(hex);
+    }
+
     public boolean isInPossiblePaths(GridPoint2 hex)
     {
         return possiblePaths.contains(hex);
@@ -112,6 +117,12 @@ public abstract class Map extends Board
     public void showMoveAssists(boolean enable)
     {
         for(GridPoint2 hex : moveAssists)
+            enableOverlayOn(hex, Hex.ASSIST, enable);
+    }
+
+    public void showAttackAssists(boolean enable)
+    {
+        for(GridPoint2 hex : attackAssists)
             enableOverlayOn(hex, Hex.ASSIST, enable);
     }
 
