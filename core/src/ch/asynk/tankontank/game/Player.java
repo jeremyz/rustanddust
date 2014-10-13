@@ -23,7 +23,7 @@ public class Player implements Drawable, Disposable
     private Army army;
     private Image flag;
     private ArrayList<Pawn> units;
-    private ArrayList<Pawn> losses;
+    private ArrayList<Pawn> casualties;
     private ArrayList<Pawn> reinforcement;
     private int actionPoints;
 
@@ -32,7 +32,7 @@ public class Player implements Drawable, Disposable
         this.army = army;
         this.flag = new Image(atlas.findRegion(name));
         this.units = new ArrayList<Pawn>(size);
-        this.losses = new ArrayList<Pawn>(size);
+        this.casualties = new ArrayList<Pawn>(size);
         this.reinforcement = new ArrayList<Pawn>(size);
         this.actionPoints = 0;
     }
@@ -40,7 +40,7 @@ public class Player implements Drawable, Disposable
     public String toString()
     {
         return army + " AP: " + actionPoints +
-            " units:" + units.size() + " losses:" + losses.size() + " reinforcement:" + reinforcement.size();
+            " units:" + units.size() + " casualties:" + casualties.size() + " reinforcement:" + reinforcement.size();
     }
 
     @Override
@@ -52,6 +52,13 @@ public class Player implements Drawable, Disposable
     public void addUnit(Pawn pawn)
     {
         units.add(pawn);
+    }
+
+    public void casualty(Pawn pawn)
+    {
+        units.remove(pawn);
+        casualties.add(pawn);
+        System.err.println("    casualty : " + pawn);
     }
 
     public Image getFlag()
