@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.game;
 
+import java.util.List;
 import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -99,5 +100,37 @@ public class Hex extends Tile
         }
 
         return c;
+    }
+
+    @Override
+    public int defenseFor(Pawn target, List<Pawn> foes)
+    {
+        Unit u = (Unit) target;
+        boolean terrainBonus = true;
+
+        for (Pawn foe : foes) {
+            if (((Unit) foe).type == Unit.UnitType.INFANTRY)
+                terrainBonus = false;
+        }
+
+        int def = u.def;
+        switch(terrain) {
+            case HILLS:
+                if (u.type != Unit.UnitType.HARD_TARGET)
+                    def = u.cdef;
+                break;
+            case WOODS:
+            case TOWN:
+                if (u.type != Unit.UnitType.HARD_TARGET)
+                    def = u.cdef;
+                if (terrainBonus)
+                    def += 1;
+                break;
+            default:
+                def = ((Unit) target).def;
+                break;
+        }
+
+        return def;
     }
 }

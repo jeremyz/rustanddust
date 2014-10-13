@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayDeque;
 
@@ -19,10 +20,12 @@ public abstract class Tile implements Drawable, Disposable
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
+    public abstract int defenseFor(Pawn target, List<Pawn> foes);
     public abstract int costFrom(Pawn pawn, Orientation side, boolean road);
-    public abstract boolean atLeastOneMove(Pawn pawn);
-    public abstract boolean road(Orientation side);
+
     public abstract boolean isOffMap();
+    public abstract boolean road(Orientation side);
+    public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean blockLineOfSightFrom(Tile tile);
 
     protected Tile()
