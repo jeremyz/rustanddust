@@ -164,23 +164,25 @@ public class Factory implements Board.TileBuilder, Disposable
         Orientation o = Orientation.NORTH;
         GridPoint2 p = new GridPoint2();
 
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_AT_GUN), p.set(4, 7), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_INFANTRY), p.set(3, 6), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_KINGTIGER), p.set(3, 5), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV), p.set(2, 4), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV_HQ), p.set(2, 3), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_TIGER), p.set(1, 2), o));
-        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_WESPE), p.set(1, 1), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_TIGER), p.set(4, 7), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_TIGER), p.set(3, 6), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV), p.set(3, 5), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV_HQ), p.set(2, 4), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV), p.set(2, 3), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV), p.set(1, 2), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV_HQ), p.set(1, 1), o));
+        gePlayer.addUnit(map.setPawnAt(getUnit(UnitType.GE_PANZER_IV), p.set(0, 0), o));
 
         o = Orientation.SOUTH;
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_AT_GUN), p.set(12, 7), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_INFANTRY), p.set(11, 6), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_PERSHING), p.set(11, 5), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_PERSHING_HQ), p.set(10, 4), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_PRIEST), p.set(10, 3), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN), p.set(9, 2), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_WOLVERINE), p.set(13, 8), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_WOLVERINE), p.set(12, 7), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_PRIEST), p.set(12, 6), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN), p.set(11, 5), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN_HQ), p.set(11, 4), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN), p.set(10, 3), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN), p.set(10, 2), o));
         usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN_HQ), p.set(9, 1), o));
-        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_WOLVERINE), p.set(8, 0), o));
+        usPlayer.addUnit(map.setPawnAt(getUnit(UnitType.US_SHERMAN), p.set(9, 0), o));
 
         return usPlayer;
     }
