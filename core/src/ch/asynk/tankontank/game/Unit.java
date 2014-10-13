@@ -12,12 +12,19 @@ public class Unit extends HeadedPawn
 {
     public static final int DISABLED = 0;
 
+    enum UnitType
+    {
+        HARD_TARGET,
+        INFANTRY,
+        AT_GUN
+    }
+
     public int rng;
     public int def;
     public int cdef;
     public int mp;
     public boolean hq;
-    public boolean ht;
+    public UnitType type;
     public Army army;
     private boolean hasMoved;
     private boolean hasFired;
@@ -28,7 +35,7 @@ public class Unit extends HeadedPawn
     }
 
     // hard tager
-    public Unit(Army army, boolean hq, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitType type, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
         super(atlas, unit, head);
         this.army = army;
@@ -36,13 +43,13 @@ public class Unit extends HeadedPawn
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
-        this.ht = true;
+        this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
     }
 
     // soft tager
-    public Unit(Army army, boolean hq, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitType type, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
         super(atlas, unit, head);
         this.army = army;
@@ -51,7 +58,7 @@ public class Unit extends HeadedPawn
         this.def = defense;
         this.cdef = concealedDefense;
         this.mp = movementPoints;
-        this.ht = false;
+        this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
     }
@@ -76,7 +83,8 @@ public class Unit extends HeadedPawn
     @Override
     public int getAttackRangeFrom(Tile tile)
     {
-        if (ht && ((Hex) tile).terrain == Hex.Terrain.HILLS) return rng + 1;
+        if ((type != UnitType.INFANTRY) && (((Hex) tile).terrain == Hex.Terrain.HILLS))
+            return rng + 1;
         return rng;
     }
 
@@ -107,21 +115,21 @@ public class Unit extends HeadedPawn
     @Override
     public boolean canRotate()
     {
-        if (ht) return !hasMoved;
+        if (type == UnitType.HARD_TARGET) return !hasMoved;
         return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canMove()
     {
-        if (ht) return !hasMoved;
+        if (type == UnitType.HARD_TARGET) return !hasMoved;
         return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canAttack()
     {
-        if (ht) return !hasFired;
+        if (type == UnitType.HARD_TARGET) return !hasFired;
         return (!hasMoved && !hasFired);
     }
 
