@@ -73,7 +73,7 @@ public class Ctrl implements Disposable
     public void setAnimationCount(int count)
     {
         animationCount = count;
-        System.err.println(" setAnimationCount(" + count + ")");
+        System.err.println("    setAnimationCount(" + count + ")");
     }
 
     public void animationDone()
@@ -82,7 +82,7 @@ public class Ctrl implements Disposable
         if (animationCount == 0)
             state.done();
         if (animationCount < 0)
-            System.err.println("animationCount < 0");
+            System.err.println("    animationCount < 0");
     }
 
     private void nextPlayer()
@@ -103,7 +103,7 @@ public class Ctrl implements Disposable
     {
         this.state.leave(state);
 
-        System.err.println("Switch to : " + state + " " + normal);
+        System.err.println("  switch to : " + state + " " + normal);
         switch(state) {
             case SELECT:
                 this.state = selectState;
@@ -127,7 +127,6 @@ public class Ctrl implements Disposable
 
     private void checkTurnEnd()
     {
-        System.err.println(" current player : " + currentPlayer.toString());
         if (map.activatedPawnsCount() > 0) {
             currentPlayer.burnDownOneAp();
         }

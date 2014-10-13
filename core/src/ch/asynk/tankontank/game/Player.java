@@ -39,7 +39,7 @@ public class Player implements Drawable, Disposable
 
     public String toString()
     {
-        return "Player : " + army + " AP: " + actionPoints +
+        return army + " AP: " + actionPoints +
             " units:" + units.size() + " losses:" + losses.size() + " reinforcement:" + reinforcement.size();
     }
 
@@ -72,6 +72,7 @@ public class Player implements Drawable, Disposable
 
     public void turnEnd()
     {
+        System.err.println("TurnEnd   " + toString());
     }
 
     public void turnStart()
@@ -79,6 +80,7 @@ public class Player implements Drawable, Disposable
         for (Pawn pawn : units)
             pawn.reset();
         setActionPoints();
+        System.err.println("TurnStart " + toString());
     }
 
     private void setActionPoints()
