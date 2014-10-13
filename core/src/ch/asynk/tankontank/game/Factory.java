@@ -49,51 +49,56 @@ public class Factory implements Board.TileBuilder, Disposable
     public Unit getUnit(UnitType t)
     {
         Unit u = null;
+        Unit.UnitType ut = Unit.UnitType.HARD_TARGET;
         switch(t) {
             case GE_AT_GUN:
-                u = new Unit(Army.GE, false, 3, 8, 9, 1, pawnAtlas, "ge-at-gun", "head");
+                ut = Unit.UnitType.AT_GUN;
+                u = new Unit(Army.GE, ut, 3, 8, 9, 1, pawnAtlas, "ge-at-gun", "head");
                 break;
             case GE_INFANTRY:
-                u = new Unit(Army.GE, false, 1, 7, 10, 1, pawnAtlas, "ge-infantry", "head");
+                ut = Unit.UnitType.INFANTRY;
+                u = new Unit(Army.GE, ut, 1, 7, 10, 1, pawnAtlas, "ge-infantry", "head");
                 break;
             case GE_KINGTIGER:
-                u = new Unit(Army.GE, false, 3, 12, 1, pawnAtlas, "ge-kingtiger", "head");
+                u = new Unit(Army.GE, ut, 3, 12, 1, pawnAtlas, "ge-kingtiger", "head");
                 break;
             case GE_PANZER_IV:
-                u = new Unit(Army.GE, false, 2, 9, 2, pawnAtlas, "ge-panzer-iv", "head");
+                u = new Unit(Army.GE, ut, 2, 9, 2, pawnAtlas, "ge-panzer-iv", "head");
                 break;
             case GE_PANZER_IV_HQ:
-                u = new Unit(Army.GE, true, 2, 9, 2, pawnAtlas, "ge-panzer-iv-hq", "head");
+                u = new Unit(Army.GE, ut, 2, 9, 2, pawnAtlas, "ge-panzer-iv-hq", "head");
                 break;
             case GE_TIGER:
-                u = new Unit(Army.GE, false, 3, 11, 1, pawnAtlas, "ge-tiger", "head");
+                u = new Unit(Army.GE, ut, 3, 11, 1, pawnAtlas, "ge-tiger", "head");
                 break;
             case GE_WESPE:
-                u = new Unit(Army.GE, false, 5, 8, 1, pawnAtlas, "ge-wespe", "head");
+                u = new Unit(Army.GE, ut, 5, 8, 1, pawnAtlas, "ge-wespe", "head");
                 break;
             case US_AT_GUN:
-                u = new Unit(Army.US, false, 1, 7, 10, 1, pawnAtlas, "us-at-gun", "head");
+                ut = Unit.UnitType.AT_GUN;
+                u = new Unit(Army.US, ut, 1, 7, 10, 1, pawnAtlas, "us-at-gun", "head");
                 break;
             case US_INFANTRY:
-                u = new Unit(Army.US, false, 1, 7, 10, 1, pawnAtlas, "us-infantry", "head");
+                ut = Unit.UnitType.INFANTRY;
+                u = new Unit(Army.US, ut, 1, 7, 10, 1, pawnAtlas, "us-infantry", "head");
                 break;
             case US_PERSHING:
-                u = new Unit(Army.US, false, 3, 10, 2, pawnAtlas, "us-pershing", "head");
+                u = new Unit(Army.US, ut, 3, 10, 2, pawnAtlas, "us-pershing", "head");
                 break;
             case US_PERSHING_HQ:
-                u = new Unit(Army.US, true, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
+                u = new Unit(Army.US, ut, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
                 break;
             case US_PRIEST:
-                u = new Unit(Army.US, false, 5, 8, 1, pawnAtlas, "us-priest", "head");
+                u = new Unit(Army.US, ut, 5, 8, 1, pawnAtlas, "us-priest", "head");
                 break;
             case US_SHERMAN:
-                u = new Unit(Army.US, false, 2, 9, 2, pawnAtlas, "us-sherman", "us-sherman-head");
+                u = new Unit(Army.US, ut, 2, 9, 2, pawnAtlas, "us-sherman", "us-sherman-head");
                 break;
             case US_SHERMAN_HQ:
-                u = new Unit(Army.US, true, 2, 9, 2, pawnAtlas, "us-sherman-hq", "head");
+                u = new Unit(Army.US, ut, 2, 9, 2, pawnAtlas, "us-sherman-hq", "head");
                 break;
             case US_WOLVERINE:
-                u = new Unit(Army.US, false, 3, 8, 3, pawnAtlas, "us-wolverine", "head");
+                u = new Unit(Army.US, ut, 3, 8, 3, pawnAtlas, "us-wolverine", "head");
                 break;
         }
 
