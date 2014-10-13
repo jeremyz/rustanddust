@@ -19,5 +19,12 @@ Board:
 
 Game:
     - attack
+        - flank bonus
+        - infantry move after fight
+        - at bonus:  no AP used for AT only attack against HT (still must have > 0 AP left ;))
     - promote
     - add options to hide moves/targets/assists even in action
+
+Hex, Unit:
+    - Hex overlays should be static terrain
+    - Unit Overlay should be selected, move, attack, attack assisst, has moved, has fired ...
