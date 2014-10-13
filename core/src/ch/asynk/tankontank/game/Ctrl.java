@@ -50,6 +50,8 @@ public class Ctrl implements Disposable
         this.currentPlayer = factory.fakeSetup(map, gePlayer, usPlayer);
 
         this.hud = new Hud(this, game);
+
+        currentPlayer.turnStart();
     }
 
     @Override
