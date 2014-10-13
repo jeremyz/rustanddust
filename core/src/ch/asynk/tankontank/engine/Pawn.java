@@ -27,7 +27,7 @@ public abstract class Pawn implements Drawable, Disposable
         int distance;
         Pawn target;
         boolean isClear;
-        boolean isFlankAttack;
+        boolean isFlank;
     }
 
     private static final float MOVE_TIME = 0.4f;
@@ -82,6 +82,11 @@ public abstract class Pawn implements Drawable, Disposable
     public void dispose()
     {
         image.dispose();
+    }
+
+    public boolean isFlankAttack()
+    {
+        return (attack.isClear && attack.isFlank);
     }
 
     public Vector3 getPosition()

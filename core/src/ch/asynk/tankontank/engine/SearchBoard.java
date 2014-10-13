@@ -365,7 +365,7 @@ public class SearchBoard
         }
 
         pawn.attack.isClear = true;
-        pawn.attack.isFlankAttack = isFlankAttack(target.getFlankSides(), los);
+        pawn.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
 
         return true;
     }

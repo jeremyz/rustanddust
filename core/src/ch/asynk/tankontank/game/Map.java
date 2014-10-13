@@ -183,33 +183,30 @@ public abstract class Map extends Board
 
     public int buildPossibleMoves(Pawn pawn, GridPoint2 hex)
     {
-        buildPossibleMovesFrom(pawn, hex, possibleMoves);
-        return possibleMoves.size();
+        return buildPossibleMovesFrom(pawn, hex, possibleMoves);
     }
 
     public int buildPossibleTargets(Pawn pawn, GridPoint2 hex)
     {
-        buildPossibleTargetsFrom(pawn, hex, possibleTargets);
-        return possibleTargets.size();
+        return buildPossibleTargetsFrom(pawn, hex, possibleTargets);
     }
 
     public int buildMoveAssists(Pawn pawn, GridPoint2 hex)
     {
-        if (pawn.isHq()) {
-            buildMoveAssists(pawn, hex, moveAssists);
-        } else {
+        if (!pawn.isHq()) {
             moveAssists.clear();
+            return 0;
         }
-        return moveAssists.size();
+        return buildMoveAssists(pawn, hex, moveAssists);
     }
 
-    public int buildAttackAssists(Pawn pawn, GridPoint2 hex, Iterator<Pawn> units)
+    public int buildAttack(Pawn pawn, Pawn target, GridPoint2 hex, Iterator<Pawn> units)
     {
-        buildAttackAssists(pawn, hex, units, attackAssists);
+        int s = buildAttack(pawn, target, hex, units, attackAssists);
         activatedPawns.add(pawn);
         for (GridPoint2 p : attackAssists)
             activablePawns.add(getTopPawnAt(p));
-        return attackAssists.size();
+        return s;
     }
 
     public boolean toggleAttackAssist(Pawn pawn)
