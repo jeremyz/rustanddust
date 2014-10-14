@@ -159,6 +159,12 @@ public class Ctrl implements Disposable
             nextPlayer();
     }
 
+    public void endTurn()
+    {
+        state.abort();
+        nextPlayer();
+    }
+
     public void abort()
     {
         state.abort();

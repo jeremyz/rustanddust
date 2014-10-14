@@ -168,7 +168,10 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (infoRect.contains(x,y)) return true;
+        if (infoRect.contains(x,y)) {
+            ctrl.endTurn();
+            return true;
+        }
         if (!buttonsRect.contains(x,y)) return false;
 
         if (btn == moveBtn)
