@@ -367,28 +367,28 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    protected int buildAttack(Pawn pawn, Pawn target, GridPoint2 hex, Iterator<Pawn> units, ArrayList<GridPoint2> assists)
+    protected int buildAttackAssists(Pawn pawn, Pawn target, GridPoint2 coords, Iterator<Pawn> units, ArrayList<GridPoint2> assists)
     {
         clearPointVector(assists);
 
-        GridPoint2 from = null;
+        GridPoint2 from = gridPoint2Pool.obtain();
         while (units.hasNext()) {
             Pawn p = units.next();
             if (!p.canAttack()) continue;
-            if (from == null)
-                from = gridPoint2Pool.obtain();
             getHexUnder(p, from);
-            if (searchBoard.buildAttack(p, target, from.x, from.y, hex.x, hex.y)) {
+            if (searchBoard.buildAttack(p, target, from.x, from.y, coords.x, coords.y)) {
                 if (p != pawn) {
                     assists.add(from);
-                    from = null;
+                    from = gridPoint2Pool.obtain();
                 }
             }
         }
 
-        if (from != null) gridPoint2Pool.free(from);
+        int s = assists.size();
+        if ((s > 0) && (from != assists.get(s- 1)))
+            gridPoint2Pool.free(from);
 
-        return assists.size();
+        return s;
     }
 
     protected void clearPointSet(Set<GridPoint2> points)
