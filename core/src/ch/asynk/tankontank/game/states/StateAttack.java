@@ -54,7 +54,7 @@ public class StateAttack extends StateCommon
             to.set(upHex);
             activePawn = map.getTopPawnAt(to);
             map.showTarget(to, true);
-            map.buildAttack(selectedPawn, activePawn, to, ctrl.currentPlayer.unitIterator());
+            map.buildAttackAssists(selectedPawn, activePawn, to, ctrl.currentPlayer().unitIterator());
             map.showAttackAssists(true);
             ctrl.hud.show(false, false, true, true, ctrl.cfg.canCancel);
         }
@@ -79,12 +79,12 @@ public class StateAttack extends StateCommon
     @Override
     public void done()
     {
-        int d1 = ctrl.currentPlayer.d6();
-        int d2 = ctrl.currentPlayer.d6();
+        int d1 = ctrl.currentPlayer().d6();
+        int d2 = ctrl.currentPlayer().d6();
         System.err.print("  attack (" + from.x + ";" + from.y + ") -> (" + to.x + ";" + to.y + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedPawn, activePawn, from, to, d1 + d2)) {
             map.removePawnFrom(activePawn, to);
-            ctrl.currentPlayer.casualty(activePawn);
+            ctrl.currentPlayer().casualty(activePawn);
             // TODO free move for infantry
         }
 

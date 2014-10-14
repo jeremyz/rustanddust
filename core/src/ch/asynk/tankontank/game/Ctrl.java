@@ -18,9 +18,8 @@ public class Ctrl implements Disposable
     public Map map;
     public Hud hud;
     public Config cfg;
-    public Player gePlayer;
-    public Player usPlayer;
-    public Player currentPlayer;
+    private int player;
+    private Player players[] = new Player[2];
 
     private State selectState;
     private State pathState;
@@ -40,8 +39,9 @@ public class Ctrl implements Disposable
 
         this.factory = new Factory(game.manager);
         this.map = factory.getMap(this, game.manager, Factory.MapType.MAP_A);
-        this.usPlayer = factory.getPlayer(Army.US);
-        this.gePlayer = factory.getPlayer(Army.GE);
+
+        this.players[0] = factory.getPlayer(Army.GE);
+        this.players[1] = factory.getPlayer(Army.US);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -50,11 +50,12 @@ public class Ctrl implements Disposable
         this.animationState = new StateAnimation();
 
         this.state = selectState;
-        this.currentPlayer = factory.fakeSetup(map, gePlayer, usPlayer);
+        factory.fakeSetup(map, players[0], players[1]);
+        player = (new java.util.Random()).nextInt(2);
 
         this.hud = new Hud(this, game);
 
-        currentPlayer.turnStart();
+        currentPlayer().turnStart();
     }
 
     @Override
@@ -63,6 +64,16 @@ public class Ctrl implements Disposable
         hud.dispose();
         map.dispose();
         factory.dispose();
+    }
+
+    public Player currentPlayer()
+    {
+        return this.players[player];
+    }
+
+    public Player otherPlayer()
+    {
+        return this.players[((player + 1) % 2)];
     }
 
     public boolean mayProcessTouch()
@@ -92,9 +103,9 @@ public class Ctrl implements Disposable
 
     private void nextPlayer()
     {
-        currentPlayer.turnEnd();
-        currentPlayer = ((currentPlayer == usPlayer) ? gePlayer : usPlayer);
-        currentPlayer.turnStart();
+        currentPlayer().turnEnd();
+        player = ((player + 1) % 2);
+        currentPlayer().turnStart();
         hud.updatePlayer();
 
     }
@@ -136,9 +147,9 @@ public class Ctrl implements Disposable
     private void checkTurnEnd()
     {
         if (map.activatedPawnsCount() > 0) {
-            currentPlayer.burnDownOneAp();
+            currentPlayer().burnDownOneAp();
         }
-        if (currentPlayer.apExhausted())
+        if (currentPlayer().apExhausted())
             nextPlayer();
     }
 

@@ -110,7 +110,7 @@ public abstract class StateCommon implements State
         selectedPawn = map.getTopPawnAt(selectedHex);
         map.selectHex(selectedHex);
         if (selectedPawn != null)
-            isEnemy = ctrl.currentPlayer.isEnemy(selectedPawn);
+            isEnemy = ctrl.currentPlayer().isEnemy(selectedPawn);
         else
             isEnemy = false;
         System.err.println("  select (" + selectedHex.x + ";" + selectedHex.y + ") "  + selectedPawn + (isEnemy ? " enemy " : " friend "));

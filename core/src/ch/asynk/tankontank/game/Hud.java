@@ -89,7 +89,7 @@ public class Hud implements Disposable
 
     public void updatePlayer()
     {
-        flag = ctrl.currentPlayer.getFlag();
+        flag = ctrl.currentPlayer().getFlag();
         flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
     }
 
