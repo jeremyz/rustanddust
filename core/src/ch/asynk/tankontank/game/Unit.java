@@ -129,6 +129,15 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isHqOf(Pawn other)
+    {
+        if ((id == UnitId.GE_PANZER_IV_HQ) && (((Unit)other).id == UnitId.GE_PANZER_IV)) return true;
+        if ((id == UnitId.US_PERSHING_HQ) && (((Unit)other).id == UnitId.US_PERSHING)) return true;
+        if ((id == UnitId.US_SHERMAN_HQ) && (((Unit)other).id == UnitId.US_SHERMAN)) return true;
+        return false;
+    }
+
+    @Override
     public boolean isUnit()
     {
         return true;

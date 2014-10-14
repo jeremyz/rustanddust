@@ -110,6 +110,14 @@ public class Player implements Drawable, Disposable
         return ((Unit) pawn).isEnemy(army);
     }
 
+    public boolean canPromote(Pawn pawn)
+    {
+        if (pawn.isHq()) return false;
+        for (Pawn p: casualties)
+            if (p.isHqOf(pawn)) return true;
+        return false;
+    }
+
     public void setPosition(float x, float y)
     {
         flag.setPosition(x, y);

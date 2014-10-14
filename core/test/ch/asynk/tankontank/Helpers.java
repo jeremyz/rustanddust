@@ -29,6 +29,7 @@ public class Helpers
         public int getAttackRangeFrom(Tile tile)    { return 3; }
 
         public boolean isHq()                       { return true; }
+        public boolean isHqOf(Pawn other)           { return true; }
         public boolean isUnit()                     { return true; }
         public boolean isEnemy(Pawn other)          { return true; }
 
