@@ -345,7 +345,7 @@ public class SearchBoard
         return targets;
     }
 
-    public boolean buildAttack(Pawn pawn, Pawn target, int col0, int row0, int col1, int row1)
+    public boolean buildAttack(Pawn pawn, boolean clearVisibility, Pawn target, int col0, int row0, int col1, int row1)
     {
         pawn.attack.isClear = false;
         pawn.attack.target = target;
@@ -354,7 +354,7 @@ public class SearchBoard
         if (pawn.attack.distance > pawn.getAttackRangeFrom(board.getTile(col0, row0)))
             return false;
 
-        List<Node> los = lineOfSight(col0, row0, col1, row1);
+        List<Node> los = lineOfSight(col0, row0, col1, row1, clearVisibility);
         Node last = los.get(los.size() -1);
         if ((last.col != col1) || (last.row != row1))
             return false;
@@ -372,7 +372,7 @@ public class SearchBoard
 
     private boolean hasClearLineOfSight(Node from, Node to, int angleOfAttack)
     {
-        List<Node> los = lineOfSight(from.col, from.row, to.col, to.row);
+        List<Node> los = lineOfSight(from.col, from.row, to.col, to.row, true);
         Node last = los.get(los.size() -1);
         if ((last.col != to.col) || (last.row != to.row))
             return false;
@@ -407,7 +407,7 @@ public class SearchBoard
         return true;
     }
 
-    public List<Node> lineOfSight(int x0, int y0, int x1, int y1)
+    public List<Node> lineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         los.clear();
         Tile from = board.getTile(x0, y0);
@@ -436,9 +436,9 @@ public class SearchBoard
         }
 
         if (dx == 0)
-            return verticalLineOfSight(x0, y0, x1, y1);
+            return verticalLineOfSight(x0, y0, x1, y1, clearVisibility);
         if (dx == (3 * dy))
-            return diagonalLineOfSight(x0, y0, x1, y1);
+            return diagonalLineOfSight(x0, y0, x1, y1, clearVisibility);
 
         int dx3 = 3 * dx;
         int dy3 = 3 * dy;
@@ -475,13 +475,13 @@ public class SearchBoard
                 }
             }
             los.add(getNode(x, y));
-            if(board.getTile(x, y).blockLineOfSightFrom(from)) return los;
+            if(clearVisibility && board.getTile(x, y).blockLineOfSightFrom(from)) return los;
         }
 
         return los;
     }
 
-    private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1)
+    private List<Node> verticalLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         Tile from = board.getTile(x0, y0);
 
@@ -497,13 +497,13 @@ public class SearchBoard
             y += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!t.blockLineOfSightFrom(from))
+            if (!clearVisibility || !t.blockLineOfSightFrom(from))
                 ok = true;
 
             x += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!t.blockLineOfSightFrom(from))
+            if (!clearVisibility || !t.blockLineOfSightFrom(from))
                 ok = true;
 
             if (!ok)
@@ -517,7 +517,7 @@ public class SearchBoard
         return los;
     }
 
-    private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1)
+    private List<Node> diagonalLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         Tile from = board.getTile(x0, y0);
 
@@ -536,7 +536,7 @@ public class SearchBoard
             x += dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!t.blockLineOfSightFrom(from))
+            if (!clearVisibility || !t.blockLineOfSightFrom(from))
                 ok = true;
 
             y += dy;
@@ -544,7 +544,7 @@ public class SearchBoard
                 x -= dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!t.blockLineOfSightFrom(from))
+            if (!clearVisibility || !t.blockLineOfSightFrom(from))
                 ok = true;
 
             if (!ok)

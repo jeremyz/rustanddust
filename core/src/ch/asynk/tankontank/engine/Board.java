@@ -337,7 +337,7 @@ public abstract class Board implements Disposable
         while (units.hasNext()) {
             Pawn target = units.next();
             getHexUnder(target, to);
-            if (searchBoard.buildAttack(pawn, target, coords.x, coords.y, to.x, to.y)) {
+            if (searchBoard.buildAttack(pawn, true, target, coords.x, coords.y, to.x, to.y)) {
                 targets.add(to);
                 to = gridPoint2Pool.obtain();
             }
@@ -376,7 +376,7 @@ public abstract class Board implements Disposable
             Pawn p = units.next();
             if (!p.canAttack()) continue;
             getHexUnder(p, from);
-            if (searchBoard.buildAttack(p, target, from.x, from.y, coords.x, coords.y)) {
+            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.x, from.y, coords.x, coords.y)) {
                 if (p != pawn) {
                     assists.add(from);
                     from = gridPoint2Pool.obtain();
