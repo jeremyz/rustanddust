@@ -17,7 +17,8 @@ public class Unit extends HeadedPawn
         HARD_TARGET,
         HARD_TARGET_HQ,
         INFANTRY,
-        AT_GUN
+        AT_GUN,
+        ARTILLERY
     }
 
     public int rng;
@@ -135,6 +136,12 @@ public class Unit extends HeadedPawn
     {
         if (type == UnitType.HARD_TARGET) return !hasFired;
         return (!hasMoved && !hasFired);
+    }
+
+    @Override
+    public boolean canAssistAttackWithoutLos()
+    {
+        return (type == UnitType.ARTILLERY);
     }
 
     @Override

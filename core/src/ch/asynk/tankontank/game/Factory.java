@@ -73,6 +73,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.GE, ut, 3, 11, 1, pawnAtlas, "ge-tiger", "head");
                 break;
             case GE_WESPE:
+                ut = Unit.UnitType.ARTILLERY;
                 u = new Unit(Army.GE, ut, 5, 8, 1, pawnAtlas, "ge-wespe", "head");
                 break;
             case US_AT_GUN:
@@ -90,6 +91,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, utHq, 3, 10, 2, pawnAtlas, "us-pershing-hq", "head");
                 break;
             case US_PRIEST:
+                ut = Unit.UnitType.ARTILLERY;
                 u = new Unit(Army.US, ut, 5, 8, 1, pawnAtlas, "us-priest", "head");
                 break;
             case US_SHERMAN:

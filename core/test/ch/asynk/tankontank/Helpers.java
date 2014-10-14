@@ -36,6 +36,7 @@ public class Helpers
         public boolean canRotate()                  { return true; }
         public boolean canAttack()                  { return true; }
         public boolean canAttack(Pawn other)        { return true; }
+        public boolean canAssistAttackWithoutLos()  { return true; }
 
         public void move(int cost)                  { }
         public void rotate(Orientation o)           { }
