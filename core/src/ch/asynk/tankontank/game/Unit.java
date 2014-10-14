@@ -12,7 +12,7 @@ public class Unit extends HeadedPawn
 {
     public static final int DISABLED = 0;
 
-    enum UnitType
+    public enum UnitType
     {
         HARD_TARGET,
         HARD_TARGET_HQ,
@@ -21,11 +21,32 @@ public class Unit extends HeadedPawn
         ARTILLERY
     }
 
+    public enum UnitId
+    {
+        GE_AT_GUN,
+        GE_INFANTRY,
+        GE_KINGTIGER,
+        GE_PANZER_IV,
+        GE_PANZER_IV_HQ,
+        GE_TIGER,
+        GE_WESPE,
+
+        US_AT_GUN,
+        US_INFANTRY,
+        US_PERSHING,
+        US_PERSHING_HQ,
+        US_PRIEST,
+        US_SHERMAN,
+        US_SHERMAN_HQ,
+        US_WOLVERINE
+    }
+
     public int rng;
     public int def;
     public int cdef;
     public int mp;
     public UnitType type;
+    public UnitId id;
     public Army army;
     private boolean hasMoved;
     private boolean hasFired;
@@ -36,20 +57,21 @@ public class Unit extends HeadedPawn
     }
 
     // hard tager
-    public Unit(Army army, UnitType type, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
         super(atlas, unit, head);
         this.army = army;
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
+        this.id = id;
         this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
     }
 
     // soft tager
-    public Unit(Army army, UnitType type, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
         super(atlas, unit, head);
         this.army = army;
@@ -57,6 +79,7 @@ public class Unit extends HeadedPawn
         this.def = defense;
         this.cdef = concealedDefense;
         this.mp = movementPoints;
+        this.id = id;
         this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
