@@ -374,7 +374,7 @@ public abstract class Board implements Disposable
         GridPoint2 from = gridPoint2Pool.obtain();
         while (units.hasNext()) {
             Pawn p = units.next();
-            if (!p.canAttack()) continue;
+            if ((p == pawn) || !p.canAttack()) continue;
             getHexUnder(p, from);
             if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.x, from.y, coords.x, coords.y)) {
                 if (p != pawn) {
