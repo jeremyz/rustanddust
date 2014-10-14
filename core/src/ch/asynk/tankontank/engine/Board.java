@@ -329,6 +329,27 @@ public abstract class Board implements Disposable
         return targets.size();
     }
 
+    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, Iterator<Pawn> units, ArrayList<GridPoint2> targets)
+    {
+        clearPointVector(targets);
+
+        GridPoint2 to = gridPoint2Pool.obtain();
+        while (units.hasNext()) {
+            Pawn target = units.next();
+            getHexUnder(target, to);
+            if (searchBoard.buildAttack(pawn, target, coords.x, coords.y, to.x, to.y)) {
+                targets.add(to);
+                to = gridPoint2Pool.obtain();
+            }
+        }
+
+        int s = targets.size();
+        if ((s > 0) && (to != targets.get(s - 1)))
+            gridPoint2Pool.free(to);
+
+        return s;
+    }
+
     protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
     {
         assists.clear();

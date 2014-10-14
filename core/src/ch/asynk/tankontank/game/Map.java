@@ -208,9 +208,10 @@ public abstract class Map extends Board
         return buildPossibleMovesFrom(pawn, hex, possibleMoves);
     }
 
-    public int buildPossibleTargets(Pawn pawn, GridPoint2 hex)
+    public int buildPossibleTargets(Pawn pawn, GridPoint2 hex, Iterator<Pawn> foes)
     {
-        return buildPossibleTargetsFrom(pawn, hex, possibleTargets);
+        // return buildPossibleTargetsFrom(pawn, hex, possibleTargets);
+        return buildPossibleTargetsFrom(pawn, hex, foes, possibleTargets);
     }
 
     public int buildMoveAssists(Pawn pawn, GridPoint2 hex)

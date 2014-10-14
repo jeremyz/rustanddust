@@ -19,7 +19,7 @@ public class StateAttack extends StateCommon
             // use selectedHex and selectedPawn
             from.set(selectedHex);
             map.showPossibleTargets(false);
-            map.buildPossibleTargets(selectedPawn, from);
+            map.buildPossibleTargets(selectedPawn, from, ctrl.otherPlayer().unitIterator());
             map.showPossibleTargets(true);
             if (to.x != -1) {
                 // quick fire -> replay touchUp
