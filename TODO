@@ -18,8 +18,8 @@ Board:
         inverted even/odd row scheme
 
 Game:
+    - End Turn button in Select State
     - attack
-        - artillery do not need LOS if assist
         - infantry move after won fight
         - at bonus:  no AP used for AT only attack against HT (still must have > 0 AP left ;))
     - promote
