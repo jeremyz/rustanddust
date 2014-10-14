@@ -57,6 +57,7 @@ public class StateSelect extends StateCommon
             int assists = map.buildMoveAssists(selectedPawn, selectedHex);
             showPossibleTargetsMovesAssists(selectedPawn);
             ctrl.hud.show(
+                ctrl.currentPlayer().canPromote(selectedPawn),
                 selectedPawn.canMove(),
                 (selectedPawn.canMove() && (moves > 0)),
                 (selectedPawn.canAttack() && (targets > 0)),

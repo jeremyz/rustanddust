@@ -10,7 +10,7 @@ public class StateMove extends StateCommon
     public void enter(boolean fromSelect)
     {
         map.clearPossiblePaths();
-        ctrl.hud.show(true, true, false, ((map.activablePawnsCount() + map.activatedPawnsCount()) > 1), ctrl.cfg.canCancel);
+        ctrl.hud.show(false, true, true, false, ((map.activablePawnsCount() + map.activatedPawnsCount()) > 1), ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
 
         if (fromSelect) {

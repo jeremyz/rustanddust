@@ -362,4 +362,12 @@ public abstract class Map extends Board
         activatedPawns.add(pawn);
         return activablePawns.size();
     }
+
+    public void promote(Pawn pawn, Pawn with)
+    {
+        GridPoint2 coords = getHexUnder(pawn);
+        removePawnFrom(pawn, coords);
+        setPawnAt(with, coords, pawn.getOrientation());
+        activatedPawns.add(with);
+    }
 }

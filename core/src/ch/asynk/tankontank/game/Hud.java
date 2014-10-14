@@ -25,6 +25,7 @@ public class Hud implements Disposable
 
     public Button moveBtn;
     public Button rotateBtn;
+    public Button promoteBtn;
     public Button attackBtn;
     public Button checkBtn;
     public Button cancelBtn;
@@ -46,6 +47,7 @@ public class Hud implements Disposable
 
         moveBtn = new Button(atlas, "btn-move");
         rotateBtn = new Button(atlas, "btn-rotate");
+        promoteBtn = new Button(atlas, "btn-promote");
         attackBtn = new Button(atlas, "btn-attack");
         checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
@@ -68,6 +70,7 @@ public class Hud implements Disposable
     {
         moveBtn.dispose();
         rotateBtn.dispose();
+        promoteBtn.dispose();
         attackBtn.dispose();
         checkBtn.dispose();
         cancelBtn.dispose();
@@ -82,6 +85,7 @@ public class Hud implements Disposable
         flag.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
         if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
+        if (promoteBtn.visible) promoteBtn.getImage().draw(batch);
         if (attackBtn.visible) attackBtn.getImage().draw(batch);
         if (checkBtn.visible) checkBtn.getImage().draw(batch);
         if (cancelBtn.visible) cancelBtn.getImage().draw(batch);
@@ -101,7 +105,7 @@ public class Hud implements Disposable
         return (y + btn.getHeight() + OFFSET);
     }
 
-    public void show(boolean rotate, boolean move, boolean attack, boolean check, boolean cancel)
+    public void show(boolean promote, boolean rotate, boolean move, boolean attack, boolean check, boolean cancel)
     {
         float x =  (bottomLeft.x - checkBtn.getWidth());
         float y =  bottomLeft.y;
@@ -112,6 +116,8 @@ public class Hud implements Disposable
         else rotateBtn.hide();
         if (attack) y = setButton(attackBtn, x, y);
         else attackBtn.hide();
+        if (promote) y = setButton(promoteBtn, x, y);
+        else promoteBtn.hide();
         if (cancel) y = setButton(cancelBtn, x, y);
         else cancelBtn.hide();
         if (check)  y = setButton(checkBtn, x, y);
@@ -124,6 +130,7 @@ public class Hud implements Disposable
     {
         moveBtn.hide();
         rotateBtn.hide();
+        promoteBtn.hide();
         attackBtn.hide();
         checkBtn.hide();
         cancelBtn.hide();
@@ -140,6 +147,8 @@ public class Hud implements Disposable
             btn = moveBtn;
         else if (rotateBtn.hit(x, y))
             btn = rotateBtn;
+        else if (promoteBtn.hit(x, y))
+            btn = promoteBtn;
         else if (attackBtn.hit(x, y))
             btn = attackBtn;
         else if (checkBtn.hit(x, y))
@@ -165,6 +174,8 @@ public class Hud implements Disposable
             ctrl.setState(State.StateType.MOVE);
         else if (btn == rotateBtn)
             ctrl.setState(State.StateType.ROTATE);
+        else if (btn == promoteBtn)
+            ctrl.setState(State.StateType.PROMOTE);
         else if (btn == attackBtn)
             ctrl.setState(State.StateType.ATTACK);
         else if (btn == checkBtn)

@@ -118,6 +118,20 @@ public class Player implements Drawable, Disposable
         return false;
     }
 
+    public Pawn promote(Pawn pawn)
+    {
+        for (Pawn p: casualties) {
+            if (p.isHqOf(pawn)) {
+                units.remove(pawn);
+                casualties.add(pawn);
+                units.add(p);
+                casualties.remove(p);
+                return p;
+            }
+        }
+        return null;
+    }
+
     public void setPosition(float x, float y)
     {
         flag.setPosition(x, y);

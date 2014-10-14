@@ -15,7 +15,7 @@ public class StateRotate extends StateCommon
         this.rotateOnly = rotateOnly;
 
         // if ((map.activablePawnsCount() + map.activatedPawnsCount()) == 1)
-        ctrl.hud.show(true, false, false, false, ctrl.cfg.canCancel);
+        ctrl.hud.show(false, true, false, false, false, ctrl.cfg.canCancel);
         ctrl.hud.rotateBtn.setOn();
 
         if (rotateOnly) {
@@ -68,7 +68,7 @@ public class StateRotate extends StateCommon
         if (ctrl.cfg.mustValidate) {
             map.showDirections(to, false);
             map.showOrientation(to, true, o);
-            ctrl.hud.show(true, false, false, true, ctrl.cfg.canCancel);
+            ctrl.hud.show(false, true, false, false, true, ctrl.cfg.canCancel);
         } else
             doRotation(o);
     }

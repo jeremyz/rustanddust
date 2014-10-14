@@ -22,7 +22,6 @@ Game:
     - attack
         - infantry move after won fight
         - at bonus:  no AP used for AT only attack against HT (still must have > 0 AP left ;))
-    - promote
     - add options to hide moves/targets/assists even in action
 
 Hex, Unit:

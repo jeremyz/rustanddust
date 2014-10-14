@@ -11,7 +11,7 @@ public class StateAttack extends StateCommon
     public void enter(boolean fromSelect)
     {
         map.clearPossibleTargets();
-        ctrl.hud.show(false, false, true, false, ctrl.cfg.canCancel);
+        ctrl.hud.show(false, false, false, true, false, ctrl.cfg.canCancel);
         ctrl.hud.attackBtn.setOn();
 
         if (fromSelect) {
@@ -56,7 +56,7 @@ public class StateAttack extends StateCommon
             map.showTarget(to, true);
             map.buildAttackAssists(selectedPawn, activePawn, to, ctrl.currentPlayer().unitIterator());
             map.showAttackAssists(true);
-            ctrl.hud.show(false, false, true, true, ctrl.cfg.canCancel);
+            ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 
         if ((activePawn != null) && map.isInPossibleAttackAssists(upHex)) {
