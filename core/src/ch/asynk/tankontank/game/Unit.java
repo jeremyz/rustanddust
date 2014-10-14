@@ -153,7 +153,7 @@ public class Unit extends HeadedPawn
     public void move(int cost)
     {
         hasMoved = true;
-        if (cost > mp) System.err.println("Movement point exceeded: " + cost + "/" + mp);
+        if (cost > mp) System.err.println("ERROR: Movement point exceeded: " + cost + "/" + mp + " please report");
     }
 
     @Override

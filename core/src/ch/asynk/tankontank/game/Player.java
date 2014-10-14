@@ -74,7 +74,7 @@ public class Player implements Drawable, Disposable
     public void burnDownOneAp()
     {
         actionPoints -= 1;
-        if (actionPoints < 0) System.err.println("AP < 0, damn that's very wrong");
+        if (actionPoints < 0) System.err.println("ERROR: AP < 0, damn that's very wrong, please report");
     }
 
     public void turnEnd()

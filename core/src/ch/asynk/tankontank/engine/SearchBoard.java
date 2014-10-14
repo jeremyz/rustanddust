@@ -360,7 +360,7 @@ public class SearchBoard
             return false;
 
         if (!validatePathAngle(pawn.getAngleOfAttack(), los)) {
-            System.err.println("angleOfAttack is not respected");
+            System.err.println("ERROR: angleOfAttack is not respected, please report");
             return false;
         }
 
