@@ -134,6 +134,7 @@ public class Hud implements Disposable
         attackBtn.hide();
         checkBtn.hide();
         cancelBtn.hide();
+        buttonsRect.set(0, 0, 0, 0);
     }
 
     public boolean touchDown(float x, float y)
