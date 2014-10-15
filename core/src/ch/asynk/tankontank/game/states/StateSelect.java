@@ -73,6 +73,9 @@ public class StateSelect extends StateCommon
     @Override
     public void abort()
     {
+        if (selectedHex.x != -1) map.selectHex(selectedHex, false);
+        map.hidePossibleTargetsMovesAssists();
+        clearAll();
     }
 
     @Override
