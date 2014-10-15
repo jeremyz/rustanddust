@@ -78,7 +78,6 @@ public abstract class Board implements Disposable
     private final ArrayList<Animation> animations = new ArrayList<Animation>(2);
     private final ArrayList<Animation> nextAnimations = new ArrayList<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
-    private final LinkedHashSet<Pawn> pawnsToDraw = new LinkedHashSet<Pawn>();
 
     protected Board(int cols, int rows)
     {
@@ -94,7 +93,6 @@ public abstract class Board implements Disposable
         for (int i = 0; i < (cfg.cols * cfg.rows); i++)
             tiles[i].dispose();
         tilesToDraw.clear();
-        pawnsToDraw.clear();
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
             nextAnimations.get(i).dispose();
         animations.clear();
@@ -197,23 +195,12 @@ public abstract class Board implements Disposable
         neighbours[5].set((coords.x - 1), (coords.y - 1));
     }
 
-    private void addPawnAnimation(Pawn pawn, AnimationSequence seq)
-    {
-        pawnsToDraw.add(pawn);
-        nextAnimations.add(seq);
-    }
-
     private void stats()
     {
         boolean print = false;
 
         if (tileCount != tilesToDraw.size()) {
             tileCount = tilesToDraw.size();
-            print = true;
-        }
-
-        if (pawnCount != pawnsToDraw.size()) {
-            pawnCount = pawnsToDraw.size();
             print = true;
         }
 
@@ -232,11 +219,8 @@ public abstract class Board implements Disposable
         Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
             Animation a = iter.next();
-            Pawn p = a.getPawn();
-            if (a.animate(delta)) {
+            if (a.animate(delta))
                 iter.remove();
-                pawnsToDraw.remove(p);
-            }
         }
 
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
@@ -254,14 +238,12 @@ public abstract class Board implements Disposable
         }
 
         Iterator<Tile> tileIter = tilesToDraw.iterator();
-        while (tileIter.hasNext()) {
+        while (tileIter.hasNext())
             tileIter.next().draw(batch);
-        }
 
-        Iterator<Pawn> pawnIter = pawnsToDraw.iterator();
-        while (pawnIter.hasNext()) {
-            pawnIter.next().draw(batch);
-        }
+        Iterator<Animation> animationIter = animations.iterator();
+        while (animationIter.hasNext())
+            animationIter.next().draw(batch);
 
         if (transform)
             batch.setTransformMatrix(prevTransform);
@@ -276,9 +258,12 @@ public abstract class Board implements Disposable
         }
 
         Iterator<Tile> iter = tilesToDraw.iterator();
-        while (iter.hasNext()) {
+        while (iter.hasNext())
             iter.next().drawDebug(debugShapes);
-        }
+
+        Iterator<Animation> animationIter = animations.iterator();
+        while (animationIter.hasNext())
+            animationIter.next().drawDebug(debugShapes);
 
         if (transform)
             debugShapes.setTransformMatrix(prevTransform);
@@ -574,7 +559,7 @@ public abstract class Board implements Disposable
             }
         }));
         seq.addAnimation(whenDone);
-        addPawnAnimation(pawn, seq);
+        nextAnimations.add(seq);
         pawn.move(cost);
     }
 
@@ -585,7 +570,7 @@ public abstract class Board implements Disposable
         v.set(p.x, p.y, o.r());
         AnimationSequence seq = pawn.getRotateAnimation(v);
         seq.addAnimation(whenDone);
-        addPawnAnimation(pawn, seq);
+        nextAnimations.add(seq);
         vector3Pool.free(v);
         pawn.rotate(o);
     }
@@ -602,7 +587,7 @@ public abstract class Board implements Disposable
             }
         }));
         seq.addAnimation(whenDone);
-        addPawnAnimation(pawn, seq);
+        nextAnimations.add(seq);
         pawn.revertLastMove();
     }
 
