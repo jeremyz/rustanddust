@@ -10,8 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
-import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.Bg;
+import ch.asynk.tankontank.game.hud.Button;
+import ch.asynk.tankontank.game.hud.Msg;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -33,9 +34,9 @@ public class Hud implements Disposable
     public Button cancelBtn;
 
     private Button btn;
+    private Msg msg;
 
     private Rectangle infoRect;
-    private float elapsed;
     private Vector2 bottomLeft;
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
@@ -54,6 +55,7 @@ public class Hud implements Disposable
         cancelBtn = new Button(atlas, "btn-cancel");
 
         bg = new Bg(atlas.findRegion("disabled"));
+        msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
         updatePlayer();
 
@@ -63,8 +65,7 @@ public class Hud implements Disposable
         //  - Turn
 
         infoRect = new Rectangle(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
-
-        elapsed = 0f;
+        msg.write("YO! It's hello_world Bitch !", 200, 200, 2, 10);
     }
 
     @Override
@@ -77,10 +78,12 @@ public class Hud implements Disposable
         checkBtn.dispose();
         cancelBtn.dispose();
         bg.dispose();
+        msg.dispose();
     }
 
     public void animate(float delta)
     {
+        msg.animate(delta);
     }
 
     public void draw(Batch batch)
@@ -93,6 +96,7 @@ public class Hud implements Disposable
         if (attackBtn.visible) attackBtn.getImage().draw(batch);
         if (checkBtn.visible) checkBtn.getImage().draw(batch);
         if (cancelBtn.visible) cancelBtn.getImage().draw(batch);
+        msg.draw(batch);
     }
 
     public void updatePlayer()
