@@ -113,14 +113,9 @@ public abstract class Map extends Board
         return possibleTargets.contains(hex);
     }
 
-    public void unselectHex(GridPoint2 hex)
+    public void selectHex(GridPoint2 hex, boolean enable)
     {
-        enableOverlayOn(hex, Hex.SELECT, false);
-    }
-
-    public void selectHex(GridPoint2 hex)
-    {
-        enableOverlayOn(hex, Hex.SELECT, true);
+        enableOverlayOn(hex, Hex.SELECT, enable);
     }
 
     public void showAssist(GridPoint2 hex, boolean enable)

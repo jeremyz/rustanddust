@@ -108,7 +108,7 @@ public abstract class StateCommon implements State
     {
         selectedHex.set(point);
         selectedPawn = map.getTopPawnAt(selectedHex);
-        map.selectHex(selectedHex);
+        map.selectHex(selectedHex, true);
         if (selectedPawn != null)
             isEnemy = ctrl.currentPlayer().isEnemy(selectedPawn);
         else

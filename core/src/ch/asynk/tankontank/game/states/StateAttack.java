@@ -26,7 +26,7 @@ public class StateAttack extends StateCommon
                 upHex.set(to);
                 touchUp();
             }
-            map.selectHex(from);
+            map.selectHex(from, true);
         }
     }
 
@@ -35,9 +35,9 @@ public class StateAttack extends StateCommon
     {
         map.showAttackAssists(false);
         map.showPossibleTargets(false);
-        map.unselectHex(from);
+        map.selectHex(from, false);
         if (to.x != -1)
-            map.unselectHex(to);
+            map.selectHex(to, false);
     }
 
     @Override

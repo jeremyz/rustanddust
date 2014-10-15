@@ -27,7 +27,7 @@ public class StateSelect extends StateCommon
     @Override
     public void touchDown()
     {
-        if (selectedHex.x != -1) map.unselectHex(selectedHex);
+        if (selectedHex.x != -1) map.selectHex(selectedHex, false);
     }
 
     @Override
