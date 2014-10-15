@@ -195,6 +195,11 @@ public abstract class Board implements Disposable
         neighbours[5].set((coords.x - 1), (coords.y - 1));
     }
 
+    public void addAnimation(Animation a)
+    {
+        nextAnimations.add(a);
+    }
+
     private void stats()
     {
         boolean print = false;
@@ -524,6 +529,11 @@ public abstract class Board implements Disposable
         return tile.push(pawn);
     }
 
+    public int removePawn(Pawn pawn)
+    {
+        return removePawnFrom(pawn, getHexUnder(pawn));
+    }
+
     public int removePawnFrom(Pawn pawn, GridPoint2 coords)
     {
         Tile tile = getTile(coords);
@@ -559,7 +569,7 @@ public abstract class Board implements Disposable
             }
         }));
         seq.addAnimation(whenDone);
-        nextAnimations.add(seq);
+        addAnimation(seq);
         pawn.move(cost);
     }
 
@@ -570,7 +580,7 @@ public abstract class Board implements Disposable
         v.set(p.x, p.y, o.r());
         AnimationSequence seq = pawn.getRotateAnimation(v);
         seq.addAnimation(whenDone);
-        nextAnimations.add(seq);
+        addAnimation(seq);
         vector3Pool.free(v);
         pawn.rotate(o);
     }
@@ -587,7 +597,7 @@ public abstract class Board implements Disposable
             }
         }));
         seq.addAnimation(whenDone);
-        nextAnimations.add(seq);
+        addAnimation(seq);
         pawn.revertLastMove();
     }
 
