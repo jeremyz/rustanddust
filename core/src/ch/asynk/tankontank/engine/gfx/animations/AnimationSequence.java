@@ -3,8 +3,9 @@ package ch.asynk.tankontank.engine.gfx.animations;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Animation;
 
 public class AnimationSequence implements Animation, Pool.Poolable
@@ -43,12 +44,6 @@ public class AnimationSequence implements Animation, Pool.Poolable
         animationSequencePool.free(this);
     }
 
-    @Override
-    public Pawn getPawn()
-    {
-        return animations.get(0).getPawn();
-    }
-
     public void addAnimation(Animation animation)
     {
         animations.add(animation);
@@ -65,5 +60,17 @@ public class AnimationSequence implements Animation, Pool.Poolable
         }
 
         return (animations.isEmpty());
+    }
+
+    @Override
+    public void draw(Batch batch)
+    {
+        animations.get(0).draw(batch);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        animations.get(0).drawDebug(debugShapes);
     }
 }
