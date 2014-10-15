@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.game.hud.Button;
+import ch.asynk.tankontank.game.hud.Bg;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -23,6 +24,7 @@ public class Hud implements Disposable
 
     private Image flag;
 
+    private Bg bg;
     public Button moveBtn;
     public Button rotateBtn;
     public Button promoteBtn;
@@ -33,7 +35,6 @@ public class Hud implements Disposable
     private Button btn;
 
     private Rectangle infoRect;
-    private Rectangle buttonsRect;
     private float elapsed;
     private Vector2 bottomLeft;
 
@@ -52,6 +53,8 @@ public class Hud implements Disposable
         checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
 
+        bg = new Bg(atlas.findRegion("disabled"));
+
         updatePlayer();
 
         flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
@@ -60,7 +63,6 @@ public class Hud implements Disposable
         //  - Turn
 
         infoRect = new Rectangle(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
-        buttonsRect = new Rectangle(0, 0, 0, 0);
 
         elapsed = 0f;
     }
@@ -74,6 +76,7 @@ public class Hud implements Disposable
         attackBtn.dispose();
         checkBtn.dispose();
         cancelBtn.dispose();
+        bg.dispose();
     }
 
     public void animate(float delta)
@@ -83,6 +86,7 @@ public class Hud implements Disposable
     public void draw(Batch batch)
     {
         flag.draw(batch);
+        bg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
         if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
         if (promoteBtn.visible) promoteBtn.getImage().draw(batch);
@@ -123,7 +127,7 @@ public class Hud implements Disposable
         if (check)  y = setButton(checkBtn, x, y);
         else checkBtn.hide();
 
-        buttonsRect.set(x, bottomLeft.y, checkBtn.getWidth(), (y - bottomLeft.y));
+        bg.set(x, bottomLeft.y, checkBtn.getWidth(), (y - bottomLeft.y));
     }
 
     public void hide()
@@ -134,13 +138,13 @@ public class Hud implements Disposable
         attackBtn.hide();
         checkBtn.hide();
         cancelBtn.hide();
-        buttonsRect.set(0, 0, 0, 0);
+        bg.set(0, 0, 0, 0);
     }
 
     public boolean touchDown(float x, float y)
     {
         if (infoRect.contains(x,y)) return true;
-        if (!buttonsRect.contains(x,y)) return false;
+        if (!bg.contains(x,y)) return false;
 
         btn = null;
 
@@ -172,7 +176,7 @@ public class Hud implements Disposable
             ctrl.endTurn();
             return true;
         }
-        if (!buttonsRect.contains(x,y)) return false;
+        if (!bg.contains(x,y)) return false;
 
         if (btn == moveBtn)
             ctrl.setState(State.StateType.MOVE);
