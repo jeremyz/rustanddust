@@ -14,13 +14,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import ch.asynk.tankontank.engine.gfx.Image;
-import ch.asynk.tankontank.engine.gfx.Drawable;
+import ch.asynk.tankontank.engine.gfx.Moveable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
-public abstract class Pawn implements Drawable, Disposable
+public abstract class Pawn implements Moveable, Disposable
 {
     public class Attack
     {
@@ -125,26 +125,31 @@ public abstract class Pawn implements Drawable, Disposable
         return pos;
     }
 
+    @Override
     public float getX()
     {
         return image.getX();
     }
 
+    @Override
     public float getY()
     {
         return image.getY();
     }
 
+    @Override
     public float getWidth()
     {
         return image.getWidth();
     }
 
+    @Override
     public float getHeight()
     {
         return image.getHeight();
     }
 
+    @Override
     public float getRotation()
     {
         return image.getRotation();
@@ -155,6 +160,7 @@ public abstract class Pawn implements Drawable, Disposable
         return Orientation.fromRotation(getRotation());
     }
 
+    @Override
     public void setPosition(float x, float y)
     {
         position.set(x, y, 0f);
@@ -171,6 +177,7 @@ public abstract class Pawn implements Drawable, Disposable
         overlays.setRotation(z);
     }
 
+    @Override
     public void setPosition(float x, float y, float z)
     {
         setPosition(x, y);
