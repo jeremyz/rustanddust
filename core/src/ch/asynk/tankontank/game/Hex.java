@@ -113,6 +113,7 @@ public class Hex extends Tile
                 terrainBonus = false;
         }
 
+        int tdef = 0;
         int def = u.def;
         switch(terrain) {
             case HILLS:
@@ -124,14 +125,14 @@ public class Hex extends Tile
                 if (u.type != Unit.UnitType.HARD_TARGET)
                     def = u.cdef;
                 if (terrainBonus)
-                    def += 1;
+                    tdef = 1;
                 break;
             default:
                 def = ((Unit) target).def;
                 break;
         }
 
-        System.err.println(" >= " + def);
-        return def;
+        System.err.println(" >= " + def + " + " + tdef);
+        return (def + tdef);
     }
 }
