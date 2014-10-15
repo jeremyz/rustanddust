@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
+import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Map extends Board
@@ -30,12 +33,17 @@ public abstract class Map extends Board
     private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
     private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
 
+    private final SpriteAnimation explosion;
+    private final SpriteAnimation explosions;
+
     protected abstract void setup();
 
-    public Map(Ctrl ctrl, Factory factory, Board.Config cfg, Texture texture)
+    public Map(Ctrl ctrl, Factory factory, Board.Config cfg, AssetManager manager, String textureName)
     {
-        super(factory, cfg, texture);
+        super(factory, cfg, manager.get(textureName, Texture.class));
         this.ctrl = ctrl;
+        this.explosion = new SpriteAnimation(manager.get("data/explosion.png", Texture.class), 10, 4, 40);
+        this.explosions = new SpriteAnimation(manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
     }
 
@@ -275,13 +283,13 @@ public abstract class Map extends Board
         clearPointVector(possibleTargets);
     }
 
-    public boolean attackPawn(Pawn pawn, Pawn target, GridPoint2 from, GridPoint2 to, int dice)
+    public boolean attackPawn(Pawn pawn, final Pawn target, GridPoint2 from, GridPoint2 to, int dice)
     {
         Hex hex = getHex(to.x, to.y);
 
         int activatedUnits = activatedPawns.size();
 
-        boolean success;
+        final boolean success;
         if (dice == 2) {
             success = false;
         } else if (dice == 12) {
@@ -303,6 +311,26 @@ public abstract class Map extends Board
             pawn.attack(target);
         activablePawns.clear();
         activatedPawns.clear();
+
+        AnimationSequence seq = AnimationSequence.get(2);
+        if (success) {
+            explosions.init(1, target.getCenter().x, target.getCenter().y);
+            seq.addAnimation(explosions);
+        } else {
+            explosion.init(1, target.getCenter().x, target.getCenter().y);
+            seq.addAnimation(explosion);
+        }
+        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                if (success) {
+                    removePawn(target);
+                }
+                ctrl.animationDone();
+            }
+        }));
+
+        addAnimation(seq);
 
         return success;
     }

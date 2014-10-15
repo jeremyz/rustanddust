@@ -82,11 +82,9 @@ public class StateAttack extends StateCommon
         int d1 = ctrl.currentPlayer().d6();
         int d2 = ctrl.currentPlayer().d6();
         System.err.print("  attack (" + from.x + ";" + from.y + ") -> (" + to.x + ";" + to.y + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
-        if (map.attackPawn(selectedPawn, activePawn, from, to, d1 + d2)) {
-            map.removePawnFrom(activePawn, to);
+        if (map.attackPawn(selectedPawn, activePawn, from, to, d1 + d2))
             ctrl.currentPlayer().casualty(activePawn);
-            // TODO free move for infantry
-        }
+        ctrl.setState(StateType.ANIMATION);
 
         super.done();
     }

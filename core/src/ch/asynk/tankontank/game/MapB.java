@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.game;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -8,9 +9,9 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class MapB extends Map
 {
-    public MapB(Ctrl ctrl, Factory factory, Board.Config cfg, Texture texture)
+    public MapB(Ctrl ctrl, Factory factory, Board.Config cfg, AssetManager manager, String textureName)
     {
-        super(ctrl, factory, cfg, texture);
+        super(ctrl, factory, cfg, manager, textureName);
     }
 
     @Override

@@ -120,10 +120,10 @@ public class Factory implements Board.TileBuilder, Disposable
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapA(ctrl, this, config(), manager.get("data/map_a.png", Texture.class));
+                m = new MapA(ctrl, this, config(), manager, "data/map_a.png");
                 break;
             case MAP_B:
-                m = new MapB(ctrl, this, config(), manager.get("data/map_b.png", Texture.class));
+                m = new MapB(ctrl, this, config(), manager, "data/map_b.png");
                 break;
         }
 
