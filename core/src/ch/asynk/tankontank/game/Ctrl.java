@@ -15,7 +15,6 @@ public class Ctrl implements Disposable
 {
     private final TankOnTank game;
 
-    private Factory factory;
     public Map map;
     public Hud hud;
     public Config cfg;
@@ -33,17 +32,17 @@ public class Ctrl implements Disposable
 
     private State state;
 
-    public Ctrl(final TankOnTank game)
+    public Ctrl(final TankOnTank game, final Config cfg)
     {
         this.game = game;
+        this.cfg = cfg;
+        game.ctrl = this;
 
-        this.cfg = new Config();
-
-        this.factory = new Factory(game.manager);
-        this.map = factory.getMap(this, game.manager, Factory.MapType.MAP_A);
-
-        this.players[0] = factory.getPlayer(Army.GE);
-        this.players[1] = factory.getPlayer(Army.US);
+        this.players[0] = game.factory.getPlayer(Army.GE);
+        this.players[1] = game.factory.getPlayer(Army.US);
+        this.map = game.factory.getMap(game, Factory.MapType.MAP_A);
+        game.factory.fakeSetup(map, players[0], players[1]);
+        player = (new java.util.Random()).nextInt(2);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -53,8 +52,6 @@ public class Ctrl implements Disposable
         this.animationState = new StateAnimation();
 
         this.state = selectState;
-        factory.fakeSetup(map, players[0], players[1]);
-        player = (new java.util.Random()).nextInt(2);
 
         this.hud = new Hud(this, game);
 
@@ -66,7 +63,6 @@ public class Ctrl implements Disposable
     {
         hud.dispose();
         map.dispose();
-        factory.dispose();
     }
 
     public Player currentPlayer()

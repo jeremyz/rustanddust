@@ -9,12 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ch.asynk.tankontank.screens.LoadScreen;
 import ch.asynk.tankontank.game.Factory;
+import ch.asynk.tankontank.game.Ctrl;
 
 public class TankOnTank extends Game
 {
     public AssetManager manager;
     public Factory factory;
     public Skin skin;
+    public Ctrl ctrl;
 
     @Override
     public void create ()
