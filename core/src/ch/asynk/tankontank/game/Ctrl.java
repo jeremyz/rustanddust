@@ -32,10 +32,10 @@ public class Ctrl implements Disposable
 
     private State state;
 
-    public Ctrl(final TankOnTank game, final Config cfg)
+    public Ctrl(final TankOnTank game)
     {
         this.game = game;
-        this.cfg = cfg;
+        this.cfg = game.config;
         game.ctrl = this;
 
         this.players[0] = game.factory.getPlayer(Army.GE);

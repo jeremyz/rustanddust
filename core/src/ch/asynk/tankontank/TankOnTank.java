@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import ch.asynk.tankontank.screens.LoadScreen;
 import ch.asynk.tankontank.game.Factory;
 import ch.asynk.tankontank.game.Ctrl;
+import ch.asynk.tankontank.game.Config;
 
 public class TankOnTank extends Game
 {
@@ -17,6 +18,7 @@ public class TankOnTank extends Game
     public Factory factory;
     public Skin skin;
     public Ctrl ctrl;
+    public Config config;
 
     @Override
     public void create ()
@@ -27,6 +29,7 @@ public class TankOnTank extends Game
         manager = new AssetManager();
         factory = new Factory();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        config = new Config();
 
         this.setScreen(new LoadScreen(this));
     }
