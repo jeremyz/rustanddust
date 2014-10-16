@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.game.hud;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,12 @@ public class Msg extends Bg
     {
         super(region);
         this.font = font;
+    }
+
+    public void write(String text, float duration)
+    {
+        TextBounds b = font.getBounds(text);
+        write(text, ((Gdx.graphics.getWidth() - b.width) / 2), ((Gdx.graphics.getHeight() - b.height) / 2), duration, 10);
     }
 
     public void write(String text, float x, float y, float duration, int padding)
