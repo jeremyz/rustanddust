@@ -49,7 +49,7 @@ public class LoadScreen implements Screen
             if (delay >= 0.2f) {
                 Gdx.app.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
                 game.onLoaded();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new OptionsScreen(game));
                 dispose();
             }
         }
