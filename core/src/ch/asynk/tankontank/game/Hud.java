@@ -66,7 +66,6 @@ public class Hud implements Disposable
         //  - Turn
 
         infoRect = new Rectangle(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
-        msg.write("YO! It's hello_world Bitch !", 200, 200, 2, 10);
     }
 
     @Override
@@ -102,6 +101,7 @@ public class Hud implements Disposable
 
     public void updatePlayer()
     {
+        msg.write("Next Player", 1);
         flag = ctrl.currentPlayer().getFlag();
         flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
     }
