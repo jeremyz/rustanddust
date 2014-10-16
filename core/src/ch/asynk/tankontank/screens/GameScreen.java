@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 
 import ch.asynk.tankontank.game.Ctrl;
+import ch.asynk.tankontank.game.Config;
 
 public class GameScreen implements Screen
 {
@@ -61,7 +62,7 @@ public class GameScreen implements Screen
     {
         this.game = game;
 
-        ctrl = new Ctrl(game);
+        this.ctrl = new Ctrl(game, new Config());
 
         virtualWidth = ctrl.map.getWidth();
         virtualHeight = ctrl.map.getHeight();
