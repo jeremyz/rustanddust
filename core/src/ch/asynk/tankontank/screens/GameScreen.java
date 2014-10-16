@@ -31,7 +31,7 @@ public class GameScreen implements Screen
 {
     private static final boolean DEBUG = false;
 
-    private static final float INPUT_DELAY = 0.5f;
+    private static final float INPUT_DELAY = 0.3f;
     private static final float ZOOM_IN_MAX = 0.2f;
     private static final float ZOOM_GESTURE_FACTOR = .01f;
     private static final float ZOOM_SCROLL_FACTOR = .1f;
