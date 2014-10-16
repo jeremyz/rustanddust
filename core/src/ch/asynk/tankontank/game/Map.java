@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
@@ -38,12 +39,12 @@ public abstract class Map extends Board
 
     protected abstract void setup();
 
-    public Map(Ctrl ctrl, Factory factory, Board.Config cfg, AssetManager manager, String textureName)
+    public Map(final TankOnTank game, Board.Config cfg, String textureName)
     {
-        super(factory, cfg, manager.get(textureName, Texture.class));
-        this.ctrl = ctrl;
-        this.explosion = new SpriteAnimation(manager.get("data/explosion.png", Texture.class), 10, 4, 40);
-        this.explosions = new SpriteAnimation(manager.get("data/explosions.png", Texture.class), 16, 8, 15);
+        super(game.factory, cfg, game.manager.get(textureName, Texture.class));
+        this.ctrl = game.ctrl;
+        this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
+        this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
     }
 

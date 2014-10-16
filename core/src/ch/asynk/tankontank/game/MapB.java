@@ -4,14 +4,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class MapB extends Map
 {
-    public MapB(Ctrl ctrl, Factory factory, Board.Config cfg, AssetManager manager, String textureName)
+    public MapB(final TankOnTank game, Board.Config cfg, String textureName)
     {
-        super(ctrl, factory, cfg, manager, textureName);
+        super(game, cfg, textureName);
     }
 
     @Override
