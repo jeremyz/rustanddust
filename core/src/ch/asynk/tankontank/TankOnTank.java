@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ch.asynk.tankontank.screens.LoadScreen;
+import ch.asynk.tankontank.game.Factory;
 
 public class TankOnTank extends Game
 {
     public AssetManager manager;
+    public Factory factory;
     public Skin skin;
 
     @Override
@@ -21,10 +23,10 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
 
         manager = new AssetManager();
+        factory = new Factory();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         this.setScreen(new LoadScreen(this));
-
     }
 
     public void loadAssets()
@@ -49,6 +51,10 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
+    public void onLoaded()
+    {
+        factory.setAtlas(manager.get("data/assets.atlas", TextureAtlas.class));
+    }
 
     // @Override
     // public void render ()
@@ -69,6 +75,7 @@ public class TankOnTank extends Game
     public void dispose()
     {
         Gdx.app.debug("TankOnTank", "dispose()");
+        factory.dispose();
         getScreen().dispose();
     }
 
