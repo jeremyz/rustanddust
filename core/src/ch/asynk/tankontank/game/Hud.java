@@ -58,8 +58,7 @@ public class Hud implements Disposable
         bg = new Bg(atlas.findRegion("disabled"));
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
-        updatePlayer();
-
+        flag = ctrl.currentPlayer().getFlag();
         flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
         // TODO add counters for
         //  - Action Points
