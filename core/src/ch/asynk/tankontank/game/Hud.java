@@ -19,6 +19,7 @@ import ch.asynk.tankontank.TankOnTank;
 public class Hud implements Disposable
 {
     private static final float OFFSET = 15f;
+    private static final float PADDING = 5f;
 
     private final TankOnTank game;
     private final Ctrl ctrl;
@@ -37,13 +38,13 @@ public class Hud implements Disposable
     private Msg msg;
 
     private Rectangle infoRect;
-    private Vector2 bottomLeft;
+    private Vector2 corner;
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
     {
         this.game = game;
         this.ctrl = ctrl;
-        this.bottomLeft = new Vector2((Gdx.graphics.getWidth() - OFFSET), OFFSET);
+        this.corner = new Vector2((Gdx.graphics.getWidth() - OFFSET), OFFSET);
 
         TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
 
@@ -110,13 +111,13 @@ public class Hud implements Disposable
         // btn.setOff();
         btn.visible = true;
         btn.setPosition(x, y);
-        return (y + btn.getHeight() + OFFSET);
+        return (y + btn.getHeight() + PADDING);
     }
 
     public void show(boolean promote, boolean rotate, boolean move, boolean attack, boolean check, boolean cancel)
     {
-        float x =  (bottomLeft.x - checkBtn.getWidth());
-        float y =  bottomLeft.y;
+        float x =  (corner.x - checkBtn.getWidth());
+        float y =  corner.y;
 
         if (move)   y = setButton(moveBtn, x, y);
         else moveBtn.hide();
@@ -131,7 +132,7 @@ public class Hud implements Disposable
         if (check)  y = setButton(checkBtn, x, y);
         else checkBtn.hide();
 
-        bg.set(x, bottomLeft.y, checkBtn.getWidth(), (y - bottomLeft.y));
+        bg.set((x - PADDING), (corner.y - PADDING), (checkBtn.getWidth() + (2 * PADDING)), (y - corner.y));
     }
 
     public void hide()
