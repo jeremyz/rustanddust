@@ -80,6 +80,7 @@ public class StateSelect extends StateCommon
         if (selectedHex.x != -1) map.selectHex(selectedHex, false);
         map.hidePossibleTargetsMovesAssists();
         clearAll();
+        map.clearAll();
     }
 
     @Override
