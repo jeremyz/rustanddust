@@ -77,8 +77,9 @@ public class TankOnTank extends Game
     public void dispose()
     {
         Gdx.app.debug("TankOnTank", "dispose()");
-        factory.dispose();
         getScreen().dispose();
+        factory.dispose();
+        unloadAssets();
     }
 
     // @Override

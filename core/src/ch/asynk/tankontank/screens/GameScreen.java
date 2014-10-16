@@ -232,11 +232,10 @@ public class GameScreen implements Screen
     public void dispose()
     {
         // Gdx.app.debug("GameScreen", "dispose()");
-        game.unloadAssets();
         mapBatch.dispose();
         hudBatch.dispose();
-        if (DEBUG) debugShapes.dispose();
         ctrl.dispose();
+        if (DEBUG) debugShapes.dispose();
     }
 
     @Override
