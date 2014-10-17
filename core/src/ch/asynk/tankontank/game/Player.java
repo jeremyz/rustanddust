@@ -26,6 +26,8 @@ public class Player implements Drawable, Disposable
     private Army army;
     private Image flag;
     private Msg status;
+    private int turn;
+    private int apSpent;
     private int actionPoints;
     private ArrayList<Pawn> units;
     private ArrayList<Pawn> casualties;
@@ -34,6 +36,7 @@ public class Player implements Drawable, Disposable
     public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int size)
     {
         this.army = army;
+        this.turn = 0;
         this.actionPoints = 0;
         this.flag = new Image(atlas.findRegion(name));
         this.units = new ArrayList<Pawn>(size);
@@ -73,29 +76,27 @@ public class Player implements Drawable, Disposable
 
     public boolean apExhausted()
     {
-        return (actionPoints <= 0);
+        return (apSpent == actionPoints);
     }
 
     public void burnDownOneAp()
     {
-        actionPoints -= 1;
+        apSpent += 1;
         updateInfo();
-        System.err.println("1 AP burned   " + toString());
-        if (actionPoints < 0) System.err.println("ERROR: AP < 0, damn that's very wrong, please report");
+        if (apSpent > actionPoints) System.err.println("ERROR: spent too much AP, please report");
     }
 
     public void turnEnd()
     {
-        System.err.println("TurnEnd   " + toString());
     }
 
     public void turnStart()
     {
+        turn += 1;
         for (Pawn pawn : units)
             pawn.reset();
         computeActionPoints();
         updateInfo();
-        System.err.println("TurnStart " + toString());
     }
 
     public int d6()
@@ -111,11 +112,12 @@ public class Player implements Drawable, Disposable
             if (d6() > 3)
                 this.actionPoints += 1;
         }
+        apSpent = 0;
     }
 
     private void updateInfo()
     {
-        status.write("AP: " + actionPoints, flag.getX(), (flag.getY() - 40), 0, 10);
+        status.write("Turn: " + turn + " AP: " + (apSpent + 1), flag.getX(), (flag.getY() - 40), 0, 10);
     }
 
     public boolean isEnemy(Pawn pawn)
