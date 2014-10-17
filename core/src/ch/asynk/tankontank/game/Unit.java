@@ -23,22 +23,26 @@ public class Unit extends HeadedPawn
 
     public enum UnitId
     {
-        GE_AT_GUN,
-        GE_INFANTRY,
-        GE_KINGTIGER,
-        GE_PANZER_IV,
-        GE_PANZER_IV_HQ,
-        GE_TIGER,
-        GE_WESPE,
+        GE_AT_GUN("German Anti-Tank Gun"),
+        GE_INFANTRY("German Infantry"),
+        GE_KINGTIGER("German King Tiger"),
+        GE_PANZER_IV("German Panzer IV"),
+        GE_PANZER_IV_HQ("German Panzer IV HQ"),
+        GE_TIGER("German Tiger"),
+        GE_WESPE("German Wespe"),
 
-        US_AT_GUN,
-        US_INFANTRY,
-        US_PERSHING,
-        US_PERSHING_HQ,
-        US_PRIEST,
-        US_SHERMAN,
-        US_SHERMAN_HQ,
-        US_WOLVERINE
+        US_AT_GUN("US Anti-Tank Gun"),
+        US_INFANTRY("US Infantry"),
+        US_PERSHING("US Pershing"),
+        US_PERSHING_HQ("US Pershing HQ"),
+        US_PRIEST("US Priest"),
+        US_SHERMAN("US Sherman"),
+        US_SHERMAN_HQ("US Sherman HQ"),
+        US_WOLVERINE("US Wolverine");
+
+        private String s;
+        UnitId(String s) { this.s = s; }
+        public String toString() { return s; }
     }
 
     public int rng;
@@ -68,6 +72,7 @@ public class Unit extends HeadedPawn
         this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
+        this.descr = id.toString() + " (" + rng + "-" + def + "-" + mp + ")";
     }
 
     // soft tager
@@ -83,6 +88,7 @@ public class Unit extends HeadedPawn
         this.type = type;
         this.hasMoved = false;
         this.hasFired = false;
+        this.descr = id.toString() + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
     public boolean isEnemy(Army other)
