@@ -55,8 +55,8 @@ public class Hud implements Disposable
         bg = new Bg(atlas.findRegion("disabled"));
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
-        ctrl.player().setTopLeft(Gdx.graphics.getHeight(), OFFSET);
-        ctrl.opponent().setTopLeft(Gdx.graphics.getHeight(), OFFSET);
+        ctrl.player().setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
+        ctrl.opponent().setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
     }
 
     @Override

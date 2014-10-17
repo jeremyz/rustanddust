@@ -153,9 +153,9 @@ public class Player implements Drawable, Disposable
         return flag.contains(x, y);
     }
 
-    public void setTopLeft(float height, float offset)
+    public void setTopLeft(float x, float y)
     {
-        flag.setPosition(offset, (height - flag.getHeight() - offset));
+        flag.setPosition(x, (y - flag.getHeight()));
     }
 
     public Iterator<Pawn> unitIterator()
