@@ -18,8 +18,8 @@ public class Ctrl implements Disposable
     public Map map;
     public Hud hud;
     public Config cfg;
-    private int player;
-    private Player players[] = new Player[2];
+    public Player player;
+    public Player opponent;
 
     private State selectState;
     private State pathState;
@@ -38,11 +38,10 @@ public class Ctrl implements Disposable
         this.cfg = game.config;
         game.ctrl = this;
 
-        this.players[0] = game.factory.getPlayer(Army.GE);
-        this.players[1] = game.factory.getPlayer(Army.US);
+        this.player = game.factory.getPlayer(Army.GE);
+        this.opponent = game.factory.getPlayer(Army.US);
         this.map = game.factory.getMap(Factory.MapType.MAP_A);
-        game.factory.fakeSetup(map, players[0], players[1]);
-        player = (new java.util.Random()).nextInt(2);
+        game.factory.fakeSetup(map, player, opponent);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -55,7 +54,7 @@ public class Ctrl implements Disposable
 
         this.hud = new Hud(this, game);
 
-        player().turnStart();
+        player.turnStart();
     }
 
     @Override
@@ -63,16 +62,6 @@ public class Ctrl implements Disposable
     {
         hud.dispose();
         map.dispose();
-    }
-
-    public Player player()
-    {
-        return this.players[player];
-    }
-
-    public Player opponent()
-    {
-        return this.players[((player + 1) % 2)];
     }
 
     public boolean mayProcessTouch()
@@ -102,18 +91,20 @@ public class Ctrl implements Disposable
 
     private void nextPlayer()
     {
-        player().turnEnd();
-        player = ((player + 1) % 2);
-        player().turnStart();
-        hud.notify(player().getName() + "'s turn");
+        player.turnEnd();
+        Player tmp = player;
+        player = opponent;
+        opponent = tmp;
+        player.turnStart();
+        hud.notify(player.getName() + "'s turn");
     }
 
     private void checkTurnEnd()
     {
         if (map.activatedPawnsCount() > 0) {
-            player().burnDownOneAp();
+            player.burnDownOneAp();
         }
-        if (player().apExhausted())
+        if (player.apExhausted())
             nextPlayer();
     }
 

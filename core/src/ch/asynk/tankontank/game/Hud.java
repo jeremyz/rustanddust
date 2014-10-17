@@ -55,8 +55,8 @@ public class Hud implements Disposable
         bg = new Bg(atlas.findRegion("disabled"));
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
-        ctrl.player().setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
-        ctrl.opponent().setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
+        ctrl.player.setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
+        ctrl.opponent.setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Hud implements Disposable
 
     public void draw(Batch batch)
     {
-        ctrl.player().draw(batch);
+        ctrl.player.draw(batch);
         bg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
         if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
@@ -137,7 +137,7 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (ctrl.player().contains(x,y)) return true;
+        if (ctrl.player.contains(x,y)) return true;
         if (!bg.contains(x,y)) return false;
 
         btn = null;
@@ -166,7 +166,7 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (ctrl.player().contains(x,y)) {
+        if (ctrl.player.contains(x,y)) {
             ctrl.endPlayerTurn();
             return true;
         }

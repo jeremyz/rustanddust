@@ -19,7 +19,7 @@ public class StateAttack extends StateCommon
             // use selectedHex and selectedPawn
             from.set(selectedHex);
             map.showPossibleTargets(false);
-            map.buildPossibleTargets(selectedPawn, from, ctrl.opponent().unitIterator());
+            map.buildPossibleTargets(selectedPawn, from, ctrl.opponent.unitIterator());
             map.showPossibleTargets(true);
             if (to.x != -1) {
                 // quick fire -> replay touchUp
@@ -54,7 +54,7 @@ public class StateAttack extends StateCommon
             to.set(upHex);
             activePawn = map.getTopPawnAt(to);
             map.showTarget(to, true);
-            map.buildAttackAssists(selectedPawn, activePawn, to, ctrl.player().unitIterator());
+            map.buildAttackAssists(selectedPawn, activePawn, to, ctrl.player.unitIterator());
             map.showAttackAssists(true);
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
@@ -79,11 +79,11 @@ public class StateAttack extends StateCommon
     @Override
     public void done()
     {
-        int d1 = ctrl.player().d6();
-        int d2 = ctrl.player().d6();
+        int d1 = ctrl.player.d6();
+        int d2 = ctrl.player.d6();
         System.err.print("  attack (" + from.x + ";" + from.y + ") -> (" + to.x + ";" + to.y + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedPawn, activePawn, from, to, d1 + d2))
-            ctrl.player().casualty(activePawn);
+            ctrl.player.casualty(activePawn);
         ctrl.setState(StateType.ANIMATION);
 
         super.done();
