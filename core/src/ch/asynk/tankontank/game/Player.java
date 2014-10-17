@@ -1,8 +1,6 @@
 package ch.asynk.tankontank.game;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Disposable;
 
@@ -17,42 +15,30 @@ import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.game.hud.Msg;
 
-public class Player implements Drawable, Disposable
+public class Player extends ch.asynk.tankontank.engine.Player implements Drawable, Disposable
 {
     private static final float MOVE_TIME = 0.4f;
 
     private static Random rand = new Random();
 
-    private Army army;
-    private Image flag;
-    private Msg status;
     private int turn;
     private int apSpent;
     private int actionPoints;
-    private ArrayList<Pawn> units;
-    private ArrayList<Pawn> casualties;
-    private ArrayList<Pawn> reinforcement;
+    private Image flag;
+    private Msg status;
 
-    public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int size)
+    public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int n)
     {
-        this.army = army;
+        super(army, n);
         this.turn = 0;
         this.actionPoints = 0;
         this.flag = new Image(atlas.findRegion(name));
-        this.units = new ArrayList<Pawn>(size);
-        this.casualties = new ArrayList<Pawn>(size);
-        this.reinforcement = new ArrayList<Pawn>(size);
         this.status = new Msg(font, atlas.findRegion("disabled"));
-    }
-
-    public String getName()
-    {
-        return army.toString();
     }
 
     public String toString()
     {
-        return army + " AP: " + actionPoints +
+        return faction + " AP: " + actionPoints +
             " units:" + units.size() + " casualties:" + casualties.size() + " reinforcement:" + reinforcement.size();
     }
 
@@ -60,18 +46,6 @@ public class Player implements Drawable, Disposable
     public void dispose()
     {
         flag.dispose();
-    }
-
-    public void addUnit(Pawn pawn)
-    {
-        units.add(pawn);
-    }
-
-    public void casualty(Pawn pawn)
-    {
-        units.remove(pawn);
-        casualties.add(pawn);
-        System.err.println("    casualty : " + pawn);
     }
 
     public boolean apExhausted()
@@ -86,10 +60,12 @@ public class Player implements Drawable, Disposable
         if (apSpent > actionPoints) System.err.println("ERROR: spent too much AP, please report");
     }
 
+    @Override
     public void turnEnd()
     {
     }
 
+    @Override
     public void turnStart()
     {
         turn += 1;
@@ -118,11 +94,6 @@ public class Player implements Drawable, Disposable
     private void updateInfo()
     {
         status.write("Turn: " + turn + " AP: " + (apSpent + 1), flag.getX(), (flag.getY() - 40), 0, 10);
-    }
-
-    public boolean isEnemy(Pawn pawn)
-    {
-        return pawn.isEnemy(army);
     }
 
     public boolean canPromote(Pawn pawn)
@@ -155,11 +126,6 @@ public class Player implements Drawable, Disposable
     public void setTopLeft(float x, float y)
     {
         flag.setPosition(x, (y - flag.getHeight()));
-    }
-
-    public Iterator<Pawn> unitIterator()
-    {
-        return units.iterator();
     }
 
     @Override
