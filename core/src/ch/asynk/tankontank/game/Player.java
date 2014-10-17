@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Drawable;
@@ -122,7 +123,7 @@ public class Player implements Drawable, Disposable
 
     public boolean isEnemy(Pawn pawn)
     {
-        return ((Unit) pawn).isEnemy(army);
+        return pawn.isEnemy(army);
     }
 
     public boolean canPromote(Pawn pawn)

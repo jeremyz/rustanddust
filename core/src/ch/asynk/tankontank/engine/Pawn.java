@@ -34,6 +34,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 prevPosition = new Vector3(0f, 0f, 0f);
+    protected Army army;
     protected String descr;
     private Image image;
     private StackedImages overlays;
@@ -48,7 +49,6 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract boolean isHq();
     public abstract boolean isHqOf(Pawn other);
     public abstract boolean isUnit();
-    public abstract boolean isEnemy(Pawn other);
 
     public abstract boolean canMove();
     public abstract boolean canRotate();
@@ -67,8 +67,9 @@ public abstract class Pawn implements Moveable, Disposable
     {
     }
 
-    public Pawn(TextureAtlas atlas, String name)
+    public Pawn(Army army, TextureAtlas atlas, String name)
     {
+        this.army = army;
         this.descr = descr;
         this.image = new Image(atlas.findRegion(name));
         this.overlays = new StackedImages(atlas);
@@ -84,6 +85,16 @@ public abstract class Pawn implements Moveable, Disposable
     public void dispose()
     {
         image.dispose();
+    }
+
+    public boolean isEnemy(Army other)
+    {
+        return army.isEnemy(other);
+    }
+
+    public boolean isEnemy(Pawn other)
+    {
+        return army.isEnemy(other.army);
     }
 
     public boolean isFlankAttack()

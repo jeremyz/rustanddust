@@ -1,8 +1,12 @@
-package ch.asynk.tankontank.game;
+package ch.asynk.tankontank.engine;
 
 public enum Army
 {
-    GE("German"), US("US");
+    GE("German"),
+    US("US"),
+    USSR("Soviet"),
+    EN("English");
+
     private String s;
     Army(String s) { this.s = s; }
 

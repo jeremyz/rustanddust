@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Unit.UnitId;

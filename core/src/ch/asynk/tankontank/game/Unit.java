@@ -3,6 +3,7 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;
@@ -51,20 +52,18 @@ public class Unit extends HeadedPawn
     public int mp;
     public UnitType type;
     public UnitId id;
-    public Army army;
     private boolean hasMoved;
     private boolean hasFired;
 
-    protected Unit(TextureAtlas atlas, String pawn, String head)
+    protected Unit(Army army, TextureAtlas atlas, String pawn, String head)
     {
-        super(atlas, pawn, head);
+        super(army, atlas, pawn, head);
     }
 
     // hard tager
     public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
-        super(atlas, unit, head);
-        this.army = army;
+        super(army, atlas, unit, head);
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
@@ -78,8 +77,7 @@ public class Unit extends HeadedPawn
     // soft tager
     public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
     {
-        super(atlas, unit, head);
-        this.army = army;
+        super(army, atlas, unit, head);
         this.rng = range;
         this.def = defense;
         this.cdef = concealedDefense;
@@ -89,11 +87,6 @@ public class Unit extends HeadedPawn
         this.hasMoved = false;
         this.hasFired = false;
         this.descr = id.toString() + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
-    }
-
-    public boolean isEnemy(Army other)
-    {
-        return army.isEnemy(other);
     }
 
     @Override
@@ -147,12 +140,6 @@ public class Unit extends HeadedPawn
     public boolean isUnit()
     {
         return true;
-    }
-
-    @Override
-    public boolean isEnemy(Pawn other)
-    {
-        return army.isEnemy(((Unit) other).army);
     }
 
     @Override
