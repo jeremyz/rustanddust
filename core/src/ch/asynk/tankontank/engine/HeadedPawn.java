@@ -19,12 +19,7 @@ public abstract class HeadedPawn extends Pawn
         super(atlas, pawn);
         this.head = new Image(atlas.findRegion(head));
         this.orientation = Orientation.KEEP;
-    }
-
-    @Override
-    public String toString()
-    {
-        return super.toString() + " " + orientation;
+        this.descr += " " + orientation;
     }
 
     @Override

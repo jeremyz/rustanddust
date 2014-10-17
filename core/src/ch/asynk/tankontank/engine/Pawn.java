@@ -34,7 +34,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 prevPosition = new Vector3(0f, 0f, 0f);
-    private String name;
+    protected String descr;
     private Image image;
     private StackedImages overlays;
     public Attack attack = new Attack();
@@ -69,7 +69,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public Pawn(TextureAtlas atlas, String name)
     {
-        this.name = name;
+        this.descr = descr;
         this.image = new Image(atlas.findRegion(name));
         this.overlays = new StackedImages(atlas);
     }
@@ -77,7 +77,7 @@ public abstract class Pawn implements Moveable, Disposable
     @Override
     public String toString()
     {
-        return name;
+        return descr;
     }
 
     @Override
