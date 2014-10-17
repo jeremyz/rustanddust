@@ -14,9 +14,9 @@ public abstract class HeadedPawn extends Pawn
     private Image head;
     protected Orientation orientation;
 
-    public HeadedPawn(Army army, TextureAtlas atlas, String pawn, String head)
+    public HeadedPawn(Faction faction, TextureAtlas atlas, String pawn, String head)
     {
-        super(army, atlas, pawn);
+        super(faction, atlas, pawn);
         this.head = new Image(atlas.findRegion(head));
         this.orientation = Orientation.KEEP;
         this.descr += " " + orientation;

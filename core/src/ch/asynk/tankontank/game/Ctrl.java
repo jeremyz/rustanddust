@@ -3,7 +3,6 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.game.states.StateCommon;
 import ch.asynk.tankontank.game.states.StateSelect;
 import ch.asynk.tankontank.game.states.StateMove;

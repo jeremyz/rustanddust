@@ -3,7 +3,6 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;

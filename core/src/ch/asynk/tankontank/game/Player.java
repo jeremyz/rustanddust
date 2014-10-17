@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.engine.Army;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Drawable;
