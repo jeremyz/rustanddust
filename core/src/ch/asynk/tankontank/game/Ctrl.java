@@ -105,7 +105,7 @@ public class Ctrl implements Disposable
         player().turnEnd();
         player = ((player + 1) % 2);
         player().turnStart();
-        hud.nextTurn();
+        hud.notify(player().army + "'s turn");
     }
 
     private void checkTurnEnd()

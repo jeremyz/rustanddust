@@ -72,6 +72,7 @@ public class StateSelect extends StateCommon
             ctrl.hud.hide();
             map.clearAll();
         }
+        if (selectedPawn != null) ctrl.hud.notify(selectedPawn.toString());
     }
 
     @Override
