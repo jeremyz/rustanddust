@@ -42,6 +42,11 @@ public class Player implements Drawable, Disposable
         this.status = new Msg(font, atlas.findRegion("disabled"));
     }
 
+    public String getName()
+    {
+        return army.toString();
+    }
+
     public String toString()
     {
         return army + " AP: " + actionPoints +
