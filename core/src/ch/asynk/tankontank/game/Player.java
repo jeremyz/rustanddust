@@ -20,21 +20,21 @@ public class Player implements Drawable, Disposable
 
     private static Random rand = new Random();
 
-    private Army army;
-    private Image flag;
-    private ArrayList<Pawn> units;
-    private ArrayList<Pawn> casualties;
-    private ArrayList<Pawn> reinforcement;
-    private int actionPoints;
+    public Army army;
+    public Image flag;
+    public ArrayList<Pawn> units;
+    public ArrayList<Pawn> casualties;
+    public ArrayList<Pawn> reinforcement;
+    public int actionPoints;
 
     public Player(Army army, TextureAtlas atlas, String name, int size)
     {
         this.army = army;
+        this.actionPoints = 0;
         this.flag = new Image(atlas.findRegion(name));
         this.units = new ArrayList<Pawn>(size);
         this.casualties = new ArrayList<Pawn>(size);
         this.reinforcement = new ArrayList<Pawn>(size);
-        this.actionPoints = 0;
     }
 
     public String toString()
@@ -61,11 +61,6 @@ public class Player implements Drawable, Disposable
         System.err.println("    casualty : " + pawn);
     }
 
-    public Image getFlag()
-    {
-        return flag;
-    }
-
     public boolean apExhausted()
     {
         return (actionPoints <= 0);
@@ -87,7 +82,7 @@ public class Player implements Drawable, Disposable
     {
         for (Pawn pawn : units)
             pawn.reset();
-        setActionPoints();
+        computeActionPoints();
         System.err.println("TurnStart " + toString());
     }
 
@@ -96,7 +91,7 @@ public class Player implements Drawable, Disposable
         return rand.nextInt(6) + 1;
     }
 
-    private void setActionPoints()
+    private void computeActionPoints()
     {
         this.actionPoints = 2;
         if (d6() > 2) {
@@ -133,9 +128,34 @@ public class Player implements Drawable, Disposable
         return null;
     }
 
+    public boolean contains(float x, float y)
+    {
+        return flag.contains(x, y);
+    }
+
     public void setPosition(float x, float y)
     {
         flag.setPosition(x, y);
+    }
+
+    public float getX()
+    {
+        return flag.getX();
+    }
+
+    public float getY()
+    {
+        return flag.getY();
+    }
+
+    public float getWidth()
+    {
+        return flag.getWidth();
+    }
+
+    public float getHeight()
+    {
+        return flag.getHeight();
     }
 
     public Iterator<Pawn> unitIterator()
