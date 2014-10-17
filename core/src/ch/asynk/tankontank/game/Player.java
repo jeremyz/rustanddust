@@ -7,12 +7,15 @@ import java.util.Iterator;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Drawable;
+import ch.asynk.tankontank.game.hud.Msg;
 
 public class Player implements Drawable, Disposable
 {
@@ -22,12 +25,13 @@ public class Player implements Drawable, Disposable
 
     public Army army;
     public Image flag;
+    public Msg status;
+    public int actionPoints;
     public ArrayList<Pawn> units;
     public ArrayList<Pawn> casualties;
     public ArrayList<Pawn> reinforcement;
-    public int actionPoints;
 
-    public Player(Army army, TextureAtlas atlas, String name, int size)
+    public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int size)
     {
         this.army = army;
         this.actionPoints = 0;
@@ -35,6 +39,7 @@ public class Player implements Drawable, Disposable
         this.units = new ArrayList<Pawn>(size);
         this.casualties = new ArrayList<Pawn>(size);
         this.reinforcement = new ArrayList<Pawn>(size);
+        this.status = new Msg(font, atlas.findRegion("disabled"));
     }
 
     public String toString()
@@ -69,6 +74,7 @@ public class Player implements Drawable, Disposable
     public void burnDownOneAp()
     {
         actionPoints -= 1;
+        updateInfo();
         System.err.println("1 AP burned   " + toString());
         if (actionPoints < 0) System.err.println("ERROR: AP < 0, damn that's very wrong, please report");
     }
@@ -83,6 +89,7 @@ public class Player implements Drawable, Disposable
         for (Pawn pawn : units)
             pawn.reset();
         computeActionPoints();
+        updateInfo();
         System.err.println("TurnStart " + toString());
     }
 
@@ -99,6 +106,11 @@ public class Player implements Drawable, Disposable
             if (d6() > 3)
                 this.actionPoints += 1;
         }
+    }
+
+    private void updateInfo()
+    {
+        status.write("AP: " + actionPoints, flag.getX(), (flag.getY() - 40), 0, 10);
     }
 
     public boolean isEnemy(Pawn pawn)
@@ -133,29 +145,9 @@ public class Player implements Drawable, Disposable
         return flag.contains(x, y);
     }
 
-    public void setPosition(float x, float y)
+    public void setTopLeft(float height, float offset)
     {
-        flag.setPosition(x, y);
-    }
-
-    public float getX()
-    {
-        return flag.getX();
-    }
-
-    public float getY()
-    {
-        return flag.getY();
-    }
-
-    public float getWidth()
-    {
-        return flag.getWidth();
-    }
-
-    public float getHeight()
-    {
-        return flag.getHeight();
+        flag.setPosition(offset, (height - flag.getHeight() - offset));
     }
 
     public Iterator<Pawn> unitIterator()
@@ -167,6 +159,7 @@ public class Player implements Drawable, Disposable
     public void draw(Batch batch)
     {
         flag.draw(batch);
+        status.draw(batch);
     }
 
     @Override
