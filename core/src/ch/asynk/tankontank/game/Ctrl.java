@@ -112,7 +112,6 @@ public class Ctrl implements Disposable
     {
         if (map.activatedPawnsCount() > 0) {
             player().burnDownOneAp();
-            hud.update();
         }
         if (player().apExhausted())
             nextPlayer();

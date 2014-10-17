@@ -24,8 +24,6 @@ public class Hud implements Disposable
     private final TankOnTank game;
     private final Ctrl ctrl;
 
-    private Image flag;
-
     private Bg bg;
     public Button moveBtn;
     public Button rotateBtn;
@@ -37,7 +35,6 @@ public class Hud implements Disposable
     private Button btn;
     private Msg msg;
 
-    private Rectangle infoRect;
     private Vector2 corner;
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
@@ -58,13 +55,8 @@ public class Hud implements Disposable
         bg = new Bg(atlas.findRegion("disabled"));
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
-        flag = ctrl.currentPlayer().getFlag();
-        flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
-        // TODO add counters for
-        //  - Action Points
-        //  - Turn
-
-        infoRect = new Rectangle(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
+        ctrl.player().setTopLeft(Gdx.graphics.getHeight(), OFFSET);
+        ctrl.opponent().setTopLeft(Gdx.graphics.getHeight(), OFFSET);
     }
 
     @Override
@@ -87,7 +79,7 @@ public class Hud implements Disposable
 
     public void draw(Batch batch)
     {
-        flag.draw(batch);
+        ctrl.player().draw(batch);
         bg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
         if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
@@ -98,12 +90,6 @@ public class Hud implements Disposable
         msg.draw(batch);
     }
 
-    public void updatePlayer()
-    {
-        msg.write("Next Player", 1);
-        flag = ctrl.currentPlayer().getFlag();
-        flag.setPosition(OFFSET, (Gdx.graphics.getHeight() - flag.getHeight() - OFFSET));
-    }
 
     private float setButton(Button btn, float x, float y)
     {
@@ -147,7 +133,7 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (infoRect.contains(x,y)) return true;
+        if (ctrl.player().contains(x,y)) return true;
         if (!bg.contains(x,y)) return false;
 
         btn = null;
@@ -176,8 +162,8 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (infoRect.contains(x,y)) {
-            ctrl.endTurn();
+        if (ctrl.player().contains(x,y)) {
+            ctrl.endPlayerTurn();
             return true;
         }
         if (!bg.contains(x,y)) return false;
