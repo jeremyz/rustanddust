@@ -28,10 +28,16 @@ public class Factory implements Board.TileBuilder, Disposable
     }
 
     private TextureAtlas atlas;
+    private final TankOnTank game;
 
-    public void setAtlas(TextureAtlas atlas)
+    public Factory(final TankOnTank game)
     {
-        this.atlas = atlas;
+        this.game = game;
+    }
+
+    public void assetsLoaded()
+    {
+        this.atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
     }
 
     @Override
@@ -57,7 +63,7 @@ public class Factory implements Board.TileBuilder, Disposable
         return cfg;
     }
 
-    public Map getMap(final TankOnTank game, MapType t)
+    public Map getMap(MapType t)
     {
         Board.Config cfg = config();
 

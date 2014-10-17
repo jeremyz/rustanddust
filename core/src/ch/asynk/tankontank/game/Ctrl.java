@@ -40,7 +40,7 @@ public class Ctrl implements Disposable
 
         this.players[0] = game.factory.getPlayer(Army.GE);
         this.players[1] = game.factory.getPlayer(Army.US);
-        this.map = game.factory.getMap(game, Factory.MapType.MAP_A);
+        this.map = game.factory.getMap(Factory.MapType.MAP_A);
         game.factory.fakeSetup(map, players[0], players[1]);
         player = (new java.util.Random()).nextInt(2);
 

@@ -27,7 +27,7 @@ public class TankOnTank extends Game
         Gdx.app.debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
 
         manager = new AssetManager();
-        factory = new Factory();
+        factory = new Factory(this);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         config = new Config();
 
@@ -58,7 +58,7 @@ public class TankOnTank extends Game
 
     public void onLoaded()
     {
-        factory.setAtlas(manager.get("data/assets.atlas", TextureAtlas.class));
+        factory.assetsLoaded();
     }
 
     // @Override
