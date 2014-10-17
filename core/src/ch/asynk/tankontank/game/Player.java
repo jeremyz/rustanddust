@@ -23,13 +23,13 @@ public class Player implements Drawable, Disposable
 
     private static Random rand = new Random();
 
-    public Army army;
-    public Image flag;
-    public Msg status;
-    public int actionPoints;
-    public ArrayList<Pawn> units;
-    public ArrayList<Pawn> casualties;
-    public ArrayList<Pawn> reinforcement;
+    private Army army;
+    private Image flag;
+    private Msg status;
+    private int actionPoints;
+    private ArrayList<Pawn> units;
+    private ArrayList<Pawn> casualties;
+    private ArrayList<Pawn> reinforcement;
 
     public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int size)
     {
