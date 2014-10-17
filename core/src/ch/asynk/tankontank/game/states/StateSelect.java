@@ -55,13 +55,13 @@ public class StateSelect extends StateCommon
             int moves = map.buildPossibleMoves(selectedPawn, selectedHex);
             int targets = 0;
             if (isEnemy)
-                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.currentPlayer().unitIterator());
+                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.player().unitIterator());
             else
-                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.otherPlayer().unitIterator());
+                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.opponent().unitIterator());
             int assists = map.buildMoveAssists(selectedPawn, selectedHex);
             showPossibleTargetsMovesAssists(selectedPawn);
             ctrl.hud.show(
-                ctrl.currentPlayer().canPromote(selectedPawn),
+                ctrl.player().canPromote(selectedPawn),
                 selectedPawn.canMove(),
                 (selectedPawn.canMove() && (moves > 0)),
                 (selectedPawn.canAttack() && (targets > 0)),

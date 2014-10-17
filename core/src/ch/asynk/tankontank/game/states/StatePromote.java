@@ -9,7 +9,7 @@ public class StatePromote extends StateCommon
     public void enter(boolean flag)
     {
         ctrl.hud.hide();
-        Pawn p = ctrl.currentPlayer().promote(selectedPawn);
+        Pawn p = ctrl.player().promote(selectedPawn);
         if (p != null) {
             map.promote(selectedPawn, p);
         }

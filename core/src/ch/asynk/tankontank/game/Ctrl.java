@@ -55,7 +55,7 @@ public class Ctrl implements Disposable
 
         this.hud = new Hud(this, game);
 
-        currentPlayer().turnStart();
+        player().turnStart();
     }
 
     @Override
@@ -65,12 +65,12 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
-    public Player currentPlayer()
+    public Player player()
     {
         return this.players[player];
     }
 
-    public Player otherPlayer()
+    public Player opponent()
     {
         return this.players[((player + 1) % 2)];
     }
@@ -102,11 +102,26 @@ public class Ctrl implements Disposable
 
     private void nextPlayer()
     {
-        currentPlayer().turnEnd();
+        player().turnEnd();
         player = ((player + 1) % 2);
-        currentPlayer().turnStart();
-        hud.updatePlayer();
+        player().turnStart();
+        hud.nextTurn();
+    }
 
+    private void checkTurnEnd()
+    {
+        if (map.activatedPawnsCount() > 0) {
+            player().burnDownOneAp();
+            hud.update();
+        }
+        if (player().apExhausted())
+            nextPlayer();
+    }
+
+    public void endPlayerTurn()
+    {
+        state.abort();
+        nextPlayer();
     }
 
     public void setState(State.StateType state)
@@ -144,21 +159,6 @@ public class Ctrl implements Disposable
         }
 
         this.state.enter(normal);
-    }
-
-    private void checkTurnEnd()
-    {
-        if (map.activatedPawnsCount() > 0) {
-            currentPlayer().burnDownOneAp();
-        }
-        if (currentPlayer().apExhausted())
-            nextPlayer();
-    }
-
-    public void endTurn()
-    {
-        state.abort();
-        nextPlayer();
     }
 
     public void abort()
