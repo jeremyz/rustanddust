@@ -1,12 +1,10 @@
-package ch.asynk.tankontank.game;
-
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+package ch.asynk.tankontank.game.battles;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Hex;
 
 public class MapA extends Map
 {

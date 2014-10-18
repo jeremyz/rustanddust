@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ch.asynk.tankontank.screens.LoadScreen;
-import ch.asynk.tankontank.game.Factory;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Config;
+import ch.asynk.tankontank.game.battles.Factory;
 
 public class TankOnTank extends Game
 {
