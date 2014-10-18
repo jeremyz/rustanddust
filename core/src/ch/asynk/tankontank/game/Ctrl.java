@@ -38,6 +38,11 @@ public class Ctrl implements Disposable
         this.cfg = game.config;
         game.ctrl = this;
 
+        this.player = battle.getFirstPlayer();
+        this.opponent = battle.getSecondPlayer();
+        this.map = battle.getMap();
+        battle.setup(map, player, opponent);
+
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
         this.rotateState = new StateRotate();
@@ -46,11 +51,6 @@ public class Ctrl implements Disposable
         this.animationState = new StateAnimation();
 
         this.state = selectState;
-
-        this.player = battle.getFirstPlayer();
-        this.opponent = battle.getSecondPlayer();
-        this.map = battle.getMap();
-        battle.setup(map, player, opponent);
 
         this.hud = new Hud(this, game);
 
