@@ -6,13 +6,16 @@ ARGS="desktop:run"
 case "$1" in
     "c")
         ARGS="clean packs $ARGS"
+        shift
         ;;
     "a")
         ARGS="android:installDebug android:run"
+        shift
         ;;
     "t")
         ARGS="core:test"
+        shift
         ;;
 esac
 
-echo "./gradlew $ARGS" && ./gradlew $ARGS
+echo "./gradlew $ARGS $@" && ./gradlew $ARGS $@
