@@ -310,8 +310,6 @@ public abstract class Map extends Board
         // TODO : free move for infantry
         for (Pawn p : activatedPawns)
             pawn.attack(target);
-        activablePawns.clear();
-        activatedPawns.clear();
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
