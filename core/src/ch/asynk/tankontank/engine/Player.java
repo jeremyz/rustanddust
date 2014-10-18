@@ -34,6 +34,11 @@ public abstract class Player
         return pawn.isEnemy(faction);
     }
 
+    public boolean isEnemy(Faction other)
+    {
+        return faction.isEnemy(other);
+    }
+
     public void addUnit(Pawn pawn)
     {
         units.add(pawn);
