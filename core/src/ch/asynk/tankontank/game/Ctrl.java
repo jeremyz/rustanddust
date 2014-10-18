@@ -32,16 +32,11 @@ public class Ctrl implements Disposable
 
     private State state;
 
-    public Ctrl(final TankOnTank game)
+    public Ctrl(final TankOnTank game, final Battle battle)
     {
         this.game = game;
         this.cfg = game.config;
         game.ctrl = this;
-
-        this.player = game.factory.getPlayer(Army.GE);
-        this.opponent = game.factory.getPlayer(Army.US);
-        this.map = game.factory.getMap(Factory.MapType.MAP_A);
-        game.factory.fakeSetup(map, player, opponent);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -51,6 +46,11 @@ public class Ctrl implements Disposable
         this.animationState = new StateAnimation();
 
         this.state = selectState;
+
+        this.player = battle.getFirstPlayer();
+        this.opponent = battle.getSecondPlayer();
+        this.map = battle.getMap();
+        battle.setup(map, player, opponent);
 
         this.hud = new Hud(this, game);
 
