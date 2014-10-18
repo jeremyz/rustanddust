@@ -84,6 +84,7 @@ public class StateAttack extends StateCommon
         System.err.print("  attack (" + from.x + ";" + from.y + ") -> (" + to.x + ";" + to.y + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedPawn, activePawn, from, to, d1 + d2))
             ctrl.player.casualty(activePawn);
+        map.showTarget(to, false);
         ctrl.setState(StateType.ANIMATION);
 
         super.done();
