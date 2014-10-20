@@ -67,6 +67,16 @@ public abstract class Map extends Board
         clearCoordinateVector(finalPath);
     }
 
+    public void clearPossiblePaths()
+    {
+        clearPointSet(possiblePaths);
+    }
+
+    public void clearPossibleTargets()
+    {
+        clearPointVector(possibleTargets);
+    }
+
     protected Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
@@ -272,16 +282,6 @@ public abstract class Map extends Board
     public int possiblePathsPointToggle(GridPoint2 hex)
     {
         return possiblePathsFilterToggle(hex, possiblePaths);
-    }
-
-    public void clearPossiblePaths()
-    {
-        clearPointSet(possiblePaths);
-    }
-
-    public void clearPossibleTargets()
-    {
-        clearPointVector(possibleTargets);
     }
 
     public boolean attackPawn(Pawn pawn, final Pawn target, GridPoint2 from, GridPoint2 to, int dice)
