@@ -177,7 +177,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean canAttack(Pawn other)
     {
-        return isEnemy(other);
+        return (isEnemy(other) && canAttack());
     }
 
     @Override
