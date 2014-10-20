@@ -307,10 +307,6 @@ public abstract class Map extends Board
             success = ((dice + activatedUnits + flankAttacks) >= hex.defenseFor(target, activatedPawns));
         }
 
-        // TODO : free move for infantry
-        for (Pawn p : activatedPawns)
-            pawn.attack(target);
-
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
             explosions.init(1, target.getCenter().x, target.getCenter().y);
@@ -330,6 +326,11 @@ public abstract class Map extends Board
         }));
 
         addAnimation(seq);
+
+        for (Pawn p : activatedPawns)
+            pawn.attack(target);
+        if ((activatedPawnsCount() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+            activatedPawns.clear();
 
         return success;
     }
