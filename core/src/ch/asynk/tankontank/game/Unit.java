@@ -127,6 +127,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isHardTarget()
+    {
+        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ));
+    }
+
+    @Override
     public boolean isHqOf(Pawn other)
     {
         if ((id == UnitId.GE_PANZER_IV_HQ) && (((Unit)other).id == UnitId.GE_PANZER_IV)) return true;
@@ -144,21 +150,21 @@ public class Unit extends HeadedPawn
     @Override
     public boolean canRotate()
     {
-        if (type == UnitType.HARD_TARGET) return !hasMoved;
+        if (isHardTarget()) return !hasMoved;
         return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canMove()
     {
-        if (type == UnitType.HARD_TARGET) return !hasMoved;
+        if (isHardTarget()) return !hasMoved;
         return (!hasMoved && !hasFired);
     }
 
     @Override
     public boolean canAttack()
     {
-        if (type == UnitType.HARD_TARGET) return !hasFired;
+        if (isHardTarget()) return !hasFired;
         return (!hasMoved && !hasFired);
     }
 

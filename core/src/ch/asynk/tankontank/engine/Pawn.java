@@ -49,6 +49,7 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract boolean isHq();
     public abstract boolean isHqOf(Pawn other);
     public abstract boolean isUnit();
+    public abstract boolean isHardTarget();
 
     public abstract boolean canMove();
     public abstract boolean canRotate();
