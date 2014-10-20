@@ -12,7 +12,7 @@ public class Unit extends HeadedPawn
 {
     public static final int DISABLED = 0;
 
-    public enum UnitType
+    public enum UnitType implements Pawn.PawnType
     {
         HARD_TARGET,
         HARD_TARGET_HQ,
@@ -121,15 +121,21 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public boolean isHq()
+    public boolean isUnit()
     {
-        return (type == UnitType.HARD_TARGET_HQ);
+        return true;
     }
 
     @Override
-    public boolean isHardTarget()
+    public boolean isA(PawnType t)
     {
-        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ));
+        return (type == t);
+    }
+
+    @Override
+    public boolean isHq()
+    {
+        return (type == UnitType.HARD_TARGET_HQ);
     }
 
     @Override
@@ -142,9 +148,9 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public boolean isUnit()
+    public boolean isHardTarget()
     {
-        return true;
+        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ));
     }
 
     @Override

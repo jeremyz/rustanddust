@@ -22,6 +22,10 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 
 public abstract class Pawn implements Moveable, Disposable
 {
+    public interface PawnType
+    {
+    }
+
     public class Attack
     {
         int distance;
@@ -46,9 +50,10 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract int getFlankSides();
     public abstract int getAttackRangeFrom(Tile tile);
 
+    public abstract boolean isUnit();
+    public abstract boolean isA(PawnType type);
     public abstract boolean isHq();
     public abstract boolean isHqOf(Pawn other);
-    public abstract boolean isUnit();
     public abstract boolean isHardTarget();
 
     public abstract boolean canMove();
