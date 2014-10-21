@@ -73,6 +73,7 @@ public class StateAttack extends StateCommon
     @Override
     public void abort()
     {
+        map.clearActivatedPawns();
         super.abort();
     }
 
