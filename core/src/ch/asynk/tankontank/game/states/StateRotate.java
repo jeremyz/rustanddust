@@ -14,7 +14,6 @@ public class StateRotate extends StateCommon
     {
         this.rotateOnly = rotateOnly;
 
-        // if ((map.activablePawnsCount() + map.activatedPawnsCount()) == 1)
         ctrl.hud.show(false, true, false, false, false, ctrl.cfg.canCancel);
         ctrl.hud.rotateBtn.setOn();
 
@@ -45,8 +44,6 @@ public class StateRotate extends StateCommon
         map.showFinalPath(to, false);
         map.showDirections(to, false);
         map.showOrientation(to, false, o);
-        to.set(-1, -1);
-        from.set(-1, -1);
     }
 
     @Override
@@ -76,10 +73,13 @@ public class StateRotate extends StateCommon
     @Override
     public void abort()
     {
-        hideAssists();
-        ctrl.setAnimationCount(map.activatedPawnsCount());
-        map.revertMoves();
-        super.abort();
+        ctrl.hud.hide();
+        if (map.activatedPawnsCount() == 0) {
+            hideAssists();
+            super.abort();
+        } else {
+            ctrl.setState(StateType.MOVE, false);
+        }
     }
 
     @Override
