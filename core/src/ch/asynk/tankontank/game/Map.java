@@ -77,6 +77,16 @@ public abstract class Map extends Board
         clearPointVector(possibleTargets);
     }
 
+    public void clearActivablePawns()
+    {
+        activablePawns.clear();
+    }
+
+    public void clearActivatedPawns()
+    {
+        activatedPawns.clear();
+    }
+
     protected Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
