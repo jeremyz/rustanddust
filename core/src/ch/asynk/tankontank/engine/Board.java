@@ -144,24 +144,14 @@ public abstract class Board implements Disposable
             transform = false;
     }
 
-    public Tile getTile(GridPoint2 coords)
-    {
-        return getTile(coords.x, coords.y);
-    }
-
-    public Tile getTile(int col, int row)
+    protected Tile getTile(int col, int row)
     {
         int idx = ((col - ((row + 1) / 2))) + (row * cfg.cols);
         // Gdx.app.debug("Board", " getTile: " + col + " ; " + row + " -> " + idx);
         return tiles[idx];
     }
 
-    public Tile getTileSafe(GridPoint2 coords)
-    {
-        return getTileSafe(coords.x, coords.y);
-    }
-
-    public Tile getTileSafe(int col, int row)
+    protected Tile getTileSafe(int col, int row)
     {
         int colOffset = ((row + 1) / 2);
         if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
@@ -473,22 +463,22 @@ public abstract class Board implements Disposable
 
     protected boolean hasUnits(GridPoint2 coords)
     {
-        return getTile(coords).hasUnits();
+        return getTile(coords.x, coords.y).hasUnits();
     }
 
     public boolean isOffMap(GridPoint2 coords)
     {
-        return getTile(coords).isOffMap();
+        return getTile(coords.x, coords.y).isOffMap();
     }
 
     protected boolean isOverlayEnabledOn(GridPoint2 coords, int i)
     {
-        return getTile(coords).isOverlayEnabled(i);
+        return getTile(coords.x, coords.y).isOverlayEnabled(i);
     }
 
     public void enableOverlayOn(GridPoint2 coords, int i, boolean enable)
     {
-        Tile tile = getTile(coords);
+        Tile tile = getTile(coords.x, coords.y);
         if(tile.enableOverlay(i, enable))
             tilesToDraw.add(tile);
         else
@@ -497,7 +487,7 @@ public abstract class Board implements Disposable
 
     public void enableOverlayOn(GridPoint2 coords, int i, boolean enable, Orientation o)
     {
-        Tile tile = getTile(coords);
+        Tile tile = getTile(coords.x, coords.y);
         if(tile.enableOverlay(i, enable, o.r()))
             tilesToDraw.add(tile);
         else
@@ -506,12 +496,12 @@ public abstract class Board implements Disposable
 
     public Pawn getTopPawnAt(GridPoint2 coords)
     {
-        return getTile(coords).getTopPawn();
+        return getTile(coords.x, coords.y).getTopPawn();
     }
 
     private int pushPawnAt(Pawn pawn, GridPoint2 coords)
     {
-        Tile tile = getTile(coords);
+        Tile tile = getTile(coords.x, coords.y);
         tilesToDraw.add(tile);
         return tile.push(pawn);
     }
@@ -523,7 +513,7 @@ public abstract class Board implements Disposable
 
     public int removePawnFrom(Pawn pawn, GridPoint2 coords)
     {
-        Tile tile = getTile(coords);
+        Tile tile = getTile(coords.x, coords.y);
         int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
