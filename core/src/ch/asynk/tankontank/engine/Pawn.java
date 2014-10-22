@@ -131,14 +131,14 @@ public abstract class Pawn implements Moveable, Disposable
         return new Vector2(x, y);
     }
 
-    public Vector2 getPosAt(float x, float y, Vector2 pos)
+    public Vector2 getPosAt(Tile tile, Vector2 pos)
     {
-        float cx = (x - (image.getWidth() / 2f));
-        float cy = (y - (image.getHeight() / 2f));
+        float x = (tile.getX() - (image.getWidth() / 2f));
+        float y = (tile.getY() - (image.getHeight() / 2f));
         if (pos == null)
-            return new Vector2(cx, cy);
+            return new Vector2(x, y);
         else
-            pos.set(cx, cy);
+            pos.set(x, y);
         return pos;
     }
 

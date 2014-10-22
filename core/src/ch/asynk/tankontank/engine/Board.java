@@ -532,9 +532,7 @@ public abstract class Board implements Disposable
 
     protected Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
-        // FIXME the pawn should return its Vector3
-        Tile tile = getTile(coords);
-        return pawn.getPosAt(tile.getX(), tile.getY(), pos);
+        return pawn.getPosAt(getTile(coords.x, coords.y), pos);
     }
 
     public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
