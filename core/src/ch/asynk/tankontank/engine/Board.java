@@ -435,7 +435,7 @@ public abstract class Board implements Disposable
                 v = vector3Pool.obtain();
             }
             tmpHex.set(node.col, node.row);
-            getPawnPosAt(pawn, tmpHex, tmpCoords);
+            pawn.getPosAt(getTile(tmpHex.x, tmpHex.y), tmpCoords);
             v.set(tmpCoords.x, tmpCoords.y, o.r());
             path.add(v);
             prevOrientation = o;
@@ -518,11 +518,6 @@ public abstract class Board implements Disposable
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
         return n;
-    }
-
-    protected Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
-    {
-        return pawn.getPosAt(getTile(coords.x, coords.y), pos);
     }
 
     public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
