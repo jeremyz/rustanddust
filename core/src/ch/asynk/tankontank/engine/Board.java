@@ -170,7 +170,7 @@ public abstract class Board implements Disposable
         tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
     }
 
-    public void addAnimation(Animation a)
+    protected void addAnimation(Animation a)
     {
         nextAnimations.add(a);
     }
