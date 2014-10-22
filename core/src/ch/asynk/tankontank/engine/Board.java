@@ -27,6 +27,7 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board implements Disposable
 {
+    private GridPoint2 tmpPt = new GridPoint2();
     private final Tile neighbours[] = new Tile[6];
     protected List<ArrayList<SearchBoard.Node>> paths;
 
@@ -301,7 +302,8 @@ public abstract class Board implements Disposable
         GridPoint2 to = gridPoint2Pool.obtain();
         while (units.hasNext()) {
             Pawn target = units.next();
-            getHexUnder(target, to);
+            Tile tile = target.getTile();
+            to.set(tile.getCol(), tile.getRow());
             if (searchBoard.buildAttack(pawn, true, target, coords.x, coords.y, to.x, to.y)) {
                 targets.add(to);
                 to = gridPoint2Pool.obtain();
@@ -342,7 +344,8 @@ public abstract class Board implements Disposable
         while (units.hasNext()) {
             Pawn p = units.next();
             if ((p == pawn) || !p.canAttack()) continue;
-            getHexUnder(p, from);
+            Tile tile = p.getTile();
+            from.set(tile.getCol(), tile.getRow());
             if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.x, from.y, coords.x, coords.y)) {
                 if (p != pawn) {
                     assists.add(from);
@@ -499,43 +502,43 @@ public abstract class Board implements Disposable
         return getTile(coords.x, coords.y).getTopPawn();
     }
 
-    private int pushPawnAt(Pawn pawn, GridPoint2 coords)
+    private int pushPawnOnto(Pawn pawn, Tile tile)
     {
-        Tile tile = getTile(coords.x, coords.y);
         tilesToDraw.add(tile);
         return tile.push(pawn);
     }
 
     public int removePawn(Pawn pawn)
     {
-        return removePawnFrom(pawn, getHexUnder(pawn));
-    }
-
-    public int removePawnFrom(Pawn pawn, GridPoint2 coords)
-    {
-        Tile tile = getTile(coords.x, coords.y);
+        Tile tile = pawn.getTile();
         int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
         return n;
     }
 
-    public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
+    public Pawn setPawnOnto(Pawn pawn, Tile tile, Orientation o)
     {
-        pawn.setOnTile(getTile(coords.x, coords.y), o);
-        pushPawnAt(pawn, coords);
+        return setPawnOnto(pawn, tile, o.r());
+    }
+
+    public Pawn setPawnOnto(Pawn pawn, Tile tile, float r)
+    {
+        pawn.setOnTile(tile, r);
+        pushPawnOnto(pawn, tile);
         return pawn;
     }
 
     protected void movePawn(final Pawn pawn, int cost, ArrayList<Vector3> path, RunnableAnimation whenDone)
     {
-        removePawnFrom(pawn, getHexUnder(pawn));
+        removePawn(pawn);
 
         AnimationSequence seq = pawn.getMoveAnimation(path);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, getHexUnder(pawn));
+                getHexAt(pawn.getCenter(), tmpPt);
+                setPawnOnto(pawn, getTile(tmpPt.x, tmpPt.y), pawn.getRotation());
             }
         }));
         seq.addAnimation(whenDone);
@@ -557,28 +560,18 @@ public abstract class Board implements Disposable
 
     protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)
     {
-        removePawnFrom(pawn, getHexUnder(pawn));
+        removePawn(pawn);
 
         AnimationSequence seq = pawn.getRevertLastMoveAnimation();
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                pushPawnAt(pawn, getHexUnder(pawn));
+                pushPawnOnto(pawn, pawn.getTile());
             }
         }));
         seq.addAnimation(whenDone);
         addAnimation(seq);
         pawn.revertLastMove();
-    }
-
-    public GridPoint2 getHexUnder(Pawn pawn)
-    {
-        return getHexAt(pawn.getCenter(), null);
-    }
-
-    public GridPoint2 getHexUnder(Pawn pawn, GridPoint2 hex)
-    {
-        return getHexAt(pawn.getCenter(), hex);
     }
 
     public GridPoint2 getHexAt(Vector2 v, GridPoint2 hex)

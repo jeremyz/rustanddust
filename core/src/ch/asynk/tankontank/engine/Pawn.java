@@ -36,8 +36,10 @@ public abstract class Pawn implements Moveable, Disposable
 
     private static final float MOVE_TIME = 0.4f;
 
-    private Vector3 position = new Vector3(0f, 0f, 0f);
-    private Vector3 prevPosition = new Vector3(0f, 0f, 0f);
+    private Vector3 position;
+    private Vector3 prevPosition;
+    private Tile tile;
+    private Tile prevTile;
     protected Faction faction;
     protected String descr;
     private Image image;
@@ -71,10 +73,15 @@ public abstract class Pawn implements Moveable, Disposable
 
     protected Pawn()
     {
+        this.tile = null;
+        this.prevTile = null;
+        this.position = new Vector3(0f, 0f, 0f);
+        this.prevPosition = new Vector3(0f, 0f, 0f);
     }
 
     public Pawn(Faction faction, TextureAtlas atlas, String name)
     {
+        this();
         this.faction = faction;
         this.descr = descr;
         this.image = new Image(atlas.findRegion(name));
@@ -108,6 +115,11 @@ public abstract class Pawn implements Moveable, Disposable
         return (attack.isClear && attack.isFlank);
     }
 
+    public Tile getTile()
+    {
+        return tile;
+    }
+
     public Vector3 getPosition()
     {
         return position;
@@ -120,6 +132,8 @@ public abstract class Pawn implements Moveable, Disposable
 
     private void revertPosition()
     {
+        this.tile = this.prevTile;
+        this.prevTile = null;
         position.set(prevPosition);
         prevPosition.set(0f, 0f, 0f);
         setPosition(position.x, position.y, position.z);
@@ -143,11 +157,13 @@ public abstract class Pawn implements Moveable, Disposable
         return pos;
     }
 
-    public void setOnTile(Tile tile, Orientation o)
+    public void setOnTile(Tile tile, float z)
     {
+        this.prevTile = this.tile;
+        this.tile = tile;
         float x = (tile.getX() - (image.getWidth() / 2f));
         float y = (tile.getY() - (image.getHeight() / 2f));
-        setPosition(x, y, o.r());
+        setPosition(x, y, z);
     }
 
     @Override
