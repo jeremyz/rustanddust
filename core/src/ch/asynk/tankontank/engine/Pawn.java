@@ -122,6 +122,7 @@ public abstract class Pawn implements Moveable, Disposable
     {
         position.set(prevPosition);
         prevPosition.set(0f, 0f, 0f);
+        setPosition(position.x, position.y, position.z);
     }
 
     public Vector2 getCenter()
@@ -247,7 +248,6 @@ public abstract class Pawn implements Moveable, Disposable
             @Override
             public void run() {
                 revertPosition();
-                setPosition(position.x, position.y, position.z);
             }
         }));
 
