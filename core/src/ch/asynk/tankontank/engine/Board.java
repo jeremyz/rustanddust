@@ -27,7 +27,7 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board implements Disposable
 {
-    private final GridPoint2 neighbours[] = new GridPoint2[6];
+    private final Tile neighbours[] = new Tile[6];
     protected List<ArrayList<SearchBoard.Node>> paths;
 
     public interface TileBuilder
@@ -81,8 +81,6 @@ public abstract class Board implements Disposable
 
     protected Board(int cols, int rows)
     {
-        for (int i = 0; i < 6; i++)
-            neighbours[i] = new GridPoint2(-1, -1);
         searchBoard = new SearchBoard(this, cols, rows);
     }
 
@@ -107,9 +105,6 @@ public abstract class Board implements Disposable
             y += cfg.h;
             evenRow = !evenRow;
         }
-
-        for (int i = 0; i < 6; i++)
-            neighbours[i] = new GridPoint2(-1, -1);
     }
 
     @Override
@@ -177,22 +172,12 @@ public abstract class Board implements Disposable
 
     private void getAdjacentTiles(GridPoint2 coords, Tile tiles[])
     {
-        tiles[0] = getTileSafe((coords.x - 1), coords.y);
-        tiles[1] = getTileSafe(coords.x, (coords.y + 1));
+        tiles[0] = getTileSafe((coords.x - 1), (coords.y));
+        tiles[1] = getTileSafe((coords.x),     (coords.y + 1));
         tiles[2] = getTileSafe((coords.x + 1), (coords.y + 1));
-        tiles[3] = getTileSafe((coords.x + 1), coords.y);
-        tiles[4] = getTileSafe(coords.x, (coords.y - 1));
+        tiles[3] = getTileSafe((coords.x + 1), (coords.y));
+        tiles[4] = getTileSafe((coords.x),     (coords.y - 1));
         tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
-    }
-
-    private void buildNeighboursFor(GridPoint2 coords)
-    {
-        neighbours[0].set((coords.x - 1), coords.y);
-        neighbours[1].set(coords.x, (coords.y + 1));
-        neighbours[2].set((coords.x + 1), (coords.y + 1));
-        neighbours[3].set((coords.x + 1), coords.y);
-        neighbours[4].set(coords.x, (coords.y - 1));
-        neighbours[5].set((coords.x - 1), (coords.y - 1));
     }
 
     public void addAnimation(Animation a)
@@ -343,14 +328,16 @@ public abstract class Board implements Disposable
     protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
     {
         assists.clear();
-        buildNeighboursFor(coords);
+        getAdjacentTiles(coords, neighbours);
         for (int i = 0; i < 6; i++) {
-            GridPoint2 neighbour = neighbours[i];
-            Tile t = getTileSafe(neighbour);
+            Tile t = neighbours[i];
             if (t != null) {
+                // FIXME should support may pawns per tile
                 Pawn p = t.getTopPawn();
                 if ((p != null) && p.canMove() && !pawn.isEnemy(p)) {
-                    assists.add(neighbour);
+                    GridPoint2 assist = gridPoint2Pool.obtain();
+                    assist.set(t.getCol(), t.getRow());
+                    assists.add(assist);
                 }
             }
         }

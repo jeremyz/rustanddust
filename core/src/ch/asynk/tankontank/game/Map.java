@@ -57,7 +57,7 @@ public abstract class Map extends Board
 
     public void clearAll()
     {
-        moveAssists.clear();
+        clearPointVector(moveAssists);;
         clearPointVector(attackAssists);
         activablePawns.clear();
         activatedPawns.clear();
@@ -241,7 +241,7 @@ public abstract class Map extends Board
     public int buildMoveAssists(Pawn pawn, GridPoint2 hex)
     {
         if (!pawn.isHq()) {
-            moveAssists.clear();
+            clearPointVector(moveAssists);
             return 0;
         }
         return buildMoveAssists(pawn, hex, moveAssists);
