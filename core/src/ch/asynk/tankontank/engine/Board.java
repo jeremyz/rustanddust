@@ -86,21 +86,6 @@ public abstract class Board implements Disposable
         searchBoard = new SearchBoard(this, cols, rows);
     }
 
-    @Override
-    public void dispose()
-    {
-        image.dispose();
-        for (int i = 0; i < (cfg.cols * cfg.rows); i++)
-            tiles[i].dispose();
-        tilesToDraw.clear();
-        for (int i = 0, n = nextAnimations.size(); i < n; i++)
-            nextAnimations.get(i).dispose();
-        animations.clear();
-        for (int i = 0, n = animations.size(); i < n; i++)
-            animations.get(i).dispose();
-        animations.clear();
-    }
-
     public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
     {
         image = new Image(texture);
@@ -125,6 +110,21 @@ public abstract class Board implements Disposable
 
         for (int i = 0; i < 6; i++)
             neighbours[i] = new GridPoint2(-1, -1);
+    }
+
+    @Override
+    public void dispose()
+    {
+        image.dispose();
+        for (int i = 0; i < (cfg.cols * cfg.rows); i++)
+            tiles[i].dispose();
+        tilesToDraw.clear();
+        for (int i = 0, n = nextAnimations.size(); i < n; i++)
+            nextAnimations.get(i).dispose();
+        animations.clear();
+        for (int i = 0, n = animations.size(); i < n; i++)
+            animations.get(i).dispose();
+        animations.clear();
     }
 
     public float getWidth()
