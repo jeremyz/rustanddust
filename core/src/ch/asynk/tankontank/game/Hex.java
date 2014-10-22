@@ -35,12 +35,12 @@ public class Hex extends Tile
 
     public String toString()
     {
-        return "[" + getCenter().x + ";" + getCenter().y + "]  " + "t:" + terrain + " r:" + roads;
+        return "(" + col + ";" + row + ") [" + x + ";" + y + "]  " + "t:" + terrain + " r:" + roads;
     }
 
-    public Hex(float x, float y, TextureAtlas atlas)
+    public Hex(float x, float y, int col, int row, TextureAtlas atlas)
     {
-        super(x, y, atlas);
+        super(x, y, col, row, atlas);
         this.terrain = Terrain.CLEAR;
         this.roads = 0;
     }

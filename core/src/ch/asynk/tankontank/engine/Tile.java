@@ -16,7 +16,10 @@ import ch.asynk.tankontank.engine.gfx.StackedImages;
 
 public abstract class Tile implements Drawable, Disposable
 {
-    private Vector2 center;
+    protected int col;
+    protected int row;
+    protected float x;
+    protected float y;
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
@@ -32,24 +35,27 @@ public abstract class Tile implements Drawable, Disposable
     {
     }
 
-    public Tile(float x, float y, TextureAtlas atlas)
+    public Tile(float x, float y, int col, int row, TextureAtlas atlas)
     {
         this.stack = null;
-        this.center = new Vector2(x, y);
+        this.x = x;
+        this.y = y;
+        this.col = col;
+        this.row = row;
         this.overlays = new StackedImages(atlas);
         this.overlays.centerOn(x, y);
     }
+
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public int getCol() { return col; }
+    public int getRow() { return row; }
 
     @Override
     public void dispose()
     {
         if(stack != null) stack.clear();
         overlays.dispose();
-    }
-
-    public Vector2 getCenter()
-    {
-        return center;
     }
 
     public boolean isEmpty()

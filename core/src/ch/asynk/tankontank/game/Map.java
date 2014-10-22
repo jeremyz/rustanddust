@@ -92,7 +92,7 @@ public abstract class Map extends Board
         return (Hex) getTile(col, row);
     }
 
-    protected Hex getHexSafe(GridPoint2 hex)
+    public Hex getHexSafe(GridPoint2 hex)
     {
         return (Hex) getTileSafe(hex.x, hex.y);
     }

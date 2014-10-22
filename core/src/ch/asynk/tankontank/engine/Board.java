@@ -32,7 +32,7 @@ public abstract class Board implements Disposable
 
     public interface TileBuilder
     {
-        public Tile getNewTile(float cx, float cy);
+        public Tile getNewTile(float x, float y, int col, int row);
     }
 
     public static class Config
@@ -115,7 +115,7 @@ public abstract class Board implements Disposable
             float x = cfg.x0 + cfg.dw;
             if (!evenRow) x += cfg.dw;
             for ( int j = 0; j < cfg.cols; j ++) {
-                this.tiles[idx] = tileBuilder.getNewTile(x, y);
+                this.tiles[idx] = tileBuilder.getNewTile(x, y, (j + ((i + 1) / 2)), i);
                 idx += 1;
                 x += cfg.w;
             }
@@ -545,8 +545,9 @@ public abstract class Board implements Disposable
 
     protected Vector2 getPawnPosAt(Pawn pawn, GridPoint2 coords, Vector2 pos)
     {
-        Vector2 center = getTile(coords).getCenter();
-        return pawn.getPosAt(center, pos);
+        // FIXME the pawn should return its Vector3
+        Tile tile = getTile(coords);
+        return pawn.getPosAt(tile.getX(), tile.getY(), pos);
     }
 
     public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)

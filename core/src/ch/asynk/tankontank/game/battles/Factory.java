@@ -149,8 +149,8 @@ public class Factory implements Board.TileBuilder, Disposable
         return u;
     }
 
-    public Hex getNewTile(float cx, float cy)
+    public Hex getNewTile(float x, float y, int col, int row)
     {
-        return new Hex(cx, cy, atlas);
+        return new Hex(x, y, col, row, atlas);
     }
 }
