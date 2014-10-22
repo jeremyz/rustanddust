@@ -142,6 +142,13 @@ public abstract class Pawn implements Moveable, Disposable
         return pos;
     }
 
+    public void setOnTile(Tile tile, Orientation o)
+    {
+        float x = (tile.getX() - (image.getWidth() / 2f));
+        float y = (tile.getY() - (image.getHeight() / 2f));
+        setPosition(x, y, o.r());
+    }
+
     @Override
     public float getX()
     {

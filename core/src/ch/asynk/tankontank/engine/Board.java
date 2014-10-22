@@ -522,8 +522,7 @@ public abstract class Board implements Disposable
 
     public Pawn setPawnAt(Pawn pawn, GridPoint2 coords, Orientation o)
     {
-        Vector2 pos = getPawnPosAt(pawn, coords, null);
-        pawn.setPosition(pos.x, pos.y, o.r());
+        pawn.setOnTile(getTile(coords.x, coords.y), o);
         pushPawnAt(pawn, coords);
         return pawn;
     }
