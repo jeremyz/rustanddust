@@ -52,25 +52,25 @@ public class BattleFake extends BattleCommon
         Orientation o = Orientation.NORTH;
         GridPoint2 p = new GridPoint2();
 
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_TIGER), p.set(4, 7), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_TIGER), p.set(3, 6), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV), p.set(3, 5), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV_HQ), p.set(2, 4), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV), p.set(2, 3), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV), p.set(1, 2), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV_HQ), p.set(1, 1), o));
-        gePlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.GE_PANZER_IV), p.set(0, 0), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHexSafe(4, 7), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHexSafe(3, 6), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV), map.getHexSafe(3, 5), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV_HQ), map.getHexSafe(2, 4), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV), map.getHexSafe(2, 3), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV), map.getHexSafe(1, 2), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV_HQ), map.getHexSafe(1, 1), o));
+        gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV), map.getHexSafe(0, 0), o));
 
         o = Orientation.SOUTH;
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_WOLVERINE), p.set(13, 8), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_WOLVERINE), p.set(12, 7), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_PRIEST), p.set(12, 6), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN), p.set(11, 5), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN_HQ), p.set(11, 4), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN), p.set(10, 3), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN), p.set(10, 2), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN_HQ), p.set(9, 1), o));
-        usPlayer.addUnit(map.setPawnAt(factory.getUnit(UnitId.US_SHERMAN), p.set(9, 0), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_WOLVERINE), map.getHexSafe(13, 8), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_WOLVERINE), map.getHexSafe(12, 7), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_PRIEST), map.getHexSafe(12, 6), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN), map.getHexSafe(11, 5), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN_HQ), map.getHexSafe(11, 4), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN), map.getHexSafe(10, 3), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN), map.getHexSafe(10, 2), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN_HQ), map.getHexSafe(9, 1), o));
+        usPlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.US_SHERMAN), map.getHexSafe(9, 0), o));
     }
 
     public boolean checkVictory()

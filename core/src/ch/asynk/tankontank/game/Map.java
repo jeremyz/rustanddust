@@ -92,9 +92,9 @@ public abstract class Map extends Board
         return (Hex) getTile(col, row);
     }
 
-    public Hex getHexSafe(GridPoint2 hex)
+    public Hex getHexSafe(int col, int row)
     {
-        return (Hex) getTileSafe(hex.x, hex.y);
+        return (Hex) getTileSafe(col, row);
     }
 
     public GridPoint2 getFirstMoveAssist()
@@ -398,9 +398,8 @@ public abstract class Map extends Board
 
     public void promote(Pawn pawn, Pawn with)
     {
-        GridPoint2 coords = getHexUnder(pawn);
-        removePawnFrom(pawn, coords);
-        setPawnAt(with, coords, pawn.getOrientation());
+        removePawn(pawn);
+        setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
         activatedPawns.add(with);
     }
 }
