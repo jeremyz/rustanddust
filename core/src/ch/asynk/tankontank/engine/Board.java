@@ -250,74 +250,32 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    protected void clearPointVector(ArrayList<GridPoint2> points)
-    {
-        for (GridPoint2 point : points)
-            gridPoint2Pool.free(point);
-        points.clear();
-    }
-
-    private void nodesToPoints(List<SearchBoard.Node> nodes, ArrayList<GridPoint2> points)
-    {
-        int ns = nodes.size();
-        int ps = points.size();
-
-        if (ps > ns) {
-            for (int i = (ps - 1); i >= ns; i--)
-                gridPoint2Pool.free(points.remove(i));
-        } else
-            points.ensureCapacity(ns);
-
-        int i = 0;
-        for (SearchBoard.Node node : nodes) {
-            if (i < ps) {
-                points.get(i).set(node.col, node.row);
-            } else {
-                GridPoint2 point = gridPoint2Pool.obtain();
-                point.set(node.col, node.row);
-                points.add(point);
-            }
-            i += 1;
-        }
-    }
-
-    protected int buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> moves)
+    protected int buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, TileList moves)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
-        nodesToPoints(nodes, moves);
-        return moves.size();
+        return moves.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, ArrayList<GridPoint2> targets)
+    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, TileList targets)
     {
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
-        nodesToPoints(nodes, targets);
-        return targets.size();
+        return targets.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, Iterator<Pawn> units, ArrayList<GridPoint2> targets)
+    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, Iterator<Pawn> units, TileList targets)
     {
-        clearPointVector(targets);
-
-        GridPoint2 to = gridPoint2Pool.obtain();
+        targets.clear();
         while (units.hasNext()) {
             Pawn target = units.next();
             Tile tile = target.getTile();
-            to.set(tile.getCol(), tile.getRow());
-            if (searchBoard.buildAttack(pawn, true, target, coords.x, coords.y, to.x, to.y)) {
-                targets.add(to);
-                to = gridPoint2Pool.obtain();
-            }
+            if (searchBoard.buildAttack(pawn, true, target, coords.x, coords.y, tile.getCol(), tile.getRow()))
+                targets.add(tile);
         }
 
-        int s = targets.size();
-        if ((s > 0) && (to != targets.get(s - 1)))
-            gridPoint2Pool.free(to);
-
-        return s;
+        return targets.size();
     }
 
-    protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, List<GridPoint2> assists)
+    protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, TileList assists)
     {
         assists.clear();
         getAdjacentTiles(coords, neighbours);
@@ -327,38 +285,28 @@ public abstract class Board implements Disposable
                 // FIXME should support may pawns per tile
                 Pawn p = t.getTopPawn();
                 if ((p != null) && p.canMove() && !pawn.isEnemy(p)) {
-                    GridPoint2 assist = gridPoint2Pool.obtain();
-                    assist.set(t.getCol(), t.getRow());
-                    assists.add(assist);
+                    assists.add(p.getTile());
                 }
             }
         }
         return assists.size();
     }
 
-    protected int buildAttackAssists(Pawn pawn, Pawn target, GridPoint2 coords, Iterator<Pawn> units, ArrayList<GridPoint2> assists)
+    protected int buildAttackAssists(Pawn pawn, Pawn target, GridPoint2 coords, Iterator<Pawn> units, TileList assists)
     {
-        clearPointVector(assists);
-
-        GridPoint2 from = gridPoint2Pool.obtain();
+        assists.clear();
         while (units.hasNext()) {
             Pawn p = units.next();
             if ((p == pawn) || !p.canAttack()) continue;
             Tile tile = p.getTile();
-            from.set(tile.getCol(), tile.getRow());
-            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.x, from.y, coords.x, coords.y)) {
+            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, tile.getCol(), tile.getRow(), coords.x, coords.y)) {
                 if (p != pawn) {
-                    assists.add(from);
-                    from = gridPoint2Pool.obtain();
+                    assists.add(tile);
                 }
             }
         }
 
-        int s = assists.size();
-        if ((s > 0) && (from != assists.get(s- 1)))
-            gridPoint2Pool.free(from);
-
-        return s;
+        return assists.size();
     }
 
     protected void clearPointSet(Set<GridPoint2> points)
@@ -479,9 +427,15 @@ public abstract class Board implements Disposable
         return getTile(coords.x, coords.y).isOverlayEnabled(i);
     }
 
+    // FIXME should be removed
     public void enableOverlayOn(GridPoint2 coords, int i, boolean enable)
     {
         Tile tile = getTile(coords.x, coords.y);
+        enableOverlayOn(tile, i, enable);
+    }
+
+    public void enableOverlayOn(Tile tile, int i, boolean enable)
+    {
         if(tile.enableOverlay(i, enable))
             tilesToDraw.add(tile);
         else

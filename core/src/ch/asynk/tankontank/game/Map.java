@@ -25,11 +25,11 @@ public abstract class Map extends Board
     private final Ctrl ctrl;
 
     private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
-    private final ArrayList<GridPoint2> possibleMoves = new ArrayList<GridPoint2>(40);
-    private final ArrayList<GridPoint2> possibleTargets = new ArrayList<GridPoint2>(10);
+    private final HexList possibleMoves;
+    private final HexList possibleTargets;
+    private final HexList moveAssists;
+    private final HexList attackAssists;
     private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
-    private final ArrayList<GridPoint2> moveAssists = new ArrayList<GridPoint2>(6);
-    private final ArrayList<GridPoint2> attackAssists = new ArrayList<GridPoint2>(6);
 
     private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
     private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
@@ -46,6 +46,10 @@ public abstract class Map extends Board
         this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
+        possibleMoves = new HexList(this, 40);
+        possibleTargets = new HexList(this, 10);
+        moveAssists = new HexList(this, 6);
+        attackAssists = new HexList(this, 6);
     }
 
     @Override
@@ -57,13 +61,13 @@ public abstract class Map extends Board
 
     public void clearAll()
     {
-        clearPointVector(moveAssists);;
-        clearPointVector(attackAssists);
+        possibleMoves.clear();
+        possibleTargets.clear();
+        moveAssists.clear();
+        attackAssists.clear();
         activablePawns.clear();
         activatedPawns.clear();
         clearPointSet(possiblePaths);
-        clearPointVector(possibleMoves);
-        clearPointVector(possibleTargets);
         clearCoordinateVector(finalPath);
     }
 
@@ -74,7 +78,7 @@ public abstract class Map extends Board
 
     public void clearPossibleTargets()
     {
-        clearPointVector(possibleTargets);
+        possibleTargets.clear();
     }
 
     public void clearActivablePawns()
@@ -99,7 +103,9 @@ public abstract class Map extends Board
 
     public GridPoint2 getFirstMoveAssist()
     {
-        return moveAssists.get(0);
+        // FIXME
+        Hex h = (Hex) moveAssists.get(0);
+        return new GridPoint2(h.getCol(), h.getRow());
     }
 
     public int activablePawnsCount()
@@ -119,17 +125,17 @@ public abstract class Map extends Board
 
     public boolean isInPossibleMoves(GridPoint2 hex)
     {
-        return possibleMoves.contains(hex);
+        return possibleMoves.contains(getHex(hex.x, hex.y));
     }
 
     public boolean isInPossibleMoveAssists(GridPoint2 hex)
     {
-        return moveAssists.contains(hex);
+        return moveAssists.contains(getHex(hex.x, hex.y));
     }
 
     public boolean isInPossibleAttackAssists(GridPoint2 hex)
     {
-        return attackAssists.contains(hex);
+        return attackAssists.contains(getHex(hex.x, hex.y));
     }
 
     public boolean isInPossiblePaths(GridPoint2 hex)
@@ -139,7 +145,7 @@ public abstract class Map extends Board
 
     public boolean isInPossibleTargets(GridPoint2 hex)
     {
-        return possibleTargets.contains(hex);
+        return possibleTargets.contains(getHex(hex.x, hex.y));
     }
 
     public void selectHex(GridPoint2 hex, boolean enable)
@@ -159,28 +165,24 @@ public abstract class Map extends Board
 
     public void showPossibleMoves(boolean enable)
     {
-        for(GridPoint2 hex : possibleMoves)
-            enableOverlayOn(hex, Hex.MOVE1, enable);
+        possibleMoves.enable(Hex.MOVE1, enable);
     }
 
     public void showMoveAssists(boolean enable)
     {
-        for(GridPoint2 hex : moveAssists)
-            enableOverlayOn(hex, Hex.ASSIST, enable);
+        moveAssists.enable(Hex.ASSIST, enable);
     }
 
     public void showAttackAssists(boolean enable)
     {
-        for(GridPoint2 hex : attackAssists) {
-            enableOverlayOn(hex, Hex.ASSIST, enable);
-            enableOverlayOn(hex, Hex.TARGET, false);
-        }
+        attackAssists.enable(Hex.ASSIST, enable);
+        // TODO why the above ???
+        attackAssists.enable(Hex.TARGET, false);
     }
 
     public void showPossibleTargets(boolean enable)
     {
-        for(GridPoint2 hex : possibleTargets)
-            enableOverlayOn(hex, Hex.TARGET, enable);
+        possibleTargets.enable(Hex.TARGET, enable);
     }
 
     public void showPossiblePaths(boolean enable, boolean keepFinal)
@@ -241,7 +243,7 @@ public abstract class Map extends Board
     public int buildMoveAssists(Pawn pawn, GridPoint2 hex)
     {
         if (!pawn.isHq()) {
-            clearPointVector(moveAssists);
+            moveAssists.clear();
             return 0;
         }
         return buildMoveAssists(pawn, hex, moveAssists);
@@ -251,8 +253,7 @@ public abstract class Map extends Board
     {
         int s = buildAttackAssists(pawn, target, hex, units, attackAssists);
         activatedPawns.add(pawn);
-        for (GridPoint2 p : attackAssists)
-            activablePawns.add(getTopPawnAt(p));
+        attackAssists.getPawns(activablePawns);
         return s;
     }
 
@@ -278,8 +279,7 @@ public abstract class Map extends Board
         buildPossibleMoves(pawn, hex);
         buildMoveAssists(pawn, hex);
         activablePawns.add(pawn);
-        for (GridPoint2 p : moveAssists)
-            activablePawns.add(getTopPawnAt(p));
+        moveAssists.getPawns(activablePawns);
         showPossibleMoves(true);
         showMoveAssists(true);
     }
@@ -390,7 +390,7 @@ public abstract class Map extends Board
     }
 
     private int finishMove(Pawn pawn, GridPoint2 from) {
-        moveAssists.remove(from);
+        moveAssists.remove(getHex(from.x, from.y));
         activablePawns.remove(pawn);
         activatedPawns.add(pawn);
         return activablePawns.size();
