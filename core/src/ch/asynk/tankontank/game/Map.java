@@ -29,7 +29,7 @@ public abstract class Map extends Board
     private final HexList possibleTargets;
     private final HexList moveAssists;
     private final HexList attackAssists;
-    private final HashSet<GridPoint2> possiblePaths = new HashSet<GridPoint2>(10);
+    private final HexList possiblePaths;
 
     private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
     private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
@@ -47,6 +47,7 @@ public abstract class Map extends Board
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
         possibleMoves = new HexList(this, 40);
+        possiblePaths = new HexList(this, 10);
         possibleTargets = new HexList(this, 10);
         moveAssists = new HexList(this, 6);
         attackAssists = new HexList(this, 6);
@@ -63,17 +64,17 @@ public abstract class Map extends Board
     {
         possibleMoves.clear();
         possibleTargets.clear();
+        possiblePaths.clear();
         moveAssists.clear();
         attackAssists.clear();
         activablePawns.clear();
         activatedPawns.clear();
-        clearPointSet(possiblePaths);
         clearCoordinateVector(finalPath);
     }
 
     public void clearPossiblePaths()
     {
-        clearPointSet(possiblePaths);
+        possiblePaths.clear();
     }
 
     public void clearPossibleTargets()
@@ -140,7 +141,7 @@ public abstract class Map extends Board
 
     public boolean isInPossiblePaths(GridPoint2 hex)
     {
-        return possiblePaths.contains(hex);
+        return possiblePaths.contains(getHex(hex.x, hex.y));
     }
 
     public boolean isInPossibleTargets(GridPoint2 hex)
@@ -188,22 +189,17 @@ public abstract class Map extends Board
     public void showPossiblePaths(boolean enable, boolean keepFinal)
     {
         if (keepFinal) {
-            for(GridPoint2 hex : possiblePaths)
-                enableOverlayOn(hex, Hex.MOVE1, enable);
+            possiblePaths.enable(Hex.MOVE1, enable);
         } else {
-            for(GridPoint2 hex : possiblePaths) {
-                enableOverlayOn(hex, Hex.MOVE1, enable);
-                enableOverlayOn(hex, Hex.MOVE2, false);
-            }
+            possiblePaths.enable(Hex.MOVE1, enable);
+            possiblePaths.enable(Hex.MOVE2, false);
         }
     }
 
     public void showFinalPath(GridPoint2 dst, boolean enable)
     {
-        for(GridPoint2 hex : possiblePaths) {
-            enableOverlayOn(hex, Hex.MOVE1, false);
-            enableOverlayOn(hex, Hex.MOVE2, enable);
-        }
+        possiblePaths.enable(Hex.MOVE1, false);
+        possiblePaths.enable(Hex.MOVE2, enable);
     }
 
     public void showDirections(GridPoint2 hex, boolean enable)

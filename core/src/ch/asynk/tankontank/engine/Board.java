@@ -316,35 +316,32 @@ public abstract class Board implements Disposable
         points.clear();
     }
 
-    private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, Set<GridPoint2> points)
+    private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, TileList tiles)
     {
-        for (GridPoint2 point : points)
-            gridPoint2Pool.free(point);
-        points.clear();
+        tiles.clear();
 
         for (ArrayList<SearchBoard.Node> path : nodes) {
             for (int i = 1, n = (path.size() - 1); i < n; i++) {
                 SearchBoard.Node node = path.get(i);
-                GridPoint2 point = gridPoint2Pool.obtain();
-                point.set(node.col, node.row);
-                if (!points.add(point))
-                    gridPoint2Pool.free(point);
+                Tile tile = getTile(node.col, node.row);
+                if (!tiles.contains(tile))
+                    tiles.add(tile);
             }
         }
 
         return nodes.size();
     }
 
-    protected int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, Set<GridPoint2> points)
+    protected int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, TileList tiles)
     {
         paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
-        return nodesToSet(paths, points);
+        return nodesToSet(paths, tiles);
     }
 
-    protected int possiblePathsFilterToggle(GridPoint2 coords, Set<GridPoint2> points)
+    protected int possiblePathsFilterToggle(GridPoint2 coords, TileList tiles)
     {
         paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
-        return nodesToSet(paths, points);
+        return nodesToSet(paths, tiles);
     }
 
     protected void clearCoordinateVector(ArrayList<Vector3> points)
