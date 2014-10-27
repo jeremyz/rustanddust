@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.tankontank.engine.gfx.Image;
@@ -27,7 +25,6 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board implements Disposable
 {
-    private GridPoint2 tmpPt = new GridPoint2();
     private final Tile neighbours[] = new Tile[6];
     protected List<ArrayList<SearchBoard.Node>> paths;
 
@@ -49,13 +46,6 @@ public abstract class Board implements Disposable
         public float h;         // square height : s + dh
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
-
-    private final Pool<GridPoint2> gridPoint2Pool = new Pool<GridPoint2>() {
-        @Override
-        protected GridPoint2 newObject() {
-            return new GridPoint2();
-        }
-    };
 
     private final Pool<Vector3> vector3Pool = new Pool<Vector3>() {
         @Override
@@ -147,13 +137,6 @@ public abstract class Board implements Disposable
 
     protected Tile getTile(int col, int row)
     {
-        int idx = ((col - ((row + 1) / 2))) + (row * cfg.cols);
-        // Gdx.app.debug("Board", " getTile: " + col + " ; " + row + " -> " + idx);
-        return tiles[idx];
-    }
-
-    protected Tile getTileSafe(int col, int row)
-    {
         int colOffset = ((row + 1) / 2);
         if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
             return null;
@@ -161,14 +144,14 @@ public abstract class Board implements Disposable
         return tiles[((col - colOffset)) + (row * cfg.cols)];
     }
 
-    private void getAdjacentTiles(GridPoint2 coords, Tile tiles[])
+    private void setAdjacentTiles(Tile tile, Tile tiles[])
     {
-        tiles[0] = getTileSafe((coords.x - 1), (coords.y));
-        tiles[1] = getTileSafe((coords.x),     (coords.y + 1));
-        tiles[2] = getTileSafe((coords.x + 1), (coords.y + 1));
-        tiles[3] = getTileSafe((coords.x + 1), (coords.y));
-        tiles[4] = getTileSafe((coords.x),     (coords.y - 1));
-        tiles[5] = getTileSafe((coords.x - 1), (coords.y - 1));
+        tiles[0] = getTile((tile.getCol() - 1), (tile.getRow()));
+        tiles[1] = getTile((tile.getCol()),     (tile.getRow() + 1));
+        tiles[2] = getTile((tile.getCol() + 1), (tile.getRow() + 1));
+        tiles[3] = getTile((tile.getCol() + 1), (tile.getRow()));
+        tiles[4] = getTile((tile.getCol()),     (tile.getRow() - 1));
+        tiles[5] = getTile((tile.getCol() - 1), (tile.getRow() - 1));
     }
 
     protected void addAnimation(Animation a)
@@ -250,70 +233,65 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    protected int buildPossibleMovesFrom(Pawn pawn, GridPoint2 coords, TileList moves)
+    protected int buildPossibleMoves(Pawn pawn, TileList moves)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, coords.x, coords.y);
+        Tile from = pawn.getTile();
+        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
         return moves.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, TileList targets)
+    protected int buildPossibleTargets(Pawn pawn, TileList targets)
     {
-        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, coords.x, coords.y);
+        Tile from = pawn.getTile();
+        List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, from.getCol(), from.getRow());
         return targets.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargetsFrom(Pawn pawn, GridPoint2 coords, Iterator<Pawn> units, TileList targets)
+    protected int buildPossibleTargets(Pawn pawn, Iterator<Pawn> units, TileList targets)
     {
+        Tile from = pawn.getTile();
         targets.clear();
         while (units.hasNext()) {
             Pawn target = units.next();
-            Tile tile = target.getTile();
-            if (searchBoard.buildAttack(pawn, true, target, coords.x, coords.y, tile.getCol(), tile.getRow()))
-                targets.add(tile);
+            Tile to = target.getTile();
+            if (searchBoard.buildAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
+                targets.add(to);
         }
 
         return targets.size();
     }
 
-    protected int buildMoveAssists(Pawn pawn, GridPoint2 coords, TileList assists)
+    protected int buildMoveAssists(Pawn pawn, TileList assists)
     {
         assists.clear();
-        getAdjacentTiles(coords, neighbours);
+        setAdjacentTiles(pawn.getTile(), neighbours);
         for (int i = 0; i < 6; i++) {
             Tile t = neighbours[i];
             if (t != null) {
                 // FIXME should support may pawns per tile
                 Pawn p = t.getTopPawn();
-                if ((p != null) && p.canMove() && !pawn.isEnemy(p)) {
+                if ((p != null) && p.canMove() && !pawn.isEnemy(p))
                     assists.add(p.getTile());
-                }
             }
         }
         return assists.size();
     }
 
-    protected int buildAttackAssists(Pawn pawn, Pawn target, GridPoint2 coords, Iterator<Pawn> units, TileList assists)
+    protected int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, TileList assists)
     {
         assists.clear();
+        Tile to = target.getTile();
         while (units.hasNext()) {
             Pawn p = units.next();
             if ((p == pawn) || !p.canAttack()) continue;
-            Tile tile = p.getTile();
-            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, tile.getCol(), tile.getRow(), coords.x, coords.y)) {
-                if (p != pawn) {
-                    assists.add(tile);
-                }
+            Tile from = p.getTile();
+            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.getCol(), from.getRow(), to.getCol(), to.getRow())) {
+                if (p != pawn)
+                    assists.add(from);
             }
         }
 
         return assists.size();
-    }
-
-    protected void clearPointSet(Set<GridPoint2> points)
-    {
-        for (GridPoint2 point : points)
-            gridPoint2Pool.free(point);
-        points.clear();
     }
 
     private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, TileList tiles)
@@ -332,23 +310,17 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
-    protected int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to, TileList tiles)
+    protected int buildPossiblePaths(Pawn pawn, Tile to, TileList tiles)
     {
-        paths = searchBoard.possiblePaths(pawn, from.x, from.y, to.x, to.y);
+        Tile from = pawn.getTile();
+        paths = searchBoard.possiblePaths(pawn, from.getCol(), from.getRow(), to.getCol(), to.getRow());
         return nodesToSet(paths, tiles);
     }
 
-    protected int possiblePathsFilterToggle(GridPoint2 coords, TileList tiles)
+    protected int possiblePathsFilterToggle(Tile tile, TileList tiles)
     {
-        paths = searchBoard.possiblePathsFilterToggle(coords.x, coords.y);
+        paths = searchBoard.possiblePathsFilterToggle(tile.getCol(), tile.getRow());
         return nodesToSet(paths, tiles);
-    }
-
-    protected void clearCoordinateVector(ArrayList<Vector3> points)
-    {
-        for (Vector3 point : points)
-            vector3Pool.free(point);
-        points.clear();
     }
 
     protected int getPathCost(Pawn pawn, int i)
@@ -358,10 +330,11 @@ public abstract class Board implements Disposable
 
     protected int getCoordinatePath(Pawn pawn, int idx, ArrayList<Vector3> path, Orientation finalOrientation)
     {
-        clearCoordinateVector(path);
+        for (Vector3 v : path)
+            vector3Pool.free(v);
+        path.clear();
 
         Vector2 tmpCoords = new Vector2();
-        GridPoint2 tmpHex = gridPoint2Pool.obtain();
 
         Vector3 p = pawn.getPosition();
         Vector3 v = vector3Pool.obtain();
@@ -382,8 +355,7 @@ public abstract class Board implements Disposable
                 path.add(v);
                 v = vector3Pool.obtain();
             }
-            tmpHex.set(node.col, node.row);
-            pawn.getPosAt(getTile(tmpHex.x, tmpHex.y), tmpCoords);
+            pawn.getPosAt(getTile(node.col, node.row), tmpCoords);
             v.set(tmpCoords.x, tmpCoords.y, o.r());
             path.add(v);
             prevOrientation = o;
@@ -400,35 +372,11 @@ public abstract class Board implements Disposable
             vector3Pool.free(v);
         }
 
-        gridPoint2Pool.free(tmpHex);
-
         // Gdx.app.debug("Board", " =>");
         // for (Vector3 vector :path)
         //     Gdx.app.debug("Board", "  " + vector);
 
         return path.size();
-    }
-
-    protected boolean hasUnits(GridPoint2 coords)
-    {
-        return getTile(coords.x, coords.y).hasUnits();
-    }
-
-    public boolean isOffMap(GridPoint2 coords)
-    {
-        return getTile(coords.x, coords.y).isOffMap();
-    }
-
-    protected boolean isOverlayEnabledOn(GridPoint2 coords, int i)
-    {
-        return getTile(coords.x, coords.y).isOverlayEnabled(i);
-    }
-
-    // FIXME should be removed
-    public void enableOverlayOn(GridPoint2 coords, int i, boolean enable)
-    {
-        Tile tile = getTile(coords.x, coords.y);
-        enableOverlayOn(tile, i, enable);
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
@@ -439,18 +387,12 @@ public abstract class Board implements Disposable
             tilesToDraw.remove(tile);
     }
 
-    public void enableOverlayOn(GridPoint2 coords, int i, boolean enable, Orientation o)
+    public void enableOverlayOn(Tile tile, int i, boolean enable, Orientation o)
     {
-        Tile tile = getTile(coords.x, coords.y);
         if(tile.enableOverlay(i, enable, o.r()))
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
-    }
-
-    public Pawn getTopPawnAt(GridPoint2 coords)
-    {
-        return getTile(coords.x, coords.y).getTopPawn();
     }
 
     private int pushPawnOnto(Pawn pawn, Tile tile)
@@ -488,8 +430,9 @@ public abstract class Board implements Disposable
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                getHexAt(pawn.getCenter(), tmpPt);
-                setPawnOnto(pawn, getTile(tmpPt.x, tmpPt.y), pawn.getRotation());
+                // FIXME pawn.getTile() is not ok
+                Vector2 center = pawn.getCenter();
+                setPawnOnto(pawn, getTileAt(center.x, center.y), pawn.getRotation());
             }
         }));
         seq.addAnimation(whenDone);
@@ -525,15 +468,8 @@ public abstract class Board implements Disposable
         pawn.revertLastMove();
     }
 
-    public GridPoint2 getHexAt(Vector2 v, GridPoint2 hex)
+    public Tile getTileAt(float mx, float my)
     {
-        return getHexAt(hex, v.x, v.y);
-    }
-
-    public GridPoint2 getHexAt(GridPoint2 hex, float mx, float my)
-    {
-        if (hex == null) hex = new GridPoint2();
-
         // compute row
         float y = (my - cfg.y0);
         int row = (int) (y / cfg.h);
@@ -575,15 +511,11 @@ public abstract class Board implements Disposable
         } else
             col += colOffset;
 
-
         // validate hex
         if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
-            hex.set(-1, -1);
-        else
-            hex.set(col, row);
+            return null;
 
-        // Gdx.app.debug("Board", " hex: " + hex.x + " ; " + hex.y);
-        return hex;
+        return getTile(col, row);
     }
 }
 

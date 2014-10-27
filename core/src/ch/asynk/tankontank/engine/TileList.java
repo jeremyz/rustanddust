@@ -18,7 +18,7 @@ public class TileList
     {
         tiles.clear();
         for (SearchBoard.Node node : nodes) {
-            Tile tile = board.getTileSafe(node.col, node.row);
+            Tile tile = board.getTile(node.col, node.row);
             tiles.add(tile);
         }
 
