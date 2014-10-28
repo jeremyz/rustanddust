@@ -288,17 +288,19 @@ public abstract class Board implements Disposable
         return targets.size();
     }
 
-    protected int buildMoveAssists(Pawn pawn, TileCollection assists)
+    protected int collectMoveAssists(Pawn pawn, PawnCollection assists)
     {
         assists.clear();
         setAdjacentTiles(pawn.getTile(), neighbours);
         for (int i = 0; i < 6; i++) {
             Tile t = neighbours[i];
             if (t != null) {
-                // FIXME should support may pawns per tile
-                Pawn p = t.getTopPawn();
-                if ((p != null) && p.canMove() && !pawn.isEnemy(p))
-                    assists.add(p.getTile());
+                Iterator<Pawn> pawns = t.iterator();
+                while(pawns.hasNext()) {
+                    Pawn p = pawns.next();
+                    if ((p != null) && p.canMove() && !pawn.isEnemy(p))
+                        assists.add(p);
+                }
             }
         }
         return assists.size();

@@ -165,7 +165,7 @@ public abstract class Map extends Board
     public int collectMoveablePawns(Pawn pawn)
     {
         if (pawn.isHq()) {
-            buildMoveAssists(pawn, moveablePawns);
+            collectMoveAssists(pawn, moveablePawns);
         } else {
             moveablePawns.clear();
         }
