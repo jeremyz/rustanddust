@@ -37,7 +37,7 @@ public abstract class Tile implements Drawable, Disposable
 
     public Tile(float x, float y, int col, int row, TextureAtlas atlas)
     {
-        this.stack = null;
+        this.stack = new ArrayDeque<Pawn>();
         this.x = x;
         this.y = y;
         this.col = col;
@@ -54,13 +54,12 @@ public abstract class Tile implements Drawable, Disposable
     @Override
     public void dispose()
     {
-        if(stack != null) stack.clear();
+        stack.clear();
         overlays.dispose();
     }
 
     public boolean isEmpty()
     {
-        if (stack == null) return true;
         return stack.isEmpty();
     }
 
@@ -71,7 +70,6 @@ public abstract class Tile implements Drawable, Disposable
 
     public int push(Pawn pawn)
     {
-        if (stack == null) stack = new ArrayDeque<Pawn>();
         stack.push(pawn);
         return stack.size();
     }
