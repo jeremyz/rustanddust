@@ -2,24 +2,24 @@ package ch.asynk.tankontank.engine;
 
 import java.util.Iterator;
 import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
-public class TileList extends ArrayList<Tile> implements Board.TileCollection
+public class PawnSet extends LinkedHashSet<Pawn> implements Board.PawnCollection
 {
     private final Board board;
     private int overlay;
 
-    public TileList(Board board, int overlay, int n)
+    public PawnSet(Board board, int overlay, int n)
     {
         super(n);
         this.board = board;
         this.overlay = overlay;
     }
 
-    public Tile first()
+    public Pawn first()
     {
-        return get(0);
+        if (isEmpty()) return null;
+        return iterator().next();
     }
 
     public void show()
@@ -34,18 +34,15 @@ public class TileList extends ArrayList<Tile> implements Board.TileCollection
 
     public void enable(int i, boolean enable)
     {
-        for (Tile tile : this)
-            board.enableOverlayOn(tile, i, enable);
+        for (Pawn pawn : this)
+            pawn.enableOverlay(i, enable);
     }
 
-    public void getPawns(Collection<Pawn> pawns)
+    public void collectTiles(Board.TileCollection tiles)
     {
-        pawns.clear();
-        for (Tile tile : this) {
-            Iterator<Pawn> itr = tile.iterator();
-            while(itr.hasNext())
-                pawns.add(itr.next());
-        }
+        tiles.clear();
+        for (Pawn pawn : this)
+            tiles.add(pawn.getTile());
     }
 
     public int fromNodes(Collection<SearchBoard.Node> nodes)
@@ -53,7 +50,9 @@ public class TileList extends ArrayList<Tile> implements Board.TileCollection
         clear();
         for (SearchBoard.Node node : nodes) {
             Tile tile = board.getTile(node.col, node.row);
-            add(tile);
+            Iterator<Pawn> pawns = tile.iterator();
+            while(pawns.hasNext())
+                add(pawns.next());
         }
 
         return size();

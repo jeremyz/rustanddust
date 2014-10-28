@@ -43,7 +43,17 @@ public abstract class Board implements Disposable
         public void show();
         public void hide();
         public void enable(int i, boolean enable);
-        public void getPawns(Collection<Pawn> pawns);
+        public void collectPawns(PawnCollection pawns);
+        public int fromNodes(Collection<SearchBoard.Node> nodes);
+    }
+
+    public interface PawnCollection extends Collection<Pawn>
+    {
+        public Pawn first();
+        public void show();
+        public void hide();
+        public void enable(int i, boolean enable);
+        public void collectTiles(TileCollection tiles);
         public int fromNodes(Collection<SearchBoard.Node> nodes);
     }
 

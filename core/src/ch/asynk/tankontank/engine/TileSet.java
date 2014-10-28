@@ -38,7 +38,7 @@ public class TileSet extends LinkedHashSet<Tile> implements Board.TileCollection
             board.enableOverlayOn(tile, i, enable);
     }
 
-    public void getPawns(Collection<Pawn> pawns)
+    public void collectPawns(Board.PawnCollection pawns)
     {
         pawns.clear();
         for (Tile tile : this) {
