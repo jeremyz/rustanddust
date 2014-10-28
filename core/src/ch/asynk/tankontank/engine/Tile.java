@@ -64,7 +64,7 @@ public abstract class Tile implements Drawable, Disposable
         return stack.isEmpty();
     }
 
-    public Iterator<Pawn> getIterator()
+    public Iterator<Pawn> iterator()
     {
         return stack.iterator();
     }
@@ -82,7 +82,7 @@ public abstract class Tile implements Drawable, Disposable
         return stack.size();
     }
 
-    public Pawn getTopPawn()
+    private Pawn getTopPawn()
     {
         if (isEmpty()) return null;
         return stack.getFirst();
@@ -91,7 +91,7 @@ public abstract class Tile implements Drawable, Disposable
     public boolean hasUnits()
     {
         if (isEmpty()) return false;
-        Iterator<Pawn> itr = getIterator();
+        Iterator<Pawn> itr = iterator();
         while(itr.hasNext()) {
             if (itr.next().isUnit())
                 return true;
@@ -102,7 +102,7 @@ public abstract class Tile implements Drawable, Disposable
     public boolean hasTargetsFor(Pawn pawn)
     {
         if (isEmpty()) return false;
-        Iterator<Pawn> itr = getIterator();
+        Iterator<Pawn> itr = iterator();
         while(itr.hasNext()) {
             Pawn target = itr.next();
             if (pawn.canAttack(target)) return true;

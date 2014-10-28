@@ -1,8 +1,9 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class TileList extends ArrayList<Tile> implements Board.TileCollection
 {
@@ -40,8 +41,11 @@ public class TileList extends ArrayList<Tile> implements Board.TileCollection
     public void getPawns(Collection<Pawn> pawns)
     {
         pawns.clear();
-        for (Tile tile : this)
-            pawns.add(tile.getTopPawn());
+        for (Tile tile : this) {
+            Iterator<Pawn> itr = tile.iterator();
+            while(itr.hasNext())
+                pawns.add(itr.next());
+        }
     }
 
     public int fromNodes(Collection<SearchBoard.Node> nodes)

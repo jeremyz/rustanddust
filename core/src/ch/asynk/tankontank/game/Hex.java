@@ -47,8 +47,7 @@ public class Hex extends Tile
 
     public Unit getUnit()
     {
-        // FIXME ??????
-        return (Unit) getTopPawn();
+        return (Unit) iterator().next();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Set;
-import java.util.LinkedHashSet;
+import java.util.Iterator;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 
 public class TileSet extends LinkedHashSet<Tile> implements Board.TileCollection
 {
@@ -40,8 +40,11 @@ public class TileSet extends LinkedHashSet<Tile> implements Board.TileCollection
     public void getPawns(Collection<Pawn> pawns)
     {
         pawns.clear();
-        for (Tile tile : this)
-            pawns.add(tile.getTopPawn());
+        for (Tile tile : this) {
+            Iterator<Pawn> itr = tile.iterator();
+            while(itr.hasNext())
+                pawns.add(itr.next());
+        }
     }
 
     public int fromNodes(Collection<SearchBoard.Node> nodes)
