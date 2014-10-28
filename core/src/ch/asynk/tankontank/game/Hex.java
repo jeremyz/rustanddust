@@ -45,6 +45,12 @@ public class Hex extends Tile
         this.roads = 0;
     }
 
+    public Unit getUnit()
+    {
+        // FIXME ??????
+        return (Unit) getTopPawn();
+    }
+
     @Override
     public boolean isOffMap()
     {
