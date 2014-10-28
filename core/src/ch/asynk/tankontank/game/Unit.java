@@ -10,7 +10,9 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class Unit extends HeadedPawn
 {
-    public static final int DISABLED = 0;
+    public static final int MOVE = 0;
+    public static final int ATTACK = 1;
+    public static final int TARGET = 2;
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -221,5 +223,20 @@ public class Unit extends HeadedPawn
     public void revertLastMove()
     {
         hasMoved = false;
+    }
+
+    public void showMoveable(boolean enable)
+    {
+        enableOverlay(MOVE, enable);
+    }
+
+    public void showAttack(boolean enable)
+    {
+        enableOverlay(ATTACK, enable);
+    }
+
+    public void showTarget(boolean enable)
+    {
+        enableOverlay(TARGET, enable);
     }
 }
