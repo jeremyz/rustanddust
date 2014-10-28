@@ -11,14 +11,33 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.TileSet;
+import ch.asynk.tankontank.engine.TileList;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
+
 public abstract class Map extends Board
 {
+    public class HexList extends TileList
+    {
+        public HexList(Map map, int overlay, int n)
+        {
+            super(map, overlay, n);
+        }
+    }
+
+    public class HexSet extends TileSet
+    {
+        public HexSet(Map map, int overlay, int n)
+        {
+            super(map, overlay, n);
+        }
+    }
+
     private final Ctrl ctrl;
 
     public final Board.TileCollection possibleMoves;
@@ -41,11 +60,11 @@ public abstract class Map extends Board
         this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
-        possibleMoves = new HexList(this, Hex.MOVE1, 40);
-        possiblePaths = new HexList(this, Hex.MOVE1, 10);       // Hex.MOVE2
-        possibleTargets = new HexList(this, Hex.TARGET, 10);
-        moveAssists = new HexList(this, Hex.ASSIST, 6);
-        attackAssists = new HexList(this, Hex.ASSIST, 6);
+        possibleMoves = new HexSet(this, Hex.MOVE1, 40);
+        possiblePaths = new HexSet(this, Hex.MOVE1, 10);       // Hex.MOVE2
+        possibleTargets = new HexList(this, Hex.TARGET, 10);        // PawnSet
+        moveAssists = new HexList(this, Hex.ASSIST, 6);             // PawnSet
+        attackAssists = new HexList(this, Hex.ASSIST, 6);           // PawnSet
     }
 
     @Override
