@@ -18,6 +18,7 @@ public class TileSet extends LinkedHashSet<Tile> implements Board.TileCollection
 
     public Tile first()
     {
+        if (isEmpty()) return null;
         return iterator().next();
     }
 

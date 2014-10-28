@@ -47,6 +47,7 @@ public class Hex extends Tile
 
     public Unit getUnit()
     {
+        if (isEmpty()) return null;
         return (Unit) iterator().next();
     }
 
