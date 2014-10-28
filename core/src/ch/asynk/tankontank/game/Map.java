@@ -76,31 +76,6 @@ public abstract class Map extends Board
         return (Hex) moveAssists.get(0);
     }
 
-    public boolean isInPossibleMoves(Hex hex)
-    {
-        return possibleMoves.contains(hex);
-    }
-
-    public boolean isInPossibleMoveAssists(Hex hex)
-    {
-        return moveAssists.contains(hex);
-    }
-
-    public boolean isInPossibleAttackAssists(Hex hex)
-    {
-        return attackAssists.contains(hex);
-    }
-
-    public boolean isInPossiblePaths(Hex hex)
-    {
-        return possiblePaths.contains(hex);
-    }
-
-    public boolean isInPossibleTargets(Hex hex)
-    {
-        return possibleTargets.contains(hex);
-    }
-
     public void selectHex(Hex hex, boolean enable)
     {
         enableOverlayOn(hex, Hex.SELECT, enable);

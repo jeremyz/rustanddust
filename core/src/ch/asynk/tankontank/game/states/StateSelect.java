@@ -34,13 +34,13 @@ public class StateSelect extends StateCommon
     public void touchUp()
     {
         if (!isEnemy) {
-            if (map.isInPossibleMoves(upHex)) {
+            if (map.possibleMoves.contains(upHex)) {
                 // quick move
                 to = upHex;
                 ctrl.setState(StateType.MOVE);
                 return;
             }
-            if (map.isInPossibleTargets(upHex)) {
+            if (map.possibleTargets.contains(upHex)) {
                 // quick fire
                 to = upHex;
                 ctrl.setState(StateType.ATTACK);

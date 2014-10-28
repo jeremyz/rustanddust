@@ -47,7 +47,7 @@ public class StateAttack extends StateCommon
     public void touchUp()
     {
         // activePawn is the target
-        if ((activePawn == null) && map.isInPossibleTargets(upHex)) {
+        if ((activePawn == null) && map.possibleTargets.contains(upHex)) {
             map.showPossibleTargets(false);
             to = upHex;
             activePawn = to.getTopPawn();
@@ -57,7 +57,7 @@ public class StateAttack extends StateCommon
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 
-        if ((activePawn != null) && map.isInPossibleAttackAssists(upHex)) {
+        if ((activePawn != null) && map.attackAssists.contains(upHex)) {
             if (map.toggleAttackAssist(upHex.getTopPawn())) {
                 map.showAssist(upHex, false);
                 map.showTarget(upHex, true);

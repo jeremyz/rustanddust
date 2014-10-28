@@ -61,12 +61,12 @@ public class StateMove extends StateCommon
     {
         int s = map.possiblePaths.size();
 
-        if (map.isInPossibleMoveAssists(upHex) || (selectedPawn.canMove() && (selectedHex == upHex))) {
+        if (map.moveAssists.contains(upHex) || (selectedPawn.canMove() && (selectedHex == upHex))) {
             if(upHex != from)
                 changePawn(upHex);
-        } else if ((s == 0) && map.isInPossibleMoves(upHex)) {
+        } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
             s = buildPaths();
-        } else if (map.isInPossiblePaths(upHex)) {
+        } else if (map.possiblePaths.contains(upHex)) {
             s = togglePoint(s);
         }
 
