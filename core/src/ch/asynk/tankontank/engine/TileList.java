@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TileList extends ArrayList<Tile>
+public class TileList extends ArrayList<Tile> implements Board.TileCollection
 {
     private final Board board;
     private int overlay;
@@ -16,15 +16,9 @@ public class TileList extends ArrayList<Tile>
         this.overlay = overlay;
     }
 
-    public int fromNodes(Collection<SearchBoard.Node> nodes)
+    public Tile first()
     {
-        clear();
-        for (SearchBoard.Node node : nodes) {
-            Tile tile = board.getTile(node.col, node.row);
-            add(tile);
-        }
-
-        return size();
+        return get(0);
     }
 
     public void show()
@@ -43,10 +37,21 @@ public class TileList extends ArrayList<Tile>
             board.enableOverlayOn(tile, i, enable);
     }
 
-    public void getPawns(List<Pawn> pawns)
+    public void getPawns(Collection<Pawn> pawns)
     {
         pawns.clear();
         for (Tile tile : this)
             pawns.add(tile.getTopPawn());
+    }
+
+    public int fromNodes(Collection<SearchBoard.Node> nodes)
+    {
+        clear();
+        for (SearchBoard.Node node : nodes) {
+            Tile tile = board.getTile(node.col, node.row);
+            add(tile);
+        }
+
+        return size();
     }
 }

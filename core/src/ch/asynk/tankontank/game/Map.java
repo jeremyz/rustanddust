@@ -21,11 +21,11 @@ public abstract class Map extends Board
 {
     private final Ctrl ctrl;
 
-    public final HexList possibleMoves;                                    // HexSet
-    public final HexList possibleTargets;                                  // PawnSet
-    public final HexList possiblePaths;                                    // class Move
-    public final HexList moveAssists;                                      // PawnSet
-    public final HexList attackAssists;                                    // PawnSet
+    public final Board.TileCollection possibleMoves;
+    public final Board.TileCollection possibleTargets;
+    public final Board.TileCollection possiblePaths;
+    public final Board.TileCollection moveAssists;
+    public final Board.TileCollection attackAssists;
     public final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);  // PawnSet
     public final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);  // PawnSet
 
@@ -69,11 +69,6 @@ public abstract class Map extends Board
     public Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
-    }
-
-    public Hex getFirstMoveAssist()
-    {
-        return (Hex) moveAssists.get(0);
     }
 
     public void selectHex(Hex hex, boolean enable)

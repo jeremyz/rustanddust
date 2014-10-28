@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Collection;
 
 import com.badlogic.gdx.Gdx;
 
@@ -34,6 +35,16 @@ public abstract class Board implements Disposable
     public interface TileBuilder
     {
         public Tile getNewTile(float x, float y, int col, int row);
+    }
+
+    public interface TileCollection extends Collection<Tile>
+    {
+        public Tile first();
+        public void show();
+        public void hide();
+        public void enable(int i, boolean enable);
+        public void getPawns(Collection<Pawn> pawns);
+        public int fromNodes(Collection<SearchBoard.Node> nodes);
     }
 
     public static class Config
@@ -239,21 +250,21 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    protected int buildPossibleMoves(Pawn pawn, TileList moves)
+    protected int buildPossibleMoves(Pawn pawn, TileCollection moves)
     {
         Tile from = pawn.getTile();
         Set<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
         return moves.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargets(Pawn pawn, TileList targets)
+    protected int buildPossibleTargets(Pawn pawn, TileCollection targets)
     {
         Tile from = pawn.getTile();
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, from.getCol(), from.getRow());
         return targets.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargets(Pawn pawn, Iterator<Pawn> units, TileList targets)
+    protected int buildPossibleTargets(Pawn pawn, Iterator<Pawn> units, TileCollection targets)
     {
         Tile from = pawn.getTile();
         targets.clear();
@@ -267,7 +278,7 @@ public abstract class Board implements Disposable
         return targets.size();
     }
 
-    protected int buildMoveAssists(Pawn pawn, TileList assists)
+    protected int buildMoveAssists(Pawn pawn, TileCollection assists)
     {
         assists.clear();
         setAdjacentTiles(pawn.getTile(), neighbours);
@@ -283,7 +294,7 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    protected int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, TileList assists)
+    protected int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, TileCollection assists)
     {
         assists.clear();
         Tile to = target.getTile();
@@ -300,7 +311,7 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, TileList tiles)
+    private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, TileCollection tiles)
     {
         tiles.clear();
 
@@ -316,14 +327,14 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
-    protected int buildPossiblePaths(Pawn pawn, Tile to, TileList tiles)
+    protected int buildPossiblePaths(Pawn pawn, Tile to, TileCollection tiles)
     {
         Tile from = pawn.getTile();
         paths = searchBoard.possiblePaths(pawn, from.getCol(), from.getRow(), to.getCol(), to.getRow());
         return nodesToSet(paths, tiles);
     }
 
-    protected int possiblePathsFilterToggle(Tile tile, TileList tiles)
+    protected int possiblePathsFilterToggle(Tile tile, TileCollection tiles)
     {
         paths = searchBoard.possiblePathsFilterToggle(tile.getCol(), tile.getRow());
         return nodesToSet(paths, tiles);

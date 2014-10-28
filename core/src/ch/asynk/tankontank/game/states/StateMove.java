@@ -25,7 +25,7 @@ public class StateMove extends StateCommon
         } else {
             // back from rotation -> use the above and unmodified activePawn
             if ((activePawn == selectedPawn) || !selectedPawn.canMove()) {
-                upHex = map.getFirstMoveAssist();
+                upHex = (Hex) map.moveAssists.first();
                 activePawn = upHex.getTopPawn();
             } else {
                 upHex = selectedHex;
