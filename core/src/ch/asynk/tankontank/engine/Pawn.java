@@ -79,13 +79,13 @@ public abstract class Pawn implements Moveable, Disposable
         this.prevPosition = new Vector3(0f, 0f, 0f);
     }
 
-    public Pawn(Faction faction, TextureAtlas atlas, String name)
+    public Pawn(Faction faction, String name, TextureAtlas pawns, TextureAtlas overlays)
     {
         this();
         this.faction = faction;
         this.descr = descr;
-        this.image = new Image(atlas.findRegion(name));
-        this.overlays = new StackedImages(atlas);
+        this.image = new Image(pawns.findRegion(name));
+        this.overlays = new StackedImages(overlays);
     }
 
     @Override

@@ -54,15 +54,15 @@ public class Unit extends HeadedPawn
     private boolean hasMoved;
     private boolean hasFired;
 
-    protected Unit(Army army, TextureAtlas atlas, String pawn, String head)
+    protected Unit(Army army, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
-        super(army, atlas, pawn, head);
+        super(army, pawn, head, pawns, overlays);
     }
 
     // hard tager
-    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
-        super(army, atlas, unit, head);
+        super(army, unit, head, pawns, overlays);
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
@@ -74,9 +74,9 @@ public class Unit extends HeadedPawn
     }
 
     // soft tager
-    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, TextureAtlas atlas, String unit, String head)
+    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
-        super(army, atlas, unit, head);
+        super(army, unit, head, pawns, overlays);
         this.rng = range;
         this.def = defense;
         this.cdef = concealedDefense;

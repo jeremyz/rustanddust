@@ -43,7 +43,7 @@ public class Hud implements Disposable
         this.ctrl = ctrl;
         this.corner = new Vector2((Gdx.graphics.getWidth() - OFFSET), OFFSET);
 
-        TextureAtlas atlas = game.manager.get("data/assets.atlas", TextureAtlas.class);
+        TextureAtlas atlas = game.factory.hudAtlas;
 
         moveBtn = new Button(atlas, "btn-move");
         rotateBtn = new Button(atlas, "btn-rotate");
