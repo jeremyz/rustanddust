@@ -14,8 +14,8 @@ public class StateAnimation extends StateCommon
     public void leave(StateType nextState)
     {
         if (nextState != StateType.SELECT) {
-            from.set(-1, -1);
-            to.set(-1, -1);
+            from = null;
+            to = null;
         }
     }
 

@@ -1,9 +1,8 @@
 package ch.asynk.tankontank.game.states;
 
-import com.badlogic.gdx.math.GridPoint2;
-
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State;
 import ch.asynk.tankontank.game.State.StateType;
@@ -12,16 +11,16 @@ public abstract class StateCommon implements State
 {
     protected static Ctrl ctrl;
     protected static Map map;
-    protected static Pawn activePawn;
-    protected static Pawn selectedPawn;
 
-    protected static GridPoint2 selectedHex = new GridPoint2(-1, -1);
-    protected static GridPoint2 downHex = new GridPoint2(-1, -1);
-    protected static GridPoint2 upHex = new GridPoint2(-1, -1);
-    protected static GridPoint2 from = new GridPoint2(-1, -1);
-    protected static GridPoint2 to = new GridPoint2(-1, -1);
+    protected static Hex selectedHex = null;
+    protected static Hex downHex = null;
+    protected static Hex upHex = null;
+    protected static Hex from = null;
+    protected static Hex to = null;
 
     protected boolean isEnemy;
+    protected static Pawn activePawn;
+    protected static Pawn selectedPawn;
 
     protected static StateType nextState = StateType.SELECT;
 
@@ -61,9 +60,9 @@ public abstract class StateCommon implements State
 
     public void clearAll()
     {
-        from.set(-1, -1);
-        to.set(-1, -1);
-        selectedHex.set(-1, -1);
+        from = null;
+        to = null;
+        selectedHex = null;
         selectedPawn = null;
         activePawn = null;
     }
@@ -76,22 +75,20 @@ public abstract class StateCommon implements State
         ctrl.setState(next, (next == StateType.SELECT));
     }
 
-    protected static boolean hexInMap(GridPoint2 hex)
-    {
-        if (hex.x == -1) return false;
-        return !map.isOffMap(hex);
-    }
-
     public boolean downInMap(float x, float y)
     {
-        map.getHexAt(downHex, x, y);
-        return hexInMap(downHex);
+        // FIXME
+        downHex = (Hex) map.getTileAt(x, y);
+        if (downHex == null) return false;
+        return !downHex.isOffMap();
     }
 
     public boolean upInMap(float x, float y)
     {
-        map.getHexAt(upHex, x, y);
-        return hexInMap(upHex);
+        // FIXME
+        upHex = (Hex) map.getTileAt(x, y);
+        if (upHex == null) return false;
+        return !upHex.isOffMap();
     }
 
     protected boolean hasPawn()
@@ -99,21 +96,16 @@ public abstract class StateCommon implements State
         return (selectedPawn != null);
     }
 
-    protected boolean sameHexes(GridPoint2 a, GridPoint2 b)
+    protected void selectHexAndPawn(Hex hex)
     {
-        return ((a.x == b.x) && (a.y == b.y));
-    }
-
-    protected void selectHexAndPawn(GridPoint2 point)
-    {
-        selectedHex.set(point);
-        selectedPawn = map.getTopPawnAt(selectedHex);
+        selectedHex = hex;
+        selectedPawn = selectedHex.getTopPawn();
         map.selectHex(selectedHex, true);
         if (selectedPawn != null)
             isEnemy = ctrl.player.isEnemy(selectedPawn);
         else
             isEnemy = false;
-        System.err.println("  select " + map.getHexSafe(selectedHex.x, selectedHex.y) + selectedPawn + (isEnemy ? " enemy " : " friend "));
+        System.err.println("  select " + selectedHex + selectedPawn + (isEnemy ? " enemy " : " friend "));
     }
 
     protected void showPossibleTargetsMovesAssists(Pawn pawn)

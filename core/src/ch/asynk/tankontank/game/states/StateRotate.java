@@ -18,12 +18,12 @@ public class StateRotate extends StateCommon
         ctrl.hud.rotateBtn.setOn();
 
         if (rotateOnly) {
-            if (from.x == -1) {
-                // rotateBtn  from Select state
-                from.set(selectedHex);
+            if (from == null) {
+                // rotateBtn from Select state
+                from = selectedHex;
                 activePawn = selectedPawn;
             }
-            to.set(from);
+            to = from;
         } else {
             // show final path
             map.selectHex(to, true);
@@ -57,7 +57,7 @@ public class StateRotate extends StateCommon
         if (rotationSet) return;
 
         // FIXME: if to is on the border of the board ...
-        o = Orientation.fromAdj(to.x, to.y, downHex.x, downHex.y);
+        o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
 
         if (o == Orientation.KEEP) return;
         rotationSet = true;
@@ -103,12 +103,12 @@ public class StateRotate extends StateCommon
 
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
-            if (map.rotatePawn(activePawn, from, o) > 0)
+            if (map.rotatePawn(activePawn, o) > 0)
                 setNextState(StateType.MOVE);
             ctrl.setState(StateType.ANIMATION);
         } else {
             ctrl.setAnimationCount(1);
-            if (map.movePawn(activePawn, from, o) > 0)
+            if (map.movePawn(activePawn, o) > 0)
                 setNextState(StateType.MOVE);
             ctrl.setState(StateType.ANIMATION);
         }

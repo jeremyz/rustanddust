@@ -27,7 +27,7 @@ public class StateSelect extends StateCommon
     @Override
     public void touchDown()
     {
-        if (selectedHex.x != -1) map.selectHex(selectedHex, false);
+        if (selectedHex != null) map.selectHex(selectedHex, false);
     }
 
     @Override
@@ -36,13 +36,13 @@ public class StateSelect extends StateCommon
         if (!isEnemy) {
             if (map.isInPossibleMoves(upHex)) {
                 // quick move
-                to.set(upHex);
+                to = upHex;
                 ctrl.setState(StateType.MOVE);
                 return;
             }
             if (map.isInPossibleTargets(upHex)) {
                 // quick fire
-                to.set(upHex);
+                to = upHex;
                 ctrl.setState(StateType.ATTACK);
                 return;
             }
@@ -52,13 +52,13 @@ public class StateSelect extends StateCommon
         map.hidePossibleTargetsMovesAssists();
 
         if (hasPawn() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
-            int moves = map.buildPossibleMoves(selectedPawn, selectedHex);
+            int moves = map.buildPossibleMoves(selectedPawn);
             int targets = 0;
             if (isEnemy)
-                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.player.unitIterator());
+                targets = map.buildPossibleTargets(selectedPawn, ctrl.player.unitIterator());
             else
-                targets = map.buildPossibleTargets(selectedPawn, selectedHex, ctrl.opponent.unitIterator());
-            int assists = map.buildMoveAssists(selectedPawn, selectedHex);
+                targets = map.buildPossibleTargets(selectedPawn, ctrl.opponent.unitIterator());
+            int assists = map.buildMoveAssists(selectedPawn);
             showPossibleTargetsMovesAssists(selectedPawn);
             ctrl.hud.show(
                 ctrl.player.canPromote(selectedPawn),
@@ -78,7 +78,7 @@ public class StateSelect extends StateCommon
     @Override
     public void abort()
     {
-        if (selectedHex.x != -1) map.selectHex(selectedHex, false);
+        if (selectedHex != null) map.selectHex(selectedHex, false);
         map.hidePossibleTargetsMovesAssists();
         clearAll();
         map.clearAll();

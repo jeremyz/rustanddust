@@ -1,7 +1,6 @@
 package ch.asynk.tankontank.game.states;
 
-import com.badlogic.gdx.math.GridPoint2;
-
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.State.StateType;
 
 public class StateMove extends StateCommon
@@ -15,21 +14,21 @@ public class StateMove extends StateCommon
 
         if (fromSelect) {
             // use selectedHex and selectedPawn
-            from.set(selectedHex);
+            from = selectedHex;
             activePawn = selectedPawn;
-            map.buildAndShowMovesAndAssits(activePawn, from);
-            if (to.x != -1) {
+            map.buildAndShowMovesAndAssits(activePawn);
+            if (to != null) {
                 // quick move -> replay touchUp
-                upHex.set(to);
+                upHex = to;
                 touchUp();
             }
         } else {
             // back from rotation -> use the above and unmodified activePawn
             if ((activePawn == selectedPawn) || !selectedPawn.canMove()) {
-                upHex.set(map.getFirstMoveAssist());
-                activePawn = map.getTopPawnAt(upHex);
+                upHex = map.getFirstMoveAssist();
+                activePawn = upHex.getTopPawn();
             } else {
-                upHex.set(selectedHex);
+                upHex = selectedHex;
             }
             changePawn(upHex);
         }
@@ -41,14 +40,14 @@ public class StateMove extends StateCommon
         // hide all but assists : want them when in rotation
         map.showPossibleMoves(false);
         map.selectHex(from, false);
-        if (to.x != -1) {
+        if (to != null) {
             map.selectHex(to, false);
             map.showFinalPath(to, false);
         }
 
         if (nextState != StateType.SELECT) {
-            if (to.x == -1 )
-                to.set(from);
+            if (to == null)
+                to = from;
         }
     }
 
@@ -62,8 +61,8 @@ public class StateMove extends StateCommon
     {
         int s = map.possiblePathsSize();
 
-        if (map.isInPossibleMoveAssists(upHex) || (selectedPawn.canMove() && sameHexes(selectedHex, upHex))) {
-            if(!sameHexes(upHex, from))
+        if (map.isInPossibleMoveAssists(upHex) || (selectedPawn.canMove() && (selectedHex == upHex))) {
+            if(upHex != from)
                 changePawn(upHex);
         } else if ((s == 0) && map.isInPossibleMoves(upHex)) {
             s = buildPaths();
@@ -73,8 +72,8 @@ public class StateMove extends StateCommon
 
         if (s == 1) {
             // prevent changePawn
-            if (sameHexes(from, selectedHex))
-                selectedHex.set(to);
+            if (from == selectedHex)
+                selectedHex = to;
             ctrl.setState(StateType.ROTATE, false);
         }
     }
@@ -103,26 +102,26 @@ public class StateMove extends StateCommon
         map.showMoveAssists(false);
     }
 
-    private void changePawn(GridPoint2 next)
+    private void changePawn(Hex next)
     {
-        if (from.x != -1) {
+        if (from != null) {
             // toggle selected to assist
             map.selectHex(from, false);
             map.showAssist(from, true);
         }
-        from.set(next);
-        activePawn = map.getTopPawnAt(from);
+        from = next;
+        activePawn = from.getTopPawn();
         map.selectHex(from, true);
         map.showAssist(from, false);
         map.showPossibleMoves(false);
-        map.buildPossibleMoves(activePawn, from);
+        map.buildPossibleMoves(activePawn);
         map.showPossibleMoves(true);
     }
 
     private int buildPaths()
     {
-        to.set(upHex.x, upHex.y);
-        int s = map.buildPossiblePaths(activePawn, from, to);
+        to = upHex;
+        int s = map.buildPossiblePaths(activePawn, to);
         map.selectHex(to, true);
         map.showPossibleMoves(false);
         map.showPossiblePaths(true, true);
@@ -131,9 +130,9 @@ public class StateMove extends StateCommon
 
     private int togglePoint(int s)
     {
-        if (sameHexes(downHex, from)) {
+        if (downHex == from) {
             //
-        } else if (sameHexes(downHex, to)) {
+        } else if (downHex == to) {
             //
         } else {
             map.showPossiblePaths(false, true);
