@@ -35,10 +35,13 @@ allprojects {
     }
 
     task packs(type: com.eowise.packer.Packer) {
-        resourcesInputPath 'data'
+        resourcesInputPath 'data/assets'
         atlasesOutputPath 'android/assets/data/'
         atlases {
-            add 'assets'
+            add 'hud'
+            add 'pawns'
+            add 'pawn-overlays'
+            add 'tile-overlays'
         }
     }
 }

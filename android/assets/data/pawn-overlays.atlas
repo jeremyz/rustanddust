@@ -1,0 +1,12 @@
+
+pawn-overlays.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+01_target
+  rotate: false
+  xy: 2, 2
+  size: 90, 90
+  orig: 90, 90
+  offset: 0, 0
+  index: -1

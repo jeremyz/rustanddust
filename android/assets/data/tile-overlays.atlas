@@ -1,0 +1,61 @@
+
+tile-overlays.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+01_fog
+  rotate: false
+  xy: 234, 267
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+02_blue
+  rotate: false
+  xy: 234, 48
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+03_green
+  rotate: false
+  xy: 426, 267
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+04_red
+  rotate: false
+  xy: 426, 48
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+05_move
+  rotate: false
+  xy: 618, 267
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+06_directions
+  rotate: false
+  xy: 2, 244
+  size: 230, 240
+  orig: 230, 240
+  offset: 0, 0
+  index: -1
+07_assist
+  rotate: false
+  xy: 618, 48
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+08_orientation
+  rotate: false
+  xy: 2, 2
+  size: 230, 240
+  orig: 230, 240
+  offset: 0, 0
+  index: -1
