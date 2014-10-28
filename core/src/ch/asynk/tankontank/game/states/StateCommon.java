@@ -110,8 +110,8 @@ public abstract class StateCommon implements State
 
     protected void showPossibleTargetsMovesAssists(Pawn pawn)
     {
-        if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves(true);
-        if (ctrl.cfg.showTargets && pawn.canAttack()) map.showPossibleTargets(true);
-        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveAssists(true);
+        if (ctrl.cfg.showMoves && pawn.canMove()) map.possibleMoves.show();
+        if (ctrl.cfg.showTargets && pawn.canAttack()) map.possibleTargets.show();
+        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.moveAssists.show();
     }
 }

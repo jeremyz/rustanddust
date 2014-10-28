@@ -94,7 +94,7 @@ public class StateRotate extends StateCommon
     private void hideAssists()
     {
         map.showAssist(selectedHex, false);
-        map.showMoveAssists(false);
+        map.moveAssists.hide();
     }
 
     private void doRotation(Orientation o)

@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.State.StateType;
 
 public class StateAttack extends StateCommon
@@ -16,9 +17,9 @@ public class StateAttack extends StateCommon
             activePawn = null;
             // use selectedHex and selectedPawn
             from = selectedHex;
-            map.showPossibleTargets(false);
+            map.possibleTargets.hide();
             map.buildPossibleTargets(selectedPawn, ctrl.opponent.unitIterator());
-            map.showPossibleTargets(true);
+            map.possibleTargets.show();
             if (to != null) {
                 // quick fire -> replay touchUp
                 upHex = to;
@@ -31,8 +32,9 @@ public class StateAttack extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        map.showAttackAssists(false);
-        map.showPossibleTargets(false);
+        map.attackAssists.hide();
+        map.attackAssists.enable(Hex.TARGET, false);    // disable selected assists
+        map.possibleTargets.hide();
         map.selectHex(from, false);
         if (to != null)
             map.selectHex(to, false);
@@ -48,12 +50,12 @@ public class StateAttack extends StateCommon
     {
         // activePawn is the target
         if ((activePawn == null) && map.possibleTargets.contains(upHex)) {
-            map.showPossibleTargets(false);
+            map.possibleTargets.hide();
             to = upHex;
             activePawn = to.getTopPawn();
             map.showTarget(to, true);
             map.buildAttackAssists(selectedPawn, activePawn, ctrl.player.unitIterator());
-            map.showAttackAssists(true);
+            map.attackAssists.show();
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 

@@ -91,28 +91,6 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.TARGET, enable);
     }
 
-    public void showPossibleMoves(boolean enable)
-    {
-        possibleMoves.enable(Hex.MOVE1, enable);
-    }
-
-    public void showMoveAssists(boolean enable)
-    {
-        moveAssists.enable(Hex.ASSIST, enable);
-    }
-
-    public void showAttackAssists(boolean enable)
-    {
-        attackAssists.enable(Hex.ASSIST, enable);
-        // TODO why the above ???
-        attackAssists.enable(Hex.TARGET, false);
-    }
-
-    public void showPossibleTargets(boolean enable)
-    {
-        possibleTargets.enable(Hex.TARGET, enable);
-    }
-
     public void showPossiblePaths(boolean enable, boolean keepFinal)
     {
         if (keepFinal) {
@@ -141,9 +119,9 @@ public abstract class Map extends Board
 
     public void hidePossibleTargetsMovesAssists()
     {
-        showPossibleMoves(false);
-        showPossibleTargets(false);
-        showMoveAssists(false);
+        possibleMoves.hide();
+        possibleTargets.hide();
+        moveAssists.hide();
     }
 
     public void togglePathOverlay(Hex hex)
@@ -195,16 +173,16 @@ public abstract class Map extends Board
 
     public void buildAndShowMovesAndAssits(Pawn pawn)
     {
-        showPossibleMoves(false);
-        showMoveAssists(false);
+        possibleMoves.hide();
+        moveAssists.hide();
         activablePawns.clear();
         activatedPawns.clear();
         buildPossibleMoves(pawn);
         buildMoveAssists(pawn);
         activablePawns.add(pawn);
         moveAssists.getPawns(activablePawns);
-        showPossibleMoves(true);
-        showMoveAssists(true);
+        possibleMoves.show();
+        moveAssists.show();
     }
 
     public int buildPossiblePaths(Pawn pawn, Hex to)
