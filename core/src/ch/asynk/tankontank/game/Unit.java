@@ -13,6 +13,7 @@ public class Unit extends HeadedPawn
     public static final int MOVE = 0;
     public static final int ATTACK = 1;
     public static final int TARGET = 2;
+    public static final int ATTACK_ASSIST = 3;
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -233,6 +234,11 @@ public class Unit extends HeadedPawn
     public void showAttack(boolean enable)
     {
         enableOverlay(ATTACK, enable);
+    }
+
+    public void showAttackAssist(boolean enable)
+    {
+        enableOverlay(ATTACK_ASSIST, enable);
     }
 
     public void showTarget(boolean enable)
