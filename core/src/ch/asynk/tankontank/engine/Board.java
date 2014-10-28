@@ -26,7 +26,9 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 public abstract class Board implements Disposable
 {
     private final Tile neighbours[] = new Tile[6];
+    // TODO class Move : from , to, paths, points, vector, cost ...
     protected List<ArrayList<SearchBoard.Node>> paths;
+    private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
 
     public interface TileBuilder
     {
@@ -111,6 +113,9 @@ public abstract class Board implements Disposable
         for (int i = 0, n = animations.size(); i < n; i++)
             animations.get(i).dispose();
         animations.clear();
+        for (Vector3 v : finalPath)
+            vector3Pool.free(v);
+        finalPath.clear();
     }
 
     public float getWidth()
@@ -422,11 +427,12 @@ public abstract class Board implements Disposable
         return pawn;
     }
 
-    protected void movePawn(final Pawn pawn, int cost, ArrayList<Vector3> path, RunnableAnimation whenDone)
+    protected void movePawn(final Pawn pawn, int cost, Orientation o, RunnableAnimation whenDone)
     {
+        getCoordinatePath(pawn, 0, finalPath, o);
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getMoveAnimation(path);
+        AnimationSequence seq = pawn.getMoveAnimation(finalPath);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
