@@ -117,13 +117,6 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.ORIENTATION, enable, o);
     }
 
-    public void hidePossibleTargetsMovesAssists()
-    {
-        possibleMoves.hide();
-        possibleTargets.hide();
-        moveAssists.hide();
-    }
-
     public void togglePathOverlay(Hex hex)
     {
         boolean enable= !hex.isOverlayEnabled(Hex.MOVE2);
