@@ -1,9 +1,11 @@
 package ch.asynk.tankontank.engine;
 
 import java.util.List;
-import java.util.ArrayDeque;
-import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.ArrayDeque;
 
 public class SearchBoard
 {
@@ -40,7 +42,7 @@ public class SearchBoard
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
 
-    private List<Node> moves;
+    private Set<Node> moves;
     private List<Node> targets;
     private List<Node> los;
 
@@ -74,7 +76,7 @@ public class SearchBoard
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
 
-        this.moves = new ArrayList<Node>(40);
+        this.moves = new LinkedHashSet<Node>(40);
         this.targets = new ArrayList<Node>(10);
         this.los = new ArrayList<Node>(10);
 
@@ -139,7 +141,7 @@ public class SearchBoard
         a[5] = getNode((src.col - 1), (src.row - 1));
     }
 
-    public List<Node> possibleMovesFrom(Pawn pawn, int col, int row)
+    public Set<Node> possibleMovesFrom(Pawn pawn, int col, int row)
     {
         searchCount += 1;
         moves.clear();
@@ -190,7 +192,7 @@ public class SearchBoard
                             dst.parent = src;
                             dst.roadMarch = roadMarch;
                             stack.push(dst);
-                            if (!moves.contains(dst)) moves.add(dst);
+                            moves.add(dst);
                         }
                     } else {
                         dst.search = searchCount;
@@ -232,7 +234,7 @@ public class SearchBoard
                             dst.parent = src;
                             dst.roadMarch = true;
                             roadMarch.push(dst);
-                            if (!moves.contains(dst)) moves.add(dst);
+                            moves.add(dst);
                         }
                     } else {
                         dst.search = searchCount;

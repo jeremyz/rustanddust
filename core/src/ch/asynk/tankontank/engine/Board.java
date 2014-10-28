@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -241,7 +242,7 @@ public abstract class Board implements Disposable
     protected int buildPossibleMoves(Pawn pawn, TileList moves)
     {
         Tile from = pawn.getTile();
-        List<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
+        Set<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
         return moves.fromNodes(nodes);
     }
 
