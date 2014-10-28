@@ -4,8 +4,8 @@ import ch.asynk.tankontank.engine.TileList;
 
 public class HexList extends TileList
 {
-    public HexList(Map map, int n)
+    public HexList(Map map, int overlay, int n)
     {
-        super(map, n);
+        super(map, overlay, n);
     }
 }

@@ -3,68 +3,49 @@ package ch.asynk.tankontank.engine;
 import java.util.List;
 import java.util.ArrayList;
 
-public class TileList
+public class TileList extends ArrayList<Tile>
 {
     private final Board board;
-    private final List<Tile> tiles;
+    private int overlay;
 
-    public TileList(Board board, int n)
+    public TileList(Board board, int overlay, int n)
     {
+        super(n);
         this.board = board;
-        this.tiles = new ArrayList<Tile>(n);
+        this.overlay = overlay;
     }
 
     public int fromNodes(List<SearchBoard.Node> nodes)
     {
-        tiles.clear();
+        clear();
         for (SearchBoard.Node node : nodes) {
             Tile tile = board.getTile(node.col, node.row);
-            tiles.add(tile);
+            add(tile);
         }
 
-        return tiles.size();
+        return size();
     }
 
-    public int size()
+    public void show()
     {
-        return tiles.size();
+        enable(overlay, true);
     }
 
-    public void clear()
+    public void hide()
     {
-        tiles.clear();
-    }
-
-    public Tile get(int i)
-    {
-        return tiles.get(i);
-    }
-
-    public void add(Tile tile)
-    {
-        tiles.add(tile);
-    }
-
-    public boolean remove(Tile tile)
-    {
-        return tiles.remove(tile);
-    }
-
-    public boolean contains(Tile tile)
-    {
-        return tiles.contains(tile);
+        enable(overlay, false);
     }
 
     public void enable(int i, boolean enable)
     {
-        for (Tile tile : tiles)
+        for (Tile tile : this)
             board.enableOverlayOn(tile, i, enable);
     }
 
     public void getPawns(List<Pawn> pawns)
     {
         pawns.clear();
-        for (Tile tile : tiles)
+        for (Tile tile : this)
             pawns.add(tile.getTopPawn());
     }
 }

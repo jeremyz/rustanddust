@@ -41,11 +41,11 @@ public abstract class Map extends Board
         this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
-        possibleMoves = new HexList(this, 40);
-        possiblePaths = new HexList(this, 10);
-        possibleTargets = new HexList(this, 10);
-        moveAssists = new HexList(this, 6);
-        attackAssists = new HexList(this, 6);
+        possibleMoves = new HexList(this, Hex.MOVE1, 40);
+        possiblePaths = new HexList(this, Hex.MOVE1, 10);       // Hex.MOVE2
+        possibleTargets = new HexList(this, Hex.TARGET, 10);
+        moveAssists = new HexList(this, Hex.ASSIST, 6);
+        attackAssists = new HexList(this, Hex.ASSIST, 6);
     }
 
     @Override
