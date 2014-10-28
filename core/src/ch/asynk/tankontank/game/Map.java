@@ -76,21 +76,6 @@ public abstract class Map extends Board
         return (Hex) moveAssists.get(0);
     }
 
-    public int activablePawnsCount()
-    {
-        return activablePawns.size();
-    }
-
-    public int activatedPawnsCount()
-    {
-        return activatedPawns.size();
-    }
-
-    public int possiblePathsSize()
-    {
-        return possiblePaths.size();
-    }
-
     public boolean isInPossibleMoves(Hex hex)
     {
         return possibleMoves.contains(hex);
@@ -300,7 +285,7 @@ public abstract class Map extends Board
 
         for (Pawn p : activatedPawns)
             pawn.attack(target);
-        if ((activatedPawnsCount() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+        if ((activatedPawns.size() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedPawns.clear();
 
         return success;

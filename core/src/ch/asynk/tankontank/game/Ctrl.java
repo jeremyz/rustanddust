@@ -101,7 +101,7 @@ public class Ctrl implements Disposable
 
     private void checkTurnEnd()
     {
-        if (map.activatedPawnsCount() > 0) {
+        if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
         }
         if (player.apExhausted())

@@ -9,7 +9,7 @@ public class StateMove extends StateCommon
     public void enter(boolean fromSelect)
     {
         map.possiblePaths.clear();
-        ctrl.hud.show(false, true, true, false, ((map.activablePawnsCount() + map.activatedPawnsCount()) > 1), ctrl.cfg.canCancel);
+        ctrl.hud.show(false, true, true, false, ((map.activablePawns.size() + map.activatedPawns.size()) > 1), ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
 
         if (fromSelect) {
@@ -59,7 +59,7 @@ public class StateMove extends StateCommon
     @Override
     public void touchUp()
     {
-        int s = map.possiblePathsSize();
+        int s = map.possiblePaths.size();
 
         if (map.isInPossibleMoveAssists(upHex) || (selectedPawn.canMove() && (selectedHex == upHex))) {
             if(upHex != from)
@@ -82,7 +82,7 @@ public class StateMove extends StateCommon
     public void abort()
     {
         hideAssists();
-        ctrl.setAnimationCount(map.activatedPawnsCount());
+        ctrl.setAnimationCount(map.activatedPawns.size());
         map.revertMoves();
         super.abort();
     }
@@ -91,7 +91,7 @@ public class StateMove extends StateCommon
     public void done()
     {
         hideAssists();
-        if (selectedPawn.canMove() && (map.activatedPawnsCount() > 0))
+        if (selectedPawn.canMove() && (map.activatedPawns.size() > 0))
             selectedPawn.move(0);
         super.done();
     }

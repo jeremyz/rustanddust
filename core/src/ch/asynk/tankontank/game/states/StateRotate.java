@@ -74,7 +74,7 @@ public class StateRotate extends StateCommon
     public void abort()
     {
         ctrl.hud.hide();
-        if (map.activatedPawnsCount() == 0) {
+        if (map.activatedPawns.size() == 0) {
             hideAssists();
             super.abort();
         } else {
@@ -86,7 +86,7 @@ public class StateRotate extends StateCommon
     public void done()
     {
         doRotation(o);
-        if (selectedPawn.canMove() && (map.activatedPawnsCount() > 0))
+        if (selectedPawn.canMove() && (map.activatedPawns.size() > 0))
             selectedPawn.move(0);
         super.done();
     }
