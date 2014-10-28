@@ -40,12 +40,11 @@ public abstract class Map extends Board
     private final Ctrl ctrl;
 
     public final Board.TileCollection possibleMoves;
-    public final Board.TileCollection possibleTargets;
     public final Board.TileCollection possiblePaths;
     public final Board.PawnCollection moveablePawns;
-    public final Board.TileCollection attackAssists;
-    public final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);  // PawnSet
-    public final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);  // PawnSet
+    public final Board.PawnCollection possibleTargets;
+    public final Board.PawnCollection attackAssists;
+    public final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -64,8 +63,8 @@ public abstract class Map extends Board
         possiblePaths = new HexSet(this, Hex.MOVE1, 10);        // Hex.MOVE2
         moveablePawns = new UnitSet(this, Unit.MOVE, 6);
 
-        possibleTargets = new HexSet(this, Hex.TARGET, 10);    // UnitSet - use Unit overlays
-        attackAssists = new HexSet(this, Hex.ASSIST, 6);       // UnitSet - use Unit overlays
+        possibleTargets = new UnitSet(this, Unit.TARGET, 10);
+        attackAssists = new UnitSet(this, Unit.ATTACK_ASSIST, 6);
     }
 
     @Override
@@ -82,7 +81,6 @@ public abstract class Map extends Board
         possiblePaths.clear();
         moveablePawns.clear();
         attackAssists.clear();
-        activablePawns.clear();
         activatedPawns.clear();
     }
 
@@ -176,22 +174,19 @@ public abstract class Map extends Board
 
     public int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
     {
-        int s = buildAttackAssists(pawn, target, units, attackAssists);
+        int s = collectAttackAssists(pawn, target, units, attackAssists);
         activatedPawns.add(pawn);
-        attackAssists.getPawns(activablePawns);
         return s;
     }
 
     public boolean toggleAttackAssist(Pawn pawn)
     {
-        if (activablePawns.contains(pawn)) {
-            activablePawns.remove(pawn);
+        if (activatedPawns.contains(pawn)) {
+            activatedPawns.remove(pawn);
+            return false;
+        } else {
             activatedPawns.add(pawn);
             return true;
-        } else {
-            activatedPawns.remove(pawn);
-            activablePawns.add(pawn);
-            return false;
         }
     }
 

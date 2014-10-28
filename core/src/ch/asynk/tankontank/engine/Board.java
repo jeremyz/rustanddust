@@ -267,14 +267,14 @@ public abstract class Board implements Disposable
         return moves.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargets(Pawn pawn, TileCollection targets)
+    protected int collectPossibleTargets(Pawn pawn, PawnCollection targets)
     {
         Tile from = pawn.getTile();
         List<SearchBoard.Node> nodes = searchBoard.possibleTargetsFrom(pawn, from.getCol(), from.getRow());
         return targets.fromNodes(nodes);
     }
 
-    protected int buildPossibleTargets(Pawn pawn, Iterator<Pawn> units, TileCollection targets)
+    protected int collectPossibleTargets(Pawn pawn, Iterator<Pawn> units, PawnCollection targets)
     {
         Tile from = pawn.getTile();
         targets.clear();
@@ -282,7 +282,7 @@ public abstract class Board implements Disposable
             Pawn target = units.next();
             Tile to = target.getTile();
             if (searchBoard.buildAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
-                targets.add(to);
+                targets.add(target);
         }
 
         return targets.size();
@@ -306,7 +306,7 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    protected int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, TileCollection assists)
+    protected int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, PawnCollection assists)
     {
         assists.clear();
         Tile to = target.getTile();
@@ -316,7 +316,7 @@ public abstract class Board implements Disposable
             Tile from = p.getTile();
             if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.getCol(), from.getRow(), to.getCol(), to.getRow())) {
                 if (p != pawn)
-                    assists.add(from);
+                    assists.add(p);
             }
         }
 

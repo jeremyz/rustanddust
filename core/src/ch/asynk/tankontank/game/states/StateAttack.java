@@ -13,10 +13,10 @@ public class StateAttack extends StateCommon
         ctrl.hud.show(false, false, false, true, false, ctrl.cfg.canCancel);
         ctrl.hud.attackBtn.setOn();
 
+        // activeUnit is the target
         if (fromSelect) {
             activeUnit = null;
             // use selectedHex and selectedUnit
-            from = selectedHex;
             map.possibleTargets.hide();
             map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
             map.possibleTargets.show();
@@ -25,17 +25,20 @@ public class StateAttack extends StateCommon
                 upHex = to;
                 touchUp();
             }
-            map.selectHex(from, true);
-        }
+            selectedUnit.showAttack(true);
+            map.selectHex(selectedHex, true);
+        } else
+            System.err.println("should not happen");
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        map.attackAssists.hide();
-        map.attackAssists.enable(Hex.TARGET, false);    // disable selected assists
+        selectedUnit.showAttack(false);
+        map.attackAssists.enable(Unit.ATTACK, false);
+        map.attackAssists.enable(Unit.ATTACK_ASSIST, false);
         map.possibleTargets.hide();
-        map.selectHex(from, false);
+        map.selectHex(selectedHex, false);
         if (to != null)
             map.selectHex(to, false);
     }
@@ -48,24 +51,26 @@ public class StateAttack extends StateCommon
     @Override
     public void touchUp()
     {
+        Unit unit = upHex.getUnit();
+
         // activeUnit is the target
-        if ((activeUnit == null) && map.possibleTargets.contains(upHex)) {
+        if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
             map.possibleTargets.hide();
             to = upHex;
-            activeUnit = to.getUnit();
-            map.showTarget(to, true);
+            activeUnit = unit;
+            activeUnit.showTarget(true);
             map.buildAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
             map.attackAssists.show();
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 
-        if ((activeUnit != null) && map.attackAssists.contains(upHex)) {
-            if (map.toggleAttackAssist(upHex.getUnit())) {
-                map.showAssist(upHex, false);
-                map.showTarget(upHex, true);
+        if ((activeUnit != null) && map.attackAssists.contains(unit)) {
+            if (map.toggleAttackAssist(unit)) {
+                unit.showAttack(true);
+                unit.showAttackAssist(false);
             } else {
-                map.showAssist(upHex, true);
-                map.showTarget(upHex, false);
+                unit.showAttack(false);
+                unit.showAttackAssist(true);
             }
         }
     }
@@ -82,10 +87,10 @@ public class StateAttack extends StateCommon
     {
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
-        System.err.print("  attack (" + from.getCol() + ";" + from.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
+        System.err.print("  attack (" + selectedHex.getCol() + ";" + selectedHex.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedUnit, activeUnit, d1 + d2))
             ctrl.player.casualty(activeUnit);
-        map.showTarget(to, false);
+        activeUnit.showTarget(true);
         ctrl.setState(StateType.ANIMATION);
 
         super.done();

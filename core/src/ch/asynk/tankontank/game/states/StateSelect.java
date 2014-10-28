@@ -40,7 +40,7 @@ public class StateSelect extends StateCommon
                 ctrl.setState(StateType.MOVE);
                 return;
             }
-            if (map.possibleTargets.contains(upHex)) {
+            if (map.possibleTargets.contains(upHex.getUnit())) {
                 // quick fire
                 to = upHex;
                 ctrl.setState(StateType.ATTACK);
