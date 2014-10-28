@@ -52,19 +52,21 @@ public class StateSelect extends StateCommon
         hidePossibleTargetsMovesAssists();
 
         if (hasUnit() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
+            // moves and targets == 0 if selectedUnit can't be activated for
             int moves = map.buildPossibleMoves(selectedUnit);
             int targets = 0;
             if (isEnemy)
                 targets = map.buildPossibleTargets(selectedUnit, ctrl.player.unitIterator());
             else
                 targets = map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
-            int assists = map.buildMoveAssists(selectedUnit);
+            if (moves > 0)
+                map.collectMoveablePawns(selectedUnit);
             showPossibleTargetsMovesAssists(selectedUnit);
             ctrl.hud.show(
                 ctrl.player.canPromote(selectedUnit),
                 selectedUnit.canMove(),
-                (selectedUnit.canMove() && (moves > 0)),
-                (selectedUnit.canAttack() && (targets > 0)),
+                (moves > 0),
+                (targets > 0),
                 false,
                 false
                 );

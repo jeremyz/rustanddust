@@ -145,11 +145,19 @@ public abstract class Map extends Board
 
     public int buildPossibleMoves(Pawn pawn)
     {
+        if (!pawn.canMove()) {
+            possibleMoves.clear();
+            return 0;
+        }
         return buildPossibleMoves(pawn, possibleMoves);
     }
 
     public int buildPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
     {
+        if (!pawn.canAttack()) {
+            possibleTargets.clear();
+            return 0;
+        }
         // return buildPossibleTargets(pawn, possibleTargets);
         return buildPossibleTargets(pawn, possibleTargets);
     }
