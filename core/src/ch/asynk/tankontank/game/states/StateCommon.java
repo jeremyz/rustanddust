@@ -77,16 +77,14 @@ public abstract class StateCommon implements State
 
     public boolean downInMap(float x, float y)
     {
-        // FIXME
-        downHex = (Hex) map.getTileAt(x, y);
+        downHex = map.getHexAt(x, y);
         if (downHex == null) return false;
         return !downHex.isOffMap();
     }
 
     public boolean upInMap(float x, float y)
     {
-        // FIXME
-        upHex = (Hex) map.getTileAt(x, y);
+        upHex = map.getHexAt(x, y);
         if (upHex == null) return false;
         return !upHex.isOffMap();
     }

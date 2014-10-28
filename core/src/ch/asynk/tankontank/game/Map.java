@@ -85,6 +85,11 @@ public abstract class Map extends Board
         activatedPawns.clear();
     }
 
+    public Hex getHexAt(float x, float y)
+    {
+        return (Hex) getTileAt(x, y);
+    }
+
     public Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
