@@ -1,8 +1,8 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class TileList extends ArrayList<Tile>
 {
@@ -16,18 +16,7 @@ public class TileList extends ArrayList<Tile>
         this.overlay = overlay;
     }
 
-    public int fromNodes(List<SearchBoard.Node> nodes)
-    {
-        clear();
-        for (SearchBoard.Node node : nodes) {
-            Tile tile = board.getTile(node.col, node.row);
-            add(tile);
-        }
-
-        return size();
-    }
-
-    public int fromNodes(Set<SearchBoard.Node> nodes)
+    public int fromNodes(Collection<SearchBoard.Node> nodes)
     {
         clear();
         for (SearchBoard.Node node : nodes) {
