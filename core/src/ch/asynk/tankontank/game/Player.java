@@ -104,15 +104,15 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
         return false;
     }
 
-    public Pawn promote(Pawn pawn)
+    public Unit promote(Unit unit)
     {
         for (Pawn p: casualties) {
-            if (p.isHqOf(pawn)) {
-                units.remove(pawn);
-                casualties.add(pawn);
+            if (p.isHqOf(unit)) {
+                units.remove(unit);
+                casualties.add(unit);
                 units.add(p);
                 casualties.remove(p);
-                return p;
+                return (Unit) p;
             }
         }
         return null;
