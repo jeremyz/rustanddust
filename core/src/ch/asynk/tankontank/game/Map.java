@@ -1,19 +1,16 @@
 package ch.asynk.tankontank.game;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
@@ -24,15 +21,13 @@ public abstract class Map extends Board
 {
     private final Ctrl ctrl;
 
-    private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
-    private final HexList possibleMoves;
-    private final HexList possibleTargets;
-    private final HexList moveAssists;
-    private final HexList attackAssists;
-    private final HexList possiblePaths;
-
-    private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);
-    private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
+    private final HexList possibleMoves;                                    // HexSet
+    private final HexList possibleTargets;                                  // PawnSet
+    private final HexList possiblePaths;                                    // class Move
+    private final HexList moveAssists;                                      // PawnSet
+    private final HexList attackAssists;                                    // PawnSet
+    private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);  // PawnSet
+    private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);  // PawnSet
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -69,7 +64,6 @@ public abstract class Map extends Board
         attackAssists.clear();
         activablePawns.clear();
         activatedPawns.clear();
-        clearCoordinateVector(finalPath);
     }
 
     public void clearPossiblePaths()
@@ -92,21 +86,14 @@ public abstract class Map extends Board
         activatedPawns.clear();
     }
 
-    protected Hex getHex(int col, int row)
+    public Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
     }
 
-    public Hex getHexSafe(int col, int row)
+    public Hex getFirstMoveAssist()
     {
-        return (Hex) getTileSafe(col, row);
-    }
-
-    public GridPoint2 getFirstMoveAssist()
-    {
-        // FIXME
-        Hex h = (Hex) moveAssists.get(0);
-        return new GridPoint2(h.getCol(), h.getRow());
+        return (Hex) moveAssists.get(0);
     }
 
     public int activablePawnsCount()
@@ -124,42 +111,42 @@ public abstract class Map extends Board
         return possiblePaths.size();
     }
 
-    public boolean isInPossibleMoves(GridPoint2 hex)
+    public boolean isInPossibleMoves(Hex hex)
     {
-        return possibleMoves.contains(getHex(hex.x, hex.y));
+        return possibleMoves.contains(hex);
     }
 
-    public boolean isInPossibleMoveAssists(GridPoint2 hex)
+    public boolean isInPossibleMoveAssists(Hex hex)
     {
-        return moveAssists.contains(getHex(hex.x, hex.y));
+        return moveAssists.contains(hex);
     }
 
-    public boolean isInPossibleAttackAssists(GridPoint2 hex)
+    public boolean isInPossibleAttackAssists(Hex hex)
     {
-        return attackAssists.contains(getHex(hex.x, hex.y));
+        return attackAssists.contains(hex);
     }
 
-    public boolean isInPossiblePaths(GridPoint2 hex)
+    public boolean isInPossiblePaths(Hex hex)
     {
-        return possiblePaths.contains(getHex(hex.x, hex.y));
+        return possiblePaths.contains(hex);
     }
 
-    public boolean isInPossibleTargets(GridPoint2 hex)
+    public boolean isInPossibleTargets(Hex hex)
     {
-        return possibleTargets.contains(getHex(hex.x, hex.y));
+        return possibleTargets.contains(hex);
     }
 
-    public void selectHex(GridPoint2 hex, boolean enable)
+    public void selectHex(Hex hex, boolean enable)
     {
         enableOverlayOn(hex, Hex.SELECT, enable);
     }
 
-    public void showAssist(GridPoint2 hex, boolean enable)
+    public void showAssist(Hex hex, boolean enable)
     {
         enableOverlayOn(hex, Hex.ASSIST, enable);
     }
 
-    public void showTarget(GridPoint2 hex, boolean enable)
+    public void showTarget(Hex hex, boolean enable)
     {
         enableOverlayOn(hex, Hex.TARGET, enable);
     }
@@ -196,18 +183,18 @@ public abstract class Map extends Board
         }
     }
 
-    public void showFinalPath(GridPoint2 dst, boolean enable)
+    public void showFinalPath(Hex dst, boolean enable)
     {
         possiblePaths.enable(Hex.MOVE1, false);
         possiblePaths.enable(Hex.MOVE2, enable);
     }
 
-    public void showDirections(GridPoint2 hex, boolean enable)
+    public void showDirections(Hex hex, boolean enable)
     {
         enableOverlayOn(hex, Hex.DIRECTIONS, enable);
     }
 
-    public void showOrientation(GridPoint2 hex, boolean enable, Orientation o)
+    public void showOrientation(Hex hex, boolean enable, Orientation o)
     {
         enableOverlayOn(hex, Hex.ORIENTATION, enable, o);
     }
@@ -219,35 +206,35 @@ public abstract class Map extends Board
         showMoveAssists(false);
     }
 
-    public void togglePathOverlay(GridPoint2 hex)
+    public void togglePathOverlay(Hex hex)
     {
-        boolean enable= !isOverlayEnabledOn(hex, Hex.MOVE2);
+        boolean enable= !hex.isOverlayEnabled(Hex.MOVE2);
         enableOverlayOn(hex, Hex.MOVE2, enable);
     }
 
-    public int buildPossibleMoves(Pawn pawn, GridPoint2 hex)
+    public int buildPossibleMoves(Pawn pawn)
     {
-        return buildPossibleMovesFrom(pawn, hex, possibleMoves);
+        return buildPossibleMoves(pawn, possibleMoves);
     }
 
-    public int buildPossibleTargets(Pawn pawn, GridPoint2 hex, Iterator<Pawn> foes)
+    public int buildPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
     {
-        // return buildPossibleTargetsFrom(pawn, hex, possibleTargets);
-        return buildPossibleTargetsFrom(pawn, hex, foes, possibleTargets);
+        // return buildPossibleTargets(pawn, possibleTargets);
+        return buildPossibleTargets(pawn, possibleTargets);
     }
 
-    public int buildMoveAssists(Pawn pawn, GridPoint2 hex)
+    public int buildMoveAssists(Pawn pawn)
     {
         if (!pawn.isHq()) {
             moveAssists.clear();
             return 0;
         }
-        return buildMoveAssists(pawn, hex, moveAssists);
+        return buildMoveAssists(pawn, moveAssists);
     }
 
-    public int buildAttackAssists(Pawn pawn, Pawn target, GridPoint2 hex, Iterator<Pawn> units)
+    public int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
     {
-        int s = buildAttackAssists(pawn, target, hex, units, attackAssists);
+        int s = buildAttackAssists(pawn, target, units, attackAssists);
         activatedPawns.add(pawn);
         attackAssists.getPawns(activablePawns);
         return s;
@@ -266,34 +253,32 @@ public abstract class Map extends Board
         }
     }
 
-    public void buildAndShowMovesAndAssits(Pawn pawn, GridPoint2 hex)
+    public void buildAndShowMovesAndAssits(Pawn pawn)
     {
         showPossibleMoves(false);
         showMoveAssists(false);
         activablePawns.clear();
         activatedPawns.clear();
-        buildPossibleMoves(pawn, hex);
-        buildMoveAssists(pawn, hex);
+        buildPossibleMoves(pawn);
+        buildMoveAssists(pawn);
         activablePawns.add(pawn);
         moveAssists.getPawns(activablePawns);
         showPossibleMoves(true);
         showMoveAssists(true);
     }
 
-    public int buildPossiblePaths(Pawn pawn, GridPoint2 from, GridPoint2 to)
+    public int buildPossiblePaths(Pawn pawn, Hex to)
     {
-        return buildPossiblePaths(pawn, from, to, possiblePaths);
+        return buildPossiblePaths(pawn, to, possiblePaths);
     }
 
-    public int possiblePathsPointToggle(GridPoint2 hex)
+    public int possiblePathsPointToggle(Hex hex)
     {
         return possiblePathsFilterToggle(hex, possiblePaths);
     }
 
-    public boolean attackPawn(Pawn pawn, final Pawn target, GridPoint2 from, GridPoint2 to, int dice)
+    public boolean attackPawn(Pawn pawn, final Pawn target, int dice)
     {
-        Hex hex = getHex(to.x, to.y);
-
         int activatedUnits = activatedPawns.size();
 
         final boolean success;
@@ -310,7 +295,7 @@ public abstract class Map extends Board
                 }
             }
             System.err.print(" + " + activatedUnits + " + " + flankAttacks);
-            success = ((dice + activatedUnits + flankAttacks) >= hex.defenseFor(target, activatedPawns));
+            success = ((dice + activatedUnits + flankAttacks) >= target.getTile().defenseFor(target, activatedPawns));
         }
 
         AnimationSequence seq = AnimationSequence.get(2);
@@ -341,26 +326,25 @@ public abstract class Map extends Board
         return success;
     }
 
-    public int movePawn(Pawn pawn, GridPoint2 from, Orientation o)
+    public int movePawn(Pawn pawn, Orientation o)
     {
-        System.err.println("    movePawn : " + from.x + ";" + from.y + " " + o);
+        Tile from = pawn.getTile();
+        System.err.println("    movePawn : " + from + " " + o);
         int cost = getPathCost(pawn, 0);
-        int s = getCoordinatePath(pawn, 0, finalPath, o);
-        if (s > 0) {
-            movePawn(pawn, cost, finalPath, RunnableAnimation.get(pawn, new Runnable() {
-                @Override
-                public void run() {
-                    ctrl.animationDone();
-                }
-            }));
-        }
+        movePawn(pawn, cost, o, RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                ctrl.animationDone();
+            }
+        }));
 
-        return finishMove(pawn, from);
+        return startMove(pawn, from);
     }
 
-    public int rotatePawn(Pawn pawn, GridPoint2 from, Orientation o)
+    public int rotatePawn(Pawn pawn, Orientation o)
     {
-        System.err.println("    rotatePawn : " + from.x + ";" + from.y + " " +o);
+        Tile from = pawn.getTile();
+        System.err.println("    rotatePawn : " + from + " " +o);
         rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
@@ -368,7 +352,7 @@ public abstract class Map extends Board
             }
         }));
 
-        return finishMove(pawn, from);
+        return startMove(pawn, from);
     }
 
     public void revertMoves()
@@ -385,8 +369,8 @@ public abstract class Map extends Board
         activatedPawns.clear();
     }
 
-    private int finishMove(Pawn pawn, GridPoint2 from) {
-        moveAssists.remove(getHex(from.x, from.y));
+    private int startMove(Pawn pawn, Tile from) {
+        moveAssists.remove(from);
         activablePawns.remove(pawn);
         activatedPawns.add(pawn);
         return activablePawns.size();
