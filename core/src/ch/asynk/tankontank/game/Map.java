@@ -158,8 +158,8 @@ public abstract class Map extends Board
             possibleTargets.clear();
             return 0;
         }
-        // return buildPossibleTargets(pawn, possibleTargets);
-        return buildPossibleTargets(pawn, possibleTargets);
+        // return collectPossibleTargets(pawn, possibleTargets);
+        return collectPossibleTargets(pawn, foes, possibleTargets);
     }
 
     public int collectMoveablePawns(Pawn pawn)
