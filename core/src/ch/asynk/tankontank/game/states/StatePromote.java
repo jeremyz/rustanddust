@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.State.StateType;
 
 public class StatePromote extends StateCommon
@@ -9,9 +9,9 @@ public class StatePromote extends StateCommon
     public void enter(boolean flag)
     {
         ctrl.hud.hide();
-        Pawn p = ctrl.player.promote(selectedPawn);
+        Unit p = ctrl.player.promote(selectedUnit);
         if (p != null) {
-            map.promote(selectedPawn, p);
+            map.promote(selectedUnit, p);
         }
         done();
     }

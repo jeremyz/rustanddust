@@ -1,8 +1,8 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State;
 import ch.asynk.tankontank.game.State.StateType;
@@ -19,8 +19,8 @@ public abstract class StateCommon implements State
     protected static Hex to = null;
 
     protected boolean isEnemy;
-    protected static Pawn activePawn;
-    protected static Pawn selectedPawn;
+    protected static Unit activeUnit;
+    protected static Unit selectedUnit;
 
     protected static StateType nextState = StateType.SELECT;
 
@@ -63,8 +63,8 @@ public abstract class StateCommon implements State
         from = null;
         to = null;
         selectedHex = null;
-        selectedPawn = null;
-        activePawn = null;
+        selectedUnit = null;
+        activeUnit = null;
     }
 
     private void goToNextState()
@@ -91,24 +91,24 @@ public abstract class StateCommon implements State
         return !upHex.isOffMap();
     }
 
-    protected boolean hasPawn()
+    protected boolean hasUnit()
     {
-        return (selectedPawn != null);
+        return (selectedUnit != null);
     }
 
-    protected void selectHexAndPawn(Hex hex)
+    protected void selectHexAndUnit(Hex hex)
     {
         selectedHex = hex;
-        selectedPawn = selectedHex.getTopPawn();
+        selectedUnit = selectedHex.getUnit();
         map.selectHex(selectedHex, true);
-        if (selectedPawn != null)
-            isEnemy = ctrl.player.isEnemy(selectedPawn);
+        if (selectedUnit != null)
+            isEnemy = ctrl.player.isEnemy(selectedUnit);
         else
             isEnemy = false;
-        System.err.println("  select " + selectedHex + selectedPawn + (isEnemy ? " enemy " : " friend "));
+        System.err.println("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 
-    protected void showPossibleTargetsMovesAssists(Pawn pawn)
+    protected void showPossibleTargetsMovesAssists(Unit pawn)
     {
         if (ctrl.cfg.showMoves && pawn.canMove()) map.possibleMoves.show();
         if (ctrl.cfg.showTargets && pawn.canAttack()) map.possibleTargets.show();

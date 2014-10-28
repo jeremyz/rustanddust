@@ -1,7 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.State.StateType;
 
 public class StateAttack extends StateCommon
@@ -14,11 +14,11 @@ public class StateAttack extends StateCommon
         ctrl.hud.attackBtn.setOn();
 
         if (fromSelect) {
-            activePawn = null;
-            // use selectedHex and selectedPawn
+            activeUnit = null;
+            // use selectedHex and selectedUnit
             from = selectedHex;
             map.possibleTargets.hide();
-            map.buildPossibleTargets(selectedPawn, ctrl.opponent.unitIterator());
+            map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
             map.possibleTargets.show();
             if (to != null) {
                 // quick fire -> replay touchUp
@@ -48,19 +48,19 @@ public class StateAttack extends StateCommon
     @Override
     public void touchUp()
     {
-        // activePawn is the target
-        if ((activePawn == null) && map.possibleTargets.contains(upHex)) {
+        // activeUnit is the target
+        if ((activeUnit == null) && map.possibleTargets.contains(upHex)) {
             map.possibleTargets.hide();
             to = upHex;
-            activePawn = to.getTopPawn();
+            activeUnit = to.getUnit();
             map.showTarget(to, true);
-            map.buildAttackAssists(selectedPawn, activePawn, ctrl.player.unitIterator());
+            map.buildAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
             map.attackAssists.show();
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 
-        if ((activePawn != null) && map.attackAssists.contains(upHex)) {
-            if (map.toggleAttackAssist(upHex.getTopPawn())) {
+        if ((activeUnit != null) && map.attackAssists.contains(upHex)) {
+            if (map.toggleAttackAssist(upHex.getUnit())) {
                 map.showAssist(upHex, false);
                 map.showTarget(upHex, true);
             } else {
@@ -83,8 +83,8 @@ public class StateAttack extends StateCommon
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
         System.err.print("  attack (" + from.getCol() + ";" + from.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
-        if (map.attackPawn(selectedPawn, activePawn, d1 + d2))
-            ctrl.player.casualty(activePawn);
+        if (map.attackPawn(selectedUnit, activeUnit, d1 + d2))
+            ctrl.player.casualty(activeUnit);
         map.showTarget(to, false);
         ctrl.setState(StateType.ANIMATION);
 

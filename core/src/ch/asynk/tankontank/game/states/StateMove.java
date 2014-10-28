@@ -13,24 +13,24 @@ public class StateMove extends StateCommon
         ctrl.hud.moveBtn.setOn();
 
         if (fromSelect) {
-            // use selectedHex and selectedPawn
+            // use selectedHex and selectedUnit
             from = selectedHex;
-            activePawn = selectedPawn;
-            map.buildAndShowMovesAndAssits(activePawn);
+            activeUnit = selectedUnit;
+            map.buildAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
                 upHex = to;
                 touchUp();
             }
         } else {
-            // back from rotation -> use the above and unmodified activePawn
-            if ((activePawn == selectedPawn) || !selectedPawn.canMove()) {
+            // back from rotation -> use the above and unmodified activeUnit
+            if ((activeUnit == selectedUnit) || !selectedUnit.canMove()) {
                 upHex = (Hex) map.moveAssists.first();
-                activePawn = upHex.getTopPawn();
+                activeUnit = upHex.getUnit();
             } else {
                 upHex = selectedHex;
             }
-            changePawn(upHex);
+            changeUnit(upHex);
         }
     }
 
@@ -61,9 +61,9 @@ public class StateMove extends StateCommon
     {
         int s = map.possiblePaths.size();
 
-        if (map.moveAssists.contains(upHex) || (selectedPawn.canMove() && (selectedHex == upHex))) {
+        if (map.moveAssists.contains(upHex) || (selectedUnit.canMove() && (selectedHex == upHex))) {
             if(upHex != from)
-                changePawn(upHex);
+                changeUnit(upHex);
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
             s = buildPaths();
         } else if (map.possiblePaths.contains(upHex)) {
@@ -71,7 +71,7 @@ public class StateMove extends StateCommon
         }
 
         if (s == 1) {
-            // prevent changePawn
+            // prevent changeUnit
             if (from == selectedHex)
                 selectedHex = to;
             ctrl.setState(StateType.ROTATE, false);
@@ -91,8 +91,8 @@ public class StateMove extends StateCommon
     public void done()
     {
         hideAssists();
-        if (selectedPawn.canMove() && (map.activatedPawns.size() > 0))
-            selectedPawn.move(0);
+        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
+            selectedUnit.move(0);
         super.done();
     }
 
@@ -102,7 +102,7 @@ public class StateMove extends StateCommon
         map.moveAssists.hide();
     }
 
-    private void changePawn(Hex next)
+    private void changeUnit(Hex next)
     {
         if (from != null) {
             // toggle selected to assist
@@ -110,18 +110,18 @@ public class StateMove extends StateCommon
             map.showAssist(from, true);
         }
         from = next;
-        activePawn = from.getTopPawn();
+        activeUnit = from.getUnit();
         map.selectHex(from, true);
         map.showAssist(from, false);
         map.possibleMoves.hide();
-        map.buildPossibleMoves(activePawn);
+        map.buildPossibleMoves(activeUnit);
         map.possibleMoves.show();
     }
 
     private int buildPaths()
     {
         to = upHex;
-        int s = map.buildPossiblePaths(activePawn, to);
+        int s = map.buildPossiblePaths(activeUnit, to);
         map.selectHex(to, true);
         map.possibleMoves.hide();
         map.showPossiblePaths(true, true);

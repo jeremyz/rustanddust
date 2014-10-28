@@ -21,7 +21,7 @@ public class StateRotate extends StateCommon
             if (from == null) {
                 // rotateBtn from Select state
                 from = selectedHex;
-                activePawn = selectedPawn;
+                activeUnit = selectedUnit;
             }
             to = from;
         } else {
@@ -86,8 +86,8 @@ public class StateRotate extends StateCommon
     public void done()
     {
         doRotation(o);
-        if (selectedPawn.canMove() && (map.activatedPawns.size() > 0))
-            selectedPawn.move(0);
+        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
+            selectedUnit.move(0);
         super.done();
     }
 
@@ -103,12 +103,12 @@ public class StateRotate extends StateCommon
 
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
-            if (map.rotatePawn(activePawn, o) > 0)
+            if (map.rotatePawn(activeUnit, o) > 0)
                 setNextState(StateType.MOVE);
             ctrl.setState(StateType.ANIMATION);
         } else {
             ctrl.setAnimationCount(1);
-            if (map.movePawn(activePawn, o) > 0)
+            if (map.movePawn(activeUnit, o) > 0)
                 setNextState(StateType.MOVE);
             ctrl.setState(StateType.ANIMATION);
         }

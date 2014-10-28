@@ -48,23 +48,23 @@ public class StateSelect extends StateCommon
             }
         }
 
-        selectHexAndPawn(upHex);
+        selectHexAndUnit(upHex);
         hidePossibleTargetsMovesAssists();
 
-        if (hasPawn() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
-            int moves = map.buildPossibleMoves(selectedPawn);
+        if (hasUnit() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
+            int moves = map.buildPossibleMoves(selectedUnit);
             int targets = 0;
             if (isEnemy)
-                targets = map.buildPossibleTargets(selectedPawn, ctrl.player.unitIterator());
+                targets = map.buildPossibleTargets(selectedUnit, ctrl.player.unitIterator());
             else
-                targets = map.buildPossibleTargets(selectedPawn, ctrl.opponent.unitIterator());
-            int assists = map.buildMoveAssists(selectedPawn);
-            showPossibleTargetsMovesAssists(selectedPawn);
+                targets = map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
+            int assists = map.buildMoveAssists(selectedUnit);
+            showPossibleTargetsMovesAssists(selectedUnit);
             ctrl.hud.show(
-                ctrl.player.canPromote(selectedPawn),
-                selectedPawn.canMove(),
-                (selectedPawn.canMove() && (moves > 0)),
-                (selectedPawn.canAttack() && (targets > 0)),
+                ctrl.player.canPromote(selectedUnit),
+                selectedUnit.canMove(),
+                (selectedUnit.canMove() && (moves > 0)),
+                (selectedUnit.canAttack() && (targets > 0)),
                 false,
                 false
                 );
@@ -72,7 +72,7 @@ public class StateSelect extends StateCommon
             ctrl.hud.hide();
             map.clearAll();
         }
-        if (selectedPawn != null) ctrl.hud.notify(selectedPawn.toString());
+        if (selectedUnit != null) ctrl.hud.notify(selectedUnit.toString());
     }
 
     @Override
