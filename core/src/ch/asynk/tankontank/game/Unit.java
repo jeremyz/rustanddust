@@ -88,6 +88,11 @@ public class Unit extends HeadedPawn
         this.descr = id.toString() + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
+    public Hex getHex()
+    {
+        return (Hex) getTile();
+    }
+
     @Override
     public int getMovementPoints()
     {
