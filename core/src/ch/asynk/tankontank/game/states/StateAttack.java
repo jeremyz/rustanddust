@@ -8,7 +8,7 @@ public class StateAttack extends StateCommon
     @Override
     public void enter(boolean fromSelect)
     {
-        map.clearPossibleTargets();
+        map.possibleTargets.clear();
         ctrl.hud.show(false, false, false, true, false, ctrl.cfg.canCancel);
         ctrl.hud.attackBtn.setOn();
 
@@ -71,7 +71,7 @@ public class StateAttack extends StateCommon
     @Override
     public void abort()
     {
-        map.clearActivatedPawns();
+        map.activatedPawns.clear();
         super.abort();
     }
 

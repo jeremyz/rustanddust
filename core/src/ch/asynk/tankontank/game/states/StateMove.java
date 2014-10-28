@@ -8,7 +8,7 @@ public class StateMove extends StateCommon
     @Override
     public void enter(boolean fromSelect)
     {
-        map.clearPossiblePaths();
+        map.possiblePaths.clear();
         ctrl.hud.show(false, true, true, false, ((map.activablePawnsCount() + map.activatedPawnsCount()) > 1), ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
 

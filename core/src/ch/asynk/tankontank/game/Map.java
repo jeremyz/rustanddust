@@ -21,13 +21,13 @@ public abstract class Map extends Board
 {
     private final Ctrl ctrl;
 
-    private final HexList possibleMoves;                                    // HexSet
-    private final HexList possibleTargets;                                  // PawnSet
-    private final HexList possiblePaths;                                    // class Move
-    private final HexList moveAssists;                                      // PawnSet
-    private final HexList attackAssists;                                    // PawnSet
-    private final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);  // PawnSet
-    private final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);  // PawnSet
+    public final HexList possibleMoves;                                    // HexSet
+    public final HexList possibleTargets;                                  // PawnSet
+    public final HexList possiblePaths;                                    // class Move
+    public final HexList moveAssists;                                      // PawnSet
+    public final HexList attackAssists;                                    // PawnSet
+    public final ArrayList<Pawn> activablePawns = new ArrayList<Pawn>(7);  // PawnSet
+    public final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);  // PawnSet
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -63,26 +63,6 @@ public abstract class Map extends Board
         moveAssists.clear();
         attackAssists.clear();
         activablePawns.clear();
-        activatedPawns.clear();
-    }
-
-    public void clearPossiblePaths()
-    {
-        possiblePaths.clear();
-    }
-
-    public void clearPossibleTargets()
-    {
-        possibleTargets.clear();
-    }
-
-    public void clearActivablePawns()
-    {
-        activablePawns.clear();
-    }
-
-    public void clearActivatedPawns()
-    {
         activatedPawns.clear();
     }
 
