@@ -62,6 +62,7 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract boolean canRotate();
     public abstract boolean canAttack();
     public abstract boolean canAttack(Pawn other);
+    public abstract boolean canBeAttacked(Pawn other);
     public abstract boolean canAssistAttackWithoutLos();
 
     public abstract void move(int cost);

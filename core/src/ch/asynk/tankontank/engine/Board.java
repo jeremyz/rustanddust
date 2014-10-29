@@ -280,6 +280,7 @@ public abstract class Board implements Disposable
         targets.clear();
         while (units.hasNext()) {
             Pawn target = units.next();
+            if (!target.canBeAttacked(pawn)) continue;
             Tile to = target.getTile();
             if (searchBoard.buildAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
                 targets.add(target);
