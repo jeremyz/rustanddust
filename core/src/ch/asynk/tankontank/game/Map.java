@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.game;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -28,7 +27,7 @@ public abstract class Map extends Board
     public final Board.PawnCollection moveablePawns;
     public final Board.PawnCollection possibleTargets;
     public final Board.PawnCollection attackAssists;
-    public final ArrayList<Pawn> activatedPawns = new ArrayList<Pawn>(7);
+    public final Board.PawnCollection activatedPawns;
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -49,6 +48,8 @@ public abstract class Map extends Board
 
         possibleTargets = new PawnSet(this, 10);
         attackAssists = new PawnSet(this, 6);
+
+        activatedPawns = new PawnSet(this, 7);
     }
 
     @Override

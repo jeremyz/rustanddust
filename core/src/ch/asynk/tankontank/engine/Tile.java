@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
+import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 
@@ -23,7 +24,7 @@ public abstract class Tile implements Drawable, Disposable
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
-    public abstract int defenseFor(Pawn target, List<Pawn> foes);
+    public abstract int defenseFor(Pawn target, Board.PawnCollection foes);
     public abstract int costFrom(Pawn pawn, Orientation side, boolean road);
 
     public abstract boolean isOffMap();

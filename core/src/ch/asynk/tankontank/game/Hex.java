@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Orientation;
@@ -109,7 +110,7 @@ public class Hex extends Tile
     }
 
     @Override
-    public int defenseFor(Pawn target, List<Pawn> foes)
+    public int defenseFor(Pawn target, Board.PawnCollection foes)
     {
         Unit u = (Unit) target;
         boolean terrainBonus = true;
