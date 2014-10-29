@@ -28,7 +28,6 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 public abstract class Board implements Disposable
 {
     private final Tile neighbours[] = new Tile[6];
-    // TODO class Move : from , to, paths, points, vector, cost ...
     protected List<ArrayList<SearchBoard.Node>> paths;
     private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
 
