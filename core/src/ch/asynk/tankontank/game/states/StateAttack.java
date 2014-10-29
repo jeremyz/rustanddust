@@ -58,7 +58,7 @@ public class StateAttack extends StateCommon
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
-            map.buildAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
+            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
             map.showAttackAssists();
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }

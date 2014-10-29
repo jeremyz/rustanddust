@@ -24,6 +24,7 @@ public abstract class Map extends Board
 
     public final Board.TileCollection possibleMoves;
     public final Board.TileCollection possiblePaths;
+
     public final Board.PawnCollection moveablePawns;
     public final Board.PawnCollection possibleTargets;
     public final Board.PawnCollection attackAssists;
@@ -120,7 +121,7 @@ public abstract class Map extends Board
         return moveablePawns.size();
     }
 
-    public int buildAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
+    public int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
     {
         int s = collectAttackAssists(pawn, target, units, attackAssists);
         activatedPawns.add(pawn);
@@ -149,6 +150,59 @@ public abstract class Map extends Board
         showPossibleMoves();
         showMoveablePawns();
         activatedPawns.clear();
+    }
+
+    // ACTIONS
+
+    public void promote(Pawn pawn, Pawn with)
+    {
+        // TODO amination
+        removePawn(pawn);
+        setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
+        activatedPawns.add(with);
+    }
+
+    public int movePawn(Pawn pawn, Orientation o)
+    {
+        System.err.println("    movePawn : " + pawn.getTile() + " " + o);
+        int cost = getPathCost(pawn, 0);
+        movePawn(pawn, cost, o, notifyDoneAnimation(pawn));
+
+        return startMove(pawn);
+    }
+
+    public int rotatePawn(Pawn pawn, Orientation o)
+    {
+        System.err.println("    rotatePawn : " + pawn.getTile() + " " +o);
+        rotatePawn(pawn, o, notifyDoneAnimation(pawn));
+
+        return startMove(pawn);
+    }
+
+    public void revertMoves()
+    {
+        System.err.println("    revertMoves()");
+        for (Pawn pawn : activatedPawns) {
+            revertLastPawnMove(pawn, notifyDoneAnimation(pawn));
+        }
+        activatedPawns.clear();
+    }
+
+    private int startMove(Pawn pawn)
+    {
+        moveablePawns.remove(pawn);
+        activatedPawns.add(pawn);
+        return moveablePawns.size();
+    }
+
+    private RunnableAnimation notifyDoneAnimation(final Pawn pawn)
+    {
+        return RunnableAnimation.get(pawn, new Runnable() {
+            @Override
+            public void run() {
+                ctrl.animationDone();
+            }
+        });
     }
 
     public boolean attackPawn(Pawn pawn, final Pawn target, int dice)
@@ -200,61 +254,6 @@ public abstract class Map extends Board
             activatedPawns.clear();
 
         return success;
-    }
-
-    public int movePawn(Pawn pawn, Orientation o)
-    {
-        System.err.println("    movePawn : " + pawn.getTile() + " " + o);
-        int cost = getPathCost(pawn, 0);
-        movePawn(pawn, cost, o, RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                ctrl.animationDone();
-            }
-        }));
-
-        return startMove(pawn);
-    }
-
-    public int rotatePawn(Pawn pawn, Orientation o)
-    {
-        System.err.println("    rotatePawn : " + pawn.getTile() + " " +o);
-        rotatePawn(pawn, o, RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                ctrl.animationDone();
-            }
-        }));
-
-        return startMove(pawn);
-    }
-
-    public void revertMoves()
-    {
-        System.err.println("    revertMoves()");
-        for (Pawn pawn : activatedPawns) {
-            revertLastPawnMove(pawn, RunnableAnimation.get(pawn, new Runnable() {
-                @Override
-                public void run() {
-                    ctrl.animationDone();
-                }
-            }));
-        }
-        activatedPawns.clear();
-    }
-
-    private int startMove(Pawn pawn)
-    {
-        moveablePawns.remove(pawn);
-        activatedPawns.add(pawn);
-        return moveablePawns.size();
-    }
-
-    public void promote(Pawn pawn, Pawn with)
-    {
-        removePawn(pawn);
-        setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
-        activatedPawns.add(with);
     }
 
     // SHOW / HIDE
