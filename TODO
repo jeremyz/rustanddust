@@ -1,28 +1,18 @@
 Tile:
-    + a center (Vector2) to position overlays and center pawns on it
-    + multiple overlays (path,attack,wrecked,special terrains) centered on it
-    + a stack of pawn
     - automatic overlays to show unit stack depth
 
-
 Pawn:
-    + a position (Vector3) to position overlays
-    + an image
-    + multiple overlays centered on it
-    + prevPosition to revert last move
-
+    -
 
 Board:
     - support different grid direction
         Board.Orientation offset
         inverted even/odd row scheme
+    - merge SearchBoard with Board ??
 
 Game:
     - End Turn button in Select State
     - attack
         - infantry move after won fight
     - add options to hide moves/targets/assists even in action
-
-Hex, Unit:
-    - Hex overlays should be static terrain
-    - Unit Overlay should be selected, move, attack, attack assisst, has moved, has fired ...
+    - HUD position left/right
