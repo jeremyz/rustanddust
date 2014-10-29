@@ -93,8 +93,6 @@ public class OptionsScreen implements Screen
         stage.addActor(mustValidateCk);
         stage.addActor(showEnemyPossibilitiesCk);
         stage.addActor(okButton);
-
-        game.loadAssets();
     }
 
     @Override
