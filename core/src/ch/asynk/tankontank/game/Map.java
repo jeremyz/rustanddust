@@ -67,6 +67,10 @@ public abstract class Map extends Board
     {
         super.dispose();
         clearAll();
+        explosion.dispose();
+        explosions.dispose();
+        moveSound.dispose();
+        attackSound.dispose();
     }
 
     public void clearAll()
