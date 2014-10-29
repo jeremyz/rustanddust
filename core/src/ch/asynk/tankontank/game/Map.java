@@ -88,6 +88,16 @@ public abstract class Map extends Board
         return buildPossibleMoves(pawn, possibleMoves);
     }
 
+    public int buildPossiblePaths(Pawn pawn, Hex to)
+    {
+        return buildPossiblePaths(pawn, to, possiblePaths);
+    }
+
+    public int possiblePathsPointToggle(Hex hex)
+    {
+        return possiblePathsFilterToggle(hex, possiblePaths);
+    }
+
     public int buildPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
     {
         if (!pawn.canAttack()) {
@@ -139,16 +149,6 @@ public abstract class Map extends Board
         showPossibleMoves();
         showMoveablePawns();
         activatedPawns.clear();
-    }
-
-    public int buildPossiblePaths(Pawn pawn, Hex to)
-    {
-        return buildPossiblePaths(pawn, to, possiblePaths);
-    }
-
-    public int possiblePathsPointToggle(Hex hex)
-    {
-        return possiblePathsFilterToggle(hex, possiblePaths);
     }
 
     public boolean attackPawn(Pawn pawn, final Pawn target, int dice)
