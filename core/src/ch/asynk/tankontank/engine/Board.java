@@ -457,7 +457,7 @@ public abstract class Board implements Disposable
         getCoordinatePath(pawn, 0, finalPath, o);
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getMoveAnimation(finalPath);
+        AnimationSequence seq = pawn.getMoveAnimation(finalPath, 2);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
@@ -476,7 +476,7 @@ public abstract class Board implements Disposable
         Vector3 p = pawn.getPosition();
         Vector3 v = vector3Pool.obtain();
         v.set(p.x, p.y, o.r());
-        AnimationSequence seq = pawn.getRotateAnimation(v);
+        AnimationSequence seq = pawn.getRotateAnimation(v, 1);
         seq.addAnimation(whenDone);
         addAnimation(seq);
         vector3Pool.free(v);
@@ -487,7 +487,7 @@ public abstract class Board implements Disposable
     {
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getRevertLastMoveAnimation();
+        AnimationSequence seq = pawn.getRevertLastMoveAnimation(2);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
