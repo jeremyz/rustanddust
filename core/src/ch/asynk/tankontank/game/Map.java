@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game;
 
 import java.util.Iterator;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -15,6 +16,7 @@ import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 
@@ -32,6 +34,10 @@ public abstract class Map extends Board
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
+    private final Sound moveSound;
+    private final Sound attackSound;
+    private Sound sound;
+    private long soundId = -1;
 
     protected abstract void setup();
 
@@ -41,6 +47,9 @@ public abstract class Map extends Board
         this.ctrl = game.ctrl;
         this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
+        this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
+        this.attackSound = game.manager.get("sounds/attack.mp3", Sound.class);
+
         setup();
 
         possibleMoves = new TileSet(this, 40);
@@ -192,6 +201,8 @@ public abstract class Map extends Board
     {
         moveablePawns.remove(pawn);
         activatedPawns.add(pawn);
+        sound = moveSound;
+        soundId = sound.play(1.0f);
         return moveablePawns.size();
     }
 
@@ -200,9 +211,18 @@ public abstract class Map extends Board
         return RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                ctrl.animationDone();
+                animationDone();
             }
         });
+    }
+
+    private void animationDone()
+    {
+        System.err.println("animation OVER");
+        if (soundId >= 0)
+            addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, 0.5f));
+        soundId = -1;
+        ctrl.animationDone();
     }
 
     public boolean attackPawn(Pawn pawn, final Pawn target, int dice)
@@ -244,14 +264,16 @@ public abstract class Map extends Board
             }
         }));
 
-        addAnimation(seq);
-
         for (Pawn p : activatedPawns) {
             p.attack(target);
             System.err.println(pawn);
         }
         if ((activatedPawns.size() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedPawns.clear();
+
+        addAnimation(seq);
+        sound = attackSound;
+        sound.play(1.0f);
 
         return success;
     }
