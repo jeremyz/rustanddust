@@ -15,7 +15,6 @@ public abstract class StateCommon implements State
     protected static Hex selectedHex = null;
     protected static Hex downHex = null;
     protected static Hex upHex = null;
-    protected static Hex from = null;
     protected static Hex to = null;
 
     protected boolean isEnemy;
@@ -60,7 +59,6 @@ public abstract class StateCommon implements State
 
     public void clearAll()
     {
-        from = null;
         to = null;
         selectedHex = null;
         selectedUnit = null;
