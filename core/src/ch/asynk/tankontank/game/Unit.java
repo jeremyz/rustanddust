@@ -232,23 +232,14 @@ public class Unit extends HeadedPawn
         hasMoved = false;
     }
 
-    public void showMoveable(boolean enable)
-    {
-        enableOverlay(MOVE, enable);
-    }
 
-    public void showAttack(boolean enable)
-    {
-        enableOverlay(ATTACK, enable);
-    }
-
-    public void showAttackAssist(boolean enable)
-    {
-        enableOverlay(ATTACK_ASSIST, enable);
-    }
-
-    public void showTarget(boolean enable)
-    {
-        enableOverlay(TARGET, enable);
-    }
+    // SHOW / HIDE
+    public void showMoveable()      { enableOverlay(MOVE, true); }
+    public void hideMoveable()      { enableOverlay(MOVE, false); }
+    public void showTarget()        { enableOverlay(TARGET, true); }
+    public void hideTarget()        { enableOverlay(TARGET, false); }
+    public void showAttack()        { enableOverlay(ATTACK, true); }
+    public void hideAttack()        { enableOverlay(ATTACK, false); }
+    public void showAttackAssist()  { enableOverlay(ATTACK_ASSIST, true); }
+    public void hideAttackAssist()  { enableOverlay(ATTACK_ASSIST, false); }
 }

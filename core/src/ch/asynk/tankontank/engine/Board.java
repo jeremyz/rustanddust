@@ -40,8 +40,6 @@ public abstract class Board implements Disposable
     public interface TileCollection extends Collection<Tile>
     {
         public Tile first();
-        public void show();
-        public void hide();
         public void enable(int i, boolean enable);
         public void collectPawns(PawnCollection pawns);
         public int fromNodes(Collection<SearchBoard.Node> nodes);
@@ -50,8 +48,6 @@ public abstract class Board implements Disposable
     public interface PawnCollection extends Collection<Pawn>
     {
         public Pawn first();
-        public void show();
-        public void hide();
         public void enable(int i, boolean enable);
         public void collectTiles(TileCollection tiles);
         public int fromNodes(Collection<SearchBoard.Node> nodes);
@@ -417,7 +413,7 @@ public abstract class Board implements Disposable
             tilesToDraw.remove(tile);
     }
 
-    public void enableOverlayOn(Tile tile, int i, boolean enable, Orientation o)
+    public void enableOverlayOn(Tile tile, int i, Orientation o, boolean enable)
     {
         if(tile.enableOverlay(i, enable, o.r()))
             tilesToDraw.add(tile);

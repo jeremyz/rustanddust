@@ -27,7 +27,8 @@ public class StateSelect extends StateCommon
     @Override
     public void touchDown()
     {
-        if (selectedHex != null) map.selectHex(selectedHex, false);
+        if (selectedHex != null)
+            map.unselectHex(selectedHex);
     }
 
     @Override
@@ -80,7 +81,8 @@ public class StateSelect extends StateCommon
     @Override
     public void abort()
     {
-        if (selectedHex != null) map.selectHex(selectedHex, false);
+        if (selectedHex != null)
+            map.unselectHex(selectedHex);
         hidePossibleTargetsMovesAssists();
         clearAll();
         map.clearAll();

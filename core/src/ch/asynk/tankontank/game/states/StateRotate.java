@@ -26,12 +26,12 @@ public class StateRotate extends StateCommon
             if (to == null)
                 System.err.println("to is null but should not be");
             // show final path
-            map.selectHex(to, true);
-            map.showFinalPath(to, true);
+            map.selectHex(to);
+            map.showFinalPath(to);
         }
 
-        map.selectHex(activeUnit.getHex(), true);
-        map.showDirections(to, true);
+        map.selectHex(activeUnit.getHex());
+        map.showDirections(to);
 
         rotationSet = false;
     }
@@ -39,11 +39,11 @@ public class StateRotate extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        map.selectHex(to, false);
-        map.selectHex(activeUnit.getHex(), false);
-        map.showFinalPath(to, false);
-        map.showDirections(to, false);
-        map.showOrientation(to, false, o);
+        map.unselectHex(to);
+        map.unselectHex(activeUnit.getHex());
+        map.hideFinalPath(to);
+        map.hideDirections(to);
+        map.hideOrientation(to);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class StateRotate extends StateCommon
 
 
         if (ctrl.cfg.mustValidate) {
-            map.showDirections(to, false);
-            map.showOrientation(to, true, o);
+            map.hideDirections(to);
+            map.showOrientation(to, o);
             ctrl.hud.show(false, true, false, false, true, ctrl.cfg.canCancel);
         } else
             doRotation(o);
@@ -95,8 +95,8 @@ public class StateRotate extends StateCommon
 
     private void hideAssists()
     {
-        map.showAssist(selectedHex, false);
-        map.moveablePawns.hide();
+        map.hideMoveablePawns();
+        map.hideAssist(selectedHex);
     }
 
     private void doRotation(Orientation o)

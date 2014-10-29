@@ -7,29 +7,17 @@ import java.util.LinkedHashSet;
 public class PawnSet extends LinkedHashSet<Pawn> implements Board.PawnCollection
 {
     private final Board board;
-    private int overlay;
 
-    public PawnSet(Board board, int overlay, int n)
+    public PawnSet(Board board, int n)
     {
         super(n);
         this.board = board;
-        this.overlay = overlay;
     }
 
     public Pawn first()
     {
         if (isEmpty()) return null;
         return iterator().next();
-    }
-
-    public void show()
-    {
-        enable(overlay, true);
-    }
-
-    public void hide()
-    {
-        enable(overlay, false);
     }
 
     public void enable(int i, boolean enable)

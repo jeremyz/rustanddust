@@ -96,7 +96,7 @@ public abstract class StateCommon implements State
     {
         selectedHex = hex;
         selectedUnit = selectedHex.getUnit();
-        map.selectHex(selectedHex, true);
+        map.selectHex(selectedHex);
         if (selectedUnit != null)
             isEnemy = ctrl.player.isEnemy(selectedUnit);
         else
@@ -106,15 +106,15 @@ public abstract class StateCommon implements State
 
     protected void showPossibleTargetsMovesAssists(Unit pawn)
     {
-        if (ctrl.cfg.showMoves && pawn.canMove()) map.possibleMoves.show();
-        if (ctrl.cfg.showTargets && pawn.canAttack()) map.possibleTargets.show();
-        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.moveablePawns.show();
+        if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves();
+        if (ctrl.cfg.showTargets && pawn.canAttack()) map.showPossibleTargets();
+        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveablePawns();
     }
 
     protected void hidePossibleTargetsMovesAssists()
     {
-        map.possibleMoves.hide();
-        map.possibleTargets.hide();
-        map.moveablePawns.hide();
+        map.hidePossibleMoves();
+        map.hidePossibleTargets();
+        map.hideMoveablePawns();
     }
 }

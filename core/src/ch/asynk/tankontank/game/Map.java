@@ -43,12 +43,12 @@ public abstract class Map extends Board
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
 
-        possibleMoves = new TileSet(this, Hex.MOVE1, 40);
-        possiblePaths = new TileSet(this, Hex.MOVE1, 10);        // Hex.MOVE2
-        moveablePawns = new PawnSet(this, Unit.MOVE, 6);
+        possibleMoves = new TileSet(this, 40);
+        possiblePaths = new TileSet(this, 10);
+        moveablePawns = new PawnSet(this, 6);
 
-        possibleTargets = new PawnSet(this, Unit.TARGET, 10);
-        attackAssists = new PawnSet(this, Unit.ATTACK_ASSIST, 6);
+        possibleTargets = new PawnSet(this, 10);
+        attackAssists = new PawnSet(this, 6);
     }
 
     @Override
@@ -76,53 +76,6 @@ public abstract class Map extends Board
     public Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
-    }
-
-    public void selectHex(Hex hex, boolean enable)
-    {
-        enableOverlayOn(hex, Hex.SELECT, enable);
-    }
-
-    public void showAssist(Hex hex, boolean enable)
-    {
-        enableOverlayOn(hex, Hex.ASSIST, enable);
-    }
-
-    public void showTarget(Hex hex, boolean enable)
-    {
-        enableOverlayOn(hex, Hex.TARGET, enable);
-    }
-
-    public void showPossiblePaths(boolean enable, boolean keepFinal)
-    {
-        if (keepFinal) {
-            possiblePaths.enable(Hex.MOVE1, enable);
-        } else {
-            possiblePaths.enable(Hex.MOVE1, enable);
-            possiblePaths.enable(Hex.MOVE2, false);
-        }
-    }
-
-    public void showFinalPath(Hex dst, boolean enable)
-    {
-        possiblePaths.enable(Hex.MOVE1, false);
-        possiblePaths.enable(Hex.MOVE2, enable);
-    }
-
-    public void showDirections(Hex hex, boolean enable)
-    {
-        enableOverlayOn(hex, Hex.DIRECTIONS, enable);
-    }
-
-    public void showOrientation(Hex hex, boolean enable, Orientation o)
-    {
-        enableOverlayOn(hex, Hex.ORIENTATION, enable, o);
-    }
-
-    public void togglePathOverlay(Hex hex)
-    {
-        boolean enable= !hex.isOverlayEnabled(Hex.MOVE2);
-        enableOverlayOn(hex, Hex.MOVE2, enable);
     }
 
     public int buildPossibleMoves(Pawn pawn)
@@ -163,25 +116,27 @@ public abstract class Map extends Board
         return s;
     }
 
-    public boolean toggleAttackAssist(Pawn pawn)
+    public void toggleAttackAssist(Unit unit)
     {
-        if (activatedPawns.contains(pawn)) {
-            activatedPawns.remove(pawn);
-            return false;
+        if (activatedPawns.contains(unit)) {
+            activatedPawns.remove(unit);
+            unit.hideAttack();
+            unit.showAttackAssist();
         } else {
-            activatedPawns.add(pawn);
-            return true;
+            activatedPawns.add(unit);
+            unit.showAttack();
+            unit.hideAttackAssist();
         }
     }
 
     public void buildAndShowMovesAndAssits(Pawn pawn)
     {
-        possibleMoves.hide();
-        moveablePawns.hide();
+        hidePossibleMoves();
+        hideMoveablePawns();
         buildPossibleMoves(pawn);
         collectMoveablePawns(pawn);
-        possibleMoves.show();
-        moveablePawns.show();
+        showPossibleMoves();
+        showMoveablePawns();
         activatedPawns.clear();
     }
 
@@ -298,4 +253,39 @@ public abstract class Map extends Board
         setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
         activatedPawns.add(with);
     }
+
+    // SHOW / HIDE
+
+    public void togglePathOverlay(Hex hex)
+    {
+        boolean enable= !hex.isOverlayEnabled(Hex.MOVE2);
+        enableOverlayOn(hex, Hex.MOVE2, enable);
+    }
+
+    public void showPossibleMoves()     { possibleMoves.enable(Hex.MOVE1, true); }
+    public void hidePossibleMoves()     { possibleMoves.enable(Hex.MOVE1, false); }
+    public void showPossiblePaths()     { possiblePaths.enable(Hex.MOVE1, true); }
+    public void hidePossiblePaths()     { possiblePaths.enable(Hex.MOVE1, false); }
+    public void showFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE2, true); }
+    public void hideFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE2, false); }
+
+    public void showMoveablePawns()     { moveablePawns.enable(Unit.MOVE, true); }
+    public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
+    public void showPossibleTargets()   { possibleTargets.enable(Unit.TARGET, true); }
+    public void hidePossibleTargets()   { possibleTargets.enable(Unit.TARGET, false); }
+    public void showAttackAssists()     { attackAssists.enable(Unit.ATTACK_ASSIST, true); }
+    public void hideAttackAssists()     { attackAssists.enable(Unit.ATTACK, false);
+                                          attackAssists.enable(Unit.ATTACK_ASSIST, false); }
+
+
+    public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
+    public void unselectHex(Hex hex)    { enableOverlayOn(hex, Hex.SELECT, false); }
+    public void showDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, true); }
+    public void hideDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
+    public void showTarget(Hex hex)     { enableOverlayOn(hex, Hex.TARGET, true); }
+    public void hideTarget(Hex hex)     { enableOverlayOn(hex, Hex.TARGET, false); }
+    public void showAssist(Hex hex)     { enableOverlayOn(hex, Hex.ASSIST, true); }
+    public void hideAssist(Hex hex)     { enableOverlayOn(hex, Hex.ASSIST, false); }
+    public void showOrientation(Hex hex, Orientation o) { enableOverlayOn(hex, Hex.ORIENTATION, o, true); }
+    public void hideOrientation(Hex hex) { enableOverlayOn(hex, Hex.ORIENTATION, false); }
 }

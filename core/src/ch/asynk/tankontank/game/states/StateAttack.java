@@ -17,16 +17,16 @@ public class StateAttack extends StateCommon
         if (fromSelect) {
             activeUnit = null;
             // use selectedHex and selectedUnit
-            map.possibleTargets.hide();
+            map.hidePossibleTargets();
             map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
-            map.possibleTargets.show();
+            map.showPossibleTargets();
             if (to != null) {
                 // quick fire -> replay touchUp
                 upHex = to;
                 touchUp();
             }
-            selectedUnit.showAttack(true);
-            map.selectHex(selectedHex, true);
+            selectedUnit.showAttack();
+            map.selectHex(selectedHex);
         } else
             System.err.println("should not happen");
     }
@@ -34,13 +34,12 @@ public class StateAttack extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        selectedUnit.showAttack(false);
-        map.attackAssists.enable(Unit.ATTACK, false);
-        map.attackAssists.enable(Unit.ATTACK_ASSIST, false);
-        map.possibleTargets.hide();
-        map.selectHex(selectedHex, false);
+        selectedUnit.hideAttack();
+        map.hideAttackAssists();
+        map.hidePossibleTargets();
+        map.unselectHex(selectedHex);
         if (to != null)
-            map.selectHex(to, false);
+            map.unselectHex(to);
     }
 
     @Override
@@ -55,23 +54,17 @@ public class StateAttack extends StateCommon
 
         // activeUnit is the target
         if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
-            map.possibleTargets.hide();
+            map.hidePossibleTargets();
             to = upHex;
             activeUnit = unit;
-            activeUnit.showTarget(true);
+            activeUnit.showTarget();
             map.buildAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
-            map.attackAssists.show();
+            map.showAttackAssists();
             ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
         }
 
         if ((activeUnit != null) && map.attackAssists.contains(unit)) {
-            if (map.toggleAttackAssist(unit)) {
-                unit.showAttack(true);
-                unit.showAttackAssist(false);
-            } else {
-                unit.showAttack(false);
-                unit.showAttackAssist(true);
-            }
+            map.toggleAttackAssist(unit);
         }
     }
 
@@ -90,7 +83,7 @@ public class StateAttack extends StateCommon
         System.err.print("  attack (" + selectedHex.getCol() + ";" + selectedHex.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedUnit, activeUnit, d1 + d2))
             ctrl.player.casualty(activeUnit);
-        activeUnit.showTarget(true);
+        activeUnit.showTarget();
         ctrl.setState(StateType.ANIMATION);
 
         super.done();

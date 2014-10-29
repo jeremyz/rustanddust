@@ -17,7 +17,7 @@ public class StateMove extends StateCommon
         if (fromSelect) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
-            activeUnit.showMoveable(true);
+            activeUnit.showMoveable();
             map.buildAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
@@ -38,12 +38,12 @@ public class StateMove extends StateCommon
     public void leave(StateType nextState)
     {
         // hide all but assists : want them when in rotation
-        activeUnit.showMoveable(false);
-        map.possibleMoves.hide();
-        map.selectHex(activeUnit.getHex(), false);
+        activeUnit.hideMoveable();
+        map.hidePossibleMoves();
+        map.unselectHex(activeUnit.getHex());
         if (to != null) {
-            map.selectHex(to, false);
-            map.showFinalPath(to, false);
+            map.unselectHex(to);
+            map.hideFinalPath(to);
         }
 
         if (nextState != StateType.SELECT) {
@@ -99,31 +99,31 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        map.showAssist(selectedHex, false);
-        map.moveablePawns.hide();
+        map.hideAssist(selectedHex);
+        map.hideMoveablePawns();
     }
 
     private void changeUnit(Unit unit)
     {
         if (activeUnit != null )
-            map.selectHex(activeUnit.getHex(), false);
+            map.unselectHex(activeUnit.getHex());
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
-        map.selectHex(hex, true);
-        map.showAssist(hex, false);
-        activeUnit.showMoveable(true);
-        map.possibleMoves.hide();
+        map.selectHex(hex);
+        map.hideAssist(hex);
+        activeUnit.showMoveable();
+        map.hidePossibleMoves();
         map.buildPossibleMoves(activeUnit);
-        map.possibleMoves.show();
+        map.showPossibleMoves();
     }
 
     private int buildPaths()
     {
         to = upHex;
         int s = map.buildPossiblePaths(activeUnit, to);
-        map.selectHex(to, true);
-        map.possibleMoves.hide();
-        map.showPossiblePaths(true, true);
+        map.selectHex(to);
+        map.hidePossibleMoves();
+        map.showPossiblePaths();
         return s;
     }
 
@@ -134,10 +134,10 @@ public class StateMove extends StateCommon
         } else if (downHex == to) {
             //
         } else {
-            map.showPossiblePaths(false, true);
+            map.hidePossiblePaths();
             map.togglePathOverlay(downHex);
             s = map.possiblePathsPointToggle(downHex);
-            map.showPossiblePaths(true, true);
+            map.showPossiblePaths();
         }
 
         return s;
