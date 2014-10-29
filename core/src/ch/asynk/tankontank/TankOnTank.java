@@ -3,6 +3,7 @@ package ch.asynk.tankontank;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -45,6 +46,8 @@ public class TankOnTank extends Game
         manager.load("data/tile-overlays.atlas", TextureAtlas.class);
         manager.load("data/explosion.png", Texture.class);
         manager.load("data/explosions.png", Texture.class);
+        manager.load("sounds/move.mp3", Sound.class);
+        manager.load("sounds/attack.mp3", Sound.class);
     }
 
     public void unloadAssets()
@@ -59,6 +62,8 @@ public class TankOnTank extends Game
         manager.unload("data/tile-overlays.atlas");
         manager.unload("data/explosion.png");
         manager.unload("data/explosions.png");
+        manager.unload("sounds/move.mp3");
+        manager.unload("sounds/attack.mp3");
         Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
