@@ -361,10 +361,8 @@ public class SearchBoard
         if ((last.col != col1) || (last.row != row1))
             return false;
 
-        if (!validatePathAngle(pawn.getAngleOfAttack(), los)) {
-            System.err.println("ERROR: angleOfAttack is not respected, please report");
+        if (!validatePathAngle(pawn.getAngleOfAttack(), los))
             return false;
-        }
 
         pawn.attack.isClear = true;
         pawn.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
