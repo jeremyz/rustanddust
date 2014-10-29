@@ -13,10 +13,6 @@ public class StateAnimation extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        if (nextState != StateType.SELECT) {
-            from = null;
-            to = null;
-        }
     }
 
     @Override
