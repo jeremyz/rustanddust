@@ -191,8 +191,10 @@ public abstract class Map extends Board
 
         addAnimation(seq);
 
-        for (Pawn p : activatedPawns)
-            pawn.attack(target);
+        for (Pawn p : activatedPawns) {
+            p.attack(target);
+            System.err.println(pawn);
+        }
         if ((activatedPawns.size() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedPawns.clear();
 
