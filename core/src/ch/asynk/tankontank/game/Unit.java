@@ -65,7 +65,7 @@ public class Unit extends HeadedPawn
     // hard tager
     public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
-        super(army, unit, head, pawns, overlays);
+        this(army, unit, head, pawns, overlays);
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
@@ -79,7 +79,7 @@ public class Unit extends HeadedPawn
     // soft tager
     public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
-        super(army, unit, head, pawns, overlays);
+        this(army, unit, head, pawns, overlays);
         this.rng = range;
         this.def = defense;
         this.cdef = concealedDefense;
