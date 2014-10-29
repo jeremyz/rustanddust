@@ -18,7 +18,7 @@ public class StateMove extends StateCommon
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
-            map.buildAndShowMovesAndAssits(activeUnit);
+            map.collectAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
                 upHex = to;
@@ -68,7 +68,7 @@ public class StateMove extends StateCommon
             if(unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
-            s = buildPaths();
+            s = collectPaths();
         } else if (map.possiblePaths.contains(upHex)) {
             s = togglePoint(s);
         }
@@ -113,14 +113,14 @@ public class StateMove extends StateCommon
         map.hideAssist(hex);
         activeUnit.showMoveable();
         map.hidePossibleMoves();
-        map.buildPossibleMoves(activeUnit);
+        map.collectPossibleMoves(activeUnit);
         map.showPossibleMoves();
     }
 
-    private int buildPaths()
+    private int collectPaths()
     {
         to = upHex;
-        int s = map.buildPossiblePaths(activeUnit, to);
+        int s = map.collectPossiblePaths(activeUnit, to);
         map.selectHex(to);
         map.hidePossibleMoves();
         map.showPossiblePaths();

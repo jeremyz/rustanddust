@@ -255,7 +255,7 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    protected int buildPossibleMoves(Pawn pawn, TileCollection moves)
+    protected int collectPossibleMoves(Pawn pawn, TileCollection moves)
     {
         Tile from = pawn.getTile();
         Set<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
@@ -277,7 +277,7 @@ public abstract class Board implements Disposable
             Pawn target = units.next();
             if (!target.canBeAttacked(pawn)) continue;
             Tile to = target.getTile();
-            if (searchBoard.buildAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
+            if (searchBoard.collectAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
                 targets.add(target);
         }
 
@@ -310,7 +310,7 @@ public abstract class Board implements Disposable
             Pawn p = units.next();
             if ((p == pawn) || !p.canAttack()) continue;
             Tile from = p.getTile();
-            if (searchBoard.buildAttack(p, !p.canAssistAttackWithoutLos(), target, from.getCol(), from.getRow(), to.getCol(), to.getRow())) {
+            if (searchBoard.collectAttack(p, !p.canAssistAttackWithoutLos(), target, from.getCol(), from.getRow(), to.getCol(), to.getRow())) {
                 if (p != pawn)
                     assists.add(p);
             }
@@ -335,7 +335,7 @@ public abstract class Board implements Disposable
         return nodes.size();
     }
 
-    protected int buildPossiblePaths(Pawn pawn, Tile to, TileCollection tiles)
+    protected int collectPossiblePaths(Pawn pawn, Tile to, TileCollection tiles)
     {
         Tile from = pawn.getTile();
         paths = searchBoard.possiblePaths(pawn, from.getCol(), from.getRow(), to.getCol(), to.getRow());

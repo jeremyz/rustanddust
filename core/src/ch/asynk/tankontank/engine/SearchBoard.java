@@ -347,7 +347,7 @@ public class SearchBoard
         return targets;
     }
 
-    public boolean buildAttack(Pawn pawn, boolean clearVisibility, Pawn target, int col0, int row0, int col1, int row1)
+    public boolean collectAttack(Pawn pawn, boolean clearVisibility, Pawn target, int col0, int row0, int col1, int row1)
     {
         pawn.attack.isClear = false;
         pawn.attack.target = target;

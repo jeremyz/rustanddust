@@ -18,7 +18,7 @@ public class StateAttack extends StateCommon
             activeUnit = null;
             // use selectedHex and selectedUnit
             map.hidePossibleTargets();
-            map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
+            map.collectPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
             map.showPossibleTargets();
             if (to != null) {
                 // quick fire -> replay touchUp

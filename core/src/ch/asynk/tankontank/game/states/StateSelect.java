@@ -54,12 +54,12 @@ public class StateSelect extends StateCommon
 
         if (hasUnit() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
             // moves and targets == 0 if selectedUnit can't be activated for
-            int moves = map.buildPossibleMoves(selectedUnit);
+            int moves = map.collectPossibleMoves(selectedUnit);
             int targets = 0;
             if (isEnemy)
-                targets = map.buildPossibleTargets(selectedUnit, ctrl.player.unitIterator());
+                targets = map.collectPossibleTargets(selectedUnit, ctrl.player.unitIterator());
             else
-                targets = map.buildPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
+                targets = map.collectPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
             if (moves > 0)
                 map.collectMoveablePawns(selectedUnit);
             showPossibleTargetsMovesAssists(selectedUnit);

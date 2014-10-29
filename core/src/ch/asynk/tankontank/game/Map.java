@@ -93,18 +93,18 @@ public abstract class Map extends Board
         return (Hex) getTile(col, row);
     }
 
-    public int buildPossibleMoves(Pawn pawn)
+    public int collectPossibleMoves(Pawn pawn)
     {
         if (!pawn.canMove()) {
             possibleMoves.clear();
             return 0;
         }
-        return buildPossibleMoves(pawn, possibleMoves);
+        return collectPossibleMoves(pawn, possibleMoves);
     }
 
-    public int buildPossiblePaths(Pawn pawn, Hex to)
+    public int collectPossiblePaths(Pawn pawn, Hex to)
     {
-        return buildPossiblePaths(pawn, to, possiblePaths);
+        return collectPossiblePaths(pawn, to, possiblePaths);
     }
 
     public int possiblePathsPointToggle(Hex hex)
@@ -112,7 +112,7 @@ public abstract class Map extends Board
         return possiblePathsFilterToggle(hex, possiblePaths);
     }
 
-    public int buildPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
+    public int collectPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
     {
         if (!pawn.canAttack()) {
             possibleTargets.clear();
@@ -154,11 +154,11 @@ public abstract class Map extends Board
         }
     }
 
-    public void buildAndShowMovesAndAssits(Pawn pawn)
+    public void collectAndShowMovesAndAssits(Pawn pawn)
     {
         hidePossibleMoves();
         hideMoveablePawns();
-        buildPossibleMoves(pawn);
+        collectPossibleMoves(pawn);
         collectMoveablePawns(pawn);
         showPossibleMoves();
         showMoveablePawns();
