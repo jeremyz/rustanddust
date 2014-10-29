@@ -21,22 +21,6 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Map extends Board
 {
-    public class HexSet extends TileSet
-    {
-        public HexSet(Map map, int overlay, int n)
-        {
-            super(map, overlay, n);
-        }
-    }
-
-    public class UnitSet extends PawnSet
-    {
-        public UnitSet(Map map, int overlay, int n)
-        {
-            super(map, overlay, n);
-        }
-    }
-
     private final Ctrl ctrl;
 
     public final Board.TileCollection possibleMoves;
@@ -59,12 +43,12 @@ public abstract class Map extends Board
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         setup();
 
-        possibleMoves = new HexSet(this, Hex.MOVE1, 40);
-        possiblePaths = new HexSet(this, Hex.MOVE1, 10);        // Hex.MOVE2
-        moveablePawns = new UnitSet(this, Unit.MOVE, 6);
+        possibleMoves = new TileSet(this, Hex.MOVE1, 40);
+        possiblePaths = new TileSet(this, Hex.MOVE1, 10);        // Hex.MOVE2
+        moveablePawns = new PawnSet(this, Unit.MOVE, 6);
 
-        possibleTargets = new UnitSet(this, Unit.TARGET, 10);
-        attackAssists = new UnitSet(this, Unit.ATTACK_ASSIST, 6);
+        possibleTargets = new PawnSet(this, Unit.TARGET, 10);
+        attackAssists = new PawnSet(this, Unit.ATTACK_ASSIST, 6);
     }
 
     @Override
