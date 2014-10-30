@@ -98,18 +98,6 @@ public abstract class Tile implements Drawable, Disposable
         return false;
     }
 
-    public boolean hasTargetsFor(Pawn pawn)
-    {
-        if (isEmpty()) return false;
-        Iterator<Pawn> itr = iterator();
-        while(itr.hasNext()) {
-            Pawn target = itr.next();
-            if (pawn.canAttack(target)) return true;
-        }
-
-        return false;
-    }
-
     public boolean mustBeDrawn()
     {
         if (!isEmpty()) return true;
