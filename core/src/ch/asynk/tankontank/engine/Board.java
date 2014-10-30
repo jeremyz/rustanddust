@@ -287,7 +287,7 @@ public abstract class Board implements Disposable
                 Iterator<Pawn> pawns = t.iterator();
                 while(pawns.hasNext()) {
                     Pawn p = pawns.next();
-                    if ((p != null) && p.canMove() && !pawn.isEnemy(p))
+                    if (!pawn.isEnemy(p) && p.canMove())
                         assists.add(p);
                 }
             }
