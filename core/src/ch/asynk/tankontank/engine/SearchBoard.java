@@ -362,18 +362,21 @@ public class SearchBoard
         return targets.size();
     }
 
-    public boolean collectAttack(Pawn pawn, boolean clearVisibility, Pawn target, int col0, int row0, int col1, int row1)
+    public boolean collectAttacks(Pawn pawn, Pawn target, boolean clearVisibility)
     {
+        Node from = getNode(pawn.getTile());
+        Node to = getNode(target.getTile());
+
         pawn.attack.isClear = false;
         pawn.attack.target = target;
-        pawn.attack.distance = distance(col0, row0, col1, row1);
+        pawn.attack.distance = distance(from.col, from.row, to.col, to.row);
 
         if (pawn.attack.distance > pawn.getAttackRangeFrom(pawn.getTile()))
             return false;
 
-        List<Node> los = lineOfSight(col0, row0, col1, row1, clearVisibility);
+        List<Node> los = lineOfSight(from.col, from.row, to.col, to.row, clearVisibility);
         Node last = los.get(los.size() -1);
-        if ((last.col != col1) || (last.row != row1))
+        if (last != to)
             return false;
 
         if (!validatePathAngle(pawn.getAngleOfAttack(), los))

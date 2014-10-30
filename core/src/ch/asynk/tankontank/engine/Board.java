@@ -267,13 +267,10 @@ public abstract class Board implements Disposable
 
     protected int collectPossibleTargets(Pawn pawn, Iterator<Pawn> units, PawnCollection targets)
     {
-        Tile from = pawn.getTile();
         targets.clear();
         while (units.hasNext()) {
             Pawn target = units.next();
-            if (!pawn.canAttack(target)) continue;
-            Tile to = target.getTile();
-            if (searchBoard.collectAttack(pawn, true, target, from.getCol(), from.getRow(), to.getCol(), to.getRow()))
+            if (pawn.canAttack(target) && searchBoard.collectAttacks(pawn, target, true))
                 targets.add(target);
         }
 
