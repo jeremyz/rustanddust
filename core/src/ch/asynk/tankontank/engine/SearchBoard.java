@@ -37,7 +37,6 @@ public class SearchBoard
     private Board board;
     private int searchCount;
     private Node nodes[];
-    private Orientation sides[];
 
     private ArrayDeque<Node> stack;
     private LinkedList<Node> queue;
@@ -63,14 +62,6 @@ public class SearchBoard
             for (int i = 0; i < cols; i++)
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
-
-        this.sides = new Orientation[6];
-        sides[0] = Orientation.NORTH;
-        sides[1] = Orientation.NORTH_EAST;
-        sides[2] = Orientation.SOUTH_EAST;
-        sides[3] = Orientation.SOUTH;
-        sides[4] = Orientation.SOUTH_WEST;
-        sides[5] = Orientation.NORTH_WEST;
 
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
@@ -118,26 +109,7 @@ public class SearchBoard
 
     public int distance(Node from, Node to)
     {
-        return distance(from.col, from.row, to.col, to.row);
-    }
-
-    public int distance(int col0, int row0, int col1, int row1)
-    {
-        int dx = Math.abs(col1 - col0);
-        int dy = Math.abs(row1 - row0);
-        int dz = Math.abs((col0 - row0) - (col1 - row1));
-
-        if (dx > dy) {
-            if (dx > dz)
-                return dx;
-            else
-                return dz;
-        } else {
-            if (dy > dz)
-                return dy;
-            else
-                return dz;
-        }
+        return board.distance(from.col, from.row, to.col, to.row);
     }
 
     public void adjacentMoves(Node src, Node a[])
@@ -190,8 +162,8 @@ public class SearchBoard
                 if (dst != null) {
 
                     Tile t = getTile(dst);
-                    boolean road = t.road(sides[i]);
-                    int cost = t.costFrom(pawn, sides[i], road);
+                    boolean road = t.road(board.getSide(i));
+                    int cost = t.costFrom(pawn, board.getSide(i), road);
                     boolean mayMoveOne = first && t.atLeastOneMove(pawn);
                     int r = src.remaining - cost;
                     boolean roadMarch = road && src.roadMarch;
@@ -233,9 +205,9 @@ public class SearchBoard
                 if (dst != null) {
 
                     Tile t = getTile(dst);
-                    if (!t.road(sides[i]))
+                    if (!t.road(board.getSide(i)))
                         continue;
-                    int cost = t.costFrom(pawn, sides[i], true);
+                    int cost = t.costFrom(pawn, board.getSide(i), true);
                     int r = src.remaining - cost;
 
                     if (dst.search == searchCount) {
@@ -369,7 +341,7 @@ public class SearchBoard
 
         pawn.attack.isClear = false;
         pawn.attack.target = target;
-        pawn.attack.distance = distance(from.col, from.row, to.col, to.row);
+        pawn.attack.distance = distance(from, to);
 
         if (pawn.attack.distance > pawn.getAttackRangeFrom(pawn.getTile()))
             return false;
@@ -649,8 +621,8 @@ public class SearchBoard
             if (next == null) continue;
 
             Tile t = getTile(next);
-            boolean road = t.road(sides[i]);
-            int cost = t.costFrom(pawn, sides[i], road);
+            boolean road = t.road(board.getSide(i));
+            int cost = t.costFrom(pawn, board.getSide(i), road);
             int r = (mvtLeft - cost);
             if (roadMarch & road) r += roadMarchBonus;
 

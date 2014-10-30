@@ -77,6 +77,7 @@ public abstract class Board implements Disposable
     private Tile[] tiles;
     private SearchBoard searchBoard;
     private Image image;
+    private Orientation sides[];
 
     private boolean transform;
     private Matrix4 prevTransform;
@@ -115,6 +116,15 @@ public abstract class Board implements Disposable
             y += cfg.h;
             evenRow = !evenRow;
         }
+
+        // TODO parametrized with Config ?
+        this.sides = new Orientation[6];
+        sides[0] = Orientation.NORTH;
+        sides[1] = Orientation.NORTH_EAST;
+        sides[2] = Orientation.SOUTH_EAST;
+        sides[3] = Orientation.SOUTH;
+        sides[4] = Orientation.SOUTH_WEST;
+        sides[5] = Orientation.NORTH_WEST;
     }
 
     @Override
@@ -155,6 +165,11 @@ public abstract class Board implements Disposable
             nextTransform.translate(x, y, 0);
         } else
             transform = false;
+    }
+
+    public Orientation getSide(int i)
+    {
+        return sides[i];
     }
 
     protected Tile getTile(int col, int row)
@@ -530,6 +545,30 @@ public abstract class Board implements Disposable
             return null;
 
         return getTile(col, row);
+    }
+
+    public int distance(Tile from, Tile to)
+    {
+        return distance(from.getCol(), from.getRow(), to.getCol(), to.getRow());
+    }
+
+    public int distance(int col0, int row0, int col1, int row1)
+    {
+        int dx = Math.abs(col1 - col0);
+        int dy = Math.abs(row1 - row0);
+        int dz = Math.abs((col0 - row0) - (col1 - row1));
+
+        if (dx > dy) {
+            if (dx > dz)
+                return dx;
+            else
+                return dz;
+        } else {
+            if (dy > dz)
+                return dy;
+            else
+                return dz;
+        }
     }
 }
 
