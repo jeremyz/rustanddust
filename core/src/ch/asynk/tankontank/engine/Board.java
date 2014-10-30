@@ -298,15 +298,10 @@ public abstract class Board implements Disposable
     protected int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, PawnCollection assists)
     {
         assists.clear();
-        Tile to = target.getTile();
         while (units.hasNext()) {
             Pawn p = units.next();
-            if ((p == pawn) || !p.canAttack()) continue;
-            Tile from = p.getTile();
-            if (searchBoard.collectAttack(p, !p.canAssistAttackWithoutLos(), target, from.getCol(), from.getRow(), to.getCol(), to.getRow())) {
-                if (p != pawn)
-                    assists.add(p);
-            }
+            if (p.canAttack(target) && searchBoard.collectAttacks(p, target, !p.canAssistAttackWithoutLos()))
+                assists.add(p);
         }
 
         return assists.size();
