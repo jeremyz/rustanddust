@@ -97,6 +97,16 @@ public class SearchBoard
         return true;
     }
 
+    private Tile getTile(Node node)
+    {
+        return board.getTile(node.col, node.row);
+    }
+
+    private Node getNode(Tile tile)
+    {
+        return getNode(tile.getCol(), tile.getRow());
+    }
+
     private Node getNode(int col, int row)
     {
         int colOffset = ((row + 1) / 2);
@@ -148,7 +158,7 @@ public class SearchBoard
 
         Node adjacents[] = new Node[6];
 
-        Node from = getNode(col, row);
+        Node from = getNode(pawn.getTile());
         from.parent = null;
         from.search = searchCount;
         from.remaining = pawn.getMovementPoints();
@@ -179,7 +189,7 @@ public class SearchBoard
                 Node dst = adjacents[i];
                 if (dst != null) {
 
-                    Tile t = board.getTile(dst.col, dst.row);
+                    Tile t = getTile(dst);
                     boolean road = t.road(sides[i]);
                     int cost = t.costFrom(pawn, sides[i], road);
                     boolean mayMoveOne = first && t.atLeastOneMove(pawn);
@@ -222,7 +232,7 @@ public class SearchBoard
                 Node dst = adjacents[i];
                 if (dst != null) {
 
-                    Tile t = board.getTile(dst.col, dst.row);
+                    Tile t = getTile(dst);
                     if (!t.road(sides[i]))
                         continue;
                     int cost = t.costFrom(pawn, sides[i], true);
@@ -297,13 +307,11 @@ public class SearchBoard
 
         Node adjacents[] = new Node[6];
 
-        Tile tile = board.getTile(col, row);
-
-        int range = pawn.getAttackRangeFrom(tile);
+        int range = pawn.getAttackRangeFrom(pawn.getTile());
         int angle = pawn.getAngleOfAttack();
         int extendedAngle = pawn.getOrientation().opposite().allBut();
 
-        Node from = getNode(col, row);
+        Node from = getNode(pawn.getTile());
         from.search = searchCount;
         from.remaining = range;
 
@@ -337,7 +345,7 @@ public class SearchBoard
                         dst.search = searchCount;
                         dst.remaining = rangeLeft;
                         queue.add(dst);
-                        Tile t = board.getTile(dst.col, dst.row);
+                        Tile t = getTile(dst);
                         if (t.hasTargetsFor(pawn) && hasClearLineOfSight(from, dst, angle)) targets.add(dst);
                     }
                 }
@@ -353,7 +361,7 @@ public class SearchBoard
         pawn.attack.target = target;
         pawn.attack.distance = distance(col0, row0, col1, row1);
 
-        if (pawn.attack.distance > pawn.getAttackRangeFrom(board.getTile(col0, row0)))
+        if (pawn.attack.distance > pawn.getAttackRangeFrom(pawn.getTile()))
             return false;
 
         List<Node> los = lineOfSight(col0, row0, col1, row1, clearVisibility);
@@ -630,7 +638,7 @@ public class SearchBoard
             Node next = moves[i];
             if (next == null) continue;
 
-            Tile t = board.getTile(next.col, next.row);
+            Tile t = getTile(next);
             boolean road = t.road(sides[i]);
             int cost = t.costFrom(pawn, sides[i], road);
             int r = (mvtLeft - cost);
@@ -661,7 +669,7 @@ public class SearchBoard
         for (Node next : path) {
             if (prev != null) {
                 Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-                Tile t = board.getTile(next.col, next.row);
+                Tile t = getTile(next);
                 boolean road = t.road(o);
                 cost += t.costFrom(pawn, o, road);
                 roadMarch &= road;
