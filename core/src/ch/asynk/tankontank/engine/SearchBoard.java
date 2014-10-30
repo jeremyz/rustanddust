@@ -42,7 +42,6 @@ public class SearchBoard
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
 
-    private Set<Node> moves;
     private List<Node> targets;
     private List<Node> los;
 
@@ -76,7 +75,6 @@ public class SearchBoard
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
 
-        this.moves = new LinkedHashSet<Node>(40);
         this.targets = new ArrayList<Node>(10);
         this.los = new ArrayList<Node>(10);
 
@@ -152,10 +150,10 @@ public class SearchBoard
         a[5] = getNode((src.col - 1), (src.row - 1));
     }
 
-    public Set<Node> possibleMovesFrom(Pawn pawn, int col, int row)
+    public int possibleMovesFrom(Pawn pawn, Board.TileCollection moves)
     {
-        searchCount += 1;
         moves.clear();
+        searchCount += 1;
 
         Node adjacents[] = new Node[6];
 
@@ -166,7 +164,7 @@ public class SearchBoard
         from.roadMarch = true;
 
         if (from.remaining <= 0)
-            return moves;
+            return moves.size();
 
         int roadMarchBonus = pawn.getRoadMarchBonus();
         boolean first = true;
@@ -203,7 +201,7 @@ public class SearchBoard
                             dst.parent = src;
                             dst.roadMarch = roadMarch;
                             stack.push(dst);
-                            moves.add(dst);
+                            moves.add(getTile(dst));
                         }
                     } else {
                         dst.search = searchCount;
@@ -212,7 +210,7 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.roadMarch = roadMarch;
                             stack.push(dst);
-                            moves.add(dst);
+                            moves.add(getTile(dst));
                         } else {
                             dst.parent = null;
                             dst.remaining = -1;
@@ -245,7 +243,7 @@ public class SearchBoard
                             dst.parent = src;
                             dst.roadMarch = true;
                             roadMarch.push(dst);
-                            moves.add(dst);
+                            moves.add(getTile(dst));
                         }
                     } else {
                         dst.search = searchCount;
@@ -254,7 +252,7 @@ public class SearchBoard
                             dst.remaining = r;
                             dst.roadMarch = true;
                             roadMarch.push(dst);
-                            moves.add(dst);
+                            moves.add(getTile(dst));
                         } else {
                             dst.parent = null;
                             dst.remaining = -1;
@@ -264,7 +262,7 @@ public class SearchBoard
             }
         }
 
-        return moves;
+        return moves.size();
     }
 
     private void adjacentTargets(Node src, int angle, Node a[])

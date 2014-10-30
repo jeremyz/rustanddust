@@ -257,9 +257,7 @@ public abstract class Board implements Disposable
 
     protected int collectPossibleMoves(Pawn pawn, TileCollection moves)
     {
-        Tile from = pawn.getTile();
-        Set<SearchBoard.Node> nodes = searchBoard.possibleMovesFrom(pawn, from.getCol(), from.getRow());
-        return moves.fromNodes(nodes);
+        return searchBoard.possibleMovesFrom(pawn, moves);
     }
 
     protected int collectPossibleTargets(Pawn pawn, PawnCollection targets)
