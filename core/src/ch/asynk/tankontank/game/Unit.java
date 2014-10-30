@@ -195,12 +195,6 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public boolean canBeAttacked(Pawn other)
-    {
-        return true;
-    }
-
-    @Override
     public void rotate(Orientation o)
     {
         hasMoved = true;
