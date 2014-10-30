@@ -50,7 +50,6 @@ public class BattleFake extends BattleCommon
             gePlayer = a;
         }
         Orientation o = Orientation.NORTH;
-        GridPoint2 p = new GridPoint2();
 
         gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHex(4, 7), o));
         gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHex(3, 6), o));
