@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.ArrayDeque;
+import java.util.Iterator;
 
 public class SearchBoard
 {
@@ -299,10 +300,10 @@ public class SearchBoard
             a[5] = null;
     }
 
-    public List<Node> possibleTargetsFrom(Pawn pawn, int col, int row)
+    public int possibleTargetsFrom(Pawn pawn, Board.PawnCollection targets)
     {
-        searchCount += 1;
         targets.clear();
+        searchCount += 1;
 
         Node adjacents[] = new Node[6];
 
@@ -315,7 +316,7 @@ public class SearchBoard
         from.remaining = range;
 
         if (range <= 0)
-            return targets;
+            return targets.size();
 
         queue.add(from);
 
@@ -345,13 +346,20 @@ public class SearchBoard
                         dst.remaining = rangeLeft;
                         queue.add(dst);
                         Tile t = getTile(dst);
-                        if (t.hasTargetsFor(pawn) && hasClearLineOfSight(from, dst, angle)) targets.add(dst);
+                        if (hasClearLineOfSight(from, dst, angle)) {
+                            Iterator<Pawn> it = t.iterator();
+                            while (it.hasNext()) {
+                                Pawn target = it.next();
+                                if (pawn.canAttack(target))
+                                    targets.add(target);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return targets;
+        return targets.size();
     }
 
     public boolean collectAttack(Pawn pawn, boolean clearVisibility, Pawn target, int col0, int row0, int col1, int row1)
