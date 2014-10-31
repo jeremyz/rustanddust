@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -37,16 +36,12 @@ public abstract class Board implements Disposable
     {
         public Tile first();
         public void enable(int i, boolean enable);
-        public void collectPawns(PawnCollection pawns);
-        public int fromNodes(Collection<SearchBoard.Node> nodes);
     }
 
     public interface PawnCollection extends Collection<Pawn>
     {
         public Pawn first();
         public void enable(int i, boolean enable);
-        public void collectTiles(TileCollection tiles);
-        public int fromNodes(Collection<SearchBoard.Node> nodes);
     }
 
     public static class Config
