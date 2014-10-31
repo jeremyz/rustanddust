@@ -7,6 +7,7 @@ public interface State
         MOVE,
         ROTATE,
         ATTACK,
+        BREAK,
         PROMOTE,
         ANIMATION
     };

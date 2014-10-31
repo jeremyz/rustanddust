@@ -32,6 +32,7 @@ public abstract class Map extends Board
     public final Board.PawnCollection possibleTargets;
     public final Board.PawnCollection attackAssists;
     public final Board.PawnCollection activatedPawns;
+    public final Board.PawnCollection breakPawns;
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -59,8 +60,8 @@ public abstract class Map extends Board
 
         possibleTargets = new PawnSet(this, 10);
         attackAssists = new PawnSet(this, 6);
-
         activatedPawns = new PawnSet(this, 7);
+        breakPawns = new PawnSet(this, 4);
     }
 
     @Override
@@ -82,6 +83,7 @@ public abstract class Map extends Board
         moveablePawns.clear();
         attackAssists.clear();
         activatedPawns.clear();
+        breakPawns.clear();
     }
 
     public Hex getHexAt(float x, float y)
@@ -269,8 +271,12 @@ public abstract class Map extends Board
             }
         }));
 
-        for (Pawn p : activatedPawns)
+        breakPawns.clear();
+        for (Pawn p : activatedPawns) {
             p.attack(target);
+            if (p.isA(Unit.UnitType.INFANTRY))
+                breakPawns.add(p);
+        }
 
         if ((activatedPawns.size() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedPawns.clear();
@@ -304,6 +310,8 @@ public abstract class Map extends Board
     public void showAttackAssists()     { attackAssists.enable(Unit.ATTACK_ASSIST, true); }
     public void hideAttackAssists()     { attackAssists.enable(Unit.ATTACK, false);
                                           attackAssists.enable(Unit.ATTACK_ASSIST, false); }
+    public void showBreakPawns()        { breakPawns.enable(Unit.MOVE, true); }
+    public void hideBreakPawns()        { breakPawns.enable(Unit.MOVE, false); }
 
 
     public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
