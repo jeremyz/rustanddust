@@ -13,9 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.tankontank.engine.gfx.Image;
@@ -59,13 +56,6 @@ public abstract class Board implements Disposable
         public float h;         // square height : s + dh
         public float slope;     // north-west side slope : (dh / (float) dw)
     }
-
-    private final Pool<Vector3> vector3Pool = new Pool<Vector3>() {
-        @Override
-        protected Vector3 newObject() {
-            return new Vector3();
-        }
-    };
 
     private Config cfg;
     private Tile[] tiles;
@@ -391,13 +381,9 @@ public abstract class Board implements Disposable
 
     protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
     {
-        Vector3 p = pawn.getPosition();
-        Vector3 v = vector3Pool.obtain();
-        v.set(p.x, p.y, o.r());
-        AnimationSequence seq = pawn.getRotateAnimation(v, 1);
+        AnimationSequence seq = pawn.getRotateAnimation(o.r(), 1);
         seq.addAnimation(whenDone);
         addAnimation(seq);
-        vector3Pool.free(v);
         pawn.rotate(o);
     }
 

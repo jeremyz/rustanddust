@@ -236,11 +236,11 @@ public abstract class Pawn implements Moveable, Disposable
         return hasOverlayEnabled();
     }
 
-    public AnimationSequence getRotateAnimation(Vector3 v, int size)
+    public AnimationSequence getRotateAnimation(float z, int size)
     {
         prevPosition.set(position);
         AnimationSequence seq = AnimationSequence.get(1 + size);
-        seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+        seq.addAnimation(MoveToAnimation.get(this, position.x, position.y, z, MOVE_TIME));
 
         return seq;
     }
