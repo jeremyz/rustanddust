@@ -181,14 +181,14 @@ public abstract class Board implements Disposable
         return tiles[((col - colOffset)) + (row * cfg.cols)];
     }
 
-    private void setAdjacentTiles(Tile tile, Tile tiles[])
+    public void setAdjacentTiles(Tile tile, Tile tiles[])
     {
-        tiles[0] = getTile((tile.getCol() - 1), (tile.getRow()));
-        tiles[1] = getTile((tile.getCol()),     (tile.getRow() + 1));
-        tiles[2] = getTile((tile.getCol() + 1), (tile.getRow() + 1));
-        tiles[3] = getTile((tile.getCol() + 1), (tile.getRow()));
-        tiles[4] = getTile((tile.getCol()),     (tile.getRow() - 1));
-        tiles[5] = getTile((tile.getCol() - 1), (tile.getRow() - 1));
+        tiles[0] = getTile((tile.col - 1), (tile.row));
+        tiles[1] = getTile((tile.col),     (tile.row + 1));
+        tiles[2] = getTile((tile.col + 1), (tile.row + 1));
+        tiles[3] = getTile((tile.col + 1), (tile.row));
+        tiles[4] = getTile((tile.col),     (tile.row - 1));
+        tiles[5] = getTile((tile.col - 1), (tile.row - 1));
     }
 
     protected void addAnimation(Animation a)
@@ -549,7 +549,7 @@ public abstract class Board implements Disposable
 
     public int distance(Tile from, Tile to)
     {
-        return distance(from.getCol(), from.getRow(), to.getCol(), to.getRow());
+        return distance(from.col, from.row, to.col, to.row);
     }
 
     public int distance(int col0, int row0, int col1, int row1)

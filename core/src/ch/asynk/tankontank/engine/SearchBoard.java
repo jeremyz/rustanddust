@@ -95,7 +95,7 @@ public class SearchBoard
 
     private Node getNode(Tile tile)
     {
-        return getNode(tile.getCol(), tile.getRow());
+        return getNode(tile.col, tile.row);
     }
 
     private Node getNode(int col, int row)
