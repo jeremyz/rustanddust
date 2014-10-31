@@ -189,13 +189,20 @@ public class PossiblePaths implements Iterable<Vector3>
         return cost;
     }
 
+    private List<Tile> getPath(int i)
+    {
+        if (ctrlTiles.size() == 0)
+            return paths.get(0);
+        return filteredPaths.get(0);
+    }
+
     public int pathSteps(int idx)
     {
         int steps = 0;
 
         Tile tile = pawn.getTile();
         Orientation o = pawn.getOrientation();
-        for (Tile next : filteredPaths.get(idx)) {
+        for (Tile next : getPath(idx)) {
             Orientation nextO = Orientation.fromMove(tile.col, tile.row, next.col, next.row);
             if (nextO != o) {
                 steps += 2;
@@ -215,7 +222,7 @@ public class PossiblePaths implements Iterable<Vector3>
     @Override
     public Iterator<Vector3> iterator()
     {
-        return new Vector3Iterator(pawn, to, lastO, filteredPaths.get(0));
+        return new Vector3Iterator(pawn, to, lastO, getPath(0));
     }
 
     private void printToErr(String what, List<ArrayList<Tile>> paths)
