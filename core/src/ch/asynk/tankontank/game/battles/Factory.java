@@ -158,8 +158,10 @@ public class Factory implements Board.TileBuilder, Disposable
         return u;
     }
 
-    public Hex getNewTile(float x, float y, int col, int row)
+    public Hex getNewTile(float x, float y, int col, int row, boolean offmap)
     {
-        return new Hex(x, y, col, row, tileOverlaysAtlas);
+        Hex hex = new Hex(x, y, col, row, tileOverlaysAtlas);
+        if (offmap) hex.terrain = Hex.Terrain.OFFMAP;
+        return hex;
     }
 }
