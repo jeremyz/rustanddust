@@ -304,7 +304,7 @@ public abstract class Board implements Disposable
         assists.clear();
         while (units.hasNext()) {
             Pawn p = units.next();
-            if (p.canAttack(target) && searchBoard.collectAttacks(p, target, !p.canAssistAttackWithoutLos()))
+            if ((p != pawn) && p.canAttack(target) && searchBoard.collectAttacks(p, target, !p.canAssistAttackWithoutLos()))
                 assists.add(p);
         }
 
