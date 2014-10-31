@@ -15,7 +15,7 @@ import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.gfx.Drawable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 
-public abstract class Tile implements Drawable, Disposable
+public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
 {
     protected int col;
     protected int row;
