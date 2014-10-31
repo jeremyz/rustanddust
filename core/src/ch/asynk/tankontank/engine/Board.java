@@ -1,11 +1,10 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Set;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.Gdx;
 
@@ -28,8 +27,6 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 public abstract class Board implements Disposable
 {
     private final Tile neighbours[] = new Tile[6];
-    protected List<ArrayList<SearchBoard.Node>> paths;
-    private final ArrayList<Vector3> finalPath = new ArrayList<Vector3>(10);
 
     public interface TileBuilder
     {
@@ -140,9 +137,6 @@ public abstract class Board implements Disposable
         for (int i = 0, n = animations.size(); i < n; i++)
             animations.get(i).dispose();
         animations.clear();
-        for (Vector3 v : finalPath)
-            vector3Pool.free(v);
-        finalPath.clear();
     }
 
     public float getWidth()
@@ -322,91 +316,6 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    private int nodesToSet(List<ArrayList<SearchBoard.Node>> nodes, TileCollection tiles)
-    {
-        tiles.clear();
-
-        for (ArrayList<SearchBoard.Node> path : nodes) {
-            for (int i = 1, n = (path.size() - 1); i < n; i++) {
-                SearchBoard.Node node = path.get(i);
-                Tile tile = getTile(node.col, node.row);
-                if (!tiles.contains(tile))
-                    tiles.add(tile);
-            }
-        }
-
-        return nodes.size();
-    }
-
-    protected int collectPossiblePaths(Pawn pawn, Tile to, TileCollection tiles)
-    {
-        Tile from = pawn.getTile();
-        paths = searchBoard.possiblePaths(pawn, from.getCol(), from.getRow(), to.getCol(), to.getRow());
-        return nodesToSet(paths, tiles);
-    }
-
-    protected int possiblePathsFilterToggle(Tile tile, TileCollection tiles)
-    {
-        paths = searchBoard.possiblePathsFilterToggle(tile.getCol(), tile.getRow());
-        return nodesToSet(paths, tiles);
-    }
-
-    protected int getPathCost(Pawn pawn, int i)
-    {
-        return searchBoard.pathCost(pawn, paths.get(i));
-    }
-
-    protected int getCoordinatePath(Pawn pawn, int idx, ArrayList<Vector3> path, Orientation finalOrientation)
-    {
-        for (Vector3 v : path)
-            vector3Pool.free(v);
-        path.clear();
-
-        Vector2 tmpCoords = new Vector2();
-
-        Vector3 p = pawn.getPosition();
-        Vector3 v = vector3Pool.obtain();
-        v.set(p.x, p.y, 0f);
-        Orientation prevOrientation = pawn.getOrientation();
-
-        ArrayList<SearchBoard.Node> nodes = paths.get(idx);
-        SearchBoard.Node prevNode = nodes.get(0);
-        // Gdx.app.debug("Board", "getCoordinatePath()");
-        // Gdx.app.debug("Board", "  " + prevNode);
-
-        for (int i = 1, n = nodes.size(); i < n; i++) {
-            SearchBoard.Node node = nodes.get(i);
-            // Gdx.app.debug("Board", "  " + node);
-            Orientation o = Orientation.fromMove(prevNode.col, prevNode.row, node.col, node.row);
-            if ((o != Orientation.KEEP) && (o != prevOrientation)) {
-                v.z = o.r();
-                path.add(v);
-                v = vector3Pool.obtain();
-            }
-            pawn.getPosAt(getTile(node.col, node.row), tmpCoords);
-            v.set(tmpCoords.x, tmpCoords.y, o.r());
-            path.add(v);
-            prevOrientation = o;
-            v = vector3Pool.obtain();
-            v.set(tmpCoords.x, tmpCoords.y, 0f);
-
-            prevNode = node;
-        }
-
-        if (finalOrientation != prevOrientation) {
-            v.z = finalOrientation.r();
-            path.add(v);
-        } else {
-            vector3Pool.free(v);
-        }
-
-        // Gdx.app.debug("Board", " =>");
-        // for (Vector3 vector :path)
-        //     Gdx.app.debug("Board", "  " + vector);
-
-        return path.size();
-    }
-
     public void enableOverlayOn(Tile tile, int i, boolean enable)
     {
         if(tile.enableOverlay(i, enable))
@@ -450,12 +359,11 @@ public abstract class Board implements Disposable
         return pawn;
     }
 
-    protected void movePawn(final Pawn pawn, int cost, Orientation o, RunnableAnimation whenDone)
+    protected void movePawn(final Pawn pawn, PossiblePaths possiblePaths, RunnableAnimation whenDone)
     {
-        getCoordinatePath(pawn, 0, finalPath, o);
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getMoveAnimation(finalPath, 2);
+        AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), possiblePaths.pathSteps(0) + 2);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
@@ -466,7 +374,7 @@ public abstract class Board implements Disposable
         }));
         seq.addAnimation(whenDone);
         addAnimation(seq);
-        pawn.move(cost);
+        pawn.move(possiblePaths.pathCost(0));
     }
 
     protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)

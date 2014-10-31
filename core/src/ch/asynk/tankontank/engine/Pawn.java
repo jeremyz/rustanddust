@@ -1,7 +1,6 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.ArrayList;
-import java.util.ArrayDeque;
+import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Disposable;
 
@@ -246,12 +245,12 @@ public abstract class Pawn implements Moveable, Disposable
         return seq;
     }
 
-    public AnimationSequence getMoveAnimation(ArrayList<Vector3> path, int size)
+    public AnimationSequence getMoveAnimation(Iterator<Vector3> vectors, int size)
     {
         prevPosition.set(position);
-        AnimationSequence seq = AnimationSequence.get(path.size() + size);
-        for (Vector3 v : path)
-            seq.addAnimation(MoveToAnimation.get(this, v, MOVE_TIME));
+        AnimationSequence seq = AnimationSequence.get(size);
+        while (vectors.hasNext())
+            seq.addAnimation(MoveToAnimation.get(this, vectors.next(), MOVE_TIME));
 
         return seq;
     }

@@ -9,7 +9,6 @@ public class StateMove extends StateCommon
     @Override
     public void enter(boolean fromSelect)
     {
-        map.possiblePaths.clear();
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
         ctrl.hud.show(false, true, true, false, moreThanOne, ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
@@ -70,7 +69,7 @@ public class StateMove extends StateCommon
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
             s = collectPaths();
         } else if (map.possiblePaths.contains(upHex)) {
-            s = togglePoint(s);
+            s = togglePoint(downHex, s);
         }
 
         if (s == 1) {
@@ -127,16 +126,16 @@ public class StateMove extends StateCommon
         return s;
     }
 
-    private int togglePoint(int s)
+    private int togglePoint(Hex hex, int s)
     {
-        if (downHex == activeUnit.getHex()) {
+        if (hex == activeUnit.getHex()) {
             //
-        } else if (downHex == to) {
+        } else if (hex == to) {
             //
         } else {
             map.hidePossiblePaths();
-            map.togglePathOverlay(downHex);
-            s = map.possiblePathsPointToggle(downHex);
+            map.togglePathOverlay(hex);
+            s = map.togglePossiblePathHex(hex);
             map.showPossiblePaths();
         }
 

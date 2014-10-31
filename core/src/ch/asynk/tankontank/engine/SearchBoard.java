@@ -41,13 +41,7 @@ public class SearchBoard
     private ArrayDeque<Node> stack;
     private LinkedList<Node> queue;
     private ArrayDeque<Node> roadMarch;
-
-    private List<Node> targets;
     private List<Node> los;
-
-    private List<Node> path;
-    private List<ArrayList<Node>> possiblePaths;
-    private List<Node> possiblePathsFilters;
 
     public SearchBoard(Board board, int cols, int rows)
     {
@@ -66,13 +60,7 @@ public class SearchBoard
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
-
-        this.targets = new ArrayList<Node>(10);
         this.los = new ArrayList<Node>(10);
-
-        this.path = new ArrayList<Node>(20);
-        this.possiblePaths = new LinkedList<ArrayList<Node>>();
-        this.possiblePathsFilters = new ArrayList<Node>(5);
     }
 
     // FIXME be carefull with this if I expand the size of the board to be bigger than the playable size
@@ -546,124 +534,5 @@ public class SearchBoard
         }
 
         return los;
-    }
-
-    public void clearPossiblePaths()
-    {
-        path.clear();
-        for (List<Node> v : possiblePaths)
-            v.clear();
-        possiblePaths.clear();
-        possiblePathsFilters.clear();
-    }
-
-    public List<ArrayList<Node>> possiblePathsFilterToggle(int col, int row)
-    {
-        Node n = getNode(col, row);
-        if (possiblePathsFilters.contains(n))
-            possiblePathsFilters.remove(n);
-        else
-            possiblePathsFilters.add(n);
-        return possiblePaths();
-    }
-
-    public List<ArrayList<Node>> possiblePaths()
-    {
-        int s = possiblePathsFilters.size();
-
-        List<ArrayList<Node>> paths = new LinkedList<ArrayList<Node>>();
-        for (ArrayList<Node> path : possiblePaths) {
-            int ok = 0;
-            for (Node filter : possiblePathsFilters) {
-                if (path.contains(filter))
-                    ok += 1;
-            }
-            if (ok == s) {
-                if (path.size() == (s + 2)) {
-                    paths.clear();
-                    paths.add(path);
-                    return paths;
-                } else
-                    paths.add(path);
-            }
-        }
-
-        return paths;
-    }
-
-    public List<ArrayList<Node>> possiblePaths(Pawn pawn, int col0, int row0, int col1, int row1)
-    {
-        clearPossiblePaths();
-
-        Node from = getNode(col0, row0);
-        Node to = getNode(col1, row1);
-
-        if (distance(from, to) == 1) {
-            ArrayList<Node> temp = new ArrayList<Node>(2);
-            temp.add(from);
-            temp.add(to);
-            possiblePaths.add(temp);
-        } else {
-            path.add(from);
-            findAllPaths(pawn, from, to, pawn.getMovementPoints(), true, pawn.getRoadMarchBonus());
-        }
-
-        return possiblePaths;
-    }
-
-    private void findAllPaths(Pawn pawn, Node from, Node to, int mvtLeft, boolean roadMarch, int roadMarchBonus)
-    {
-        Node moves[] = new Node[6];
-        adjacentMoves(from, moves);
-
-        for(int i = 0; i < 6; i++) {
-            Node next = moves[i];
-            if (next == null) continue;
-
-            Tile t = getTile(next);
-            boolean road = t.road(board.getSide(i));
-            int cost = t.costFrom(pawn, board.getSide(i), road);
-            int r = (mvtLeft - cost);
-            if (roadMarch & road) r += roadMarchBonus;
-
-            if ((distance(next, to) <= r)) {
-                if (next == to) {
-                    ArrayList<Node> temp = new ArrayList<Node>(path.size() + 1);
-                    for (Node n: path)
-                        temp.add(n);
-                    temp.add(next);
-                    possiblePaths.add(temp);
-                } else {
-                    path.add(next);
-                    findAllPaths(pawn, next, to, (mvtLeft - cost), (roadMarch & road), roadMarchBonus);
-                    path.remove(path.size() - 1);
-                }
-            }
-        }
-    }
-
-    public int pathCost(Pawn pawn, List<Node> path)
-    {
-        int cost = 0;
-        boolean roadMarch = true;
-        Node prev = null;
-
-        for (Node next : path) {
-            if (prev != null) {
-                Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-                Tile t = getTile(next);
-                boolean road = t.road(o);
-                cost += t.costFrom(pawn, o, road);
-                roadMarch &= road;
-            }
-            prev = next;
-        }
-
-        if (roadMarch)
-            cost -= pawn.getRoadMarchBonus();
-        if (cost < 1)
-            cost = 1;
-
-        return cost;
     }
 }

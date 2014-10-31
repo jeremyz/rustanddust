@@ -14,6 +14,7 @@ import ch.asynk.tankontank.engine.PawnSet;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
@@ -25,7 +26,7 @@ public abstract class Map extends Board
     private final Ctrl ctrl;
 
     public final Board.TileCollection possibleMoves;
-    public final Board.TileCollection possiblePaths;
+    public final PossiblePaths possiblePaths;
 
     public final Board.PawnCollection moveablePawns;
     public final Board.PawnCollection possibleTargets;
@@ -53,7 +54,7 @@ public abstract class Map extends Board
         setup();
 
         possibleMoves = new TileSet(this, 40);
-        possiblePaths = new TileSet(this, 10);
+        possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
         moveablePawns = new PawnSet(this, 6);
 
         possibleTargets = new PawnSet(this, 10);
@@ -104,12 +105,12 @@ public abstract class Map extends Board
 
     public int collectPossiblePaths(Pawn pawn, Hex to)
     {
-        return collectPossiblePaths(pawn, to, possiblePaths);
+        return possiblePaths.init(pawn, to);
     }
 
-    public int possiblePathsPointToggle(Hex hex)
+    public int togglePossiblePathHex(Hex hex)
     {
-        return possiblePathsFilterToggle(hex, possiblePaths);
+        return possiblePaths.toggleCtrlTile(hex);
     }
 
     public int collectPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
@@ -178,8 +179,8 @@ public abstract class Map extends Board
     public int movePawn(Pawn pawn, Orientation o)
     {
         System.err.println("    movePawn : " + pawn.getTile() + " " + o);
-        int cost = getPathCost(pawn, 0);
-        movePawn(pawn, cost, o, notifyDoneAnimation(pawn));
+        possiblePaths.setLastOrientation(o);
+        movePawn(pawn, possiblePaths, notifyDoneAnimation(pawn));
 
         return startMove(pawn);
     }
