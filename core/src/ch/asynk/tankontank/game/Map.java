@@ -170,7 +170,7 @@ public abstract class Map extends Board
 
     public void promote(Pawn pawn, Pawn with)
     {
-        // TODO amination
+        // TODO promote amination
         removePawn(pawn);
         setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
         activatedPawns.add(with);
