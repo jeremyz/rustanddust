@@ -12,9 +12,9 @@ public class PossiblePaths implements Iterable<Vector3>
 {
     private final Board board;
 
-    private Pawn pawn;
-    private Tile to;
-    private Orientation lastO;
+    public Pawn pawn;
+    public Tile to;
+    public Orientation orientation;
     private List<Tile> stack;
     private List<Tile> ctrlTiles;
     private List<ArrayList<Tile>> paths;
@@ -29,19 +29,16 @@ public class PossiblePaths implements Iterable<Vector3>
         this.ctrlTiles = new ArrayList<Tile>(ftSize);
         this.paths = new LinkedList<ArrayList<Tile>>();
         this.filteredPaths = new LinkedList<ArrayList<Tile>>();
-        this.lastO = Orientation.KEEP;
-    }
-
-    public void setLastOrientation(Orientation lastO)
-    {
-        this.lastO = lastO;
+        this.to = null;
+        this.pawn = null;
+        this.orientation = Orientation.KEEP;
     }
 
     public int init(Pawn pawn, Tile to)
     {
+        clear();
         this.pawn = pawn;
         this.to = to;
-        clear();
 
         return build();
     }
@@ -55,6 +52,9 @@ public class PossiblePaths implements Iterable<Vector3>
         this.ctrlTiles.clear();
         this.filteredPaths.clear();
         this.tiles.clear();
+        this.to = null;
+        this.pawn = null;
+        this.orientation = Orientation.KEEP;
     }
 
     public int size()
@@ -211,7 +211,7 @@ public class PossiblePaths implements Iterable<Vector3>
                 steps += 1;
             tile = next;
         }
-        if (lastO != Orientation.fromMove(tile.col, tile.row, to.col, to.row))
+        if (orientation != Orientation.fromMove(tile.col, tile.row, to.col, to.row))
             steps += 2;
         else
             steps +=1;
@@ -222,7 +222,7 @@ public class PossiblePaths implements Iterable<Vector3>
     @Override
     public Iterator<Vector3> iterator()
     {
-        return new Vector3Iterator(pawn, to, lastO, getPath(0));
+        return new Vector3Iterator(pawn, to, orientation, getPath(0));
     }
 
     private void printToErr(String what, List<ArrayList<Tile>> paths)
@@ -242,18 +242,18 @@ class Vector3Iterator implements Iterator<Vector3>
     private Pawn pawn;
     private Tile to;
     private Orientation o;
-    private Orientation lastO;
+    private Orientation orientation;
     private Tile tile;
     private Vector2 pos = new Vector2();
     private Vector3 v = new Vector3();
     private int i;
     private List<Tile> path;
 
-    public Vector3Iterator(Pawn pawn, Tile to, Orientation lastO, List<Tile> path)
+    public Vector3Iterator(Pawn pawn, Tile to, Orientation orientation, List<Tile> path)
     {
         this.pawn = pawn;
         this.to = to;
-        this.lastO = lastO;
+        this.orientation = orientation;
         this.path = path;
         this.tile = pawn.getTile();
         this.o = pawn.getOrientation();
@@ -264,7 +264,7 @@ class Vector3Iterator implements Iterator<Vector3>
     @Override
     public boolean hasNext()
     {
-        if ((tile == to) && (o == lastO))
+        if ((tile == to) && (o == orientation))
             return false;
         return true;
     }
@@ -273,8 +273,8 @@ class Vector3Iterator implements Iterator<Vector3>
     public Vector3 next()
     {
         if (tile == to) {
-            v.z = lastO.r();
-            o = lastO;
+            v.z = orientation.r();
+            o = orientation;
             return v;
         }
         Tile nextTile;

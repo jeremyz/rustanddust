@@ -179,7 +179,7 @@ public abstract class Map extends Board
     public int movePawn(Pawn pawn, Orientation o)
     {
         System.err.println("    movePawn : " + pawn.getTile() + " " + o);
-        possiblePaths.setLastOrientation(o);
+        possiblePaths.orientation = o;
         movePawn(pawn, possiblePaths, notifyDoneAnimation(pawn));
 
         return startMove(pawn);
