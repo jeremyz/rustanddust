@@ -76,15 +76,13 @@ public abstract class StateCommon implements State
     public boolean downInMap(float x, float y)
     {
         downHex = map.getHexAt(x, y);
-        if (downHex == null) return false;
-        return !downHex.isOffMap();
+        return (downHex != null);
     }
 
     public boolean upInMap(float x, float y)
     {
         upHex = map.getHexAt(x, y);
-        if (upHex == null) return false;
-        return !upHex.isOffMap();
+        return (upHex != null);
     }
 
     protected boolean hasUnit()
@@ -96,7 +94,7 @@ public abstract class StateCommon implements State
     {
         selectedHex = hex;
         selectedUnit = selectedHex.getUnit();
-        map.selectHex(selectedHex);
+        if (!hex.isOffMap()) map.selectHex(selectedHex);
         if (selectedUnit != null)
             isEnemy = ctrl.player.isEnemy(selectedUnit);
         else
