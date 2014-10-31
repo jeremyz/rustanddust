@@ -187,7 +187,7 @@ public abstract class Map extends Board
 
     public int rotatePawn(Pawn pawn, Orientation o)
     {
-        System.err.println("    rotatePawn : " + pawn.getTile() + " " +o);
+        System.err.println("    rotatePawn : " + pawn.getTile() + " " + o);
         rotatePawn(pawn, o, notifyDoneAnimation(pawn));
 
         return startMove(pawn);
