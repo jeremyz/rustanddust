@@ -158,7 +158,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHardTarget()
     {
-        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ));
+        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ) || (type == UnitType.ARTILLERY));
     }
 
     @Override
