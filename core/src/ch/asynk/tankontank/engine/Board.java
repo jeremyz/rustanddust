@@ -25,11 +25,13 @@ import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
 public abstract class Board implements Disposable
 {
+    private int cols;
+    private int rows;
     private final Tile neighbours[] = new Tile[6];
 
     public interface TileBuilder
     {
-        public Tile getNewTile(float x, float y, int col, int row);
+        public Tile getNewTile(float x, float y, int col, int row, boolean offmap);
     }
 
     public interface TileCollection extends Collection<Tile>
@@ -84,6 +86,9 @@ public abstract class Board implements Disposable
 
     protected Board(int cols, int rows)
     {
+        // add a frame of OFFMAP Tiles
+        this.cols = (cols + 2);
+        this.rows = (rows + 2);
         searchBoard = new SearchBoard(this, cols, rows);
     }
 
@@ -91,17 +96,21 @@ public abstract class Board implements Disposable
     {
         image = new Image(texture);
         this.cfg = cfg;
-        this.tiles = new Tile[cfg.cols * cfg.rows];
+        // add a frame of OFFMAP Tiles
+        this.cols = (cfg.cols + 2);
+        this.rows = (cfg.rows + 2);
+        this.tiles = new Tile[this.cols * this.rows];
         searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
 
         int idx = 0;
-        boolean evenRow = true;
-        float y = cfg.y0 - cfg.dh + cfg.s;
-        for (int i = 0; i < cfg.rows; i++) {
-            float x = cfg.x0 + cfg.dw;
+        boolean evenRow = false;
+        float y = cfg.y0 - cfg.dh + cfg.s - cfg.h;
+        for (int i = -1; i < (cfg.rows + 1); i++) {
+            float x = cfg.x0 + cfg.dw - cfg.w;
             if (!evenRow) x += cfg.dw;
-            for ( int j = 0; j < cfg.cols; j ++) {
-                this.tiles[idx] = tileBuilder.getNewTile(x, y, (j + ((i + 1) / 2)), i);
+            for ( int j = -1; j < (cfg.cols + 1); j ++) {
+                boolean offmap = ((j < 0) || (i < 0) || (j >= cfg.cols) || (i >= cfg.rows));
+                this.tiles[idx] = tileBuilder.getNewTile(x, y, (j + ((i + 1) / 2)), i, offmap);
                 idx += 1;
                 x += cfg.w;
             }
@@ -123,7 +132,7 @@ public abstract class Board implements Disposable
     public void dispose()
     {
         image.dispose();
-        for (int i = 0; i < (cfg.cols * cfg.rows); i++)
+        for (int i = 0; i < (this.cols * this.rows); i++)
             tiles[i].dispose();
         tilesToDraw.clear();
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
@@ -161,13 +170,22 @@ public abstract class Board implements Disposable
         return sides[i];
     }
 
+    public int getTileOffset(int col, int row)
+    {
+        col = (col + 1 - ((row + 1) / 2));
+        row = (row + 1);
+        if ((col < 0) || (row < 0) || (row >= this.rows) || (col >= this.cols))
+            return -1;
+
+        return (col + (row * this.cols));
+    }
+
     protected Tile getTile(int col, int row)
     {
-        int colOffset = ((row + 1) / 2);
-        if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
+        int offset = getTileOffset(col, row);
+        if (offset < 0)
             return null;
-
-        return tiles[((col - colOffset)) + (row * cfg.cols)];
+        return tiles[offset];
     }
 
     public void setAdjacentTiles(Tile tile, Tile tiles[])
@@ -417,7 +435,7 @@ public abstract class Board implements Disposable
         if (x < 0.f)
             col = -1;
 
-        int colOffset = ((row +1) / 2);
+        int colOffset = ((row + 1) / 2);
 
         // check upper boundaries
         float dy = (y - (row * cfg.h));
@@ -441,10 +459,6 @@ public abstract class Board implements Disposable
             }
         } else
             col += colOffset;
-
-        // validate hex
-        if ((col < colOffset) || (row < 0) || (row >= cfg.rows) || ((col - colOffset) >= cfg.cols))
-            return null;
 
         return getTile(col, row);
     }
