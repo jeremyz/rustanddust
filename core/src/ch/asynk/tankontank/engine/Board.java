@@ -358,13 +358,12 @@ public abstract class Board implements Disposable
     {
         removePawn(pawn);
 
+        final Tile destination = possiblePaths.to;
         AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), possiblePaths.pathSteps(0) + 2);
         seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                // FIXME pawn.getTile() is not ok
-                Vector2 center = pawn.getCenter();
-                setPawnOnto(pawn, getTileAt(center.x, center.y), pawn.getRotation());
+                setPawnOnto(pawn, destination, pawn.getRotation());
             }
         }));
         seq.addAnimation(whenDone);
