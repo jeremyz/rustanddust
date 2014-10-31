@@ -5,10 +5,10 @@ Pawn:
     -
 
 Board:
-    - support different grid direction
-        Board.Orientation offset
-        inverted even/odd row scheme
-    - merge SearchBoard with Board ??
+    - support different board layout
+        - north orientation
+        - hex orientation
+        - inverted even/odd row scheme
 
 Game:
     - End Turn button in Select State
