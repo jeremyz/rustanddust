@@ -45,3 +45,10 @@ repeat: none
   orig: 230, 240
   offset: 0, 0
   index: -1
+06_objective
+  rotate: false
+  xy: 618, 267
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1

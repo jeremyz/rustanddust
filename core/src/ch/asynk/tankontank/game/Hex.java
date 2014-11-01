@@ -28,6 +28,7 @@ public class Hex extends Tile
     public static final int MOVE        = 3;
     public static final int DIRECTIONS  = 4;
     public static final int ORIENTATION = 5;
+    public static final int OBJECTIVE   = 6;
 
     public Terrain terrain;
     public int roads;

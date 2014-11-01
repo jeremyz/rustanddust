@@ -319,6 +319,8 @@ public abstract class Map extends Board
     public void showBreakPawns()        { breakPawns.enable(Unit.MOVE, true); }
     public void hideBreakPawns()        { breakPawns.enable(Unit.MOVE, false); }
 
+    public void showObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
+    public void hideObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
 
     public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
     public void unselectHex(Hex hex)    { enableOverlayOn(hex, Hex.SELECT, false); }
