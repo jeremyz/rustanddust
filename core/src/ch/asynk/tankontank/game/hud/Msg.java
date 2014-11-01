@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.game.hud;
 
+import java.util.ArrayDeque;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -8,6 +10,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 
 public class Msg extends Bg
 {
+    class MsgInfo
+    {
+        String text;
+        float duration;
+        Position position;
+        MsgInfo(String text, float duration, Position position)
+        {
+            this.text = text;
+            this.duration = duration;
+            this.position = position;
+        }
+    }
+
     private BitmapFont font;
     private String text;
     private int padding;
@@ -16,11 +31,23 @@ public class Msg extends Bg
     private float duration;
     private float elapsed;
     private boolean visible;
+    private ArrayDeque<MsgInfo> stack;
 
     public Msg(BitmapFont font, TextureRegion region)
     {
         super(region);
+        this.visible = false;
         this.font = font;
+        this.stack = new ArrayDeque<MsgInfo>();
+    }
+
+    public void pushWrite(String text, float duration, Position position)
+    {
+        if (visible) {
+            stack.push(new MsgInfo(text, duration, position));
+            return;
+        } else
+            write(text, duration, position);
     }
 
     public void write(String text, float duration, Position position)
@@ -48,8 +75,14 @@ public class Msg extends Bg
     {
         if (!visible) return;
         elapsed += delta;
-        if (elapsed >= duration)
-            visible = false;
+        if (elapsed >= duration) {
+           visible = false;
+           if (stack.size() > 0) {
+               MsgInfo info = stack.pop();
+               System.err.println(info);
+               write(info.text, info.duration, info.position);
+           }
+        }
     }
 
     @Override
