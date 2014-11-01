@@ -48,6 +48,11 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
         flag.dispose();
     }
 
+    public int getTurn()
+    {
+        return turn;
+    }
+
     public boolean apExhausted()
     {
         return (apSpent == actionPoints);
