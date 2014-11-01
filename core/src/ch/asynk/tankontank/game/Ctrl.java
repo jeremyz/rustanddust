@@ -15,6 +15,7 @@ import ch.asynk.tankontank.game.states.StateAnimation;
 public class Ctrl implements Disposable
 {
     private final TankOnTank game;
+    private final Battle battle;
 
     public Map map;
     public Hud hud;
@@ -37,6 +38,7 @@ public class Ctrl implements Disposable
     public Ctrl(final TankOnTank game, final Battle battle)
     {
         this.game = game;
+        this.battle = battle;
         this.cfg = game.config;
         game.ctrl = this;
 
