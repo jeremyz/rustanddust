@@ -63,7 +63,6 @@ public class SearchBoard
         this.los = new ArrayList<Node>(10);
     }
 
-    // FIXME be carefull with this if I expand the size of the board to be bigger than the playable size
     private boolean inMap(int col, int row)
     {
         if ((row < 0) || (row >= rows))

@@ -53,7 +53,6 @@ public class StateRotate extends StateCommon
     {
         if (rotationSet) return;
 
-        // FIXME: out of board Orientation ???
         o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
 
         if (o == Orientation.KEEP) return;

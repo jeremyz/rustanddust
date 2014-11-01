@@ -108,7 +108,6 @@ public abstract class Board implements Disposable
             evenRow = !evenRow;
         }
 
-        // TODO .sides = new Orientation[6]; parametrized by Config ?
         this.sides = new Orientation[6];
         sides[0] = Orientation.NORTH;
         sides[1] = Orientation.NORTH_EAST;
