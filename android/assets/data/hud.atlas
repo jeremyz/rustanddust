@@ -54,126 +54,126 @@ back
   index: -1
 btn-attack-down
   rotate: false
-  xy: 734, 192
+  xy: 714, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-off
   rotate: false
-  xy: 632, 68
+  xy: 632, 92
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-on
   rotate: false
-  xy: 734, 130
+  xy: 776, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-down
   rotate: false
-  xy: 796, 192
+  xy: 632, 30
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-off
   rotate: false
-  xy: 632, 6
+  xy: 838, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-on
   rotate: false
-  xy: 694, 68
+  xy: 900, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-down
   rotate: false
-  xy: 796, 130
+  xy: 962, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-off
   rotate: false
-  xy: 858, 192
+  xy: 714, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-on
   rotate: false
-  xy: 694, 6
+  xy: 776, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-down
   rotate: false
-  xy: 756, 68
+  xy: 838, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-off
   rotate: false
-  xy: 858, 130
+  xy: 900, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-on
   rotate: false
-  xy: 920, 192
+  xy: 962, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-down
   rotate: false
-  xy: 756, 6
+  xy: 694, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-off
   rotate: false
-  xy: 818, 68
+  xy: 756, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-on
   rotate: false
-  xy: 920, 130
+  xy: 818, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-down
   rotate: false
-  xy: 818, 6
+  xy: 880, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-off
   rotate: false
-  xy: 880, 68
+  xy: 942, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-on
   rotate: false
-  xy: 880, 6
+  xy: 694, 6
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
@@ -187,9 +187,16 @@ disabled
   index: -1
 ge-flag
   rotate: false
-  xy: 632, 192
-  size: 100, 60
-  orig: 100, 60
+  xy: 632, 204
+  size: 80, 48
+  orig: 80, 48
+  offset: 0, 0
+  index: -1
+reinforcement
+  rotate: false
+  xy: 756, 6
+  size: 60, 60
+  orig: 60, 60
   offset: 0, 0
   index: -1
 turn_back
@@ -208,8 +215,8 @@ turn_front
   index: -1
 us-flag
   rotate: false
-  xy: 632, 130
-  size: 100, 60
-  orig: 100, 60
+  xy: 632, 154
+  size: 80, 48
+  orig: 80, 48
   offset: 0, 0
   index: -1
