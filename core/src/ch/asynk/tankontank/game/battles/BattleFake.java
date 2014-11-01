@@ -49,8 +49,8 @@ public class BattleFake extends BattleCommon
             usPlayer = b;
             gePlayer = a;
         }
-        Orientation o = Orientation.NORTH;
 
+        Orientation o = Orientation.NORTH;
         gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHex(4, 7), o));
         gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_TIGER), map.getHex(3, 6), o));
         gePlayer.addUnit(map.setPawnOnto(factory.getUnit(UnitId.GE_PANZER_IV), map.getHex(3, 5), o));
