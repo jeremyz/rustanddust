@@ -23,10 +23,10 @@ public class StateBreak extends StateCommon
     public void leave(StateType nextState)
     {
         map.hideBreakPawns();
-        map.unselectHex(to);
+        map.hideMove(to);
         map.hideDirections(to);
         map.hideOrientation(to);
-        if (activeUnit != null) map.unselectHex(activeUnit.getHex());
+        if (activeUnit != null) map.hideMove(activeUnit.getHex());
     }
 
     @Override
@@ -41,8 +41,8 @@ public class StateBreak extends StateCommon
             Unit unit = upHex.getUnit();
             if (map.breakPawns.contains(unit)) {
                 activeUnit = unit;
-                map.selectHex(upHex);
-                map.selectHex(to);
+                map.showMove(upHex);
+                map.showMove(to);
                 map.showDirections(to);
                 map.hideBreakPawns();
             }
