@@ -91,14 +91,20 @@ public class Hud implements Disposable
         msg.draw(batch);
     }
 
-    public void notify(String s)
+    public void pushNotify(String s)
     {
-        msg.write(s, 1, Position.MIDDLE_CENTER);
+        notify(s, 1, Position.MIDDLE_CENTER, true);
     }
 
-    public void notify(String s, Position position)
+    public void notify(String s)
     {
-        msg.write(s, 1, position);
+        notify(s, 1, Position.MIDDLE_CENTER, false);
+    }
+
+    public void notify(String s, float duration, Position position, boolean push)
+    {
+        if (push) msg.pushWrite(s, duration, position);
+        else msg.write(s, 1, position);
     }
 
     private float setButton(Button btn, float x, float y)

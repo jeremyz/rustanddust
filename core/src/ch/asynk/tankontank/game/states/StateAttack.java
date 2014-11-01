@@ -87,8 +87,10 @@ public class StateAttack extends StateCommon
         if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
             ctrl.hud.notify(selectedUnit.attack.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
-            if (map.breakPawns.size() > 0)
+            if (map.breakPawns.size() > 0) {
+                ctrl.hud.pushNotify("Break move possible");
                 setNextState(StateType.BREAK);
+            }
         } else
             ctrl.hud.notify(selectedUnit.attack.calculus + " : failure");
 
