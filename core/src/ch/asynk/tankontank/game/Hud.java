@@ -13,6 +13,7 @@ import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.Msg;
+import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -92,7 +93,12 @@ public class Hud implements Disposable
 
     public void notify(String s)
     {
-        msg.write(s, 1);
+        msg.write(s, 1, Position.MIDDLE_CENTER);
+    }
+
+    public void notify(String s, Position position)
+    {
+        msg.write(s, 1, position);
     }
 
     private float setButton(Button btn, float x, float y)

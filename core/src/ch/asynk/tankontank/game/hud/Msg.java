@@ -23,10 +23,12 @@ public class Msg extends Bg
         this.font = font;
     }
 
-    public void write(String text, float duration)
+    public void write(String text, float duration, Position position)
     {
         TextBounds b = font.getBounds(text);
-        write(text, ((Gdx.graphics.getWidth() - b.width) / 2), ((Gdx.graphics.getHeight() - b.height) / 2), duration, 10);
+        float w = b.width + (2 * padding);
+        float h = b.height + (2 * padding);
+        write(text, position.getX(w), position.getY(h), duration, 10);
     }
 
     public void write(String text, float x, float y, float duration, int padding)
