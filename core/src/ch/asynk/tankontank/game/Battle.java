@@ -14,5 +14,5 @@ public interface Battle
 
     public void setup(Map map, Player firstPlayer, Player secondPlayer);
 
-    // public boolean checkVictory(Map map, Player player);
+    public boolean checkVictory(Ctrl ctrl);
 }
