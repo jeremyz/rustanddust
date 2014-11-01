@@ -299,16 +299,16 @@ public abstract class Map extends Board
 
     public void togglePathOverlay(Hex hex)
     {
-        boolean enable= !hex.isOverlayEnabled(Hex.MOVE2);
-        enableOverlayOn(hex, Hex.MOVE2, enable);
+        boolean enable= !hex.isOverlayEnabled(Hex.MOVE);
+        enableOverlayOn(hex, Hex.MOVE, enable);
     }
 
-    public void showPossibleMoves()     { possibleMoves.enable(Hex.MOVE1, true); }
-    public void hidePossibleMoves()     { possibleMoves.enable(Hex.MOVE1, false); }
-    public void showPossiblePaths()     { possiblePaths.enable(Hex.MOVE1, true); }
-    public void hidePossiblePaths()     { possiblePaths.enable(Hex.MOVE1, false); }
-    public void showFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE2, true); }
-    public void hideFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE2, false); }
+    public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
+    public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
+    public void showPossiblePaths()     { possiblePaths.enable(Hex.AREA, true); }
+    public void hidePossiblePaths()     { possiblePaths.enable(Hex.AREA, false); }
+    public void showFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
+    public void hideFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
 
     public void showMoveablePawns()     { moveablePawns.enable(Unit.MOVE, true); }
     public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
@@ -323,12 +323,10 @@ public abstract class Map extends Board
 
     public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
     public void unselectHex(Hex hex)    { enableOverlayOn(hex, Hex.SELECT, false); }
+    public void showMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, true); }
+    public void hideMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, false); }
     public void showDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, true); }
     public void hideDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
-    public void showTarget(Hex hex)     { enableOverlayOn(hex, Hex.TARGET, true); }
-    public void hideTarget(Hex hex)     { enableOverlayOn(hex, Hex.TARGET, false); }
-    public void showAssist(Hex hex)     { enableOverlayOn(hex, Hex.ASSIST, true); }
-    public void hideAssist(Hex hex)     { enableOverlayOn(hex, Hex.ASSIST, false); }
     public void showOrientation(Hex hex, Orientation o) { enableOverlayOn(hex, Hex.ORIENTATION, o, true); }
     public void hideOrientation(Hex hex) { enableOverlayOn(hex, Hex.ORIENTATION, false); }
 }

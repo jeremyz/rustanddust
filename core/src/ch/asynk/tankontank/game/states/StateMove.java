@@ -42,7 +42,6 @@ public class StateMove extends StateCommon
         map.hidePossibleMoves();
         map.unselectHex(activeUnit.getHex());
         if (to != null) {
-            map.unselectHex(to);
             map.hideFinalPath(to);
         }
 
@@ -99,7 +98,6 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        map.hideAssist(selectedHex);
         map.hideMoveablePawns();
     }
 
@@ -110,7 +108,6 @@ public class StateMove extends StateCommon
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
         map.selectHex(hex);
-        map.hideAssist(hex);
         activeUnit.showMoveable();
         map.hidePossibleMoves();
         map.collectPossibleMoves(activeUnit);
@@ -121,7 +118,7 @@ public class StateMove extends StateCommon
     {
         to = upHex;
         int s = map.collectPossiblePaths(activeUnit, to);
-        map.selectHex(to);
+        map.showMove(to);
         map.hidePossibleMoves();
         map.showPossiblePaths();
         return s;

@@ -24,12 +24,10 @@ public class Hex extends Tile
 
     public static final int FOG         = 0;
     public static final int SELECT      = 1;
-    public static final int MOVE1       = 2;
-    public static final int TARGET      = 3;
-    public static final int MOVE2       = 4;
-    public static final int DIRECTIONS  = 5;
-    public static final int ASSIST      = 6;
-    public static final int ORIENTATION = 7;
+    public static final int AREA        = 2;
+    public static final int MOVE        = 3;
+    public static final int DIRECTIONS  = 4;
+    public static final int ORIENTATION = 5;
 
     public Terrain terrain;
     public int roads;

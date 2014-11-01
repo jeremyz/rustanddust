@@ -25,8 +25,6 @@ public class StateRotate extends StateCommon
         } else {
             if (to == null)
                 System.err.println("to is null but should not be");
-            // show final path
-            map.selectHex(to);
             map.showFinalPath(to);
         }
 
@@ -39,7 +37,6 @@ public class StateRotate extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        map.unselectHex(to);
         map.unselectHex(activeUnit.getHex());
         map.hideFinalPath(to);
         map.hideDirections(to);
@@ -96,7 +93,6 @@ public class StateRotate extends StateCommon
     private void hideAssists()
     {
         map.hideMoveablePawns();
-        map.hideAssist(selectedHex);
     }
 
     private void doRotation(Orientation o)
