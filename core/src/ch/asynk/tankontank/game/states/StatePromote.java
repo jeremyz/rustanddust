@@ -11,6 +11,7 @@ public class StatePromote extends StateCommon
         ctrl.hud.hide();
         Unit p = ctrl.player.promote(selectedUnit);
         if (p != null) {
+            ctrl.hud.notify(p + " has been promoted");
             map.promote(selectedUnit, p);
         }
         done();

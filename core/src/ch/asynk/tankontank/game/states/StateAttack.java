@@ -54,6 +54,7 @@ public class StateAttack extends StateCommon
 
         // activeUnit is the target
         if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
+            ctrl.hud.notify("Attack " + unit);
             map.hidePossibleTargets();
             to = upHex;
             activeUnit = unit;
@@ -64,7 +65,10 @@ public class StateAttack extends StateCommon
         }
 
         if ((activeUnit != null) && map.attackAssists.contains(unit)) {
-            map.toggleAttackAssist(unit);
+            if(map.toggleAttackAssist(unit))
+                ctrl.hud.notify(unit + " will fire");
+            else
+                ctrl.hud.notify(unit + " wont fire");
         }
     }
 
@@ -80,13 +84,13 @@ public class StateAttack extends StateCommon
     {
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
-        System.err.print("  attack (" + selectedHex.getCol() + ";" + selectedHex.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
         if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
+            ctrl.hud.notify(selectedUnit.attack.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0)
                 setNextState(StateType.BREAK);
-        }
-
+        } else
+            ctrl.hud.notify(selectedUnit.attack.calculus + " : failure");
 
         activeUnit.showTarget();
         ctrl.setState(StateType.ANIMATION);

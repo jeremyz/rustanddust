@@ -103,6 +103,7 @@ public class StateRotate extends StateCommon
     {
         if (!rotationSet) return;
 
+        ctrl.hud.notify("Move " + activeUnit);
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
             if (map.rotatePawn(activeUnit, o) > 0)

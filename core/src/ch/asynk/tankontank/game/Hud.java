@@ -188,8 +188,10 @@ public class Hud implements Disposable
             ctrl.setState(State.StateType.ATTACK);
         else if (btn == checkBtn)
             ctrl.done();
-        else if (btn == cancelBtn)
+        else if (btn == cancelBtn) {
+            notify("Action canceled");
             ctrl.abort();
+        }
 
         btn = null;
 
