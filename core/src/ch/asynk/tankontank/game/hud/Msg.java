@@ -33,6 +33,16 @@ public class Msg extends Bg
     private boolean visible;
     private ArrayDeque<MsgInfo> stack;
 
+    public float getX()
+    {
+        return x;
+    }
+
+    public float getY()
+    {
+        return y;
+    }
+
     public Msg(BitmapFont font, TextureRegion region)
     {
         super(region);
@@ -56,6 +66,23 @@ public class Msg extends Bg
         float w = b.width + (2 * padding);
         float h = b.height + (2 * padding);
         write(text, position.getX(w), position.getY(h), duration, 10);
+    }
+
+    public void setPosition(float x, float y, int padding)
+    {
+        this.x = x;
+        this.y = y;
+        this.padding = padding;
+    }
+
+    public void write(String text, float duration)
+    {
+        this.text = text;
+        this.duration = duration;
+        this.visible = true;
+        this.elapsed = 0f;
+        TextBounds b = font.getBounds(text);
+        set(x, y, (b.width + (padding * 2)), (b.height + (padding * 2)));
     }
 
     public void write(String text, float x, float y, float duration, int padding)
