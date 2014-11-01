@@ -24,6 +24,11 @@ public abstract class Player
         this.reinforcement = new ArrayList<Pawn>(n);
     }
 
+    public Faction getFaction()
+    {
+        return faction;
+    }
+
     public int unitsLeft()
     {
         return (units.size() + reinforcement.size());
