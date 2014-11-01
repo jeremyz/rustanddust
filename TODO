@@ -11,7 +11,9 @@ Board:
         - inverted even/odd row scheme
 
 Game:
+    - animated selected Hex
+    - promote animation
+    - Ace overlay -> may reroll the dice
     - End Turn button in Select State
-    - Ace -> may reroll the dice
     - add options to hide moves/targets/assists even in action
     - HUD position left/right
