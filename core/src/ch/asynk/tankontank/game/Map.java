@@ -144,16 +144,18 @@ public abstract class Map extends Board
         return s;
     }
 
-    public void toggleAttackAssist(Unit unit)
+    public boolean toggleAttackAssist(Unit unit)
     {
         if (activatedPawns.contains(unit)) {
             activatedPawns.remove(unit);
             unit.hideAttack();
             unit.showAttackAssist();
+            return false;
         } else {
             activatedPawns.add(unit);
             unit.showAttack();
             unit.hideAttackAssist();
+            return true;
         }
     }
 
