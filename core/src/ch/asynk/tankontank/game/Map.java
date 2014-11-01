@@ -314,9 +314,9 @@ public abstract class Map extends Board
     public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
     public void showPossibleTargets()   { possibleTargets.enable(Unit.TARGET, true); }
     public void hidePossibleTargets()   { possibleTargets.enable(Unit.TARGET, false); }
-    public void showAttackAssists()     { attackAssists.enable(Unit.ATTACK_ASSIST, true); }
-    public void hideAttackAssists()     { attackAssists.enable(Unit.ATTACK, false);
-                                          attackAssists.enable(Unit.ATTACK_ASSIST, false); }
+    public void showAttackAssists()     { attackAssists.enable(Unit.MAY_FIRE, true); }
+    public void hideAttackAssists()     { attackAssists.enable(Unit.FIRE, false);
+                                          attackAssists.enable(Unit.MAY_FIRE, false); }
     public void showBreakPawns()        { breakPawns.enable(Unit.MOVE, true); }
     public void hideBreakPawns()        { breakPawns.enable(Unit.MOVE, false); }
 

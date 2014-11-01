@@ -11,9 +11,9 @@ import ch.asynk.tankontank.engine.Orientation;
 public class Unit extends HeadedPawn
 {
     public static final int MOVE = 0;
-    public static final int ATTACK = 1;
-    public static final int TARGET = 2;
-    public static final int ATTACK_ASSIST = 3;
+    public static final int TARGET = 1;
+    public static final int FIRE = 2;
+    public static final int MAY_FIRE = 3;
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -232,8 +232,8 @@ public class Unit extends HeadedPawn
     public void hideMoveable()      { enableOverlay(MOVE, false); }
     public void showTarget()        { enableOverlay(TARGET, true); }
     public void hideTarget()        { enableOverlay(TARGET, false); }
-    public void showAttack()        { enableOverlay(ATTACK, true); }
-    public void hideAttack()        { enableOverlay(ATTACK, false); }
-    public void showAttackAssist()  { enableOverlay(ATTACK_ASSIST, true); }
-    public void hideAttackAssist()  { enableOverlay(ATTACK_ASSIST, false); }
+    public void showAttack()        { enableOverlay(FIRE, true); }
+    public void hideAttack()        { enableOverlay(FIRE, false); }
+    public void showAttackAssist()  { enableOverlay(MAY_FIRE, true); }
+    public void hideAttackAssist()  { enableOverlay(MAY_FIRE, false); }
 }
