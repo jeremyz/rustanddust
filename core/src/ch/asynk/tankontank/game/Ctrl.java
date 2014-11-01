@@ -60,6 +60,7 @@ public class Ctrl implements Disposable
         this.hud = new Hud(this, game);
 
         player.turnStart();
+        this.hud.update();
     }
 
     @Override
@@ -104,6 +105,7 @@ public class Ctrl implements Disposable
         player = opponent;
         opponent = tmp;
         player.turnStart();
+        hud.update();
         hud.notify(player.getName() + "'s turn");
     }
 
@@ -111,6 +113,7 @@ public class Ctrl implements Disposable
     {
         if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
+            hud.update();
         }
         if (player.apExhausted())
             nextPlayer();

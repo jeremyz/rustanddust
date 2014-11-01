@@ -91,9 +91,9 @@ public class Factory implements Board.TileBuilder, Disposable
     public Player getPlayer(Army army)
     {
         if (army == Army.US)
-            return new Player(game, Army.US, game.skin.getFont("default-font"), hudAtlas, "us-flag", 10);
+            return new Player(game, Army.US, 10);
         else
-            return new Player(game, Army.GE, game.skin.getFont("default-font"), hudAtlas, "ge-flag", 10);
+            return new Player(game, Army.GE, 10);
     }
 
     public Unit getUnit(UnitId id)

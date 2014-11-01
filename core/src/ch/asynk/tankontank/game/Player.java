@@ -2,20 +2,10 @@ package ch.asynk.tankontank.game;
 
 import java.util.Random;
 
-import com.badlogic.gdx.utils.Disposable;
-
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
-import ch.asynk.tankontank.engine.gfx.Image;
-import ch.asynk.tankontank.engine.gfx.Drawable;
-import ch.asynk.tankontank.game.hud.Msg;
 
-public class Player extends ch.asynk.tankontank.engine.Player implements Drawable, Disposable
+public class Player extends ch.asynk.tankontank.engine.Player
 {
     private static final float MOVE_TIME = 0.4f;
 
@@ -24,28 +14,23 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
     private int turn;
     private int apSpent;
     private int actionPoints;
-    private Image flag;
-    private Msg status;
 
-    public Player(final TankOnTank game, Army army, BitmapFont font, TextureAtlas atlas, String name, int n)
+    public Player(final TankOnTank game, Army army, int n)
     {
         super(army, n);
         this.turn = 0;
         this.actionPoints = 0;
-        this.flag = new Image(atlas.findRegion(name));
-        this.status = new Msg(font, atlas.findRegion("disabled"));
     }
 
     public String toString()
     {
         return faction + " AP: " + actionPoints +
-            " units:" + units.size() + " casualties:" + casualties.size() + " reinforcement:" + reinforcement.size();
+            " units:" + units.size() + " casualties:" + casualties.size();
     }
 
-    @Override
-    public void dispose()
+    public String getStatus()
     {
-        flag.dispose();
+        return "Turn: " + turn + " AP: " + (apSpent + 1);
     }
 
     public int getTurn()
@@ -61,7 +46,6 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
     public void burnDownOneAp()
     {
         apSpent += 1;
-        updateInfo();
         if (apSpent > actionPoints) System.err.println("ERROR: spent too much AP, please report");
     }
 
@@ -77,7 +61,6 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
         for (Pawn pawn : units)
             pawn.reset();
         computeActionPoints();
-        updateInfo();
     }
 
     public int d6()
@@ -94,11 +77,6 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
                 this.actionPoints += 1;
         }
         apSpent = 0;
-    }
-
-    private void updateInfo()
-    {
-        status.write("Turn: " + turn + " AP: " + (apSpent + 1), flag.getX(), (flag.getY() - 40), 0, 10);
     }
 
     public boolean canPromote(Pawn pawn)
@@ -121,28 +99,5 @@ public class Player extends ch.asynk.tankontank.engine.Player implements Drawabl
             }
         }
         return null;
-    }
-
-    public boolean contains(float x, float y)
-    {
-        return flag.contains(x, y);
-    }
-
-    public void setTopLeft(float x, float y)
-    {
-        flag.setPosition(x, (y - flag.getHeight()));
-    }
-
-    @Override
-    public void draw(Batch batch)
-    {
-        flag.draw(batch);
-        status.draw(batch);
-    }
-
-    @Override
-    public void drawDebug(ShapeRenderer debugShapes)
-    {
-        flag.drawDebug(debugShapes);
     }
 }

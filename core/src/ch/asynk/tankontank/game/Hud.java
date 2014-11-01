@@ -19,13 +19,16 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class Hud implements Disposable
 {
-    private static final float OFFSET = 15f;
+    private static final float OFFSET =10f;
     private static final float PADDING = 5f;
 
     private final TankOnTank game;
     private final Ctrl ctrl;
 
-    private Bg bg;
+    private Bg actionsBg;
+    private Msg msg;
+
+    private Button btn;
     public Button moveBtn;
     public Button rotateBtn;
     public Button promoteBtn;
@@ -33,8 +36,12 @@ public class Hud implements Disposable
     public Button checkBtn;
     public Button cancelBtn;
 
-    private Button btn;
-    private Msg msg;
+    private Image flag;
+    private Image usFlag;
+    private Image geFlag;
+    private Msg status;
+    private Image reinforcement;
+
 
     private Vector2 corner;
 
@@ -53,11 +60,30 @@ public class Hud implements Disposable
         checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
 
-        bg = new Bg(atlas.findRegion("disabled"));
+        actionsBg = new Bg(atlas.findRegion("disabled"));
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
-        ctrl.player.setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
-        ctrl.opponent.setTopLeft(OFFSET, (Gdx.graphics.getHeight() - OFFSET));
+        usFlag = new Image(atlas.findRegion("us-flag"));
+        geFlag = new Image(atlas.findRegion("ge-flag"));
+        status = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
+        reinforcement= new Image(atlas.findRegion("reinforcement"));
+
+        float x = OFFSET;
+        float y = (Gdx.graphics.getHeight() - OFFSET);
+        usFlag.setPosition(x, (y - usFlag.getHeight()));
+        geFlag.setPosition(x, (y - geFlag.getHeight()));
+        status.setTopLeft((x + usFlag.getWidth() + 10), y, 10);
+        reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
+    }
+
+    public void update()
+    {
+        status.write(ctrl.player.getStatus(), 0);
+        if (ctrl.player.getFaction() == Army.GE)
+            flag = geFlag;
+        else
+            flag = usFlag;
+        // TODO update reinforcement status
     }
 
     @Override
@@ -69,8 +95,13 @@ public class Hud implements Disposable
         attackBtn.dispose();
         checkBtn.dispose();
         cancelBtn.dispose();
-        bg.dispose();
+        actionsBg.dispose();
         msg.dispose();
+
+        usFlag.dispose();
+        geFlag.dispose();
+        status.dispose();
+        reinforcement.dispose();
     }
 
     public void animate(float delta)
@@ -80,8 +111,11 @@ public class Hud implements Disposable
 
     public void draw(Batch batch)
     {
-        ctrl.player.draw(batch);
-        bg.draw(batch);
+        flag.draw(batch);
+        status.draw(batch);
+        reinforcement.draw(batch);
+
+        actionsBg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
         if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
         if (promoteBtn.visible) promoteBtn.getImage().draw(batch);
@@ -133,7 +167,7 @@ public class Hud implements Disposable
         if (check)  y = setButton(checkBtn, x, y);
         else checkBtn.hide();
 
-        bg.set((x - PADDING), (corner.y - PADDING), (checkBtn.getWidth() + (2 * PADDING)), (y - corner.y));
+        actionsBg.set((x - PADDING), (corner.y - PADDING), (checkBtn.getWidth() + (2 * PADDING)), (y - corner.y));
     }
 
     public void hide()
@@ -144,13 +178,14 @@ public class Hud implements Disposable
         attackBtn.hide();
         checkBtn.hide();
         cancelBtn.hide();
-        bg.set(0, 0, 0, 0);
+        actionsBg.set(0, 0, 0, 0);
     }
 
     public boolean touchDown(float x, float y)
     {
-        if (ctrl.player.contains(x,y)) return true;
-        if (!bg.contains(x,y)) return false;
+        if (flag.contains(x,y)) return true;
+        if (reinforcement.contains(x,y)) return true;
+        if (!actionsBg.contains(x,y)) return false;
 
         btn = null;
 
@@ -178,11 +213,17 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (ctrl.player.contains(x,y)) {
+        if (flag.contains(x,y)) {
             ctrl.endPlayerTurn();
             return true;
         }
-        if (!bg.contains(x,y)) return false;
+
+        if (reinforcement.contains(x,y)) {
+            System.err.println("TODO reinforcement");
+            return true;
+        }
+
+        if (!actionsBg.contains(x,y)) return false;
 
         if (btn == moveBtn)
             ctrl.setState(State.StateType.MOVE);

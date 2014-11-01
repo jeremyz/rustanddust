@@ -68,10 +68,11 @@ public class Msg extends Bg
         write(text, position.getX(w), position.getY(h), duration, 10);
     }
 
-    public void setPosition(float x, float y, int padding)
+    public void setTopLeft(float x, float y, int padding)
     {
+        TextBounds b = font.getBounds("A");
         this.x = x;
-        this.y = y;
+        this.y =  (y - (2 * padding) - b.height);
         this.padding = padding;
     }
 
