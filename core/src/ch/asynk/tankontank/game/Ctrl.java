@@ -97,10 +97,10 @@ public class Ctrl implements Disposable
 
     private void nextPlayer()
     {
-        if (battle.checkVictory(this)) {
-            // TODO goto victory State
-        }
         player.turnEnd();
+        if (battle.checkVictory(this)) {
+            System.err.println("TODO " + player + " has won !!!!!!!!!!!");
+        }
         Player tmp = player;
         player = opponent;
         opponent = tmp;
