@@ -31,6 +31,7 @@ public abstract class Pawn implements Moveable, Disposable
         Pawn target;
         boolean isClear;
         boolean isFlank;
+        public String calculus;
     }
 
     private static final float MOVE_TIME = 0.4f;

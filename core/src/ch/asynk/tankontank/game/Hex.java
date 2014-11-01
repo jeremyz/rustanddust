@@ -110,7 +110,7 @@ public class Hex extends Tile
     }
 
     @Override
-    public int defenseFor(Pawn target, Board.PawnCollection foes)
+    public int defenseFor(Pawn pawn, Pawn target, Board.PawnCollection foes)
     {
         Unit u = (Unit) target;
         boolean terrainBonus = true;
@@ -139,7 +139,7 @@ public class Hex extends Tile
                 break;
         }
 
-        System.err.println(" >= " + def + " + " + tdef);
+        pawn.attack.calculus += " >= " + def + " + " + tdef;
         return (def + tdef);
     }
 }

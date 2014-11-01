@@ -81,7 +81,7 @@ public class StateAttack extends StateCommon
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
         System.err.print("  attack (" + selectedHex.getCol() + ";" + selectedHex.getRow() + ") -> (" + to.getCol() + ";" + to.getRow() + ") : 2D6 -> (" + d1 + " + " + d2 + ")");
-        if (map.attackPawn(selectedUnit, activeUnit, d1 + d2)) {
+        if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0)
                 setNextState(StateType.BREAK);

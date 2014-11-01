@@ -232,14 +232,17 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    public boolean attackPawn(Pawn pawn, final Pawn target, int dice)
+    public boolean attackPawn(Pawn pawn, final Pawn target, int d1, int d2)
     {
         int activatedUnits = activatedPawns.size();
+        int dice = d1 + d2;
 
         final boolean success;
         if (dice == 2) {
+            pawn.attack.calculus = "2D6 -> (1 + 1) automatic failure";
             success = false;
         } else if (dice == 12) {
+            pawn.attack.calculus = "2D6 -> (6 + 6) automatic success";
             success = true;
         } else {
             int flankAttacks = 0;
@@ -249,9 +252,11 @@ public abstract class Map extends Board
                     break;
                 }
             }
-            System.err.print(" + " + activatedUnits + " + " + flankAttacks);
-            success = ((dice + activatedUnits + flankAttacks) >= target.getTile().defenseFor(target, activatedPawns));
+            pawn.attack.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
+            int def = target.getTile().defenseFor(pawn, target, activatedPawns);
+            success = ((dice + activatedUnits + flankAttacks) >= def);
         }
+        System.err.println(pawn + "  attacks " + target + " : " + pawn.attack.calculus);
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
