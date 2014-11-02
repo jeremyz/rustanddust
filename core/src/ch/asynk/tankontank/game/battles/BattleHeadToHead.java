@@ -12,9 +12,9 @@ import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.engine.Orientation;
 
-public class BattleFake extends BattleCommon
+public class BattleHeadToHead extends BattleCommon
 {
-    public BattleFake(Factory factory)
+    public BattleHeadToHead(Factory factory)
     {
         super(factory);
         randomizeArmies();
