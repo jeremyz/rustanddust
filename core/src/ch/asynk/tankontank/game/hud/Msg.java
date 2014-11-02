@@ -33,6 +33,21 @@ public class Msg extends Bg
     private boolean visible;
     private ArrayDeque<MsgInfo> stack;
 
+    public Msg(BitmapFont font, TextureRegion region)
+    {
+        super(region);
+        this.visible = false;
+        this.font = font;
+        this.stack = new ArrayDeque<MsgInfo>();
+    }
+
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+        font.dispose();
+    }
+
     public float getX()
     {
         return x;
@@ -41,14 +56,6 @@ public class Msg extends Bg
     public float getY()
     {
         return y;
-    }
-
-    public Msg(BitmapFont font, TextureRegion region)
-    {
-        super(region);
-        this.visible = false;
-        this.font = font;
-        this.stack = new ArrayDeque<MsgInfo>();
     }
 
     public void pushWrite(String text, float duration, Position position)
