@@ -3,11 +3,13 @@ package ch.asynk.tankontank.engine.gfx;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Image extends Sprite implements Drawable, Disposable
 {
+    public boolean visible ;
     private Texture texture;
 
     protected Image()
@@ -18,12 +20,14 @@ public class Image extends Sprite implements Drawable, Disposable
     {
         super(texture);
         this.texture = texture;
+        this.visible = true;
     }
 
     public Image(TextureRegion region)
     {
         super(region);
         this.texture = null;
+        this.visible = true;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class Image extends Sprite implements Drawable, Disposable
 
     public boolean contains(float x, float y)
     {
+        if (!visible) return false;
         return ((x >= getX()) && (y >= getY()) && (x <= (getX() + getWidth())) && (y <= (getY() + getHeight())));
     }
 
@@ -49,8 +54,16 @@ public class Image extends Sprite implements Drawable, Disposable
     }
 
     @Override
+    public void draw(Batch batch)
+    {
+        if (!visible) return;
+        super.draw(batch);
+    }
+
+    @Override
     public void drawDebug(ShapeRenderer shapes)
     {
+        if (!visible) return;
         shapes.rect(getX(), getY(), (getWidth() / 2f), (getHeight() / 2f), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }
