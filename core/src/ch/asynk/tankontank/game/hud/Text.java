@@ -30,6 +30,18 @@ public class Text implements Drawable, Disposable
         font.dispose();
     }
 
+    public float getWidth()
+    {
+        TextBounds b = font.getBounds(text);
+        return b.width;
+    }
+
+    public float getHeight()
+    {
+        TextBounds b = font.getBounds(text);
+        return b.height;
+    }
+
     public void setPosition(float x, float y)
     {
         TextBounds b = font.getBounds(text);
