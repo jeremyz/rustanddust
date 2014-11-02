@@ -28,9 +28,9 @@ public class Player extends ch.asynk.tankontank.engine.Player
             " units:" + units.size() + " casualties:" + casualties.size();
     }
 
-    public String getStatus()
+    public int getAp()
     {
-        return "Turn: " + turn + " AP: " + (apSpent + 1);
+        return (apSpent + 1);
     }
 
     public int getTurn()
