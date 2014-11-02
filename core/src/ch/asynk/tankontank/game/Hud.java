@@ -40,6 +40,8 @@ public class Hud implements Disposable
     private Image flag;
     private Image usFlag;
     private Image geFlag;
+    private Image turns;
+    private Text turnsText;
     private Image aps;
     private Text apsText;
     private Image reinforcement;
@@ -67,6 +69,8 @@ public class Hud implements Disposable
 
         usFlag = new Image(atlas.findRegion("us-flag"));
         geFlag = new Image(atlas.findRegion("ge-flag"));
+        turns = new Image(atlas.findRegion("turns"));
+        turnsText = new Text(game.skin.getFont("default-font"), "0");
         aps = new Image(atlas.findRegion("aps"));
         apsText = new Text(game.skin.getFont("default-font"), "0");
         reinforcement= new Image(atlas.findRegion("reinforcement"));
@@ -75,13 +79,17 @@ public class Hud implements Disposable
         float y = (Gdx.graphics.getHeight() - OFFSET);
         usFlag.setPosition(x, (y - usFlag.getHeight()));
         geFlag.setPosition(x, (y - geFlag.getHeight()));
-        aps.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
+        turns.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
+        turnsText.setPosition((turns.getX() + ((turns.getWidth() - turnsText.getWidth()) / 2)),
+                (turns.getY() + ((turns.getHeight() - turnsText.getHeight()) / 2)));
+        aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
         apsText.setPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
     }
 
     public void update()
     {
+        turnsText.write("" + ctrl.player.getTurn());
         apsText.write("" + ctrl.player.getAp());
         if (ctrl.player.getFaction() == Army.GE)
             flag = geFlag;
@@ -102,6 +110,8 @@ public class Hud implements Disposable
         actionsBg.dispose();
         msg.dispose();
 
+        turns.dispose();
+        turnsText.dispose();
         aps.dispose();
         apsText.dispose();
         usFlag.dispose();
@@ -117,6 +127,8 @@ public class Hud implements Disposable
     public void draw(Batch batch)
     {
         flag.draw(batch);
+        turns.draw(batch);
+        turnsText.draw(batch);
         aps.draw(batch);
         apsText.draw(batch);
         reinforcement.draw(batch);
