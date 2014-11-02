@@ -192,6 +192,13 @@ turn_front
   orig: 124, 124
   offset: 0, 0
   index: -1
+turns
+  rotate: false
+  xy: 442, 80
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 us-flag
   rotate: false
   xy: 380, 154
