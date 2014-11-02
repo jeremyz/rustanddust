@@ -45,6 +45,7 @@ public class Hud implements Disposable
     private Image aps;
     private Text apsText;
     private Image reinforcement;
+    private Text reinforcementText;
 
 
     private Vector2 corner;
@@ -73,7 +74,8 @@ public class Hud implements Disposable
         turnsText = new Text(game.skin.getFont("default-font"), "0");
         aps = new Image(atlas.findRegion("aps"));
         apsText = new Text(game.skin.getFont("default-font"), "0");
-        reinforcement= new Image(atlas.findRegion("reinforcement"));
+        reinforcement = new Image(atlas.findRegion("reinforcement"));
+        reinforcementText = new Text(game.skin.getFont("default-font"), "0");
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
@@ -85,17 +87,28 @@ public class Hud implements Disposable
         aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
         apsText.setPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
+        reinforcementText.setPosition((reinforcement.getX() + 5),
+                (reinforcement.getY() + reinforcement.getHeight() - 20));
     }
 
     public void update()
     {
         turnsText.write("" + ctrl.player.getTurn());
         apsText.write("" + ctrl.player.getAp());
+        int r = ctrl.player.reinforcementCount();
+        if (r == 0) {
+            reinforcement.visible = false;
+            reinforcementText.visible = false;
+        } else {
+            reinforcement.visible = true;
+            reinforcementText.visible = true;
+            reinforcementText.write("" + r);
+        }
+
         if (ctrl.player.getFaction() == Army.GE)
             flag = geFlag;
         else
             flag = usFlag;
-        // TODO update reinforcement status
     }
 
     @Override
@@ -117,6 +130,7 @@ public class Hud implements Disposable
         usFlag.dispose();
         geFlag.dispose();
         reinforcement.dispose();
+        reinforcementText.dispose();
     }
 
     public void animate(float delta)
@@ -132,6 +146,7 @@ public class Hud implements Disposable
         aps.draw(batch);
         apsText.draw(batch);
         reinforcement.draw(batch);
+        reinforcementText.draw(batch);
 
         actionsBg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
