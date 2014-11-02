@@ -19,7 +19,7 @@ ap_spent
   index: -1
 aps
   rotate: false
-  xy: 958, 142
+  xy: 896, 142
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -173,9 +173,9 @@ ge-flag
   index: -1
 reinforcement
   rotate: false
-  xy: 896, 130
-  size: 60, 60
-  orig: 60, 60
+  xy: 946, 142
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1
 turn_back
