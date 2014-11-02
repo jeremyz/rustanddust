@@ -10,212 +10,191 @@ ace
   orig: 124, 124
   offset: 0, 0
   index: -1
-ap1
+ap_spent
   rotate: false
   xy: 2, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-ap2
+aps
+  rotate: false
+  xy: 958, 142
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+back
   rotate: false
   xy: 128, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-ap3
-  rotate: false
-  xy: 128, 2
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
-ap4
-  rotate: false
-  xy: 254, 128
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
-ap_spent
-  rotate: false
-  xy: 254, 2
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
-back
-  rotate: false
-  xy: 380, 128
-  size: 124, 124
-  orig: 124, 124
-  offset: 0, 0
-  index: -1
 btn-attack-down
   rotate: false
-  xy: 714, 192
+  xy: 462, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-off
   rotate: false
-  xy: 632, 92
+  xy: 380, 92
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-attack-on
   rotate: false
-  xy: 776, 192
+  xy: 524, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-down
   rotate: false
-  xy: 632, 30
+  xy: 380, 30
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-off
   rotate: false
-  xy: 838, 192
+  xy: 586, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-cancel-on
   rotate: false
-  xy: 900, 192
+  xy: 648, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-down
   rotate: false
-  xy: 962, 192
+  xy: 710, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-off
   rotate: false
-  xy: 714, 130
+  xy: 772, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-check-on
   rotate: false
-  xy: 776, 130
+  xy: 834, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-down
   rotate: false
-  xy: 838, 130
+  xy: 896, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-off
   rotate: false
-  xy: 900, 130
+  xy: 958, 192
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-move-on
   rotate: false
-  xy: 962, 130
+  xy: 462, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-down
   rotate: false
-  xy: 694, 68
+  xy: 524, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-off
   rotate: false
-  xy: 756, 68
+  xy: 586, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-promote-on
   rotate: false
-  xy: 818, 68
+  xy: 648, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-down
   rotate: false
-  xy: 880, 68
+  xy: 710, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-off
   rotate: false
-  xy: 942, 68
+  xy: 772, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 btn-rotate-on
   rotate: false
-  xy: 694, 6
+  xy: 834, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 380, 2
+  xy: 128, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 632, 204
+  xy: 380, 204
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 756, 6
+  xy: 896, 130
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 turn_back
   rotate: false
-  xy: 506, 128
+  xy: 254, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 turn_front
   rotate: false
-  xy: 506, 2
+  xy: 254, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 632, 154
+  xy: 380, 154
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
