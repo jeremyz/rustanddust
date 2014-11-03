@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Iterator;
@@ -27,6 +28,11 @@ public abstract class Player
     public Faction getFaction()
     {
         return faction;
+    }
+
+    public List<Pawn> getReinforcement()
+    {
+        return reinforcement;
     }
 
     public int unitsLeft()
@@ -74,15 +80,5 @@ public abstract class Player
     public Iterator<Pawn> unitIterator()
     {
         return units.iterator();
-    }
-
-    public Iterator<Pawn> casualtiesIterator()
-    {
-        return casualties.iterator();
-    }
-
-    public Iterator<Pawn> reinforcementIterator()
-    {
-        return reinforcement.iterator();
     }
 }
