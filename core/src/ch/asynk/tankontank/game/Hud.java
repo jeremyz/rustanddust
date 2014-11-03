@@ -14,6 +14,7 @@ import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.Msg;
 import ch.asynk.tankontank.game.hud.Text;
+import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -46,6 +47,7 @@ public class Hud implements Disposable
     private Text apsText;
     private Image reinforcement;
     private Text reinforcementText;
+    private UnitDock unitDock;
 
 
     private Vector2 corner;
@@ -76,6 +78,7 @@ public class Hud implements Disposable
         apsText = new Text(game.skin.getFont("default-font"), "0");
         reinforcement = new Image(atlas.findRegion("reinforcement"));
         reinforcementText = new Text(game.skin.getFont("default-font"), "0");
+        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"));
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
@@ -89,6 +92,7 @@ public class Hud implements Disposable
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
         reinforcementText.setPosition((reinforcement.getX() + 5),
                 (reinforcement.getY() + reinforcement.getHeight() - 20));
+        unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
     }
 
     public void update()
@@ -136,6 +140,7 @@ public class Hud implements Disposable
     public void animate(float delta)
     {
         msg.animate(delta);
+        unitDock.animate(delta);
     }
 
     public void draw(Batch batch)
@@ -147,6 +152,7 @@ public class Hud implements Disposable
         apsText.draw(batch);
         reinforcement.draw(batch);
         reinforcementText.draw(batch);
+        unitDock.draw(batch);
 
         actionsBg.draw(batch);
         if (moveBtn.visible) moveBtn.getImage().draw(batch);
@@ -253,7 +259,12 @@ public class Hud implements Disposable
         }
 
         if (reinforcement.contains(x,y)) {
-            System.err.println("TODO reinforcement");
+            unitDock.toggle();
+            return true;
+        }
+
+        if (unitDock.contains(x,y)) {
+            System.err.println("TODO unitDock touched");
             return true;
         }
 
