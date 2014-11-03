@@ -10,6 +10,7 @@ import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
+import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleHeadToHead extends BattleCommon
@@ -80,26 +81,50 @@ public class BattleHeadToHead extends BattleCommon
         map.showObjective(map.getHex(6, 4));
         map.showObjective(map.getHex(6, 1));
 
+        TileSet geEntry = new TileSet(map, 10);
+        geEntry.add(map.getHex(0, 0));
+        geEntry.add(map.getHex(1, 1));
+        geEntry.add(map.getHex(1, 2));
+        geEntry.add(map.getHex(2, 3));
+        geEntry.add(map.getHex(2, 4));
+        geEntry.add(map.getHex(3, 5));
+        geEntry.add(map.getHex(3, 6));
+        geEntry.add(map.getHex(4, 7));
+        geEntry.add(map.getHex(4, 8));
+        addEntryPoint(geEntry);
+
+        TileSet usEntry = new TileSet(map, 10);
+        usEntry.add(map.getHex(9, 0));
+        usEntry.add(map.getHex(9, 1));
+        usEntry.add(map.getHex(10, 2));
+        usEntry.add(map.getHex(10, 3));
+        usEntry.add(map.getHex(11, 4));
+        usEntry.add(map.getHex(11, 5));
+        usEntry.add(map.getHex(12, 6));
+        usEntry.add(map.getHex(12, 7));
+        usEntry.add(map.getHex(13, 8));
+        addEntryPoint(usEntry);
+
         Orientation o = Orientation.NORTH;
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_TIGER));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_TIGER));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV_HQ));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV_HQ));
-        gePlayer.addReinforcement(factory.getUnit(UnitId.GE_PANZER_IV));
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
         o = Orientation.SOUTH;
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_WOLVERINE));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_WOLVERINE));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_PRIEST));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN_HQ));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN_HQ));
-        usPlayer.addReinforcement(factory.getUnit(UnitId.US_SHERMAN));
+        addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
     }
 
     public boolean checkVictory()
