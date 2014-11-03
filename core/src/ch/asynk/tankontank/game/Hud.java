@@ -216,8 +216,9 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (flag.contains(x,y)) return true;
-        if (reinforcement.contains(x,y)) return true;
+        if (reinforcement.contains(x,y) || unitDock.contains(x, y)) return true;
+        else unitDock.hide();
+        if (turns.contains(x,y)) return true;
         if (!actionsBg.contains(x,y)) return false;
 
         btn = null;
@@ -246,7 +247,7 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (flag.contains(x,y)) {
+        if (turns.contains(x,y)) {
             ctrl.endPlayerTurn();
             return true;
         }
