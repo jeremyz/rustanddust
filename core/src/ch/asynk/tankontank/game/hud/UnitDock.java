@@ -1,12 +1,13 @@
 package ch.asynk.tankontank.game.hud;
 
-import java.util.Iterator;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
 
 public class UnitDock extends Bg
@@ -22,6 +23,7 @@ public class UnitDock extends Bg
     public boolean visible;
     public boolean show;
     public boolean done;
+    private List<Pawn> pawns;
     private Matrix4 prevTransform;
     private Matrix4 nextTransform;
 
@@ -65,11 +67,9 @@ public class UnitDock extends Bg
     public void show()
     {
         if (done) {
-            int count = ctrl.player.reinforcementCount();
-            Pawn pawn = ctrl.player.reinforcementIterator().next();
-
-            rect.width = pawn.getWidth() + (2 * PADDING);
-            rect.height = ((pawn.getHeight() * count) + (PADDING * (count + 1)));
+            pawns = ctrl.player.getReinforcement();
+            rect.width = pawns.get(0).getWidth() + (2 * PADDING);
+            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + (PADDING * (pawns.size() + 1)));
             rect.x = - rect.width;
             rect.y = y - rect.height;
         }
@@ -100,17 +100,14 @@ public class UnitDock extends Bg
                 rect.x = to;
                 done = true;
                 visible = false;
-
             }
         }
 
-        Iterator<Pawn> pawns = ctrl.player.reinforcementIterator();
         float x = rect.x + PADDING;
         float y = rect.y + rect.height;
-        while (pawns.hasNext()) {
-            Pawn pawn = pawns.next();
+        for (Pawn pawn : pawns) {
             y -= (pawn.getHeight() + PADDING);
-            pawn.setPosition(x, y, 90f);
+            pawn.setPosition(x, y, Orientation.SOUTH.r());
         }
     }
 
@@ -126,9 +123,8 @@ public class UnitDock extends Bg
         batch.setTransformMatrix(nextTransform);
 
         super.draw(batch);
-        Iterator<Pawn> pawns = ctrl.player.reinforcementIterator();
-        while (pawns.hasNext())
-            pawns.next().draw(batch);
+        for (Pawn pawn : pawns)
+            pawn.draw(batch);
 
         batch.setTransformMatrix(prevTransform);
     }
