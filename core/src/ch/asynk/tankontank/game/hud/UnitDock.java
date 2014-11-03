@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Orientation;
@@ -24,8 +26,10 @@ public class UnitDock extends Bg
     public boolean show;
     public boolean done;
     private List<Pawn> pawns;
-    private Matrix4 prevTransform;
-    private Matrix4 nextTransform;
+    private Vector3 point;
+    private Matrix4 saved;
+    private Matrix4 transform;
+    protected Rectangle scaledRect;
 
     public UnitDock(Ctrl ctrl, TextureRegion region)
     {
@@ -33,8 +37,10 @@ public class UnitDock extends Bg
         this.ctrl = ctrl;
         this.visible = false;
         this.done = true;
-        this.prevTransform = new Matrix4();
-        this.nextTransform = new Matrix4();
+        this.point = new Vector3();
+        this.saved = new Matrix4();
+        this.transform = new Matrix4();
+        this.scaledRect = new Rectangle();
     }
 
     public void setTopLeft(float x, float y)
@@ -63,7 +69,12 @@ public class UnitDock extends Bg
         done = false;
     }
 
-    // FIXME Iterator might not be the best way to go
+    @Override
+    public boolean contains(float x, float y)
+    {
+        return scaledRect.contains(x, y);
+    }
+
     public void show()
     {
         if (done) {
@@ -80,7 +91,6 @@ public class UnitDock extends Bg
         visible = true;
     }
 
-    // FIXME why not use transformation to animate ?
     public void animate(float delta)
     {
         if (!visible) return;
@@ -109,6 +119,15 @@ public class UnitDock extends Bg
             y -= (pawn.getHeight() + PADDING);
             pawn.setPosition(x, y, Orientation.SOUTH.r());
         }
+
+        transform.idt();
+        transform.translate(rect.x, (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
+        point.set(rect.x, rect.y, 0).mul(transform);
+        scaledRect.x = point.x;
+        scaledRect.y = point.y;
+        point.set((rect.x + rect.width), (rect.y + rect.height), 0).mul(transform);
+        scaledRect.width = point.x - scaledRect.x;
+        scaledRect.height = point.y - scaledRect.y;
     }
 
     @Override
@@ -116,16 +135,13 @@ public class UnitDock extends Bg
     {
         if (!visible) return;
 
-        nextTransform.idt();
-        nextTransform.translate(rect.x, (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
-
-        prevTransform.set(batch.getTransformMatrix());
-        batch.setTransformMatrix(nextTransform);
+        saved.set(batch.getTransformMatrix());
+        batch.setTransformMatrix(transform);
 
         super.draw(batch);
         for (Pawn pawn : pawns)
             pawn.draw(batch);
 
-        batch.setTransformMatrix(prevTransform);
+        batch.setTransformMatrix(saved);
     }
 }
