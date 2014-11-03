@@ -141,15 +141,15 @@ public abstract class Pawn implements Moveable, Disposable
 
     public Vector2 getCenter()
     {
-        float x = (image.getX() + (image.getWidth() / 2f));
-        float y = (image.getY() + (image.getHeight() / 2f));
+        float x = (getX() + (getWidth() / 2f));
+        float y = (getY() + (getHeight() / 2f));
         return new Vector2(x, y);
     }
 
     public Vector2 getPosAt(Tile tile, Vector2 pos)
     {
-        float x = (tile.getX() - (image.getWidth() / 2f));
-        float y = (tile.getY() - (image.getHeight() / 2f));
+        float x = (tile.getX() - (getWidth() / 2f));
+        float y = (tile.getY() - (getHeight() / 2f));
         if (pos == null)
             return new Vector2(x, y);
         else
@@ -161,8 +161,8 @@ public abstract class Pawn implements Moveable, Disposable
     {
         this.prevTile = this.tile;
         this.tile = tile;
-        float x = (tile.getX() - (image.getWidth() / 2f));
-        float y = (tile.getY() - (image.getHeight() / 2f));
+        float x = (tile.getX() - (getWidth() / 2f));
+        float y = (tile.getY() - (getHeight() / 2f));
         setPosition(x, y, z);
     }
 
