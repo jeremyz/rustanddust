@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.utils.Disposable;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -99,4 +100,10 @@ public class Button implements Disposable
     public float getY() { return images[0].getY(); }
     public float getWidth() { return images[0].getWidth(); }
     public float getHeight() { return images[0].getHeight(); }
+
+    public void draw(Batch batch)
+    {
+        if (!visible) return;
+        getImage().draw(batch);
+    }
 }

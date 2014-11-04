@@ -155,12 +155,12 @@ public class Hud implements Disposable
         unitDock.draw(batch);
 
         actionsBg.draw(batch);
-        if (moveBtn.visible) moveBtn.getImage().draw(batch);
-        if (rotateBtn.visible) rotateBtn.getImage().draw(batch);
-        if (promoteBtn.visible) promoteBtn.getImage().draw(batch);
-        if (attackBtn.visible) attackBtn.getImage().draw(batch);
-        if (checkBtn.visible) checkBtn.getImage().draw(batch);
-        if (cancelBtn.visible) cancelBtn.getImage().draw(batch);
+        moveBtn.draw(batch);
+        rotateBtn.draw(batch);
+        promoteBtn.draw(batch);
+        attackBtn.draw(batch);
+        checkBtn.draw(batch);
+        cancelBtn.draw(batch);
         msg.draw(batch);
     }
 
