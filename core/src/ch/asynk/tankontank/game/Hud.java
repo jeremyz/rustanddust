@@ -10,10 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
+import ch.asynk.tankontank.game.hud.Msg;
 import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
-import ch.asynk.tankontank.game.hud.Msg;
-import ch.asynk.tankontank.game.hud.Text;
 import ch.asynk.tankontank.game.hud.TextImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.Position;
@@ -44,8 +43,7 @@ public class Hud implements Disposable
     private Image geFlag;
     private TextImage turns;
     private TextImage aps;
-    private Image reinforcement;
-    private Text reinforcementText;
+    private TextImage reinforcement;
     private UnitDock unitDock;
 
 
@@ -73,8 +71,7 @@ public class Hud implements Disposable
         geFlag = new Image(atlas.findRegion("ge-flag"));
         turns = new TextImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
         aps = new TextImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
-        reinforcement = new Image(atlas.findRegion("reinforcement"));
-        reinforcementText = new Text(game.skin.getFont("default-font"), "0");
+        reinforcement = new TextImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
         unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"));
 
         float x = OFFSET;
@@ -85,23 +82,20 @@ public class Hud implements Disposable
         aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
         aps.setTextPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
-        reinforcementText.setPosition((reinforcement.getX() + 5),
-                (reinforcement.getY() + reinforcement.getHeight() - 20));
+        reinforcement.setTextPosition((reinforcement.getX() + 5), (reinforcement.getY() + reinforcement.getHeight() - 20));
         unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
     }
 
     public void update()
     {
-        turnsText.write("" + ctrl.player.getTurn());
-        apsText.write("" + ctrl.player.getAp());
+        turns.write("" + ctrl.player.getTurn());
+        aps.write("" + ctrl.player.getAp());
         int r = ctrl.player.reinforcementCount();
         if (r == 0) {
             reinforcement.visible = false;
-            reinforcementText.visible = false;
         } else {
             reinforcement.visible = true;
-            reinforcementText.visible = true;
-            reinforcementText.write("" + r);
+            reinforcement.write("" + r);
         }
 
         if (ctrl.player.getFaction() == Army.GE)
@@ -127,7 +121,6 @@ public class Hud implements Disposable
         usFlag.dispose();
         geFlag.dispose();
         reinforcement.dispose();
-        reinforcementText.dispose();
     }
 
     public void animate(float delta)
@@ -142,7 +135,6 @@ public class Hud implements Disposable
         turns.draw(batch);
         aps.draw(batch);
         reinforcement.draw(batch);
-        reinforcementText.draw(batch);
         unitDock.draw(batch);
 
         actionsBg.draw(batch);
