@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
+import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.hud.Msg;
 import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
@@ -241,13 +242,13 @@ public class Hud implements Disposable
             boolean setOn = true;
             if (actionsBg.hit(x, y)) {
                 if ((btn == moveBtn) && moveBtn.hit(x, y))
-                    ctrl.setState(State.StateType.MOVE);
+                    ctrl.setState(StateType.MOVE);
                 else if ((btn == rotateBtn) && rotateBtn.hit(x, y))
-                    ctrl.setState(State.StateType.ROTATE);
+                    ctrl.setState(StateType.ROTATE);
                 else if ((btn == promoteBtn) && promoteBtn.hit(x, y))
-                    ctrl.setState(State.StateType.PROMOTE);
+                    ctrl.setState(StateType.PROMOTE);
                 else if ((btn == attackBtn) && attackBtn.hit(x, y))
-                    ctrl.setState(State.StateType.ATTACK);
+                    ctrl.setState(StateType.ATTACK);
                 else if ((btn == checkBtn) && checkBtn.hit(x, y))
                     ctrl.done();
                 else if ((btn == cancelBtn) && cancelBtn.hit(x, y)) {
