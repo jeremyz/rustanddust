@@ -25,6 +25,7 @@ public class UnitDock extends Bg
     public boolean visible;
     public boolean show;
     public boolean done;
+    public Pawn selectedPawn;
     private List<Pawn> pawns;
     private Vector3 point;
     private Matrix4 saved;
@@ -72,7 +73,13 @@ public class UnitDock extends Bg
     @Override
     public boolean hit(float x, float y)
     {
-        return scaledRect.contains(x, y);
+        if (scaledRect.contains(x, y)) {
+            int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / pawns.size()));
+            selectedPawn = pawns.get(i);
+            return true;
+        }
+        selectedPawn = null;
+        return false;
     }
 
     public void show()
@@ -85,6 +92,7 @@ public class UnitDock extends Bg
             rect.y = y - rect.height;
         }
 
+        selectedPawn = null;
         to = x;
         show = true;
         done = false;
