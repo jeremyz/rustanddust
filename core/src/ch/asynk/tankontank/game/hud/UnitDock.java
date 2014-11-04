@@ -14,7 +14,7 @@ import ch.asynk.tankontank.game.Ctrl;
 
 public class UnitDock extends Bg
 {
-    private static final float PADDING = 5f;
+    private static final float PADDING = 10f;
     private static final float SCALE = 0.4f;
     private static final float STEP = 5f;
     private final Ctrl ctrl;
