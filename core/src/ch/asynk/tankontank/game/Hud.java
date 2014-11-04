@@ -48,7 +48,6 @@ public class Hud implements Disposable
     private TextImage reinforcement;
     private UnitDock unitDock;
 
-
     private Vector2 corner;
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
