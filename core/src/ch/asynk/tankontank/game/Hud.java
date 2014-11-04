@@ -244,7 +244,6 @@ public class Hud implements Disposable
     public boolean touchUp(float x, float y)
     {
         if (btn != null) {
-            boolean setOn = true;
             if (actionsBg.hit(x, y)) {
                 if ((btn == moveBtn) && moveBtn.hit(x, y))
                     ctrl.setState(StateType.MOVE);
@@ -260,11 +259,9 @@ public class Hud implements Disposable
                     notify("Action canceled");
                     ctrl.abort();
                 } else
-                    setOn = false;
+                    btn.setOff();
             } else
-                setOn = false;
-            if (setOn) btn.setOn();
-            else btn.setOff();
+                btn.setOff();
             btn = null;
         } else if (hit != null) {
             if ((hit == turns) && turns.hit(x, y))
