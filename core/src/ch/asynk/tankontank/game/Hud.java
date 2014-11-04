@@ -14,6 +14,7 @@ import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.Msg;
 import ch.asynk.tankontank.game.hud.Text;
+import ch.asynk.tankontank.game.hud.TextImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.Position;
 
@@ -41,10 +42,8 @@ public class Hud implements Disposable
     private Image flag;
     private Image usFlag;
     private Image geFlag;
-    private Image turns;
-    private Text turnsText;
-    private Image aps;
-    private Text apsText;
+    private TextImage turns;
+    private TextImage aps;
     private Image reinforcement;
     private Text reinforcementText;
     private UnitDock unitDock;
@@ -66,16 +65,14 @@ public class Hud implements Disposable
         attackBtn = new Button(atlas, "btn-attack");
         checkBtn = new Button(atlas, "btn-check");
         cancelBtn = new Button(atlas, "btn-cancel");
-
         actionsBg = new Bg(atlas.findRegion("disabled"));
+
         msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
 
         usFlag = new Image(atlas.findRegion("us-flag"));
         geFlag = new Image(atlas.findRegion("ge-flag"));
-        turns = new Image(atlas.findRegion("turns"));
-        turnsText = new Text(game.skin.getFont("default-font"), "0");
-        aps = new Image(atlas.findRegion("aps"));
-        apsText = new Text(game.skin.getFont("default-font"), "0");
+        turns = new TextImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
+        aps = new TextImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
         reinforcement = new Image(atlas.findRegion("reinforcement"));
         reinforcementText = new Text(game.skin.getFont("default-font"), "0");
         unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"));
@@ -85,10 +82,8 @@ public class Hud implements Disposable
         usFlag.setPosition(x, (y - usFlag.getHeight()));
         geFlag.setPosition(x, (y - geFlag.getHeight()));
         turns.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
-        turnsText.setPosition((turns.getX() + ((turns.getWidth() - turnsText.getWidth()) / 2)),
-                (turns.getY() + ((turns.getHeight() - turnsText.getHeight()) / 2)));
         aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
-        apsText.setPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
+        aps.setTextPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
         reinforcementText.setPosition((reinforcement.getX() + 5),
                 (reinforcement.getY() + reinforcement.getHeight() - 20));
@@ -128,9 +123,7 @@ public class Hud implements Disposable
         msg.dispose();
 
         turns.dispose();
-        turnsText.dispose();
         aps.dispose();
-        apsText.dispose();
         usFlag.dispose();
         geFlag.dispose();
         reinforcement.dispose();
@@ -147,9 +140,7 @@ public class Hud implements Disposable
     {
         flag.draw(batch);
         turns.draw(batch);
-        turnsText.draw(batch);
         aps.draw(batch);
-        apsText.draw(batch);
         reinforcement.draw(batch);
         reinforcementText.draw(batch);
         unitDock.draw(batch);
