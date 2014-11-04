@@ -87,24 +87,6 @@ public class Hud implements Disposable
         unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
     }
 
-    public void update()
-    {
-        turns.write("" + ctrl.player.getTurn());
-        aps.write("" + ctrl.player.getAp());
-        int r = ctrl.player.reinforcement.size();
-        if (r == 0) {
-            reinforcement.visible = false;
-        } else {
-            reinforcement.visible = true;
-            reinforcement.write("" + r);
-        }
-
-        if (ctrl.player.getFaction() == Army.GE)
-            flag = geFlag;
-        else
-            flag = usFlag;
-    }
-
     @Override
     public void dispose()
     {
@@ -126,6 +108,24 @@ public class Hud implements Disposable
 
     public void changeState(StateType from, StateType to)
     {
+    }
+
+    public void update()
+    {
+        turns.write("" + ctrl.player.getTurn());
+        aps.write("" + ctrl.player.getAp());
+        int r = ctrl.player.getReinforcement().size();
+        if (r == 0) {
+            reinforcement.visible = false;
+        } else {
+            reinforcement.visible = true;
+            reinforcement.write("" + r);
+        }
+
+        if (ctrl.player.getFaction() == Army.GE)
+            flag = geFlag;
+        else
+            flag = usFlag;
     }
 
     public void animate(float delta)
