@@ -40,11 +40,6 @@ public abstract class Player
         return (units.size() + reinforcement.size());
     }
 
-    public int reinforcementCount()
-    {
-        return reinforcement.size();
-    }
-
     public String getName()
     {
         return faction.toString();

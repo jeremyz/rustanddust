@@ -90,7 +90,7 @@ public class Hud implements Disposable
     {
         turns.write("" + ctrl.player.getTurn());
         aps.write("" + ctrl.player.getAp());
-        int r = ctrl.player.reinforcementCount();
+        int r = ctrl.player.reinforcement.size();
         if (r == 0) {
             reinforcement.visible = false;
         } else {
