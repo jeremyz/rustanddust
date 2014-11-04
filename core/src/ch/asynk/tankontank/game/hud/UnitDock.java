@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
+import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
@@ -26,15 +27,16 @@ public class UnitDock extends Bg
     public boolean show;
     public boolean done;
     public Pawn selectedPawn;
+    private Image selected;
     private List<Pawn> pawns;
     private Vector3 point;
     private Matrix4 saved;
     private Matrix4 transform;
     protected Rectangle scaledRect;
 
-    public UnitDock(Ctrl ctrl, TextureRegion region)
+    public UnitDock(Ctrl ctrl, TextureRegion bg, TextureRegion selected)
     {
-        super(region);
+        super(bg);
         this.ctrl = ctrl;
         this.visible = false;
         this.done = true;
@@ -42,6 +44,8 @@ public class UnitDock extends Bg
         this.saved = new Matrix4();
         this.transform = new Matrix4();
         this.scaledRect = new Rectangle();
+        this.selected = new Image(selected);
+        this.selected.visible = false;
     }
 
     public void setTopLeft(float x, float y)
@@ -54,6 +58,7 @@ public class UnitDock extends Bg
     public void dispose()
     {
         super.dispose();
+        selected.dispose();
     }
 
     public void toggle()
@@ -147,8 +152,15 @@ public class UnitDock extends Bg
         batch.setTransformMatrix(transform);
 
         super.draw(batch);
-        for (Pawn pawn : pawns)
+        selected.visible = false;
+        for (Pawn pawn : pawns) {
             pawn.draw(batch);
+            if (pawn == selectedPawn) {
+                selected.visible = true;
+                selected.centerOn((pawn.getX() + (pawn.getWidth() / 2)), (pawn.getY() + (pawn.getHeight() / 2)));
+                selected.draw(batch);
+            }
+        }
 
         batch.setTransformMatrix(saved);
     }

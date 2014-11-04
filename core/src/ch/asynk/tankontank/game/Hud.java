@@ -73,7 +73,7 @@ public class Hud implements Disposable
         turns = new TextImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
         aps = new TextImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
         reinforcement = new TextImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
-        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"));
+        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"));
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
