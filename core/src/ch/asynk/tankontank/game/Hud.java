@@ -205,25 +205,29 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (reinforcement.hit(x,y) || unitDock.hit(x, y)) return true;
-        else unitDock.hide();
-        if (turns.hit(x,y)) return true;
-        if (!actionsBg.hit(x,y)) return false;
-
         btn = null;
 
-        if (moveBtn.hit(x, y))
-            btn = moveBtn;
-        else if (rotateBtn.hit(x, y))
-            btn = rotateBtn;
-        else if (promoteBtn.hit(x, y))
-            btn = promoteBtn;
-        else if (attackBtn.hit(x, y))
-            btn = attackBtn;
-        else if (checkBtn.hit(x, y))
-            btn = checkBtn;
-        else if (cancelBtn.hit(x, y))
-            btn = cancelBtn;
+        if (turns.hit(x,y))
+            return true;
+        else if (unitDock.hit(x, y))
+            return true;
+        else if (reinforcement.hit(x, y))
+            return true;
+        else if (actionsBg.hit(x,y)) {
+            if (moveBtn.hit(x, y))
+                btn = moveBtn;
+            else if (rotateBtn.hit(x, y))
+                btn = rotateBtn;
+            else if (promoteBtn.hit(x, y))
+                btn = promoteBtn;
+            else if (attackBtn.hit(x, y))
+                btn = attackBtn;
+            else if (checkBtn.hit(x, y))
+                btn = checkBtn;
+            else if (cancelBtn.hit(x, y))
+                btn = cancelBtn;
+        } else
+            return false;
 
         if (btn != null)
             btn.setDown();
@@ -233,42 +237,38 @@ public class Hud implements Disposable
 
     public boolean touchUp(float x, float y)
     {
-        if (btn != null)
+        if (btn != null) {
             btn.setOn();
-
-        if (turns.hit(x, y)) {
+            if (actionsBg.hit(x, y)) {
+                if ((btn == moveBtn) && moveBtn.hit(x, y))
+                    ctrl.setState(State.StateType.MOVE);
+                else if ((btn == rotateBtn) && rotateBtn.hit(x, y))
+                    ctrl.setState(State.StateType.ROTATE);
+                else if ((btn == promoteBtn) && promoteBtn.hit(x, y))
+                    ctrl.setState(State.StateType.PROMOTE);
+                else if ((btn == attackBtn) && attackBtn.hit(x, y))
+                    ctrl.setState(State.StateType.ATTACK);
+                else if ((btn == checkBtn) && checkBtn.hit(x, y))
+                    ctrl.done();
+                else if ((btn == cancelBtn) && cancelBtn.hit(x, y)) {
+                    notify("Action canceled");
+                    ctrl.abort();
+                } else
+                    btn.setOff();
+            } else
+                btn.setOff();
+            btn = null;
+        }
+        else if (turns.hit(x, y)) {
             ctrl.endPlayerTurn();
-            return true;
         }
-
-        if (reinforcement.hit(x, y)) {
+        else if (reinforcement.hit(x, y)) {
             unitDock.toggle();
-            return true;
         }
-
-        if (unitDock.hit(x, y)) {
+        else if (unitDock.hit(x, y)) {
             System.err.println("TODO unitDock touched");
-            return true;
-        }
-
-        if (!actionsBg.hit(x, y)) return false;
-
-        if (btn == moveBtn)
-            ctrl.setState(State.StateType.MOVE);
-        else if (btn == rotateBtn)
-            ctrl.setState(State.StateType.ROTATE);
-        else if (btn == promoteBtn)
-            ctrl.setState(State.StateType.PROMOTE);
-        else if (btn == attackBtn)
-            ctrl.setState(State.StateType.ATTACK);
-        else if (btn == checkBtn)
-            ctrl.done();
-        else if (btn == cancelBtn) {
-            notify("Action canceled");
-            ctrl.abort();
-        }
-
-        btn = null;
+        } else
+            return false;
 
         return true;
     }
