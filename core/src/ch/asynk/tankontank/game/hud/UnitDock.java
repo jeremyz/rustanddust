@@ -70,7 +70,7 @@ public class UnitDock extends Bg
     }
 
     @Override
-    public boolean contains(float x, float y)
+    public boolean hit(float x, float y)
     {
         return scaledRect.contains(x, y);
     }

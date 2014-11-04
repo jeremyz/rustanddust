@@ -27,7 +27,7 @@ public class Bg implements Drawable, Disposable
         rect.height = h;
     }
 
-    public boolean contains(float x, float y)
+    public boolean hit(float x, float y)
     {
         return rect.contains(x, y);
     }

@@ -213,10 +213,10 @@ public class Hud implements Disposable
 
     public boolean touchDown(float x, float y)
     {
-        if (reinforcement.contains(x,y) || unitDock.contains(x, y)) return true;
+        if (reinforcement.hit(x,y) || unitDock.hit(x, y)) return true;
         else unitDock.hide();
-        if (turns.contains(x,y)) return true;
-        if (!actionsBg.contains(x,y)) return false;
+        if (turns.hit(x,y)) return true;
+        if (!actionsBg.hit(x,y)) return false;
 
         btn = null;
 
@@ -244,22 +244,22 @@ public class Hud implements Disposable
         if (btn != null)
             btn.setOn();
 
-        if (turns.contains(x,y)) {
+        if (turns.hit(x, y)) {
             ctrl.endPlayerTurn();
             return true;
         }
 
-        if (reinforcement.contains(x,y)) {
+        if (reinforcement.hit(x, y)) {
             unitDock.toggle();
             return true;
         }
 
-        if (unitDock.contains(x,y)) {
+        if (unitDock.hit(x, y)) {
             System.err.println("TODO unitDock touched");
             return true;
         }
 
-        if (!actionsBg.contains(x,y)) return false;
+        if (!actionsBg.hit(x, y)) return false;
 
         if (btn == moveBtn)
             ctrl.setState(State.StateType.MOVE);

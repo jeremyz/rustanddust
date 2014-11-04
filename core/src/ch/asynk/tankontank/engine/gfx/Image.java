@@ -36,7 +36,7 @@ public class Image extends Sprite implements Drawable, Disposable
         if (texture != null) texture.dispose();
     }
 
-    public boolean contains(float x, float y)
+    public boolean hit(float x, float y)
     {
         if (!visible) return false;
         return ((x >= getX()) && (y >= getY()) && (x <= (getX() + getWidth())) && (y <= (getY() + getHeight())));
