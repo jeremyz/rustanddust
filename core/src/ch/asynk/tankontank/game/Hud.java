@@ -32,6 +32,7 @@ public class Hud implements Disposable
     private Msg msg;
 
     private Button btn;
+    private Object hit;
     public Button moveBtn;
     public Button rotateBtn;
     public Button promoteBtn;
@@ -211,13 +212,14 @@ public class Hud implements Disposable
     public boolean touchDown(float x, float y)
     {
         btn = null;
+        hit = null;
 
         if (turns.hit(x,y))
-            return true;
+            hit = turns;
         else if (unitDock.hit(x, y))
-            return true;
+            hit = unitDock;
         else if (reinforcement.hit(x, y))
-            return true;
+            hit = reinforcement;
         else if (actionsBg.hit(x,y)) {
             if (moveBtn.hit(x, y))
                 btn = moveBtn;
@@ -265,15 +267,14 @@ public class Hud implements Disposable
             if (setOn) btn.setOn();
             else btn.setOff();
             btn = null;
-        }
-        else if (turns.hit(x, y)) {
-            ctrl.endPlayerTurn();
-        }
-        else if (reinforcement.hit(x, y)) {
-            unitDock.toggle();
-        }
-        else if (unitDock.hit(x, y)) {
-            System.err.println("TODO unitDock touched");
+        } else if (hit != null) {
+            if ((hit == turns) && turns.hit(x, y))
+                ctrl.endPlayerTurn();
+            else if ((hit == reinforcement) && reinforcement.hit(x, y))
+                unitDock.toggle();
+            else if ((hit == unitDock) && unitDock.hit(x, y))
+                System.err.println("TODO : unitDock hit");
+            hit = null;
         } else
             return false;
 
