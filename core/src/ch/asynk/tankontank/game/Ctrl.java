@@ -34,6 +34,7 @@ public class Ctrl implements Disposable
     private int animationCount = 0;
 
     private State state;
+    private State.StateType stateType;
 
     public Ctrl(final TankOnTank game, final Battle battle)
     {
@@ -56,11 +57,12 @@ public class Ctrl implements Disposable
         this.animationState = new StateAnimation();
 
         this.state = selectState;
+        this.stateType = State.StateType.SELECT;
 
         this.hud = new Hud(this, game);
 
         player.turnStart();
-        this.hud.update();
+        hud.update();
     }
 
     @Override
@@ -132,6 +134,7 @@ public class Ctrl implements Disposable
 
     public void setState(State.StateType state, boolean normal)
     {
+        hud.changeState(stateType, state);
         this.state.leave(state);
 
         System.err.println("  switch to : " + state + " " + normal);
@@ -161,6 +164,7 @@ public class Ctrl implements Disposable
             default:
                 break;
         }
+        stateType = state;
 
         this.state.enter(normal);
     }

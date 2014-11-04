@@ -124,6 +124,10 @@ public class Hud implements Disposable
         reinforcement.dispose();
     }
 
+    public void changeState(StateType from, StateType to)
+    {
+    }
+
     public void animate(float delta)
     {
         msg.animate(delta);
