@@ -14,6 +14,7 @@ public class Button implements Disposable
 {
 
     public int idx;
+    public boolean blocked;
     public boolean visible;
     private Image images [];
     private Image image;
@@ -26,6 +27,7 @@ public class Button implements Disposable
     public Button(TextureAtlas atlas, String base)
     {
         this.idx = OFF;
+        this.blocked = false;
         this.visible = false;
         this.images = new Image[3];
         this.images[OFF] = new Image(atlas.findRegion(base + "-off"));
@@ -92,7 +94,7 @@ public class Button implements Disposable
 
     public boolean hit(float x, float y)
     {
-        if (!visible || (idx == ON)) return false;
+        if (blocked || !visible || (idx == ON)) return false;
         return rect.contains(x,y);
     }
 
