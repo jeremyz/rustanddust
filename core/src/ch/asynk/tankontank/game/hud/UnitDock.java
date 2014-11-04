@@ -73,7 +73,7 @@ public class UnitDock extends Bg
     @Override
     public boolean hit(float x, float y)
     {
-        if (scaledRect.contains(x, y)) {
+        if (visible && scaledRect.contains(x, y)) {
             int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / pawns.size()));
             selectedPawn = pawns.get(i);
             return true;
