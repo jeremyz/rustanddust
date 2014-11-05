@@ -126,11 +126,15 @@ public class UnitDock extends Bg
             }
         }
 
-        float x = rect.x + PADDING;
+        // float x = rect.x + PADDING;
+        float x = rect.x;
         float y = rect.y + rect.height;
+        float h = pawns.get(0).getHeight();
         for (Pawn pawn : pawns) {
-            y -= (pawn.getHeight() + PADDING);
-            pawn.setPosition(x, y, Orientation.SOUTH.r());
+            y -= (h + PADDING);
+            // pawn.setPosition(x, y, Orientation.SOUTH.r());
+            pawn.centerOn((x + (rect.width / 2)), y + (h / 2));
+            pawn.setRotation(Orientation.SOUTH.r());
         }
 
         transform.idt();
