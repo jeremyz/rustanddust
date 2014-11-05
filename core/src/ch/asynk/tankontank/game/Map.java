@@ -176,7 +176,6 @@ public abstract class Map extends Board
 
     public int movePawn(Pawn pawn, Orientation o)
     {
-        System.err.println("    movePawn : " + pawn.getTile() + " " + o);
         possiblePaths.orientation = o;
         movePawn(pawn, possiblePaths, notifyDoneAnimation(pawn));
 
@@ -185,7 +184,6 @@ public abstract class Map extends Board
 
     public int rotatePawn(Pawn pawn, Orientation o)
     {
-        System.err.println("    rotatePawn : " + pawn.getTile() + " " + o);
         rotatePawn(pawn, o, notifyDoneAnimation(pawn));
 
         return startMove(pawn);
@@ -221,7 +219,7 @@ public abstract class Map extends Board
 
     private void animationDone()
     {
-        System.err.println("animation OVER");
+        System.err.println("animation done");
         if (soundId >= 0)
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, 0.5f));
         soundId = -1;
