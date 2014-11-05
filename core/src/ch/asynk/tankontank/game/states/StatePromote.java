@@ -8,10 +8,10 @@ public class StatePromote extends StateCommon
     public void enter(boolean flag)
     {
         ctrl.hud.hide();
-        Unit p = ctrl.player.promote(selectedUnit);
-        if (p != null) {
-            ctrl.hud.notify(p + " has been promoted");
-            map.promote(selectedUnit, p);
+        Unit unit = ctrl.player.promote(selectedUnit);
+        if (unit != null) {
+            ctrl.hud.notify(unit + " has been promoted");
+            map.promote(selectedUnit, unit);
         }
         done();
     }
