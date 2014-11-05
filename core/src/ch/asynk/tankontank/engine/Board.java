@@ -187,6 +187,32 @@ public abstract class Board implements Disposable
         tiles[5] = getTile((tile.col - 1), (tile.row - 1));
     }
 
+    public Tile getAdjTileAt(Tile tile, Orientation o)
+    {
+        Tile t = null;
+        switch(o) {
+            case NORTH:
+                t = getTile((tile.col + 1), tile.row);
+                break;
+            case NORTH_EAST:
+                t = getTile(tile.col, (tile.row - 1));
+                break;
+            case SOUTH_EAST:
+                t = getTile((tile.col - 1), (tile.row - 1));
+                break;
+            case SOUTH:
+                t = getTile((tile.col - 1), tile.row);
+                break;
+            case SOUTH_WEST:
+                t = getTile(tile.col, (tile.row + 1));
+                break;
+            case NORTH_WEST:
+                t = getTile((tile.col + 1), (tile.row + 1));
+                break;
+        }
+        return t;
+    }
+
     protected void addAnimation(Animation a)
     {
         nextAnimations.add(a);
@@ -316,6 +342,43 @@ public abstract class Board implements Disposable
         }
 
         return assists.size();
+    }
+
+    public Tile findBestEntry(Pawn pawn, Tile to, Orientation from)
+    {
+        // FIXME board corners
+        Tile entry = null;
+        int cost = Integer.MAX_VALUE;
+        boolean road = false;
+
+        Orientation o = from.opposite().left();
+        boolean r = to.road(o);
+        int c = to.costFrom(pawn, o);
+        if ((c < cost) || (r && (c == cost))) {
+            entry = getAdjTileAt(to, o);
+            cost = c;
+            road = r;
+        }
+
+        o = from.opposite();
+        r = to.road(o);
+        c = to.costFrom(pawn, o);
+        if ((c < cost) || (r && (c == cost))) {
+            entry = getAdjTileAt(to, o);
+            cost = c;
+            road = r;
+        }
+
+        o = from.opposite().right();
+        r = to.road(o);
+        c = to.costFrom(pawn, o);
+        if ((c < cost) || (r && (c == cost))) {
+            entry = getAdjTileAt(to, o);
+            cost = c;
+            road = r;
+        }
+
+        return entry;
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
