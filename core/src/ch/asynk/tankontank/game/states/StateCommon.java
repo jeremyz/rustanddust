@@ -5,7 +5,6 @@ import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State;
-import ch.asynk.tankontank.game.State.StateType;
 
 public abstract class StateCommon implements State
 {

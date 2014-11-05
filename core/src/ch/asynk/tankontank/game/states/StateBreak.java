@@ -2,7 +2,6 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Unit;
-import ch.asynk.tankontank.game.State.StateType;
 
 public class StateBreak extends StateCommon
 {

@@ -1,7 +1,6 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
-import ch.asynk.tankontank.game.State.StateType;
 
 public class StateRotate extends StateCommon
 {

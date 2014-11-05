@@ -1,7 +1,6 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Unit;
-import ch.asynk.tankontank.game.State.StateType;
 
 public class StatePromote extends StateCommon
 {

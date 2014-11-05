@@ -1,7 +1,5 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.game.State.StateType;
-
 public class StateAnimation extends StateCommon
 {
     @Override
