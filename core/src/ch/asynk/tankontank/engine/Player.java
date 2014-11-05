@@ -65,6 +65,18 @@ public abstract class Player
         reinforcement.add(pawn);
     }
 
+    public void unitEntry(Pawn pawn)
+    {
+        reinforcement.remove(pawn);
+        units.add(pawn);
+    }
+
+    public void revertUnitEntry(Pawn pawn)
+    {
+        units.remove(pawn);
+        reinforcement.add(pawn);
+    }
+
     public void casualty(Pawn pawn)
     {
         units.remove(pawn);
