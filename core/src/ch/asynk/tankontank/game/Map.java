@@ -105,11 +105,6 @@ public abstract class Map extends Board
         return collectPossibleMoves(pawn, possibleMoves);
     }
 
-    public int collectPossiblePaths(Pawn pawn, Hex to)
-    {
-        return possiblePaths.init(pawn, to);
-    }
-
     public int togglePossiblePathHex(Hex hex)
     {
         return possiblePaths.toggleCtrlTile(hex);

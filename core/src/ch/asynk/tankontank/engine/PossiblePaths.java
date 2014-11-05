@@ -35,19 +35,15 @@ public class PossiblePaths implements Iterable<Vector3>
         this.orientation = Orientation.KEEP;
     }
 
-    public int init(Pawn pawn, Tile from, Tile to)
+    public void init(Pawn pawn, Tile from)
     {
-        clear();
         this.pawn = pawn;
         this.from = from;
-        this.to = to;
-
-        return build();
     }
 
-    public int init(Pawn pawn, Tile to)
+    public void init(Pawn pawn)
     {
-        return init(pawn, pawn.getTile(), to);
+        init(pawn, pawn.getTile());
     }
 
     public void clear()
@@ -60,7 +56,6 @@ public class PossiblePaths implements Iterable<Vector3>
         this.filteredPaths.clear();
         this.tiles.clear();
         this.to = null;
-        this.pawn = null;
         this.orientation = Orientation.KEEP;
     }
 
@@ -82,8 +77,10 @@ public class PossiblePaths implements Iterable<Vector3>
             board.enableOverlayOn(tile, i, enable);
     }
 
-    private int build()
+    public int build(Tile to)
     {
+        clear();
+        this.to = to;
         // from and to are not part of the path
         if (board.distance(from, to) == 1) {
             ArrayList<Tile> temp = new ArrayList<Tile>(0);

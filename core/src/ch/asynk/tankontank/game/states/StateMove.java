@@ -11,12 +11,12 @@ public class StateMove extends StateCommon
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
         ctrl.hud.show(false, true, true, false, moreThanOne, ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
-        map.possiblePaths.clear();
 
         if (fromSelect) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
+            map.possiblePaths.init(activeUnit);
             map.collectAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
@@ -40,6 +40,7 @@ public class StateMove extends StateCommon
         activeUnit.hideMoveable();
         map.hidePossibleMoves();
         map.unselectHex(activeUnit.getHex());
+        map.possiblePaths.clear();
         if (to != null) {
             map.hideFinalPath(to);
         }
@@ -66,7 +67,7 @@ public class StateMove extends StateCommon
             if(unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
-            s = collectPaths();
+            s = collectPaths(upHex);
         } else if (map.possiblePaths.contains(upHex)) {
             s = togglePoint(downHex, s);
         }
@@ -106,6 +107,7 @@ public class StateMove extends StateCommon
             map.unselectHex(activeUnit.getHex());
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
+        map.possiblePaths.init(activeUnit, hex);
         map.selectHex(hex);
         activeUnit.showMoveable();
         map.hidePossibleMoves();
@@ -113,10 +115,10 @@ public class StateMove extends StateCommon
         map.showPossibleMoves();
     }
 
-    private int collectPaths()
+    private int collectPaths(Hex hex)
     {
-        to = upHex;
-        int s = map.collectPossiblePaths(activeUnit, to);
+        to = hex;
+        int s = map.possiblePaths.build(to);
         map.showMove(to);
         map.hidePossibleMoves();
         map.showPossiblePaths();
