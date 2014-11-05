@@ -274,7 +274,7 @@ public abstract class Map extends Board
 
         breakPawns.clear();
         for (Pawn p : activatedPawns) {
-            p.attack(target);
+            p.attack();
             if (p.isA(Unit.UnitType.INFANTRY))
                 breakPawns.add(p);
         }

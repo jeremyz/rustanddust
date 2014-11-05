@@ -198,29 +198,21 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public void rotate(Orientation o)
+    public void move()
     {
-        hasMoved = true;
+        System.err.println(move.toString());
+        if (move.cost > mpLeft) System.err.println("ERROR: Movement point exceeded: " + move.cost + "/" + mpLeft + " please report");
+
+        if (!move.entryMove) {
+            hasMoved = true;
+        }
+        mpLeft -= move.cost;
     }
 
     @Override
-    public void enter(int cost)
+    public void attack()
     {
-        if (cost > mp) System.err.println("ERROR: Movement point exceeded: " + cost + "/" + mp + " please report");
-        mpLeft -= cost;
-    }
-
-    @Override
-    public void move(int cost)
-    {
-        hasMoved = true;
-        if (cost > mp) System.err.println("ERROR: Movement point exceeded: " + cost + "/" + mp + " please report");
-        mpLeft = 0;
-    }
-
-    @Override
-    public void attack(Pawn target)
-    {
+        System.err.println(attack.toString());
         hasFired = true;
     }
 

@@ -444,7 +444,7 @@ public abstract class Board implements Disposable
         seq.addAnimation(whenDone);
         addAnimation(seq);
 
-        pawn.move(possiblePaths.pathCost(0));
+        pawn.move();
     }
 
     protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
@@ -457,7 +457,7 @@ public abstract class Board implements Disposable
         seq.addAnimation(whenDone);
         addAnimation(seq);
 
-        pawn.rotate(o);
+        pawn.move();
     }
 
     protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)

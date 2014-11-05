@@ -84,7 +84,7 @@ public class StateRotate extends StateCommon
     {
         doRotation(o);
         if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
-            selectedUnit.move(0);
+            selectedUnit.move();
         super.done();
     }
 
