@@ -60,4 +60,9 @@ public abstract class BattleCommon implements Battle
         player.addReinforcement(unit);
         pawnEntry.put(unit, entryPoint);
     }
+
+    public TileSet getEntryPoint(Unit unit)
+    {
+        return pawnEntry.get(unit);
+    }
 }
