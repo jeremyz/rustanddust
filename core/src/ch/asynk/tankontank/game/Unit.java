@@ -10,10 +10,10 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class Unit extends HeadedPawn
 {
-    public static final int MOVE = 0;
-    public static final int TARGET = 1;
-    public static final int FIRE = 2;
-    public static final int MAY_FIRE = 3;
+    public static final int MOVE        = 0;
+    public static final int TARGET      = 1;
+    public static final int FIRE        = 2;
+    public static final int MAY_FIRE    = 3;
 
     public enum UnitType implements Pawn.PawnType
     {
