@@ -52,6 +52,7 @@ public class Unit extends HeadedPawn
     public int def;
     public int cdef;
     public int mp;
+    public int mpLeft;
     public UnitType type;
     public UnitId id;
     private boolean hasMoved;
@@ -69,6 +70,7 @@ public class Unit extends HeadedPawn
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
+        mpLeft = mp;
         this.id = id;
         this.type = type;
         this.hasMoved = false;
@@ -84,6 +86,7 @@ public class Unit extends HeadedPawn
         this.def = defense;
         this.cdef = concealedDefense;
         this.mp = movementPoints;
+        mpLeft = mp;
         this.id = id;
         this.type = type;
         this.hasMoved = false;
@@ -99,7 +102,7 @@ public class Unit extends HeadedPawn
     @Override
     public int getMovementPoints()
     {
-        return mp;
+        return mpLeft;
     }
 
     @Override
@@ -201,10 +204,18 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public void enter(int cost)
+    {
+        if (cost > mp) System.err.println("ERROR: Movement point exceeded: " + cost + "/" + mp + " please report");
+        mpLeft -= cost;
+    }
+
+    @Override
     public void move(int cost)
     {
         hasMoved = true;
         if (cost > mp) System.err.println("ERROR: Movement point exceeded: " + cost + "/" + mp + " please report");
+        mpLeft = 0;
     }
 
     @Override
@@ -216,6 +227,7 @@ public class Unit extends HeadedPawn
     @Override
     public void reset()
     {
+        mpLeft = mp;
         hasFired = false;
         hasMoved = false;
     }
