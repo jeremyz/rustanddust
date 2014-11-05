@@ -108,10 +108,18 @@ public class Hud implements Disposable
 
     public void changeState(StateType from, StateType to)
     {
+        if (to != StateType.ENTRY);
+            unitDock.hide();
+
+        if ((to == StateType.SELECT) || (to == StateType.ENTRY))
+            reinforcement.blocked = false;
+        else
+            reinforcement.blocked = true;
     }
 
     public void update()
     {
+        unitDock.hide();
         turns.write("" + ctrl.player.getTurn());
         aps.write("" + ctrl.player.getAp());
         int r = ctrl.player.getReinforcement().size();
