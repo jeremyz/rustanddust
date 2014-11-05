@@ -157,6 +157,16 @@ public abstract class Pawn implements Moveable, Disposable
         move.reset();
     }
 
+    public void enterBoard(Tile to, Orientation o)
+    {
+        move.to = to;
+        move.from = null;
+        move.entryMove = true;
+        move.orientation = o;
+        move.cost = to.costFrom(this, o);
+        move();
+    }
+
     public boolean isEnemy(Faction other)
     {
         return faction.isEnemy(other);
