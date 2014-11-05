@@ -172,16 +172,16 @@ public class PossiblePaths implements Iterable<Vector3>
     {
         int cost = 0;
         boolean roadMarch = true;
-        Tile prev = null;
+        Tile prev = from;
 
         for (Tile next : paths.get(i)) {
-            if (prev != null) {
-                Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-                cost += next.costFrom(pawn, o);
-                roadMarch &= next.road(o);
-            }
+            Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
+            cost += next.costFrom(pawn, o);
+            roadMarch &= next.road(o);
             prev = next;
         }
+        Orientation o = Orientation.fromMove(to.col, to.row, prev.col, prev.row);
+        cost += to.costFrom(pawn, o);
 
         if (roadMarch)
             cost -= pawn.getRoadMarchBonus();
