@@ -55,8 +55,7 @@ public class StateRotate extends StateCommon
         o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
 
         if (o == Orientation.KEEP) return;
-        // FIXME this fucks up entry of 1MP pawns
-        // if (rotateOnly && (o == activeUnit.getOrientation())) return;
+        if (!activeUnit.move.entryMove && rotateOnly && (o == activeUnit.getOrientation())) return;
         rotationSet = true;
 
 
