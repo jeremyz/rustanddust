@@ -83,6 +83,10 @@ public class StateMove extends StateCommon
         hideAssists();
         ctrl.setAnimationCount(map.activatedPawns.size());
         map.revertMoves();
+        if (activeUnit.move.entryMove) {
+            map.leaveBoard(activeUnit);
+            ctrl.player.revertUnitEntry(activeUnit);
+        }
         super.abort();
     }
 

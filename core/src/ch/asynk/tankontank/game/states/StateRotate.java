@@ -71,6 +71,11 @@ public class StateRotate extends StateCommon
     public void abort()
     {
         ctrl.hud.hide();
+        if (activeUnit.move.entryMove) {
+            map.leaveBoard(activeUnit);
+            ctrl.player.revertUnitEntry(activeUnit);
+            super.abort();
+        }
         if (map.activatedPawns.size() == 0) {
             hideAssists();
             super.abort();
