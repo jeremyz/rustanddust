@@ -11,6 +11,7 @@ public class StateMove extends StateCommon
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
         ctrl.hud.show(false, true, true, false, moreThanOne, ctrl.cfg.canCancel);
         ctrl.hud.moveBtn.setOn();
+        map.possiblePaths.clear();
 
         if (fromSelect) {
             // use selectedHex and selectedUnit
@@ -40,7 +41,6 @@ public class StateMove extends StateCommon
         activeUnit.hideMoveable();
         map.hidePossibleMoves();
         map.unselectHex(activeUnit.getHex());
-        map.possiblePaths.clear();
         if (to != null) {
             map.hideFinalPath(to);
         }
