@@ -13,6 +13,7 @@ public class PossiblePaths implements Iterable<Vector3>
     private final Board board;
 
     public Pawn pawn;
+    public Tile from;
     public Tile to;
     public Orientation orientation;
     private List<Tile> stack;
@@ -34,13 +35,19 @@ public class PossiblePaths implements Iterable<Vector3>
         this.orientation = Orientation.KEEP;
     }
 
-    public int init(Pawn pawn, Tile to)
+    public int init(Pawn pawn, Tile from, Tile to)
     {
         clear();
         this.pawn = pawn;
+        this.from = from;
         this.to = to;
 
         return build();
+    }
+
+    public int init(Pawn pawn, Tile to)
+    {
+        return init(pawn, pawn.getTile(), to);
     }
 
     public void clear()
@@ -78,7 +85,6 @@ public class PossiblePaths implements Iterable<Vector3>
     private int build()
     {
         // from and to are not part of the path
-        Tile from = pawn.getTile();
         if (board.distance(from, to) == 1) {
             ArrayList<Tile> temp = new ArrayList<Tile>(0);
             // temp.add(from);
@@ -199,7 +205,7 @@ public class PossiblePaths implements Iterable<Vector3>
     {
         int steps = 0;
 
-        Tile tile = pawn.getTile();
+        Tile tile = from;
         Orientation o = pawn.getOrientation();
         for (Tile next : getPath(idx)) {
             Orientation nextO = Orientation.fromMove(tile.col, tile.row, next.col, next.row);
@@ -221,7 +227,7 @@ public class PossiblePaths implements Iterable<Vector3>
     @Override
     public Iterator<Vector3> iterator()
     {
-        return new Vector3Iterator(pawn, to, orientation, getPath(0));
+        return new Vector3Iterator(pawn, from, to, orientation, getPath(0));
     }
 
     private void printToErr(String what, List<ArrayList<Tile>> paths)
@@ -248,13 +254,13 @@ class Vector3Iterator implements Iterator<Vector3>
     private int i;
     private List<Tile> path;
 
-    public Vector3Iterator(Pawn pawn, Tile to, Orientation orientation, List<Tile> path)
+    public Vector3Iterator(Pawn pawn, Tile from, Tile to, Orientation orientation, List<Tile> path)
     {
         this.pawn = pawn;
         this.to = to;
+        this.tile = from;
         this.orientation = orientation;
         this.path = path;
-        this.tile = pawn.getTile();
         this.o = pawn.getOrientation();
         this.v.set(pawn.getPosition().x, pawn.getPosition().y, o.r());
         this.i = 0;
