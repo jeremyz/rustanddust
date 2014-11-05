@@ -152,6 +152,11 @@ public class Hud implements Disposable
         msg.draw(batch);
     }
 
+    public Unit getDockUnit()
+    {
+        return (Unit) unitDock.selectedPawn;
+    }
+
     public void pushNotify(String s)
     {
         notify(s, 1, Position.MIDDLE_CENTER, true);
@@ -206,6 +211,11 @@ public class Hud implements Disposable
         checkBtn.hide();
         cancelBtn.hide();
         actionsBg.set(0, 0, 0, 0);
+    }
+
+    public void hideUnitDock()
+    {
+        unitDock.hide();
     }
 
     public boolean touchDown(float x, float y)
@@ -269,7 +279,7 @@ public class Hud implements Disposable
             else if ((hit == reinforcement) && reinforcement.hit(x, y))
                 unitDock.toggle();
             else if ((hit == unitDock) && unitDock.hit(x, y))
-                System.err.println("TODO : unitDock hit");
+                ctrl.setState(StateType.ENTRY);
             hit = null;
         } else
             return false;

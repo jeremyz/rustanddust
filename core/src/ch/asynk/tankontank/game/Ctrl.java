@@ -11,11 +11,12 @@ import ch.asynk.tankontank.game.states.StatePromote;
 import ch.asynk.tankontank.game.states.StateAttack;
 import ch.asynk.tankontank.game.states.StateBreak;
 import ch.asynk.tankontank.game.states.StateAnimation;
+import ch.asynk.tankontank.game.states.StateEntry;
 
 public class Ctrl implements Disposable
 {
     private final TankOnTank game;
-    private final Battle battle;
+    public final Battle battle;
 
     public Map map;
     public Hud hud;
@@ -30,6 +31,7 @@ public class Ctrl implements Disposable
     private State attackState;
     private State breakState;
     private State animationState;
+    private State entryState;
 
     private int animationCount = 0;
 
@@ -55,6 +57,7 @@ public class Ctrl implements Disposable
         this.attackState = new StateAttack();
         this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
+        this.entryState = new StateEntry();
 
         this.state = selectState;
         this.stateType = State.StateType.SELECT;
@@ -160,6 +163,9 @@ public class Ctrl implements Disposable
                 break;
             case ANIMATION:
                 this.state = animationState;
+                break;
+            case ENTRY:
+                this.state = entryState;
                 break;
             default:
                 break;

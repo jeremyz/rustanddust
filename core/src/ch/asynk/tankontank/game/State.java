@@ -9,7 +9,8 @@ public interface State
         ATTACK,
         BREAK,
         PROMOTE,
-        ANIMATION
+        ANIMATION,
+        ENTRY
     };
 
     public void enter(boolean flag);
