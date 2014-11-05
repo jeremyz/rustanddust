@@ -13,7 +13,6 @@ public class StateBreak extends StateCommon
     {
         done = false;
         activeUnit = null;
-        ctrl.hud.hide();
         ctrl.hud.show(false, false, false, false, true, false);
         map.showBreakPawns();
     }

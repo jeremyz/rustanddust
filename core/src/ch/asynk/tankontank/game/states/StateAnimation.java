@@ -5,7 +5,6 @@ public class StateAnimation extends StateCommon
     @Override
     public void enter(boolean flag)
     {
-        ctrl.hud.hide();
     }
 
     @Override
