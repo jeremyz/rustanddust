@@ -273,6 +273,11 @@ public abstract class Pawn implements Moveable, Disposable
         return Orientation.fromRotation(getRotation());
     }
 
+    public void centerOn(float x, float y)
+    {
+        setPosition((x - (getWidth() / 2f)), (y - (getHeight() / 2f)));
+    }
+
     @Override
     public void setPosition(float x, float y)
     {
