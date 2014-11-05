@@ -424,12 +424,12 @@ public abstract class Board implements Disposable
         return pawn;
     }
 
-    private RunnableAnimation getSetPawnOntoAnimation(final Pawn pawn, final Tile dest )
+    private RunnableAnimation getSetPawnOntoAnimation(final Pawn pawn)
     {
         return RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                setPawnOnto(pawn, dest, pawn.getRotation());
+                setPawnOnto(pawn, pawn.move.to, pawn.move.orientation);
             }
         });
     }
@@ -440,7 +440,7 @@ public abstract class Board implements Disposable
         removePawn(pawn);
 
         AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), possiblePaths.pathSteps(0) + 2);
-        seq.addAnimation(getSetPawnOntoAnimation(pawn, possiblePaths.to));
+        seq.addAnimation(getSetPawnOntoAnimation(pawn));
         seq.addAnimation(whenDone);
         addAnimation(seq);
 
@@ -453,7 +453,7 @@ public abstract class Board implements Disposable
         removePawn(pawn);
 
         AnimationSequence seq = pawn.getRotateAnimation(o.r(), 2);
-        seq.addAnimation(getSetPawnOntoAnimation(pawn, pawn.getTile()));
+        seq.addAnimation(getSetPawnOntoAnimation(pawn));
         seq.addAnimation(whenDone);
         addAnimation(seq);
 
