@@ -27,11 +27,24 @@ public abstract class Pawn implements Moveable, Disposable
 
     public class Attack
     {
-        int distance;
         Pawn target;
+        int distance;
         boolean isClear;
         boolean isFlank;
         public String calculus;
+
+        public String toString()
+        {
+            return "attack : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank + " " + calculus;
+        }
+
+        public void reset()
+        {
+            target = null;
+            distance = 0;;
+            isClear = false;
+            isFlank = false;
+        }
     }
 
     private static final float MOVE_TIME = 0.4f;
@@ -69,7 +82,6 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract void rotate(Orientation o);
     public abstract void attack(Pawn target);
 
-    public abstract void reset();
     public abstract void revertLastMove();
 
     protected Pawn()
@@ -99,6 +111,11 @@ public abstract class Pawn implements Moveable, Disposable
     public void dispose()
     {
         image.dispose();
+    }
+
+    public void reset()
+    {
+        attack.reset();
     }
 
     public boolean isEnemy(Faction other)

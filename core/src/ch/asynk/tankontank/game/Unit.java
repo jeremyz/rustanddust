@@ -227,6 +227,7 @@ public class Unit extends HeadedPawn
     @Override
     public void reset()
     {
+        super.reset();
         mpLeft = mp;
         hasFired = false;
         hasMoved = false;
