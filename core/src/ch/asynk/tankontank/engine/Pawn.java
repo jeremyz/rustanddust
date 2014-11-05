@@ -177,6 +177,11 @@ public abstract class Pawn implements Moveable, Disposable
         return tile;
     }
 
+    public Tile getPreviousTile()
+    {
+        return prevTile;
+    }
+
     public Vector3 getPosition()
     {
         return position;
