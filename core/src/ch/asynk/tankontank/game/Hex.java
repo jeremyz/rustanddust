@@ -84,10 +84,10 @@ public class Hex extends Tile
     }
 
     @Override
-    public int costFrom(Pawn pawn, Orientation side, boolean road)
+    public int costFrom(Pawn pawn, Orientation side)
     {
         if (hasUnits()) return Integer.MAX_VALUE;
-        if (road) return 1;
+        if (road(side)) return 1;
 
         int c = 0;
         switch(terrain) {

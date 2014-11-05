@@ -104,10 +104,10 @@ public class PossiblePaths implements Iterable<Vector3>
             Tile next = moves[i];
             if (next == null) continue;
 
-            boolean road = next.road(board.getSide(i));
-            int cost = next.costFrom(pawn, board.getSide(i), road);
+            int cost = next.costFrom(pawn, board.getSide(i));
             int r = (mvtLeft - cost);
-            if (roadMarch & road) r += pawn.getRoadMarchBonus();
+            roadMarch &= next.road(board.getSide(i));
+            if (roadMarch) r += pawn.getRoadMarchBonus();
 
             if ((board.distance(next, to) <= r)) {
                 if (next == to) {
@@ -119,7 +119,7 @@ public class PossiblePaths implements Iterable<Vector3>
                     for (Tile tile : temp) tiles.add(tile);
                 } else {
                     stack.add(next);
-                    findAllPaths(next, (mvtLeft - cost), (roadMarch & road));
+                    findAllPaths(next, (mvtLeft - cost), roadMarch);
                     stack.remove(stack.size() - 1);
                 }
             }
@@ -174,9 +174,8 @@ public class PossiblePaths implements Iterable<Vector3>
         for (Tile next : paths.get(i)) {
             if (prev != null) {
                 Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-                boolean road = next.road(o);
-                cost += next.costFrom(pawn, o, road);
-                roadMarch &= road;
+                cost += next.costFrom(pawn, o);
+                roadMarch &= next.road(o);
             }
             prev = next;
         }

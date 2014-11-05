@@ -149,11 +149,10 @@ public class SearchBoard
                 if (dst != null) {
 
                     Tile t = getTile(dst);
-                    boolean road = t.road(board.getSide(i));
-                    int cost = t.costFrom(pawn, board.getSide(i), road);
+                    int cost = t.costFrom(pawn, board.getSide(i));
                     boolean mayMoveOne = first && t.atLeastOneMove(pawn);
                     int r = src.remaining - cost;
-                    boolean roadMarch = road && src.roadMarch;
+                    boolean roadMarch = (src.roadMarch && t.road(board.getSide(i)));
 
                     if (dst.search == searchCount) {
                         if ((r >= 0) && ((r > dst.remaining) || (roadMarch && ((r + roadMarchBonus) >= dst.remaining)))) {
@@ -194,7 +193,7 @@ public class SearchBoard
                     Tile t = getTile(dst);
                     if (!t.road(board.getSide(i)))
                         continue;
-                    int cost = t.costFrom(pawn, board.getSide(i), true);
+                    int cost = t.costFrom(pawn, board.getSide(i));
                     int r = src.remaining - cost;
 
                     if (dst.search == searchCount) {
