@@ -344,10 +344,10 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    public Tile findBestEntry(Pawn pawn, Tile to, Orientation from)
+    public Orientation findBestEntry(Pawn pawn, Tile to, Orientation from)
     {
         // FIXME board corners
-        Tile entry = null;
+        Orientation entry = Orientation.KEEP;
         int cost = Integer.MAX_VALUE;
         boolean road = false;
 
@@ -355,7 +355,7 @@ public abstract class Board implements Disposable
         boolean r = to.road(o);
         int c = to.costFrom(pawn, o);
         if ((c < cost) || (r && (c == cost))) {
-            entry = getAdjTileAt(to, o);
+            entry = o;
             cost = c;
             road = r;
         }
@@ -364,7 +364,7 @@ public abstract class Board implements Disposable
         r = to.road(o);
         c = to.costFrom(pawn, o);
         if ((c < cost) || (r && (c == cost))) {
-            entry = getAdjTileAt(to, o);
+            entry = o;
             cost = c;
             road = r;
         }
@@ -373,7 +373,7 @@ public abstract class Board implements Disposable
         r = to.road(o);
         c = to.costFrom(pawn, o);
         if ((c < cost) || (r && (c == cost))) {
-            entry = getAdjTileAt(to, o);
+            entry = o;
             cost = c;
             road = r;
         }
