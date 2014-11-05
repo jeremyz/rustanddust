@@ -105,12 +105,12 @@ public class PossiblePaths implements Iterable<Vector3>
 
         for(int i = 0; i < 6; i++) {
             Tile next = moves[i];
-            if (next == null) continue;
+            if ((next == null) || next.isOffMap()) continue;
 
             int cost = next.costFrom(pawn, board.getSide(i));
             int r = (mvtLeft - cost);
-            roadMarch &= next.road(board.getSide(i));
-            if (roadMarch) r += pawn.getRoadMarchBonus();
+            boolean road = roadMarch & next.road(board.getSide(i));
+            if (road) r += pawn.getRoadMarchBonus();
 
             if ((board.distance(next, to) <= r)) {
                 if (next == to) {
@@ -122,7 +122,7 @@ public class PossiblePaths implements Iterable<Vector3>
                     for (Tile tile : temp) tiles.add(tile);
                 } else {
                     stack.add(next);
-                    findAllPaths(next, (mvtLeft - cost), roadMarch);
+                    findAllPaths(next, (mvtLeft - cost), road);
                     stack.remove(stack.size() - 1);
                 }
             }
