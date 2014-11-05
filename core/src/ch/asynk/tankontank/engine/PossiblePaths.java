@@ -168,6 +168,14 @@ public class PossiblePaths implements Iterable<Vector3>
         return filteredPaths.size();
     }
 
+    public void applyToPawn(int i)
+    {
+        pawn.move.from = from;
+        pawn.move.to = to;
+        pawn.move.orientation = orientation;
+        pathCost(i);
+    }
+
     public int pathCost(int i)
     {
         int cost = 0;
@@ -187,6 +195,10 @@ public class PossiblePaths implements Iterable<Vector3>
             cost -= pawn.getRoadMarchBonus();
         if (cost < 1)
             cost = 1;
+
+        pawn.move.cost = cost;
+        pawn.move.roadMarch = roadMarch;
+        pawn.move.distance = (1 + paths.get(i).size());
 
         return cost;
     }

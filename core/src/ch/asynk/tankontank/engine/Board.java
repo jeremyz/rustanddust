@@ -436,6 +436,7 @@ public abstract class Board implements Disposable
 
     protected void movePawn(final Pawn pawn, PossiblePaths possiblePaths, RunnableAnimation whenDone)
     {
+        possiblePaths.applyToPawn(0);
         removePawn(pawn);
 
         AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), possiblePaths.pathSteps(0) + 2);
