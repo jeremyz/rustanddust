@@ -47,6 +47,45 @@ public abstract class Pawn implements Moveable, Disposable
         }
     }
 
+    public class Move
+    {
+        Tile from;
+        Tile to;
+        int distance;
+        public int cost;
+        boolean roadMarch;
+        public boolean entryMove;
+        Orientation orientation;
+
+        public String toString()
+        {
+            if (from == null)
+                return "move : reinforcement -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
+            else
+                return "move : [" + from.col + ";" + from.row + "] -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
+        }
+
+        public void setRotation(Tile tile, Orientation o)
+        {
+            from = tile;
+            to = tile;
+            cost = 0;
+            roadMarch = false;
+            entryMove = false;
+            orientation = o;
+        }
+
+        public void reset()
+        {
+            from = null;
+            to = null;
+            cost = Integer.MAX_VALUE;
+            roadMarch = false;
+            entryMove = false;
+            orientation = Orientation.KEEP;
+        }
+    }
+
     private static final float MOVE_TIME = 0.4f;
 
     private Vector3 position;
@@ -58,6 +97,7 @@ public abstract class Pawn implements Moveable, Disposable
     private Image image;
     private StackedImages overlays;
     public Attack attack = new Attack();
+    public Move move = new Move();
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
@@ -116,6 +156,7 @@ public abstract class Pawn implements Moveable, Disposable
     public void reset()
     {
         attack.reset();
+        move.reset();
     }
 
     public boolean isEnemy(Faction other)
