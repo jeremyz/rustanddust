@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
+import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
 
@@ -21,28 +23,33 @@ public class BattleHeadToHead extends BattleCommon
         randomizeArmies();
     }
 
-    public boolean checkVictory(Ctrl ctrl)
+    public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
-            return true;
+            return null;
 
         if ((ctrl.player.getTurn() < 10) || (ctrl.opponent.getTurn() < 10))
-            return false;
+            return null;
 
         Unit unit;
-        int objectives = 0;
+        int player = 0;
+        int opponent = 0;
 
-        unit = ctrl.map.getHex(7, 7).getUnit();
-        if ((unit != null) && (!ctrl.player.isEnemy(unit)))
-                objectives += 1;
-        unit = ctrl.map.getHex(6, 4).getUnit();
-        if ((unit != null) && (!ctrl.player.isEnemy(unit)))
-                objectives += 1;
-        unit = ctrl.map.getHex(6, 1).getUnit();
-        if ((unit != null) && (!ctrl.player.isEnemy(unit)))
-                objectives += 1;
+        for (Tile tile : objectives) {
+            unit = ((Hex) tile).getUnit();
+            if (unit != null) {
+                if (ctrl.player.isEnemy(unit))
+                    opponent += 1;
+                else
+                    player += 1;
+            }
+        }
 
-        return (objectives > 1);
+        if (player > 1)
+            return ctrl.player;
+        else if (opponent > 1)
+            return ctrl.opponent;
+        return null;
     }
 
     @Override

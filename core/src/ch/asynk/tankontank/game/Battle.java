@@ -19,7 +19,7 @@ public interface Battle
 
     public void setup(Map map, Player firstPlayer, Player secondPlayer);
 
-    public boolean checkVictory(Ctrl ctrl);
+    public Player checkVictory(Ctrl ctrl);
 
     public TileSet getEntryPoint(Unit unit);
 

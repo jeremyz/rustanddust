@@ -102,8 +102,9 @@ public class Ctrl implements Disposable
     private void nextPlayer()
     {
         player.turnEnd();
-        if (battle.checkVictory(this)) {
-            TankOnTank.debug("TODO " + player + " has won !!!!!!!!!!!");
+        Player winner = battle.checkVictory(this);
+        if (winner != null) {
+            TankOnTank.debug("TODO " + winner + " has won !!!!!!!!!!!");
         }
         Player tmp = player;
         player = opponent;
