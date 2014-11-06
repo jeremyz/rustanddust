@@ -85,9 +85,11 @@ public class BattleHeadToHead extends BattleCommon
             gePlayer = a;
         }
 
-        map.showObjective(map.getHex(7, 7));
-        map.showObjective(map.getHex(6, 4));
-        map.showObjective(map.getHex(6, 1));
+        objectives = new TileSet(map, 3);
+        objectives.add(map.getHex(7, 7));
+        objectives.add(map.getHex(6, 4));
+        objectives.add(map.getHex(6, 1));
+        objectives.enable(Hex.OBJECTIVE, true);
 
         TileSet geEntry = new TileSet(map, 10);
         geEntry.add(map.getHex(0, 0));

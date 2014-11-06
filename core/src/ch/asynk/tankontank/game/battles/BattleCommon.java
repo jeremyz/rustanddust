@@ -22,6 +22,7 @@ public abstract class BattleCommon implements Battle
     protected Factory factory;
     protected ArrayList<TileSet> entryPoints = new ArrayList<TileSet>();
     protected HashMap<Unit, TileSet> pawnEntry = new HashMap<Unit, TileSet>();
+    protected TileSet objectives;
 
     public BattleCommon(Factory factory)
     {
