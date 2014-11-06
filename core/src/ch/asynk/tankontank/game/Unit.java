@@ -8,6 +8,8 @@ import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;
 import ch.asynk.tankontank.engine.Orientation;
 
+import ch.asynk.tankontank.TankOnTank;
+
 public class Unit extends HeadedPawn
 {
     public static final int MOVE        = 0;
@@ -200,8 +202,8 @@ public class Unit extends HeadedPawn
     @Override
     public void move()
     {
-        System.err.println(move.toString());
-        if (move.cost > mpLeft) System.err.println("ERROR: Movement point exceeded: " + move.cost + "/" + mpLeft + " please report");
+        TankOnTank.debug(move.toString());
+        if (move.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + move.cost + "/" + mpLeft + " please report");
 
         if (!move.entryMove) {
             hasMoved = true;
@@ -212,7 +214,7 @@ public class Unit extends HeadedPawn
     @Override
     public void attack()
     {
-        System.err.println(attack.toString());
+        TankOnTank.debug(attack.toString());
         hasFired = true;
     }
 

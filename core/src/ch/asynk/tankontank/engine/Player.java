@@ -81,7 +81,6 @@ public abstract class Player
     {
         units.remove(pawn);
         casualties.add(pawn);
-        System.err.println("    casualty : " + pawn);
     }
 
     public Iterator<Pawn> unitIterator()

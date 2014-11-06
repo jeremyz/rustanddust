@@ -3,6 +3,8 @@ package ch.asynk.tankontank.game.states;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Unit;
 
+import ch.asynk.tankontank.TankOnTank;
+
 public class StateBreak extends StateCommon
 {
     private boolean done;
@@ -82,6 +84,6 @@ public class StateBreak extends StateCommon
             ctrl.setAnimationCount(1);
             ctrl.setState(StateType.ANIMATION);
         } else
-            System.err.println("That's very wrong there should be only one path");
+            TankOnTank.debug("That's very wrong there should be only one path");
     }
 }

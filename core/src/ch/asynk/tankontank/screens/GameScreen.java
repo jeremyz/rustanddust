@@ -224,7 +224,7 @@ public class GameScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        // Gdx.app.debug("GameScreen", "resize (" + width + "," + height + ")");
+        // TankOnTank.debug("GameScreen", "resize (" + width + "," + height + ")");
         mapViewport.update(width, height);
         // hudViewport.update(width, height);
 
@@ -237,7 +237,7 @@ public class GameScreen implements Screen
     @Override
     public void dispose()
     {
-        // Gdx.app.debug("GameScreen", "dispose()");
+        // TankOnTank.debug("GameScreen", "dispose()");
         mapBatch.dispose();
         hudBatch.dispose();
         ctrl.dispose();
@@ -247,24 +247,24 @@ public class GameScreen implements Screen
     @Override
     public void show()
     {
-        // Gdx.app.debug("GameScreen", "show()");
+        // TankOnTank.debug("GameScreen", "show()");
     }
 
     @Override
     public void hide()
     {
-        // Gdx.app.debug("GameScreen", "hide()");
+        // TankOnTank.debug("GameScreen", "hide()");
     }
 
     @Override
     public void pause()
     {
-        // Gdx.app.debug("GameScreen", "pause()");
+        // TankOnTank.debug("GameScreen", "pause()");
     }
 
     @Override
     public void resume()
     {
-        // Gdx.app.debug("GameScreen", "resume()");
+        // TankOnTank.debug("GameScreen", "resume()");
     }
 }

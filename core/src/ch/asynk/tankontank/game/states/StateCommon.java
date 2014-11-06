@@ -6,6 +6,8 @@ import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State;
 
+import ch.asynk.tankontank.TankOnTank;
+
 public abstract class StateCommon implements State
 {
     protected static Ctrl ctrl;
@@ -98,7 +100,7 @@ public abstract class StateCommon implements State
             isEnemy = ctrl.player.isEnemy(selectedUnit);
         else
             isEnemy = false;
-        System.err.println("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
+        TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 
     protected void showPossibleTargetsMovesAssists(Unit pawn)

@@ -2,11 +2,12 @@ package ch.asynk.tankontank.game.hud;
 
 import java.util.ArrayDeque;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+
+import ch.asynk.tankontank.TankOnTank;
 
 public class Msg extends Bg
 {
@@ -114,7 +115,7 @@ public class Msg extends Bg
            visible = false;
            if (stack.size() > 0) {
                MsgInfo info = stack.pop();
-               System.err.println(info);
+               TankOnTank.debug(info.text);
                write(info.text, info.duration, info.position);
            }
         }

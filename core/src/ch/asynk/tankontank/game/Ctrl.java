@@ -88,7 +88,6 @@ public class Ctrl implements Disposable
     public void setAnimationCount(int count)
     {
         animationCount = count;
-        System.err.println("    setAnimationCount(" + count + ")");
     }
 
     public void animationDone()
@@ -97,14 +96,14 @@ public class Ctrl implements Disposable
         if (animationCount == 0)
             state.done();
         if (animationCount < 0)
-            System.err.println("    animationCount < 0");
+            TankOnTank.debug("    animationCount < 0");
     }
 
     private void nextPlayer()
     {
         player.turnEnd();
         if (battle.checkVictory(this)) {
-            System.err.println("TODO " + player + " has won !!!!!!!!!!!");
+            TankOnTank.debug("TODO " + player + " has won !!!!!!!!!!!");
         }
         Player tmp = player;
         player = opponent;
@@ -140,7 +139,7 @@ public class Ctrl implements Disposable
         hud.changeState(stateType, state);
         this.state.leave(state);
 
-        System.err.println("  switch to : " + state + " " + normal);
+        TankOnTank.debug("  switch to : " + state + " " + normal);
         switch(state) {
             case SELECT:
                 this.state = selectState;

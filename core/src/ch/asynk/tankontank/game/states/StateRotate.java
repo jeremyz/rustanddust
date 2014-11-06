@@ -2,6 +2,8 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
 
+import ch.asynk.tankontank.TankOnTank;
+
 public class StateRotate extends StateCommon
 {
     private boolean rotateOnly;
@@ -23,7 +25,7 @@ public class StateRotate extends StateCommon
             to = activeUnit.getHex();
         } else {
             if (to == null)
-                System.err.println("to is null but should not be");
+                TankOnTank.debug("to is null but should not be");
             map.showFinalPath(to);
         }
 

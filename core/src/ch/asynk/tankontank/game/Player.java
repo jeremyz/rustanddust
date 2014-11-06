@@ -46,7 +46,7 @@ public class Player extends ch.asynk.tankontank.engine.Player
     public void burnDownOneAp()
     {
         apSpent += 1;
-        if (apSpent > actionPoints) System.err.println("ERROR: spent too much AP, please report");
+        if (apSpent > actionPoints) TankOnTank.debug("ERROR: spent too much AP, please report");
     }
 
     @Override

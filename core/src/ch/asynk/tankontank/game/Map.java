@@ -204,7 +204,7 @@ public abstract class Map extends Board
 
     public void revertMoves()
     {
-        System.err.println("    revertMoves()");
+        TankOnTank.debug("    revertMoves()");
         for (Pawn pawn : activatedPawns) {
             revertLastPawnMove(pawn, notifyDoneAnimation(pawn));
         }
@@ -232,7 +232,7 @@ public abstract class Map extends Board
 
     private void animationDone()
     {
-        System.err.println("animation done");
+        TankOnTank.debug("animation done");
         if (soundId >= 0)
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, 0.5f));
         soundId = -1;
@@ -263,7 +263,7 @@ public abstract class Map extends Board
             int def = target.getTile().defenseFor(pawn, target, activatedPawns);
             success = ((dice + activatedUnits + flankAttacks) >= def);
         }
-        System.err.println(pawn + "  attacks " + target + " : " + pawn.attack.calculus);
+        TankOnTank.debug(pawn + "  attacks " + target + " : " + pawn.attack.calculus);
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {

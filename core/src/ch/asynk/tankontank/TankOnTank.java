@@ -21,11 +21,21 @@ public class TankOnTank extends Game
     public Ctrl ctrl;
     public Config config;
 
+    public static void debug(String msg)
+    {
+        debug("", msg);
+    }
+
+    public static void debug(String dom, String msg)
+    {
+        Gdx.app.debug(dom, msg);
+    }
+
     @Override
     public void create ()
     {
         Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
-        Gdx.app.debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
+        debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
 
         manager = new AssetManager();
         factory = new Factory(this);
@@ -37,7 +47,7 @@ public class TankOnTank extends Game
 
     public void loadAssets()
     {
-        Gdx.app.debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
@@ -52,8 +62,8 @@ public class TankOnTank extends Game
 
     public void unloadAssets()
     {
-        Gdx.app.debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-        Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
+        debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
         manager.unload("data/hud.atlas");
@@ -64,7 +74,7 @@ public class TankOnTank extends Game
         manager.unload("data/explosions.png");
         manager.unload("sounds/move.mp3");
         manager.unload("sounds/attack.mp3");
-        Gdx.app.debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
+        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
     public void onLoaded()
@@ -83,14 +93,14 @@ public class TankOnTank extends Game
     // @Override
     // public void resize(int width, int height)
     // {
-    //     Gdx.app.debug("TankOnTank", "resize(" + width + ", " + height + ")");
+    //     debug("TankOnTank", "resize(" + width + ", " + height + ")");
     //     super.resize(width, height);
     // }
 
     @Override
     public void dispose()
     {
-        Gdx.app.debug("TankOnTank", "dispose()");
+        debug("TankOnTank", "dispose()");
         getScreen().dispose();
         factory.dispose();
         unloadAssets();
@@ -99,12 +109,12 @@ public class TankOnTank extends Game
     // @Override
     // public void pause()
     // {
-    //     Gdx.app.debug("TankOnTank", "pause()");
+    //     debug("TankOnTank", "pause()");
     // }
 
     // @Override
     // public void resume()
     // {
-    //     Gdx.app.debug("TankOnTank", "resume()");
+    //     debug("TankOnTank", "resume()");
     // }
 }

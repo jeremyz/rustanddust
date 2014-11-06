@@ -47,7 +47,7 @@ public class LoadScreen implements Screen
         if (game.manager.update()) {
             delay += delta;
             if (delay >= 0.2f) {
-                Gdx.app.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+                TankOnTank.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
                 game.onLoaded();
                 game.setScreen(new OptionsScreen(game));
                 dispose();
@@ -68,7 +68,7 @@ public class LoadScreen implements Screen
     @Override
     public void show()
     {
-        Gdx.app.debug("LoadScreen", "show()");
+        TankOnTank.debug("LoadScreen", "show()");
         game.manager.load("loading.pack", TextureAtlas.class);
         game.manager.finishLoading();
 
@@ -101,7 +101,7 @@ public class LoadScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        // Gdx.app.debug("LoadScreen", "resize (" + width + "," + height + ")");
+        // TankOnTank.debug("LoadScreen", "resize (" + width + "," + height + ")");
 
         stage.getViewport().update(width, height, true);
 
@@ -129,26 +129,26 @@ public class LoadScreen implements Screen
     @Override
     public void dispose()
     {
-        // Gdx.app.debug("LoadScreen", "dispose()");
+        // TankOnTank.debug("LoadScreen", "dispose()");
         stage.dispose();
     }
 
     @Override
     public void hide()
     {
-        // Gdx.app.debug("LoadScreen", "hide()");
+        // TankOnTank.debug("LoadScreen", "hide()");
         game.manager.unload("loading.pack");
     }
 
     @Override
     public void pause()
     {
-        // Gdx.app.debug("LoadScreen", "pause()");
+        // TankOnTank.debug("LoadScreen", "pause()");
     }
 
     @Override
     public void resume()
     {
-        // Gdx.app.debug("LoadScreen", "resume()");
+        // TankOnTank.debug("LoadScreen", "resume()");
     }
 }

@@ -2,6 +2,8 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Unit;
 
+import ch.asynk.tankontank.TankOnTank;
+
 public class StateAttack extends StateCommon
 {
     @Override
@@ -26,7 +28,7 @@ public class StateAttack extends StateCommon
             selectedUnit.showAttack();
             map.selectHex(selectedHex);
         } else
-            System.err.println("should not happen");
+            TankOnTank.debug("should not happen");
     }
 
     @Override

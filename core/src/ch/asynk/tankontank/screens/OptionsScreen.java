@@ -54,7 +54,7 @@ public class OptionsScreen implements Screen
     @Override
     public void show()
     {
-        Gdx.app.debug("OptionsScreen", "show()");
+        TankOnTank.debug("OptionsScreen", "show()");
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
@@ -98,7 +98,7 @@ public class OptionsScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        // Gdx.app.debug("OptionsScreen", "resize (" + width + "," + height + ")");
+        // TankOnTank.debug("OptionsScreen", "resize (" + width + "," + height + ")");
 
         stage.getViewport().update(width, height, true);
 
@@ -125,25 +125,25 @@ public class OptionsScreen implements Screen
     @Override
     public void dispose()
     {
-        // Gdx.app.debug("LoadScreen", "dispose()");
+        // TankOnTank.debug("LoadScreen", "dispose()");
         stage.dispose();
     }
 
     @Override
     public void hide()
     {
-        // Gdx.app.debug("LoadScreen", "hide()");
+        // TankOnTank.debug("LoadScreen", "hide()");
     }
 
     @Override
     public void pause()
     {
-        // Gdx.app.debug("LoadScreen", "pause()");
+        // TankOnTank.debug("LoadScreen", "pause()");
     }
 
     @Override
     public void resume()
     {
-        // Gdx.app.debug("LoadScreen", "resume()");
+        // TankOnTank.debug("LoadScreen", "resume()");
     }
 }
