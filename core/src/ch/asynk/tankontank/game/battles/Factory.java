@@ -59,7 +59,7 @@ public class Factory implements Board.TileBuilder, Disposable
         Board.Config cfg = new Board.Config();
         cfg.cols = 10;
         cfg.rows = 9;
-        cfg.x0 = 272;
+        cfg.x0 = 86;
         cfg.y0 = 182;
         cfg.w = 189;
         cfg.dw = 94;

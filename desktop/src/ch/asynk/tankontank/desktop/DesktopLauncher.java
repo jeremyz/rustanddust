@@ -9,7 +9,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Tank On Tank";
         config.width = 800;
-        config.height = 626;
+        config.height = 682;
         new LwjglApplication(new TankOnTank(), config);
     }
 }
