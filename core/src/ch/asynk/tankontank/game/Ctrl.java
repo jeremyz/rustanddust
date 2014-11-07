@@ -23,6 +23,7 @@ public class Ctrl implements Disposable
     public Config cfg;
     public Player player;
     public Player opponent;
+    public boolean blockMap;
 
     private State selectState;
     private State pathState;
@@ -63,6 +64,7 @@ public class Ctrl implements Disposable
         this.stateType = State.StateType.SELECT;
 
         this.hud = new Hud(this, game);
+        this.blockMap = false;
 
         player.turnStart();
         hud.update();
@@ -187,13 +189,13 @@ public class Ctrl implements Disposable
 
     public void touchDown(float x, float y)
     {
-        if (state.downInMap(x, y))
+        if (!blockMap && state.downInMap(x, y))
             state.touchDown();
     }
 
     public void touchUp(float x, float y)
     {
-        if (state.upInMap(x, y))
+        if (!blockMap && state.upInMap(x, y))
             state.touchUp();
     }
 }
