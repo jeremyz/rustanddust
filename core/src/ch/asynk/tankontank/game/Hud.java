@@ -16,6 +16,7 @@ import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.TextImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
+import ch.asynk.tankontank.game.hud.Dialog;
 import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -47,6 +48,7 @@ public class Hud implements Disposable
     private TextImage aps;
     private TextImage reinforcement;
     private UnitDock unitDock;
+    public Dialog dialog;
 
     private Vector2 corner;
 
@@ -74,6 +76,8 @@ public class Hud implements Disposable
         aps = new TextImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
         reinforcement = new TextImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
         unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"));
+
+        dialog = new Dialog(game.skin.getFont("default-font"), atlas.findRegion("disabled"), atlas);
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
@@ -158,6 +162,7 @@ public class Hud implements Disposable
         checkBtn.draw(batch);
         cancelBtn.draw(batch);
         msg.draw(batch);
+        dialog.draw(batch);
     }
 
     public Unit getDockUnit()
@@ -237,6 +242,8 @@ public class Hud implements Disposable
             hit = unitDock;
         else if (reinforcement.hit(x, y))
             hit = reinforcement;
+        else if (dialog.hit(x, y))
+            hit = dialog;
         else if (actionsBg.hit(x,y)) {
             if (moveBtn.hit(x, y))
                 btn = moveBtn;
@@ -283,15 +290,31 @@ public class Hud implements Disposable
             btn = null;
         } else if (hit != null) {
             if ((hit == turns) && turns.hit(x, y))
-                ctrl.endPlayerTurn();
+                askEndTurn();
             else if ((hit == reinforcement) && reinforcement.hit(x, y))
                 unitDock.toggle();
             else if ((hit == unitDock) && unitDock.hit(x, y))
                 ctrl.setState(StateType.ENTRY);
+            else if ((hit == dialog) && dialog.hit(x, y))
+                leaveEndTurn();
             hit = null;
         } else
             return false;
 
         return true;
+    }
+
+    private void askEndTurn()
+    {
+        ctrl.blockMap = true;
+        dialog.show("You still have Action Points left. End your Turn ?", Position.MIDDLE_CENTER);
+    }
+
+    private void leaveEndTurn()
+    {
+        dialog.visible = false;
+        ctrl.blockMap = false;
+        if (dialog.ok)
+            ctrl.endPlayerTurn();
     }
 }
