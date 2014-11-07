@@ -50,6 +50,11 @@ public class Text implements Drawable, Disposable
         this.ry = (y + b.height);
     }
 
+    public TextBounds getBounds()
+    {
+        return font.getBounds(text);
+    }
+
     public void write(String text)
     {
         this.text = text;
