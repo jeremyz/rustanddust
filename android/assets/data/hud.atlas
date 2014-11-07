@@ -157,6 +157,13 @@ btn-rotate-on
   orig: 60, 60
   offset: 0, 0
   index: -1
+cancel
+  rotate: false
+  xy: 634, 109
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
 disabled
   rotate: false
   xy: 256, 130
@@ -169,6 +176,13 @@ ge-flag
   xy: 634, 206
   size: 80, 48
   orig: 80, 48
+  offset: 0, 0
+  index: -1
+ok
+  rotate: false
+  xy: 940, 144
+  size: 44, 48
+  orig: 44, 48
   offset: 0, 0
   index: -1
 reinforcement
