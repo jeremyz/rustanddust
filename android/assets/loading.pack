@@ -68,7 +68,7 @@ libgdx-logo
   index: -1
 tank-logo
   rotate: false
-  xy: 503, 77
+  xy: 504, 77
   size: 249, 299
   orig: 249, 299
   offset: 0, 0
