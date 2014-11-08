@@ -1,24 +1,14 @@
 package ch.asynk.tankontank.game.hud;
 
-import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.utils.Disposable;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.asynk.tankontank.engine.gfx.Image;
-
-public class Button implements Disposable
+public class Button extends Widget
 {
-
-    public int idx;
-    public boolean blocked;
-    public boolean visible;
-    private Image images [];
-    private Image image;
-    private Rectangle rect;
+    private int idx;
+    private TextureRegion regions [];
+    private TextureRegion region;
 
     private static final int UP = 0;
     private static final int DOWN = 1;
@@ -27,21 +17,18 @@ public class Button implements Disposable
     public Button(TextureAtlas atlas, String base)
     {
         this.idx = UP;
-        this.blocked = false;
-        this.visible = false;
-        this.images = new Image[3];
-        this.images[UP] = new Image(atlas.findRegion(base + "-up"));
-        this.images[DOWN] = new Image(atlas.findRegion(base + "-down"));
-        this.images[ON] = new Image(atlas.findRegion(base + "-on"));
-
-        this.rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        this.regions = new TextureRegion[3];
+        this.regions[UP] = atlas.findRegion(base + "-up");
+        this.regions[DOWN] = atlas.findRegion(base + "-down");
+        this.regions[ON] = atlas.findRegion(base + "-on");
+        // assumes they all have the same dimension
+        rect.width = regions[idx].getRegionWidth();
+        rect.height = regions[idx].getRegionHeight();
     }
 
     @Override
     public void dispose()
     {
-        for (Image image : images)
-            image.dispose();
     }
 
     public void hide()
@@ -80,32 +67,16 @@ public class Button implements Disposable
         return (idx == ON);
     }
 
-    public Image getImage()
-    {
-        return images[idx];
-    }
-
-    public void setPosition(float x, float y)
-    {
-        for (Image image : images)
-            image.setPosition(x, y);
-        rect.set(x, y, getWidth(), getHeight());
-    }
-
     public boolean hit(float x, float y)
     {
-        if (blocked || !visible || (idx == ON)) return false;
-        return rect.contains(x,y);
+        if (idx == ON) return false;
+        return super.hit(x,y);
     }
 
-    public float getX() { return images[0].getX(); }
-    public float getY() { return images[0].getY(); }
-    public float getWidth() { return images[0].getWidth(); }
-    public float getHeight() { return images[0].getHeight(); }
-
+    @Override
     public void draw(Batch batch)
     {
         if (!visible) return;
-        getImage().draw(batch);
+        batch.draw(regions[idx], rect.x, rect.y, rect.width, rect.height);
     }
 }
