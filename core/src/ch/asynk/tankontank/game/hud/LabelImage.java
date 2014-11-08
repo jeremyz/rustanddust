@@ -3,40 +3,46 @@ package ch.asynk.tankontank.game.hud;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.gfx.Image;
-
-public class LabelImage extends Image
+public class LabelImage extends Bg
 {
     private Label label;
+    public Position labelPosition;
 
-    public LabelImage(TextureRegion region, BitmapFont font, String text)
+    public LabelImage(TextureRegion region, BitmapFont font)
+    {
+        this(region, font, 0f);
+    }
+
+    public LabelImage(TextureRegion region, BitmapFont font, float padding)
     {
         super(region);
-        this.label = new Label(font, text);
+        this.label = new Label(font, padding);
+        this.labelPosition = Position.MIDDLE_CENTER;
     }
 
     @Override
     public void dispose()
     {
-        super.dispose();
         label.dispose();
+    }
+
+    public void setLabelPosition(Position position)
+    {
+        labelPosition = position;
     }
 
     public void setPosition(float x, float y)
     {
-        super.setPosition(x, y);
-        setLabelPosition((x + ((getWidth() - label.getWidth()) / 2)), (y + ((getHeight() - label.getHeight()) / 2)));
-    }
-
-    public void setLabelPosition(float x, float y)
-    {
-        label.setPosition(x, y);
+        set(x, y, getWidth(), getHeight());
+        label.setPosition(labelPosition.getX(this, label.getWidth()), labelPosition.getY(this, label.getHeight()));
     }
 
     public void write(String text)
     {
         this.label.write(text);
+        setPosition(getX(), getY());
     }
 
     @Override
@@ -45,5 +51,13 @@ public class LabelImage extends Image
         if (!visible) return;
         super.draw(batch);
         label.draw(batch);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer shapes)
+    {
+        if (!visible) return;
+        super.drawDebug(shapes);
+        label.drawDebug(shapes);
     }
 }
