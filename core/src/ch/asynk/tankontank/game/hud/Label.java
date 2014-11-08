@@ -32,19 +32,19 @@ public class Label implements Drawable, Disposable
 
     public float getWidth()
     {
-        TextBounds b = font.getBounds(text);
+        TextBounds b = getBounds();
         return b.width;
     }
 
     public float getHeight()
     {
-        TextBounds b = font.getBounds(text);
+        TextBounds b = getBounds();
         return b.height;
     }
 
     public void setPosition(float x, float y)
     {
-        TextBounds b = font.getBounds(text);
+        TextBounds b = getBounds();
         this.x = x;
         this.y = y;
         this.ry = (y + b.height);
@@ -52,7 +52,7 @@ public class Label implements Drawable, Disposable
 
     public TextBounds getBounds()
     {
-        return font.getBounds(text);
+        return font.getMultiLineBounds(text);
     }
 
     public void write(String text)
@@ -70,14 +70,14 @@ public class Label implements Drawable, Disposable
     public void draw(Batch batch)
     {
         if (!visible) return;
-        font.draw(batch, text, x, ry);
+        font.drawMultiLine(batch, text, x, ry);
     }
 
     @Override
     public void drawDebug(ShapeRenderer shapes)
     {
         if (!visible) return;
-        TextBounds b = font.getBounds(text);
+        TextBounds b = getBounds();
         shapes.rect(x, y, b.width, b.height);
     }
 }
