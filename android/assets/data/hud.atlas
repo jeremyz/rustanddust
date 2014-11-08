@@ -38,14 +38,14 @@ btn-attack-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-attack-off
+btn-attack-on
   rotate: false
   xy: 778, 194
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-attack-on
+btn-attack-up
   rotate: false
   xy: 840, 194
   size: 60, 60
@@ -59,14 +59,14 @@ btn-cancel-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-off
+btn-cancel-on
   rotate: false
   xy: 254, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-on
+btn-cancel-up
   rotate: false
   xy: 254, 6
   size: 60, 60
@@ -80,14 +80,14 @@ btn-check-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-off
+btn-check-on
   rotate: false
   xy: 316, 6
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-on
+btn-check-up
   rotate: false
   xy: 378, 68
   size: 60, 60
@@ -101,14 +101,14 @@ btn-move-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-off
+btn-move-on
   rotate: false
   xy: 440, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-move-on
+btn-move-up
   rotate: false
   xy: 440, 6
   size: 60, 60
@@ -122,14 +122,14 @@ btn-promote-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-promote-off
+btn-promote-on
   rotate: false
   xy: 502, 6
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-promote-on
+btn-promote-up
   rotate: false
   xy: 564, 68
   size: 60, 60
@@ -143,14 +143,14 @@ btn-rotate-down
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-off
+btn-rotate-on
   rotate: false
   xy: 716, 132
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-rotate-on
+btn-rotate-up
   rotate: false
   xy: 778, 132
   size: 60, 60

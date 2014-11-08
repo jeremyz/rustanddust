@@ -20,19 +20,19 @@ public class Button implements Disposable
     private Image image;
     private Rectangle rect;
 
-    private static final int OFF = 0;
-    private static final int ON = 1;
-    private static final int DOWN = 2;
+    private static final int UP = 0;
+    private static final int DOWN = 1;
+    private static final int ON = 2;
 
     public Button(TextureAtlas atlas, String base)
     {
-        this.idx = OFF;
+        this.idx = UP;
         this.blocked = false;
         this.visible = false;
         this.images = new Image[3];
-        this.images[OFF] = new Image(atlas.findRegion(base + "-off"));
-        this.images[ON] = new Image(atlas.findRegion(base + "-on"));
+        this.images[UP] = new Image(atlas.findRegion(base + "-up"));
         this.images[DOWN] = new Image(atlas.findRegion(base + "-down"));
+        this.images[ON] = new Image(atlas.findRegion(base + "-on"));
 
         this.rect = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
@@ -46,18 +46,13 @@ public class Button implements Disposable
 
     public void hide()
     {
-        idx = OFF;
+        setUp();
         visible = false;
     }
 
-    public void setOff()
+    public void setUp()
     {
-        idx = OFF;
-    }
-
-    public void setOn()
-    {
-        idx = ON;
+        idx = UP;
     }
 
     public void setDown()
@@ -65,19 +60,24 @@ public class Button implements Disposable
         idx = DOWN;
     }
 
+    public void setOn()
+    {
+        idx = ON;
+    }
+
+    public boolean isUp()
+    {
+        return (idx == UP);
+    }
+
+    public boolean isDown()
+    {
+        return (idx == DOWN);
+    }
+
     public boolean isOn()
     {
         return (idx == ON);
-    }
-
-    public boolean isOff()
-    {
-        return (idx == OFF);
-    }
-
-    public boolean isDisabled()
-    {
-        return (idx == DOWN);
     }
 
     public Image getImage()
