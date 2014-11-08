@@ -1,63 +1,48 @@
 package ch.asynk.tankontank.game.hud;
 
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.gfx.Drawable;
 
-public class Label implements Drawable, Disposable
+public class Label extends Widget
 {
-    public boolean visible;
-    public float x;
-    public float y;
-    private float ry;
-    private String text;
     private BitmapFont font;
+    private float padding;
+    private float rx;
+    private float ry;
+    protected String text;
 
-    public Label(BitmapFont font, String text)
+    public Label(BitmapFont font)
+    {
+        this(font, 0f);
+    }
+
+    public Label(BitmapFont font, float padding)
     {
         this.font = font;
-        this.text = text;
-        this.visible = true;
+        this.padding = padding;
     }
 
     @Override
     public void dispose()
     {
-        font.dispose();
     }
 
-    public float getWidth()
-    {
-        TextBounds b = getBounds();
-        return b.width;
-    }
-
-    public float getHeight()
-    {
-        TextBounds b = getBounds();
-        return b.height;
-    }
-
+    @Override
     public void setPosition(float x, float y)
     {
-        TextBounds b = getBounds();
-        this.x = x;
-        this.y = y;
-        this.ry = (y + b.height);
-    }
-
-    public TextBounds getBounds()
-    {
-        return font.getMultiLineBounds(text);
+        TextBounds b = font.getMultiLineBounds((text == null) ? "" : text);
+        set(x, y, (b.width + (2 * padding)), (b.height + (2 * padding)));
+        this.rx = x + (padding);
+        this.ry = (y + padding + b.height);
     }
 
     public void write(String text)
     {
         this.text = text;
+        setPosition(rect.x, rect.y);
     }
 
     public void write(String text, float x, float y)
@@ -70,14 +55,6 @@ public class Label implements Drawable, Disposable
     public void draw(Batch batch)
     {
         if (!visible) return;
-        font.drawMultiLine(batch, text, x, ry);
-    }
-
-    @Override
-    public void drawDebug(ShapeRenderer shapes)
-    {
-        if (!visible) return;
-        TextBounds b = getBounds();
-        shapes.rect(x, y, b.width, b.height);
+        font.drawMultiLine(batch, text, rx, ry);
     }
 }
