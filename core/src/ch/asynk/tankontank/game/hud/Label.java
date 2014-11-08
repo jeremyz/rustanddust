@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.gfx.Drawable;
 
-public class Text implements Drawable, Disposable
+public class Label implements Drawable, Disposable
 {
     public boolean visible;
     public float x;
@@ -17,7 +17,7 @@ public class Text implements Drawable, Disposable
     private String text;
     private BitmapFont font;
 
-    public Text(BitmapFont font, String text)
+    public Label(BitmapFont font, String text)
     {
         this.font = font;
         this.text = text;

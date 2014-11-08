@@ -13,14 +13,14 @@ public class Dialog extends Bg
     public boolean visible;
     public boolean ok;
     public int padding;
-    private Text text;
+    private Label label;
     private Image okBtn;
     private Image cancelBtn;
 
     public Dialog(BitmapFont font, TextureRegion region, TextureAtlas atlas)
     {
         super(region);
-        this.text = new Text(font, "hello");
+        this.label = new Label(font, "hello");
         this.okBtn = new Image(atlas.findRegion("ok"));
         this.cancelBtn = new Image(atlas.findRegion("cancel"));
         this.visible = false;
@@ -29,8 +29,8 @@ public class Dialog extends Bg
 
     public void show(String msg, Position position)
     {
-        text.write(msg);
-        TextBounds b = text.getBounds();
+        label.write(msg);
+        TextBounds b = label.getBounds();
 
         float height = (b.height + (3 * padding) + okBtn.getHeight());
         float width = (b.width + (2 * padding));
@@ -42,7 +42,7 @@ public class Dialog extends Bg
         set(x, y, width, height);
         okBtn.setPosition((x + width - okBtn.getWidth() - padding), (y + padding));
         cancelBtn.setPosition((okBtn.getX() - cancelBtn.getWidth() - padding), okBtn.getY());
-        text.setPosition((x + padding), (y + okBtn.getHeight() + padding));
+        label.setPosition((x + padding), (y + okBtn.getHeight() + padding));
         visible = true;
         ok = false;
     }
@@ -63,7 +63,9 @@ public class Dialog extends Bg
     public void dispose()
     {
         super.dispose();
-        // font.dispose();
+        label.dispose();
+        okBtn.dispose();
+        cancelBtn.dispose();
     }
 
     @Override
@@ -71,7 +73,7 @@ public class Dialog extends Bg
     {
         if (!visible) return;
         super.draw(batch);
-        text.draw(batch);
+        label.draw(batch);
         okBtn.draw(batch);
         cancelBtn.draw(batch);
     }

@@ -6,37 +6,37 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.asynk.tankontank.engine.gfx.Image;
 
-public class TextImage extends Image
+public class LabelImage extends Image
 {
-    private Text text;
+    private Label label;
 
-    public TextImage(TextureRegion region, BitmapFont font, String text)
+    public LabelImage(TextureRegion region, BitmapFont font, String text)
     {
         super(region);
-        this.text = new Text(font, text);
+        this.label = new Label(font, text);
     }
 
     @Override
     public void dispose()
     {
         super.dispose();
-        text.dispose();
+        label.dispose();
     }
 
     public void setPosition(float x, float y)
     {
         super.setPosition(x, y);
-        setTextPosition((x + ((getWidth() - text.getWidth()) / 2)), (y + ((getHeight() - text.getHeight()) / 2)));
+        setLabelPosition((x + ((getWidth() - label.getWidth()) / 2)), (y + ((getHeight() - label.getHeight()) / 2)));
     }
 
-    public void setTextPosition(float x, float y)
+    public void setLabelPosition(float x, float y)
     {
-        text.setPosition(x, y);
+        label.setPosition(x, y);
     }
 
     public void write(String text)
     {
-        this.text.write(text);
+        this.label.write(text);
     }
 
     @Override
@@ -44,6 +44,6 @@ public class TextImage extends Image
     {
         if (!visible) return;
         super.draw(batch);
-        text.draw(batch);
+        label.draw(batch);
     }
 }

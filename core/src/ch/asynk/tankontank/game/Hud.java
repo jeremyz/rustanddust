@@ -14,7 +14,7 @@ import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.hud.Msg;
 import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
-import ch.asynk.tankontank.game.hud.TextImage;
+import ch.asynk.tankontank.game.hud.LabelImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.Dialog;
 import ch.asynk.tankontank.game.hud.Position;
@@ -44,9 +44,9 @@ public class Hud implements Disposable
     private Image flag;
     private Image usFlag;
     private Image geFlag;
-    private TextImage turns;
-    private TextImage aps;
-    private TextImage reinforcement;
+    private LabelImage turns;
+    private LabelImage aps;
+    private LabelImage reinforcement;
     private UnitDock unitDock;
     public Dialog dialog;
 
@@ -72,9 +72,9 @@ public class Hud implements Disposable
 
         usFlag = new Image(atlas.findRegion("us-flag"));
         geFlag = new Image(atlas.findRegion("ge-flag"));
-        turns = new TextImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
-        aps = new TextImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
-        reinforcement = new TextImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
+        turns = new LabelImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
+        aps = new LabelImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
+        reinforcement = new LabelImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
         unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"));
 
         dialog = new Dialog(game.skin.getFont("default-font"), atlas.findRegion("disabled"), atlas);
@@ -85,9 +85,9 @@ public class Hud implements Disposable
         geFlag.setPosition(x, (y - geFlag.getHeight()));
         turns.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
         aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
-        aps.setTextPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
+        aps.setLabelPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
-        reinforcement.setTextPosition((reinforcement.getX() + 5), (reinforcement.getY() + reinforcement.getHeight() - 20));
+        reinforcement.setLabelPosition((reinforcement.getX() + 5), (reinforcement.getY() + reinforcement.getHeight() - 20));
         unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
     }
 
@@ -188,7 +188,7 @@ public class Hud implements Disposable
 
     private float setButton(Button btn, float x, float y)
     {
-        // btn.setOff();
+        // btn.setUp();
         btn.visible = true;
         btn.setPosition(x, y);
         return (y + btn.getHeight() + PADDING);
@@ -284,9 +284,9 @@ public class Hud implements Disposable
                     notify("Action canceled");
                     ctrl.abort();
                 } else
-                    btn.setOff();
+                    btn.setUp();
             } else
-                btn.setOff();
+                btn.setUp();
             btn = null;
         } else if (hit != null) {
             if ((hit == turns) && turns.hit(x, y))

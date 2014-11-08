@@ -4,37 +4,37 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class TextButton extends Button
+public class LabelButton extends Button
 {
-    private Text text;
+    private Label label;
 
-    public TextButton(TextureAtlas atlas, String base, BitmapFont font, String text)
+    public LabelButton(TextureAtlas atlas, String base, BitmapFont font, String text)
     {
         super(atlas, base);
-        this.text = new Text(font, text);
+        this.label = new Label(font, text);
     }
 
     @Override
     public void dispose()
     {
         super.dispose();
-        text.dispose();
+        label.dispose();
     }
 
     public void setPosition(float x, float y)
     {
         super.setPosition(x, y);
-        setTextPosition((x + ((getWidth() - text.getWidth()) / 2)), (y + ((getHeight() - text.getHeight()) / 2)));
+        setLabelPosition((x + ((getWidth() - label.getWidth()) / 2)), (y + ((getHeight() - label.getHeight()) / 2)));
     }
 
-    public void setTextPosition(float x, float y)
+    public void setLabelPosition(float x, float y)
     {
-        text.setPosition(x, y);
+        label.setPosition(x, y);
     }
 
     public void write(String text)
     {
-        this.text.write(text);
+        this.label.write(text);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class TextButton extends Button
     {
         if (!visible) return;
         super.draw(batch);
-        text.draw(batch);
+        label.draw(batch);
     }
 }
