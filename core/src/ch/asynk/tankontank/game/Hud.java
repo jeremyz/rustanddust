@@ -23,8 +23,8 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class Hud implements Disposable
 {
-    private static final float OFFSET =10f;
-    private static final float PADDING = 5f;
+    public static final float OFFSET = 10f;
+    public static final float PADDING = 5f;
 
     private final TankOnTank game;
     private final Ctrl ctrl;

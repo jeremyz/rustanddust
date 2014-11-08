@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game.hud;
 
 import com.badlogic.gdx.Gdx;
+import ch.asynk.tankontank.game.Hud;
 
 public enum Position
 {
@@ -13,7 +14,6 @@ public enum Position
     BOTTOM_LEFT,
     BOTTOM_RIGHT,
     BOTTOM_CENTER;
-    private float offset = 40f;
 
     public float getX(float width)
     {
@@ -22,7 +22,7 @@ public enum Position
             case TOP_LEFT:
             case MIDDLE_LEFT:
             case BOTTOM_LEFT:
-                x = offset;
+                x = Hud.OFFSET;
                 break;
             case TOP_CENTER:
             case MIDDLE_CENTER:
@@ -32,7 +32,7 @@ public enum Position
             case TOP_RIGHT:
             case MIDDLE_RIGHT:
             case BOTTOM_RIGHT:
-                x = (Gdx.graphics.getWidth() - width - offset);
+                x = (Gdx.graphics.getWidth() - width - Hud.OFFSET);
                 break;
             default:
                 x = ((Gdx.graphics.getWidth() - width) / 2);
@@ -48,7 +48,7 @@ public enum Position
             case TOP_LEFT:
             case TOP_CENTER:
             case TOP_RIGHT:
-                y = (Gdx.graphics.getHeight() - height - offset);
+                y = (Gdx.graphics.getHeight() - height - Hud.OFFSET);
                 break;
             case MIDDLE_LEFT:
             case MIDDLE_CENTER:
@@ -58,10 +58,62 @@ public enum Position
             case BOTTOM_LEFT:
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
-                y = offset;
+                y = Hud.OFFSET;
                 break;
             default:
                 y = ((Gdx.graphics.getHeight() - height) / 2);
+                break;
+        }
+        return y;
+    }
+
+    public float getX(Widget widget, float width)
+    {
+        float x;
+        switch(this) {
+            case TOP_LEFT:
+            case MIDDLE_LEFT:
+            case BOTTOM_LEFT:
+                x = widget.getX();
+                break;
+            case TOP_CENTER:
+            case MIDDLE_CENTER:
+            case BOTTOM_CENTER:
+                x = (widget.getX() + ((widget.getWidth() - width) / 2));
+                break;
+            case TOP_RIGHT:
+            case MIDDLE_RIGHT:
+            case BOTTOM_RIGHT:
+                x = (widget.getX() + widget.getWidth() - width);
+                break;
+            default:
+                x = (widget.getX() + ((widget.getWidth() - width) / 2));
+                break;
+        }
+        return x;
+    }
+
+    public float getY(Widget widget, float height)
+    {
+        float y;
+        switch(this) {
+            case TOP_LEFT:
+            case TOP_CENTER:
+            case TOP_RIGHT:
+                y = (widget.getY() + widget.getHeight() - height);
+                break;
+            case MIDDLE_LEFT:
+            case MIDDLE_CENTER:
+            case MIDDLE_RIGHT:
+                y = (widget.getY() + ((widget.getHeight() - height) / 2));
+                break;
+            case BOTTOM_LEFT:
+            case BOTTOM_CENTER:
+            case BOTTOM_RIGHT:
+                y = widget.getY();
+                break;
+            default:
+                y = (widget.getY() + ((widget.getHeight() - height) / 2));
                 break;
         }
         return y;
