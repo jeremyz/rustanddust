@@ -307,7 +307,7 @@ public class Hud implements Disposable
     private void askEndTurn()
     {
         ctrl.blockMap = true;
-        dialog.show("You still have Action Points left. End your Turn ?", Position.MIDDLE_CENTER);
+        dialog.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
     }
 
     private void leaveEndTurn()
