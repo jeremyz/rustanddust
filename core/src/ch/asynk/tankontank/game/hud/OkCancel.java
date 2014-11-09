@@ -6,22 +6,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.gfx.Image;
-
 public class OkCancel extends Bg
 {
     public boolean ok;
     public float padding;
     protected Label label;
-    protected Image okBtn;
-    protected Image cancelBtn;
+    protected Bg okBtn;
+    protected Bg cancelBtn;
 
     public OkCancel(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
     {
         super(region);
         this.label = new Label(font);
-        this.okBtn = new Image(atlas.findRegion("ok"));
-        this.cancelBtn = new Image(atlas.findRegion("cancel"));
+        this.okBtn = new Bg(atlas.findRegion("ok"));
+        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
         this.visible = false;
         this.padding = padding;
     }
