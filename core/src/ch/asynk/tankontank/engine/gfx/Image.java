@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Image extends Sprite implements Drawable, Disposable
 {
-    public boolean blocked;
-    public boolean visible;
     private Texture texture;
 
     protected Image()
@@ -21,16 +19,12 @@ public class Image extends Sprite implements Drawable, Disposable
     {
         super(texture);
         this.texture = texture;
-        this.visible = true;
-        this.blocked = false;
     }
 
     public Image(TextureRegion region)
     {
         super(region);
         this.texture = null;
-        this.visible = true;
-        this.blocked = false;
     }
 
     @Override
@@ -41,7 +35,6 @@ public class Image extends Sprite implements Drawable, Disposable
 
     public boolean hit(float x, float y)
     {
-        if (blocked || !visible) return false;
         return ((x >= getX()) && (y >= getY()) && (x <= (getX() + getWidth())) && (y <= (getY() + getHeight())));
     }
 
@@ -59,14 +52,12 @@ public class Image extends Sprite implements Drawable, Disposable
     @Override
     public void draw(Batch batch)
     {
-        if (!visible) return;
         super.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer shapes)
     {
-        if (!visible) return;
         shapes.rect(getX(), getY(), (getWidth() / 2f), (getHeight() / 2f), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }
