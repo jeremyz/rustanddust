@@ -219,6 +219,15 @@ public class GameScreen implements Screen
         hudBatch.begin();
         ctrl.hud.draw(hudBatch);
         hudBatch.end();
+
+        if (DEBUG) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            debugShapes.setAutoShapeType(true);
+            debugShapes.setProjectionMatrix(hudCam.combined);
+            debugShapes.begin();
+            ctrl.hud.drawDebug(debugShapes);
+            debugShapes.end();
+        }
     }
 
     @Override
