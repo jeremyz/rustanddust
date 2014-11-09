@@ -4,48 +4,48 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
-import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
 
 public class UnitDock extends Bg
 {
-    private static final float PADDING = 10f;
     private static final float SCALE = 0.4f;
     private static final float STEP = 5f;
     private final Ctrl ctrl;
 
+    private float padding;
     public float x;
     public float y;
     public float to;
-    public boolean visible;
     public boolean show;
     public boolean done;
     public Pawn selectedPawn;
-    private Image selected;
+    private Sprite selected;
     private List<Pawn> pawns;
     private Vector3 point;
     private Matrix4 saved;
     private Matrix4 transform;
     protected Rectangle scaledRect;
 
-    public UnitDock(Ctrl ctrl, TextureRegion bg, TextureRegion selected)
+    public UnitDock(Ctrl ctrl, TextureRegion bg, TextureRegion selected, float padding)
     {
         super(bg);
         this.ctrl = ctrl;
-        this.visible = false;
+        this.padding = padding;
         this.done = true;
         this.point = new Vector3();
         this.saved = new Matrix4();
         this.transform = new Matrix4();
         this.scaledRect = new Rectangle();
-        this.selected = new Image(selected);
-        this.selected.visible = false;
+        this.selected = new Sprite(selected);
+        this.visible = false;
     }
 
     public void setTopLeft(float x, float y)
@@ -58,7 +58,6 @@ public class UnitDock extends Bg
     public void dispose()
     {
         super.dispose();
-        selected.dispose();
     }
 
     public void toggle()
@@ -91,8 +90,8 @@ public class UnitDock extends Bg
     {
         if (done) {
             pawns = ctrl.player.getReinforcement();
-            rect.width = pawns.get(0).getWidth() + (2 * PADDING);
-            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + (PADDING * (pawns.size() + 1)));
+            rect.width = pawns.get(0).getWidth() + (2 * padding);
+            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + (padding * (pawns.size() + 1)));
             rect.x = - rect.width;
             rect.y = y - rect.height;
         }
@@ -126,12 +125,12 @@ public class UnitDock extends Bg
             }
         }
 
-        // float x = rect.x + PADDING;
+        // float x = rect.x + padding;
         float x = rect.x;
         float y = rect.y + rect.height;
         float h = pawns.get(0).getHeight();
         for (Pawn pawn : pawns) {
-            y -= (h + PADDING);
+            y -= (h + padding);
             // pawn.setPosition(x, y, Orientation.SOUTH.r());
             pawn.centerOn((x + (rect.width / 2)), y + (h / 2));
             pawn.setRotation(Orientation.SOUTH.r());
@@ -156,16 +155,27 @@ public class UnitDock extends Bg
         batch.setTransformMatrix(transform);
 
         super.draw(batch);
-        selected.visible = false;
         for (Pawn pawn : pawns) {
             pawn.draw(batch);
             if (pawn == selectedPawn) {
-                selected.visible = true;
-                selected.centerOn((pawn.getX() + (pawn.getWidth() / 2)), (pawn.getY() + (pawn.getHeight() / 2)));
+                selected.setCenter((pawn.getX() + (pawn.getWidth() / 2)), (pawn.getY() + (pawn.getHeight() / 2)));
                 selected.draw(batch);
             }
         }
 
         batch.setTransformMatrix(saved);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer shapes)
+    {
+        if (!visible) return;
+
+        saved.set(shapes.getTransformMatrix());
+        shapes.setTransformMatrix(transform);
+
+        shapes.rect(rect.x, rect.y, rect.width, rect.height);
+
+        shapes.setTransformMatrix(saved);
     }
 }
