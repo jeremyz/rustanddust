@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -16,7 +18,7 @@ import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.Button;
 import ch.asynk.tankontank.game.hud.LabelImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
-import ch.asynk.tankontank.game.hud.Dialog;
+import ch.asynk.tankontank.game.hud.OkCancel;
 import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -48,9 +50,18 @@ public class Hud implements Disposable
     private LabelImage aps;
     private LabelImage reinforcement;
     private UnitDock unitDock;
-    public Dialog dialog;
+
+    private BitmapFont font;
+
+    private OkCancel okCancel;
+    private OkCancelAction okCancelAction;
 
     private Vector2 corner;
+
+    enum OkCancelAction
+    {
+        END_TURN,
+    }
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
     {
@@ -58,6 +69,7 @@ public class Hud implements Disposable
         this.ctrl = ctrl;
         this.corner = new Vector2((Gdx.graphics.getWidth() - OFFSET), OFFSET);
 
+        font = game.skin.getFont("default-font");
         TextureAtlas atlas = game.factory.hudAtlas;
 
         moveBtn = new Button(atlas, "btn-move");
@@ -68,16 +80,15 @@ public class Hud implements Disposable
         cancelBtn = new Button(atlas, "btn-cancel");
         actionsBg = new Bg(atlas.findRegion("disabled"));
 
-        msg = new Msg(game.skin.getFont("default-font"), atlas.findRegion("disabled"));
-
         usFlag = new Image(atlas.findRegion("us-flag"));
         geFlag = new Image(atlas.findRegion("ge-flag"));
-        turns = new LabelImage(atlas.findRegion("turns"), game.skin.getFont("default-font"), "0");
-        aps = new LabelImage(atlas.findRegion("aps"), game.skin.getFont("default-font"), "0");
-        reinforcement = new LabelImage(atlas.findRegion("reinforcement"), game.skin.getFont("default-font"), "0");
-        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"));
+        turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
+        aps = new LabelImage(atlas.findRegion("aps"), font, 5f);
+        reinforcement = new LabelImage(atlas.findRegion("reinforcement"), font, 5f);
+        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"), 10f);
 
-        dialog = new Dialog(game.skin.getFont("default-font"), atlas.findRegion("disabled"), atlas);
+        msg = new Msg(font, atlas.findRegion("disabled"), 10f);
+        okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
@@ -85,15 +96,19 @@ public class Hud implements Disposable
         geFlag.setPosition(x, (y - geFlag.getHeight()));
         turns.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
         aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
-        aps.setLabelPosition((aps.getX() + aps.getWidth() - 15), (aps.getY() + aps.getHeight() - 20));
+        aps.setLabelPosition(Position.TOP_RIGHT);
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
-        reinforcement.setLabelPosition((reinforcement.getX() + 5), (reinforcement.getY() + reinforcement.getHeight() - 20));
+        reinforcement.setLabelPosition(Position.TOP_LEFT);
         unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
+
+        hide();
     }
 
     @Override
     public void dispose()
     {
+        font.dispose();
+
         moveBtn.dispose();
         rotateBtn.dispose();
         promoteBtn.dispose();
@@ -101,13 +116,16 @@ public class Hud implements Disposable
         checkBtn.dispose();
         cancelBtn.dispose();
         actionsBg.dispose();
-        msg.dispose();
 
-        turns.dispose();
-        aps.dispose();
         usFlag.dispose();
         geFlag.dispose();
+        turns.dispose();
+        aps.dispose();
         reinforcement.dispose();
+        unitDock.dispose();
+
+        msg.dispose();
+        okCancel.dispose();
     }
 
     public void changeState(StateType from, StateType to)
@@ -161,8 +179,29 @@ public class Hud implements Disposable
         attackBtn.draw(batch);
         checkBtn.draw(batch);
         cancelBtn.draw(batch);
+
         msg.draw(batch);
-        dialog.draw(batch);
+        okCancel.draw(batch);
+    }
+
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        flag.drawDebug(debugShapes);
+        turns.drawDebug(debugShapes);
+        aps.drawDebug(debugShapes);
+        reinforcement.drawDebug(debugShapes);
+        unitDock.drawDebug(debugShapes);
+
+        actionsBg.drawDebug(debugShapes);
+        moveBtn.drawDebug(debugShapes);
+        rotateBtn.drawDebug(debugShapes);
+        promoteBtn.drawDebug(debugShapes);
+        attackBtn.drawDebug(debugShapes);
+        checkBtn.drawDebug(debugShapes);
+        cancelBtn.drawDebug(debugShapes);
+
+        msg.drawDebug(debugShapes);
+        okCancel.drawDebug(debugShapes);
     }
 
     public Unit getDockUnit()
@@ -188,7 +227,7 @@ public class Hud implements Disposable
 
     private float setButton(Button btn, float x, float y)
     {
-        // btn.setUp();
+        btn.setUp();
         btn.visible = true;
         btn.setPosition(x, y);
         return (y + btn.getHeight() + PADDING);
@@ -212,7 +251,7 @@ public class Hud implements Disposable
         if (check)  y = setButton(checkBtn, x, y);
         else checkBtn.hide();
 
-        actionsBg.set((x - PADDING), (corner.y - PADDING), (checkBtn.getWidth() + (2 * PADDING)), (y - corner.y));
+        actionsBg.set((x - PADDING), (corner.y - PADDING), (checkBtn.getWidth() + (2 * PADDING)), (y - corner.y + PADDING));
     }
 
     public void hide()
@@ -242,8 +281,8 @@ public class Hud implements Disposable
             hit = unitDock;
         else if (reinforcement.hit(x, y))
             hit = reinforcement;
-        else if (dialog.hit(x, y))
-            hit = dialog;
+        else if (okCancel.hit(x, y))
+            hit = okCancel;
         else if (actionsBg.hit(x,y)) {
             if (moveBtn.hit(x, y))
                 btn = moveBtn;
@@ -295,8 +334,8 @@ public class Hud implements Disposable
                 unitDock.toggle();
             else if ((hit == unitDock) && unitDock.hit(x, y))
                 ctrl.setState(StateType.ENTRY);
-            else if ((hit == dialog) && dialog.hit(x, y))
-                leaveEndTurn();
+            else if ((hit == okCancel) && okCancel.hit(x, y))
+                closeOkCancel();
             hit = null;
         } else
             return false;
@@ -304,17 +343,24 @@ public class Hud implements Disposable
         return true;
     }
 
+    private void closeOkCancel()
+    {
+        ctrl.blockMap = false;
+        okCancel.visible = false;
+        if (okCancel.ok) {
+            switch(okCancelAction)
+            {
+                case END_TURN:
+                    ctrl.endPlayerTurn();
+                    break;
+            }
+        }
+    }
+
     private void askEndTurn()
     {
         ctrl.blockMap = true;
-        dialog.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
-    }
-
-    private void leaveEndTurn()
-    {
-        dialog.visible = false;
-        ctrl.blockMap = false;
-        if (dialog.ok)
-            ctrl.endPlayerTurn();
+        okCancelAction = OkCancelAction.END_TURN;
+        okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
     }
 }
