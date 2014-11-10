@@ -24,6 +24,7 @@ public class UnitDock extends Bg
     public float x;
     public float y;
     public float to;
+    private float dx;
     public boolean show;
     public boolean done;
     public Pawn selectedPawn;
@@ -69,7 +70,7 @@ public class UnitDock extends Bg
     public void hide()
     {
         if (!visible) return;
-        to = -(rect.x + rect.width);
+        to = - (rect.width * SCALE);
         show = false;
         done = false;
     }
@@ -91,9 +92,19 @@ public class UnitDock extends Bg
         if (done) {
             pawns = ctrl.player.getReinforcement();
             rect.width = pawns.get(0).getWidth() + (2 * padding);
-            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + (padding * (pawns.size() + 1)));
-            rect.x = - rect.width;
+            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + ((pawns.size() + 1) * padding));
+            rect.x = - (rect.width * SCALE);
             rect.y = y - rect.height;
+            // position units here
+            float px = rect.x;
+            float py = rect.y + rect.height;
+            float ph = pawns.get(0).getHeight();
+            for (Pawn pawn : pawns) {
+                py -= (ph + padding);
+                // pawn.setPosition(px, py, Orientation.SOUTH.r());
+                pawn.centerOn((px + (rect.width / 2)), py + (ph / 2));
+                pawn.setRotation(Orientation.SOUTH.r());
+            }
         }
 
         selectedPawn = null;
@@ -101,6 +112,7 @@ public class UnitDock extends Bg
         show = true;
         done = false;
         visible = true;
+        dx = 0f;
     }
 
     public void animate(float delta)
@@ -108,36 +120,26 @@ public class UnitDock extends Bg
         if (!visible) return;
         if (done) return;
 
+        float x = (rect.x + dx);
         if (show) {
-            if (rect.x < to)
-                rect.x += STEP;
+            if (x < to)
+                dx += STEP;
             else {
-                rect.x = to;
+                dx = (to - rect.x);
                 done = true;
             }
         } else {
-            if (rect.x > to)
-                rect.x -= STEP;
+            if (x > to)
+                dx -= STEP;
             else {
-                rect.x = to;
+                dx = (to - rect.x);
                 done = true;
                 visible = false;
             }
         }
 
-        // float x = rect.x + padding;
-        float x = rect.x;
-        float y = rect.y + rect.height;
-        float h = pawns.get(0).getHeight();
-        for (Pawn pawn : pawns) {
-            y -= (h + padding);
-            // pawn.setPosition(x, y, Orientation.SOUTH.r());
-            pawn.centerOn((x + (rect.width / 2)), y + (h / 2));
-            pawn.setRotation(Orientation.SOUTH.r());
-        }
-
         transform.idt();
-        transform.translate(rect.x, (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
+        transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
         point.set(rect.x, rect.y, 0).mul(transform);
         scaledRect.x = point.x;
         scaledRect.y = point.y;
