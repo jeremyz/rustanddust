@@ -11,6 +11,7 @@ import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
+import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
@@ -50,6 +51,12 @@ public class BattleHeadToHead extends BattleCommon
         else if (opponent > 1)
             return ctrl.opponent;
         return null;
+    }
+
+    @Override
+    public Position getHudPosition(Player player)
+    {
+        return (player.isEnemy(Army.GE) ? Position.TOP_RIGHT: Position.TOP_LEFT);
     }
 
     @Override

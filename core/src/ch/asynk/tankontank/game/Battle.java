@@ -4,6 +4,7 @@ import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.game.hud.Position;
 
 public interface Battle
 {
@@ -24,4 +25,6 @@ public interface Battle
     public TileSet getEntryPoint(Unit unit);
 
     public Orientation getEntryOrientation(Player player);
+
+    public Position getHudPosition(Player player);
 }
