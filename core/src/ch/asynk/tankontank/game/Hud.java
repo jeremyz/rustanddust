@@ -265,7 +265,7 @@ public class Hud implements Disposable
         ctrl.blockMap = false;
     }
 
-    private void askEndTurn()
+    public void askEndTurn()
     {
         ctrl.blockMap = true;
         dialogAction = DialogAction.END_TURN;
