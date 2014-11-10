@@ -14,18 +14,30 @@ public class Player extends ch.asynk.tankontank.engine.Player
     private int turn;
     private int apSpent;
     private int actionPoints;
+    // stats
+    public int actionCount;
+    public int lostAttackCount;
+    public int wonAttackCount;
 
     public Player(final TankOnTank game, Army army, int n)
     {
         super(army, n);
         this.turn = 0;
         this.actionPoints = 0;
+        this.actionCount = 0;
+        this.lostAttackCount = 0;
+        this.wonAttackCount = 0;
     }
 
     public String toString()
     {
         return faction + " AP: " + actionPoints +
             " units:" + units.size() + " casualties:" + casualties.size();
+    }
+
+    public String getStats()
+    {
+        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), casualties.size(), wonAttackCount, lostAttackCount);
     }
 
     public int getAp()
@@ -46,6 +58,7 @@ public class Player extends ch.asynk.tankontank.engine.Player
     public void burnDownOneAp()
     {
         apSpent += 1;
+        actionCount += 1;
         if (apSpent > actionPoints) TankOnTank.debug("ERROR: spent too much AP, please report");
     }
 

@@ -86,14 +86,17 @@ public class StateAttack extends StateCommon
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
         if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
+            ctrl.player.wonAttackCount += 1;
             ctrl.hud.notify(selectedUnit.attack.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0) {
                 ctrl.hud.pushNotify("Break move possible");
                 setNextState(StateType.BREAK);
             }
-        } else
+        } else {
+            ctrl.player.lostAttackCount += 1;
             ctrl.hud.notify(selectedUnit.attack.calculus + " : failure");
+        }
 
         activeUnit.showTarget();
         ctrl.setState(StateType.ANIMATION);
