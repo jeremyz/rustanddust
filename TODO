@@ -18,5 +18,4 @@ Game:
     - HUD position left/right
 
 
-- hide unitDock
 - check UnitDock and Abort action

@@ -1,0 +1,253 @@
+ESTART: 0.00001 [0.00001] - Begin Startup
+ESTART: 0.00006 [0.00006] - Signal Trap
+ESTART: 0.00009 [0.00002] - Signal Trap Done
+ESTART: 0.00625 [0.00617] - Eina Init
+ESTART: 0.01744 [0.01119] - Eina Init Done
+ESTART: 0.01745 [0.00000] - Determine Prefix
+ESTART: 0.01885 [0.00141] - Determine Prefix Done
+ESTART: 0.01890 [0.00005] - Environment Variables
+ESTART: 0.01892 [0.00002] - Environment Variables Done
+ESTART: 0.01892 [0.00001] - Parse Arguments
+ESTART: 0.01894 [0.00002] - Parse Arguments Done
+ESTART: 0.01894 [0.00001] - Eet Init
+ESTART: 0.02043 [0.00148] - Eet Init Done
+ESTART: 0.02043 [0.00001] - Ecore Init
+ESTART: 0.04624 [0.02580] - Ecore Init Done
+ESTART: 0.04627 [0.00003] - EIO Init
+ESTART: 0.04641 [0.00014] - EIO Init Done
+ESTART: 0.04642 [0.00001] - Ecore Event Handlers
+ESTART: 0.04643 [0.00001] - Ecore Event Handlers Done
+ESTART: 0.04644 [0.00001] - Ecore_File Init
+ESTART: 0.04749 [0.00105] - Ecore_File Init Done
+ESTART: 0.04750 [0.00001] - Ecore_Con Init
+ESTART: 0.04751 [0.00001] - Ecore_Con Init Done
+ESTART: 0.04751 [0.00001] - Ecore_Ipc Init
+ESTART: 0.04754 [0.00003] - Ecore_Ipc Init Done
+ESTART: 0.04758 [0.00004] - Ecore_Evas Init
+ESTART: 0.10899 [0.06142] - Ecore_Evas Init Done
+ESTART: 0.10902 [0.00003] - Elementary Init
+ESTART: 0.50465 [0.39563] - Elementary Init Done
+ESTART: 0.50467 [0.00002] - Emotion Init
+ESTART: 0.58803 [0.08336] - Emotion Init Done
+ESTART: 0.58809 [0.00006] - Ecore_Evas Engine Check
+ESTART: 0.58812 [0.00003] - Ecore_Evas Engine Check Done
+ESTART: 0.58813 [0.00002] - Edje Init
+ESTART: 0.58815 [0.00002] - Edje Init Done
+ESTART: 0.58817 [0.00002] - E Intl Init
+ESTART: 0.60976 [0.02158] - E Intl Init Done
+ESTART: 0.60977 [0.00001] - E_Alert Init
+ESTART: 0.60978 [0.00002] - E_Alert Init Done
+ESTART: 0.60979 [0.00001] - E_Configure Init
+ESTART: 0.60997 [0.00018] - E_Configure Init Done
+ESTART: 0.60998 [0.00001] - E Directories Init
+ESTART: 0.61012 [0.00014] - E Directories Init Done
+ESTART: 0.61013 [0.00001] - E_Filereg Init
+ESTART: 0.61789 [0.00776] - E_Filereg Init Done
+ESTART: 0.61790 [0.00001] - E_Config Init
+ESTART: 0.66565 [0.04775] - E_Config Init Done
+ESTART: 0.66566 [0.00001] - E_Env Init
+ESTART: 0.66566 [0.00001] - E_Env Init Done
+ESTART: 0.66568 [0.00002] - E Paths Init
+ESTART: 0.66570 [0.00003] - E Paths Init Done
+ESTART: 0.66571 [0.00001] - E_Ipc Init
+ESTART: 0.66604 [0.00033] - E_Ipc Init Done
+ESTART: 0.66605 [0.00001] - E_Font Init
+ESTART: 0.66693 [0.00087] - E_Font Init Done
+ESTART: 0.66694 [0.00001] - E_Font Apply
+ESTART: 0.66695 [0.00002] - E_Font Apply Done
+ESTART: 0.66696 [0.00001] - E_Canvas Recache
+ESTART: 0.66699 [0.00003] - E_Canvas Recache Done
+ESTART: 0.66700 [0.00001] - E_Theme Init
+ESTART: 0.66703 [0.00002] - E_Theme Init Done
+ESTART: 0.66704 [0.00001] - E_Moveresize Init
+ESTART: 0.66705 [0.00002] - E_Moveresize Init Done
+ESTART: 0.66769 [0.00064] - E_Msgbus Init
+ESTART: 0.66863 [0.00093] - E_Msgbus Init Done
+ESTART: 0.67031 [0.00168] - Efreet Init
+ESTART: 0.67129 [0.00098] - Efreet Init Done
+ESTART: 0.67130 [0.00001] - E_Intl Post Init
+ESTART: 0.83697 [0.16567] - E_Intl Post Init Done
+ESTART: 0.83710 [0.00012] - E_Actions Init
+ESTART: 0.83748 [0.00038] - E_Actions Init Done
+ESTART: 0.86502 [0.02755] - E_Screensaver Init
+ESTART: 0.86504 [0.00002] - E_Screensaver Init Done
+ESTART: 0.86505 [0.00001] - Screens Init
+ESTART: 0.86506 [0.00001] - 	screens: manager
+ESTART: 0.86507 [0.00001] - 	screens: client
+ESTART: 0.86509 [0.00002] - 	screens: win
+ESTART: 0.86771 [0.00261] - E_Xkb Init
+ESTART: 0.86964 [0.00194] - E_Xkb Init Done
+ESTART: 0.86966 [0.00002] - Compositor Init
+ESTART: 1.78443 [0.91478] - E_Dnd Init
+ESTART: 1.78452 [0.00009] - E_Dnd Init Done
+ESTART: 1.78453 [0.00001] - Screens Init Done
+ESTART: 1.78455 [0.00001] - E_Pointer Init
+ESTART: 1.78455 [0.00001] - E_Pointer Init Done
+ESTART: 1.78456 [0.00001] - E_Scale Init
+ESTART: 1.78588 [0.00132] - E_Scale Init Done
+ESTART: 1.78588 [0.00001] - E_Splash Init
+ESTART: 1.78589 [0.00001] - E_Splash Init Done
+ESTART: 2.57774 [0.79185] - Test File Format Support
+ESTART: 3.31303 [0.73529] - Test File Format Support Done
+ESTART: 3.31309 [0.00006] - E_Acpi Init
+ESTART: 3.31311 [0.00002] - E_Acpi Init Done
+ESTART: 3.31312 [0.00001] - E_Backlight Init
+ESTART: 3.32309 [0.00997] - E_Backlight Init Done
+ESTART: 3.32312 [0.00003] - E_Dpms Init
+ESTART: 3.32327 [0.00015] - E_Dpms Init Done
+ESTART: 3.32329 [0.00001] - E_Powersave Init
+ESTART: 3.32329 [0.00001] - E_Powersave Init Done
+ESTART: 3.32331 [0.00001] - E_Desklock Init
+ESTART: 3.32335 [0.00004] - E_Desklock Init Done
+ESTART: 3.32336 [0.00001] - Efreet Paths
+ESTART: 3.32339 [0.00003] - Efreet Paths Done
+ESTART: 3.32340 [0.00001] - E_Sys Init
+ESTART: 3.32407 [0.00067] - E_Sys Init Done
+ESTART: 3.32408 [0.00002] - E_Exec Init
+ESTART: 3.32409 [0.00001] - E_Exec Init Done
+ESTART: 3.32410 [0.00001] - E_Comp Freeze
+ESTART: 3.32411 [0.00001] - E_Comp Freeze Done
+ESTART: 3.32412 [0.00001] - E_Fm2 Init
+ESTART: 3.33960 [0.01548] - E_Fm2 Init Done
+ESTART: 3.33963 [0.00003] - E_Msg Init
+ESTART: 3.33964 [0.00001] - E_Msg Init Done
+ESTART: 3.33965 [0.00001] - E_Grabinput Init
+ESTART: 3.33965 [0.00001] - E_Grabinput Init Done
+ESTART: 3.33966 [0.00001] - E_Module Init
+ESTART: 3.33982 [0.00015] - E_Module Init Done
+ESTART: 3.33983 [0.00001] - E_Remember Init
+ESTART: 3.46315 [0.12332] - E_Remember Init Done
+ESTART: 3.46320 [0.00005] - E_Color_Class Init
+ESTART: 3.46321 [0.00001] - E_Color_Class Init Done
+ESTART: 3.46322 [0.00001] - E_Gadcon Init
+ESTART: 3.46323 [0.00001] - E_Gadcon Init Done
+ESTART: 3.46324 [0.00001] - E_Toolbar Init
+ESTART: 3.46325 [0.00001] - E_Toolbar Init Done
+ESTART: 3.46326 [0.00001] - E_Bg Init
+ESTART: 3.46332 [0.00006] - E_Bg Init Done
+ESTART: 3.46333 [0.00001] - E_Mouse Init
+ESTART: 3.46358 [0.00025] - E_Mouse Init Done
+ESTART: 3.46360 [0.00001] - E_Bindings Init
+ESTART: 3.46381 [0.00022] - E_Bindings Init Done
+ESTART: 3.46382 [0.00001] - E_Thumb Init
+ESTART: 3.46383 [0.00001] - E_Thumb Init Done
+ESTART: 3.46384 [0.00001] - E_Icon Init
+ESTART: 3.46384 [0.00001] - E_Icon Init Done
+ESTART: 3.46385 [0.00000] - E_Update Init
+ESTART: 3.46387 [0.00002] - E_Update Init Done
+ESTART: 3.46388 [0.00001] - E_Deskenv Init
+ESTART: 3.46390 [0.00002] - E_Deskenv Init Done
+ESTART: 3.46391 [0.00001] - E_Order Init
+ESTART: 3.46394 [0.00003] - E_Order Init Done
+ESTART: 3.46395 [0.00001] - Add Idler For X Flush
+ESTART: 3.46397 [0.00002] - Add Idler For X Flush Done
+ESTART: 3.46398 [0.00001] - E_Manager Keys Grab
+ESTART: 3.46412 [0.00014] - E_Manager Keys Grab Done
+ESTART: 3.46413 [0.00001] - Load Modules
+ESTART: 3.46414 [0.00001] - Load Modules Done
+ESTART: 3.46414 [0.00001] - Run Startup Apps
+ESTART: 3.49878 [0.03464] - Run Startup Apps Done
+ESTART: 3.49881 [0.00003] - E_Comp Thaw
+ESTART: 3.49884 [0.00003] - E_Comp Thaw Done
+ESTART: 3.49885 [0.00001] - E_Test Init
+ESTART: 3.49885 [0.00001] - E_Test Done
+ESTART: 3.49887 [0.00002] - E_Shelf Init
+ESTART: 3.49888 [0.00001] - E_Shelf Init Done
+ESTART: 3.49890 [0.00002] - MAIN LOOP AT LAST
+ESTART: 3.90111 [0.40221] - SLEEP
+ESTART: 4.15304 [0.25193] - gadcon populate idler start
+ESTART: 4.15306 [0.00003] - tasks
+ESTART: 4.17816 [0.02510] - gadcon populate idler end
+ESTART: 4.26470 [0.08654] - SLEEP
+ESTART: 4.32110 [0.05640] - DELAYED MODULE LOAD: mixer
+ESTART: 4.93354 [0.61243] - SLEEP
+ESTART: 5.00064 [0.06710] - DELAYED MODULE LOAD: conf_window_remembers
+[31mERR<[0m[31m>[0m../../src/lib/ecore_wayland/ecore_wl_input.c:221[0m safety check failed: input->display->wl.shm == NULL
+[31mERR<[0m[31m>[0m../../src/lib/ecore_wayland/ecore_wl_input.c:236[0m safety check failed: input->display->wl.shm == NULL
+ESTART: 6.18675 [1.18611] - SLEEP
+ESTART: 6.34875 [0.16200] - DELAYED MODULE LOAD: conf_interaction
+ESTART: 6.34909 [0.00035] - SLEEP
+ESTART: 6.37397 [0.02488] - DELAYED MODULE LOAD: conf_window_manipulation
+ESTART: 6.37406 [0.00009] - SLEEP
+ESTART: 6.42445 [0.05039] - DELAYED MODULE LOAD: conf_theme
+ESTART: 6.42467 [0.00022] - SLEEP
+ESTART: 6.47324 [0.04857] - DELAYED MODULE LOAD: conf_shelves
+ESTART: 6.47654 [0.00331] - SLEEP
+ESTART: 6.54641 [0.06987] - DELAYED MODULE LOAD: conf_performance
+ESTART: 6.54654 [0.00013] - SLEEP
+ESTART: 6.58552 [0.03898] - DELAYED MODULE LOAD: conf_paths
+ESTART: 6.58565 [0.00013] - SLEEP
+ESTART: 6.60016 [0.01451] - DELAYED MODULE LOAD: conf_menus
+ESTART: 6.60021 [0.00005] - SLEEP
+ESTART: 6.61650 [0.01629] - DELAYED MODULE LOAD: conf_bindings
+ESTART: 6.61656 [0.00007] - SLEEP
+ESTART: 6.62898 [0.01242] - DELAYED MODULE LOAD: conf_intl
+ESTART: 6.62904 [0.00006] - SLEEP
+ESTART: 6.66623 [0.03719] - DELAYED MODULE LOAD: conf_display
+ESTART: 6.66631 [0.00007] - SLEEP
+ESTART: 6.73571 [0.06941] - DELAYED MODULE LOAD: conf_dialogs
+ESTART: 6.73577 [0.00006] - SLEEP
+ESTART: 6.77630 [0.04053] - DELAYED MODULE LOAD: conf_applications
+ESTART: 6.77647 [0.00017] - SLEEP
+ESTART: 6.82417 [0.04770] - DELAYED MODULE LOAD: conf_randr
+ESTART: 6.82429 [0.00012] - SLEEP
+ESTART: 6.86118 [0.03689] - DELAYED MODULE LOAD: conf
+ESTART: 6.88192 [0.02075] - SLEEP
+ESTART: 6.91025 [0.02832] - DELAYED MODULE LOAD: xkbswitch
+ESTART: 6.93724 [0.02700] - SLEEP
+ESTART: 6.95275 [0.01551] - DELAYED MODULE LOAD: winlist
+ESTART: 6.95586 [0.00311] - SLEEP
+ESTART: 7.06820 [0.11234] - DELAYED MODULE LOAD: pager
+ESTART: 7.12662 [0.05842] - SLEEP
+ESTART: 7.17916 [0.05254] - DELAYED MODULE LOAD: temperature
+ESTART: 7.20902 [0.02986] - SLEEP
+ESTART: 7.49092 [0.28190] - DELAYED MODULE LOAD: battery
+CHANGE PW SAVE MODE TO 3 / 4
+ESTART: 7.59009 [0.09917] - SLEEP
+ESTART: 7.64325 [0.05317] - DELAYED MODULE LOAD: clock
+ESTART: 7.67609 [0.03284] - SLEEP
+ESTART: 7.70928 [0.03319] - DELAYED MODULE LOAD: ibox
+ESTART: 7.74133 [0.03205] - SLEEP
+ESTART: 7.77151 [0.03018] - DELAYED MODULE LOAD: ibar
+ESTART: 7.99087 [0.21937] - SLEEP
+ESTART: 8.01226 [0.02139] - DELAYED MODULE LOAD: start
+ESTART: 8.01885 [0.00659] - SLEEP
+ESTART: 8.03034 [0.01149] - DELAYED MODULE LOAD: syscon
+ESTART: 8.09487 [0.06453] - SLEEP
+ESTART: 8.11734 [0.02247] - DELAYED MODULE LOAD: backlight
+ESTART: 8.14618 [0.02885] - SLEEP
+ESTART: 8.15209 [0.00591] - DELAYED MODULE LOAD: teamwork
+ESTART: 8.19703 [0.04494] - SLEEP
+ESTART: 8.19706 [0.00004] - SLEEP
+ESTART: 8.19732 [0.00026] - SLEEP
+ESTART: 8.21599 [0.01867] - SLEEP
+ESTART: 8.21912 [0.00312] - SLEEP
+ESTART: 8.22094 [0.00183] - SLEEP
+ESTART: 8.22105 [0.00011] - SLEEP
+ESTART: 8.23790 [0.01685] - SLEEP
+ESTART: 8.25451 [0.01661] - SLEEP
+ESTART: 8.27114 [0.01663] - SLEEP
+ESTART: 8.28825 [0.01711] - SLEEP
+ESTART: 8.30495 [0.01670] - SLEEP
+ESTART: 8.30865 [0.00370] - SLEEP
+ESTART: 8.32654 [0.01790] - SLEEP
+ESTART: 8.33801 [0.01147] - SLEEP
+ESTART: 8.35471 [0.01670] - SLEEP
+ESTART: 8.37183 [0.01712] - SLEEP
+ESTART: 8.38830 [0.01647] - SLEEP
+ESTART: 8.40486 [0.01656] - SLEEP
+ESTART: 8.50773 [0.10287] - SLEEP
+ESTART: 8.50800 [0.00027] - SLEEP
+ESTART: 8.82737 [0.31938] - SLEEP
+ESTART: 9.44121 [0.61384] - SLEEP
+ESTART: 9.46791 [0.02671] - SLEEP
+ESTART: 9.48861 [0.02069] - SLEEP
+ESTART: 9.51513 [0.02653] - SLEEP
+ESTART: 9.53914 [0.02400] - SLEEP
+ESTART: 9.56035 [0.02121] - SLEEP
+ESTART: 9.58275 [0.02240] - SLEEP
+ESTART: 9.60625 [0.02350] - SLEEP
+E: Begin Shutdown Procedure!
+[31mERR<[0m[31m>[0m../src/bin/e_comp.c:1359[0m safety check failed: c == NULL
+[31mERR<[0m[36mefreet_cache[0m[31m>[0m../../src/lib/efreet/efreet_cache.c:206[0m This application has not properly closed all its desktop references!
+E - PID=10300, valgrind=0

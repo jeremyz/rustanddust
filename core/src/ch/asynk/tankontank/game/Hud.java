@@ -70,8 +70,9 @@ public class Hud implements Disposable
 
     public void changeState(StateType from, StateType to)
     {
-        if (to != StateType.ENTRY);
-            playerInfo.hideUnitDock();
+        // if (to != StateType.ENTRY);
+        //     playerInfo.hideUnitDock();
+        // TODO when reselect another -> do not hide Dock
 
         if ((to == StateType.SELECT) || (to == StateType.ENTRY))
             playerInfo.blockReinforcement(false);
@@ -112,12 +113,12 @@ public class Hud implements Disposable
 
     public void pushNotify(String s)
     {
-        notify(s, 1, Position.MIDDLE_CENTER, true);
+        notify(s, 1, Position.TOP_CENTER, true);
     }
 
     public void notify(String s)
     {
-        notify(s, 1, Position.MIDDLE_CENTER, false);
+        notify(s, 1, Position.TOP_CENTER, false);
     }
 
     public void notify(String s, float duration, Position position, boolean push)
