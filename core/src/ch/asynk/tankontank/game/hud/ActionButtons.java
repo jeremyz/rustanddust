@@ -44,7 +44,7 @@ public class ActionButtons extends Bg
         this.ctrl = ctrl;
         this.padding = padding;
         this.visible = false;
-        this.position = Position.TOP_RIGHT;
+        this.position = Position.BOTTOM_RIGHT;
         this.idx = Buttons.NONE.i;
 
         this.buttons = new Button[Buttons.LAST.i];
@@ -72,7 +72,7 @@ public class ActionButtons extends Bg
             buttons[i].dispose();
     }
 
-    public void setPositon(Position position)
+    public void setPosition(Position position)
     {
         this.position = position;
     }
