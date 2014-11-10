@@ -63,7 +63,7 @@ public class Hud implements Disposable
         font = game.skin.getFont("default-font");
         TextureAtlas atlas = game.factory.hudAtlas;
 
-        actionButtons = new ActionButtons(ctrl, atlas.findRegion("disabled"), atlas, 10f);
+        actionButtons = new ActionButtons(ctrl, atlas.findRegion("disabled"), atlas, 5f);
         actionButtons.hide();
 
         usFlag = new Image(atlas.findRegion("us-flag"));
