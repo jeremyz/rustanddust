@@ -10,7 +10,9 @@ public interface State
         BREAK,
         PROMOTE,
         ANIMATION,
-        ENTRY
+        ENTRY,
+        ABORT,
+        DONE
     };
 
     public void enter(boolean flag);
