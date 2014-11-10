@@ -89,7 +89,7 @@ public class Hud implements Disposable
         aps.setLabelPosition(Position.TOP_RIGHT);
         reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
         reinforcement.setLabelPosition(Position.TOP_LEFT);
-        unitDock.setTopLeft(OFFSET, reinforcement.getY() - 5);
+        unitDock.setPosition(Position.TOP_LEFT, reinforcement.getY() - 5);
     }
 
     @Override

@@ -21,19 +21,20 @@ public class UnitDock extends Bg
     private final Ctrl ctrl;
 
     private float padding;
-    public float x;
-    public float y;
-    public float to;
+    private float y;
+    private float to;
     private float dx;
-    public boolean show;
-    public boolean done;
+    private float step;
+    private Position position;
+    private boolean show;
+    private boolean done;
     public Pawn selectedPawn;
     private Sprite selected;
     private List<Pawn> pawns;
     private Vector3 point;
     private Matrix4 saved;
     private Matrix4 transform;
-    protected Rectangle scaledRect;
+    private Rectangle scaledRect;
 
     public UnitDock(Ctrl ctrl, TextureRegion bg, TextureRegion selected, float padding)
     {
@@ -49,10 +50,13 @@ public class UnitDock extends Bg
         this.visible = false;
     }
 
-    public void setTopLeft(float x, float y)
+    public void setPosition(Position position, float y)
     {
-        this.x = x;
+        this.position = position;
         this.y = y;
+        this.step = (position.isLeft() ? STEP : -STEP);
+        this.done = true;
+        this.visible = false;
     }
 
     @Override
@@ -70,7 +74,7 @@ public class UnitDock extends Bg
     public void hide()
     {
         if (!visible) return;
-        to = - (rect.width * SCALE);
+        to = rect.x;
         show = false;
         done = false;
     }
@@ -89,11 +93,12 @@ public class UnitDock extends Bg
 
     public void show()
     {
+        float x = position.getX(rect.width * SCALE);
         if (done) {
             pawns = ctrl.player.getReinforcement();
             rect.width = pawns.get(0).getWidth() + (2 * padding);
             rect.height = ((pawns.get(0).getHeight() * pawns.size()) + ((pawns.size() + 1) * padding));
-            rect.x = - (rect.width * SCALE);
+            rect.x = (position.isLeft() ? (0 - (rect.width * SCALE)) : (x + (rect.width * SCALE)));
             rect.y = y - rect.height;
             // position units here
             float px = rect.x;
@@ -122,15 +127,15 @@ public class UnitDock extends Bg
 
         float x = (rect.x + dx);
         if (show) {
-            if (x < to)
-                dx += STEP;
+            if ((position.isLeft() && (x < to)) || (!position.isLeft() && x > to))
+                dx += step;
             else {
                 dx = (to - rect.x);
                 done = true;
             }
         } else {
-            if (x > to)
-                dx -= STEP;
+            if ((position.isLeft() && (x > to)) || (!position.isLeft() && x < to))
+                dx -= step;
             else {
                 dx = (to - rect.x);
                 done = true;
