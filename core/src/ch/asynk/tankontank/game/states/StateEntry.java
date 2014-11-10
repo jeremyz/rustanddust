@@ -17,6 +17,8 @@ public class StateEntry extends StateCommon
     @Override
     public void enter(boolean fromSelect)
     {
+        if (selectedHex != null)
+            map.unselectHex(selectedHex);
         activeUnit = ctrl.hud.playerInfo.getDockUnit();
         entryPoint = ctrl.battle.getEntryPoint(activeUnit);
         entryPoint.enable(Hex.AREA, true);
