@@ -85,6 +85,7 @@ public class UnitDock extends Bg
         if (visible && scaledRect.contains(x, y)) {
             int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / pawns.size()));
             selectedPawn = pawns.get(i);
+            ctrl.hud.notify(selectedPawn.toString());
             return true;
         }
         selectedPawn = null;
