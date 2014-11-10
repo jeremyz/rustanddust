@@ -17,7 +17,7 @@ public class StateEntry extends StateCommon
     @Override
     public void enter(boolean fromSelect)
     {
-        activeUnit = ctrl.hud.getDockUnit();
+        activeUnit = ctrl.hud.playerInfo.getDockUnit();
         entryPoint = ctrl.battle.getEntryPoint(activeUnit);
         entryPoint.enable(Hex.AREA, true);
         ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
@@ -30,7 +30,7 @@ public class StateEntry extends StateCommon
     public void leave(StateType nextState)
     {
         entryPoint.enable(Hex.AREA, false);
-        ctrl.hud.hideUnitDock();
+        ctrl.hud.playerInfo.hideUnitDock();
     }
 
     @Override

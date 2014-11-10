@@ -69,7 +69,7 @@ public class Ctrl implements Disposable
         this.blockMap = false;
 
         player.turnStart();
-        hud.update();
+        hud.playerInfo.update(player, battle.getHudPosition(player));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class Ctrl implements Disposable
         player = opponent;
         opponent = tmp;
         player.turnStart();
-        hud.update();
+        hud.playerInfo.update(player, battle.getHudPosition(player));
         hud.notify(player.getName() + "'s turn");
     }
 
@@ -122,7 +122,7 @@ public class Ctrl implements Disposable
     {
         if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
-            hud.update();
+            hud.playerInfo.update(player, battle.getHudPosition(player));
         }
         if (player.apExhausted())
             nextPlayer();

@@ -1,53 +1,36 @@
 package ch.asynk.tankontank.game;
 
-import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-
-import ch.asynk.tankontank.engine.gfx.Image;
 
 import ch.asynk.tankontank.game.State.StateType;
+import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.game.hud.Msg;
+import ch.asynk.tankontank.game.hud.PlayerInfo;
 import ch.asynk.tankontank.game.hud.ActionButtons;
-import ch.asynk.tankontank.game.hud.LabelImage;
-import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.OkCancel;
 import ch.asynk.tankontank.game.hud.Statistics;
-import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
 
 public class Hud implements Disposable
 {
     public static final float OFFSET = 10f;
-    public static final float PADDING = 5f;
 
     private final TankOnTank game;
     private final Ctrl ctrl;
 
-    private Msg msg;
-
     private Object hit;
-
-    private Image flag;
-    private Image usFlag;
-    private Image geFlag;
-    private LabelImage turns;
-    private LabelImage aps;
-    private LabelImage reinforcement;
-    private UnitDock unitDock;
-
-    public ActionButtons actionButtons;
-
     private BitmapFont font;
 
+    public PlayerInfo playerInfo;
+    public ActionButtons actionButtons;
+
+    private Msg msg;
     private Statistics stats;
     private OkCancel okCancel;
     private DialogAction dialogAction;
@@ -66,46 +49,20 @@ public class Hud implements Disposable
         font = game.skin.getFont("default-font");
         TextureAtlas atlas = game.factory.hudAtlas;
 
+        playerInfo = new PlayerInfo(ctrl, font, atlas, 5f);
         actionButtons = new ActionButtons(ctrl, atlas.findRegion("disabled"), atlas, 5f);
         actionButtons.hide();
-
-        usFlag = new Image(atlas.findRegion("us-flag"));
-        geFlag = new Image(atlas.findRegion("ge-flag"));
-        turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
-        aps = new LabelImage(atlas.findRegion("aps"), font, 5f);
-        reinforcement = new LabelImage(atlas.findRegion("reinforcement"), font, 5f);
-        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"), 10f);
-
         msg = new Msg(font, atlas.findRegion("disabled"), 10f);
         okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
         stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
-
-        float x = OFFSET;
-        float y = (Gdx.graphics.getHeight() - OFFSET);
-        usFlag.setPosition(x, (y - usFlag.getHeight()));
-        geFlag.setPosition(x, (y - geFlag.getHeight()));
-        turns.setPosition((usFlag.getX() + usFlag.getWidth() + 10), usFlag.getY());
-        aps.setPosition((turns.getX() + turns.getWidth() + 10), turns.getY());
-        aps.setLabelPosition(Position.TOP_RIGHT);
-        reinforcement.setPosition(x, usFlag.getY() - reinforcement.getHeight() - 0);
-        reinforcement.setLabelPosition(Position.TOP_LEFT);
-        unitDock.setPosition(Position.TOP_LEFT, reinforcement.getY() - 5);
     }
 
     @Override
     public void dispose()
     {
         font.dispose();
-
+        playerInfo.dispose();
         actionButtons.dispose();
-
-        usFlag.dispose();
-        geFlag.dispose();
-        turns.dispose();
-        aps.dispose();
-        reinforcement.dispose();
-        unitDock.dispose();
-
         msg.dispose();
         okCancel.dispose();
         stats.dispose();
@@ -114,49 +71,31 @@ public class Hud implements Disposable
     public void changeState(StateType from, StateType to)
     {
         if (to != StateType.ENTRY);
-            unitDock.hide();
+            playerInfo.hideUnitDock();
 
         if ((to == StateType.SELECT) || (to == StateType.ENTRY))
-            reinforcement.blocked = false;
+            playerInfo.blockReinforcement(false);
         else
-            reinforcement.blocked = true;
+            playerInfo.blockReinforcement(true);
     }
 
     public void update()
     {
-        unitDock.hide();
-        turns.write("" + ctrl.player.getTurn());
-        aps.write("" + ctrl.player.getAp());
-        int r = ctrl.player.getReinforcement().size();
-        if (r == 0) {
-            reinforcement.visible = false;
-        } else {
-            reinforcement.visible = true;
-            reinforcement.write("" + r);
-        }
-
-        if (ctrl.player.getFaction() == Army.GE)
-            flag = geFlag;
-        else
-            flag = usFlag;
+        Position position = ctrl.battle.getHudPosition(ctrl.player);
+        playerInfo.update(ctrl.player, position);
+        actionButtons.setPosition(position.down());
     }
 
     public void animate(float delta)
     {
         msg.animate(delta);
-        unitDock.animate(delta);
+        playerInfo.animate(delta);
     }
 
     public void draw(Batch batch)
     {
-        flag.draw(batch);
-        turns.draw(batch);
-        aps.draw(batch);
-        reinforcement.draw(batch);
-        unitDock.draw(batch);
-
+        playerInfo.draw(batch);
         actionButtons.draw(batch);
-
         msg.draw(batch);
         okCancel.draw(batch);
         stats.draw(batch);
@@ -164,22 +103,11 @@ public class Hud implements Disposable
 
     public void drawDebug(ShapeRenderer debugShapes)
     {
-        flag.drawDebug(debugShapes);
-        turns.drawDebug(debugShapes);
-        aps.drawDebug(debugShapes);
-        reinforcement.drawDebug(debugShapes);
-        unitDock.drawDebug(debugShapes);
-
+        playerInfo.drawDebug(debugShapes);
         actionButtons.drawDebug(debugShapes);
-
         msg.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
         stats.drawDebug(debugShapes);
-    }
-
-    public Unit getDockUnit()
-    {
-        return (Unit) unitDock.selectedPawn;
     }
 
     public void pushNotify(String s)
@@ -198,23 +126,14 @@ public class Hud implements Disposable
         else msg.write(s, 1, position);
     }
 
-    public void hideUnitDock()
-    {
-        unitDock.hide();
-    }
-
     public boolean touchDown(float x, float y)
     {
         hit = null;
 
         if (actionButtons.touchDown(x, y))
             hit = actionButtons;
-        else if (turns.hit(x,y))
-            hit = turns;
-        else if (unitDock.hit(x, y))
-            hit = unitDock;
-        else if (reinforcement.hit(x, y))
-            hit = reinforcement;
+        if (playerInfo.touchDown(x, y))
+            hit = playerInfo;
         else if (okCancel.hit(x, y))
             hit = okCancel;
         else if (stats.hit(x, y))
@@ -232,12 +151,8 @@ public class Hud implements Disposable
 
         if (hit == actionButtons)
             actionButtons.touchUp(x, y);
-        else if ((hit == turns) && turns.hit(x, y))
-            askEndTurn();
-        else if ((hit == reinforcement) && reinforcement.hit(x, y))
-            unitDock.toggle();
-        else if ((hit == unitDock) && unitDock.hit(x, y))
-            ctrl.setState(StateType.ENTRY);
+        else if (hit == playerInfo)
+            playerInfo.touchUp(x, y);
         else if ((hit == okCancel) && okCancel.hit(x, y))
             closeDialog();
         else if ((hit == stats) && stats.hit(x, y))
