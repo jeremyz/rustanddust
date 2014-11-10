@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -15,8 +16,8 @@ public class StateRotate extends StateCommon
     {
         this.rotateOnly = rotateOnly;
 
-        ctrl.hud.show(false, true, false, false, false, ctrl.cfg.canCancel);
-        ctrl.hud.rotateBtn.setOn();
+        ctrl.hud.actionButtons.show(Buttons.ROTATE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        ctrl.hud.actionButtons.setOn(Buttons.ROTATE);
 
         if (rotateOnly) {
             // rotateBtn from Select state
@@ -64,7 +65,7 @@ public class StateRotate extends StateCommon
         if (ctrl.cfg.mustValidate) {
             map.hideDirections(to);
             map.showOrientation(to, o);
-            ctrl.hud.show(false, true, false, false, true, ctrl.cfg.canCancel);
+            ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else
             doRotation(o);
     }
@@ -72,7 +73,7 @@ public class StateRotate extends StateCommon
     @Override
     public void abort()
     {
-        ctrl.hud.hide();
+        ctrl.hud.actionButtons.hide();
         if (activeUnit.move.entryMove) {
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);

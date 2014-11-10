@@ -68,7 +68,7 @@ public abstract class StateCommon implements State
 
     private void goToNextState()
     {
-        ctrl.hud.hide();
+        ctrl.hud.actionButtons.hide();
         StateType next = nextState;
         nextState = StateType.SELECT;
         ctrl.setState(next, (next == StateType.SELECT));

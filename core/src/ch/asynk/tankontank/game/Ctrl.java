@@ -134,7 +134,14 @@ public class Ctrl implements Disposable
 
     public void setState(State.StateType state)
     {
-        setState(state, true);
+        if (state == State.StateType.ABORT) {
+            hud.notify("Action canceled");
+            this.state.abort();
+        }
+        else if (state == State.StateType.DONE)
+            this.state.done();
+        else
+            setState(state, true);
     }
 
     public void setState(State.StateType state, boolean normal)
@@ -175,16 +182,6 @@ public class Ctrl implements Disposable
         stateType = state;
 
         this.state.enter(normal);
-    }
-
-    public void abort()
-    {
-        state.abort();
-    }
-
-    public void done()
-    {
-        state.done();
     }
 
     public void touchDown(float x, float y)

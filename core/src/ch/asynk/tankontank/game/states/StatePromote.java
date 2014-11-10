@@ -7,7 +7,7 @@ public class StatePromote extends StateCommon
     @Override
     public void enter(boolean flag)
     {
-        ctrl.hud.hide();
+        ctrl.hud.actionButtons.hide();
         Unit unit = ctrl.player.promote(selectedUnit);
         if (unit != null) {
             ctrl.hud.notify(unit + " has been promoted");

@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -10,8 +11,8 @@ public class StateAttack extends StateCommon
     public void enter(boolean fromSelect)
     {
         map.possibleTargets.clear();
-        ctrl.hud.show(false, false, false, true, false, ctrl.cfg.canCancel);
-        ctrl.hud.attackBtn.setOn();
+        ctrl.hud.actionButtons.show(Buttons.ATTACK.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        ctrl.hud.actionButtons.setOn(Buttons.ATTACK);
 
         // activeUnit is the target
         if (fromSelect) {
@@ -61,7 +62,7 @@ public class StateAttack extends StateCommon
             activeUnit.showTarget();
             map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
             map.showAttackAssists();
-            ctrl.hud.show(false, false, false, true, true, ctrl.cfg.canCancel);
+            ctrl.hud.actionButtons.show(Buttons.ATTACK.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }
 
         if ((activeUnit != null) && map.attackAssists.contains(unit)) {

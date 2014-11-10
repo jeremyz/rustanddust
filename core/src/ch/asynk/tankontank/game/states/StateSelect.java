@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Ctrl;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateSelect extends StateCommon
 {
@@ -62,16 +63,14 @@ public class StateSelect extends StateCommon
             if (moves > 0)
                 map.collectMoveablePawns(selectedUnit);
             showPossibleTargetsMovesAssists(selectedUnit);
-            ctrl.hud.show(
-                ctrl.player.canPromote(selectedUnit),
-                selectedUnit.canMove(),
-                (moves > 0),
-                (targets > 0),
-                false,
-                false
+            ctrl.hud.actionButtons.show(
+                ((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 ) |
+                ((selectedUnit.canMove()) ? Buttons.ROTATE.b : 0 ) |
+                ((moves > 0) ? Buttons.MOVE.b : 0 ) |
+                ((targets > 0) ? Buttons.ATTACK.b : 0)
                 );
         } else {
-            ctrl.hud.hide();
+            ctrl.hud.actionButtons.hide();
             map.clearAll();
         }
         if (selectedUnit != null) ctrl.hud.notify(selectedUnit.toString());

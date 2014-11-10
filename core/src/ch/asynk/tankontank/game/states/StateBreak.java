@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -15,7 +16,7 @@ public class StateBreak extends StateCommon
     {
         done = false;
         activeUnit = null;
-        ctrl.hud.show(false, false, false, false, true, false);
+        ctrl.hud.actionButtons.show(Buttons.DONE.b);
         map.showBreakPawns();
     }
 
@@ -54,7 +55,7 @@ public class StateBreak extends StateCommon
             if (ctrl.cfg.mustValidate) {
                 map.hideDirections(to);
                 map.showOrientation(to, o);
-                ctrl.hud.show(false, false, false, false, true, false);
+                ctrl.hud.actionButtons.show(Buttons.DONE.b);
             } else
                 doRotation(o);
         }

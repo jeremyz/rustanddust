@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateEntry extends StateCommon
 {
@@ -19,7 +20,7 @@ public class StateEntry extends StateCommon
         activeUnit = ctrl.hud.getDockUnit();
         entryPoint = ctrl.battle.getEntryPoint(activeUnit);
         entryPoint.enable(Hex.AREA, true);
-        ctrl.hud.show(false, false, false, false, false, ctrl.cfg.canCancel);
+        ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         x = activeUnit.getPosition().x;
         y = activeUnit.getPosition().x;
         z = activeUnit.getPosition().y;

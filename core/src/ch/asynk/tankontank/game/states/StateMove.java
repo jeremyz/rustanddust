@@ -2,6 +2,7 @@ package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateMove extends StateCommon
 {
@@ -9,8 +10,8 @@ public class StateMove extends StateCommon
     public void enter(boolean fromSelect)
     {
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
-        ctrl.hud.show(false, true, true, false, moreThanOne, ctrl.cfg.canCancel);
-        ctrl.hud.moveBtn.setOn();
+        ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.MOVE.b | ((moreThanOne) ? Buttons.DONE.b : 0) | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        ctrl.hud.actionButtons.setOn(Buttons.MOVE);
         map.possiblePaths.clear();
 
         if (fromSelect) {
