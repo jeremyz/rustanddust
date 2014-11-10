@@ -205,7 +205,7 @@ public class Unit extends HeadedPawn
         TankOnTank.debug(move.toString());
         if (move.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + move.cost + "/" + mpLeft + " please report");
 
-        if (!move.entryMove) {
+        if (move.isComplete()) {
             hasMoved = true;
         }
         mpLeft -= move.cost;

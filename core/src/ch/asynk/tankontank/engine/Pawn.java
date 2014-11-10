@@ -84,6 +84,11 @@ public abstract class Pawn implements Moveable, Disposable
             entryMove = false;
             orientation = Orientation.KEEP;
         }
+
+        public boolean isComplete()
+        {
+            return ((from != null) && (to != null));
+        }
     }
 
     private static final float MOVE_TIME = 0.4f;
