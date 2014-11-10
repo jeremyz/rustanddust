@@ -12,13 +12,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.tankontank.engine.gfx.Image;
+
 import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.hud.Msg;
-import ch.asynk.tankontank.game.hud.Bg;
 import ch.asynk.tankontank.game.hud.ActionButtons;
 import ch.asynk.tankontank.game.hud.LabelImage;
 import ch.asynk.tankontank.game.hud.UnitDock;
 import ch.asynk.tankontank.game.hud.OkCancel;
+import ch.asynk.tankontank.game.hud.Statistics;
 import ch.asynk.tankontank.game.hud.Position;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -47,12 +48,14 @@ public class Hud implements Disposable
 
     private BitmapFont font;
 
+    private Statistics stats;
     private OkCancel okCancel;
-    private OkCancelAction okCancelAction;
+    private DialogAction dialogAction;
 
-    enum OkCancelAction
+    enum DialogAction
     {
         END_TURN,
+        END_GAME
     }
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
@@ -75,6 +78,7 @@ public class Hud implements Disposable
 
         msg = new Msg(font, atlas.findRegion("disabled"), 10f);
         okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
+        stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
 
         float x = OFFSET;
         float y = (Gdx.graphics.getHeight() - OFFSET);
@@ -104,6 +108,7 @@ public class Hud implements Disposable
 
         msg.dispose();
         okCancel.dispose();
+        stats.dispose();
     }
 
     public void changeState(StateType from, StateType to)
@@ -154,6 +159,7 @@ public class Hud implements Disposable
 
         msg.draw(batch);
         okCancel.draw(batch);
+        stats.draw(batch);
     }
 
     public void drawDebug(ShapeRenderer debugShapes)
@@ -168,6 +174,7 @@ public class Hud implements Disposable
 
         msg.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
+        stats.drawDebug(debugShapes);
     }
 
     public Unit getDockUnit()
@@ -210,6 +217,8 @@ public class Hud implements Disposable
             hit = reinforcement;
         else if (okCancel.hit(x, y))
             hit = okCancel;
+        else if (stats.hit(x, y))
+            hit = stats;
         else
             return false;
 
@@ -230,31 +239,43 @@ public class Hud implements Disposable
         else if ((hit == unitDock) && unitDock.hit(x, y))
             ctrl.setState(StateType.ENTRY);
         else if ((hit == okCancel) && okCancel.hit(x, y))
-            closeOkCancel();
+            closeDialog();
+        else if ((hit == stats) && stats.hit(x, y))
+            closeDialog();
 
         hit = null;
 
         return true;
     }
 
-    private void closeOkCancel()
+    private void closeDialog()
     {
-        ctrl.blockMap = false;
-        okCancel.visible = false;
-        if (okCancel.ok) {
-            switch(okCancelAction)
-            {
-                case END_TURN:
+        switch(dialogAction)
+        {
+            case END_TURN:
+                if (okCancel.ok)
                     ctrl.endPlayerTurn();
-                    break;
-            }
+                okCancel.visible = false;
+                break;
+            case END_GAME:
+                stats.visible = false;
+                ctrl.endGame();
+                break;
         }
+        ctrl.blockMap = false;
     }
 
     private void askEndTurn()
     {
         ctrl.blockMap = true;
-        okCancelAction = OkCancelAction.END_TURN;
+        dialogAction = DialogAction.END_TURN;
         okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
+    }
+
+    public void victory(Player winner, Player loser)
+    {
+        ctrl.blockMap = true;
+        dialogAction = DialogAction.END_GAME;
+        stats.show(winner, loser, Position.MIDDLE_CENTER);
     }
 }

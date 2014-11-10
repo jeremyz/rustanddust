@@ -13,6 +13,8 @@ import ch.asynk.tankontank.game.states.StateBreak;
 import ch.asynk.tankontank.game.states.StateAnimation;
 import ch.asynk.tankontank.game.states.StateEntry;
 
+import ch.asynk.tankontank.screens.OptionsScreen;
+
 public class Ctrl implements Disposable
 {
     private final TankOnTank game;
@@ -106,7 +108,7 @@ public class Ctrl implements Disposable
         player.turnEnd();
         Player winner = battle.checkVictory(this);
         if (winner != null) {
-            TankOnTank.debug("TODO " + winner + " has won !!!!!!!!!!!");
+            hud.victory(winner, ((winner == player) ? opponent : player));
         }
         Player tmp = player;
         player = opponent;
@@ -194,5 +196,10 @@ public class Ctrl implements Disposable
     {
         if (!blockMap && state.upInMap(x, y))
             state.touchUp();
+    }
+
+    public void endGame()
+    {
+        game.setScreen(new OptionsScreen(game));
     }
 }
