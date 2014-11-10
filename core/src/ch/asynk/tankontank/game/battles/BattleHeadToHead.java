@@ -150,9 +150,4 @@ public class BattleHeadToHead extends BattleCommon
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
     }
-
-    public boolean checkVictory()
-    {
-        return false;
-    }
 }
