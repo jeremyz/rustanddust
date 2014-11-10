@@ -131,14 +131,17 @@ public class PlayerInfo implements Disposable, Drawable
     {
         hit = null;
 
-        if (turns.hit(x,y))
-            hit = turns;
+        if (reinforcement.hit(x, y))
+            hit = reinforcement;
         else if (unitDock.hit(x, y))
             hit = unitDock;
-        else if (reinforcement.hit(x, y))
-            hit = reinforcement;
-        else
-            return false;
+        else {
+            hideUnitDock();
+            if (turns.hit(x,y))
+                hit = turns;
+            else
+                return false;
+        }
 
         return true;
     }
