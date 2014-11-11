@@ -134,6 +134,22 @@ public class Ctrl implements Disposable
         nextPlayer();
     }
 
+    public void stateTouchUp()
+    {
+        this.state.touchUp();
+    }
+
+    public void toggleState(State.StateType stateA, State.StateType stateB)
+    {
+        if (this.stateType == stateA) {
+            setState(stateB);
+        } else if (this.stateType == stateB) {
+            setState(stateA);
+        } else {
+            TankOnTank.debug("Ctrl", "wrong call to toggleState()");
+        }
+    }
+
     public void setState(State.StateType state)
     {
         if (state == State.StateType.ABORT) {
@@ -148,7 +164,6 @@ public class Ctrl implements Disposable
 
     public void setState(State.StateType state, boolean normal)
     {
-        hud.changeState(stateType, state);
         this.state.leave(state);
 
         TankOnTank.debug("  switch to : " + state + " " + normal);

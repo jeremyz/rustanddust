@@ -68,18 +68,6 @@ public class Hud implements Disposable
         stats.dispose();
     }
 
-    public void changeState(StateType from, StateType to)
-    {
-        // if (to != StateType.ENTRY);
-        //     playerInfo.hideUnitDock();
-        // TODO when reselect another -> do not hide Dock
-
-        if ((to == StateType.SELECT) || (to == StateType.ENTRY))
-            playerInfo.blockReinforcement(false);
-        else
-            playerInfo.blockReinforcement(true);
-    }
-
     public void update()
     {
         Position position = ctrl.battle.getHudPosition(ctrl.player);
