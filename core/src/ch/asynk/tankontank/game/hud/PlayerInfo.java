@@ -117,16 +117,6 @@ public class PlayerInfo implements Disposable, Drawable
         return (Unit) unitDock.selectedPawn;
     }
 
-    public void hideUnitDock()
-    {
-        unitDock.hide();
-    }
-
-    public void blockReinforcement(boolean blocked)
-    {
-        reinforcement.blocked = blocked;
-    }
-
     public boolean touchDown(float x, float y)
     {
         hit = null;
