@@ -119,18 +119,16 @@ public class Hud implements Disposable
     {
         hit = null;
 
-        if (playerInfo.touchDown(x, y))
-            hit = playerInfo;
-        else if (actionButtons.touchDown(x, y))
+        if (actionButtons.touchDown(x, y))
             hit = actionButtons;
+        else if (playerInfo.touchDown(x, y))
+            hit = playerInfo;
         else if (okCancel.hit(x, y))
             hit = okCancel;
         else if (stats.hit(x, y))
             hit = stats;
-        else
-            return false;
 
-        return true;
+        return (hit != null);
     }
 
     public boolean touchUp(float x, float y)
@@ -138,14 +136,20 @@ public class Hud implements Disposable
         if (hit == null)
             return false;
 
-        if (hit == actionButtons)
+        if (hit == actionButtons) {
             actionButtons.touchUp(x, y);
-        else if (hit == playerInfo)
+        }
+        else if (hit == playerInfo) {
             playerInfo.touchUp(x, y);
-        else if ((hit == okCancel) && okCancel.hit(x, y))
-            closeDialog();
-        else if ((hit == stats) && stats.hit(x, y))
-            closeDialog();
+        }
+        else if (hit == okCancel) {
+            if (okCancel.hit(x, y))
+                closeDialog();
+        }
+        else if (hit == stats) {
+            if (stats.hit(x, y))
+                closeDialog();
+        }
 
         hit = null;
 

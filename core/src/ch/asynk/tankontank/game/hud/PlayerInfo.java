@@ -135,15 +135,10 @@ public class PlayerInfo implements Disposable, Drawable
             hit = reinforcement;
         else if (unitDock.hit(x, y))
             hit = unitDock;
-        else {
-            hideUnitDock();
-            if (turns.hit(x,y))
-                hit = turns;
-            else
-                return false;
-        }
+        else if (turns.hit(x,y))
+            hit = turns;
 
-        return true;
+        return (hit != null);
     }
 
     public boolean touchUp(float x, float y)
@@ -151,12 +146,18 @@ public class PlayerInfo implements Disposable, Drawable
         if (hit == null)
             return false;
 
-        if ((hit == turns) && turns.hit(x, y))
-            ctrl.hud.askEndTurn();
-        else if ((hit == reinforcement) && reinforcement.hit(x, y))
-            unitDock.toggle();
-        else if ((hit == unitDock) && unitDock.hit(x, y))
-            ctrl.setState(StateType.ENTRY);
+        if (hit == turns) {
+            if (turns.hit(x, y))
+                ctrl.hud.askEndTurn();
+        }
+        else if (hit == reinforcement) {
+            if (reinforcement.hit(x, y))
+                ctrl.toggleState(StateType.ENTRY, StateType.SELECT);
+        }
+        else if (hit == unitDock) {
+            if (unitDock.hit(x, y))
+                ctrl.stateTouchUp();
+        }
 
         hit = null;
 
