@@ -19,7 +19,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'TankOnTank'
-        gdxVersion = '1.3.1'
+        gdxVersion = '1.4.1'
         roboVMVersion = '0.0.14'
     }
 
