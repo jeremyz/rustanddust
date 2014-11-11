@@ -5,13 +5,11 @@ import com.badlogic.gdx.math.Vector3;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateEntry extends StateCommon
 {
-    private float x;
-    private float y;
-    private float z;
     private TileSet entryPoint;
 
     @Override
@@ -19,20 +17,17 @@ public class StateEntry extends StateCommon
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        activeUnit = ctrl.hud.playerInfo.getDockUnit();
-        entryPoint = ctrl.battle.getEntryPoint(activeUnit);
-        entryPoint.enable(Hex.AREA, true);
-        ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        x = activeUnit.getPosition().x;
-        y = activeUnit.getPosition().x;
-        z = activeUnit.getPosition().y;
+        entryPoint = null;
+        selectedHex = null;
+        ctrl.hud.playerInfo.unitDock.show();
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        entryPoint.enable(Hex.AREA, false);
-        ctrl.hud.playerInfo.hideUnitDock();
+        if (entryPoint != null)
+            entryPoint.enable(Hex.AREA, false);
+        ctrl.hud.playerInfo.unitDock.hide();
     }
 
     @Override
@@ -43,24 +38,18 @@ public class StateEntry extends StateCommon
     @Override
     public void touchUp()
     {
-        if (upHex.isEmpty() && entryPoint.contains(upHex)) {
-            selectedUnit = activeUnit;
-            selectedHex = upHex;
-            map.selectHex(selectedHex);
-            entryPoint.enable(Hex.AREA, false);
-            ctrl.player.unitEntry(activeUnit);
-            map.enterBoard(activeUnit, upHex, ctrl.battle.getEntryOrientation(ctrl.player));
-            if (activeUnit.getMovementPoints() > 0)
-                ctrl.setState(StateType.MOVE, true);
-            else
-                ctrl.setState(StateType.ROTATE, true);
-        }
+        Unit unit = ctrl.hud.playerInfo.getDockUnit();
+        if ((unit != null) && (unit != activeUnit))
+            changeUnit(unit);
+        else if ((entryPoint != null) && upHex.isEmpty() && entryPoint.contains(upHex))
+            unitEnter(activeUnit);
+        else
+            ctrl.setState(StateType.SELECT);
     }
 
     @Override
     public void abort()
     {
-        activeUnit.setPosition(x, y, z);
         super.abort();
     }
 
@@ -68,5 +57,28 @@ public class StateEntry extends StateCommon
     public void done()
     {
         super.done();
+    }
+
+    private void changeUnit(Unit unit)
+    {
+        activeUnit = unit;
+        if (entryPoint != null) entryPoint.enable(Hex.AREA, false);
+        entryPoint = ctrl.battle.getEntryPoint(activeUnit);
+        entryPoint.enable(Hex.AREA, true);
+        ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+    }
+
+    private void unitEnter(Unit unit)
+    {
+        selectedUnit = unit;
+        selectedHex = upHex;
+        map.selectHex(selectedHex);
+        entryPoint.enable(Hex.AREA, false);
+        ctrl.player.unitEntry(unit);
+        map.enterBoard(unit, upHex, ctrl.battle.getEntryOrientation(ctrl.player));
+        if (unit.getMovementPoints() > 0)
+            ctrl.setState(StateType.MOVE, true);
+        else
+            ctrl.setState(StateType.ROTATE, true);
     }
 }
