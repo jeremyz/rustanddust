@@ -25,7 +25,7 @@ public class BattleHeadToHead extends BattleCommon
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
-            return null;
+            return ctrl.player;
 
         if ((ctrl.player.getTurn() < 10) || (ctrl.opponent.getTurn() < 10))
             return null;
