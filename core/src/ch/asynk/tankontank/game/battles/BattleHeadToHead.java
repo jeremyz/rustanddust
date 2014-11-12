@@ -9,6 +9,7 @@ import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
@@ -76,6 +77,12 @@ public class BattleHeadToHead extends BattleCommon
     public Player getSecondPlayer()
     {
         return factory.getPlayer(secondArmy);
+    }
+
+    @Override
+    public StateType getState(Player player)
+    {
+        return StateType.SELECT;
     }
 
     @Override

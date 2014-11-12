@@ -107,6 +107,7 @@ public class Ctrl implements Disposable
 
     private void nextPlayer()
     {
+        TankOnTank.debug("Ctrl", "next Player");
         player.turnEnd();
         Player winner = battle.checkVictory(this);
         if (winner != null) {
@@ -118,6 +119,7 @@ public class Ctrl implements Disposable
         player.turnStart();
         hud.playerInfo.update(player, battle.getHudPosition(player));
         hud.notify(player.getName() + "'s turn");
+        setState(battle.getState(player));
     }
 
     private void checkTurnEnd()

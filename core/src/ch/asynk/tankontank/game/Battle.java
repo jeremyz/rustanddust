@@ -24,4 +24,6 @@ public interface Battle
     public EntryPoint getEntryPoint(Unit unit);
 
     public Position getHudPosition(Player player);
+
+    public State.StateType getState(Player player);
 }
