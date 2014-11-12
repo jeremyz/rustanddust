@@ -1,9 +1,5 @@
 package ch.asynk.tankontank.game.battles;
 
-import java.util.Random;
-
-import com.badlogic.gdx.math.GridPoint2;
-
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
