@@ -11,7 +11,7 @@ import ch.asynk.tankontank.game.states.StatePromote;
 import ch.asynk.tankontank.game.states.StateAttack;
 import ch.asynk.tankontank.game.states.StateBreak;
 import ch.asynk.tankontank.game.states.StateAnimation;
-import ch.asynk.tankontank.game.states.StateEntry;
+import ch.asynk.tankontank.game.states.StateReinforcement;
 
 import ch.asynk.tankontank.screens.OptionsScreen;
 
@@ -61,7 +61,7 @@ public class Ctrl implements Disposable
         this.attackState = new StateAttack();
         this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
-        this.entryState = new StateEntry();
+        this.entryState = new StateReinforcement();
 
         this.state = selectState;
         this.stateType = State.StateType.SELECT;
@@ -192,7 +192,7 @@ public class Ctrl implements Disposable
             case ANIMATION:
                 this.state = animationState;
                 break;
-            case ENTRY:
+            case REINFORCEMENT:
                 this.state = entryState;
                 break;
             default:

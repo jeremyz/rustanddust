@@ -10,7 +10,7 @@ public interface State
         BREAK,
         PROMOTE,
         ANIMATION,
-        ENTRY,
+        REINFORCEMENT,
         ABORT,
         DONE
     };

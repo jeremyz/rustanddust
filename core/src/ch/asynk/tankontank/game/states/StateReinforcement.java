@@ -8,7 +8,7 @@ import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
-public class StateEntry extends StateCommon
+public class StateReinforcement extends StateCommon
 {
     private TileSet entryPoint;
 
