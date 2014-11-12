@@ -64,18 +64,6 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public Player getFirstPlayer()
-    {
-        return factory.getPlayer(firstArmy);
-    }
-
-    @Override
-    public Player getSecondPlayer()
-    {
-        return factory.getPlayer(secondArmy);
-    }
-
-    @Override
     public StateType getState(Player player)
     {
         return StateType.SELECT;

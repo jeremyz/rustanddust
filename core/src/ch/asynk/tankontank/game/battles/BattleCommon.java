@@ -51,6 +51,16 @@ public abstract class BattleCommon implements Battle
         }
     }
 
+    public Player getFirstPlayer()
+    {
+        return factory.getPlayer(firstArmy);
+    }
+
+    public Player getSecondPlayer()
+    {
+        return factory.getPlayer(secondArmy);
+    }
+
     public void addEntryPoint(EntryPoint entry)
     {
         entryPoints.add(entry);
