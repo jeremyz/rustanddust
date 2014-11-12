@@ -14,6 +14,7 @@ import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
+import ch.asynk.tankontank.engine.EntryPoint;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleHeadToHead extends BattleCommon
@@ -105,7 +106,8 @@ public class BattleHeadToHead extends BattleCommon
         objectives.add(map.getHex(6, 1));
         objectives.enable(Hex.OBJECTIVE, true);
 
-        TileSet geEntry = new TileSet(map, 10);
+        EntryPoint geEntry = new EntryPoint(map, 10);
+        geEntry.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
         geEntry.add(map.getHex(0, 0));
         geEntry.add(map.getHex(1, 1));
         geEntry.add(map.getHex(1, 2));
@@ -117,7 +119,8 @@ public class BattleHeadToHead extends BattleCommon
         geEntry.add(map.getHex(4, 8));
         addEntryPoint(geEntry);
 
-        TileSet usEntry = new TileSet(map, 10);
+        EntryPoint usEntry = new EntryPoint(map, 10);
+        usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(9, 0));
         usEntry.add(map.getHex(9, 1));
         usEntry.add(map.getHex(10, 2));
