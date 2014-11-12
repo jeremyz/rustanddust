@@ -26,6 +26,7 @@ public class OptionsScreen implements Screen
     private CheckBox canCancelCk;
     private CheckBox mustValidateCk;
     private CheckBox showEnemyPossibilitiesCk;
+    private CheckBox debugCk;
 
     public OptionsScreen(final TankOnTank game)
     {
@@ -49,6 +50,7 @@ public class OptionsScreen implements Screen
         game.config.canCancel = canCancelCk.isChecked();
         game.config.mustValidate = mustValidateCk.isChecked();
         game.config.showEnemyPossibilities = showEnemyPossibilitiesCk.isChecked();
+        game.config.debug = debugCk.isChecked();
     }
 
     @Override
@@ -67,6 +69,7 @@ public class OptionsScreen implements Screen
         canCancelCk = new CheckBox("Can Cancel", game.skin);
         mustValidateCk = new CheckBox("Must Validate", game.skin);
         showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", game.skin);
+        debugCk = new CheckBox("Debug", game.skin);
 
         showMovesCk.setChecked(game.config.showMoves);
         showTargetsCk.setChecked(game.config.showTargets);
@@ -74,6 +77,7 @@ public class OptionsScreen implements Screen
         canCancelCk.setChecked(game.config.canCancel);
         mustValidateCk.setChecked(game.config.mustValidate);
         showEnemyPossibilitiesCk.setChecked(game.config.showEnemyPossibilities);
+        debugCk.setChecked(game.config.debug);
 
         okButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -92,6 +96,7 @@ public class OptionsScreen implements Screen
         stage.addActor(canCancelCk);
         stage.addActor(mustValidateCk);
         stage.addActor(showEnemyPossibilitiesCk);
+        stage.addActor(debugCk);
         stage.addActor(okButton);
     }
 
@@ -117,6 +122,8 @@ public class OptionsScreen implements Screen
         mustValidateCk.setPosition(x, y);
         y -= 20f;
         showEnemyPossibilitiesCk.setPosition(x, y);
+        y -= 20f;
+        debugCk.setPosition(x, y);
         x += 200f;
         y -= 40f;
         okButton.setPosition(x, y);

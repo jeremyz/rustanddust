@@ -30,7 +30,7 @@ import ch.asynk.tankontank.game.battles.BattleHeadToHead;
 
 public class GameScreen implements Screen
 {
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     private static final float INPUT_DELAY = 0.1f;
     private static final float ZOOM_IN_MAX = 0.3f;
@@ -65,6 +65,8 @@ public class GameScreen implements Screen
         this.game = game;
 
         this.ctrl = new Ctrl(game, new BattleHeadToHead(game.factory));
+
+        DEBUG = game.config.debug;
 
         virtualWidth = ctrl.map.getWidth();
         virtualHeight = ctrl.map.getHeight();
