@@ -1,18 +1,18 @@
-Tile:
-    - automatic overlays to show unit stack depth
+NOW:
+    - options panel
+        - FX volume
+        - touch : dow -> show, up -> (action | reset)
+    - Animations
+        - attack
+        - promote
+        - selected Hex
+    - Ace overlay -> may reroll the dice
+    - add options to hide moves/targets/assists even in action
 
-Pawn:
-    -
-
-Board:
+NEXT:
     - support different board layout
         - north orientation
         - hex orientation
         - inverted even/odd row scheme
-
-Game:
-    - animated selected Hex
-    - promote animation
-    - Ace overlay -> may reroll the dice
-    - add options to hide moves/targets/assists even in action
+    - automatic overlays to show unit stack depth
 
