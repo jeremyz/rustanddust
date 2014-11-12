@@ -45,6 +45,11 @@ public abstract class Player
         return faction.toString();
     }
 
+    public boolean is(Faction faction)
+    {
+        return (this.faction == faction);
+    }
+
     public boolean isEnemy(Pawn pawn)
     {
         return pawn.isEnemy(faction);

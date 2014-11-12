@@ -172,6 +172,11 @@ public abstract class Pawn implements Moveable, Disposable
         move();
     }
 
+    public boolean is(Faction faction)
+    {
+        return (this.faction == faction);
+    }
+
     public boolean isEnemy(Faction other)
     {
         return faction.isEnemy(other);
