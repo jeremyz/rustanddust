@@ -30,12 +30,11 @@ public class BattleHeadToHead extends BattleCommon
         if ((ctrl.player.getTurn() < 10) || (ctrl.opponent.getTurn() < 10))
             return null;
 
-        Unit unit;
         int player = 0;
         int opponent = 0;
 
         for (Tile tile : objectives) {
-            unit = ((Hex) tile).getUnit();
+            Unit unit = ((Hex) tile).getUnit();
             if (unit != null) {
                 if (ctrl.player.isEnemy(unit))
                     opponent += 1;
