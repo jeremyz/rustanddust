@@ -53,7 +53,7 @@ public class BattleHeadToHead extends BattleCommon
     @Override
     public Position getHudPosition(Player player)
     {
-        return (player.isEnemy(Army.GE) ? Position.TOP_RIGHT: Position.TOP_LEFT);
+        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class BattleHeadToHead extends BattleCommon
         Player gePlayer;
         Player usPlayer;
 
-        if (a.isEnemy(Army.GE)) {
+        if (a.is(Army.US)) {
             usPlayer = a;
             gePlayer = b;
         } else {
