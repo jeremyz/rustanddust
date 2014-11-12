@@ -173,7 +173,7 @@ public abstract class Map extends Board
         if (entry == Orientation.KEEP)
             return false;
         pawn.enterBoard(to, entry);
-        setPawnOnto(pawn, to, entry.opposite());
+        setPawnOnto(pawn, to, entry);
         return true;
     }
 
