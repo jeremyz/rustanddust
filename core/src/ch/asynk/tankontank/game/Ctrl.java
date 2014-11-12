@@ -26,6 +26,7 @@ public class Ctrl implements Disposable
     public Player player;
     public Player opponent;
     public boolean blockMap;
+    public boolean blockHud;
 
     private State selectState;
     private State pathState;
@@ -67,6 +68,7 @@ public class Ctrl implements Disposable
 
         this.hud = new Hud(this, game);
         this.blockMap = false;
+        this.blockHud = false;
 
         player.turnStart();
         hud.playerInfo.update(player, battle.getHudPosition(player));
@@ -201,15 +203,21 @@ public class Ctrl implements Disposable
         this.state.enter(normal);
     }
 
-    public void touchDown(float x, float y)
+    public void touchDown(float hx, float hy, float mx, float my)
     {
-        if (!blockMap && state.downInMap(x, y))
+        if (!blockHud && hud.touchDown(hx, hy))
+            return;
+
+        if (!blockMap && state.downInMap(mx, my))
             state.touchDown();
     }
 
-    public void touchUp(float x, float y)
+    public void touchUp(float hx, float hy, float mx, float my)
     {
-        if (!blockMap && state.upInMap(x, y))
+        if (!blockHud && hud.touchUp(hx, hy))
+            return;
+
+        if (!blockMap && state.upInMap(mx, my))
             state.touchUp();
     }
 

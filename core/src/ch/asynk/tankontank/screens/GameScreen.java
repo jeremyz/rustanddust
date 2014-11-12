@@ -56,7 +56,8 @@ public class GameScreen implements Screen
     // private boolean blocked;
     // private float inputDelay = 0f;
     private Vector2 dragPos = new Vector2();
-    private Vector3 touchPos = new Vector3();
+    private Vector3 mapTouch = new Vector3();
+    private Vector3 hudTouch = new Vector3();
     private Vector2 screenToWorld = new Vector2();
 
     public GameScreen(final TankOnTank game)
@@ -123,11 +124,9 @@ public class GameScreen implements Screen
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
                     if (ctrl.mayProcessTouch()) {
-                        unprojectToHud(x, y, touchPos);
-                        if (!ctrl.hud.touchDown(touchPos.x, touchPos.y)) {
-                            unprojectToMap(x, y, touchPos);
-                            ctrl.touchDown(touchPos.x, touchPos.y);
-                        }
+                        unprojectToHud(x, y, hudTouch);
+                        unprojectToMap(x, y, mapTouch);
+                        ctrl.touchDown(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
                     }
                 }
                 return true;
@@ -138,11 +137,9 @@ public class GameScreen implements Screen
                 // if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
                     if (ctrl.mayProcessTouch()) {
-                        unprojectToHud(x, y, touchPos);
-                        if (!ctrl.hud.touchUp(touchPos.x, touchPos.y)) {
-                            unprojectToMap(x, y, touchPos);
-                            ctrl.touchUp(touchPos.x, touchPos.y);
-                        }
+                        unprojectToHud(x, y, hudTouch);
+                        unprojectToMap(x, y, mapTouch);
+                        ctrl.touchUp(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
                     }
                 }
                 // blocked = true;
