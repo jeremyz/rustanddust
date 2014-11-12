@@ -344,38 +344,27 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    public Orientation findBestEntry(Pawn pawn, Tile to, Orientation from)
+    public Orientation findBestEntry(Pawn pawn, Tile to, int allowedMoves)
     {
-        // FIXME board corners
         Orientation entry = Orientation.KEEP;
         int cost = Integer.MAX_VALUE;
         boolean road = false;
 
-        Orientation o = from.opposite().left();
-        boolean r = to.road(o);
-        int c = to.costFrom(pawn, o);
-        if ((c < cost) || (r && (c == cost))) {
-            entry = o;
-            cost = c;
-            road = r;
-        }
-
-        o = from.opposite();
-        r = to.road(o);
-        c = to.costFrom(pawn, o);
-        if ((c < cost) || (r && (c == cost))) {
-            entry = o;
-            cost = c;
-            road = r;
-        }
-
-        o = from.opposite().right();
-        r = to.road(o);
-        c = to.costFrom(pawn, o);
-        if ((c < cost) || (r && (c == cost))) {
-            entry = o;
-            cost = c;
-            road = r;
+        setAdjacentTiles(to, neighbours);
+        for (int i = 0; i < 6; i++) {
+            Tile t = neighbours[i];
+            if (t.isOffMap()) {
+                Orientation o = Orientation.fromAdj(t.col, t.row, to.col, to.row);
+                if (o.isInSides(allowedMoves)) {
+                    boolean r = to.road(o);
+                    int c = to.costFrom(pawn, o);
+                    if ((c < cost) || (r && (c == cost))) {
+                        entry = o;
+                        cost = c;
+                        road = r;
+                    }
+                }
+            }
         }
 
         return entry;

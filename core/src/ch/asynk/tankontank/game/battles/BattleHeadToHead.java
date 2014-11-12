@@ -79,14 +79,6 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public Orientation getEntryOrientation(Player player)
-    {
-        if (player.isEnemy(Army.GE))
-            return Orientation.SOUTH;
-        return Orientation.NORTH;
-    }
-
-    @Override
     public void setup(Map map, Player a, Player b)
     {
         Player gePlayer;

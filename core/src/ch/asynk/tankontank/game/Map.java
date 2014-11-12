@@ -167,11 +167,14 @@ public abstract class Map extends Board
 
     // ACTIONS
 
-    public void enterBoard(Pawn pawn, Hex to, Orientation o)
+    public boolean enterBoard(Pawn pawn, Hex to, int allowedMoves)
     {
-        Orientation entry = findBestEntry(pawn, to, o);
+        Orientation entry = findBestEntry(pawn, to, allowedMoves);
+        if (entry == Orientation.KEEP)
+            return false;
         pawn.enterBoard(to, entry);
-        setPawnOnto(pawn, to, o);
+        setPawnOnto(pawn, to, entry.opposite());
+        return true;
     }
 
     public void leaveBoard(Pawn pawn)

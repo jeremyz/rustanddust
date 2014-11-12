@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import ch.asynk.tankontank.engine.TileSet;
+import ch.asynk.tankontank.engine.EntryPoint;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.Player;
@@ -20,8 +21,8 @@ public abstract class BattleCommon implements Battle
     protected Army firstArmy;
     protected Army secondArmy;
     protected Factory factory;
-    protected ArrayList<TileSet> entryPoints = new ArrayList<TileSet>();
-    protected HashMap<Unit, TileSet> pawnEntry = new HashMap<Unit, TileSet>();
+    protected ArrayList<EntryPoint> entryPoints = new ArrayList<EntryPoint>();
+    protected HashMap<Unit, EntryPoint> pawnEntry = new HashMap<Unit, EntryPoint>();
     protected TileSet objectives;
 
     public BattleCommon(Factory factory)
@@ -50,19 +51,19 @@ public abstract class BattleCommon implements Battle
         }
     }
 
-    public void addEntryPoint(TileSet tiles)
+    public void addEntryPoint(EntryPoint entry)
     {
-        entryPoints.add(tiles);
+        entryPoints.add(entry);
     }
 
-    public void addReinforcement(Player player, TileSet entryPoint, UnitId unitId)
+    public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId)
     {
         Unit unit = factory.getUnit(unitId);
         player.addReinforcement(unit);
         pawnEntry.put(unit, entryPoint);
     }
 
-    public TileSet getEntryPoint(Unit unit)
+    public EntryPoint getEntryPoint(Unit unit)
     {
         return pawnEntry.get(unit);
     }

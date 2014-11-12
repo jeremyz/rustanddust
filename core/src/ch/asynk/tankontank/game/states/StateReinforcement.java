@@ -2,15 +2,14 @@ package ch.asynk.tankontank.game.states;
 
 import com.badlogic.gdx.math.Vector3;
 
-import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.EntryPoint;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateReinforcement extends StateCommon
 {
-    private TileSet entryPoint;
+    private EntryPoint entryPoint;
 
     @Override
     public void enter(boolean fromSelect)
@@ -75,7 +74,7 @@ public class StateReinforcement extends StateCommon
         map.selectHex(selectedHex);
         entryPoint.enable(Hex.AREA, false);
         ctrl.player.unitEntry(unit);
-        map.enterBoard(unit, upHex, ctrl.battle.getEntryOrientation(ctrl.player));
+        map.enterBoard(unit, upHex, entryPoint.allowedMoves);
         if (unit.getMovementPoints() > 0)
             ctrl.setState(StateType.MOVE, true);
         else
