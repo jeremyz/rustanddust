@@ -112,7 +112,7 @@ public class Ctrl implements Disposable
     {
         player.turnStart();
         hud.playerInfo.update(player, battle.getHudPosition(player));
-        setState(battle.getState(player));
+        // setState(battle.getState(player));
         hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
     }
 
