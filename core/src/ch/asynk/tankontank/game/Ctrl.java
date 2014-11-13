@@ -36,7 +36,7 @@ public class Ctrl implements Disposable
     private State attackState;
     private State breakState;
     private State animationState;
-    private State entryState;
+    private State reinforcementState;
 
     private int animationCount = 0;
 
@@ -62,7 +62,7 @@ public class Ctrl implements Disposable
         this.attackState = new StateAttack();
         this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
-        this.entryState = new StateReinforcement();
+        this.reinforcementState = new StateReinforcement();
 
         this.state = selectState;
         this.stateType = State.StateType.SELECT;
@@ -198,7 +198,7 @@ public class Ctrl implements Disposable
                 this.state = animationState;
                 break;
             case REINFORCEMENT:
-                this.state = entryState;
+                this.state = reinforcementState;
                 break;
             default:
                 break;
