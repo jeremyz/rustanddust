@@ -3,6 +3,7 @@ package ch.asynk.tankontank.game;
 import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.game.states.StateCommon;
 import ch.asynk.tankontank.game.states.StateSelect;
 import ch.asynk.tankontank.game.states.StateMove;
@@ -72,6 +73,8 @@ public class Ctrl implements Disposable
 
         player.turnStart();
         hud.playerInfo.update(player, battle.getHudPosition(player));
+
+        hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
     }
 
     @Override
