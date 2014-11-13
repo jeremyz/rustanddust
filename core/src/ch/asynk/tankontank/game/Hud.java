@@ -162,7 +162,7 @@ public class Hud implements Disposable
         {
             case END_TURN:
                 if (okCancel.ok)
-                    ctrl.endPlayerTurn();
+                    ctrl.abortPlayerTurn();
                 okCancel.visible = false;
                 break;
             case END_GAME:

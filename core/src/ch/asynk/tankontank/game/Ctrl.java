@@ -230,4 +230,10 @@ public class Ctrl implements Disposable
     {
         game.setScreen(new OptionsScreen(game));
     }
+
+    public void abortPlayerTurn()
+    {
+        state.abort();
+        swicthPlayer();
+    }
 }
