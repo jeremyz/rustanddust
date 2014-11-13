@@ -9,6 +9,7 @@ public class Config
     public boolean mustValidate;
     public boolean showEnemyPossibilities;
     public boolean debug;
+    public Battle battle;
 
     public Config()
     {
@@ -19,5 +20,6 @@ public class Config
         this.canCancel = true;
         this.mustValidate = false;
         this.showEnemyPossibilities = false;
+        this.battle = null;
     }
 }

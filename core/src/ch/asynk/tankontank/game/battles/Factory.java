@@ -12,6 +12,8 @@ import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.Unit.UnitType;
+import ch.asynk.tankontank.game.Battle;
+import ch.asynk.tankontank.game.battles.BattleHeadToHead;
 
 public class Factory implements Board.TileBuilder, Disposable
 {
@@ -30,11 +32,15 @@ public class Factory implements Board.TileBuilder, Disposable
     public TextureAtlas pawnsAtlas;
     public TextureAtlas pawnOverlaysAtlas;
     public TextureAtlas tileOverlaysAtlas;
+    public Battle battles[];
     private final TankOnTank game;
 
     public Factory(final TankOnTank game)
     {
         this.game = game;
+        battles = new Battle[] {
+            new BattleHeadToHead(this),
+        };
     }
 
     public void assetsLoaded()

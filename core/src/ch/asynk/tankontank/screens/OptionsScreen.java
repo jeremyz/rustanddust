@@ -8,17 +8,19 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.tankontank.game.Battle;
 
 public class OptionsScreen implements Screen
 {
     private final TankOnTank game;
 
     private Stage stage;
-    private Label title;
+    private Label title1;
     private TextButton okButton;
     private CheckBox showMovesCk;
     private CheckBox showTargetsCk;
@@ -27,6 +29,8 @@ public class OptionsScreen implements Screen
     private CheckBox mustValidateCk;
     private CheckBox showEnemyPossibilitiesCk;
     private CheckBox debugCk;
+    private Label title2;
+    private List<Battle> scenarios;
 
     public OptionsScreen(final TankOnTank game)
     {
@@ -51,6 +55,7 @@ public class OptionsScreen implements Screen
         game.config.mustValidate = mustValidateCk.isChecked();
         game.config.showEnemyPossibilities = showEnemyPossibilitiesCk.isChecked();
         game.config.debug = debugCk.isChecked();
+        game.config.battle = scenarios.getSelected();
     }
 
     @Override
@@ -61,7 +66,7 @@ public class OptionsScreen implements Screen
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        title = new Label("Options", game.skin);
+        title1 = new Label("Options", game.skin);
         okButton = new TextButton("OK", game.skin);
         showMovesCk = new CheckBox("Show Moves", game.skin);
         showTargetsCk = new CheckBox("Show Targets", game.skin);
@@ -70,6 +75,11 @@ public class OptionsScreen implements Screen
         mustValidateCk = new CheckBox("Must Validate", game.skin);
         showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", game.skin);
         debugCk = new CheckBox("Debug", game.skin);
+        title2 = new Label("Scenarios", game.skin);
+        scenarios = new List<Battle>(game.skin);
+        scenarios.setItems(game.factory.battles);
+        scenarios.setWidth(170);
+        scenarios.setSelected(game.factory.battles[0]);
 
         showMovesCk.setChecked(game.config.showMoves);
         showTargetsCk.setChecked(game.config.showTargets);
@@ -89,7 +99,7 @@ public class OptionsScreen implements Screen
             }
         });
 
-        stage.addActor(title);
+        stage.addActor(title1);
         stage.addActor(showMovesCk);
         stage.addActor(showTargetsCk);
         stage.addActor(showMoveAssistsCk);
@@ -98,6 +108,8 @@ public class OptionsScreen implements Screen
         stage.addActor(showEnemyPossibilitiesCk);
         stage.addActor(debugCk);
         stage.addActor(okButton);
+        stage.addActor(title2);
+        stage.addActor(scenarios);
     }
 
     @Override
@@ -109,7 +121,7 @@ public class OptionsScreen implements Screen
 
         float x = ((width / 2) - 100f);
         float y = (height - 100f);
-        title.setPosition(x, y);
+        title1.setPosition(x, y);
         y -= 20f;
         showMovesCk.setPosition(x, y);
         y -= 20f;
@@ -124,6 +136,10 @@ public class OptionsScreen implements Screen
         showEnemyPossibilitiesCk.setPosition(x, y);
         y -= 20f;
         debugCk.setPosition(x, y);
+        y -= 40f;
+        title2.setPosition(x, y);
+        y -= scenarios.getHeight();
+        scenarios.setPosition(x, y);
         x += 200f;
         y -= 40f;
         okButton.setPosition(x, y);

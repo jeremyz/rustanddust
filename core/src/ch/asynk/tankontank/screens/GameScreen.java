@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ch.asynk.tankontank.TankOnTank;
 
 import ch.asynk.tankontank.game.Ctrl;
-import ch.asynk.tankontank.game.battles.BattleHeadToHead;
 
 public class GameScreen implements Screen
 {
@@ -64,7 +63,7 @@ public class GameScreen implements Screen
     {
         this.game = game;
 
-        this.ctrl = new Ctrl(game, new BattleHeadToHead(game.factory));
+        this.ctrl = new Ctrl(game, game.config.battle);
 
         DEBUG = game.config.debug;
 
