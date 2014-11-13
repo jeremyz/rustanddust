@@ -30,6 +30,11 @@ public abstract class BattleCommon implements Battle
         this.factory = factory;
     }
 
+    public String toString()
+    {
+        return getName();
+    }
+
     public String getName()
     {
         return name;

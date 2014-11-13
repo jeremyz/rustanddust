@@ -20,6 +20,7 @@ public class BattleHeadToHead extends BattleCommon
     {
         super(factory);
         randomizeArmies();
+        name = "Head To Head";
     }
 
     public Player checkVictory(Ctrl ctrl)
