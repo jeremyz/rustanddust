@@ -75,6 +75,9 @@ public class BattleHeadToHead extends BattleCommon
         Player gePlayer;
         Player usPlayer;
 
+        a.deploymentDone();
+        b.deploymentDone();
+
         if (a.is(Army.US)) {
             usPlayer = a;
             gePlayer = b;
