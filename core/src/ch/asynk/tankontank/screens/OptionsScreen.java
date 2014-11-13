@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -14,6 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.Battle;
+
+class MyList extends List<Battle>
+{
+    public MyList(Skin skin, Battle... items)
+    {
+        super(skin);
+        setItems(items);
+        layout();
+        setSize(getPrefWidth(), getPrefHeight());
+    }
+}
 
 public class OptionsScreen implements Screen
 {
@@ -76,10 +88,7 @@ public class OptionsScreen implements Screen
         showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", game.skin);
         debugCk = new CheckBox("Debug", game.skin);
         title2 = new Label("Scenarios", game.skin);
-        scenarios = new List<Battle>(game.skin);
-        scenarios.setItems(game.factory.battles);
-        scenarios.setWidth(170);
-        scenarios.setSelected(game.factory.battles[0]);
+        scenarios = new MyList(game.skin, game.factory.battles);
 
         showMovesCk.setChecked(game.config.showMoves);
         showTargetsCk.setChecked(game.config.showTargets);
@@ -121,7 +130,7 @@ public class OptionsScreen implements Screen
 
         float x = ((width / 2) - 100f);
         float y = (height - 100f);
-        title1.setPosition(x, y);
+        title1.setPosition((x - 20f), y);
         y -= 20f;
         showMovesCk.setPosition(x, y);
         y -= 20f;
@@ -137,11 +146,11 @@ public class OptionsScreen implements Screen
         y -= 20f;
         debugCk.setPosition(x, y);
         y -= 40f;
-        title2.setPosition(x, y);
+        title2.setPosition((x - 20f), y);
         y -= scenarios.getHeight();
         scenarios.setPosition(x, y);
+        y -= 20f;
         x += 200f;
-        y -= 40f;
         okButton.setPosition(x, y);
     }
 
