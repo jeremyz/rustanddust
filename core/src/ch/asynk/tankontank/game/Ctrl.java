@@ -108,21 +108,30 @@ public class Ctrl implements Disposable
             TankOnTank.debug("    animationCount < 0");
     }
 
-    private void nextPlayer()
+    private void startPlayerTurn()
+    {
+        player.turnStart();
+        hud.playerInfo.update(player, battle.getHudPosition(player));
+        setState(battle.getState(player));
+        hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
+    }
+
+    private void endPlayerTurn()
     {
         TankOnTank.debug("Ctrl", "next Player");
         player.turnEnd();
         Player winner = battle.checkVictory(this);
-        if (winner != null) {
+        if (winner != null)
             hud.victory(winner, ((winner == player) ? opponent : player));
-        }
+    }
+
+    private void swicthPlayer()
+    {
+        endPlayerTurn();
         Player tmp = player;
         player = opponent;
         opponent = tmp;
-        player.turnStart();
-        hud.playerInfo.update(player, battle.getHudPosition(player));
-        hud.notify(player.getName() + "'s turn");
-        setState(battle.getState(player));
+        startPlayerTurn();
     }
 
     private void checkTurnEnd()
@@ -132,13 +141,7 @@ public class Ctrl implements Disposable
             hud.playerInfo.update(player, battle.getHudPosition(player));
         }
         if (player.apExhausted())
-            nextPlayer();
-    }
-
-    public void endPlayerTurn()
-    {
-        state.abort();
-        nextPlayer();
+            swicthPlayer();
     }
 
     public void stateTouchUp()
