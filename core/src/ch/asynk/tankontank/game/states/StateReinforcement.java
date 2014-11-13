@@ -1,7 +1,5 @@
 package ch.asynk.tankontank.game.states;
 
-import com.badlogic.gdx.math.Vector3;
-
 import ch.asynk.tankontank.engine.EntryPoint;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
