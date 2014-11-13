@@ -14,6 +14,7 @@ public class Player extends ch.asynk.tankontank.engine.Player
     private int turn;
     private int apSpent;
     private int actionPoints;
+    private boolean deploymentDone;
     // stats
     public int actionCount;
     public int lostAttackCount;
@@ -23,7 +24,9 @@ public class Player extends ch.asynk.tankontank.engine.Player
     {
         super(army, n);
         this.turn = 0;
+        this.apSpent = 0;
         this.actionPoints = 0;
+        this.deploymentDone = false;
         this.actionCount = 0;
         this.lostAttackCount = 0;
         this.wonAttackCount = 0;
@@ -55,6 +58,11 @@ public class Player extends ch.asynk.tankontank.engine.Player
         return (apSpent == actionPoints);
     }
 
+    public void deploymentDone()
+    {
+        deploymentDone = true;
+    }
+
     public void burnDownOneAp()
     {
         apSpent += 1;
@@ -70,6 +78,8 @@ public class Player extends ch.asynk.tankontank.engine.Player
     @Override
     public void turnStart()
     {
+        if (!deploymentDone)
+            return;
         turn += 1;
         for (Pawn pawn : units)
             pawn.reset();
