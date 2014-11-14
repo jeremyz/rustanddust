@@ -65,7 +65,6 @@ public class PlayerInfo implements Disposable, Drawable
 
         if (position.isLeft()) {
             reinforcement.setPosition(x, y);
-            reinforcement.setLabelPosition(Position.TOP_LEFT);
             y += (reinforcement.getHeight() + padding);
             usFlag.setPosition(x, y);
             geFlag.setPosition(x, y);
@@ -73,11 +72,9 @@ public class PlayerInfo implements Disposable, Drawable
             turns.setPosition(x, y);
             x += (turns.getWidth() + padding);
             aps.setPosition(x, y);
-            aps.setLabelPosition(Position.TOP_RIGHT);
         } else {
             x = (x + width);
             reinforcement.setPosition((x - reinforcement.getWidth()), y);
-            reinforcement.setLabelPosition(Position.TOP_LEFT);
             y += (reinforcement.getHeight() + padding);
             x -= usFlag.getWidth();
             usFlag.setPosition(x, y);
@@ -86,8 +83,10 @@ public class PlayerInfo implements Disposable, Drawable
             turns.setPosition(x, y);
             x -= (aps.getWidth() + padding);
             aps.setPosition(x, y);
-            aps.setLabelPosition(Position.TOP_RIGHT);
         }
+        aps.setLabelPosition(Position.TOP_RIGHT);
+        turns.setLabelPosition(Position.MIDDLE_CENTER);
+        reinforcement.setLabelPosition(Position.TOP_LEFT);
         unitDock.setPosition(position, reinforcement.getY() - padding);
     }
 
