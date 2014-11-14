@@ -62,7 +62,7 @@ public class StateMove extends StateCommon
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
         }
-        return StateType.ABORT;
+        return StateType.ANIMATION;
     }
 
     @Override
