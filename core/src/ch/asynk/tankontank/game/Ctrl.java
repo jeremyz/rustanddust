@@ -42,6 +42,7 @@ public class Ctrl implements Disposable
 
     private State state;
     private State.StateType stateType;
+    private State.StateType stateAfterAnimation;
 
     public Ctrl(final TankOnTank game, final Battle battle)
     {
@@ -65,16 +66,15 @@ public class Ctrl implements Disposable
         this.reinforcementState = new StateReinforcement();
 
         this.state = selectState;
-        this.stateType = State.StateType.SELECT;
+        this.stateType = State.StateType.DONE;
 
         this.hud = new Hud(this, game);
         this.blockMap = false;
         this.blockHud = false;
 
-        player.turnStart();
-        hud.playerInfo.update(player, battle.getHudPosition(player));
-
         hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+        startPlayerTurn();
+        setState(battle.getState(player));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Ctrl implements Disposable
     {
         animationCount -= 1;
         if (animationCount == 0)
-            state.done();
+            setState(stateAfterAnimation);
         if (animationCount < 0)
             TankOnTank.debug("    animationCount < 0");
     }
@@ -134,14 +134,33 @@ public class Ctrl implements Disposable
         startPlayerTurn();
     }
 
-    private void checkTurnEnd()
+    private State.StateType actionAborted()
     {
+        hud.notify("Action canceled");
+        State.StateType nextState = this.state.abort();
+
+        if (nextState == State.StateType.ABORT)
+            nextState = battle.getState(player);
+
+        return nextState;
+    }
+
+    private State.StateType actionDone()
+    {
+        State.StateType nextState = this.state.done();
+
         if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
             hud.playerInfo.update(player, battle.getHudPosition(player));
         }
+
         if (player.apExhausted())
             swicthPlayer();
+
+        if (nextState == State.StateType.DONE)
+            nextState = battle.getState(player);
+
+        return nextState;
     }
 
     public void stateTouchUp()
@@ -160,27 +179,27 @@ public class Ctrl implements Disposable
         }
     }
 
-    public void setState(State.StateType state)
+    public void setState(State.StateType nextState)
     {
-        if (state == State.StateType.ABORT) {
-            hud.notify("Action canceled");
-            this.state.abort();
-        }
-        else if (state == State.StateType.DONE)
-            this.state.done();
-        else
-            setState(state, true);
+        setState(nextState, battle.getState(player));
     }
 
-    public void setState(State.StateType state, boolean normal)
+    public void setState(State.StateType nextState, State.StateType whenDone)
     {
-        this.state.leave(state);
+        if (nextState == State.StateType.ABORT)
+            nextState = actionAborted();
+        else if (nextState == State.StateType.DONE)
+            nextState = actionDone();
+        else if (nextState == State.StateType.ANIMATION)
+            stateAfterAnimation = whenDone;
 
-        TankOnTank.debug("  switch to : " + state + " " + normal);
-        switch(state) {
+        this.state.leave(nextState);
+
+        TankOnTank.debug("  switch to : " + nextState);
+
+        switch(nextState) {
             case SELECT:
                 this.state = selectState;
-                checkTurnEnd();
                 break;
             case MOVE:
                 this.state = pathState;
@@ -206,9 +225,10 @@ public class Ctrl implements Disposable
             default:
                 break;
         }
-        stateType = state;
 
-        this.state.enter(normal);
+        this.state.enter(stateType);
+
+        stateType = nextState;
     }
 
     public void touchDown(float hx, float hy, float mx, float my)

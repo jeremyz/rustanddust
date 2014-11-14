@@ -10,7 +10,7 @@ public class StateReinforcement extends StateCommon
     private EntryPoint entryPoint;
 
     @Override
-    public void enter(boolean fromSelect)
+    public void enter(StateType prevState)
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
@@ -47,15 +47,15 @@ public class StateReinforcement extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
-        super.abort();
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
-        super.done();
+        return StateType.DONE;
     }
 
     private void changeUnit(Unit unit)
@@ -76,12 +76,11 @@ public class StateReinforcement extends StateCommon
         ctrl.player.unitEntry(unit);
         if (map.enterBoard(unit, upHex, entryPoint.allowedMoves)) {
             if (unit.getMovementPoints() > 0)
-                ctrl.setState(StateType.MOVE, true);
+                ctrl.setState(StateType.MOVE);
             else
-                ctrl.setState(StateType.ROTATE, true);
+                ctrl.setState(StateType.ROTATE);
         } else {
             ctrl.hud.notify("Impossible to enter map at that position");
-            abort();
         }
     }
 }

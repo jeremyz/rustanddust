@@ -7,14 +7,14 @@ import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 public class StateMove extends StateCommon
 {
     @Override
-    public void enter(boolean fromSelect)
+    public void enter(StateType prevState)
     {
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
         ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.MOVE.b | ((moreThanOne) ? Buttons.DONE.b : 0) | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.MOVE);
         map.possiblePaths.clear();
 
-        if (fromSelect) {
+        if (prevState == StateType.SELECT) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
@@ -74,12 +74,12 @@ public class StateMove extends StateCommon
         }
 
         if (s == 1) {
-            ctrl.setState(StateType.ROTATE, false);
+            ctrl.setState(StateType.ROTATE);
         }
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
         hideAssists();
         ctrl.setAnimationCount(map.activatedPawns.size());
@@ -88,18 +88,18 @@ public class StateMove extends StateCommon
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
         }
-        super.abort();
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
         hideAssists();
         // be sure that the hq is activated
         if (selectedUnit.canMove() && (map.activatedPawns.size() > 0)) {
             selectedUnit.move();
         }
-        super.done();
+        return StateType.DONE;
     }
 
     private void hideAssists()

@@ -12,22 +12,19 @@ public class StateRotate extends StateCommon
     private Orientation o = Orientation.KEEP;
 
     @Override
-    public void enter(boolean rotateOnly)
+    public void enter(StateType prevState)
     {
-        this.rotateOnly = rotateOnly;
-
         ctrl.hud.actionButtons.show(Buttons.ROTATE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.ROTATE);
 
-        if (rotateOnly) {
-            // rotateBtn from Select state
-            if (activeUnit == null)
-                activeUnit = selectedUnit;
-            to = activeUnit.getHex();
-        } else {
+        if (prevState == StateType.MOVE) {
+            rotateOnly = false;
             if (to == null)
                 TankOnTank.debug("to is null but should not be");
             map.showFinalPath(to);
+        } else {
+            rotateOnly = true;
+            to = activeUnit.getHex();
         }
 
         map.selectHex(activeUnit.getHex());
@@ -71,29 +68,29 @@ public class StateRotate extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
+        StateType nextState = StateType.ABORT;
         ctrl.hud.actionButtons.hide();
         if (activeUnit.move.entryMove) {
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
-            super.abort();
         }
         if (map.activatedPawns.size() == 0) {
             hideAssists();
-            super.abort();
         } else {
-            ctrl.setState(StateType.MOVE, false);
+            nextState = StateType.MOVE;
         }
+        return nextState;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
         doRotation(o);
         if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
             selectedUnit.move();
-        super.done();
+        return StateType.DONE;
     }
 
     private void hideAssists()
@@ -105,17 +102,19 @@ public class StateRotate extends StateCommon
     {
         if (!rotationSet) return;
 
+        StateType whenDone = StateType.DONE;
+
         ctrl.hud.notify("Move " + activeUnit);
         if (rotateOnly) {
             ctrl.setAnimationCount(1);
             if (map.rotatePawn(activeUnit, o) > 0)
-                setNextState(StateType.MOVE);
-            ctrl.setState(StateType.ANIMATION);
+                whenDone = StateType.MOVE;
         } else {
             ctrl.setAnimationCount(1);
             if (map.movePawn(activeUnit, o) > 0)
-                setNextState(StateType.MOVE);
-            ctrl.setState(StateType.ANIMATION);
+                whenDone = StateType.MOVE;
         }
+
+        ctrl.setState(StateType.ANIMATION, whenDone);
     }
 }

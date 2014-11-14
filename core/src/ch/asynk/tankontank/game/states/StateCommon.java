@@ -22,8 +22,6 @@ public abstract class StateCommon implements State
     protected static Unit activeUnit;
     protected static Unit selectedUnit;
 
-    protected static StateType nextState = StateType.SELECT;
-
     protected StateCommon()
     {
     }
@@ -34,44 +32,12 @@ public abstract class StateCommon implements State
         this.map = map;
     }
 
-    @Override
-    public StateType getNextState()
-    {
-        return nextState;
-    }
-
-    @Override
-    public void setNextState(StateType state)
-    {
-        nextState = state;
-    }
-
-    @Override
-    public void abort()
-    {
-        goToNextState();
-    }
-
-    @Override
-    public void done()
-    {
-        goToNextState();
-    }
-
     public void clearAll()
     {
         to = null;
         selectedHex = null;
         selectedUnit = null;
         activeUnit = null;
-    }
-
-    private void goToNextState()
-    {
-        ctrl.hud.actionButtons.hide();
-        StateType next = nextState;
-        nextState = StateType.SELECT;
-        ctrl.setState(next, (next == StateType.SELECT));
     }
 
     public boolean downInMap(float x, float y)

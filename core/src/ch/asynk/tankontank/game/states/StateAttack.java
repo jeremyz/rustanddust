@@ -8,14 +8,14 @@ import ch.asynk.tankontank.TankOnTank;
 public class StateAttack extends StateCommon
 {
     @Override
-    public void enter(boolean fromSelect)
+    public void enter(StateType prevState)
     {
         map.possibleTargets.clear();
         ctrl.hud.actionButtons.show(Buttons.ATTACK.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.ATTACK);
 
         // activeUnit is the target
-        if (fromSelect) {
+        if (prevState == StateType.SELECT) {
             activeUnit = null;
             // use selectedHex and selectedUnit
             map.hidePossibleTargets();
@@ -74,15 +74,16 @@ public class StateAttack extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
         map.activatedPawns.clear();
-        super.abort();
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
+        StateType nextState = StateType.DONE;
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
         if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
@@ -91,7 +92,7 @@ public class StateAttack extends StateCommon
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0) {
                 ctrl.hud.pushNotify("Break move possible");
-                setNextState(StateType.BREAK);
+                nextState = StateType.BREAK;
             }
         } else {
             ctrl.player.lostAttackCount += 1;
@@ -101,6 +102,6 @@ public class StateAttack extends StateCommon
         activeUnit.showTarget();
         ctrl.setState(StateType.ANIMATION);
 
-        super.done();
+        return nextState;
     }
 }

@@ -12,7 +12,7 @@ public class StateSelect extends StateCommon
     }
 
     @Override
-    public void enter(boolean flag)
+    public void enter(StateType prevState)
     {
         clearAll();
         map.clearAll();
@@ -77,17 +77,19 @@ public class StateSelect extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
         hidePossibleTargetsMovesAssists();
         clearAll();
         map.clearAll();
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
+        return StateType.DONE;
     }
 }

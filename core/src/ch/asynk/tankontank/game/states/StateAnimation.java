@@ -3,7 +3,7 @@ package ch.asynk.tankontank.game.states;
 public class StateAnimation extends StateCommon
 {
     @Override
-    public void enter(boolean flag)
+    public void enter(StateType prevState)
     {
     }
 
@@ -23,13 +23,14 @@ public class StateAnimation extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
-        super.done();
+        return StateType.DONE;
     }
 }

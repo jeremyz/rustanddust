@@ -15,13 +15,13 @@ public interface State
         DONE
     };
 
-    public void enter(boolean flag);
+    public void enter(StateType prevState);
 
     public void leave(StateType nextState);
 
-    public void abort();
+    public StateType abort();
 
-    public void done();
+    public StateType done();
 
     public void touchDown();
 
@@ -30,8 +30,4 @@ public interface State
     public boolean downInMap(float x, float y);
 
     public boolean upInMap(float x, float y);
-
-    public StateType getNextState();
-
-    public void setNextState(StateType next);
 }

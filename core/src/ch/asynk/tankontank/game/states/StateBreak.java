@@ -12,7 +12,7 @@ public class StateBreak extends StateCommon
     private Orientation o = Orientation.KEEP;
 
     @Override
-    public void enter(boolean flag)
+    public void enter(StateType prevState)
     {
         done = false;
         activeUnit = null;
@@ -62,15 +62,16 @@ public class StateBreak extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
         doRotation(o);
-        super.done();
+        return StateType.DONE;
     }
 
     private void doRotation(Orientation o)

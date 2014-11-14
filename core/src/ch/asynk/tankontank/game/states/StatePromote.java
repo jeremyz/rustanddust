@@ -5,7 +5,7 @@ import ch.asynk.tankontank.game.Unit;
 public class StatePromote extends StateCommon
 {
     @Override
-    public void enter(boolean flag)
+    public void enter(StateType prevState)
     {
         ctrl.hud.actionButtons.hide();
         Unit unit = ctrl.player.promote(selectedUnit);
@@ -32,13 +32,14 @@ public class StatePromote extends StateCommon
     }
 
     @Override
-    public void abort()
+    public StateType abort()
     {
+        return StateType.ABORT;
     }
 
     @Override
-    public void done()
+    public StateType done()
     {
-        super.done();
+        return StateType.DONE;
     }
 }
