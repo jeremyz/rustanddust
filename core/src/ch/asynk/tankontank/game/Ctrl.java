@@ -111,8 +111,7 @@ public class Ctrl implements Disposable
     private void startPlayerTurn()
     {
         player.turnStart();
-        hud.playerInfo.update(player, battle.getHudPosition(player));
-        // setState(battle.getState(player));
+        hud.update();
         hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
     }
 
@@ -151,7 +150,7 @@ public class Ctrl implements Disposable
 
         if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
-            hud.playerInfo.update(player, battle.getHudPosition(player));
+            hud.update();
         }
 
         if (player.apExhausted())
