@@ -43,31 +43,6 @@ public class StateRotate extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
-    {
-        if (rotationSet) return;
-
-        o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
-
-        if (o == Orientation.KEEP) return;
-        if (!activeUnit.move.entryMove && rotateOnly && (o == activeUnit.getOrientation())) return;
-        rotationSet = true;
-
-
-        if (ctrl.cfg.mustValidate) {
-            map.hideDirections(to);
-            map.showOrientation(to, o);
-            ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        } else
-            doRotation(o);
-    }
-
-    @Override
     public StateType abort()
     {
         StateType nextState = StateType.ABORT;
@@ -91,6 +66,31 @@ public class StateRotate extends StateCommon
         if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
             selectedUnit.move();
         return StateType.DONE;
+    }
+
+    @Override
+    public void touchDown()
+    {
+    }
+
+    @Override
+    public void touchUp()
+    {
+        if (rotationSet) return;
+
+        o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
+
+        if (o == Orientation.KEEP) return;
+        if (!activeUnit.move.entryMove && rotateOnly && (o == activeUnit.getOrientation())) return;
+        rotationSet = true;
+
+
+        if (ctrl.cfg.mustValidate) {
+            map.hideDirections(to);
+            map.showOrientation(to, o);
+            ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        } else
+            doRotation(o);
     }
 
     private void hideAssists()

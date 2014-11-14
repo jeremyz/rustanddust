@@ -31,6 +31,19 @@ public class StateBreak extends StateCommon
     }
 
     @Override
+    public StateType abort()
+    {
+        return StateType.ABORT;
+    }
+
+    @Override
+    public StateType done()
+    {
+        doRotation(o);
+        return StateType.DONE;
+    }
+
+    @Override
     public void touchDown()
     {
     }
@@ -59,19 +72,6 @@ public class StateBreak extends StateCommon
             } else
                 doRotation(o);
         }
-    }
-
-    @Override
-    public StateType abort()
-    {
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType done()
-    {
-        doRotation(o);
-        return StateType.DONE;
     }
 
     private void doRotation(Orientation o)

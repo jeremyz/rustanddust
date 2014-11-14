@@ -31,6 +31,18 @@ public class StateReinforcement extends StateCommon
     }
 
     @Override
+    public StateType abort()
+    {
+        return StateType.ABORT;
+    }
+
+    @Override
+    public StateType done()
+    {
+        return StateType.DONE;
+    }
+
+    @Override
     public void touchDown()
     {
     }
@@ -45,18 +57,6 @@ public class StateReinforcement extends StateCommon
             unitEnter(activeUnit);
         else
             ctrl.setState(StateType.SELECT);
-    }
-
-    @Override
-    public StateType abort()
-    {
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType done()
-    {
-        return StateType.DONE;
     }
 
     private void changeUnit(Unit unit)

@@ -44,36 +44,6 @@ public class StateAttack extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
-    {
-        Unit unit = upHex.getUnit();
-
-        // activeUnit is the target
-        if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
-            ctrl.hud.notify("Attack " + unit);
-            map.hidePossibleTargets();
-            to = upHex;
-            activeUnit = unit;
-            activeUnit.showTarget();
-            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
-            map.showAttackAssists();
-            ctrl.hud.actionButtons.show(Buttons.ATTACK.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        }
-
-        if ((activeUnit != null) && map.attackAssists.contains(unit)) {
-            if(map.toggleAttackAssist(unit))
-                ctrl.hud.notify(unit + " will fire");
-            else
-                ctrl.hud.notify(unit + " wont fire");
-        }
-    }
-
-    @Override
     public StateType abort()
     {
         map.activatedPawns.clear();
@@ -103,5 +73,35 @@ public class StateAttack extends StateCommon
         ctrl.setState(StateType.ANIMATION);
 
         return nextState;
+    }
+
+    @Override
+    public void touchDown()
+    {
+    }
+
+    @Override
+    public void touchUp()
+    {
+        Unit unit = upHex.getUnit();
+
+        // activeUnit is the target
+        if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
+            ctrl.hud.notify("Attack " + unit);
+            map.hidePossibleTargets();
+            to = upHex;
+            activeUnit = unit;
+            activeUnit.showTarget();
+            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
+            map.showAttackAssists();
+            ctrl.hud.actionButtons.show(Buttons.ATTACK.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        }
+
+        if ((activeUnit != null) && map.attackAssists.contains(unit)) {
+            if(map.toggleAttackAssist(unit))
+                ctrl.hud.notify(unit + " will fire");
+            else
+                ctrl.hud.notify(unit + " wont fire");
+        }
     }
 }

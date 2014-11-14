@@ -14,16 +14,6 @@ public class StateAnimation extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
-    {
-    }
-
-    @Override
     public StateType abort()
     {
         return StateType.ABORT;
@@ -33,5 +23,15 @@ public class StateAnimation extends StateCommon
     public StateType done()
     {
         return StateType.DONE;
+    }
+
+    @Override
+    public void touchDown()
+    {
+    }
+
+    @Override
+    public void touchUp()
+    {
     }
 }

@@ -53,6 +53,30 @@ public class StateMove extends StateCommon
     }
 
     @Override
+    public StateType abort()
+    {
+        hideAssists();
+        ctrl.setAnimationCount(map.activatedPawns.size());
+        map.revertMoves();
+        if (activeUnit.move.entryMove) {
+            map.leaveBoard(activeUnit);
+            ctrl.player.revertUnitEntry(activeUnit);
+        }
+        return StateType.ABORT;
+    }
+
+    @Override
+    public StateType done()
+    {
+        hideAssists();
+        // be sure that the hq is activated
+        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0)) {
+            selectedUnit.move();
+        }
+        return StateType.DONE;
+    }
+
+    @Override
     public void touchDown()
     {
     }
@@ -76,30 +100,6 @@ public class StateMove extends StateCommon
         if (s == 1) {
             ctrl.setState(StateType.ROTATE);
         }
-    }
-
-    @Override
-    public StateType abort()
-    {
-        hideAssists();
-        ctrl.setAnimationCount(map.activatedPawns.size());
-        map.revertMoves();
-        if (activeUnit.move.entryMove) {
-            map.leaveBoard(activeUnit);
-            ctrl.player.revertUnitEntry(activeUnit);
-        }
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType done()
-    {
-        hideAssists();
-        // be sure that the hq is activated
-        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0)) {
-            selectedUnit.move();
-        }
-        return StateType.DONE;
     }
 
     private void hideAssists()

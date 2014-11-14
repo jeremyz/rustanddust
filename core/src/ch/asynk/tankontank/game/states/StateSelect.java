@@ -29,6 +29,22 @@ public class StateSelect extends StateCommon
     }
 
     @Override
+    public StateType abort()
+    {
+        if (selectedHex != null)
+            map.unselectHex(selectedHex);
+        hidePossibilities();
+        map.clearAll();
+        return StateType.ABORT;
+    }
+
+    @Override
+    public StateType done()
+    {
+        return StateType.DONE;
+    }
+
+    @Override
     public void touchDown()
     {
         if (selectedHex != null)
@@ -78,21 +94,5 @@ public class StateSelect extends StateCommon
             map.clearAll();
         }
         if (selectedUnit != null) ctrl.hud.notify(selectedUnit.toString());
-    }
-
-    @Override
-    public StateType abort()
-    {
-        if (selectedHex != null)
-            map.unselectHex(selectedHex);
-        hidePossibilities();
-        map.clearAll();
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType done()
-    {
-        return StateType.DONE;
     }
 }
