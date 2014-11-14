@@ -17,7 +17,7 @@ public class ActionButtons extends Bg
         MOVE(0, 1),
         ROTATE( 1, 2),
         PROMOTE(2, 4),
-        ATTACK(3, 8),
+        ENGAGE(3, 8),
         DONE(4, 16),
         ABORT(5, 32),
         LAST(6, 0);
@@ -51,7 +51,7 @@ public class ActionButtons extends Bg
         this.buttons[Buttons.MOVE.i] = new Button(atlas, "btn-move");
         this.buttons[Buttons.ROTATE.i] = new Button(atlas, "btn-rotate");
         this.buttons[Buttons.PROMOTE.i] = new Button(atlas, "btn-promote");
-        this.buttons[Buttons.ATTACK.i] = new Button(atlas, "btn-attack");
+        this.buttons[Buttons.ENGAGE.i] = new Button(atlas, "btn-attack");
         this.buttons[Buttons.DONE.i] = new Button(atlas, "btn-check");
         this.buttons[Buttons.ABORT.i] = new Button(atlas, "btn-cancel");
 
@@ -59,7 +59,7 @@ public class ActionButtons extends Bg
         this.states[Buttons.MOVE.i] = StateType.MOVE;
         this.states[Buttons.ROTATE.i] = StateType.ROTATE;
         this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
-        this.states[Buttons.ATTACK.i] = StateType.ATTACK;
+        this.states[Buttons.ENGAGE.i] = StateType.ENGAGE;
         this.states[Buttons.DONE.i] = StateType.DONE;
         this.states[Buttons.ABORT.i] = StateType.ABORT;
     }

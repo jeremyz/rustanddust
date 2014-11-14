@@ -5,14 +5,14 @@ import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.tankontank.TankOnTank;
 
-public class StateAttack extends StateCommon
+public class StateEngage extends StateCommon
 {
     @Override
     public void enter(StateType prevState)
     {
         map.possibleTargets.clear();
-        ctrl.hud.actionButtons.show(Buttons.ATTACK.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        ctrl.hud.actionButtons.setOn(Buttons.ATTACK);
+        ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+        ctrl.hud.actionButtons.setOn(Buttons.ENGAGE);
 
         // activeUnit is the target
         if (prevState == StateType.SELECT) {
@@ -87,14 +87,14 @@ public class StateAttack extends StateCommon
 
         // activeUnit is the target
         if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
-            ctrl.hud.notify("Attack " + unit);
+            ctrl.hud.notify("Engage " + unit);
             map.hidePossibleTargets();
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
             map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitIterator());
             map.showAttackAssists();
-            ctrl.hud.actionButtons.show(Buttons.ATTACK.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+            ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }
 
         if ((activeUnit != null) && map.attackAssists.contains(unit)) {

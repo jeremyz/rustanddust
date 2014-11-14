@@ -6,7 +6,7 @@ public interface State
         SELECT,
         MOVE,
         ROTATE,
-        ATTACK,
+        ENGAGE,
         BREAK,
         PROMOTE,
         ANIMATION,

@@ -64,7 +64,7 @@ public class StateSelect extends StateCommon
             if (map.possibleTargets.contains(upHex.getUnit())) {
                 // quick fire
                 to = upHex;
-                ctrl.setState(StateType.ATTACK);
+                ctrl.setState(StateType.ENGAGE);
                 return;
             }
         }
@@ -87,7 +87,7 @@ public class StateSelect extends StateCommon
                 ((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 ) |
                 ((selectedUnit.canMove()) ? Buttons.ROTATE.b : 0 ) |
                 ((moves > 0) ? Buttons.MOVE.b : 0 ) |
-                ((targets > 0) ? Buttons.ATTACK.b : 0)
+                ((targets > 0) ? Buttons.ENGAGE.b : 0)
                 );
         } else {
             ctrl.hud.actionButtons.hide();

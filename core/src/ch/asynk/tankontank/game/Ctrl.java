@@ -9,7 +9,7 @@ import ch.asynk.tankontank.game.states.StateSelect;
 import ch.asynk.tankontank.game.states.StateMove;
 import ch.asynk.tankontank.game.states.StateRotate;
 import ch.asynk.tankontank.game.states.StatePromote;
-import ch.asynk.tankontank.game.states.StateAttack;
+import ch.asynk.tankontank.game.states.StateEngage;
 import ch.asynk.tankontank.game.states.StateBreak;
 import ch.asynk.tankontank.game.states.StateAnimation;
 import ch.asynk.tankontank.game.states.StateReinforcement;
@@ -33,7 +33,7 @@ public class Ctrl implements Disposable
     private State pathState;
     private State rotateState;
     private State promoteState;
-    private State attackState;
+    private State engageState;
     private State breakState;
     private State animationState;
     private State reinforcementState;
@@ -60,7 +60,7 @@ public class Ctrl implements Disposable
         this.pathState = new StateMove();
         this.rotateState = new StateRotate();
         this.promoteState = new StatePromote();
-        this.attackState = new StateAttack();
+        this.engageState = new StateEngage();
         this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
         this.reinforcementState = new StateReinforcement();
@@ -209,8 +209,8 @@ public class Ctrl implements Disposable
             case PROMOTE:
                 this.state = promoteState;
                 break;
-            case ATTACK:
-                this.state = attackState;
+            case ENGAGE:
+                this.state = engageState;
                 break;
             case BREAK:
                 this.state = breakState;
