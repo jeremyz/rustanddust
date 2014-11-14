@@ -12,6 +12,7 @@ public class StateReinforcement extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
+        map.clearAll();
         if (selectedHex != null)
             map.unselectHex(selectedHex);
         entryPoint = null;
