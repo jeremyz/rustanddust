@@ -33,7 +33,7 @@ public class StateRotate extends StateCommon
         rotateOnly = (to == activeUnit.getHex());
 
         if (!rotateOnly)
-            map.showFinalPath(to);
+            map.showPath(to);
         map.selectHex(activeUnit.getHex());
         map.showDirections(to);
 
@@ -44,7 +44,7 @@ public class StateRotate extends StateCommon
     public void leave(StateType nextState)
     {
         map.unselectHex(activeUnit.getHex());
-        map.hideFinalPath(to);
+        map.hidePath(to);
         map.hideDirections(to);
         map.hideOrientation(to);
         map.possiblePaths.clear();

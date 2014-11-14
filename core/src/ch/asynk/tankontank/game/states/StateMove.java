@@ -43,7 +43,7 @@ public class StateMove extends StateCommon
         map.hidePossibleMoves();
         map.unselectHex(activeUnit.getHex());
         if (to != null) {
-            map.hideFinalPath(to);
+            map.hidePath(to);
         }
 
         if (nextState != StateType.SELECT) {

@@ -308,8 +308,8 @@ public abstract class Map extends Board
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
     public void showPossiblePaths()     { possiblePaths.enable(Hex.AREA, true); }
     public void hidePossiblePaths()     { possiblePaths.enable(Hex.AREA, false); }
-    public void showFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
-    public void hideFinalPath(Hex dst)  { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
+    public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
+    public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
 
     public void showMoveablePawns()     { moveablePawns.enable(Unit.MOVE, true); }
     public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
