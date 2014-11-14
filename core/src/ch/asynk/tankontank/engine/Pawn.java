@@ -59,7 +59,9 @@ public abstract class Pawn implements Moveable, Disposable
 
         public String toString()
         {
-            if (from == null)
+            if (to == null)
+                return "move : HQ activation";
+            else if (from == null)
                 return "move : reinforcement -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
             else
                 return "move : [" + from.col + ";" + from.row + "] -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
