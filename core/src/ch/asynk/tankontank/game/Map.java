@@ -282,7 +282,7 @@ public abstract class Map extends Board
                 if (success) {
                     removePawn(target);
                 }
-                ctrl.animationDone();
+                animationDone();
             }
         }));
 
