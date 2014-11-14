@@ -5,6 +5,7 @@ public class StateAnimation extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
+        ctrl.hud.actionButtons.hide();
     }
 
     @Override
