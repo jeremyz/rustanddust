@@ -32,14 +32,6 @@ public abstract class StateCommon implements State
         this.map = map;
     }
 
-    public void clearAll()
-    {
-        to = null;
-        selectedHex = null;
-        selectedUnit = null;
-        activeUnit = null;
-    }
-
     public boolean downInMap(float x, float y)
     {
         downHex = map.getHexAt(x, y);

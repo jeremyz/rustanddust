@@ -14,7 +14,10 @@ public class StateSelect extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        clearAll();
+        to = null;
+        selectedHex = null;
+        selectedUnit = null;
+        activeUnit = null;
         map.clearAll();
     }
 
@@ -82,7 +85,6 @@ public class StateSelect extends StateCommon
         if (selectedHex != null)
             map.unselectHex(selectedHex);
         hidePossibleTargetsMovesAssists();
-        clearAll();
         map.clearAll();
         return StateType.ABORT;
     }
