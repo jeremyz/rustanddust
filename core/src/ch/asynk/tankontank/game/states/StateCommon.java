@@ -61,14 +61,14 @@ public abstract class StateCommon implements State
         TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 
-    protected void showPossibleTargetsMovesAssists(Unit pawn)
+    protected void showPossibilities(Unit pawn)
     {
         if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves();
         if (ctrl.cfg.showTargets && pawn.canAttack()) map.showPossibleTargets();
         if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveablePawns();
     }
 
-    protected void hidePossibleTargetsMovesAssists()
+    protected void hidePossibilities()
     {
         map.hidePossibleMoves();
         map.hidePossibleTargets();

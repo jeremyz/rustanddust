@@ -24,7 +24,7 @@ public class StateSelect extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        hidePossibleTargetsMovesAssists();
+        hidePossibilities();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class StateSelect extends StateCommon
         }
 
         selectHexAndUnit(upHex);
-        hidePossibleTargetsMovesAssists();
+        hidePossibilities();
 
         if (hasUnit() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
             // moves and targets == 0 if selectedUnit can't be activated for
@@ -65,7 +65,7 @@ public class StateSelect extends StateCommon
                 targets = map.collectPossibleTargets(selectedUnit, ctrl.opponent.unitIterator());
             if (moves > 0)
                 map.collectMoveablePawns(selectedUnit);
-            showPossibleTargetsMovesAssists(selectedUnit);
+            showPossibilities(selectedUnit);
             ctrl.hud.actionButtons.show(
                 ((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 ) |
                 ((selectedUnit.canMove()) ? Buttons.ROTATE.b : 0 ) |
@@ -84,7 +84,7 @@ public class StateSelect extends StateCommon
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        hidePossibleTargetsMovesAssists();
+        hidePossibilities();
         map.clearAll();
         return StateType.ABORT;
     }
