@@ -87,7 +87,7 @@ public class PossiblePaths implements Iterable<Vector3>
         clear();
         this.to = to;
         // from and to are not part of the path
-        if (board.distance(from, to) == 1) {
+        if (board.distance(from, to) < 2) {
             ArrayList<Tile> temp = new ArrayList<Tile>(0);
             // temp.add(from);
             // temp.add(to);
@@ -187,23 +187,26 @@ public class PossiblePaths implements Iterable<Vector3>
         boolean roadMarch = true;
         Tile prev = from;
 
-        for (Tile next : paths.get(i)) {
-            Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-            cost += next.costFrom(pawn, o);
-            roadMarch &= next.road(o);
-            prev = next;
-        }
-        Orientation o = Orientation.fromMove(to.col, to.row, prev.col, prev.row);
-        cost += to.costFrom(pawn, o);
+        pawn.movement.distance = board.distance(from, to);
 
-        if (roadMarch)
-            cost -= pawn.getRoadMarchBonus();
-        if (cost < 1)
-            cost = 1;
+        if (pawn.movement.distance > 0) {
+            for (Tile next : paths.get(i)) {
+                Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
+                cost += next.costFrom(pawn, o);
+                roadMarch &= next.road(o);
+                prev = next;
+            }
+            Orientation o = Orientation.fromMove(to.col, to.row, prev.col, prev.row);
+            cost += to.costFrom(pawn, o);
+
+            if (roadMarch)
+                cost -= pawn.getRoadMarchBonus();
+            if (cost < 1)
+                cost = 1;
+        }
 
         pawn.movement.cost = cost;
         pawn.movement.roadMarch = roadMarch;
-        pawn.movement.distance = (1 + paths.get(i).size());
 
         return cost;
     }
