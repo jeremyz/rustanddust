@@ -231,6 +231,7 @@ public class Unit extends HeadedPawn
     public void revertLastMove()
     {
         hasMoved = false;
+        mpLeft = mp;
     }
 
 
