@@ -17,16 +17,23 @@ public class StateRotate extends StateCommon
         ctrl.hud.actionButtons.show(Buttons.ROTATE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.ROTATE);
 
-        if (prevState == StateType.MOVE) {
-            rotateOnly = false;
-            if (to == null)
-                TankOnTank.debug("to is null but should not be");
-            map.showFinalPath(to);
-        } else {
-            rotateOnly = true;
+        if (activeUnit == null)
+            activeUnit = selectedUnit;
+        if (to == null)
             to = activeUnit.getHex();
+
+        if (!map.possiblePaths.isSet()) {
+            map.possiblePaths.init(activeUnit);
+            map.possiblePaths.build(to);
         }
 
+        if (map.possiblePaths.size() != 1)
+            TankOnTank.debug("ERROR: possiblePaths.size() == " + map.possiblePaths.size());
+
+        rotateOnly = (to == activeUnit.getHex());
+
+        if (!rotateOnly)
+            map.showFinalPath(to);
         map.selectHex(activeUnit.getHex());
         map.showDirections(to);
 
@@ -40,6 +47,8 @@ public class StateRotate extends StateCommon
         map.hideFinalPath(to);
         map.hideDirections(to);
         map.hideOrientation(to);
+        map.possiblePaths.clear();
+        to = null;
     }
 
     @Override
@@ -105,15 +114,9 @@ public class StateRotate extends StateCommon
         StateType whenDone = StateType.DONE;
 
         ctrl.hud.notify("Move " + activeUnit);
-        if (rotateOnly) {
-            ctrl.setAnimationCount(1);
-            if (map.rotatePawn(activeUnit, o) > 0)
-                whenDone = StateType.MOVE;
-        } else {
-            ctrl.setAnimationCount(1);
-            if (map.movePawn(activeUnit, o) > 0)
-                whenDone = StateType.MOVE;
-        }
+        ctrl.setAnimationCount(1);
+        if (map.movePawn(activeUnit, o) > 0)
+            whenDone = StateType.MOVE;
 
         ctrl.setState(StateType.ANIMATION, whenDone);
     }

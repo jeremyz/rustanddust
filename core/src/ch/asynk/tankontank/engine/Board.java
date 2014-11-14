@@ -436,19 +436,6 @@ public abstract class Board implements Disposable
         pawn.move();
     }
 
-    protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
-    {
-        pawn.movement.setRotation(pawn.getTile(), o);
-        removePawn(pawn);
-
-        AnimationSequence seq = pawn.getRotateAnimation(o.r(), 2);
-        seq.addAnimation(getSetPawnOntoAnimation(pawn));
-        seq.addAnimation(whenDone);
-        addAnimation(seq);
-
-        pawn.move();
-    }
-
     protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)
     {
         removePawn(pawn);

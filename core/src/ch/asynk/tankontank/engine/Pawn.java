@@ -67,16 +67,6 @@ public abstract class Pawn implements Moveable, Disposable
                 return "move : [" + from.col + ";" + from.row + "] -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
         }
 
-        public void setRotation(Tile tile, Orientation o)
-        {
-            from = tile;
-            to = tile;
-            cost = 0;
-            roadMarch = false;
-            entryMove = false;
-            orientation = o;
-        }
-
         public void reset()
         {
             from = null;

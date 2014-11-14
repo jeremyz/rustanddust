@@ -198,13 +198,6 @@ public abstract class Map extends Board
         return startMove(pawn);
     }
 
-    public int rotatePawn(Pawn pawn, Orientation o)
-    {
-        rotatePawn(pawn, o, notifyDoneAnimation(pawn));
-
-        return startMove(pawn);
-    }
-
     public void revertMoves()
     {
         TankOnTank.debug("    revertMoves()");
