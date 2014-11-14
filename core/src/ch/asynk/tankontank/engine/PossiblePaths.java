@@ -46,6 +46,11 @@ public class PossiblePaths implements Iterable<Vector3>
         init(pawn, pawn.getTile());
     }
 
+    public boolean isSet()
+    {
+        return (to != null);
+    }
+
     public void clear()
     {
         for (List<Tile> tiles : this.paths) tiles.clear();
