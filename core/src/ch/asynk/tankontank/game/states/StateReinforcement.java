@@ -61,7 +61,8 @@ public class StateReinforcement extends StateCommon
     private void changeUnit(Unit unit)
     {
         activeUnit = unit;
-        if (entryPoint != null) entryPoint.enable(Hex.AREA, false);
+        if (entryPoint != null)
+            entryPoint.enable(Hex.AREA, false);
         entryPoint = ctrl.battle.getEntryPoint(activeUnit);
         entryPoint.enable(Hex.AREA, true);
         ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
