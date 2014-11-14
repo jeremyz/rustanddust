@@ -81,7 +81,7 @@ public abstract class Pawn implements Moveable, Disposable
         {
             from = null;
             to = null;
-            cost = Integer.MAX_VALUE;
+            cost = 0;
             roadMarch = false;
             entryMove = false;
             orientation = Orientation.KEEP;
