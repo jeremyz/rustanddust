@@ -31,6 +31,7 @@ public class LabelImage extends Bg
     public void setLabelPosition(Position position)
     {
         labelPosition = position;
+        setPosition(rect.x, rect.y);
     }
 
     public void setPosition(float x, float y)
