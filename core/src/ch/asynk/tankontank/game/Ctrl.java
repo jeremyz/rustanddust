@@ -225,9 +225,11 @@ public class Ctrl implements Disposable
                 break;
         }
 
-        this.state.enter(stateType);
-
+        StateType tmp = stateType;
         stateType = nextState;
+
+        this.state.enter(tmp);
+
     }
 
     public void touchDown(float hx, float hy, float mx, float my)
