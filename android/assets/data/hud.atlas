@@ -31,63 +31,63 @@ back
   orig: 124, 124
   offset: 0, 0
   index: -1
-btn-attack-down
+btn-cancel-down
   rotate: false
   xy: 716, 194
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-attack-on
+btn-cancel-on
   rotate: false
   xy: 778, 194
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-attack-up
+btn-cancel-up
   rotate: false
   xy: 840, 194
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-down
+btn-check-down
   rotate: false
   xy: 902, 194
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-on
+btn-check-on
   rotate: false
   xy: 254, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-cancel-up
+btn-check-up
   rotate: false
   xy: 254, 6
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-down
+btn-engage-down
   rotate: false
   xy: 316, 68
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-on
+btn-engage-on
   rotate: false
   xy: 316, 6
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
-btn-check-up
+btn-engage-up
   rotate: false
   xy: 378, 68
   size: 60, 60

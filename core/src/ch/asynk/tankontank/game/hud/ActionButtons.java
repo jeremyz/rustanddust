@@ -51,7 +51,7 @@ public class ActionButtons extends Bg
         this.buttons[Buttons.MOVE.i] = new Button(atlas, "btn-move");
         this.buttons[Buttons.ROTATE.i] = new Button(atlas, "btn-rotate");
         this.buttons[Buttons.PROMOTE.i] = new Button(atlas, "btn-promote");
-        this.buttons[Buttons.ENGAGE.i] = new Button(atlas, "btn-attack");
+        this.buttons[Buttons.ENGAGE.i] = new Button(atlas, "btn-engage");
         this.buttons[Buttons.DONE.i] = new Button(atlas, "btn-check");
         this.buttons[Buttons.ABORT.i] = new Button(atlas, "btn-cancel");
 
