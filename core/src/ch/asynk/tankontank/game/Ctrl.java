@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.hud.Position;
-import ch.asynk.tankontank.game.states.StateCommon;
+import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.states.StateSelect;
 import ch.asynk.tankontank.game.states.StateMove;
 import ch.asynk.tankontank.game.states.StateRotate;
@@ -41,8 +41,8 @@ public class Ctrl implements Disposable
     private int animationCount = 0;
 
     private State state;
-    private State.StateType stateType;
-    private State.StateType stateAfterAnimation;
+    private StateType stateType;
+    private StateType stateAfterAnimation;
 
     public Ctrl(final TankOnTank game, final Battle battle)
     {
@@ -66,7 +66,7 @@ public class Ctrl implements Disposable
         this.reinforcementState = new StateReinforcement();
 
         this.state = selectState;
-        this.stateType = State.StateType.DONE;
+        this.stateType = StateType.DONE;
 
         this.hud = new Hud(this, game);
         this.blockMap = false;
@@ -133,20 +133,20 @@ public class Ctrl implements Disposable
         startPlayerTurn();
     }
 
-    private State.StateType actionAborted()
+    private StateType actionAborted()
     {
         hud.notify("Action canceled");
-        State.StateType nextState = this.state.abort();
+        StateType nextState = this.state.abort();
 
-        if (nextState == State.StateType.ABORT)
+        if (nextState == StateType.ABORT)
             nextState = battle.getState(player);
 
         return nextState;
     }
 
-    private State.StateType actionDone()
+    private StateType actionDone()
     {
-        State.StateType nextState = this.state.done();
+        StateType nextState = this.state.done();
 
         if (map.activatedPawns.size() > 0) {
             player.burnDownOneAp();
@@ -156,7 +156,7 @@ public class Ctrl implements Disposable
         if (player.apExhausted())
             swicthPlayer();
 
-        if (nextState == State.StateType.DONE)
+        if (nextState == StateType.DONE)
             nextState = battle.getState(player);
 
         return nextState;
@@ -167,7 +167,7 @@ public class Ctrl implements Disposable
         this.state.touchUp();
     }
 
-    public void toggleState(State.StateType stateA, State.StateType stateB)
+    public void toggleState(StateType stateA, StateType stateB)
     {
         if (this.stateType == stateA) {
             setState(stateB);
@@ -178,18 +178,18 @@ public class Ctrl implements Disposable
         }
     }
 
-    public void setState(State.StateType nextState)
+    public void setState(StateType nextState)
     {
         setState(nextState, battle.getState(player));
     }
 
-    public void setState(State.StateType nextState, State.StateType whenDone)
+    public void setState(StateType nextState, StateType whenDone)
     {
-        if (nextState == State.StateType.ABORT)
+        if (nextState == StateType.ABORT)
             nextState = actionAborted();
-        else if (nextState == State.StateType.DONE)
+        else if (nextState == StateType.DONE)
             nextState = actionDone();
-        else if (nextState == State.StateType.ANIMATION)
+        else if (nextState == StateType.ANIMATION)
             stateAfterAnimation = whenDone;
 
         this.state.leave(nextState);
