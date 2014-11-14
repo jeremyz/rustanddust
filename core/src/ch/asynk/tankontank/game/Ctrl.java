@@ -117,7 +117,6 @@ public class Ctrl implements Disposable
 
     private void endPlayerTurn()
     {
-        TankOnTank.debug("Ctrl", "next Player");
         player.turnEnd();
         Player winner = battle.checkVictory(this);
         if (winner != null)
@@ -126,6 +125,7 @@ public class Ctrl implements Disposable
 
     private void swicthPlayer()
     {
+        TankOnTank.debug("Ctrl", "switch Players");
         endPlayerTurn();
         Player tmp = player;
         player = opponent;
