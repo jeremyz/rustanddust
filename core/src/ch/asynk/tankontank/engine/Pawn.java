@@ -87,6 +87,11 @@ public abstract class Pawn implements Moveable, Disposable
             orientation = Orientation.KEEP;
         }
 
+        public boolean isRotation()
+        {
+            return (distance == 0);
+        }
+
         public boolean isComplete()
         {
             return ((from != null) && (to != null));
