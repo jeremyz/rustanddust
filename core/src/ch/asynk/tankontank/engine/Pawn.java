@@ -25,7 +25,7 @@ public abstract class Pawn implements Moveable, Disposable
     {
     }
 
-    public class Attack
+    public class Engagement
     {
         Pawn target;
         int distance;
@@ -35,7 +35,7 @@ public abstract class Pawn implements Moveable, Disposable
 
         public String toString()
         {
-            return "attack : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank + " " + calculus;
+            return "engage : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank + " " + calculus;
         }
 
         public void reset()
@@ -47,7 +47,7 @@ public abstract class Pawn implements Moveable, Disposable
         }
     }
 
-    public class Move
+    public class Movement
     {
         Tile from;
         Tile to;
@@ -101,14 +101,14 @@ public abstract class Pawn implements Moveable, Disposable
     protected String descr;
     private Image image;
     private StackedImages overlays;
-    public Attack attack = new Attack();
-    public Move move = new Move();
+    public Engagement engagement = new Engagement();
+    public Movement movement= new Movement();
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
     public abstract int getAngleOfAttack();
     public abstract int getFlankSides();
-    public abstract int getAttackRangeFrom(Tile tile);
+    public abstract int getEngagementRangeFrom(Tile tile);
 
     public abstract boolean isUnit();
     public abstract boolean isA(PawnType type);
@@ -118,12 +118,12 @@ public abstract class Pawn implements Moveable, Disposable
 
     public abstract boolean canMove();
     public abstract boolean canRotate();
-    public abstract boolean canAttack();
-    public abstract boolean canAttack(Pawn other);
-    public abstract boolean canAssistAttackWithoutLos();
+    public abstract boolean canEngage();
+    public abstract boolean canEngage(Pawn other);
+    public abstract boolean canAssistEngagementWithoutLos();
 
     public abstract void move();
-    public abstract void attack();
+    public abstract void engage();
 
     public abstract void revertLastMove();
 
@@ -158,17 +158,17 @@ public abstract class Pawn implements Moveable, Disposable
 
     public void reset()
     {
-        attack.reset();
-        move.reset();
+        engagement.reset();
+        movement.reset();
     }
 
     public void enterBoard(Tile to, Orientation o)
     {
-        move.to = to;
-        move.from = null;
-        move.entryMove = true;
-        move.orientation = o;
-        move.cost = to.costFrom(this, o);
+        movement.to = to;
+        movement.from = null;
+        movement.entryMove = true;
+        movement.orientation = o;
+        movement.cost = to.costFrom(this, o);
         move();
     }
 
@@ -189,7 +189,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public boolean isFlankAttack()
     {
-        return (attack.isClear && attack.isFlank);
+        return (engagement.isClear && engagement.isFlank);
     }
 
     public Tile getTile()

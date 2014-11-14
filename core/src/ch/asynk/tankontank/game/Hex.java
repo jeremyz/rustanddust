@@ -138,7 +138,7 @@ public class Hex extends Tile
                 break;
         }
 
-        pawn.attack.calculus += " >= " + def + " + " + tdef;
+        pawn.engagement.calculus += " >= " + def + " + " + tdef;
         return (def + tdef);
     }
 }

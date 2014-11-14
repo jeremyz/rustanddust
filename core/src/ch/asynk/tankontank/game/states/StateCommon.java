@@ -64,7 +64,7 @@ public abstract class StateCommon implements State
     protected void showPossibilities(Unit pawn)
     {
         if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves();
-        if (ctrl.cfg.showTargets && pawn.canAttack()) map.showPossibleTargets();
+        if (ctrl.cfg.showTargets && pawn.canEngage()) map.showPossibleTargets();
         if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveablePawns();
     }
 

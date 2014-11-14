@@ -265,7 +265,7 @@ public class SearchBoard
 
         Node adjacents[] = new Node[6];
 
-        int range = pawn.getAttackRangeFrom(pawn.getTile());
+        int range = pawn.getEngagementRangeFrom(pawn.getTile());
         int angle = pawn.getAngleOfAttack();
         int extendedAngle = pawn.getOrientation().opposite().allBut();
 
@@ -308,7 +308,7 @@ public class SearchBoard
                             Iterator<Pawn> it = t.iterator();
                             while (it.hasNext()) {
                                 Pawn target = it.next();
-                                if (pawn.canAttack(target))
+                                if (pawn.canEngage(target))
                                     targets.add(target);
                             }
                         }
@@ -325,11 +325,11 @@ public class SearchBoard
         Node from = getNode(pawn.getTile());
         Node to = getNode(target.getTile());
 
-        pawn.attack.isClear = false;
-        pawn.attack.target = target;
-        pawn.attack.distance = distance(from, to);
+        pawn.engagement.isClear = false;
+        pawn.engagement.target = target;
+        pawn.engagement.distance = distance(from, to);
 
-        if (pawn.attack.distance > pawn.getAttackRangeFrom(pawn.getTile()))
+        if (pawn.engagement.distance > pawn.getEngagementRangeFrom(pawn.getTile()))
             return false;
 
         List<Node> los = lineOfSight(from.col, from.row, to.col, to.row, clearVisibility);
@@ -340,8 +340,8 @@ public class SearchBoard
         if (!validatePathAngle(pawn.getAngleOfAttack(), los))
             return false;
 
-        pawn.attack.isClear = true;
-        pawn.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
+        pawn.engagement.isClear = true;
+        pawn.engagement.isFlank = isFlankAttack(target.getFlankSides(), los);
 
         return true;
     }

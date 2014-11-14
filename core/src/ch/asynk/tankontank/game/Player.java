@@ -17,8 +17,8 @@ public class Player extends ch.asynk.tankontank.engine.Player
     private boolean deploymentDone;
     // stats
     public int actionCount;
-    public int lostAttackCount;
-    public int wonAttackCount;
+    public int lostEngagementCount;
+    public int wonEngagementCount;
 
     public Player(final TankOnTank game, Army army, int n)
     {
@@ -28,8 +28,8 @@ public class Player extends ch.asynk.tankontank.engine.Player
         this.actionPoints = 0;
         this.deploymentDone = false;
         this.actionCount = 0;
-        this.lostAttackCount = 0;
-        this.wonAttackCount = 0;
+        this.lostEngagementCount = 0;
+        this.wonEngagementCount = 0;
     }
 
     public String toString()
@@ -40,7 +40,7 @@ public class Player extends ch.asynk.tankontank.engine.Player
 
     public String getStats()
     {
-        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), casualties.size(), wonAttackCount, lostAttackCount);
+        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), casualties.size(), wonEngagementCount, lostEngagementCount);
     }
 
     public int getAp()

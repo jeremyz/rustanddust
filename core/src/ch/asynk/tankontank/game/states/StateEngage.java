@@ -56,17 +56,17 @@ public class StateEngage extends StateCommon
         StateType nextState = StateType.DONE;
         int d1 = ctrl.player.d6();
         int d2 = ctrl.player.d6();
-        if (map.attackPawn(selectedUnit, activeUnit, d1, d2)) {
-            ctrl.player.wonAttackCount += 1;
-            ctrl.hud.notify(selectedUnit.attack.calculus + " : " + activeUnit + " is destroyed");
+        if (map.engagePawn(selectedUnit, activeUnit, d1, d2)) {
+            ctrl.player.wonEngagementCount += 1;
+            ctrl.hud.notify(selectedUnit.engagement.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0) {
                 ctrl.hud.pushNotify("Break move possible");
                 nextState = StateType.BREAK;
             }
         } else {
-            ctrl.player.lostAttackCount += 1;
-            ctrl.hud.notify(selectedUnit.attack.calculus + " : failure");
+            ctrl.player.lostEngagementCount += 1;
+            ctrl.hud.notify(selectedUnit.engagement.calculus + " : failure");
         }
 
         activeUnit.showTarget();
@@ -97,7 +97,7 @@ public class StateEngage extends StateCommon
             ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }
 
-        if ((activeUnit != null) && map.attackAssists.contains(unit)) {
+        if ((activeUnit != null) && map.engagementAssists.contains(unit)) {
             if(map.toggleAttackAssist(unit))
                 ctrl.hud.notify(unit + " will fire");
             else

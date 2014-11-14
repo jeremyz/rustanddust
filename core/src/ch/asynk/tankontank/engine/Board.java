@@ -307,7 +307,7 @@ public abstract class Board implements Disposable
         targets.clear();
         while (units.hasNext()) {
             Pawn target = units.next();
-            if (pawn.canAttack(target) && searchBoard.collectAttacks(pawn, target, true))
+            if (pawn.canEngage(target) && searchBoard.collectAttacks(pawn, target, true))
                 targets.add(target);
         }
 
@@ -337,7 +337,7 @@ public abstract class Board implements Disposable
         assists.clear();
         while (units.hasNext()) {
             Pawn p = units.next();
-            if ((p != pawn) && p.canAttack(target) && searchBoard.collectAttacks(p, target, !p.canAssistAttackWithoutLos()))
+            if ((p != pawn) && p.canEngage(target) && searchBoard.collectAttacks(p, target, !p.canAssistEngagementWithoutLos()))
                 assists.add(p);
         }
 
@@ -418,7 +418,7 @@ public abstract class Board implements Disposable
         return RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                setPawnOnto(pawn, pawn.move.to, pawn.move.orientation);
+                setPawnOnto(pawn, pawn.movement.to, pawn.movement.orientation);
             }
         });
     }
@@ -438,7 +438,7 @@ public abstract class Board implements Disposable
 
     protected void rotatePawn(final Pawn pawn, Orientation o, RunnableAnimation whenDone)
     {
-        pawn.move.setRotation(pawn.getTile(), o);
+        pawn.movement.setRotation(pawn.getTile(), o);
         removePawn(pawn);
 
         AnimationSequence seq = pawn.getRotateAnimation(o.r(), 2);

@@ -114,7 +114,7 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public int getAttackRangeFrom(Tile tile)
+    public int getEngagementRangeFrom(Tile tile)
     {
         if ((type != UnitType.INFANTRY) && (((Hex) tile).terrain == Hex.Terrain.HILLS))
             return rng + 1;
@@ -181,40 +181,40 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public boolean canAttack()
+    public boolean canEngage()
     {
         if (isHardTarget()) return !hasFired;
         return (!hasMoved && !hasFired);
     }
 
     @Override
-    public boolean canAssistAttackWithoutLos()
+    public boolean canAssistEngagementWithoutLos()
     {
         return (type == UnitType.ARTILLERY);
     }
 
     @Override
-    public boolean canAttack(Pawn other)
+    public boolean canEngage(Pawn other)
     {
-        return (isEnemy(other) && canAttack());
+        return (isEnemy(other) && canEngage());
     }
 
     @Override
     public void move()
     {
-        TankOnTank.debug(move.toString());
-        if (move.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + move.cost + "/" + mpLeft + " please report");
+        TankOnTank.debug(movement.toString());
+        if (movement.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + movement.cost + "/" + mpLeft + " please report");
 
-        if (move.isComplete()) {
+        if (movement.isComplete()) {
             hasMoved = true;
         }
-        mpLeft -= move.cost;
+        mpLeft -= movement.cost;
     }
 
     @Override
-    public void attack()
+    public void engage()
     {
-        TankOnTank.debug(attack.toString());
+        TankOnTank.debug(engagement.toString());
         hasFired = true;
     }
 

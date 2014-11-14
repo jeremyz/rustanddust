@@ -30,14 +30,14 @@ public abstract class Map extends Board
 
     public final Board.PawnCollection moveablePawns;
     public final Board.PawnCollection possibleTargets;
-    public final Board.PawnCollection attackAssists;
+    public final Board.PawnCollection engagementAssists;
     public final Board.PawnCollection activatedPawns;
     public final Board.PawnCollection breakPawns;
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
     private final Sound moveSound;
-    private final Sound attackSound;
+    private final Sound engagementSound;
     private Sound sound;
     private long soundId = -1;
 
@@ -50,7 +50,7 @@ public abstract class Map extends Board
         this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
         this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
-        this.attackSound = game.manager.get("sounds/attack.mp3", Sound.class);
+        this.engagementSound = game.manager.get("sounds/attack.mp3", Sound.class);
 
         setup();
 
@@ -59,7 +59,7 @@ public abstract class Map extends Board
         moveablePawns = new PawnSet(this, 6);
 
         possibleTargets = new PawnSet(this, 10);
-        attackAssists = new PawnSet(this, 6);
+        engagementAssists = new PawnSet(this, 6);
         activatedPawns = new PawnSet(this, 7);
         breakPawns = new PawnSet(this, 4);
     }
@@ -72,7 +72,7 @@ public abstract class Map extends Board
         explosion.dispose();
         explosions.dispose();
         moveSound.dispose();
-        attackSound.dispose();
+        engagementSound.dispose();
     }
 
     public void clearAll()
@@ -81,7 +81,7 @@ public abstract class Map extends Board
         possibleTargets.clear();
         possiblePaths.clear();
         moveablePawns.clear();
-        attackAssists.clear();
+        engagementAssists.clear();
         activatedPawns.clear();
         breakPawns.clear();
     }
@@ -112,7 +112,7 @@ public abstract class Map extends Board
 
     public int collectPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
     {
-        if (!pawn.canAttack()) {
+        if (!pawn.canEngage()) {
             possibleTargets.clear();
             return 0;
         }
@@ -122,7 +122,7 @@ public abstract class Map extends Board
 
     public int collectMoveablePawns(Pawn pawn)
     {
-        if (pawn.isHq() && !pawn.move.entryMove) {
+        if (pawn.isHq() && !pawn.movement.entryMove) {
             collectMoveAssists(pawn, moveablePawns);
         } else {
             moveablePawns.clear();
@@ -134,7 +134,7 @@ public abstract class Map extends Board
 
     public int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
     {
-        int s = collectAttackAssists(pawn, target, units, attackAssists);
+        int s = collectAttackAssists(pawn, target, units, engagementAssists);
         activatedPawns.add(pawn);
         return s;
     }
@@ -242,17 +242,17 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    public boolean attackPawn(Pawn pawn, final Pawn target, int d1, int d2)
+    public boolean engagePawn(Pawn pawn, final Pawn target, int d1, int d2)
     {
         int activatedUnits = activatedPawns.size();
         int dice = d1 + d2;
 
         final boolean success;
         if (dice == 2) {
-            pawn.attack.calculus = "2D6 -> (1 + 1) automatic failure";
+            pawn.engagement.calculus = "2D6 -> (1 + 1) automatic failure";
             success = false;
         } else if (dice == 12) {
-            pawn.attack.calculus = "2D6 -> (6 + 6) automatic success";
+            pawn.engagement.calculus = "2D6 -> (6 + 6) automatic success";
             success = true;
         } else {
             int flankAttacks = 0;
@@ -262,11 +262,11 @@ public abstract class Map extends Board
                     break;
                 }
             }
-            pawn.attack.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
+            pawn.engagement.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
             int def = target.getTile().defenseFor(pawn, target, activatedPawns);
             success = ((dice + activatedUnits + flankAttacks) >= def);
         }
-        TankOnTank.debug(pawn + "  attacks " + target + " : " + pawn.attack.calculus);
+        TankOnTank.debug(pawn + "  engagements " + target + " : " + pawn.engagement.calculus);
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
@@ -288,7 +288,7 @@ public abstract class Map extends Board
 
         breakPawns.clear();
         for (Pawn p : activatedPawns) {
-            p.attack();
+            p.engage();
             if (p.isA(Unit.UnitType.INFANTRY))
                 breakPawns.add(p);
         }
@@ -297,7 +297,7 @@ public abstract class Map extends Board
             activatedPawns.clear();
 
         addAnimation(seq);
-        sound = attackSound;
+        sound = engagementSound;
         sound.play(1.0f);
 
         return success;
@@ -322,9 +322,9 @@ public abstract class Map extends Board
     public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
     public void showPossibleTargets()   { possibleTargets.enable(Unit.TARGET, true); }
     public void hidePossibleTargets()   { possibleTargets.enable(Unit.TARGET, false); }
-    public void showAttackAssists()     { attackAssists.enable(Unit.MAY_FIRE, true); }
-    public void hideAttackAssists()     { attackAssists.enable(Unit.FIRE, false);
-                                          attackAssists.enable(Unit.MAY_FIRE, false); }
+    public void showAttackAssists()     { engagementAssists.enable(Unit.MAY_FIRE, true); }
+    public void hideAttackAssists()     { engagementAssists.enable(Unit.FIRE, false);
+                                          engagementAssists.enable(Unit.MAY_FIRE, false); }
     public void showBreakPawns()        { breakPawns.enable(Unit.MOVE, true); }
     public void hideBreakPawns()        { breakPawns.enable(Unit.MOVE, false); }
 
