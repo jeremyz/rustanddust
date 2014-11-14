@@ -19,6 +19,7 @@ public class StateSelect extends StateCommon
         selectedUnit = null;
         activeUnit = null;
         map.clearAll();
+        ctrl.hud.actionButtons.hide();
     }
 
     @Override
