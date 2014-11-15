@@ -70,9 +70,9 @@ public class StateMove extends StateCommon
     {
         hideAssists();
         // be sure that the hq is activated
-        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0)) {
-            selectedUnit.move();
-        }
+        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
+            selectedUnit.setMoved();
+
         return StateType.DONE;
     }
 
