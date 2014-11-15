@@ -22,6 +22,7 @@ public class Bg extends Widget
     @Override
     public void draw(Batch batch)
     {
+        if (!visible) return;
         batch.draw(region, rect.x, rect.y, rect.width, rect.height);
     }
 }

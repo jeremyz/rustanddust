@@ -45,7 +45,7 @@ public class Player extends ch.asynk.tankontank.engine.Player
 
     public int getAp()
     {
-        return (apSpent + 1);
+        return ((apSpent < actionPoints) ? (apSpent + 1) : apSpent);
     }
 
     public int getTurn()
