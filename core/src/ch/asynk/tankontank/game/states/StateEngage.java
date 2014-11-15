@@ -61,7 +61,6 @@ public class StateEngage extends StateCommon
             ctrl.hud.notify(selectedUnit.engagement.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
             if (map.breakPawns.size() > 0) {
-                ctrl.hud.pushNotify("Break move possible");
                 nextState = StateType.BREAK;
             }
         } else {
@@ -70,9 +69,9 @@ public class StateEngage extends StateCommon
         }
 
         activeUnit.showTarget();
-        ctrl.setState(StateType.ANIMATION);
-
-        return nextState;
+        ctrl.setAnimationCount(1);
+        ctrl.setAfterAnimationState(nextState);
+        return StateType.ANIMATION;
     }
 
     @Override
