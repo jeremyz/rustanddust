@@ -167,20 +167,6 @@ public class Ctrl implements Disposable
         return nextState;
     }
 
-    public void stateTouchUp()
-    {
-        this.state.touchUp();
-    }
-
-
-    public void reinforcementHit()
-    {
-        if (this.stateType == StateType.SELECT)
-            setState(StateType.REINFORCEMENT);
-        else if (this.stateType == StateType.REINFORCEMENT)
-            setState(StateType.SELECT);
-    }
-
     public void setState(StateType nextState)
     {
         if (nextState == StateType.ABORT)
@@ -244,6 +230,20 @@ public class Ctrl implements Disposable
 
         if (!blockMap && state.upInMap(mx, my))
             state.touchUp();
+    }
+
+    public void stateTouchUp()
+    {
+        this.state.touchUp();
+    }
+
+
+    public void reinforcementHit()
+    {
+        if (this.stateType == StateType.SELECT)
+            setState(StateType.REINFORCEMENT);
+        else if (this.stateType == StateType.REINFORCEMENT)
+            setState(StateType.SELECT);
     }
 
     public void setAfterAnimationState(StateType after)
