@@ -99,6 +99,11 @@ public enum Orientation
         }
     }
 
+    public static Orientation fromAdj(Tile from, Tile to)
+    {
+        return fromAdj(from.col, from.row, to.col, to.row);
+    }
+
     public static Orientation fromAdj(int col0, int row0, int col1, int row1)
     {
         Orientation o = KEEP;
