@@ -26,6 +26,11 @@ public class OkCancel extends Bg
 
     public void show(String msg, Position position)
     {
+        show(msg, position, true);
+    }
+
+    public void show(String msg, Position position, boolean canCancel)
+    {
         label.write(msg);
 
         float height = (label.getHeight() + (4 * padding) + okBtn.getHeight());
@@ -41,6 +46,7 @@ public class OkCancel extends Bg
         label.setPosition((x + padding), (y + okBtn.getHeight() + (2 * padding)));
         visible = true;
         ok = false;
+        cancelBtn.visible = canCancel;
     }
 
     public boolean hit(float x, float y)
