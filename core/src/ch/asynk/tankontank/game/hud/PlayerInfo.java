@@ -137,7 +137,7 @@ public class PlayerInfo implements Disposable, Drawable
 
         if (hit == turns) {
             if (turns.hit(x, y))
-                ctrl.hud.askEndTurn();
+                ctrl.hud.askEndOfTurn();
         }
         else if (hit == reinforcement) {
             if (reinforcement.hit(x, y))
