@@ -59,7 +59,7 @@ public class StateBreak extends StateCommon
                 map.hideBreakPawns();
             }
         } else {
-            o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
+            o = Orientation.fromAdj(to, downHex);
 
             if (o == Orientation.KEEP) return;
 

@@ -85,7 +85,7 @@ public class StateRotate extends StateCommon
     {
         if (rotationSet) return;
 
-        o = Orientation.fromAdj(to.getCol(), to.getRow(), downHex.getCol(), downHex.getRow());
+        o = Orientation.fromAdj(to, downHex);
 
         if (o == Orientation.KEEP) return;
         if (!activeUnit.movement.entryMove && rotateOnly && (o == activeUnit.getOrientation())) return;
