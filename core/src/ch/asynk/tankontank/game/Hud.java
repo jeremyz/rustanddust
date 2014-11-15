@@ -173,6 +173,13 @@ public class Hud implements Disposable
         ctrl.blockMap = false;
     }
 
+    public void notifyEndOfTurn()
+    {
+        ctrl.blockMap = true;
+        dialogAction = DialogAction.END_TURN;
+        okCancel.show("You have no more Action Points left.", Position.MIDDLE_CENTER, false);
+    }
+
     public void askEndOfTurn()
     {
         ctrl.blockMap = true;
