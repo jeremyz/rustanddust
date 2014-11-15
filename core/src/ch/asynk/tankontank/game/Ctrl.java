@@ -185,17 +185,10 @@ public class Ctrl implements Disposable
 
     public void setState(StateType nextState)
     {
-        setState(nextState, battle.getState(player));
-    }
-
-    public void setState(StateType nextState, StateType whenDone)
-    {
         if (nextState == StateType.ABORT)
             nextState = actionAborted();
         else if (nextState == StateType.DONE)
             nextState = actionDone();
-        else if (nextState == StateType.ANIMATION)
-            stateAfterAnimation = whenDone;
 
         this.state.leave(nextState);
 
@@ -253,6 +246,11 @@ public class Ctrl implements Disposable
 
         if (!blockMap && state.upInMap(mx, my))
             state.touchUp();
+    }
+
+    public void setAfterAnimationState(StateType after)
+    {
+        stateAfterAnimation = after;
     }
 
     public void endGame()
