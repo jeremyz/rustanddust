@@ -8,15 +8,14 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class StateBreak extends StateCommon
 {
-    private boolean done;
     private Orientation o = Orientation.KEEP;
 
     @Override
     public void enter(StateType prevState)
     {
-        done = false;
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
+        ctrl.hud.pushNotify("Break move possible");
         map.showBreakPawns();
     }
 
@@ -39,7 +38,6 @@ public class StateBreak extends StateCommon
     @Override
     public StateType done()
     {
-        doRotation(o);
         return StateType.DONE;
     }
 
@@ -69,22 +67,23 @@ public class StateBreak extends StateCommon
                 map.hideDirections(to);
                 map.showOrientation(to, o);
                 ctrl.hud.actionButtons.show(Buttons.DONE.b);
-            } else
+            } else {
                 doRotation(o);
+                ctrl.setState(StateType.ANIMATION);
+            }
         }
     }
 
     private void doRotation(Orientation o)
     {
-        if (done || (activeUnit == null)) return;
-        done = true;
+        if (activeUnit == null) return;
 
         map.possiblePaths.init(activeUnit);
         if (map.possiblePaths.build(to) == 1) {
             map.possiblePaths.orientation = o;
             map.movePawn(activeUnit, o);
             ctrl.setAnimationCount(1);
-            ctrl.setState(StateType.ANIMATION);
+            ctrl.setAfterAnimationState(StateType.DONE);
         } else
             TankOnTank.debug("That's very wrong there should be only one path");
     }
