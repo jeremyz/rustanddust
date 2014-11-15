@@ -74,7 +74,6 @@ public class Ctrl implements Disposable
 
         hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
         startPlayerTurn();
-        setState(battle.getState(player));
     }
 
     @Override
@@ -116,6 +115,7 @@ public class Ctrl implements Disposable
         player.turnStart();
         hud.update();
         hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
+        setState(battle.getState(player));
     }
 
     private void endPlayerTurn()
