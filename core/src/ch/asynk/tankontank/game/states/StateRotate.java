@@ -71,10 +71,8 @@ public class StateRotate extends StateCommon
     @Override
     public StateType done()
     {
-        doRotation(o);
-        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
-            selectedUnit.move();
-        return StateType.DONE;
+        ctrl.setAfterAnimationState(doRotation(o));
+        return StateType.ANIMATION;
     }
 
     @Override
@@ -98,8 +96,10 @@ public class StateRotate extends StateCommon
             map.hideDirections(to);
             map.showOrientation(to, o);
             ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        } else
-            doRotation(o);
+        } else {
+            ctrl.setAfterAnimationState(doRotation(o));
+            ctrl.setState(StateType.ANIMATION);
+        }
     }
 
     private void hideAssists()
@@ -107,10 +107,8 @@ public class StateRotate extends StateCommon
         map.hideMoveablePawns();
     }
 
-    private void doRotation(Orientation o)
+    private StateType doRotation(Orientation o)
     {
-        if (!rotationSet) return;
-
         StateType whenDone = StateType.DONE;
 
         ctrl.hud.notify("Move " + activeUnit);
@@ -118,6 +116,6 @@ public class StateRotate extends StateCommon
         if (map.movePawn(activeUnit, o) > 0)
             whenDone = StateType.MOVE;
 
-        ctrl.setState(StateType.ANIMATION, whenDone);
+        return whenDone;
     }
 }
