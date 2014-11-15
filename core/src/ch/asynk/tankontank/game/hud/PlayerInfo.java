@@ -141,7 +141,7 @@ public class PlayerInfo implements Disposable, Drawable
         }
         else if (hit == reinforcement) {
             if (reinforcement.hit(x, y))
-                ctrl.toggleState(StateType.REINFORCEMENT, StateType.SELECT);
+                ctrl.reinforcementHit();
         }
         else if (hit == unitDock) {
             if (unitDock.hit(x, y))

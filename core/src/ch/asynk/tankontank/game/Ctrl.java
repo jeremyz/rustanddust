@@ -172,15 +172,13 @@ public class Ctrl implements Disposable
         this.state.touchUp();
     }
 
-    public void toggleState(StateType stateA, StateType stateB)
+
+    public void reinforcementHit()
     {
-        if (this.stateType == stateA) {
-            setState(stateB);
-        } else if (this.stateType == stateB) {
-            setState(stateA);
-        } else {
-            TankOnTank.debug("Ctrl", "wrong call to toggleState()");
-        }
+        if (this.stateType == StateType.SELECT)
+            setState(StateType.REINFORCEMENT);
+        else if (this.stateType == StateType.REINFORCEMENT)
+            setState(StateType.SELECT);
     }
 
     public void setState(StateType nextState)
