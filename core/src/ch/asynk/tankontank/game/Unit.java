@@ -199,15 +199,20 @@ public class Unit extends HeadedPawn
         return (isEnemy(other) && canEngage());
     }
 
+    public void setMoved()
+    {
+        hasMoved = true;
+    }
+
     @Override
     public void move()
     {
         TankOnTank.debug(movement.toString());
         if (movement.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + movement.cost + "/" + mpLeft + " please report");
 
-        if (movement.isComplete()) {
-            hasMoved = true;
-        }
+        if (movement.isComplete())
+            setMoved();
+
         mpLeft -= movement.cost;
     }
 
