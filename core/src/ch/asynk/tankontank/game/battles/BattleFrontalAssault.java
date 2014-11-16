@@ -108,14 +108,6 @@ public class BattleFrontalAssault extends BattleCommon
             geEntry.add(map.getHex(i, 1));
         addEntryPoint(geEntry);
 
-        EntryPoint usEntry = new EntryPoint(map, 10);
-        usEntry.orientation = Orientation.SOUTH_EAST;
-        for (int i = 4; i < 14; i++)
-            usEntry.add(map.getHex(i, 8));
-        for (int i = 4; i < 13; i++)
-            usEntry.add(map.getHex(i, 7));
-        addEntryPoint(usEntry);
-
         Orientation o = Orientation.NORTH;
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
@@ -125,6 +117,14 @@ public class BattleFrontalAssault extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+
+        EntryPoint usEntry = new EntryPoint(map, 10);
+        usEntry.orientation = Orientation.SOUTH_EAST;
+        for (int i = 4; i < 14; i++)
+            usEntry.add(map.getHex(i, 8));
+        for (int i = 4; i < 13; i++)
+            usEntry.add(map.getHex(i, 7));
+        addEntryPoint(usEntry);
 
         o = Orientation.SOUTH;
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);

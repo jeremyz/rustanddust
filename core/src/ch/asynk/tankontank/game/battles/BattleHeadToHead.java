@@ -111,6 +111,17 @@ public class BattleHeadToHead extends BattleCommon
         geEntry.add(map.getHex(4, 8));
         addEntryPoint(geEntry);
 
+        Orientation o = Orientation.NORTH;
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
+
+
         EntryPoint usEntry = new EntryPoint(map, 10);
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(9, 0));
@@ -123,16 +134,6 @@ public class BattleHeadToHead extends BattleCommon
         usEntry.add(map.getHex(12, 7));
         usEntry.add(map.getHex(13, 8));
         addEntryPoint(usEntry);
-
-        Orientation o = Orientation.NORTH;
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
         o = Orientation.SOUTH;
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
