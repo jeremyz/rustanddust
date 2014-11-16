@@ -154,6 +154,11 @@ public class Ctrl implements Disposable
     {
         StateType nextState = this.state.done();
 
+        if (stateType == StateType.DEPLOYMENT) {
+            switchPlayer();
+            return nextState;
+        }
+
         if (nextState == StateType.DONE) {
             if (map.activatedPawns.size() > 0) {
                 TankOnTank.debug("burn down 1AP");

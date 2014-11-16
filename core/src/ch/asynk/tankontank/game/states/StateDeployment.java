@@ -131,6 +131,7 @@ public class StateDeployment extends StateCommon
         selectedUnit = null;
         if (ctrl.checkDeploymentDone()) {
             done = true;
+            ctrl.hud.actionButtons.show(Buttons.DONE.b);
         }
     }
 }
