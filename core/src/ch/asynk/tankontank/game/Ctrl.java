@@ -237,6 +237,13 @@ public class Ctrl implements Disposable
         this.state.touchUp();
     }
 
+    public boolean checkDeploymentDone()
+    {
+        boolean done = battle.deploymentDone(player);
+        if (done)
+            hud.askEndDeployment();
+        return done;
+    }
 
     public void reinforcementHit()
     {
@@ -249,6 +256,11 @@ public class Ctrl implements Disposable
     public void setAfterAnimationState(StateType after)
     {
         stateAfterAnimation = after;
+    }
+
+    public void endDeployment()
+    {
+        switchPlayer();
     }
 
     public void endGame()

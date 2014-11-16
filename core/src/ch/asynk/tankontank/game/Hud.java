@@ -38,6 +38,7 @@ public class Hud implements Disposable
     enum DialogAction
     {
         END_TURN,
+        END_DEPLOYMENT,
         END_GAME
     }
 
@@ -165,6 +166,11 @@ public class Hud implements Disposable
                     ctrl.abortPlayerTurn();
                 okCancel.visible = false;
                 break;
+            case END_DEPLOYMENT:
+                if (okCancel.ok)
+                    ctrl.endDeployment();
+                okCancel.visible = false;
+                break;
             case END_GAME:
                 stats.visible = false;
                 ctrl.endGame();
@@ -185,6 +191,13 @@ public class Hud implements Disposable
         ctrl.blockMap = true;
         dialogAction = DialogAction.END_TURN;
         okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
+    }
+
+    public void askEndDeployment()
+    {
+        ctrl.blockMap = true;
+        dialogAction = DialogAction.END_DEPLOYMENT;
+        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", Position.MIDDLE_CENTER);
     }
 
     public void victory(Player winner, Player loser)
