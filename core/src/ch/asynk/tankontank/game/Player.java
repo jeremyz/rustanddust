@@ -58,6 +58,11 @@ public class Player extends ch.asynk.tankontank.engine.Player
         return (apSpent == actionPoints);
     }
 
+    public boolean isDeploymentDone()
+    {
+        return deploymentDone;
+    }
+
     public void deploymentDone()
     {
         deploymentDone = true;
