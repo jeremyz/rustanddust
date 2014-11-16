@@ -86,14 +86,14 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
-    public boolean mayProcessTouch()
-    {
-        return (state != animationState);
-    }
-
     public boolean isInAction()
     {
         return (state != selectState);
+    }
+
+    public boolean mayProcessTouch()
+    {
+        return (state != animationState);
     }
 
     public void setAnimationCount(int count)
@@ -248,6 +248,11 @@ public class Ctrl implements Disposable
         this.state.touchUp();
     }
 
+    public void setAfterAnimationState(StateType after)
+    {
+        stateAfterAnimation = after;
+    }
+
     public boolean checkDeploymentDone()
     {
         boolean done = battle.deploymentDone(player);
@@ -262,11 +267,6 @@ public class Ctrl implements Disposable
             setState(StateType.REINFORCEMENT);
         else if (this.stateType == StateType.REINFORCEMENT)
             setState(StateType.SELECT);
-    }
-
-    public void setAfterAnimationState(StateType after)
-    {
-        stateAfterAnimation = after;
     }
 
     public void endDeployment()
