@@ -76,21 +76,13 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public void setup(Map map, Player a, Player b)
+    public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer;
-        Player usPlayer;
+        Player gePlayer = ctrl.getPlayer(Army.GE);
+        Player usPlayer = ctrl.getPlayer(Army.US);
 
-        a.deploymentDone();
-        b.deploymentDone();
-
-        if (a.is(Army.US)) {
-            usPlayer = a;
-            gePlayer = b;
-        } else {
-            usPlayer = b;
-            gePlayer = a;
-        }
+        gePlayer.deploymentDone();
+        usPlayer.deploymentDone();
 
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(7, 7));

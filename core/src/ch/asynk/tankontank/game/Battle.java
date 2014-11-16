@@ -25,5 +25,5 @@ public interface Battle
 
     public boolean deploymentDone(Player player);
 
-    public void setup(Map map, Player firstPlayer, Player secondPlayer);
+    public void setup(Ctrl ctrl, Map map);
 }

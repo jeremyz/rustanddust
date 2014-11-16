@@ -71,24 +71,16 @@ public class BattleFrontalAssault extends BattleCommon
         }
 
         if (count > 1)
-            return (ctrl.player.is(Army.US) ? ctrl.player : ctrl.opponent);
+            return ctrl.getPlayer(Army.US);
         else
-            return (ctrl.player.is(Army.GE) ? ctrl.player : ctrl.opponent);
+            return ctrl.getPlayer(Army.GE);
     }
 
     @Override
-    public void setup(Map map, Player a, Player b)
+    public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer;
-        Player usPlayer;
-
-        if (a.is(Army.US)) {
-            usPlayer = a;
-            gePlayer = b;
-        } else {
-            usPlayer = b;
-            gePlayer = a;
-        }
+        Player gePlayer = ctrl.getPlayer(Army.GE);
+        Player usPlayer = ctrl.getPlayer(Army.US);
 
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(2, 2));
