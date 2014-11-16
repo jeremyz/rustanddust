@@ -40,6 +40,11 @@ public abstract class Player
         return (units.size() + reinforcement.size());
     }
 
+    public int casualties()
+    {
+        return casualties.size();
+    }
+
     public String getName()
     {
         return faction.toString();
