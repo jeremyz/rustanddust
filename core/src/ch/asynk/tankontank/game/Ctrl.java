@@ -126,7 +126,7 @@ public class Ctrl implements Disposable
             hud.victory(winner, ((winner == player) ? opponent : player));
     }
 
-    private void swicthPlayer()
+    private void switchPlayer()
     {
         TankOnTank.debug("Ctrl", "switch Players");
         endPlayerTurn();
@@ -259,6 +259,6 @@ public class Ctrl implements Disposable
     public void abortPlayerTurn()
     {
         state.abort();
-        swicthPlayer();
+        switchPlayer();
     }
 }
