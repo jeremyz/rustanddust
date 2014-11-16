@@ -154,11 +154,6 @@ public class Ctrl implements Disposable
     {
         StateType nextState = this.state.done();
 
-        if (stateType == StateType.DEPLOYMENT) {
-            switchPlayer();
-            return nextState;
-        }
-
         if (nextState == StateType.DONE) {
             if (map.activatedPawns.size() > 0) {
                 TankOnTank.debug("burn down 1AP");
@@ -175,12 +170,31 @@ public class Ctrl implements Disposable
         return nextState;
     }
 
+    private StateType deploymentDone()
+    {
+        StateType nextState = this.state.done();
+
+        if (player.isDeploymentDone() && opponent.isDeploymentDone()) {
+            endPlayerTurn();
+            player = battle.getPlayer(true, true);
+            opponent = battle.getPlayer(false, true);
+            startPlayerTurn();
+        } else
+            switchPlayer();
+
+        return nextState;
+    }
+
     public void setState(StateType nextState)
     {
         if (nextState == StateType.ABORT)
             nextState = actionAborted();
-        else if (nextState == StateType.DONE)
-            nextState = actionDone();
+        else if (nextState == StateType.DONE) {
+            if (stateType == StateType.DEPLOYMENT)
+                nextState = deploymentDone();
+            else
+                nextState = actionDone();
+        }
 
         this.state.leave(nextState);
 
@@ -271,8 +285,7 @@ public class Ctrl implements Disposable
 
     public void endDeployment()
     {
-        state.done();
-        switchPlayer();
+        deploymentDone();
     }
 
     public void endGame()
