@@ -11,6 +11,7 @@ public interface State
         PROMOTE,
         ANIMATION,
         REINFORCEMENT,
+        DEPLOYMENT,
         ABORT,
         DONE
     };

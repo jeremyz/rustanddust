@@ -13,6 +13,7 @@ import ch.asynk.tankontank.game.states.StateEngage;
 import ch.asynk.tankontank.game.states.StateBreak;
 import ch.asynk.tankontank.game.states.StateAnimation;
 import ch.asynk.tankontank.game.states.StateReinforcement;
+import ch.asynk.tankontank.game.states.StateDeployment;
 
 import ch.asynk.tankontank.screens.OptionsScreen;
 
@@ -37,6 +38,7 @@ public class Ctrl implements Disposable
     private State breakState;
     private State animationState;
     private State reinforcementState;
+    private State deploymentState;
 
     private int animationCount = 0;
 
@@ -64,6 +66,7 @@ public class Ctrl implements Disposable
         this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
         this.reinforcementState = new StateReinforcement();
+        this.deploymentState = new StateDeployment();
 
         this.state = selectState;
         this.stateType = StateType.DONE;
@@ -202,6 +205,9 @@ public class Ctrl implements Disposable
                 break;
             case REINFORCEMENT:
                 this.state = reinforcementState;
+                break;
+            case DEPLOYMENT:
+                this.state = deploymentState;
                 break;
             default:
                 break;
