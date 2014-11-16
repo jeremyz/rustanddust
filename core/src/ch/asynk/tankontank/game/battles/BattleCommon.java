@@ -66,6 +66,11 @@ public abstract class BattleCommon implements Battle
         return factory.getPlayer(secondArmy);
     }
 
+    public EntryPoint getEntryPoint(Unit unit)
+    {
+        return pawnEntry.get(unit);
+    }
+
     public void addEntryPoint(EntryPoint entry)
     {
         entryPoints.add(entry);
@@ -76,10 +81,5 @@ public abstract class BattleCommon implements Battle
         Unit unit = factory.getUnit(unitId);
         player.addReinforcement(unit);
         pawnEntry.put(unit, entryPoint);
-    }
-
-    public EntryPoint getEntryPoint(Unit unit)
-    {
-        return pawnEntry.get(unit);
     }
 }

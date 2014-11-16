@@ -23,6 +23,30 @@ public class BattleHeadToHead extends BattleCommon
         name = "Head To Head";
     }
 
+    @Override
+    public Map getMap()
+    {
+        return factory.getMap(Factory.MapType.MAP_A);
+    }
+
+    @Override
+    public Position getHudPosition(Player player)
+    {
+        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
+    }
+
+    @Override
+    public boolean deploymentDone(Player player)
+    {
+        return true;
+    }
+
+    @Override
+    public StateType getState(Player player)
+    {
+        return StateType.SELECT;
+    }
+
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
@@ -49,30 +73,6 @@ public class BattleHeadToHead extends BattleCommon
         else if (opponent > 1)
             return ctrl.opponent;
         return null;
-    }
-
-    @Override
-    public boolean deploymentDone(Player player)
-    {
-        return true;
-    }
-
-    @Override
-    public Position getHudPosition(Player player)
-    {
-        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_A);
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        return StateType.SELECT;
     }
 
     @Override

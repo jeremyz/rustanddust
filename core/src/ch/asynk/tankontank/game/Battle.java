@@ -11,13 +11,11 @@ public interface Battle
 
     public String getDescription();
 
-    public Map getMap();
-
     public Player getFirstPlayer();
 
     public Player getSecondPlayer();
 
-    public void setup(Map map, Player firstPlayer, Player secondPlayer);
+    public Map getMap();
 
     public Player checkVictory(Ctrl ctrl);
 
@@ -28,4 +26,6 @@ public interface Battle
     public State.StateType getState(Player player);
 
     public boolean deploymentDone(Player player);
+
+    public void setup(Map map, Player firstPlayer, Player secondPlayer);
 }

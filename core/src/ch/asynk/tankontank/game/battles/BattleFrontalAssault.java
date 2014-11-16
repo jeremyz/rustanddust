@@ -24,6 +24,37 @@ public class BattleFrontalAssault extends BattleCommon
         name = "Frontal Assault";
     }
 
+    @Override
+    public Map getMap()
+    {
+        return factory.getMap(Factory.MapType.MAP_A);
+    }
+
+    @Override
+    public Position getHudPosition(Player player)
+    {
+        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
+    }
+
+    @Override
+    public StateType getState(Player player)
+    {
+        if (player.getTurn() == 0)
+            return StateType.DEPLOYMENT;
+        return StateType.SELECT;
+    }
+
+    @Override
+    public boolean deploymentDone(Player player)
+    {
+        int n = player.getReinforcement().size();
+        if (n == 0) {
+            player.deploymentDone();
+            return true;
+        }
+        return ((player.is(Army.GE) && (n == 4)));
+    }
+
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
@@ -43,37 +74,6 @@ public class BattleFrontalAssault extends BattleCommon
             return (ctrl.player.is(Army.US) ? ctrl.player : ctrl.opponent);
         else
             return (ctrl.player.is(Army.GE) ? ctrl.player : ctrl.opponent);
-    }
-
-    @Override
-    public boolean deploymentDone(Player player)
-    {
-        int n = player.getReinforcement().size();
-        if (n == 0) {
-            player.deploymentDone();
-            return true;
-        }
-        return ((player.is(Army.GE) && (n == 4)));
-    }
-
-    @Override
-    public Position getHudPosition(Player player)
-    {
-        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_A);
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        if (player.getTurn() == 0)
-            return StateType.DEPLOYMENT;
-        return StateType.SELECT;
     }
 
     @Override
