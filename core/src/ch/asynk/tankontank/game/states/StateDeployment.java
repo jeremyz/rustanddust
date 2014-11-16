@@ -97,6 +97,7 @@ public class StateDeployment extends StateCommon
         ctrl.player.revertUnitEntry(selectedUnit);
         activeUnit = null;
         selectedUnit = null;
+        ctrl.hud.update();
     }
 
     private void unitEnter(Unit unit)
@@ -108,6 +109,7 @@ public class StateDeployment extends StateCommon
         deployedUnits.add(unit);
         entryPoint.enable(Hex.AREA, false);
         showRotation();
+        ctrl.hud.update();
     }
 
     private void showRotation()
