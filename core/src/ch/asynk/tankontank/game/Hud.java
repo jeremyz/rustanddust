@@ -120,14 +120,17 @@ public class Hud implements Disposable
     {
         hit = null;
 
-        if (actionButtons.touchDown(x, y))
+        if (okCancel.visible) {
+            if (okCancel.hit(x, y))
+                hit = okCancel;
+        } else if (stats.visible) {
+            if (stats.hit(x, y))
+                hit = stats;
+        }
+        else if (actionButtons.touchDown(x, y))
             hit = actionButtons;
         else if (playerInfo.touchDown(x, y))
             hit = playerInfo;
-        else if (okCancel.hit(x, y))
-            hit = okCancel;
-        else if (stats.hit(x, y))
-            hit = stats;
 
         return (hit != null);
     }
