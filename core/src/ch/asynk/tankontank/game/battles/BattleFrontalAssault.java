@@ -88,7 +88,7 @@ public class BattleFrontalAssault extends BattleCommon
         objectives.add(map.getHex(6, 1));
         objectives.enable(Hex.OBJECTIVE, true);
 
-        EntryPoint geEntry = new EntryPoint(map, 10);
+        EntryPoint geEntry = new EntryPoint(map, 38);
         geEntry.orientation = Orientation.NORTH_WEST;
         for (int i = 2; i < 12; i++)
             geEntry.add(map.getHex(i, 4));
@@ -100,7 +100,6 @@ public class BattleFrontalAssault extends BattleCommon
             geEntry.add(map.getHex(i, 1));
         addEntryPoint(geEntry);
 
-        Orientation o = Orientation.NORTH;
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
@@ -110,7 +109,7 @@ public class BattleFrontalAssault extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
-        EntryPoint usEntry = new EntryPoint(map, 10);
+        EntryPoint usEntry = new EntryPoint(map, 19);
         usEntry.orientation = Orientation.SOUTH_EAST;
         for (int i = 4; i < 14; i++)
             usEntry.add(map.getHex(i, 8));
@@ -118,7 +117,6 @@ public class BattleFrontalAssault extends BattleCommon
             usEntry.add(map.getHex(i, 7));
         addEntryPoint(usEntry);
 
-        o = Orientation.SOUTH;
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
