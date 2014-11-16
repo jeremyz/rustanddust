@@ -26,4 +26,6 @@ public interface Battle
     public Position getHudPosition(Player player);
 
     public State.StateType getState(Player player);
+
+    public boolean deploymentDone(Player player);
 }

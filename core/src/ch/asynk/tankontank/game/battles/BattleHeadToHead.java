@@ -52,6 +52,12 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
+    public boolean deploymentDone(Player player)
+    {
+        return true;
+    }
+
+    @Override
     public Position getHudPosition(Player player)
     {
         return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
