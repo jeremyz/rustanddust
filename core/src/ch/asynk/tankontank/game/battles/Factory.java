@@ -14,6 +14,7 @@ import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.Unit.UnitType;
 import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.battles.BattleHeadToHead;
+import ch.asynk.tankontank.game.battles.BattleFrontalAssault;
 
 public class Factory implements Board.TileBuilder, Disposable
 {
@@ -40,6 +41,7 @@ public class Factory implements Board.TileBuilder, Disposable
         this.game = game;
         battles = new Battle[] {
             new BattleHeadToHead(this),
+            new BattleFrontalAssault(this),
         };
     }
 
