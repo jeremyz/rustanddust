@@ -86,6 +86,11 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
+    public Player getPlayer(Army army)
+    {
+        return (player.is(army) ? player : opponent);
+    }
+
     public boolean isInAction()
     {
         return (state != selectState);
