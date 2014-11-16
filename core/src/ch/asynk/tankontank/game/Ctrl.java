@@ -260,6 +260,7 @@ public class Ctrl implements Disposable
 
     public void endDeployment()
     {
+        state.done();
         switchPlayer();
     }
 
