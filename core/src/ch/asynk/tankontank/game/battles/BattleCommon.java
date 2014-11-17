@@ -55,7 +55,13 @@ public abstract class BattleCommon implements Battle
 
     public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId)
     {
+        addReinforcement(player, entryPoint, unitId, false);
+    }
+
+    public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId, boolean ace)
+    {
         Unit unit = factory.getUnit(unitId);
+        unit.setAce(ace);
         player.addReinforcement(unit);
         pawnEntry.put(unit, entryPoint);
     }
