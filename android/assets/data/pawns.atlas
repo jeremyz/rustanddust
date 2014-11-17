@@ -5,119 +5,119 @@ filter: Nearest,Nearest
 repeat: none
 ge-at-gun
   rotate: false
-  xy: 346, 280
+  xy: 331, 305
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-infantry
   rotate: false
-  xy: 472, 280
+  xy: 457, 305
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-kingtiger
   rotate: false
-  xy: 598, 280
+  xy: 583, 305
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv
   rotate: false
-  xy: 850, 280
+  xy: 835, 305
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv-hq
   rotate: false
-  xy: 724, 280
+  xy: 709, 305
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-tiger
   rotate: false
-  xy: 194, 128
+  xy: 128, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-wespe
   rotate: false
-  xy: 179, 2
+  xy: 128, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 head
   rotate: false
-  xy: 2, 10
+  xy: 2, 254
   size: 175, 175
   orig: 175, 175
   offset: 0, 0
   index: -1
 us-at-gun
   rotate: false
-  xy: 346, 154
+  xy: 254, 153
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-infantry
   rotate: false
-  xy: 472, 154
+  xy: 254, 27
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing
   rotate: false
-  xy: 724, 154
+  xy: 380, 53
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing-hq
   rotate: false
-  xy: 598, 154
+  xy: 380, 179
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-priest
   rotate: false
-  xy: 850, 154
+  xy: 506, 179
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-sherman
   rotate: false
-  xy: 2, 187
-  size: 190, 217
-  orig: 190, 217
+  xy: 2, 35
+  size: 124, 217
+  orig: 124, 217
   offset: 0, 0
   index: -1
 us-sherman-head
   rotate: false
-  xy: 194, 254
+  xy: 179, 279
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 us-sherman-hq
   rotate: false
-  xy: 305, 2
+  xy: 506, 53
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-wolverine
   rotate: false
-  xy: 431, 28
+  xy: 632, 179
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
