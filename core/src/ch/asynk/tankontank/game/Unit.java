@@ -148,6 +148,15 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public int getDefense(Tile tile)
+    {
+        if (!isHardTarget() && (tile.isA(Hex.Terrain.HILLS) || tile.isA(Hex.Terrain.WOODS) || tile.isA(Hex.Terrain.TOWN)))
+            return cdef;
+
+        return def;
+    }
+
+    @Override
     public boolean isUnit()
     {
         return true;
