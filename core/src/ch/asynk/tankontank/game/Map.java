@@ -261,15 +261,24 @@ public abstract class Map extends Board
             pawn.engagement.calculus = "2D6 -> (6 + 6) automatic success";
             return true;
         } else {
-            int flankAttacks = 0;
+
+            boolean flankAttack = false;
+            boolean terrainBonus = true;
+
             for (Pawn assist : activatedPawns) {
                 if (assist.isFlankAttack())
-                    flankAttacks = 1;
+                    flankAttack = true;
+                if (assist.isA(Unit.UnitType.INFANTRY))
+                    terrainBonus = false;
             }
-            int activatedUnits = activatedPawns.size();
-            int def = target.getTile().defenseFor(pawn, target, activatedPawns);
-            pawn.engagement.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
-            return ((dice + activatedUnits + flankAttacks) >= def);
+
+            int cnt = activatedPawns.size();
+            int def = target.getDefense(pawn.getTile());
+            int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
+            int tdf = (terrainBonus ? pawn.getTile().defense() : 0);
+
+            pawn.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " +tdf;
+            return ((dice + cnt + flk) >= (def + tdf));
         }
     }
 
