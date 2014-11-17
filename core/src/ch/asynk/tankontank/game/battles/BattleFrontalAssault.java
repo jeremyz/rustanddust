@@ -55,6 +55,13 @@ public class BattleFrontalAssault extends BattleCommon
         return ((player.is(Army.GE) && (n == 4)));
     }
 
+    @Override
+    public boolean getReinforcement(Ctrl ctrl)
+    {
+        return false;
+    }
+
+    @Override
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)

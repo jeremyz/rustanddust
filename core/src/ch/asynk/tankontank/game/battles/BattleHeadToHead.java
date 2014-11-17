@@ -47,6 +47,13 @@ public class BattleHeadToHead extends BattleCommon
         return StateType.SELECT;
     }
 
+    @Override
+    public boolean getReinforcement(Ctrl ctrl)
+    {
+        return false;
+    }
+
+    @Override
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)

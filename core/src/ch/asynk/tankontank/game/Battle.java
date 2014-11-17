@@ -17,6 +17,8 @@ public interface Battle
 
     public Player checkVictory(Ctrl ctrl);
 
+    public boolean getReinforcement(Ctrl ctrl);
+
     public EntryPoint getEntryPoint(Unit unit);
 
     public Position getHudPosition(Player player);
