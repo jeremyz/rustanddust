@@ -12,7 +12,7 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class Hex extends Tile
 {
-    public enum Terrain
+    public enum Terrain implements TileTerrain
     {
         OFFMAP,
         BLOCKED,
@@ -49,6 +49,12 @@ public class Hex extends Tile
     {
         if (isEmpty()) return null;
         return (Unit) iterator().next();
+    }
+
+    @Override
+    public boolean isA(TileTerrain terrain)
+    {
+        return (this.terrain == terrain);
     }
 
     @Override

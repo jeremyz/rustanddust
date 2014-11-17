@@ -17,6 +17,10 @@ import ch.asynk.tankontank.engine.gfx.StackedImages;
 
 public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
 {
+    public interface TileTerrain
+    {
+    }
+
     protected int col;
     protected int row;
     protected float x;
@@ -28,6 +32,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public abstract int costFrom(Pawn pawn, Orientation side);
 
     public abstract boolean isOffMap();
+    public abstract boolean isA(TileTerrain terrain);
     public abstract boolean road(Orientation side);
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean blockLineOfSightFrom(Tile tile);
