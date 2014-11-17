@@ -7,6 +7,7 @@ import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.HeadedPawn;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.game.Hex.Terrain;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -130,7 +131,7 @@ public class Unit extends HeadedPawn
     @Override
     public int getEngagementRangeFrom(Tile tile)
     {
-        if ((type != UnitType.INFANTRY) && (((Hex) tile).terrain == Hex.Terrain.HILLS))
+        if (!isA(UnitType.INFANTRY) && tile.isA(Terrain.HILLS))
             return rng + 1;
         return rng;
     }
@@ -150,7 +151,7 @@ public class Unit extends HeadedPawn
     @Override
     public int getDefense(Tile tile)
     {
-        if (!isHardTarget() && (tile.isA(Hex.Terrain.HILLS) || tile.isA(Hex.Terrain.WOODS) || tile.isA(Hex.Terrain.TOWN)))
+        if (!isHardTarget() && (tile.isA(Terrain.HILLS) || tile.isA(Terrain.WOODS) || tile.isA(Terrain.TOWN)))
             return cdef;
 
         return def;
@@ -177,7 +178,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHq()
     {
-        return (type == UnitType.HARD_TARGET_HQ);
+        return isA(UnitType.HARD_TARGET_HQ);
     }
 
     @Override
@@ -192,7 +193,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHardTarget()
     {
-        return ((type == UnitType.HARD_TARGET) || (type == UnitType.HARD_TARGET_HQ) || (type == UnitType.ARTILLERY));
+        return (isA(UnitType.HARD_TARGET) || isA(UnitType.HARD_TARGET_HQ) || isA(UnitType.ARTILLERY));
     }
 
     @Override
@@ -219,7 +220,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean canAssistEngagementWithoutLos()
     {
-        return (type == UnitType.ARTILLERY);
+        return isA(UnitType.ARTILLERY);
     }
 
     @Override
