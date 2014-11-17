@@ -27,7 +27,7 @@ public class Unit extends HeadedPawn
         ARTILLERY
     }
 
-    public enum UnitId
+    public enum UnitId implements Pawn.PawnId
     {
         GE_AT_GUN("German Anti-Tank Gun"),
         GE_INFANTRY("German Infantry"),
@@ -154,6 +154,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isA(PawnId i)
+    {
+        return (id == i);
+    }
+
+    @Override
     public boolean isA(PawnType t)
     {
         return (type == t);
@@ -168,9 +174,9 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHqOf(Pawn other)
     {
-        if ((id == UnitId.GE_PANZER_IV_HQ) && (((Unit)other).id == UnitId.GE_PANZER_IV)) return true;
-        if ((id == UnitId.US_PERSHING_HQ) && (((Unit)other).id == UnitId.US_PERSHING)) return true;
-        if ((id == UnitId.US_SHERMAN_HQ) && (((Unit)other).id == UnitId.US_SHERMAN)) return true;
+        if (isA(UnitId.GE_PANZER_IV_HQ) && other.isA(UnitId.GE_PANZER_IV)) return true;
+        if (isA(UnitId.US_PERSHING_HQ) && other.isA(UnitId.US_PERSHING)) return true;
+        if (isA(UnitId.US_SHERMAN_HQ) && other.isA(UnitId.US_SHERMAN)) return true;
         return false;
     }
 
