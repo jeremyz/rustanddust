@@ -77,9 +77,9 @@ public class StateSelect extends StateCommon
             int moves = map.collectPossibleMoves(selectedUnit);
             int targets = 0;
             if (isEnemy)
-                targets = map.collectPossibleTargets(selectedUnit, ctrl.player.units);
+                targets = map.collectPossibleTargets(selectedUnit, ctrl.player.unitsAsPawns());
             else
-                targets = map.collectPossibleTargets(selectedUnit, ctrl.opponent.units);
+                targets = map.collectPossibleTargets(selectedUnit, ctrl.opponent.unitsAsPawns());
             if (moves > 0)
                 map.collectMoveablePawns(selectedUnit);
             showPossibilities(selectedUnit);
