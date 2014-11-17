@@ -22,6 +22,7 @@ public abstract class BattleCommon implements Battle
     protected Player usPlayer;
     protected Player gePlayer;
     protected ArrayList<EntryPoint> entryPoints = new ArrayList<EntryPoint>();
+    protected ArrayList<EntryPoint> exitPoints = new ArrayList<EntryPoint>();
     protected HashMap<Unit, EntryPoint> pawnEntry = new HashMap<Unit, EntryPoint>();
     protected TileSet objectives;
 
@@ -55,6 +56,11 @@ public abstract class BattleCommon implements Battle
     public void addEntryPoint(EntryPoint entry)
     {
         entryPoints.add(entry);
+    }
+
+    public void addExitPoint(EntryPoint exit)
+    {
+        exitPoints.add(exit);
     }
 
     public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId)
