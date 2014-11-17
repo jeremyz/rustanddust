@@ -22,6 +22,7 @@ public class Player
     public ArrayList<Unit> units;
     public ArrayList<Unit> casualties;
     public ArrayList<Unit> reinforcement;
+    public ArrayList<Unit> escaped;
 
     public int actionCount;
     public int lostEngagementCount;
@@ -33,6 +34,7 @@ public class Player
         this.units = new ArrayList<Unit>(n);
         this.casualties = new ArrayList<Unit>(n);
         this.reinforcement = new ArrayList<Unit>(n);
+        this.escaped = new ArrayList<Unit>(n);
         this.turn = 0;
         this.apSpent = 0;
         this.actionPoints = 0;
@@ -94,6 +96,11 @@ public class Player
         return casualties.size();
     }
 
+    public int escaped()
+    {
+        return escaped.size();
+    }
+
     public void addUnit(Unit unit)
     {
         units.add(unit);
@@ -120,6 +127,12 @@ public class Player
     {
         units.remove(unit);
         casualties.add(unit);
+    }
+
+    public void unitEscape(Unit unit)
+    {
+        units.remove(unit);
+        escaped.add(unit);
     }
 
     public int getAp()
