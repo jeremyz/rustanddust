@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game;
 
 import java.util.Iterator;
+import java.util.Random;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.assets.AssetManager;
@@ -25,6 +26,8 @@ public abstract class Map extends Board
 {
     private final Ctrl ctrl;
 
+    private Random rand = new Random();
+
     public final Board.TileCollection possibleMoves;
     public final PossiblePaths possiblePaths;
 
@@ -42,6 +45,11 @@ public abstract class Map extends Board
     private long soundId = -1;
 
     protected abstract void setup();
+
+    public int d6()
+    {
+        return rand.nextInt(6) + 1;
+    }
 
     public Map(final TankOnTank game, Board.Config cfg, String textureName)
     {
