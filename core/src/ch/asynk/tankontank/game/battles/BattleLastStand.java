@@ -122,7 +122,7 @@ public class BattleLastStand extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
 
-        geEntry = new EntryPoint(map, 36);
+        geEntry = new EntryPoint(map, 32);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 4; i++) {
             geEntry.add(map.getHex(i, 0));
