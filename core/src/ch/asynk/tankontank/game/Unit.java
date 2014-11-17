@@ -16,6 +16,7 @@ public class Unit extends HeadedPawn
     public static final int TARGET      = 1;
     public static final int FIRE        = 2;
     public static final int MAY_FIRE    = 3;
+    public static final int ACE         = 4;
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -57,12 +58,14 @@ public class Unit extends HeadedPawn
     public int mpLeft;
     public UnitType type;
     public UnitId id;
+    public boolean ace;
     private boolean hasMoved;
     private boolean hasFired;
 
     protected Unit(Army army, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
         super(army, pawn, head, pawns, overlays);
+        ace = false;
     }
 
     // hard tager
@@ -99,6 +102,17 @@ public class Unit extends HeadedPawn
     public Hex getHex()
     {
         return (Hex) getTile();
+    }
+
+    public boolean isAce()
+    {
+        return ace;
+    }
+
+    public void setAce(boolean ace)
+    {
+        this.ace = ace;
+        enableOverlay(ACE, ace);
     }
 
     @Override
