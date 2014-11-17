@@ -248,49 +248,63 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    public boolean engagePawn(Pawn pawn, final Pawn target, int d1, int d2)
+    private boolean resolve(Pawn pawn, final Pawn target)
     {
-        int activatedUnits = activatedPawns.size();
+        int d1 = d6();
+        int d2 = d6();
         int dice = d1 + d2;
 
-        final boolean success;
         if (dice == 2) {
             pawn.engagement.calculus = "2D6 -> (1 + 1) automatic failure";
-            success = false;
+            return false;
         } else if (dice == 12) {
             pawn.engagement.calculus = "2D6 -> (6 + 6) automatic success";
-            success = true;
+            return true;
         } else {
             int flankAttacks = 0;
             for (Pawn assist : activatedPawns) {
-                if (assist.isFlankAttack()) {
+                if (assist.isFlankAttack())
                     flankAttacks = 1;
-                    break;
-                }
             }
-            pawn.engagement.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
+            int activatedUnits = activatedPawns.size();
             int def = target.getTile().defenseFor(pawn, target, activatedPawns);
-            success = ((dice + activatedUnits + flankAttacks) >= def);
+            pawn.engagement.calculus = "2D6 -> (" + d1 + " + " + d2 + ") + " + activatedUnits + " + " + flankAttacks;
+            return ((dice + activatedUnits + flankAttacks) >= def);
         }
+    }
+
+    public boolean engagePawn(Pawn pawn, final Pawn target)
+    {
+        boolean mayReroll = false;
+        for (Pawn assist : activatedPawns) {
+            if (((Unit) assist).isAce())
+                mayReroll = true;
+        }
+
+        boolean success;
+        success = resolve(pawn, target);
+        if (!success && mayReroll) {
+            TankOnTank.debug("Reroll");
+            success = resolve(pawn, target);
+        }
+
         TankOnTank.debug(pawn + "  engagements " + target + " : " + pawn.engagement.calculus);
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
             explosions.init(1, target.getCenter().x, target.getCenter().y);
             seq.addAnimation(explosions);
+            seq.addAnimation(notifyDoneAnimation(pawn));
         } else {
             explosion.init(1, target.getCenter().x, target.getCenter().y);
             seq.addAnimation(explosion);
-        }
-        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                if (success) {
-                    removePawn(target);
+            seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+                @Override
+                public void run() {
+                    animationDone();
                 }
-                animationDone();
-            }
-        }));
+            }));
+        }
 
         breakPawns.clear();
         for (Pawn p : activatedPawns) {

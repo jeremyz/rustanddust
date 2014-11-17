@@ -54,9 +54,7 @@ public class StateEngage extends StateCommon
     public StateType done()
     {
         StateType nextState = StateType.DONE;
-        int d1 = ctrl.player.d6();
-        int d2 = ctrl.player.d6();
-        if (map.engagePawn(selectedUnit, activeUnit, d1, d2)) {
+        if (map.engagePawn(selectedUnit, activeUnit)) {
             ctrl.player.wonEngagementCount += 1;
             ctrl.hud.notify(selectedUnit.engagement.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
