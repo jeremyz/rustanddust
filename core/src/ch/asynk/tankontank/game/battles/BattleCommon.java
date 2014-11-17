@@ -18,8 +18,6 @@ public abstract class BattleCommon implements Battle
 
     protected String name;
     protected String description;
-    protected Army firstArmy;
-    protected Army secondArmy;
     protected Factory factory;
     protected ArrayList<EntryPoint> entryPoints = new ArrayList<EntryPoint>();
     protected HashMap<Unit, EntryPoint> pawnEntry = new HashMap<Unit, EntryPoint>();
@@ -43,22 +41,6 @@ public abstract class BattleCommon implements Battle
     public String getDescription()
     {
         return description;
-    }
-
-    public void randomizeArmies()
-    {
-        if (random.nextInt(2) == 0) {
-            firstArmy = Army.US;
-            secondArmy = Army.GE;
-        } else {
-            firstArmy = Army.GE;
-            secondArmy = Army.US;
-        }
-    }
-
-    public Player getPlayer(boolean first, boolean deploymentPhase)
-    {
-        return factory.getPlayer((first ? firstArmy : secondArmy));
     }
 
     public EntryPoint getEntryPoint(Unit unit)

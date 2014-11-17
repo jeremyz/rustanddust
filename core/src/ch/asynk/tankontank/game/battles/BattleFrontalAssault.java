@@ -19,8 +19,6 @@ public class BattleFrontalAssault extends BattleCommon
     public BattleFrontalAssault(Factory factory)
     {
         super(factory);
-        firstArmy = Army.GE;
-        secondArmy = Army.US;
         name = "Frontal Assault";
     }
 
@@ -28,6 +26,12 @@ public class BattleFrontalAssault extends BattleCommon
     public Map getMap()
     {
         return factory.getMap(Factory.MapType.MAP_A);
+    }
+
+    @Override
+    public Player getPlayer(boolean first, boolean deploymentPhase)
+    {
+        return factory.getPlayer((first ? Army.GE : Army.US));
     }
 
     @Override
