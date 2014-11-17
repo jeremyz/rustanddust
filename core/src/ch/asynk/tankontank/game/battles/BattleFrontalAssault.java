@@ -63,7 +63,7 @@ public class BattleFrontalAssault extends BattleCommon
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl)
+    public boolean getReinforcement(Ctrl ctrl, Map map)
     {
         return false;
     }
