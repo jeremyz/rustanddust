@@ -319,9 +319,9 @@ public abstract class Board implements Disposable
         assists.clear();
         setAdjacentTiles(pawn.getTile(), neighbours);
         for (int i = 0; i < 6; i++) {
-            Tile t = neighbours[i];
-            if (t != null) {
-                Iterator<Pawn> pawns = t.iterator();
+            Tile tile = neighbours[i];
+            if (tile != null) {
+                Iterator<Pawn> pawns = tile.iterator();
                 while(pawns.hasNext()) {
                     Pawn p = pawns.next();
                     if (!pawn.isEnemy(p) && p.canMove())
