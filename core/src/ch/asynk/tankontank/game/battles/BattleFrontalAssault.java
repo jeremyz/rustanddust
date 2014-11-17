@@ -31,7 +31,10 @@ public class BattleFrontalAssault extends BattleCommon
     @Override
     public Player getPlayer(boolean first, boolean deploymentPhase)
     {
-        return factory.getPlayer((first ? Army.GE : Army.US));
+        if (deploymentPhase)
+            return (first ? gePlayer : usPlayer);
+        else
+            return (first ? usPlayer : gePlayer);
     }
 
     @Override
@@ -82,17 +85,14 @@ public class BattleFrontalAssault extends BattleCommon
         }
 
         if (count > 1)
-            return ctrl.getPlayer(Army.US);
+            return usPlayer;
         else
-            return ctrl.getPlayer(Army.GE);
+            return gePlayer;
     }
 
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer = ctrl.getPlayer(Army.GE);
-        Player usPlayer = ctrl.getPlayer(Army.US);
-
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(2, 2));
         objectives.add(map.getHex(6, 4));

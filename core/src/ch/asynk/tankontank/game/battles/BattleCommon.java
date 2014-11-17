@@ -19,6 +19,8 @@ public abstract class BattleCommon implements Battle
     protected String name;
     protected String description;
     protected Factory factory;
+    protected Player usPlayer;
+    protected Player gePlayer;
     protected ArrayList<EntryPoint> entryPoints = new ArrayList<EntryPoint>();
     protected HashMap<Unit, EntryPoint> pawnEntry = new HashMap<Unit, EntryPoint>();
     protected TileSet objectives;
@@ -26,6 +28,8 @@ public abstract class BattleCommon implements Battle
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
+        this.usPlayer = factory.getPlayer(Army.US);
+        this.gePlayer = factory.getPlayer(Army.GE);
     }
 
     public String toString()

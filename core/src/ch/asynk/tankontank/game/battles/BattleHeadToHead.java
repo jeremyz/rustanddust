@@ -17,19 +17,12 @@ import ch.asynk.tankontank.engine.Orientation;
 public class BattleHeadToHead extends BattleCommon
 {
     private Army firstArmy;
-    private Army secondArmy;
 
     public BattleHeadToHead(Factory factory)
     {
         super(factory);
         name = "Head To Head";
-        if (random.nextInt(2) == 0) {
-            firstArmy = Army.US;
-            secondArmy = Army.GE;
-        } else {
-            firstArmy = Army.GE;
-            secondArmy = Army.US;
-        }
+        firstArmy = ((random.nextInt(2) == 0) ? Army.US : Army.GE);
     }
 
     @Override
@@ -41,7 +34,10 @@ public class BattleHeadToHead extends BattleCommon
     @Override
     public Player getPlayer(boolean first, boolean deploymentPhase)
     {
-        return factory.getPlayer((first ? firstArmy : secondArmy));
+        if (firstArmy == Army.US)
+            return (first ? usPlayer : gePlayer);
+        else
+            return (first ? gePlayer : usPlayer);
     }
 
     @Override
@@ -100,9 +96,6 @@ public class BattleHeadToHead extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer = ctrl.getPlayer(Army.GE);
-        Player usPlayer = ctrl.getPlayer(Army.US);
-
         gePlayer.deploymentDone();
         usPlayer.deploymentDone();
 
