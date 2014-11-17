@@ -47,7 +47,7 @@ public class BattleFrontalAssault extends BattleCommon
     @Override
     public boolean deploymentDone(Player player)
     {
-        int n = player.getReinforcement().size();
+        int n = player.reinforcement();
         if (n == 0) {
             player.deploymentDone();
             return true;

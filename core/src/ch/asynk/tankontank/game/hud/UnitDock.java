@@ -96,9 +96,9 @@ public class UnitDock extends Bg
     {
         float x = position.getX(rect.width * SCALE);
         if (done) {
-            pawns = ctrl.player.getReinforcement();
-            if(pawns.size() == 0)
+            if(ctrl.player.reinforcement() == 0)
                 return;
+            pawns = ctrl.player.reinforcement;
             rect.width = pawns.get(0).getWidth() + (2 * padding);
             rect.height = ((pawns.get(0).getHeight() * pawns.size()) + ((pawns.size() + 1) * padding));
             rect.x = (position.isLeft() ? (0 - (rect.width * SCALE)) : (x + (rect.width * SCALE)));

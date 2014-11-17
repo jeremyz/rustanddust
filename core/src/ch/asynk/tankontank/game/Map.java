@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.game;
 
-import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.audio.Sound;
@@ -118,7 +118,7 @@ public abstract class Map extends Board
         return possiblePaths.toggleCtrlTile(hex);
     }
 
-    public int collectPossibleTargets(Pawn pawn, Iterator<Pawn> foes)
+    public int collectPossibleTargets(Pawn pawn, List<Pawn> foes)
     {
         if (!pawn.canEngage()) {
             possibleTargets.clear();
@@ -140,7 +140,7 @@ public abstract class Map extends Board
         return moveablePawns.size();
     }
 
-    public int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units)
+    public int collectAttackAssists(Pawn pawn, Pawn target, List<Pawn> units)
     {
         int s = collectAttackAssists(pawn, target, units, engagementAssists);
         activatedPawns.add(pawn);

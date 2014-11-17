@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.engine;
 
+import java.util.List;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -302,11 +303,10 @@ public abstract class Board implements Disposable
         return searchBoard.possibleTargetsFrom(pawn, targets);
     }
 
-    protected int collectPossibleTargets(Pawn pawn, Iterator<Pawn> units, PawnCollection targets)
+    protected int collectPossibleTargets(Pawn pawn, List<Pawn> units, PawnCollection targets)
     {
         targets.clear();
-        while (units.hasNext()) {
-            Pawn target = units.next();
+        for (Pawn target : units) {
             if (pawn.canEngage(target) && searchBoard.collectAttacks(pawn, target, true))
                 targets.add(target);
         }
@@ -332,11 +332,10 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    protected int collectAttackAssists(Pawn pawn, Pawn target, Iterator<Pawn> units, PawnCollection assists)
+    protected int collectAttackAssists(Pawn pawn, Pawn target, List<Pawn> units, PawnCollection assists)
     {
         assists.clear();
-        while (units.hasNext()) {
-            Pawn p = units.next();
+        for (Pawn p : units) {
             if ((p != pawn) && p.canEngage(target) && searchBoard.collectAttacks(p, target, !p.canAssistEngagementWithoutLos()))
                 assists.add(p);
         }

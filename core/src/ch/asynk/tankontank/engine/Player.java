@@ -9,10 +9,10 @@ import ch.asynk.tankontank.engine.Pawn;
 
 public abstract class Player
 {
-    protected Faction faction;
-    protected ArrayList<Pawn> units;
-    protected ArrayList<Pawn> casualties;
-    protected ArrayList<Pawn> reinforcement;
+    public Faction faction;
+    public ArrayList<Pawn> units;
+    public ArrayList<Pawn> casualties;
+    public ArrayList<Pawn> reinforcement;
 
     public abstract void turnEnd();
     public abstract void turnStart();
@@ -23,26 +23,6 @@ public abstract class Player
         this.units = new ArrayList<Pawn>(n);
         this.casualties = new ArrayList<Pawn>(n);
         this.reinforcement = new ArrayList<Pawn>(n);
-    }
-
-    public Faction getFaction()
-    {
-        return faction;
-    }
-
-    public List<Pawn> getReinforcement()
-    {
-        return reinforcement;
-    }
-
-    public int unitsLeft()
-    {
-        return (units.size() + reinforcement.size());
-    }
-
-    public int casualties()
-    {
-        return casualties.size();
     }
 
     public String getName()
@@ -63,6 +43,21 @@ public abstract class Player
     public boolean isEnemy(Faction other)
     {
         return faction.isEnemy(other);
+    }
+
+    public int unitsLeft()
+    {
+        return (units.size() + reinforcement.size());
+    }
+
+    public int reinforcement()
+    {
+        return reinforcement.size();
+    }
+
+    public int casualties()
+    {
+        return casualties.size();
     }
 
     public void addUnit(Pawn pawn)
@@ -91,10 +86,5 @@ public abstract class Player
     {
         units.remove(pawn);
         casualties.add(pawn);
-    }
-
-    public Iterator<Pawn> unitIterator()
-    {
-        return units.iterator();
     }
 }

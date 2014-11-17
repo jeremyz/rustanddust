@@ -95,7 +95,7 @@ public class PlayerInfo implements Disposable, Drawable
         unitDock.hide();
         turns.write("" + player.getTurn());
         aps.write("" + player.getAp());
-        int r = player.getReinforcement().size();
+        int r = player.reinforcement();
         if (r == 0) {
             reinforcement.visible = false;
         } else {
@@ -103,7 +103,7 @@ public class PlayerInfo implements Disposable, Drawable
             reinforcement.write("" + r);
         }
 
-        if (player.getFaction() == Army.GE)
+        if (player.is(Army.GE))
             flag = geFlag;
         else
             flag = usFlag;
