@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
-import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
+import ch.asynk.tankontank.game.Unit;
 
 public class UnitDock extends Bg
 {
@@ -28,9 +28,9 @@ public class UnitDock extends Bg
     private Position position;
     private boolean show;
     private boolean done;
-    public Pawn selectedPawn;
+    public Unit selectedUnit;
     private Sprite selected;
-    private List<Pawn> pawns;
+    private List<Unit> units;
     private Vector3 point;
     private Matrix4 saved;
     private Matrix4 transform;
@@ -83,12 +83,12 @@ public class UnitDock extends Bg
     public boolean hit(float x, float y)
     {
         if (visible && scaledRect.contains(x, y)) {
-            int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / pawns.size()));
-            selectedPawn = pawns.get(i);
-            ctrl.hud.notify(selectedPawn.toString());
+            int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
+            selectedUnit = units.get(i);
+            ctrl.hud.notify(selectedUnit.toString());
             return true;
         }
-        selectedPawn = null;
+        selectedUnit = null;
         return false;
     }
 
@@ -98,24 +98,24 @@ public class UnitDock extends Bg
         if (done) {
             if(ctrl.player.reinforcement() == 0)
                 return;
-            pawns = ctrl.player.reinforcement;
-            rect.width = pawns.get(0).getWidth() + (2 * padding);
-            rect.height = ((pawns.get(0).getHeight() * pawns.size()) + ((pawns.size() + 1) * padding));
+            units = ctrl.player.reinforcement;
+            rect.width = units.get(0).getWidth() + (2 * padding);
+            rect.height = ((units.get(0).getHeight() * units.size()) + ((units.size() + 1) * padding));
             rect.x = (position.isLeft() ? (0 - (rect.width * SCALE)) : (x + (rect.width * SCALE)));
             rect.y = y - rect.height;
             // position units here
             float px = rect.x;
             float py = rect.y + rect.height;
-            float ph = pawns.get(0).getHeight();
-            for (Pawn pawn : pawns) {
+            float ph = units.get(0).getHeight();
+            for (Unit unit : units) {
                 py -= (ph + padding);
-                // pawn.setPosition(px, py, Orientation.SOUTH.r());
-                pawn.centerOn((px + (rect.width / 2)), py + (ph / 2));
-                pawn.setRotation(Orientation.SOUTH.r());
+                // unit.setPosition(px, py, Orientation.SOUTH.r());
+                unit.centerOn((px + (rect.width / 2)), py + (ph / 2));
+                unit.setRotation(Orientation.SOUTH.r());
             }
         }
 
-        selectedPawn = null;
+        selectedUnit = null;
         to = x;
         show = true;
         done = false;
@@ -165,10 +165,10 @@ public class UnitDock extends Bg
         batch.setTransformMatrix(transform);
 
         super.draw(batch);
-        for (Pawn pawn : pawns) {
-            pawn.draw(batch);
-            if (pawn == selectedPawn) {
-                selected.setCenter((pawn.getX() + (pawn.getWidth() / 2)), (pawn.getY() + (pawn.getHeight() / 2)));
+        for (Unit unit : units) {
+            unit.draw(batch);
+            if (unit == selectedUnit) {
+                selected.setCenter((unit.getX() + (unit.getWidth() / 2)), (unit.getY() + (unit.getHeight() / 2)));
                 selected.draw(batch);
             }
         }

@@ -50,7 +50,7 @@ public class StateReinforcement extends StateCommon
     @Override
     public void touchUp()
     {
-        Unit unit = ctrl.hud.playerInfo.getDockUnit();
+        Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
         if ((unit != null) && (unit != activeUnit))
             changeUnit(unit);
         else if ((entryPoint != null) && upHex.isEmpty() && entryPoint.contains(upHex))

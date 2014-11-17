@@ -61,7 +61,7 @@ public class StateDeployment extends StateCommon
     @Override
     public void touchUp()
     {
-        Unit unit = ctrl.hud.playerInfo.getDockUnit();
+        Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
         if (!done && (unit != null) && (unit != activeUnit)) {
             changeUnit(unit);
         } else if (selectedUnit != null) {

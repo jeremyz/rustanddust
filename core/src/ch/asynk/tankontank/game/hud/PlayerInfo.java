@@ -111,11 +111,6 @@ public class PlayerInfo implements Disposable, Drawable
         setPosition(position);
     }
 
-    public Unit getDockUnit()
-    {
-        return (Unit) unitDock.selectedPawn;
-    }
-
     public void blockEndOfTurn(boolean blocked)
     {
         turns.blocked = blocked;
