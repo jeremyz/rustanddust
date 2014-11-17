@@ -19,6 +19,8 @@ public class Unit extends HeadedPawn
     public static final int MAY_FIRE    = 3;
     public static final int ACE         = 4;
 
+    public static final int FLANK_ATTACK_BONUS = 1;
+
     public enum UnitType implements Pawn.PawnType
     {
         HARD_TARGET,
