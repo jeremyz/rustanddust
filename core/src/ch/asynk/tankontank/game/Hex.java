@@ -9,6 +9,7 @@ import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.game.Unit.UnitType;
 
 public class Hex extends Tile
 {
@@ -60,16 +61,16 @@ public class Hex extends Tile
     @Override
     public boolean isOffMap()
     {
-        return terrain == Terrain.OFFMAP;
+        return isA(Terrain.OFFMAP);
     }
 
     @Override
     public boolean blockLineOfSightFrom(Tile tile)
     {
-        if ((terrain == Terrain.CLEAR) && !hasUnits())
+        if (isA(Terrain.CLEAR) && !hasUnits())
             return false;
 
-        if ((((Hex) tile).terrain == Terrain.HILLS) && (terrain == Terrain.CLEAR))
+        if (tile.isA(Terrain.HILLS) && isA(Terrain.CLEAR))
             return false;
 
         return true;
@@ -78,7 +79,7 @@ public class Hex extends Tile
     @Override
     public boolean atLeastOneMove(Pawn pawn)
     {
-        if (hasUnits() || (terrain == Terrain.BLOCKED) || (terrain == Terrain.OFFMAP))
+        if (hasUnits() || isA(Terrain.BLOCKED) || isA(Terrain.OFFMAP))
             return false;
         return true;
     }
@@ -121,7 +122,7 @@ public class Hex extends Tile
         boolean terrainBonus = true;
 
         for (Pawn foe : foes) {
-            if (((Unit) foe).type == Unit.UnitType.INFANTRY)
+            if (foe.isA(UnitType.INFANTRY))
                 terrainBonus = false;
         }
 
@@ -129,12 +130,12 @@ public class Hex extends Tile
         int def = u.def;
         switch(terrain) {
             case HILLS:
-                if (u.type != Unit.UnitType.HARD_TARGET)
+                if (!u.isA(UnitType.HARD_TARGET))
                     def = u.cdef;
                 break;
             case WOODS:
             case TOWN:
-                if (u.type != Unit.UnitType.HARD_TARGET)
+                if (!u.isA(UnitType.HARD_TARGET))
                     def = u.cdef;
                 if (terrainBonus)
                     tdef = 1;
