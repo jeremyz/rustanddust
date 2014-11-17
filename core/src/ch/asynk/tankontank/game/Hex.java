@@ -116,36 +116,8 @@ public class Hex extends Tile
     }
 
     @Override
-    public int defenseFor(Pawn pawn, Pawn target, Board.PawnCollection foes)
+    public int defense()
     {
-        Unit u = (Unit) target;
-        boolean terrainBonus = true;
-
-        for (Pawn foe : foes) {
-            if (foe.isA(UnitType.INFANTRY))
-                terrainBonus = false;
-        }
-
-        int tdef = 0;
-        int def = u.def;
-        switch(terrain) {
-            case HILLS:
-                if (!u.isA(UnitType.HARD_TARGET))
-                    def = u.cdef;
-                break;
-            case WOODS:
-            case TOWN:
-                if (!u.isA(UnitType.HARD_TARGET))
-                    def = u.cdef;
-                if (terrainBonus)
-                    tdef = 1;
-                break;
-            default:
-                def = ((Unit) target).def;
-                break;
-        }
-
-        pawn.engagement.calculus += " >= " + def + " + " + tdef;
-        return (def + tdef);
+        return (isA(Terrain.TOWN) ? 1 : 0);
     }
 }

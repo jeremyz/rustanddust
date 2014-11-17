@@ -28,7 +28,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     private StackedImages overlays;
     private ArrayDeque<Pawn> stack;
 
-    public abstract int defenseFor(Pawn pawn, Pawn target, Board.PawnCollection foes);
+    public abstract int defense();
     public abstract int costFrom(Pawn pawn, Orientation side);
 
     public abstract boolean isOffMap();
