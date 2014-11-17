@@ -31,3 +31,10 @@ repeat: none
   orig: 100, 150
   offset: 0, 0
   index: -1
+04_ace
+  rotate: false
+  xy: 438, 40
+  size: 35, 204
+  orig: 35, 204
+  offset: 0, 0
+  index: -1
