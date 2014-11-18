@@ -193,7 +193,7 @@ public abstract class Map extends Board
     public void leaveBoard(Pawn pawn)
     {
         removePawn(pawn);
-        pawn.reset();
+        activatedPawns.add(pawn);
     }
 
     public int movePawn(Pawn pawn, Orientation o)
