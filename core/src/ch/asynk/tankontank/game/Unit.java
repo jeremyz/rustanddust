@@ -192,6 +192,34 @@ public class Unit extends HeadedPawn
         return false;
     }
 
+    public void promote()
+    {
+        if (isA(UnitId.GE_PANZER_IV))
+            id = UnitId.GE_PANZER_IV_HQ;
+        else if (isA(UnitId.US_PERSHING))
+            id = UnitId.US_PERSHING_HQ;
+        else if (isA(UnitId.US_SHERMAN))
+            id = UnitId.US_SHERMAN_HQ;
+        else
+            return;
+
+        type = UnitType.HARD_TARGET_HQ;
+    }
+
+    public void degrade()
+    {
+        if (isA(UnitId.GE_PANZER_IV_HQ))
+            id = UnitId.GE_PANZER_IV;
+        else if (isA(UnitId.US_PERSHING_HQ))
+            id = UnitId.US_PERSHING;
+        else if (isA(UnitId.US_SHERMAN_HQ))
+            id = UnitId.US_SHERMAN;
+        else
+            return;
+
+        type = UnitType.HARD_TARGET;
+    }
+
     @Override
     public boolean isHardTarget()
     {
