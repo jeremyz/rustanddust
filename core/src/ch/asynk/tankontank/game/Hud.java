@@ -37,6 +37,7 @@ public class Hud implements Disposable
 
     enum DialogAction
     {
+        EXIT_BOARD,
         END_TURN,
         END_DEPLOYMENT,
         END_GAME
@@ -165,6 +166,9 @@ public class Hud implements Disposable
         boolean ok = okCancel.ok;
         switch(dialogAction)
         {
+            case EXIT_BOARD:
+                ctrl.exitBoard(ok);
+                break;
             case END_TURN:
                 if (ok)
                     ctrl.abortPlayerTurn();
@@ -187,6 +191,13 @@ public class Hud implements Disposable
         ctrl.blockMap = true;
         dialogAction = DialogAction.END_TURN;
         okCancel.show("You have no more Action Points left.", Position.MIDDLE_CENTER, false);
+    }
+
+    public void askExitBoard()
+    {
+        ctrl.blockMap = true;
+        dialogAction = DialogAction.EXIT_BOARD;
+        okCancel.show("Do you want this unit to escape the battle fierd ?", Position.MIDDLE_CENTER);
     }
 
     public void askEndOfTurn()
