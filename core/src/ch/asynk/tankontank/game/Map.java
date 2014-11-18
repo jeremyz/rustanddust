@@ -196,13 +196,6 @@ public abstract class Map extends Board
         pawn.reset();
     }
 
-    public void promote(Pawn pawn, Pawn with)
-    {
-        removePawn(pawn);
-        setPawnOnto(with, pawn.getTile(), pawn.getOrientation());
-        activatedPawns.add(with);
-    }
-
     public int movePawn(Pawn pawn, Orientation o)
     {
         possiblePaths.orientation = o;

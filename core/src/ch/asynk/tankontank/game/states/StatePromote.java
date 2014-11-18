@@ -10,8 +10,10 @@ public class StatePromote extends StateCommon
         ctrl.hud.actionButtons.hide();
         Unit unit = ctrl.player.promote(selectedUnit);
         if (unit != null) {
+            // TODO this must burn 1 AP down !!!!!
             ctrl.hud.notify(unit + " has been promoted");
-            map.promote(selectedUnit, unit);
+            selectedUnit.promote();
+            unit.degrade();
         }
         done();
     }
