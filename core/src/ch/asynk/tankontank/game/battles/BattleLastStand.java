@@ -11,7 +11,7 @@ import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleLastStand extends BattleCommon
@@ -107,7 +107,7 @@ public class BattleLastStand extends BattleCommon
         objectives.add(map.getHex(1, 2));
         objectives.enable(Hex.OBJECTIVE, true);
 
-        EntryPoint geEntry = new EntryPoint(map, 7);
+        Zone geEntry = new Zone(map, 7);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(map.getHex(5, 5));
         geEntry.add(map.getHex(4, 4));
@@ -116,13 +116,13 @@ public class BattleLastStand extends BattleCommon
         geEntry.add(map.getHex(6, 4));
         geEntry.add(map.getHex(6, 5));
         geEntry.add(map.getHex(5, 4));
-        addEntryPoint(geEntry);
+        addEntryZone(geEntry);
 
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER, true);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
 
-        geEntry = new EntryPoint(map, 32);
+        geEntry = new Zone(map, 32);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 4; i++) {
             geEntry.add(map.getHex(i, 0));
@@ -137,12 +137,12 @@ public class BattleLastStand extends BattleCommon
             geEntry.add(map.getHex((i + 3), 5));
             geEntry.add(map.getHex((i + 4), 7));
         }
-        addEntryPoint(geEntry);
+        addEntryZone(geEntry);
 
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
 
-        EntryPoint usEntry = new EntryPoint(map, 11);
+        Zone usEntry = new Zone(map, 11);
         usEntry.orientation = Orientation.SOUTH;
         usEntry.add(map.getHex(9, 0));
         usEntry.add(map.getHex(9, 1));
@@ -155,7 +155,7 @@ public class BattleLastStand extends BattleCommon
         usEntry.add(map.getHex(13, 8));
         usEntry.add(map.getHex(10, 4));
         usEntry.add(map.getHex(11, 6));
-        addEntryPoint(usEntry);
+        addEntryZone(usEntry);
 
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);

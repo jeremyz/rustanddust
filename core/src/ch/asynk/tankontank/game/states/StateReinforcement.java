@@ -1,13 +1,13 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 public class StateReinforcement extends StateCommon
 {
-    private EntryPoint entryPoint;
+    private Zone entryZone;
 
     @Override
     public void enter(StateType prevState)
@@ -15,7 +15,7 @@ public class StateReinforcement extends StateCommon
         map.clearAll();
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        entryPoint = null;
+        entryZone = null;
         selectedHex = null;
         ctrl.hud.playerInfo.unitDock.show();
     }
@@ -25,8 +25,8 @@ public class StateReinforcement extends StateCommon
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        if (entryPoint != null)
-            entryPoint.enable(Hex.AREA, false);
+        if (entryZone != null)
+            entryZone.enable(Hex.AREA, false);
         ctrl.hud.playerInfo.unitDock.hide();
     }
 
@@ -53,7 +53,7 @@ public class StateReinforcement extends StateCommon
         Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
         if ((unit != null) && (unit != activeUnit))
             changeUnit(unit);
-        else if ((entryPoint != null) && upHex.isEmpty() && entryPoint.contains(upHex))
+        else if ((entryZone != null) && upHex.isEmpty() && entryZone.contains(upHex))
             unitEnter(activeUnit);
         else
             ctrl.setState(StateType.SELECT);
@@ -62,10 +62,10 @@ public class StateReinforcement extends StateCommon
     private void changeUnit(Unit unit)
     {
         activeUnit = unit;
-        if (entryPoint != null)
-            entryPoint.enable(Hex.AREA, false);
-        entryPoint = ctrl.battle.getEntryPoint(activeUnit);
-        entryPoint.enable(Hex.AREA, true);
+        if (entryZone != null)
+            entryZone.enable(Hex.AREA, false);
+        entryZone = ctrl.battle.getEntryZone(activeUnit);
+        entryZone.enable(Hex.AREA, true);
         ctrl.hud.actionButtons.show(((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
     }
 
@@ -74,9 +74,9 @@ public class StateReinforcement extends StateCommon
         selectedUnit = unit;
         selectedHex = upHex;
         map.selectHex(selectedHex);
-        entryPoint.enable(Hex.AREA, false);
+        entryZone.enable(Hex.AREA, false);
         ctrl.player.unitEntry(unit);
-        if (map.enterBoard(unit, upHex, entryPoint.allowedMoves)) {
+        if (map.enterBoard(unit, upHex, entryZone.allowedMoves)) {
             if (unit.getMovementPoints() > 0)
                 ctrl.setState(StateType.MOVE);
             else

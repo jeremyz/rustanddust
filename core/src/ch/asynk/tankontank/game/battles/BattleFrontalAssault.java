@@ -11,7 +11,7 @@ import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleFrontalAssault extends BattleCommon
@@ -99,7 +99,7 @@ public class BattleFrontalAssault extends BattleCommon
         objectives.add(map.getHex(6, 1));
         objectives.enable(Hex.OBJECTIVE, true);
 
-        EntryPoint geEntry = new EntryPoint(map, 38);
+        Zone geEntry = new Zone(map, 38);
         geEntry.orientation = Orientation.NORTH_WEST;
         for (int i = 2; i < 12; i++)
             geEntry.add(map.getHex(i, 4));
@@ -109,7 +109,7 @@ public class BattleFrontalAssault extends BattleCommon
             geEntry.add(map.getHex(i, 2));
         for (int i = 1; i < 10; i++)
             geEntry.add(map.getHex(i, 1));
-        addEntryPoint(geEntry);
+        addEntryZone(geEntry);
 
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
@@ -120,13 +120,13 @@ public class BattleFrontalAssault extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
-        EntryPoint usEntry = new EntryPoint(map, 19);
+        Zone usEntry = new Zone(map, 19);
         usEntry.orientation = Orientation.SOUTH_EAST;
         for (int i = 4; i < 14; i++)
             usEntry.add(map.getHex(i, 8));
         for (int i = 4; i < 13; i++)
             usEntry.add(map.getHex(i, 7));
-        addEntryPoint(usEntry);
+        addEntryZone(usEntry);
 
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);

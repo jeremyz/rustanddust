@@ -1,6 +1,6 @@
 package ch.asynk.tankontank.game;
 
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.hud.Position;
@@ -19,7 +19,7 @@ public interface Battle
 
     public boolean getReinforcement(Ctrl ctrl, Map map);
 
-    public EntryPoint getEntryPoint(Unit unit);
+    public Zone getEntryZone(Unit unit);
 
     public Position getHudPosition(Player player);
 

@@ -11,7 +11,7 @@ import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleCounterAttack extends BattleCommon
@@ -70,7 +70,7 @@ public class BattleCounterAttack extends BattleCommon
         if (ctrl.player.getTurn() != 5)
             return false;
 
-        EntryPoint usEntry = new EntryPoint(map, 9);
+        Zone usEntry = new Zone(map, 9);
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(9, 0));
         usEntry.add(map.getHex(9, 1));
@@ -81,7 +81,7 @@ public class BattleCounterAttack extends BattleCommon
         usEntry.add(map.getHex(12, 6));
         usEntry.add(map.getHex(12, 7));
         usEntry.add(map.getHex(13, 8));
-        addEntryPoint(usEntry);
+        addEntryZone(usEntry);
 
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
@@ -110,7 +110,7 @@ public class BattleCounterAttack extends BattleCommon
         Player gePlayer = ctrl.getPlayer(Army.GE);
         Player usPlayer = ctrl.getPlayer(Army.US);
 
-        EntryPoint geEntry = new EntryPoint(map, 18);
+        Zone geEntry = new Zone(map, 18);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 2; i++) {
             geEntry.add(map.getHex((1 + i), 0));
@@ -123,7 +123,7 @@ public class BattleCounterAttack extends BattleCommon
             geEntry.add(map.getHex((4 + i), 7));
             geEntry.add(map.getHex((5 + i), 8));
         }
-        addEntryPoint(geEntry);
+        addEntryZone(geEntry);
 
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
@@ -136,7 +136,7 @@ public class BattleCounterAttack extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
 
-        EntryPoint geExit = new EntryPoint(map, 9);
+        Zone geExit = new Zone(map, 9);
         geExit.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
         geExit.add(map.getHex(9, 0));
         geExit.add(map.getHex(9, 1));
@@ -147,9 +147,9 @@ public class BattleCounterAttack extends BattleCommon
         geExit.add(map.getHex(12, 6));
         geExit.add(map.getHex(12, 7));
         geExit.add(map.getHex(13, 8));
-        addExitPoint(geExit);
+        addExitZone(geExit);
 
-        EntryPoint usEntry = new EntryPoint(map, 36);
+        Zone usEntry = new Zone(map, 36);
         usEntry.orientation = Orientation.SOUTH;
         for (int i = 0; i < 4; i++) {
             usEntry.add(map.getHex((6 + i), 0));
@@ -162,7 +162,7 @@ public class BattleCounterAttack extends BattleCommon
             usEntry.add(map.getHex((9 + i), 7));
             usEntry.add(map.getHex((10 + i), 8));
         }
-        addEntryPoint(usEntry);
+        addEntryZone(usEntry);
 
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
@@ -170,6 +170,5 @@ public class BattleCounterAttack extends BattleCommon
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-
     }
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.Player;
@@ -21,9 +21,9 @@ public abstract class BattleCommon implements Battle
     protected Factory factory;
     protected Player usPlayer;
     protected Player gePlayer;
-    protected ArrayList<EntryPoint> entryPoints = new ArrayList<EntryPoint>();
-    protected ArrayList<EntryPoint> exitPoints = new ArrayList<EntryPoint>();
-    protected HashMap<Unit, EntryPoint> pawnEntry = new HashMap<Unit, EntryPoint>();
+    protected ArrayList<Zone> entryZone = new ArrayList<Zone>();
+    protected ArrayList<Zone> exitZone = new ArrayList<Zone>();
+    protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected TileSet objectives;
 
     public BattleCommon(Factory factory)
@@ -48,31 +48,31 @@ public abstract class BattleCommon implements Battle
         return description;
     }
 
-    public EntryPoint getEntryPoint(Unit unit)
+    public Zone getEntryZone(Unit unit)
     {
-        return pawnEntry.get(unit);
+        return unitEntry.get(unit);
     }
 
-    public void addEntryPoint(EntryPoint entry)
+    public void addEntryZone(Zone entry)
     {
-        entryPoints.add(entry);
+        entryZone.add(entry);
     }
 
-    public void addExitPoint(EntryPoint exit)
+    public void addExitZone(Zone exit)
     {
-        exitPoints.add(exit);
+        exitZone.add(exit);
     }
 
-    public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId)
+    public void addReinforcement(Player player, Zone entryZone, UnitId unitId)
     {
-        addReinforcement(player, entryPoint, unitId, false);
+        addReinforcement(player, entryZone, unitId, false);
     }
 
-    public void addReinforcement(Player player, EntryPoint entryPoint, UnitId unitId, boolean ace)
+    public void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean ace)
     {
         Unit unit = factory.getUnit(unitId);
         unit.setAce(ace);
         player.addReinforcement(unit);
-        pawnEntry.put(unit, entryPoint);
+        unitEntry.put(unit, entryZone);
     }
 }

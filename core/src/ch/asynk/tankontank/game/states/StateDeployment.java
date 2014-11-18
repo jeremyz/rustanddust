@@ -1,7 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
-import ch.asynk.tankontank.engine.EntryPoint;
+import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.PawnSet;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
@@ -12,7 +12,7 @@ import ch.asynk.tankontank.TankOnTank;
 public class StateDeployment extends StateCommon
 {
     private boolean done;
-    private EntryPoint entryPoint;
+    private Zone entryZone;
     private PawnSet deployedUnits = new PawnSet(map, 10);
 
     @Override
@@ -21,7 +21,7 @@ public class StateDeployment extends StateCommon
         if (selectedHex != null)
             map.unselectHex(selectedHex);
         done = false;
-        entryPoint = null;
+        entryZone = null;
         selectedHex = null;
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
@@ -33,8 +33,8 @@ public class StateDeployment extends StateCommon
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        if (entryPoint != null)
-            entryPoint.enable(Hex.AREA, false);
+        if (entryZone != null)
+            entryZone.enable(Hex.AREA, false);
         ctrl.hud.playerInfo.unitDock.hide();
     }
 
@@ -68,8 +68,8 @@ public class StateDeployment extends StateCommon
             Orientation o = Orientation.fromAdj(selectedHex, upHex);
             if (o != Orientation.KEEP)
                 doRotation(o);
-        } else if (!done && (entryPoint != null) && (upHex != null)) {
-            if (upHex.isEmpty() && entryPoint.contains(upHex))
+        } else if (!done && (entryZone != null) && (upHex != null)) {
+            if (upHex.isEmpty() && entryZone.contains(upHex))
                 unitEnter(activeUnit);
         } else {
             unit = downHex.getUnit();
@@ -84,9 +84,9 @@ public class StateDeployment extends StateCommon
     private void changeUnit(Unit unit)
     {
         activeUnit = unit;
-        if (entryPoint != null) entryPoint.enable(Hex.AREA, false);
-        entryPoint = ctrl.battle.getEntryPoint(activeUnit);
-        entryPoint.enable(Hex.AREA, true);
+        if (entryZone != null) entryZone.enable(Hex.AREA, false);
+        entryZone = ctrl.battle.getEntryZone(activeUnit);
+        entryZone.enable(Hex.AREA, true);
     }
 
     private void undo()
@@ -105,9 +105,9 @@ public class StateDeployment extends StateCommon
         selectedUnit = unit;
         selectedHex = upHex;
         ctrl.player.unitEntry(unit);
-        map.enterBoard(unit, upHex, entryPoint.orientation);
+        map.enterBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
-        entryPoint.enable(Hex.AREA, false);
+        entryZone.enable(Hex.AREA, false);
         showRotation();
         ctrl.hud.update();
     }
@@ -128,7 +128,7 @@ public class StateDeployment extends StateCommon
         selectedUnit.setRotation(o.r());
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
-        entryPoint = null;
+        entryZone = null;
         activeUnit = null;
         selectedUnit = null;
         if (ctrl.checkDeploymentDone()) {
