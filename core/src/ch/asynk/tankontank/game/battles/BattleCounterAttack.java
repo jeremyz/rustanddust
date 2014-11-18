@@ -111,7 +111,7 @@ public class BattleCounterAttack extends BattleCommon
         Player usPlayer = ctrl.getPlayer(Army.US);
 
         Zone geExit = new Zone(map, 9);
-        geExit.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
+        geExit.orientation = Orientation.NORTH;
         geExit.add(map.getHex(9, 0));
         geExit.add(map.getHex(9, 1));
         geExit.add(map.getHex(10, 2));
