@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
@@ -13,6 +12,13 @@ public class StateMove extends StateCommon
         boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
         ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.MOVE.b | ((moreThanOne) ? Buttons.DONE.b : 0) | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.MOVE);
+
+        if (prevState == StateType.ESCAPE) {
+            if (map.possiblePaths.size() == 1)
+                ctrl.setState(StateType.ROTATE);
+            return;
+        }
+
         map.possiblePaths.clear();
 
         if (prevState == StateType.SELECT) {
@@ -25,7 +31,8 @@ public class StateMove extends StateCommon
                 // quick move -> replay touchUp
                 upHex = to;
                 touchUp();
-            }
+            } else
+                checkExit(activeUnit, activeUnit.getHex());
         } else {
             // back from rotation -> chose next Pawn
             if (selectedUnit.canMove()) {
@@ -39,6 +46,9 @@ public class StateMove extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
+        if (nextState == StateType.ESCAPE)
+            return;
+
         // hide all but assists : want them when in rotation
         activeUnit.hideMoveable();
         map.hidePossibleMoves();
@@ -102,7 +112,8 @@ public class StateMove extends StateCommon
         }
 
         if (s == 1) {
-            ctrl.setState(StateType.ROTATE);
+            if (!checkExit(activeUnit, to))
+                ctrl.setState(StateType.ROTATE);
         }
     }
 
@@ -123,6 +134,7 @@ public class StateMove extends StateCommon
         map.hidePossibleMoves();
         map.collectPossibleMoves(activeUnit);
         map.showPossibleMoves();
+        checkExit(activeUnit, activeUnit.getHex());
     }
 
     private int collectPaths(Hex hex)
