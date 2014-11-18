@@ -110,6 +110,19 @@ public class BattleCounterAttack extends BattleCommon
         Player gePlayer = ctrl.getPlayer(Army.GE);
         Player usPlayer = ctrl.getPlayer(Army.US);
 
+        Zone geExit = new Zone(map, 9);
+        geExit.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
+        geExit.add(map.getHex(9, 0));
+        geExit.add(map.getHex(9, 1));
+        geExit.add(map.getHex(10, 2));
+        geExit.add(map.getHex(10, 3));
+        geExit.add(map.getHex(11, 4));
+        geExit.add(map.getHex(11, 5));
+        geExit.add(map.getHex(12, 6));
+        geExit.add(map.getHex(12, 7));
+        geExit.add(map.getHex(13, 8));
+        addExitZone(geExit);
+
         Zone geEntry = new Zone(map, 18);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 2; i++) {
@@ -125,29 +138,16 @@ public class BattleCounterAttack extends BattleCommon
         }
         addEntryZone(geEntry);
 
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
-
-        Zone geExit = new Zone(map, 9);
-        geExit.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
-        geExit.add(map.getHex(9, 0));
-        geExit.add(map.getHex(9, 1));
-        geExit.add(map.getHex(10, 2));
-        geExit.add(map.getHex(10, 3));
-        geExit.add(map.getHex(11, 4));
-        geExit.add(map.getHex(11, 5));
-        geExit.add(map.getHex(12, 6));
-        geExit.add(map.getHex(12, 7));
-        geExit.add(map.getHex(13, 8));
-        addExitZone(geExit);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_WESPE);
 
         Zone usEntry = new Zone(map, 36);
         usEntry.orientation = Orientation.SOUTH;
