@@ -211,6 +211,14 @@ public class PossiblePaths implements Iterable<Vector3>
         return cost;
     }
 
+    public void setExit(Orientation exit)
+    {
+        List<Tile> path = getPath(0);
+        Tile exitTile = board.getAdjTileAt(to, exit);
+        path.add(to);
+        to = exitTile;
+    }
+
     private List<Tile> getPath(int i)
     {
         if (ctrlTiles.size() == 0)
