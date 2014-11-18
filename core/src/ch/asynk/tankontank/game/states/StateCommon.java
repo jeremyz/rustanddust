@@ -32,12 +32,14 @@ public abstract class StateCommon implements State
         this.map = map;
     }
 
+    @Override
     public boolean downInMap(float x, float y)
     {
         downHex = map.getHexAt(x, y);
         return (downHex != null);
     }
 
+    @Override
     public boolean upInMap(float x, float y)
     {
         upHex = map.getHexAt(x, y);
