@@ -24,6 +24,7 @@ public abstract class BattleCommon implements Battle
     protected ArrayList<Zone> entryZone = new ArrayList<Zone>();
     protected ArrayList<Zone> exitZone = new ArrayList<Zone>();
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
+    protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
     protected TileSet objectives;
 
     public BattleCommon(Factory factory)
@@ -57,6 +58,12 @@ public abstract class BattleCommon implements Battle
         return unitEntry.get(unit);
     }
 
+    @Override
+    public Zone getExitZone(Unit unit)
+    {
+        return unitExit.get(unit);
+    }
+
     public void addEntryZone(Zone entry)
     {
         entryZone.add(entry);
@@ -72,11 +79,23 @@ public abstract class BattleCommon implements Battle
         addReinforcement(player, entryZone, unitId, false);
     }
 
+    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId)
+    {
+        addReinforcement(player, entryZone, exitZone, unitId, false);
+    }
+
     public void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean ace)
+    {
+        addReinforcement(player, entryZone, null, unitId, ace);
+    }
+
+    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId, boolean ace)
     {
         Unit unit = factory.getUnit(unitId);
         unit.setAce(ace);
         player.addReinforcement(unit);
         unitEntry.put(unit, entryZone);
+        if (exitZone != null)
+            unitExit.put(unit, exitZone);
     }
 }
