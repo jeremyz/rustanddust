@@ -56,7 +56,10 @@ public class StateMove extends StateCommon
     public StateType abort()
     {
         hideAssists();
-        ctrl.setAnimationCount(map.activatedPawns.size());
+        int n = map.activatedPawns.size();
+        if (n == 0)
+            return StateType.ABORT;
+        ctrl.setAnimationCount(n);
         map.revertMoves();
         if (activeUnit.movement.entryMove) {
             map.leaveBoard(activeUnit);
