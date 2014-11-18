@@ -387,7 +387,8 @@ public abstract class Board implements Disposable
 
     private int pushPawnOnto(Pawn pawn, Tile tile)
     {
-        tilesToDraw.add(tile);
+        if (!tile.isOffMap())
+            tilesToDraw.add(tile);
         return tile.push(pawn);
     }
 
