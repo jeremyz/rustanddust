@@ -162,23 +162,23 @@ public class Hud implements Disposable
 
     private void closeDialog()
     {
+        boolean ok = okCancel.ok;
         switch(dialogAction)
         {
             case END_TURN:
-                if (okCancel.ok)
+                if (ok)
                     ctrl.abortPlayerTurn();
-                okCancel.visible = false;
                 break;
             case END_DEPLOYMENT:
-                if (okCancel.ok)
+                if (ok)
                     ctrl.endDeployment();
-                okCancel.visible = false;
                 break;
             case END_GAME:
                 stats.visible = false;
                 ctrl.endGame();
                 break;
         }
+        okCancel.visible = false;
         ctrl.blockMap = false;
     }
 
