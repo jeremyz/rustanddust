@@ -33,21 +33,25 @@ public abstract class BattleCommon implements Battle
         this.gePlayer = factory.getPlayer(Army.GE);
     }
 
+    @Override
     public String toString()
     {
         return getName();
     }
 
+    @Override
     public String getName()
     {
         return name;
     }
 
+    @Override
     public String getDescription()
     {
         return description;
     }
 
+    @Override
     public Zone getEntryZone(Unit unit)
     {
         return unitEntry.get(unit);
