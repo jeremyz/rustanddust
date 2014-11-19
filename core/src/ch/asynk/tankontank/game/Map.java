@@ -260,6 +260,8 @@ public abstract class Map extends Board
             return true;
         } else {
 
+            int distance = 0;
+            boolean night = (meteorology.day == Meteorology.Day.NIGHT);
             boolean flankAttack = false;
             boolean terrainBonus = true;
 
@@ -268,15 +270,31 @@ public abstract class Map extends Board
                     flankAttack = true;
                 if (assist.isA(Unit.UnitType.INFANTRY))
                     terrainBonus = false;
+                if (night) {
+                    int d = distance(assist.getTile(), target.getTile());
+                    if (d > distance)
+                        distance = d;
+                }
             }
 
             int cnt = activatedPawns.size();
             int def = target.getDefense(pawn.getTile());
             int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
             int tdf = (terrainBonus ? pawn.getTile().defense() : 0);
+            int wdf = 0;
+            if (night) {
+            if (distance > 3)
+                wdf = 3;
+            else if (distance > 2)
+                wdf = 2;
+            else if (distance > 1)
+                wdf = 1;
+            }
 
-            pawn.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " +tdf;
-            return ((dice + cnt + flk) >= (def + tdf));
+            pawn.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " + tdf + " + " + wdf;
+            if (night)
+                pawn.engagement.calculus += " + " + wdf;
+            return ((dice + cnt + flk) >= (def + tdf + wdf));
         }
     }
 
