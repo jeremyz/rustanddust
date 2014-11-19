@@ -140,9 +140,14 @@ public class Player
         return ((apSpent < actionPoints) ? (apSpent + 1) : apSpent);
     }
 
-    public int getTurn()
+    public int getTurnDone()
     {
         return turn;
+    }
+
+    public int getCurrentTurn()
+    {
+        return (turn + 1);
     }
 
     public boolean apExhausted()
@@ -152,12 +157,7 @@ public class Player
 
     public boolean isDeploymentDone()
     {
-        return deploymentDone;
-    }
-
-    public void deploymentDone()
-    {
-        deploymentDone = true;
+        return (deploymentDone || (reinforcement.size() == 0));
     }
 
     public void burnDownOneAp()
@@ -169,16 +169,19 @@ public class Player
 
     public void turnEnd()
     {
+        if (deploymentDone)
+            turn += 1;
+        else
+            deploymentDone = (reinforcement.size() == 0);
     }
 
     public void turnStart()
     {
-        if (!deploymentDone)
-            return;
-        turn += 1;
-        for (Unit unit : units)
-            unit.reset();
-        computeActionPoints();
+        if (isDeploymentDone()) {
+            for (Unit unit : units)
+                unit.reset();
+            computeActionPoints();
+        }
     }
 
     public int d6()
