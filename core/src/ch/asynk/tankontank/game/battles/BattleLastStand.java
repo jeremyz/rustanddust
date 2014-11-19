@@ -62,12 +62,6 @@ public class BattleLastStand extends BattleCommon
         return false;
     }
 
-    @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
-    {
-        return false;
-    }
-
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
@@ -95,11 +89,14 @@ public class BattleLastStand extends BattleCommon
     }
 
     @Override
+    public boolean getReinforcement(Ctrl ctrl, Map map)
+    {
+        return false;
+    }
+
+    @Override
     public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer = ctrl.getPlayer(Army.GE);
-        Player usPlayer = ctrl.getPlayer(Army.US);
-
         objectives = new TileSet(map, 4);
         objectives.add(map.getHex(7, 8));
         objectives.add(map.getHex(6, 4));
@@ -157,10 +154,10 @@ public class BattleLastStand extends BattleCommon
         usEntry.add(map.getHex(11, 6));
         addEntryZone(usEntry);
 
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);

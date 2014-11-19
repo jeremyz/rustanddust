@@ -62,6 +62,20 @@ public class BattleCounterAttack extends BattleCommon
         return false;
     }
 
+    public Player checkVictory(Ctrl ctrl)
+    {
+        if (ctrl.opponent.unitsLeft() == 0)
+            return ctrl.player;
+
+        if (gePlayer.escaped() >= 3)
+            return gePlayer;
+
+        if ((ctrl.player.getTurn() < 9) || (ctrl.opponent.getTurn() < 9))
+            return null;
+
+        return usPlayer;
+    }
+
     @Override
     public boolean getReinforcement(Ctrl ctrl, Map map)
     {
@@ -90,26 +104,9 @@ public class BattleCounterAttack extends BattleCommon
         return true;
     }
 
-    public Player checkVictory(Ctrl ctrl)
-    {
-        if (ctrl.opponent.unitsLeft() == 0)
-            return ctrl.player;
-
-        if (gePlayer.escaped() >= 3)
-            return gePlayer;
-
-        if ((ctrl.player.getTurn() < 9) || (ctrl.opponent.getTurn() < 9))
-            return null;
-
-        return usPlayer;
-    }
-
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
-        Player gePlayer = ctrl.getPlayer(Army.GE);
-        Player usPlayer = ctrl.getPlayer(Army.US);
-
         Zone geExit = new Zone(map, 9);
         geExit.orientation = Orientation.NORTH;
         geExit.add(map.getHex(9, 0));
@@ -138,10 +135,10 @@ public class BattleCounterAttack extends BattleCommon
         }
         addEntryZone(geEntry);
 
-        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV_HQ);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
@@ -164,10 +161,10 @@ public class BattleCounterAttack extends BattleCommon
         }
         addEntryZone(usEntry);
 
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
     }

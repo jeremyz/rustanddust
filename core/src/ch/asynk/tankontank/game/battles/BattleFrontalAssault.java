@@ -63,12 +63,6 @@ public class BattleFrontalAssault extends BattleCommon
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
-    {
-        return false;
-    }
-
-    @Override
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
@@ -88,6 +82,12 @@ public class BattleFrontalAssault extends BattleCommon
             return usPlayer;
         else
             return gePlayer;
+    }
+
+    @Override
+    public boolean getReinforcement(Ctrl ctrl, Map map)
+    {
+        return false;
     }
 
     @Override
@@ -111,10 +111,10 @@ public class BattleFrontalAssault extends BattleCommon
             geEntry.add(map.getHex(i, 1));
         addEntryZone(geEntry);
 
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV_HQ);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
@@ -128,16 +128,16 @@ public class BattleFrontalAssault extends BattleCommon
             usEntry.add(map.getHex(i, 7));
         addEntryZone(usEntry);
 
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN_HQ);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
     }
 }
