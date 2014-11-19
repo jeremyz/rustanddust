@@ -55,10 +55,10 @@ public class Ctrl implements Disposable
         this.cfg = game.config;
         game.ctrl = this;
 
-        this.player = battle.getPlayer(true, true);
-        this.opponent = battle.getPlayer(false, true);
         this.map = battle.getMap();
         battle.setup(this, map);
+        this.player = battle.getPlayer();
+        this.opponent = battle.opponent(player);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -139,16 +139,6 @@ public class Ctrl implements Disposable
             hud.victory(winner, ((winner == player) ? opponent : player));
     }
 
-    private void switchPlayer()
-    {
-        TankOnTank.debug("Ctrl", "switch Players");
-        endPlayerTurn();
-        Player tmp = player;
-        player = opponent;
-        opponent = tmp;
-        startPlayerTurn();
-    }
-
     private StateType actionAborted()
     {
         hud.notify("Action canceled");
@@ -158,6 +148,14 @@ public class Ctrl implements Disposable
             nextState = battle.getState(player);
 
         return nextState;
+    }
+
+    private void turnDone()
+    {
+        endPlayerTurn();
+        player = battle.getPlayer();
+        opponent = battle.opponent(player);
+        startPlayerTurn();
     }
 
     private StateType actionDone()
@@ -183,15 +181,7 @@ public class Ctrl implements Disposable
     private StateType deploymentDone()
     {
         StateType nextState = this.state.done();
-
-        if (player.isDeploymentDone() && opponent.isDeploymentDone()) {
-            endPlayerTurn();
-            player = battle.getPlayer(true, false);
-            opponent = battle.getPlayer(false, false);
-            startPlayerTurn();
-        } else
-            switchPlayer();
-
+        turnDone();
         return nextState;
     }
 
@@ -306,10 +296,11 @@ public class Ctrl implements Disposable
         game.setScreen(new OptionsScreen(game));
     }
 
-    public void abortPlayerTurn()
+    public void endPlayerTurn(boolean abort)
     {
-        state.abort();
-        switchPlayer();
+        if (abort)
+            state.abort();
+        turnDone();
     }
 
     public void exitBoard(boolean doit)
