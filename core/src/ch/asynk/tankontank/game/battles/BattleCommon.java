@@ -9,6 +9,8 @@ import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.game.Ctrl;
+import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.State.StateType;
@@ -73,6 +75,12 @@ public abstract class BattleCommon implements Battle
         if (!player.isDeploymentDone())
             return StateType.DEPLOYMENT;
         return StateType.SELECT;
+    }
+
+    @Override
+    public boolean getReinforcement(Ctrl ctrl, Map map)
+    {
+        return false;
     }
 
     @Override

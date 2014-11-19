@@ -76,12 +76,6 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
-    {
-        return false;
-    }
-
-    @Override
     public void setup(Ctrl ctrl, Map map)
     {
         // end deployment

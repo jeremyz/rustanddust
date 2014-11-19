@@ -73,12 +73,6 @@ public class BattleLastStand extends BattleCommon
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
-    {
-        return false;
-    }
-
-    @Override
     public void setup(Ctrl ctrl, Map map)
     {
         objectives = new TileSet(map, 4);
