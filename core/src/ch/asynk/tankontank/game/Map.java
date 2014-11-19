@@ -15,6 +15,7 @@ import ch.asynk.tankontank.engine.PawnSet;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
@@ -36,6 +37,8 @@ public abstract class Map extends Board
     public final Board.PawnCollection engagementAssists;
     public final Board.PawnCollection activatedPawns;
     public final Board.PawnCollection breakPawns;
+
+    public final Meteorology meteorology;
 
     private final SpriteAnimation explosion;
     private final SpriteAnimation explosions;
@@ -70,6 +73,8 @@ public abstract class Map extends Board
         engagementAssists = new PawnSet(this, 6);
         activatedPawns = new PawnSet(this, 7);
         breakPawns = new PawnSet(this, 4);
+
+        meteorology = new Meteorology();
     }
 
     @Override
