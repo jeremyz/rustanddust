@@ -18,6 +18,7 @@ import ch.asynk.tankontank.game.battles.BattleFrontalAssault;
 import ch.asynk.tankontank.game.battles.BattleLastStand;
 import ch.asynk.tankontank.game.battles.BattleCounterAttack;
 import ch.asynk.tankontank.game.battles.BattleStabToTheFlank;
+import ch.asynk.tankontank.game.battles.BattleNightAction;
 
 public class Factory implements Board.TileBuilder, Disposable
 {
@@ -48,6 +49,7 @@ public class Factory implements Board.TileBuilder, Disposable
             new BattleLastStand(this),
             new BattleCounterAttack(this),
             new BattleStabToTheFlank(this),
+            new BattleNightAction(this),
         };
     }
 
