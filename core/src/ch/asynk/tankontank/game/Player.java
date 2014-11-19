@@ -205,17 +205,16 @@ public class Player
         return false;
     }
 
-    public Unit promote(Unit unit)
+    public boolean promote(Unit unit)
     {
         for (Unit p: casualties) {
             if (p.isHqOf(unit)) {
-                units.remove(unit);
-                casualties.add(unit);
-                units.add(p);
-                casualties.remove(p);
-                return p;
+                unit.promote();
+                p.degrade();
+                return true;
             }
         }
-        return null;
+
+        return false;
     }
 }
