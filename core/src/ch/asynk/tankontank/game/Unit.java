@@ -79,6 +79,15 @@ public class Unit extends HeadedPawn
         enableOverlay(HQ, isHq());
         this.hasMoved = false;
         this.hasFired = false;
+        updateDescr();
+    }
+
+    private void updateDescr()
+    {
+        if (cdef == -1)
+            this.descr = id.toString() + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
+        else
+            this.descr = id.toString() + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
     // hard tager
@@ -87,10 +96,10 @@ public class Unit extends HeadedPawn
         this(army, unit, head, pawns, overlays);
         this.rng = range;
         this.def = defense;
+        this.cdef = -1;
         this.mp = movementPoints;
         this.id = id;
         this.type = type;
-        this.descr = id.toString() + " (" + rng + "-" + def + "-" + mp + ")";
         commonSetup();
     }
 
@@ -104,7 +113,6 @@ public class Unit extends HeadedPawn
         this.mp = movementPoints;
         this.id = id;
         this.type = type;
-        this.descr = id.toString() + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
         commonSetup();
     }
 
@@ -121,6 +129,7 @@ public class Unit extends HeadedPawn
     public void setAce(boolean ace)
     {
         this.ace = ace;
+        updateDescr();
         enableOverlay(ACE, ace);
     }
 
@@ -211,6 +220,7 @@ public class Unit extends HeadedPawn
 
         type = UnitType.HARD_TARGET_HQ;
         enableOverlay(HQ, true);
+        updateDescr();
     }
 
     public void degrade()
@@ -226,6 +236,7 @@ public class Unit extends HeadedPawn
 
         type = UnitType.HARD_TARGET;
         enableOverlay(HQ, false);
+        updateDescr();
     }
 
     @Override
