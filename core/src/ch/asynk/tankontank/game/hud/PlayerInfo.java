@@ -3,13 +3,12 @@ package ch.asynk.tankontank.game.hud;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-// TODO replace with Sprite !!
 import ch.asynk.tankontank.engine.gfx.Drawable;
-import ch.asynk.tankontank.engine.gfx.Image;
 
 import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.Ctrl;
@@ -25,9 +24,9 @@ public class PlayerInfo implements Disposable, Drawable
     private Object hit;
 
     private float padding;
-    private Image flag;
-    private Image usFlag;
-    private Image geFlag;
+    private Sprite flag;
+    private Sprite usFlag;
+    private Sprite geFlag;
     private LabelImage turns;
     private LabelImage aps;
     private LabelImage reinforcement;
@@ -37,8 +36,8 @@ public class PlayerInfo implements Disposable, Drawable
     {
         this.ctrl = ctrl;
         this.padding = padding;
-        usFlag = new Image(atlas.findRegion("us-flag"));
-        geFlag = new Image(atlas.findRegion("ge-flag"));
+        usFlag = new Sprite(atlas.findRegion("us-flag"));
+        geFlag = new Sprite(atlas.findRegion("ge-flag"));
         turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
         aps = new LabelImage(atlas.findRegion("aps"), font, 5f);
         reinforcement = new LabelImage(atlas.findRegion("reinforcement"), font, 5f);
@@ -48,8 +47,6 @@ public class PlayerInfo implements Disposable, Drawable
     @Override
     public void dispose()
     {
-        usFlag.dispose();
-        geFlag.dispose();
         turns.dispose();
         aps.dispose();
         reinforcement.dispose();
@@ -171,10 +168,10 @@ public class PlayerInfo implements Disposable, Drawable
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
-        flag.drawDebug(debugShapes);
         turns.drawDebug(debugShapes);
         aps.drawDebug(debugShapes);
         reinforcement.drawDebug(debugShapes);
         unitDock.drawDebug(debugShapes);
+        debugShapes.rect(flag.getX(), flag.getY(), flag.getWidth(), flag.getHeight());
     }
 }
