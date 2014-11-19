@@ -75,6 +75,7 @@ public class BattleLastStand extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        // A7, E6, F6, G10
         objectives = new TileSet(map, 4);
         objectives.add(map.getHex(7, 8));
         objectives.add(map.getHex(6, 4));
@@ -82,6 +83,7 @@ public class BattleLastStand extends BattleCommon
         objectives.add(map.getHex(1, 2));
         objectives.enable(Hex.OBJECTIVE, true);
 
+        // 1 hex of E7
         Zone geEntry = new Zone(map, 7);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(map.getHex(5, 5));
@@ -97,6 +99,7 @@ public class BattleLastStand extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
 
+        // hex rows 7-10
         geEntry = new Zone(map, 32);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 4; i++) {
@@ -117,6 +120,7 @@ public class BattleLastStand extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
 
+        // hex rows hex row 1 + E2 + C2
         Zone usEntry = new Zone(map, 11);
         usEntry.orientation = Orientation.SOUTH;
         usEntry.add(map.getHex(9, 0));

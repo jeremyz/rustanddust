@@ -86,12 +86,14 @@ public class BattleFrontalAssault extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        // G9, E6, H4
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(2, 2));
         objectives.add(map.getHex(6, 4));
         objectives.add(map.getHex(6, 1));
         objectives.enable(Hex.OBJECTIVE, true);
 
+        // hex rows E-H
         Zone geEntry = new Zone(map, 38);
         geEntry.orientation = Orientation.NORTH_WEST;
         for (int i = 2; i < 12; i++)
@@ -113,6 +115,7 @@ public class BattleFrontalAssault extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
+        // hex rows A-B
         Zone usEntry = new Zone(map, 19);
         usEntry.orientation = Orientation.SOUTH_EAST;
         for (int i = 4; i < 14; i++)

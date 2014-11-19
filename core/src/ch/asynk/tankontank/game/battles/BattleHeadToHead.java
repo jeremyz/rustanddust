@@ -82,12 +82,14 @@ public class BattleHeadToHead extends BattleCommon
         usPlayer.turnEnd();
         gePlayer.turnEnd();
 
+        // B6, E6, H4
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(7, 7));
         objectives.add(map.getHex(6, 4));
         objectives.add(map.getHex(6, 1));
         objectives.enable(Hex.OBJECTIVE, true);
 
+        // southern hex row
         Zone geEntry = new Zone(map, 9);
         geEntry.allowedMoves = (Orientation.NORTH.s | Orientation.NORTH_EAST.s | Orientation.NORTH_WEST.s);
         geEntry.add(map.getHex(0, 0));
@@ -110,7 +112,7 @@ public class BattleHeadToHead extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
 
-
+        // northern hex row
         Zone usEntry = new Zone(map, 9);
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(9, 0));

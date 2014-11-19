@@ -68,6 +68,7 @@ public class BattleCounterAttack extends BattleCommon
         if (ctrl.player.getCurrentTurn() != 5)
             return false;
 
+        // hex row 1
         Zone usEntry = new Zone(map, 9);
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(9, 0));
@@ -91,6 +92,7 @@ public class BattleCounterAttack extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        // hex row 1
         Zone geExit = new Zone(map, 9);
         geExit.orientation = Orientation.NORTH;
         geExit.add(map.getHex(9, 0));
@@ -104,6 +106,7 @@ public class BattleCounterAttack extends BattleCommon
         geExit.add(map.getHex(13, 8));
         addExitZone(geExit);
 
+        // hex rows 8-9
         Zone geEntry = new Zone(map, 18);
         geEntry.orientation = Orientation.NORTH;
         for (int i = 0; i < 2; i++) {
@@ -130,6 +133,7 @@ public class BattleCounterAttack extends BattleCommon
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, geExit, UnitId.GE_WESPE);
 
+        // hex rows 1-4
         Zone usEntry = new Zone(map, 36);
         usEntry.orientation = Orientation.SOUTH;
         for (int i = 0; i < 4; i++) {

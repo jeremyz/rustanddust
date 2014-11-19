@@ -81,6 +81,7 @@ public class BattleStabToTheFlank extends BattleCommon
         if (ctrl.player.getCurrentTurn() != 3)
             return false;
 
+        // hex rows I
         Zone geEntry = new Zone(map, 9);
         geEntry.allowedMoves = (Orientation.SOUTH_WEST.s | Orientation.NORTH_WEST.s);
         for (int i = 0; i < 10; i++)
@@ -95,11 +96,13 @@ public class BattleStabToTheFlank extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        // F6, E6
         objectives = new TileSet(map, 2);
         objectives.add(map.getHex(5, 3));
         objectives.add(map.getHex(6, 4));
         objectives.enable(Hex.OBJECTIVE, true);
 
+        // hex rows D-I
         Zone geEntry = new Zone(map, 57);
         geEntry.orientation = Orientation.NORTH_WEST;
         for (int i = 3; i < 12; i++)
@@ -123,12 +126,14 @@ public class BattleStabToTheFlank extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
         addReinforcement(gePlayer, geEntry, UnitId.GE_INFANTRY);
 
+        // hex row I
         Zone usExit = new Zone(map, 10);
         usExit.orientation = Orientation.NORTH_EAST;
         for (int i = 0; i < 10; i++)
             geEntry.add(map.getHex(i, 0));
         addExitZone(usExit);
 
+        // hex rows A-B
         Zone usEntry = new Zone(map, 19);
         usEntry.orientation = Orientation.SOUTH;
         for (int i = 4; i < 13; i++) {
