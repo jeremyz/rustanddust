@@ -8,19 +8,18 @@ public class StatePromote extends StateCommon
     public void enter(StateType prevState)
     {
         ctrl.hud.actionButtons.hide();
-        Unit unit = ctrl.player.promote(selectedUnit);
-        if (unit != null) {
-            // TODO this must burn 1 AP down !!!!!
-            ctrl.hud.notify(unit + " has been promoted");
-            selectedUnit.promote();
-            unit.degrade();
+        String str = selectedUnit.toString();
+        if (ctrl.player.promote(selectedUnit)) {
+            map.activatedPawns.add(selectedUnit);
+            ctrl.hud.notify(str+ " has been promoted");
         }
-        done();
+        ctrl.setState(StateType.DONE);
     }
 
     @Override
     public void leave(StateType nextState)
     {
+        map.unselectHex(selectedHex);
     }
 
     @Override
