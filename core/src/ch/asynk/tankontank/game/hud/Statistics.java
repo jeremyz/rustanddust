@@ -32,7 +32,7 @@ public class Statistics extends Bg
 
     public void show(Player winner, Player loser, Position position)
     {
-        title.write(winner.getName() + " player won the battle in " + winner.getTurn() + " turns.");
+        title.write(winner.getName() + " player won the battle in " + winner.getTurnDone() + " turns.");
         stats1.write(winner.getStats());
         stats2.write(loser.getStats());
 

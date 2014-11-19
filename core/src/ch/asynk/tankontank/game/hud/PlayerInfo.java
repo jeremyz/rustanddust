@@ -90,7 +90,7 @@ public class PlayerInfo implements Disposable, Drawable
     public void update(Player player, Position position)
     {
         unitDock.hide();
-        turns.write("" + player.getTurn());
+        turns.write("" + player.getCurrentTurn());
         aps.write("" + player.getAp());
         int r = player.reinforcement();
         if (r == 0) {
