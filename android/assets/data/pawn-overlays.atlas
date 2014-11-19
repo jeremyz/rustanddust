@@ -5,36 +5,43 @@ filter: Nearest,Nearest
 repeat: none
 00_move
   rotate: false
-  xy: 2, 4
+  xy: 2, 2
   size: 230, 240
   orig: 230, 240
   offset: 0, 0
   index: -1
 01_target
   rotate: false
-  xy: 234, 2
+  xy: 537, 152
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 02_fire
   rotate: false
-  xy: 234, 94
+  xy: 234, 92
   size: 100, 150
   orig: 100, 150
   offset: 0, 0
   index: -1
 03_may_fire
   rotate: false
-  xy: 336, 94
+  xy: 336, 92
   size: 100, 150
   orig: 100, 150
   offset: 0, 0
   index: -1
 04_ace
   rotate: false
-  xy: 438, 40
+  xy: 500, 38
   size: 35, 204
   orig: 35, 204
+  offset: 0, 0
+  index: -1
+05_hq
+  rotate: false
+  xy: 438, 70
+  size: 60, 172
+  orig: 60, 172
   offset: 0, 0
   index: -1
