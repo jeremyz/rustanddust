@@ -120,7 +120,6 @@ public class BattleStabToTheFlank extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
         addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
         addReinforcement(gePlayer, geEntry, UnitId.GE_INFANTRY);
 
