@@ -18,6 +18,7 @@ public class Unit extends HeadedPawn
     public static final int FIRE        = 2;
     public static final int MAY_FIRE    = 3;
     public static final int ACE         = 4;
+    public static final int HQ          = 5;
 
     public static final int FLANK_ATTACK_BONUS = 1;
 
@@ -69,6 +70,15 @@ public class Unit extends HeadedPawn
     {
         super(army, pawn, head, pawns, overlays);
         ace = false;
+
+    }
+
+    private void commonSetup()
+    {
+        mpLeft = mp;
+        enableOverlay(HQ, isHq());
+        this.hasMoved = false;
+        this.hasFired = false;
     }
 
     // hard tager
@@ -78,12 +88,10 @@ public class Unit extends HeadedPawn
         this.rng = range;
         this.def = defense;
         this.mp = movementPoints;
-        mpLeft = mp;
         this.id = id;
         this.type = type;
-        this.hasMoved = false;
-        this.hasFired = false;
         this.descr = id.toString() + " (" + rng + "-" + def + "-" + mp + ")";
+        commonSetup();
     }
 
     // soft tager
@@ -94,12 +102,10 @@ public class Unit extends HeadedPawn
         this.def = defense;
         this.cdef = concealedDefense;
         this.mp = movementPoints;
-        mpLeft = mp;
         this.id = id;
         this.type = type;
-        this.hasMoved = false;
-        this.hasFired = false;
         this.descr = id.toString() + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
+        commonSetup();
     }
 
     public Hex getHex()
@@ -204,6 +210,7 @@ public class Unit extends HeadedPawn
             return;
 
         type = UnitType.HARD_TARGET_HQ;
+        enableOverlay(HQ, true);
     }
 
     public void degrade()
@@ -218,6 +225,7 @@ public class Unit extends HeadedPawn
             return;
 
         type = UnitType.HARD_TARGET;
+        enableOverlay(HQ, false);
     }
 
     @Override
