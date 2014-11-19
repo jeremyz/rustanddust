@@ -13,6 +13,7 @@ import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
+import ch.asynk.tankontank.engine.Meteorology;
 
 public class BattleNightAction extends BattleCommon
 {
@@ -111,6 +112,8 @@ public class BattleNightAction extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        map.meteorology.day = Meteorology.Day.NIGHT;
+
         // hex row I
         Zone geEntry = new Zone(map, 10);
         geEntry.orientation = Orientation.NORTH_EAST;
