@@ -35,31 +35,13 @@ public class BattleStabToTheFlank extends BattleCommon
     }
 
     @Override
-    public Player getPlayer(boolean first, boolean deploymentPhase)
+    public Player getPlayer()
     {
-        if (deploymentPhase)
-            return (first ? usPlayer : gePlayer);
-        else
-            return (first ? usPlayer : gePlayer);
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        if (player.getTurn() == 0)
-            return StateType.DEPLOYMENT;
-        return StateType.SELECT;
-    }
-
-    @Override
-    public boolean deploymentDone(Player player)
-    {
-        int n = player.reinforcement();
-        if (n == 0) {
-            player.deploymentDone();
-            return true;
-        }
-        return false;
+        if (!usPlayer.isDeploymentDone() || usPlayer.getCurrentTurn() == 1)
+            return usPlayer;
+        if (usPlayer.getTurnDone() > gePlayer.getTurnDone())
+            return gePlayer;
+        return usPlayer;
     }
 
     public Player checkVictory(Ctrl ctrl)
@@ -67,7 +49,7 @@ public class BattleStabToTheFlank extends BattleCommon
         if (ctrl.opponent.unitsLeft() == 0)
             return ctrl.player;
 
-        if ((ctrl.player.getTurn() < 9) || (ctrl.opponent.getTurn() < 9))
+        if ((ctrl.player.getTurnDone() < 9) || (ctrl.opponent.getTurnDone() < 9))
             return null;
 
         int gePoints = usPlayer.casualties();
@@ -96,7 +78,7 @@ public class BattleStabToTheFlank extends BattleCommon
     {
         if (ctrl.player.is(Army.US))
             return false;
-        if (ctrl.player.getTurn() != 3)
+        if (ctrl.player.getCurrentTurn() != 3)
             return false;
 
         Zone geEntry = new Zone(map, 9);

@@ -11,7 +11,9 @@ public interface Battle
 
     public String getDescription();
 
-    public Player getPlayer(boolean first, boolean deploymentPhase);
+    public Player getPlayer();
+
+    public Player opponent(Player player);
 
     public Map getMap();
 

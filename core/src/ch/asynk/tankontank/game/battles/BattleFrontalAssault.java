@@ -29,12 +29,22 @@ public class BattleFrontalAssault extends BattleCommon
     }
 
     @Override
-    public Player getPlayer(boolean first, boolean deploymentPhase)
+    public Player getPlayer()
     {
-        if (deploymentPhase)
-            return (first ? gePlayer : usPlayer);
-        else
-            return (first ? usPlayer : gePlayer);
+        if (!gePlayer.isDeploymentDone()) {
+            int n = gePlayer.reinforcement();
+            if (n > 4)
+                return gePlayer;
+            else {
+                if (usPlayer.isDeploymentDone())
+                    return gePlayer;
+                else
+                    return usPlayer;
+            }
+        }
+        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
+            return usPlayer;
+        return gePlayer;
     }
 
     @Override
@@ -44,22 +54,11 @@ public class BattleFrontalAssault extends BattleCommon
     }
 
     @Override
-    public StateType getState(Player player)
-    {
-        if (player.getTurn() == 0)
-            return StateType.DEPLOYMENT;
-        return StateType.SELECT;
-    }
-
-    @Override
     public boolean deploymentDone(Player player)
     {
-        int n = player.reinforcement();
-        if (n == 0) {
-            player.deploymentDone();
+        if (player.isDeploymentDone())
             return true;
-        }
-        return ((player.is(Army.GE) && (n == 4)));
+        return ((player.is(Army.GE) && (gePlayer.reinforcement.size() == 4)));
     }
 
     @Override
@@ -68,7 +67,7 @@ public class BattleFrontalAssault extends BattleCommon
         if (ctrl.opponent.unitsLeft() == 0)
             return ctrl.player;
 
-        if ((ctrl.player.getTurn() < 10) || (ctrl.opponent.getTurn() < 10))
+        if ((ctrl.player.getTurnDone() < 10) || (ctrl.opponent.getTurnDone() < 10))
             return null;
 
         int count = 0;

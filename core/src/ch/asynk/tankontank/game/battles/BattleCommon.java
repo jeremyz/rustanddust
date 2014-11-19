@@ -11,6 +11,7 @@ import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
+import ch.asynk.tankontank.game.State.StateType;
 
 public abstract class BattleCommon implements Battle
 {
@@ -50,6 +51,28 @@ public abstract class BattleCommon implements Battle
     public String getDescription()
     {
         return description;
+    }
+
+    @Override
+    public Player opponent(Player player)
+    {
+        if (player == usPlayer)
+            return gePlayer;
+        return usPlayer;
+    }
+
+    @Override
+    public boolean deploymentDone(Player player)
+    {
+        return player.isDeploymentDone();
+    }
+
+    @Override
+    public StateType getState(Player player)
+    {
+        if (!player.isDeploymentDone())
+            return StateType.DEPLOYMENT;
+        return StateType.SELECT;
     }
 
     @Override

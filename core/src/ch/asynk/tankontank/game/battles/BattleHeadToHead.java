@@ -32,12 +32,12 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public Player getPlayer(boolean first, boolean deploymentPhase)
+    public Player getPlayer()
     {
-        if (firstArmy == Army.US)
-            return (first ? usPlayer : gePlayer);
+        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
+            return ((firstArmy == Army.US) ? usPlayer : gePlayer);
         else
-            return (first ? gePlayer : usPlayer);
+            return ((firstArmy == Army.US) ? gePlayer : usPlayer);
     }
 
     @Override
@@ -47,24 +47,12 @@ public class BattleHeadToHead extends BattleCommon
     }
 
     @Override
-    public boolean deploymentDone(Player player)
-    {
-        return true;
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        return StateType.SELECT;
-    }
-
-    @Override
     public Player checkVictory(Ctrl ctrl)
     {
         if (ctrl.opponent.unitsLeft() == 0)
             return ctrl.player;
 
-        if ((ctrl.player.getTurn() < 10) || (ctrl.opponent.getTurn() < 10))
+        if ((ctrl.player.getTurnDone() < 10) || (ctrl.opponent.getTurnDone() < 10))
             return null;
 
         int player = 0;
@@ -96,8 +84,9 @@ public class BattleHeadToHead extends BattleCommon
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
-        gePlayer.deploymentDone();
-        usPlayer.deploymentDone();
+        // end deployment
+        usPlayer.turnEnd();
+        gePlayer.turnEnd();
 
         objectives = new TileSet(map, 3);
         objectives.add(map.getHex(7, 7));

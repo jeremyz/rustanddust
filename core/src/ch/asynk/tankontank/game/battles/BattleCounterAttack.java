@@ -35,31 +35,15 @@ public class BattleCounterAttack extends BattleCommon
     }
 
     @Override
-    public Player getPlayer(boolean first, boolean deploymentPhase)
+    public Player getPlayer()
     {
-        if (deploymentPhase)
-            return (first ? gePlayer : usPlayer);
-        else
-            return (first ? gePlayer : usPlayer);
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        if (player.getTurn() == 0)
-            return StateType.DEPLOYMENT;
-        return StateType.SELECT;
-    }
-
-    @Override
-    public boolean deploymentDone(Player player)
-    {
-        int n = player.reinforcement();
-        if (n == 0) {
-            player.deploymentDone();
-            return true;
-        }
-        return false;
+        if (!gePlayer.isDeploymentDone())
+            return gePlayer;
+        if (!usPlayer.isDeploymentDone())
+            return usPlayer;
+        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
+            return gePlayer;
+        return usPlayer;
     }
 
     public Player checkVictory(Ctrl ctrl)
@@ -70,7 +54,7 @@ public class BattleCounterAttack extends BattleCommon
         if (gePlayer.escaped() >= 3)
             return gePlayer;
 
-        if ((ctrl.player.getTurn() < 9) || (ctrl.opponent.getTurn() < 9))
+        if ((ctrl.player.getTurnDone() < 9) || (ctrl.opponent.getTurnDone() < 9))
             return null;
 
         return usPlayer;
@@ -81,7 +65,7 @@ public class BattleCounterAttack extends BattleCommon
     {
         if (ctrl.player.is(Army.GE))
             return false;
-        if (ctrl.player.getTurn() != 5)
+        if (ctrl.player.getCurrentTurn() != 5)
             return false;
 
         Zone usEntry = new Zone(map, 9);

@@ -35,31 +35,15 @@ public class BattleLastStand extends BattleCommon
     }
 
     @Override
-    public Player getPlayer(boolean first, boolean deploymentPhase)
+    public Player getPlayer()
     {
-        if (deploymentPhase)
-            return (first ? gePlayer : usPlayer);
-        else
-            return (first ? usPlayer : gePlayer);
-    }
-
-    @Override
-    public StateType getState(Player player)
-    {
-        if (player.getTurn() == 0)
-            return StateType.DEPLOYMENT;
-        return StateType.SELECT;
-    }
-
-    @Override
-    public boolean deploymentDone(Player player)
-    {
-        int n = player.reinforcement();
-        if (n == 0) {
-            player.deploymentDone();
-            return true;
-        }
-        return false;
+        if (!gePlayer.isDeploymentDone())
+            return gePlayer;
+        if (!usPlayer.isDeploymentDone())
+            return usPlayer;
+        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
+            return usPlayer;
+        return gePlayer;
     }
 
     public Player checkVictory(Ctrl ctrl)
@@ -67,7 +51,7 @@ public class BattleLastStand extends BattleCommon
         if (ctrl.opponent.unitsLeft() == 0)
             return ctrl.player;
 
-        if ((ctrl.player.getTurn() < 8) || (ctrl.opponent.getTurn() < 8))
+        if ((ctrl.player.getTurnDone() < 8) || (ctrl.opponent.getTurnDone() < 8))
             return null;
 
         int gePoints = usPlayer.casualties();
