@@ -109,13 +109,13 @@ public abstract class Map extends Board
         return (Hex) getTile(col, row);
     }
 
-    public int collectPossibleMoves(Pawn pawn)
+    public int collectPossibleMoves(Unit unit)
     {
-        if (!pawn.canMove()) {
+        if (!unit.canMove()) {
             possibleMoves.clear();
             return 0;
         }
-        return collectPossibleMoves(pawn, possibleMoves);
+        return collectPossibleMoves(unit, possibleMoves);
     }
 
     public int togglePossiblePathHex(Hex hex)
@@ -123,32 +123,32 @@ public abstract class Map extends Board
         return possiblePaths.toggleCtrlTile(hex);
     }
 
-    public int collectPossibleTargets(Pawn pawn, List<Pawn> foes)
+    public int collectPossibleTargets(Unit unit, List<Pawn> foes)
     {
-        if (!pawn.canEngage()) {
+        if (!unit.canEngage()) {
             possibleTargets.clear();
             return 0;
         }
-        // return collectPossibleTargets(pawn, possibleTargets);
-        return collectPossibleTargets(pawn, foes, possibleTargets);
+        // return collectPossibleTargets(unit, possibleTargets);
+        return collectPossibleTargets(unit, foes, possibleTargets);
     }
 
-    public int collectMoveablePawns(Pawn pawn)
+    public int collectMoveablePawns(Unit unit)
     {
-        if (pawn.isHq() && !pawn.movement.entryMove) {
-            collectMoveAssists(pawn, moveablePawns);
+        if (unit.isHq() && !unit.movement.entryMove) {
+            collectMoveAssists(unit, moveablePawns);
         } else {
             moveablePawns.clear();
         }
-        if (pawn.canMove())
-            moveablePawns.add(pawn);
+        if (unit.canMove())
+            moveablePawns.add(unit);
         return moveablePawns.size();
     }
 
-    public int collectAttackAssists(Pawn pawn, Pawn target, List<Pawn> units)
+    public int collectAttackAssists(Unit unit, Unit target, List<Pawn> units)
     {
-        int s = collectAttackAssists(pawn, target, units, engagementAssists);
-        activatedPawns.add(pawn);
+        int s = collectAttackAssists(unit, target, units, engagementAssists);
+        activatedPawns.add(unit);
         return s;
     }
 
@@ -167,12 +167,12 @@ public abstract class Map extends Board
         }
     }
 
-    public void collectAndShowMovesAndAssits(Pawn pawn)
+    public void collectAndShowMovesAndAssits(Unit unit)
     {
         hidePossibleMoves();
         hideMoveablePawns();
-        collectPossibleMoves(pawn);
-        collectMoveablePawns(pawn);
+        collectPossibleMoves(unit);
+        collectMoveablePawns(unit);
         showPossibleMoves();
         showMoveablePawns();
         activatedPawns.clear();
@@ -180,56 +180,56 @@ public abstract class Map extends Board
 
     // ACTIONS
 
-    public boolean enterBoard(Pawn pawn, Hex to, int allowedMoves)
+    public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
     {
-        Orientation entry = findBestEntry(pawn, to, allowedMoves);
+        Orientation entry = findBestEntry(unit, to, allowedMoves);
         if (entry == Orientation.KEEP)
             return false;
-        return enterBoard(pawn, to, entry);
+        return enterBoard(unit, to, entry);
     }
 
-    public boolean enterBoard(Pawn pawn, Hex to, Orientation entry)
+    public boolean enterBoard(Unit unit, Hex to, Orientation entry)
     {
-        pawn.enterBoard(to, entry);
-        setPawnOnto(pawn, to, entry);
+        unit.enterBoard(to, entry);
+        setPawnOnto(unit, to, entry);
         return true;
     }
 
-    public void leaveBoard(Pawn pawn)
+    public void leaveBoard(Unit unit)
     {
-        removePawn(pawn);
-        activatedPawns.add(pawn);
+        removePawn(unit);
+        activatedPawns.add(unit);
     }
 
-    public int movePawn(Pawn pawn, Orientation o)
+    public int movePawn(Unit unit, Orientation o)
     {
         possiblePaths.orientation = o;
-        movePawn(pawn, possiblePaths, notifyDoneAnimation(pawn));
+        movePawn(unit, possiblePaths, notifyDoneAnimation(unit));
 
-        return startMove(pawn);
+        return startMove(unit);
     }
 
     public void revertMoves()
     {
         TankOnTank.debug("    revertMoves()");
-        for (Pawn pawn : activatedPawns) {
+        for (Pawn pawn: activatedPawns) {
             revertLastPawnMove(pawn, notifyDoneAnimation(pawn));
         }
         activatedPawns.clear();
     }
 
-    private int startMove(Pawn pawn)
+    private int startMove(Unit unit)
     {
-        moveablePawns.remove(pawn);
-        activatedPawns.add(pawn);
+        moveablePawns.remove(unit);
+        activatedPawns.add(unit);
         sound = moveSound;
         soundId = sound.play(1.0f);
         return moveablePawns.size();
     }
 
-    private RunnableAnimation notifyDoneAnimation(final Pawn pawn)
+    private RunnableAnimation notifyDoneAnimation(final Pawn unit)
     {
-        return RunnableAnimation.get(pawn, new Runnable() {
+        return RunnableAnimation.get(unit, new Runnable() {
             @Override
             public void run() {
                 animationDone();
@@ -246,17 +246,17 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    private boolean resolve(Pawn pawn, final Pawn target)
+    private boolean resolve(Unit unit, final Unit target)
     {
         int d1 = d6();
         int d2 = d6();
         int dice = d1 + d2;
 
         if (dice == 2) {
-            pawn.engagement.calculus = "2D6 -> (1 + 1) automatic failure";
+            unit.engagement.calculus = "2D6 -> (1 + 1) automatic failure";
             return false;
         } else if (dice == 12) {
-            pawn.engagement.calculus = "2D6 -> (6 + 6) automatic success";
+            unit.engagement.calculus = "2D6 -> (6 + 6) automatic success";
             return true;
         } else {
 
@@ -278,9 +278,9 @@ public abstract class Map extends Board
             }
 
             int cnt = activatedPawns.size();
-            int def = target.getDefense(pawn.getTile());
+            int def = target.getDefense(unit.getTile());
             int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
-            int tdf = (terrainBonus ? pawn.getTile().defense() : 0);
+            int tdf = (terrainBonus ? unit.getTile().defense() : 0);
             int wdf = 0;
             if (night) {
             if (distance > 3)
@@ -291,14 +291,14 @@ public abstract class Map extends Board
                 wdf = 1;
             }
 
-            pawn.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " + tdf + " + " + wdf;
+            unit.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " + tdf + " + " + wdf;
             if (night)
-                pawn.engagement.calculus += " + " + wdf;
+                unit.engagement.calculus += " + " + wdf;
             return ((dice + cnt + flk) >= (def + tdf + wdf));
         }
     }
 
-    public boolean engagePawn(Pawn pawn, final Pawn target)
+    public boolean engagePawn(Unit unit, final Unit target)
     {
         boolean mayReroll = false;
         for (Pawn assist : activatedPawns) {
@@ -307,23 +307,23 @@ public abstract class Map extends Board
         }
 
         boolean success;
-        success = resolve(pawn, target);
+        success = resolve(unit, target);
         if (!success && mayReroll) {
             TankOnTank.debug("Reroll");
-            success = resolve(pawn, target);
+            success = resolve(unit, target);
         }
 
-        TankOnTank.debug(pawn + "  engagements " + target + " : " + pawn.engagement.calculus);
+        TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus);
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
             explosions.init(1, target.getCenter().x, target.getCenter().y);
             seq.addAnimation(explosions);
-            seq.addAnimation(notifyDoneAnimation(pawn));
+            seq.addAnimation(notifyDoneAnimation(unit));
         } else {
             explosion.init(1, target.getCenter().x, target.getCenter().y);
             seq.addAnimation(explosion);
-            seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+            seq.addAnimation(RunnableAnimation.get(unit, new Runnable() {
                 @Override
                 public void run() {
                     animationDone();
@@ -338,7 +338,7 @@ public abstract class Map extends Board
                 breakPawns.add(p);
         }
 
-        if ((activatedPawns.size() == 1) && pawn.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+        if ((activatedPawns.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedPawns.clear();
 
         addAnimation(seq);
