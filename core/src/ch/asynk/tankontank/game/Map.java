@@ -29,11 +29,11 @@ public abstract class Map extends Board
     public final HexSet possibleMoves;
     public final PossiblePaths possiblePaths;
 
-    public final UnitSet moveableUnits;
-    public final UnitSet possibleTargets;
-    public final UnitSet engagementAssists;
-    public final UnitSet activatedUnits;
-    public final UnitSet breakUnits;
+    public final UnitList moveableUnits;
+    public final UnitList possibleTargets;
+    public final UnitList engagementAssists;
+    public final UnitList activatedUnits;
+    public final UnitList breakUnits;
 
     public final Meteorology meteorology;
 
@@ -64,12 +64,12 @@ public abstract class Map extends Board
 
         possibleMoves = new HexSet(this, 40);
         possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
-        moveableUnits = new UnitSet(this, 6);
+        moveableUnits = new UnitList(6);
 
-        possibleTargets = new UnitSet(this, 10);
-        engagementAssists = new UnitSet(this, 6);
-        activatedUnits = new UnitSet(this, 7);
-        breakUnits = new UnitSet(this, 4);
+        possibleTargets = new UnitList(10);
+        engagementAssists = new UnitList(6);
+        activatedUnits = new UnitList(7);
+        breakUnits = new UnitList(4);
 
         meteorology = new Meteorology();
     }
@@ -120,7 +120,7 @@ public abstract class Map extends Board
         return possiblePaths.toggleCtrlTile(hex);
     }
 
-    public int collectPossibleTargets(Unit unit, UnitSet foes)
+    public int collectPossibleTargets(Unit unit, UnitList foes)
     {
         if (!unit.canEngage()) {
             possibleTargets.clear();
@@ -142,7 +142,7 @@ public abstract class Map extends Board
         return moveableUnits.size();
     }
 
-    public int collectAttackAssists(Unit unit, Unit target, UnitSet units)
+    public int collectAttackAssists(Unit unit, Unit target, UnitList units)
     {
         int s = collectAttackAssists(unit, target, units.asPawns(), engagementAssists.asPawns());
         activatedUnits.add(unit);
@@ -353,22 +353,28 @@ public abstract class Map extends Board
         enableOverlayOn(hex, Hex.MOVE, enable);
     }
 
+    private void showUnitsOverlay(UnitList units, int overlay, boolean on)
+    {
+        for (Unit unit : units)
+            unit.enableOverlay(overlay, on);
+    }
+
+    public void showMoveableUnits()     { showUnitsOverlay(moveableUnits, Unit.MOVE, true); }
+    public void hideMoveableUnits()     { showUnitsOverlay(moveableUnits, Unit.MOVE, false); }
+    public void showPossibleTargets()   { showUnitsOverlay(possibleTargets, Unit.TARGET, true); }
+    public void hidePossibleTargets()   { showUnitsOverlay(possibleTargets, Unit.TARGET, false); }
+    public void showAttackAssists()     { showUnitsOverlay(engagementAssists, Unit.MAY_FIRE, true); }
+    public void hideAttackAssists()     { showUnitsOverlay(engagementAssists, Unit.FIRE, false);
+                                          showUnitsOverlay(engagementAssists, Unit.MAY_FIRE, false); }
+    public void showBreakUnits()        { showUnitsOverlay(breakUnits, Unit.MOVE, true); }
+    public void hideBreakUnits()        { showUnitsOverlay(breakUnits, Unit.MOVE, false); }
+
     public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
     public void showPossiblePaths()     { possiblePaths.enable(Hex.AREA, true); }
     public void hidePossiblePaths()     { possiblePaths.enable(Hex.AREA, false); }
     public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
     public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
-
-    public void showMoveableUnits()     { moveableUnits.enable(Unit.MOVE, true); }
-    public void hideMoveableUnits()     { moveableUnits.enable(Unit.MOVE, false); }
-    public void showPossibleTargets()   { possibleTargets.enable(Unit.TARGET, true); }
-    public void hidePossibleTargets()   { possibleTargets.enable(Unit.TARGET, false); }
-    public void showAttackAssists()     { engagementAssists.enable(Unit.MAY_FIRE, true); }
-    public void hideAttackAssists()     { engagementAssists.enable(Unit.FIRE, false);
-                                          engagementAssists.enable(Unit.MAY_FIRE, false); }
-    public void showBreakUnits()        { breakUnits.enable(Unit.MOVE, true); }
-    public void hideBreakUnits()        { breakUnits.enable(Unit.MOVE, false); }
 
     public void showObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
     public void hideObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }

@@ -1,7 +1,5 @@
 package ch.asynk.tankontank.game.hud;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.UnitList;
 
 public class UnitDock extends Bg
 {
@@ -30,7 +29,7 @@ public class UnitDock extends Bg
     private boolean done;
     public Unit selectedUnit;
     private Sprite selected;
-    private List<Unit> units;
+    private UnitList units;
     private Vector3 point;
     private Matrix4 saved;
     private Matrix4 transform;

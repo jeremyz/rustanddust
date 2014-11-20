@@ -2,7 +2,6 @@ package ch.asynk.tankontank.game;
 
 import java.util.Random;
 import java.util.List;
-import java.util.ArrayList;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -18,10 +17,10 @@ public class Player
     private boolean deploymentDone;
 
     public Army army;
-    public UnitSet units;
-    public ArrayList<Unit> casualties;
-    public ArrayList<Unit> reinforcement;
-    public ArrayList<Unit> escaped;
+    public UnitList units;
+    public UnitList casualties;
+    public UnitList reinforcement;
+    public UnitList escaped;
 
     public int actionCount;
     public int lostEngagementCount;
@@ -30,10 +29,10 @@ public class Player
     public Player(final TankOnTank game, Army army, int n)
     {
         this.army = army;
-        this.units = new UnitSet(null, n);          // FIXME ugly
-        this.casualties = new ArrayList<Unit>(n);
-        this.reinforcement = new ArrayList<Unit>(n);
-        this.escaped = new ArrayList<Unit>(n);
+        this.units = new UnitList(n);
+        this.casualties = new UnitList(n);
+        this.reinforcement = new UnitList(n);
+        this.escaped = new UnitList(n);
         this.turn = 0;
         this.apSpent = 0;
         this.actionPoints = 0;

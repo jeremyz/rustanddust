@@ -38,7 +38,7 @@ public class StateMove extends StateCommon
             if (selectedUnit.canMove()) {
                 changeUnit(selectedUnit);
             } else {
-                changeUnit((Unit) map.moveableUnits.first());
+                changeUnit((Unit) map.moveableUnits.get(0));
             }
         }
     }
