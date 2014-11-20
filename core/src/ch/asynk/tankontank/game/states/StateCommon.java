@@ -68,14 +68,14 @@ public abstract class StateCommon implements State
     {
         if (ctrl.cfg.showMoves && pawn.canMove()) map.showPossibleMoves();
         if (ctrl.cfg.showTargets && pawn.canEngage()) map.showPossibleTargets();
-        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveablePawns();
+        if (ctrl.cfg.showMoveAssists && pawn.canMove()) map.showMoveableUnits();
     }
 
     protected void hidePossibilities()
     {
         map.hidePossibleMoves();
         map.hidePossibleTargets();
-        map.hideMoveablePawns();
+        map.hideMoveableUnits();
     }
 
     protected boolean checkExit(Unit unit, Hex hex)

@@ -1,10 +1,10 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.engine.Orientation;
-import ch.asynk.tankontank.engine.PawnSet;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Unit;
+import ch.asynk.tankontank.game.UnitSet;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -13,7 +13,7 @@ public class StateDeployment extends StateCommon
 {
     private boolean done;
     private Zone entryZone;
-    private PawnSet deployedUnits = new PawnSet(map, 10);
+    private UnitSet deployedUnits = new UnitSet(map, 10);
 
     @Override
     public void enter(StateType prevState)

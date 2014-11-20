@@ -60,7 +60,7 @@ public class StateRotate extends StateCommon
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
         }
-        if (map.activatedPawns.size() == 0) {
+        if (map.activatedUnits.size() == 0) {
             hideAssists();
         } else {
             nextState = StateType.MOVE;
@@ -104,7 +104,7 @@ public class StateRotate extends StateCommon
 
     private void hideAssists()
     {
-        map.hideMoveablePawns();
+        map.hideMoveableUnits();
     }
 
     private void doRotation(Orientation o)
@@ -112,7 +112,7 @@ public class StateRotate extends StateCommon
         StateType whenDone = StateType.DONE;
 
         ctrl.hud.notify("Move " + activeUnit);
-        if (map.movePawn(activeUnit, o) > 0)
+        if (map.moveUnit(activeUnit, o) > 0)
             whenDone = StateType.MOVE;
 
         ctrl.setAnimationCount(1);

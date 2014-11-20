@@ -16,13 +16,13 @@ public class StateBreak extends StateCommon
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
         ctrl.hud.pushNotify("Break move possible");
-        map.showBreakPawns();
+        map.showBreakUnits();
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        map.hideBreakPawns();
+        map.hideBreakUnits();
         map.hideMove(to);
         map.hideDirections(to);
         map.hideOrientation(to);
@@ -51,12 +51,12 @@ public class StateBreak extends StateCommon
     {
         if (activeUnit == null) {
             Unit unit = upHex.getUnit();
-            if (map.breakPawns.contains(unit)) {
+            if (map.breakUnits.contains(unit)) {
                 activeUnit = unit;
                 map.showMove(upHex);
                 map.showMove(to);
                 map.showDirections(to);
-                map.hideBreakPawns();
+                map.hideBreakUnits();
             }
         } else {
             o = Orientation.fromAdj(to, upHex);
@@ -81,7 +81,7 @@ public class StateBreak extends StateCommon
         map.possiblePaths.init(activeUnit);
         if (map.possiblePaths.build(to) == 1) {
             map.possiblePaths.orientation = o;
-            map.movePawn(activeUnit, o);
+            map.moveUnit(activeUnit, o);
             ctrl.setAnimationCount(1);
             ctrl.setAfterAnimationState(StateType.DONE);
         } else

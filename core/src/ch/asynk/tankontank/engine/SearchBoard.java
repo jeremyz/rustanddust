@@ -259,7 +259,7 @@ public class SearchBoard
             a[5] = null;
     }
 
-    public int possibleTargetsFrom(Pawn pawn, Board.PawnCollection targets)
+    public int possibleTargetsFrom(Pawn pawn, Collection<Pawn> targets)
     {
         targets.clear();
         searchCount += 1;

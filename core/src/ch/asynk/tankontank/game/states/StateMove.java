@@ -9,7 +9,7 @@ public class StateMove extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        boolean moreThanOne = ((map.moveablePawns.size() + map.activatedPawns.size()) > 1);
+        boolean moreThanOne = ((map.moveableUnits.size() + map.activatedUnits.size()) > 1);
         ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.MOVE.b | ((moreThanOne) ? Buttons.DONE.b : 0) | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         ctrl.hud.actionButtons.setOn(Buttons.MOVE);
 
@@ -38,7 +38,7 @@ public class StateMove extends StateCommon
             if (selectedUnit.canMove()) {
                 changeUnit(selectedUnit);
             } else {
-                changeUnit((Unit) map.moveablePawns.first());
+                changeUnit((Unit) map.moveableUnits.first());
             }
         }
     }
@@ -67,7 +67,7 @@ public class StateMove extends StateCommon
     public StateType abort()
     {
         hideAssists();
-        int n = map.activatedPawns.size();
+        int n = map.activatedUnits.size();
         if (n == 0)
             return StateType.ABORT;
         ctrl.setAnimationCount(n);
@@ -84,7 +84,7 @@ public class StateMove extends StateCommon
     {
         hideAssists();
         // be sure that the hq is activated
-        if (selectedUnit.canMove() && (map.activatedPawns.size() > 0))
+        if (selectedUnit.canMove() && (map.activatedUnits.size() > 0))
             selectedUnit.setMoved();
 
         return StateType.DONE;
@@ -102,7 +102,7 @@ public class StateMove extends StateCommon
 
         Unit unit = upHex.getUnit();
 
-        if (map.moveablePawns.contains(unit)) {
+        if (map.moveableUnits.contains(unit)) {
             if(unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
@@ -119,7 +119,7 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        map.hideMoveablePawns();
+        map.hideMoveableUnits();
     }
 
     private void changeUnit(Unit unit)

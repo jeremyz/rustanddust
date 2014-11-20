@@ -19,7 +19,7 @@ public class StateEngage extends StateCommon
             activeUnit = null;
             // use selectedHex and selectedUnit
             map.hidePossibleTargets();
-            map.collectPossibleTargets(selectedUnit, ctrl.opponent.unitsAsPawns());
+            map.collectPossibleTargets(selectedUnit, ctrl.opponent.units);
             map.showPossibleTargets();
             if (to != null) {
                 // quick fire -> replay touchUp
@@ -46,7 +46,7 @@ public class StateEngage extends StateCommon
     @Override
     public StateType abort()
     {
-        map.activatedPawns.clear();
+        map.activatedUnits.clear();
         return StateType.ABORT;
     }
 
@@ -54,11 +54,11 @@ public class StateEngage extends StateCommon
     public StateType done()
     {
         StateType nextState = StateType.DONE;
-        if (map.engagePawn(selectedUnit, activeUnit)) {
+        if (map.engageUnit(selectedUnit, activeUnit)) {
             ctrl.player.wonEngagementCount += 1;
             ctrl.hud.notify(selectedUnit.engagement.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
-            if (map.breakPawns.size() > 0) {
+            if (map.breakUnits.size() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
@@ -89,7 +89,7 @@ public class StateEngage extends StateCommon
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
-            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.unitsAsPawns());
+            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.units);
             map.showAttackAssists();
             ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }

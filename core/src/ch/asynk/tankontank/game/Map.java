@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.game;
 
-import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.audio.Sound;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
-import ch.asynk.tankontank.engine.PawnSet;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
@@ -31,11 +29,11 @@ public abstract class Map extends Board
     public final HexSet possibleMoves;
     public final PossiblePaths possiblePaths;
 
-    public final Board.PawnCollection moveablePawns;
-    public final Board.PawnCollection possibleTargets;
-    public final Board.PawnCollection engagementAssists;
-    public final Board.PawnCollection activatedPawns;
-    public final Board.PawnCollection breakPawns;
+    public final UnitSet moveableUnits;
+    public final UnitSet possibleTargets;
+    public final UnitSet engagementAssists;
+    public final UnitSet activatedUnits;
+    public final UnitSet breakUnits;
 
     public final Meteorology meteorology;
 
@@ -66,12 +64,12 @@ public abstract class Map extends Board
 
         possibleMoves = new HexSet(this, 40);
         possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
-        moveablePawns = new PawnSet(this, 6);
+        moveableUnits = new UnitSet(this, 6);
 
-        possibleTargets = new PawnSet(this, 10);
-        engagementAssists = new PawnSet(this, 6);
-        activatedPawns = new PawnSet(this, 7);
-        breakPawns = new PawnSet(this, 4);
+        possibleTargets = new UnitSet(this, 10);
+        engagementAssists = new UnitSet(this, 6);
+        activatedUnits = new UnitSet(this, 7);
+        breakUnits = new UnitSet(this, 4);
 
         meteorology = new Meteorology();
     }
@@ -92,10 +90,10 @@ public abstract class Map extends Board
         possibleMoves.clear();
         possibleTargets.clear();
         possiblePaths.clear();
-        moveablePawns.clear();
+        moveableUnits.clear();
         engagementAssists.clear();
-        activatedPawns.clear();
-        breakPawns.clear();
+        activatedUnits.clear();
+        breakUnits.clear();
     }
 
     public Hex getHexAt(float x, float y)
@@ -122,44 +120,44 @@ public abstract class Map extends Board
         return possiblePaths.toggleCtrlTile(hex);
     }
 
-    public int collectPossibleTargets(Unit unit, List<Pawn> foes)
+    public int collectPossibleTargets(Unit unit, UnitSet foes)
     {
         if (!unit.canEngage()) {
             possibleTargets.clear();
             return 0;
         }
         // return collectPossibleTargets(unit, possibleTargets);
-        return collectPossibleTargets(unit, foes, possibleTargets);
+        return collectPossibleTargets(unit, foes.asPawns(), possibleTargets.asPawns());
     }
 
-    public int collectMoveablePawns(Unit unit)
+    public int collectMoveableUnits(Unit unit)
     {
         if (unit.isHq() && !unit.movement.entryMove) {
-            collectMoveAssists(unit, moveablePawns);
+            collectMoveAssists(unit, moveableUnits.asPawns());
         } else {
-            moveablePawns.clear();
+            moveableUnits.clear();
         }
         if (unit.canMove())
-            moveablePawns.add(unit);
-        return moveablePawns.size();
+            moveableUnits.add(unit);
+        return moveableUnits.size();
     }
 
-    public int collectAttackAssists(Unit unit, Unit target, List<Pawn> units)
+    public int collectAttackAssists(Unit unit, Unit target, UnitSet units)
     {
-        int s = collectAttackAssists(unit, target, units, engagementAssists);
-        activatedPawns.add(unit);
+        int s = collectAttackAssists(unit, target, units.asPawns(), engagementAssists.asPawns());
+        activatedUnits.add(unit);
         return s;
     }
 
     public boolean toggleAttackAssist(Unit unit)
     {
-        if (activatedPawns.contains(unit)) {
-            activatedPawns.remove(unit);
+        if (activatedUnits.contains(unit)) {
+            activatedUnits.remove(unit);
             unit.hideAttack();
             unit.showAttackAssist();
             return false;
         } else {
-            activatedPawns.add(unit);
+            activatedUnits.add(unit);
             unit.showAttack();
             unit.hideAttackAssist();
             return true;
@@ -169,12 +167,12 @@ public abstract class Map extends Board
     public void collectAndShowMovesAndAssits(Unit unit)
     {
         hidePossibleMoves();
-        hideMoveablePawns();
+        hideMoveableUnits();
         collectPossibleMoves(unit);
-        collectMoveablePawns(unit);
+        collectMoveableUnits(unit);
         showPossibleMoves();
-        showMoveablePawns();
-        activatedPawns.clear();
+        showMoveableUnits();
+        activatedUnits.clear();
     }
 
     // ACTIONS
@@ -197,10 +195,10 @@ public abstract class Map extends Board
     public void leaveBoard(Unit unit)
     {
         removePawn(unit);
-        activatedPawns.add(unit);
+        activatedUnits.add(unit);
     }
 
-    public int movePawn(Unit unit, Orientation o)
+    public int moveUnit(Unit unit, Orientation o)
     {
         possiblePaths.orientation = o;
         movePawn(unit, possiblePaths, notifyDoneAnimation(unit));
@@ -211,22 +209,22 @@ public abstract class Map extends Board
     public void revertMoves()
     {
         TankOnTank.debug("    revertMoves()");
-        for (Pawn pawn: activatedPawns) {
-            revertLastPawnMove(pawn, notifyDoneAnimation(pawn));
+        for (Unit unit: activatedUnits) {
+            revertLastPawnMove(unit, notifyDoneAnimation(unit));
         }
-        activatedPawns.clear();
+        activatedUnits.clear();
     }
 
     private int startMove(Unit unit)
     {
-        moveablePawns.remove(unit);
-        activatedPawns.add(unit);
+        moveableUnits.remove(unit);
+        activatedUnits.add(unit);
         sound = moveSound;
         soundId = sound.play(1.0f);
-        return moveablePawns.size();
+        return moveableUnits.size();
     }
 
-    private RunnableAnimation notifyDoneAnimation(final Pawn unit)
+    private RunnableAnimation notifyDoneAnimation(final Unit unit)
     {
         return RunnableAnimation.get(unit, new Runnable() {
             @Override
@@ -264,7 +262,7 @@ public abstract class Map extends Board
             boolean flankAttack = false;
             boolean terrainBonus = true;
 
-            for (Pawn assist : activatedPawns) {
+            for (Pawn assist : activatedUnits) {
                 if (assist.isFlankAttack())
                     flankAttack = true;
                 if (assist.isA(Unit.UnitType.INFANTRY))
@@ -276,7 +274,7 @@ public abstract class Map extends Board
                 }
             }
 
-            int cnt = activatedPawns.size();
+            int cnt = activatedUnits.size();
             int def = target.getDefense(unit.getTile());
             int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
             int tdf = (terrainBonus ? unit.getTile().defense() : 0);
@@ -297,10 +295,10 @@ public abstract class Map extends Board
         }
     }
 
-    public boolean engagePawn(Unit unit, final Unit target)
+    public boolean engageUnit(Unit unit, final Unit target)
     {
         boolean mayReroll = false;
-        for (Pawn assist : activatedPawns) {
+        for (Unit assist : activatedUnits) {
             if (((Unit) assist).isAce())
                 mayReroll = true;
         }
@@ -330,15 +328,15 @@ public abstract class Map extends Board
             }));
         }
 
-        breakPawns.clear();
-        for (Pawn p : activatedPawns) {
-            p.engage();
-            if (p.isA(Unit.UnitType.INFANTRY))
-                breakPawns.add(p);
+        breakUnits.clear();
+        for (Unit u: activatedUnits) {
+            u.engage();
+            if (u.isA(Unit.UnitType.INFANTRY))
+                breakUnits.add(u);
         }
 
-        if ((activatedPawns.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
-            activatedPawns.clear();
+        if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+            activatedUnits.clear();
 
         addAnimation(seq);
         sound = engagementSound;
@@ -362,15 +360,15 @@ public abstract class Map extends Board
     public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
     public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
 
-    public void showMoveablePawns()     { moveablePawns.enable(Unit.MOVE, true); }
-    public void hideMoveablePawns()     { moveablePawns.enable(Unit.MOVE, false); }
+    public void showMoveableUnits()     { moveableUnits.enable(Unit.MOVE, true); }
+    public void hideMoveableUnits()     { moveableUnits.enable(Unit.MOVE, false); }
     public void showPossibleTargets()   { possibleTargets.enable(Unit.TARGET, true); }
     public void hidePossibleTargets()   { possibleTargets.enable(Unit.TARGET, false); }
     public void showAttackAssists()     { engagementAssists.enable(Unit.MAY_FIRE, true); }
     public void hideAttackAssists()     { engagementAssists.enable(Unit.FIRE, false);
                                           engagementAssists.enable(Unit.MAY_FIRE, false); }
-    public void showBreakPawns()        { breakPawns.enable(Unit.MOVE, true); }
-    public void hideBreakPawns()        { breakPawns.enable(Unit.MOVE, false); }
+    public void showBreakUnits()        { breakUnits.enable(Unit.MOVE, true); }
+    public void hideBreakUnits()        { breakUnits.enable(Unit.MOVE, false); }
 
     public void showObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
     public void hideObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }

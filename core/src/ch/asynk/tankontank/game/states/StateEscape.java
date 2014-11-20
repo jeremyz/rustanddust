@@ -61,7 +61,7 @@ public class StateEscape extends StateCommon
         map.leaveBoard(unit);
         ctrl.player.unitEscape(unit);
 
-        if (map.movePawn(activeUnit, exitZone.orientation) > 0)
+        if (map.moveUnit(activeUnit, exitZone.orientation) > 0)
             return StateType.MOVE;
         return StateType.DONE;
     }

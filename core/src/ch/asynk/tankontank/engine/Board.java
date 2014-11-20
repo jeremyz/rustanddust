@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.ArrayList;
@@ -30,12 +29,6 @@ public abstract class Board implements Disposable
     public interface TileBuilder
     {
         public Tile getNewTile(float x, float y, int col, int row, boolean offmap);
-    }
-
-    public interface PawnCollection extends Collection<Pawn>
-    {
-        public Pawn first();
-        public void enable(int i, boolean enable);
     }
 
     public static class Config
@@ -292,12 +285,12 @@ public abstract class Board implements Disposable
         return searchBoard.possibleMovesFrom(pawn, moves);
     }
 
-    protected int collectPossibleTargets(Pawn pawn, PawnCollection targets)
+    protected int collectPossibleTargets(Pawn pawn, Collection<Pawn> targets)
     {
         return searchBoard.possibleTargetsFrom(pawn, targets);
     }
 
-    protected int collectPossibleTargets(Pawn pawn, List<Pawn> units, PawnCollection targets)
+    protected int collectPossibleTargets(Pawn pawn, Collection<Pawn> units, Collection<Pawn> targets)
     {
         targets.clear();
         for (Pawn target : units) {
@@ -308,7 +301,7 @@ public abstract class Board implements Disposable
         return targets.size();
     }
 
-    protected int collectMoveAssists(Pawn pawn, PawnCollection assists)
+    protected int collectMoveAssists(Pawn pawn, Collection<Pawn> assists)
     {
         assists.clear();
         setAdjacentTiles(pawn.getTile(), neighbours);
@@ -326,7 +319,7 @@ public abstract class Board implements Disposable
         return assists.size();
     }
 
-    protected int collectAttackAssists(Pawn pawn, Pawn target, List<Pawn> units, PawnCollection assists)
+    protected int collectAttackAssists(Pawn pawn, Pawn target, Collection<Pawn> units, Collection<Pawn> assists)
     {
         assists.clear();
         for (Pawn p : units) {

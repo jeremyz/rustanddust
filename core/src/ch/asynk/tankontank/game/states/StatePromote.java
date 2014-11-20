@@ -10,7 +10,7 @@ public class StatePromote extends StateCommon
         ctrl.hud.actionButtons.hide();
         String str = selectedUnit.toString();
         if (ctrl.player.promote(selectedUnit)) {
-            map.activatedPawns.add(selectedUnit);
+            map.activatedUnits.add(selectedUnit);
             ctrl.hud.notify(str+ " has been promoted");
         }
         ctrl.setState(StateType.DONE);

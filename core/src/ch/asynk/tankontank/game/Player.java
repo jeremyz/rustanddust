@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ch.asynk.tankontank.TankOnTank;
-import ch.asynk.tankontank.engine.Pawn;
 
 public class Player
 {
@@ -19,7 +18,7 @@ public class Player
     private boolean deploymentDone;
 
     public Army army;
-    public ArrayList<Unit> units;
+    public UnitSet units;
     public ArrayList<Unit> casualties;
     public ArrayList<Unit> reinforcement;
     public ArrayList<Unit> escaped;
@@ -31,7 +30,7 @@ public class Player
     public Player(final TankOnTank game, Army army, int n)
     {
         this.army = army;
-        this.units = new ArrayList<Unit>(n);
+        this.units = new UnitSet(null, n);          // FIXME ugly
         this.casualties = new ArrayList<Unit>(n);
         this.reinforcement = new ArrayList<Unit>(n);
         this.escaped = new ArrayList<Unit>(n);
@@ -73,12 +72,6 @@ public class Player
     public boolean isEnemy(Army other)
     {
         return army.isEnemy(other);
-    }
-
-   @SuppressWarnings("unchecked")
-    public List<Pawn> unitsAsPawns()
-    {
-        return (List) units;
     }
 
     public int unitsLeft()
