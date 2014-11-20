@@ -21,8 +21,8 @@ public class HexSet extends LinkedHashSet<Hex>
             map.enableOverlayOn(hex, i, enable);
     }
 
-   @SuppressWarnings("unchecked")
-    public Collection<Tile> hexAsTiles()
+    @SuppressWarnings("unchecked")
+    public Collection<Tile> asTiles()
     {
         return (Collection) this;
     }

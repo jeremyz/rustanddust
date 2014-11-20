@@ -114,7 +114,7 @@ public abstract class Map extends Board
             possibleMoves.clear();
             return 0;
         }
-        return collectPossibleMoves(unit, possibleMoves.hexAsTiles());
+        return collectPossibleMoves(unit, possibleMoves.asTiles());
     }
 
     public int togglePossiblePathHex(Hex hex)
