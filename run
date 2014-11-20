@@ -16,6 +16,10 @@ case "$1" in
         ARGS="core:test"
         shift
         ;;
+    "j")
+        ARGS="core:compileJava"
+        shift
+        ;;
 esac
 
 echo "./gradlew $ARGS $@" && ./gradlew $ARGS $@
