@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Collection;
 
 public class SearchBoard
 {
@@ -110,7 +111,7 @@ public class SearchBoard
         a[5] = getNode((src.col - 1), (src.row - 1));
     }
 
-    public int possibleMovesFrom(Pawn pawn, Board.TileCollection moves)
+    public int possibleMovesFrom(Pawn pawn, Collection<Tile> moves)
     {
         moves.clear();
         searchCount += 1;

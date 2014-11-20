@@ -1,17 +1,15 @@
 package ch.asynk.tankontank.game.battles;
 
+import ch.asynk.tankontank.game.Zone;
+import ch.asynk.tankontank.game.Army;
+import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
-import ch.asynk.tankontank.game.Army;
-import ch.asynk.tankontank.game.Player;
-import ch.asynk.tankontank.game.State.StateType;
+import ch.asynk.tankontank.game.HexSet;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
 

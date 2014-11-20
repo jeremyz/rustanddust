@@ -4,13 +4,13 @@ import java.util.Random;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Battle;
 import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Zone;
+import ch.asynk.tankontank.game.HexSet;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.State.StateType;
@@ -28,7 +28,7 @@ public abstract class BattleCommon implements Battle
     protected ArrayList<Zone> exitZone = new ArrayList<Zone>();
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
-    protected TileSet objectives;
+    protected HexSet objectives;
 
     public BattleCommon(Factory factory)
     {

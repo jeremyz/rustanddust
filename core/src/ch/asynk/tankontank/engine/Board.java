@@ -32,12 +32,6 @@ public abstract class Board implements Disposable
         public Tile getNewTile(float x, float y, int col, int row, boolean offmap);
     }
 
-    public interface TileCollection extends Collection<Tile>
-    {
-        public Tile first();
-        public void enable(int i, boolean enable);
-    }
-
     public interface PawnCollection extends Collection<Pawn>
     {
         public Pawn first();
@@ -293,7 +287,7 @@ public abstract class Board implements Disposable
             debugShapes.setTransformMatrix(prevTransform);
     }
 
-    protected int collectPossibleMoves(Pawn pawn, TileCollection moves)
+    protected int collectPossibleMoves(Pawn pawn, Collection<Tile> moves)
     {
         return searchBoard.possibleMovesFrom(pawn, moves);
     }

@@ -1,9 +1,11 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -20,12 +22,12 @@ public class PossiblePaths implements Iterable<Vector3>
     private List<Tile> ctrlTiles;
     private List<ArrayList<Tile>> paths;
     private List<ArrayList<Tile>> filteredPaths;
-    private Board.TileCollection tiles;
+    private HashSet<Tile> tiles;
 
     public PossiblePaths(Board board, int tSize, int stSize, int ftSize, int vectSize)
     {
         this.board = board;
-        this.tiles = new TileSet(board, tSize);
+        this.tiles = new LinkedHashSet<Tile>(tSize);
         this.stack = new ArrayList<Tile>(stSize);
         this.ctrlTiles = new ArrayList<Tile>(ftSize);
         this.paths = new LinkedList<ArrayList<Tile>>();

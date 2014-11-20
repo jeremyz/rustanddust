@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.PawnSet;
-import ch.asynk.tankontank.engine.TileSet;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
@@ -29,7 +28,7 @@ public abstract class Map extends Board
 
     private Random rand = new Random();
 
-    public final Board.TileCollection possibleMoves;
+    public final HexSet possibleMoves;
     public final PossiblePaths possiblePaths;
 
     public final Board.PawnCollection moveablePawns;
@@ -65,7 +64,7 @@ public abstract class Map extends Board
 
         setup();
 
-        possibleMoves = new TileSet(this, 40);
+        possibleMoves = new HexSet(this, 40);
         possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
         moveablePawns = new PawnSet(this, 6);
 
@@ -115,7 +114,7 @@ public abstract class Map extends Board
             possibleMoves.clear();
             return 0;
         }
-        return collectPossibleMoves(unit, possibleMoves);
+        return collectPossibleMoves(unit, possibleMoves.hexAsTiles());
     }
 
     public int togglePossiblePathHex(Hex hex)

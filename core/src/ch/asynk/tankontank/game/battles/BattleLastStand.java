@@ -1,17 +1,15 @@
 package ch.asynk.tankontank.game.battles;
 
+import ch.asynk.tankontank.game.Zone;
+import ch.asynk.tankontank.game.Army;
+import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
-import ch.asynk.tankontank.game.Army;
-import ch.asynk.tankontank.game.Player;
-import ch.asynk.tankontank.game.State.StateType;
+import ch.asynk.tankontank.game.HexSet;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
 import ch.asynk.tankontank.game.hud.Position;
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.TileSet;
-import ch.asynk.tankontank.engine.Zone;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleLastStand extends BattleCommon
@@ -60,8 +58,8 @@ public class BattleLastStand extends BattleCommon
             if (unit.isAce())
                 usPoints += 1;
         }
-        for (Tile tile : objectives) {
-            Unit unit = ((Hex) tile).getUnit();
+        for (Hex hex: objectives) {
+            Unit unit = hex.getUnit();
             if ((unit != null) && unit.is(Army.US))
                 usPoints += 1;
         }
@@ -76,7 +74,7 @@ public class BattleLastStand extends BattleCommon
     public void setup(Ctrl ctrl, Map map)
     {
         // A7, E6, F6, G10
-        objectives = new TileSet(map, 4);
+        objectives = new HexSet(map, 4);
         objectives.add(map.getHex(7, 8));
         objectives.add(map.getHex(6, 4));
         objectives.add(map.getHex(5, 3));
