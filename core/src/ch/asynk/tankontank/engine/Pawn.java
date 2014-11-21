@@ -345,12 +345,12 @@ public abstract class Pawn implements Moveable, Disposable
         return seq;
     }
 
-    public AnimationSequence getMoveAnimation(Iterator<Vector3> vectors, int size)
+    public AnimationSequence getMoveAnimation(Iterator<Vector3> vectors, int size, MoveToAnimation.MoveToAnimationCb cb)
     {
         prevPosition.set(position);
         AnimationSequence seq = AnimationSequence.get(size);
         while (vectors.hasNext())
-            seq.addAnimation(MoveToAnimation.get(this, vectors.next(), MOVE_TIME));
+            seq.addAnimation(MoveToAnimation.get(this, vectors.next(), MOVE_TIME, cb));
 
         return seq;
     }

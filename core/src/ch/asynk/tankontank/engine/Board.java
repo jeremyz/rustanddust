@@ -19,6 +19,7 @@ import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation.MoveToAnimationCb;
 
 public abstract class Board implements Disposable
 {
@@ -410,12 +411,12 @@ public abstract class Board implements Disposable
         });
     }
 
-    protected void movePawn(final Pawn pawn, PossiblePaths possiblePaths, RunnableAnimation whenDone)
+    protected void movePawn(final Pawn pawn, PossiblePaths possiblePaths, RunnableAnimation whenDone, MoveToAnimationCb cb)
     {
         possiblePaths.applyToPawn(0);
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), possiblePaths.pathSteps(0) + 2);
+        AnimationSequence seq = pawn.getMoveAnimation(possiblePaths.iterator(), (possiblePaths.pathSteps(0) + 2), cb);
         seq.addAnimation(getSetPawnOntoAnimation(pawn));
         seq.addAnimation(whenDone);
         addAnimation(seq);
