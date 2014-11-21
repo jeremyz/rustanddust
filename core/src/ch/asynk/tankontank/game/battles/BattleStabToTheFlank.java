@@ -95,7 +95,7 @@ public class BattleStabToTheFlank extends BattleCommon
 
         // hex rows D-I
         Zone geEntry = new Zone(map, 57);
-        geEntry.orientation = Orientation.NORTH_WEST;
+        geEntry.orientation = Orientation.NORTH;
         for (int i = 3; i < 12; i++)
             geEntry.add(map.getHex(i, 5));
         for (int i = 2; i < 12; i++)
@@ -126,7 +126,7 @@ public class BattleStabToTheFlank extends BattleCommon
 
         // hex rows A-B
         Zone usEntry = new Zone(map, 19);
-        usEntry.orientation = Orientation.SOUTH;
+        usEntry.orientation = Orientation.SOUTH_EAST;
         for (int i = 4; i < 13; i++) {
             usEntry.add(map.getHex(i, 8));
             usEntry.add(map.getHex(i, 7));
