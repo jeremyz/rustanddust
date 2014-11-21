@@ -28,7 +28,6 @@ public abstract class BattleCommon implements Battle
     protected ArrayList<Zone> exitZone = new ArrayList<Zone>();
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
-    protected HexSet objectives;
 
     public BattleCommon(Factory factory)
     {

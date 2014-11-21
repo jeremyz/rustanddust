@@ -53,23 +53,11 @@ public class BattleHeadToHead extends BattleCommon
         if ((ctrl.player.getTurnDone() < 10) || (ctrl.opponent.getTurnDone() < 10))
             return null;
 
-        int player = 0;
-        int opponent = 0;
+        if (ctrl.map.objectives.count(Army.US) >= 2)
+            return usPlayer;
+        if (ctrl.map.objectives.count(Army.GE) >= 2)
+            return gePlayer;
 
-        for (Hex hex : objectives) {
-            Unit unit = hex.getUnit();
-            if (unit != null) {
-                if (ctrl.player.isEnemy(unit))
-                    opponent += 1;
-                else
-                    player += 1;
-            }
-        }
-
-        if (player > 1)
-            return ctrl.player;
-        else if (opponent > 1)
-            return ctrl.opponent;
         return null;
     }
 
@@ -81,11 +69,9 @@ public class BattleHeadToHead extends BattleCommon
         gePlayer.turnEnd();
 
         // B6, E6, H4
-        objectives = new HexSet(map, 3);
-        objectives.add(map.getHex(7, 7));
-        objectives.add(map.getHex(6, 4));
-        objectives.add(map.getHex(6, 1));
-        objectives.enable(Hex.OBJECTIVE, true);
+        map.addObjective(7, 7, Army.NONE);
+        map.addObjective(6, 4, Army.NONE);
+        map.addObjective(6, 1, Army.NONE);
 
         // southern hex row
         Zone geEntry = new Zone(map, 9);

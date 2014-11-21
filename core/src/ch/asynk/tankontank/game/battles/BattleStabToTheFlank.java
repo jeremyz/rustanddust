@@ -52,18 +52,13 @@ public class BattleStabToTheFlank extends BattleCommon
 
         int gePoints = usPlayer.casualties();
         int usPoints = gePlayer.casualties();
+        usPoints += ctrl.map.objectives.count(Army.US);
 
         int escaped = usPlayer.escaped();
         if (escaped == 0)
             gePoints += 1;
         else
             usPoints += escaped;
-
-        for (Hex hex : objectives) {
-            Unit unit = hex.getUnit();
-            if ((unit != null) && unit.is(Army.US))
-                usPoints += 1;
-        }
 
         if (usPoints > gePoints)
             return usPlayer;
@@ -95,10 +90,8 @@ public class BattleStabToTheFlank extends BattleCommon
     public void setup(Ctrl ctrl, Map map)
     {
         // F6, E6
-        objectives = new HexSet(map, 2);
-        objectives.add(map.getHex(5, 3));
-        objectives.add(map.getHex(6, 4));
-        objectives.enable(Hex.OBJECTIVE, true);
+        map.addHoldObjective(5, 3, Army.NONE);
+        map.addObjective(6, 4, Army.NONE);
 
         // hex rows D-I
         Zone geEntry = new Zone(map, 57);

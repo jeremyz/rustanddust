@@ -68,14 +68,7 @@ public class BattleFrontalAssault extends BattleCommon
         if ((ctrl.player.getTurnDone() < 10) || (ctrl.opponent.getTurnDone() < 10))
             return null;
 
-        int count = 0;
-        for (Hex hex : objectives) {
-            Unit unit = hex.getUnit();
-            if ((unit != null) && unit.is(Army.US))
-                count =+ 1;
-        }
-
-        if (count > 1)
+        if (ctrl.map.objectives.count(Army.US) >= 2)
             return usPlayer;
         else
             return gePlayer;
@@ -85,11 +78,9 @@ public class BattleFrontalAssault extends BattleCommon
     public void setup(Ctrl ctrl, Map map)
     {
         // G9, E6, H4
-        objectives = new HexSet(map, 3);
-        objectives.add(map.getHex(2, 2));
-        objectives.add(map.getHex(6, 4));
-        objectives.add(map.getHex(6, 1));
-        objectives.enable(Hex.OBJECTIVE, true);
+        map.addObjective(2, 2, Army.NONE);
+        map.addObjective(6, 4, Army.NONE);
+        map.addObjective(6, 1, Army.NONE);
 
         // hex rows E-H
         Zone geEntry = new Zone(map, 38);

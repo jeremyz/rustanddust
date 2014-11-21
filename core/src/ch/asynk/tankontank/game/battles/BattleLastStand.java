@@ -54,13 +54,9 @@ public class BattleLastStand extends BattleCommon
 
         int gePoints = usPlayer.casualties();
         int usPoints = gePlayer.casualties();
+        usPoints += ctrl.map.objectives.count(Army.US);
         for (Unit unit : gePlayer.casualties) {
             if (unit.isAce())
-                usPoints += 1;
-        }
-        for (Hex hex: objectives) {
-            Unit unit = hex.getUnit();
-            if ((unit != null) && unit.is(Army.US))
                 usPoints += 1;
         }
 
@@ -74,12 +70,10 @@ public class BattleLastStand extends BattleCommon
     public void setup(Ctrl ctrl, Map map)
     {
         // A7, E6, F6, G10
-        objectives = new HexSet(map, 4);
-        objectives.add(map.getHex(7, 8));
-        objectives.add(map.getHex(6, 4));
-        objectives.add(map.getHex(5, 3));
-        objectives.add(map.getHex(1, 2));
-        objectives.enable(Hex.OBJECTIVE, true);
+        map.addObjective(7, 8, Army.NONE);
+        map.addObjective(6, 4, Army.NONE);
+        map.addObjective(5, 3, Army.NONE);
+        map.addObjective(1, 2, Army.NONE);
 
         // 1 hex of E7
         Zone geEntry = new Zone(map, 7);

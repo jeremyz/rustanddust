@@ -34,6 +34,7 @@ public abstract class Map extends Board
     public final UnitList engagementAssists;
     public final UnitList activatedUnits;
     public final UnitList breakUnits;
+    public final ObjectiveSet objectives;
 
     public final Meteorology meteorology;
 
@@ -71,6 +72,8 @@ public abstract class Map extends Board
         activatedUnits = new UnitList(7);
         breakUnits = new UnitList(4);
 
+        objectives = new ObjectiveSet(this, 4);
+
         meteorology = new Meteorology();
     }
 
@@ -104,6 +107,16 @@ public abstract class Map extends Board
     public Hex getHex(int col, int row)
     {
         return (Hex) getTile(col, row);
+    }
+
+    public void addObjective(int col, int row, Army army)
+    {
+        objectives.add(getHex(col, row), army, true);
+    }
+
+    public void addHoldObjective(int col, int row, Army army)
+    {
+        objectives.add(getHex(col, row), army, false);
     }
 
     public int collectPossibleMoves(Unit unit)
