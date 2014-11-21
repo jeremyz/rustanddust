@@ -380,9 +380,6 @@ public abstract class Map extends Board
     public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
     public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
 
-    public void showObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
-    public void hideObjective(Hex hex)  { enableOverlayOn(hex, Hex.OBJECTIVE, true); }
-
     public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
     public void unselectHex(Hex hex)    { enableOverlayOn(hex, Hex.SELECT, false); }
     public void showMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, true); }
@@ -391,4 +388,33 @@ public abstract class Map extends Board
     public void hideDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
     public void showOrientation(Hex hex, Orientation o) { enableOverlayOn(hex, Hex.ORIENTATION, o, true); }
     public void hideOrientation(Hex hex) { enableOverlayOn(hex, Hex.ORIENTATION, false); }
+
+    public void hideObjective(Hex hex)
+    {
+        enableOverlayOn(hex, Hex.OBJECTIVE, false);
+        enableOverlayOn(hex, Hex.OBJECTIVE_US, false);
+        enableOverlayOn(hex, Hex.OBJECTIVE_GE, false);
+    }
+
+    public void showObjective(Hex hex, Army army)
+    {
+        switch(army) {
+            case GE:
+                enableOverlayOn(hex, Hex.OBJECTIVE_GE, true);
+                enableOverlayOn(hex, Hex.OBJECTIVE_US, false);
+                enableOverlayOn(hex, Hex.OBJECTIVE, false);
+                break;
+            case US:
+                enableOverlayOn(hex, Hex.OBJECTIVE_GE, false);
+                enableOverlayOn(hex, Hex.OBJECTIVE_US, true);
+                enableOverlayOn(hex, Hex.OBJECTIVE, false);
+                break;
+            case NONE:
+            default:
+                enableOverlayOn(hex, Hex.OBJECTIVE_GE, false);
+                enableOverlayOn(hex, Hex.OBJECTIVE_US, false);
+                enableOverlayOn(hex, Hex.OBJECTIVE, true);
+                break;
+        }
+    }
 }

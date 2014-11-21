@@ -52,3 +52,17 @@ repeat: none
   orig: 190, 217
   offset: 0, 0
   index: -1
+07_objective_ge
+  rotate: false
+  xy: 618, 48
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+08_objective_us
+  rotate: false
+  xy: 810, 267
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
