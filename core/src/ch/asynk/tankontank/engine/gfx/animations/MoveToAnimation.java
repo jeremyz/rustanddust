@@ -9,6 +9,12 @@ import ch.asynk.tankontank.engine.gfx.Moveable;
 
 public class MoveToAnimation extends TimedAnimation
 {
+    public interface MoveToAnimationCb {
+        void moveToAnimationLeave(Moveable moveable, float x, float y, float r);
+        void moveToAnimationEnter(Moveable moveable, float x, float y, float r);
+        void moveToAnimationDone(Moveable moveable, float x, float y, float r);
+    }
+
     private Moveable moveable;
     private float fromX;
     private float fromY;
@@ -17,6 +23,8 @@ public class MoveToAnimation extends TimedAnimation
     private float toY;
     private float toR;
     private float rDelta;
+    private boolean notified;
+    private MoveToAnimationCb cb;
 
     private static final Pool<MoveToAnimation> moveToAnimationPool = new Pool<MoveToAnimation>() {
         @Override
@@ -30,7 +38,17 @@ public class MoveToAnimation extends TimedAnimation
         return get(moveable, v.x, v.y, v.z, duration);
     }
 
+    public static MoveToAnimation get(Moveable moveable, Vector3 v, float duration, MoveToAnimationCb cb)
+    {
+        return get(moveable, v.x, v.y, v.z, duration, cb);
+    }
+
     public static MoveToAnimation get(Moveable moveable, float x, float y, float r, float duration)
+    {
+        return get(moveable, x, y, r, duration, null);
+    }
+
+    public static MoveToAnimation get(Moveable moveable, float x, float y, float r, float duration, MoveToAnimationCb cb)
     {
         MoveToAnimation a = moveToAnimationPool.obtain();
 
@@ -39,7 +57,9 @@ public class MoveToAnimation extends TimedAnimation
         a.toY = y;
         a.toR = r;
         a.duration = duration;
+        a.cb = cb;
         a.rDelta = 0;
+        a.notified = false;
 
         return a;
     }
@@ -56,6 +76,7 @@ public class MoveToAnimation extends TimedAnimation
         fromX = moveable.getX();
         fromY = moveable.getY();
         fromR = moveable.getRotation();
+        notified = ((fromX == toX) && (fromY == toY));
 
         if (Math.abs(toR - fromR) <= 180.f)
             rDelta = (toR - fromR);
@@ -70,12 +91,19 @@ public class MoveToAnimation extends TimedAnimation
     @Override
     protected void end()
     {
+        if (cb != null)
+            cb.moveToAnimationDone(moveable, toX, toY, toR);
         dispose();
     }
 
     @Override
     protected void update(float percent)
     {
+        if ((cb != null) && !notified && (percent >= 0.5)) {
+            cb.moveToAnimationLeave(moveable, fromX, fromY, fromR);
+            cb.moveToAnimationEnter(moveable, toX, toY, toR);
+            notified = true;
+        }
         if (percent == 1f)
             moveable.setPosition(toX, toY, (int) toR);
         else
