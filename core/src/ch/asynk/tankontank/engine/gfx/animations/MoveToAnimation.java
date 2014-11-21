@@ -92,7 +92,7 @@ public class MoveToAnimation extends TimedAnimation
     protected void end()
     {
         if (cb != null)
-            cb.moveToAnimationDone(moveable, toX, toY, toR);
+            cb.moveToAnimationDone(moveable, (toX + (moveable.getWidth() / 2)), (toY + (moveable.getHeight() / 2)), toR);
         dispose();
     }
 
@@ -100,8 +100,10 @@ public class MoveToAnimation extends TimedAnimation
     protected void update(float percent)
     {
         if ((cb != null) && !notified && (percent >= 0.5)) {
-            cb.moveToAnimationLeave(moveable, fromX, fromY, fromR);
-            cb.moveToAnimationEnter(moveable, toX, toY, toR);
+            float dw = (moveable.getWidth() / 2);
+            float dh = (moveable.getHeight() / 2);
+            cb.moveToAnimationLeave(moveable, (fromX + dw), (fromY + dh), fromR);
+            cb.moveToAnimationEnter(moveable, (toX + dw), (toY + dh), toR);
             notified = true;
         }
         if (percent == 1f)
