@@ -116,6 +116,11 @@ public class Unit extends HeadedPawn
         commonSetup();
     }
 
+    public Army getArmy()
+    {
+        return (Army) getFaction();
+    }
+
     public Hex getHex()
     {
         return (Hex) getTile();
