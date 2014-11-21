@@ -59,8 +59,8 @@ public class StateRotate extends StateCommon
         if (activeUnit.movement.entryMove) {
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
-        }
-        if (map.activatedUnits.size() == 0) {
+            nextState = StateType.ABORT;
+        } else if (map.activatedUnits.size() == 0) {
             hideAssists();
         } else {
             nextState = StateType.MOVE;
