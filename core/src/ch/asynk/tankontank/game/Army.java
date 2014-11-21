@@ -4,6 +4,7 @@ import ch.asynk.tankontank.engine.Faction;
 
 public enum Army implements Faction
 {
+    NONE("None"),
     GE("German"),
     US("US"),
     USSR("Soviet"),
