@@ -17,14 +17,14 @@ public enum Army implements Faction
     }
 
     @Override
-    public boolean isEnemy(Faction other)
-    {
-        return (this != other);
-    }
-
-    @Override
     public String toString()
     {
         return s;
+    }
+
+    @Override
+    public boolean isEnemy(Faction other)
+    {
+        return (this != other);
     }
 }
