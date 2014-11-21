@@ -224,11 +224,14 @@ public abstract class Pawn implements Moveable, Disposable
         setPosition(position.x, position.y, position.z);
     }
 
-    public Vector2 getCenter()
+    public float getCenterX()
     {
-        float x = (getX() + (getWidth() / 2f));
-        float y = (getY() + (getHeight() / 2f));
-        return new Vector2(x, y);
+        return (getX() + (getWidth() / 2f));
+    }
+
+    public float getCenterY()
+    {
+        return (getY() + (getHeight() / 2f));
     }
 
     public Vector2 getPosAt(Tile tile, Vector2 pos)

@@ -314,11 +314,11 @@ public abstract class Map extends Board
 
         AnimationSequence seq = AnimationSequence.get(2);
         if (success) {
-            explosions.init(1, target.getCenter().x, target.getCenter().y);
+            explosions.init(1, target.getCenterX(), target.getCenterY());
             seq.addAnimation(explosions);
             seq.addAnimation(notifyDoneAnimation(unit));
         } else {
-            explosion.init(1, target.getCenter().x, target.getCenter().y);
+            explosion.init(1, target.getCenterX(), target.getCenterY());
             seq.addAnimation(explosion);
             seq.addAnimation(RunnableAnimation.get(unit, new Runnable() {
                 @Override
