@@ -159,6 +159,12 @@ public abstract class Pawn implements Moveable, Disposable
         image.dispose();
     }
 
+    @Override
+    public Faction getFaction()
+    {
+        return faction;
+    }
+
     public void reset()
     {
         engagement.reset();
