@@ -177,6 +177,10 @@ public abstract class Map extends Board
 
     // ACTIONS
 
+    public void actionDone()
+    {
+    }
+
     public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
     {
         Orientation entry = findBestEntry(unit, to, allowedMoves);
