@@ -299,7 +299,7 @@ public abstract class Map extends Board
     {
         boolean mayReroll = false;
         for (Unit assist : activatedUnits) {
-            if (((Unit) assist).isAce())
+            if (assist.isAce())
                 mayReroll = true;
         }
 
