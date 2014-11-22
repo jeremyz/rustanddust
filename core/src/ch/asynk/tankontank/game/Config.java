@@ -10,6 +10,7 @@ public class Config
     public boolean showEnemyPossibilities;
     public boolean debug;
     public Battle battle;
+    public float fxVolume;
 
     public Config()
     {
@@ -21,5 +22,6 @@ public class Config
         this.mustValidate = false;
         this.showEnemyPossibilities = false;
         this.battle = null;
+        this.fxVolume = 1f;
     }
 }

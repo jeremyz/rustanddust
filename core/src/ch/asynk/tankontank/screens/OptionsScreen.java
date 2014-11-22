@@ -3,6 +3,7 @@ package ch.asynk.tankontank.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -10,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.game.Battle;
@@ -41,6 +44,9 @@ public class OptionsScreen implements Screen
     private CheckBox mustValidateCk;
     private CheckBox showEnemyPossibilitiesCk;
     private CheckBox debugCk;
+    private Label fxLabel;
+    private Label fxValue;
+    private Slider fxVolume;
     private Label title2;
     private List<Battle> scenarios;
 
@@ -67,6 +73,7 @@ public class OptionsScreen implements Screen
         game.config.mustValidate = mustValidateCk.isChecked();
         game.config.showEnemyPossibilities = showEnemyPossibilitiesCk.isChecked();
         game.config.debug = debugCk.isChecked();
+        game.config.fxVolume = fxVolume.getValue();
         game.config.battle = scenarios.getSelected();
     }
 
@@ -87,6 +94,9 @@ public class OptionsScreen implements Screen
         mustValidateCk = new CheckBox("Must Validate", game.skin);
         showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", game.skin);
         debugCk = new CheckBox("Debug", game.skin);
+        fxLabel = new Label("FX volume", game.skin);
+        fxValue = new Label(String.format("%.1f", game.config.fxVolume), game.skin);
+        fxVolume = new Slider(0f, 1f, 0.1f, false, game.skin) ;
         title2 = new Label("Scenarios", game.skin);
         scenarios = new MyList(game.skin, game.factory.battles);
 
@@ -97,6 +107,7 @@ public class OptionsScreen implements Screen
         mustValidateCk.setChecked(game.config.mustValidate);
         showEnemyPossibilitiesCk.setChecked(game.config.showEnemyPossibilities);
         debugCk.setChecked(game.config.debug);
+        fxVolume.setValue(game.config.fxVolume);
 
         okButton.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -108,6 +119,12 @@ public class OptionsScreen implements Screen
             }
         });
 
+        fxVolume.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                fxValue.setText(String.format("%.1f", fxVolume.getValue()));
+            }
+        });
+
         stage.addActor(title1);
         stage.addActor(showMovesCk);
         stage.addActor(showTargetsCk);
@@ -116,6 +133,9 @@ public class OptionsScreen implements Screen
         stage.addActor(mustValidateCk);
         stage.addActor(showEnemyPossibilitiesCk);
         stage.addActor(debugCk);
+        stage.addActor(fxLabel);
+        stage.addActor(fxValue);
+        stage.addActor(fxVolume);
         stage.addActor(okButton);
         stage.addActor(title2);
         stage.addActor(scenarios);
@@ -145,6 +165,10 @@ public class OptionsScreen implements Screen
         showEnemyPossibilitiesCk.setPosition(x, y);
         y -= 20f;
         debugCk.setPosition(x, y);
+        y -= 20f;
+        fxLabel.setPosition(x, y);
+        fxVolume.setPosition((x + fxLabel.getWidth() + 10), y);
+        fxValue.setPosition((fxVolume.getX() + fxVolume.getWidth() + 10), y);
         y -= 40f;
         title2.setPosition((x - 20f), y);
         y -= scenarios.getHeight();
