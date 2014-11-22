@@ -1,13 +1,11 @@
 NOW:
-    - options panel
-        - FX volume
-        - touch : dow -> show, up -> (action | reset)
+    - engagement panel OK
     - Animations
-        - attack
         - promote
         - selected Hex
-    - Ace overlay -> may reroll the dice
-    - add options to hide moves/targets/assists even in action
+        - dice roll
+    - battle description
+    - toggle objectives
 
 NEXT:
     - support different board layout
