@@ -93,8 +93,10 @@ public class StateEngage extends StateCommon
             map.showAttackAssists();
             ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }
-
-        if ((activeUnit != null) && map.engagementAssists.contains(unit)) {
+        else if (unit == activeUnit) {
+            ctrl.setState(StateType.DONE);
+        }
+        else if ((activeUnit != null) && map.engagementAssists.contains(unit)) {
             if(map.toggleAttackAssist(unit))
                 ctrl.hud.notify(unit + " will fire");
             else
