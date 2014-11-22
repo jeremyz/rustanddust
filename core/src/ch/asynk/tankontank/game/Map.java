@@ -317,7 +317,7 @@ public abstract class Map extends Board
         }
     }
 
-    private void setFightAnimation(Unit target, boolean success)
+    private void setFightAnimation(final Unit target, boolean success)
     {
         AnimationSequence seq = AnimationSequence.get(success ? 3 : 2);
         SpriteAnimation e = (success ? explosions : explosion);
@@ -325,10 +325,8 @@ public abstract class Map extends Board
         seq.addAnimation(e);
         if (success) {
             seq.addAnimation(RunnableAnimation.get(target, new Runnable() {
-                        @Override
-                        public void run() {
-                            animationDone();
-                        }
+                @Override
+                public void run() { removePawn(target); }
             }));
         }
         seq.addAnimation(notifyDoneAnimation(target));
