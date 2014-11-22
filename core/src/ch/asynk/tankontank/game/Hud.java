@@ -20,6 +20,7 @@ import ch.asynk.tankontank.TankOnTank;
 public class Hud implements Disposable
 {
     public static final float OFFSET = 10f;
+    public static final float NOTIFY_DURATION = 2f;
 
     private final TankOnTank game;
     private final Ctrl ctrl;
@@ -104,18 +105,18 @@ public class Hud implements Disposable
 
     public void pushNotify(String s)
     {
-        notify(s, 1, Position.TOP_CENTER, true);
+        notify(s, NOTIFY_DURATION, Position.TOP_CENTER, true);
     }
 
     public void notify(String s)
     {
-        notify(s, 1, Position.TOP_CENTER, false);
+        notify(s, NOTIFY_DURATION, Position.TOP_CENTER, false);
     }
 
     public void notify(String s, float duration, Position position, boolean push)
     {
         if (push) msg.pushWrite(s, duration, position);
-        else msg.write(s, 1, position);
+        else msg.write(s, duration, position);
     }
 
     public boolean touchDown(float x, float y)
