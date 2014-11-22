@@ -355,7 +355,7 @@ public abstract class Map extends Board
         TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus + " " + success);
 
         breakUnits.clear();
-        for (Unit u: activatedUnits) {
+        for (Unit u : activatedUnits) {
             u.engage();
             if (u.isA(Unit.UnitType.INFANTRY))
                 breakUnits.add(u);
