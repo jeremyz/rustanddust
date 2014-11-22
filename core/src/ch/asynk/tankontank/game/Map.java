@@ -265,7 +265,7 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    private boolean resolve(Unit unit, final Unit target)
+    private boolean resolveFight(Unit unit, final Unit target)
     {
         int d1 = d6();
         int d2 = d6();
@@ -326,10 +326,10 @@ public abstract class Map extends Board
         }
 
         boolean success;
-        success = resolve(unit, target);
+        success = resolveFight(unit, target);
         if (!success && mayReroll) {
             TankOnTank.debug("Reroll");
-            success = resolve(unit, target);
+            success = resolveFight(unit, target);
         }
 
         TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus);
