@@ -326,7 +326,10 @@ public abstract class Map extends Board
         if (success) {
             seq.addAnimation(RunnableAnimation.get(target, new Runnable() {
                 @Override
-                public void run() { removePawn(target); }
+                public void run() {
+                    objectives.unclaim(target.getHex());
+                    removePawn(target);
+                }
             }));
         }
         seq.addAnimation(notifyDoneAnimation(target));
