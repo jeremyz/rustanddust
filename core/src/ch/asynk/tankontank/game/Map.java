@@ -299,7 +299,7 @@ public abstract class Map extends Board
             int cnt = activatedUnits.size();
             int def = target.getDefense(unit.getTile());
             int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
-            int tdf = (terrainBonus ? unit.getTile().defense() : 0);
+            int tdf = (terrainBonus ? target.getTile().defense() : 0);
             int wdf = 0;
             if (night) {
             if (distance > 3)
