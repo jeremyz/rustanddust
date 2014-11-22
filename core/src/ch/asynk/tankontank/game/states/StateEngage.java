@@ -84,7 +84,7 @@ public class StateEngage extends StateCommon
 
         // activeUnit is the target
         if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
-            ctrl.hud.notify("Engage " + unit);
+            // ctrl.hud.notify("Engage " + unit);
             map.hidePossibleTargets();
             to = upHex;
             activeUnit = unit;
@@ -97,10 +97,11 @@ public class StateEngage extends StateCommon
             ctrl.setState(StateType.DONE);
         }
         else if ((activeUnit != null) && map.engagementAssists.contains(unit)) {
-            if(map.toggleAttackAssist(unit))
-                ctrl.hud.notify(unit + " will fire");
-            else
-                ctrl.hud.notify(unit + " wont fire");
+            map.toggleAttackAssist(unit);
+            // if(map.toggleAttackAssist(unit))
+            //     ctrl.hud.notify(unit + " will fire");
+            // else
+            //     ctrl.hud.notify(unit + " wont fire");
         }
     }
 }

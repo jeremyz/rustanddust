@@ -111,7 +111,7 @@ public class StateRotate extends StateCommon
     {
         StateType whenDone = StateType.DONE;
 
-        ctrl.hud.notify("Move " + activeUnit);
+        // ctrl.hud.notify("Move " + activeUnit);
         if (map.moveUnit(activeUnit, o) > 0)
             whenDone = StateType.MOVE;
 

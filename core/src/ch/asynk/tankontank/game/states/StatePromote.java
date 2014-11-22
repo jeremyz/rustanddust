@@ -11,7 +11,7 @@ public class StatePromote extends StateCommon
         String str = selectedUnit.toString();
         if (ctrl.player.promote(selectedUnit)) {
             map.activatedUnits.add(selectedUnit);
-            ctrl.hud.notify(str+ " has been promoted");
+            // ctrl.hud.notify(str+ " has been promoted");
         }
         ctrl.setState(StateType.DONE);
     }

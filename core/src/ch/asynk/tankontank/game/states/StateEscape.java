@@ -45,7 +45,7 @@ public class StateEscape extends StateCommon
 
     private StateType escape(Unit unit)
     {
-        ctrl.hud.notify("Escape " + unit);
+        // ctrl.hud.notify("Escape " + unit);
 
         Zone exitZone = ctrl.battle.getExitZone(unit);
 

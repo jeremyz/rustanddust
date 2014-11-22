@@ -82,7 +82,7 @@ public class StateReinforcement extends StateCommon
             else
                 ctrl.setState(StateType.ROTATE);
         } else {
-            ctrl.hud.notify("Impossible to enter map at that position");
+            ctrl.hud.notify("Can not enter the map at that position");
         }
     }
 }
