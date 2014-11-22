@@ -269,14 +269,16 @@ public abstract class Map extends Board
     {
         int d1 = d6();
         int d2 = d6();
-        int dice = d1 + d2;
+        int die = d1 + d2;
 
-        if (dice == 2) {
-            unit.engagement.calculus = "2D6 -> (1 + 1) automatic failure";
-            return false;
-        } else if (dice == 12) {
-            unit.engagement.calculus = "2D6 -> (6 + 6) automatic success";
-            return true;
+        String msg;
+        boolean success = false;
+        if (die == 2) {
+            msg = "Die : 1 + 1 => Automatic failure";
+            success = false;
+        } else if (die == 12) {
+            msg = "Die : 6 + 6 => Automatic success";
+            success = true;
         } else {
 
             int distance = 0;
@@ -309,12 +311,15 @@ public abstract class Map extends Board
             else if (distance > 1)
                 wdf = 1;
             }
+            int s1 = (die + cnt + flk);
+            int s2 = (def + tdf + wdf);
+            success = (s1 >= s2);
 
-            unit.engagement.calculus = "2D6(" + d1 + " + " + d2 + ") + " + cnt + " + " + flk + " >= " + def + " + " + tdf + " + " + wdf;
-            if (night)
-                unit.engagement.calculus += " + " + wdf;
-            return ((dice + cnt + flk) >= (def + tdf + wdf));
+            msg = String.format("die : %d + %d\nunits : +%d\nflank: +%d\n  = %d\ndefense: %d\nterrain: +%d\nweather: +%d\n  = %d\n%s",
+                    d1, d2, cnt, flk, s1, def, tdf, wdf, s2, (success ? "target destroyed" : "target missed"));
         }
+        ctrl.hud.engagementSummary(msg);
+        return success;
     }
 
     private void setFightAnimation(final Unit target, boolean success)
@@ -352,8 +357,6 @@ public abstract class Map extends Board
             TankOnTank.debug("Reroll");
             success = resolveFight(unit, target);
         }
-
-        TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus + " " + success);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {

@@ -42,7 +42,8 @@ public class Hud implements Disposable
         ABORT_TURN,
         END_TURN,
         END_DEPLOYMENT,
-        END_GAME
+        END_GAME,
+        NONE
     }
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
@@ -187,6 +188,9 @@ public class Hud implements Disposable
                 stats.visible = false;
                 ctrl.endGame();
                 break;
+            case NONE:
+            default:
+                break;
         }
         okCancel.visible = false;
         ctrl.blockMap = false;
@@ -218,6 +222,13 @@ public class Hud implements Disposable
         ctrl.blockMap = true;
         dialogAction = DialogAction.END_DEPLOYMENT;
         okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", Position.MIDDLE_CENTER);
+    }
+
+    public void engagementSummary(String msg)
+    {
+        ctrl.blockMap = true;
+        dialogAction = DialogAction.NONE;
+        okCancel.show(msg, Position.BOTTOM_CENTER, false);
     }
 
     public void victory(Player winner, Player loser)

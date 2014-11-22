@@ -35,11 +35,10 @@ public abstract class Pawn implements Moveable, Disposable
         int distance;
         boolean isClear;
         boolean isFlank;
-        public String calculus;
 
         public String toString()
         {
-            return "engage : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank + " " + calculus;
+            return "engage : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank;
         }
 
         public void reset()

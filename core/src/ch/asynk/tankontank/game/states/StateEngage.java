@@ -56,14 +56,12 @@ public class StateEngage extends StateCommon
         StateType nextState = StateType.DONE;
         if (map.engageUnit(selectedUnit, activeUnit)) {
             ctrl.player.wonEngagementCount += 1;
-            ctrl.hud.notify(selectedUnit.engagement.calculus + " : " + activeUnit + " is destroyed");
             ctrl.opponent.casualty(activeUnit);
             if (map.breakUnits.size() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
             ctrl.player.lostEngagementCount += 1;
-            ctrl.hud.notify(selectedUnit.engagement.calculus + " : failure");
         }
 
         activeUnit.showTarget();
