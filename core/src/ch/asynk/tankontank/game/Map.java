@@ -317,6 +317,26 @@ public abstract class Map extends Board
         }
     }
 
+    private void setFightAnimation(Unit target, boolean success)
+    {
+        AnimationSequence seq = AnimationSequence.get(success ? 3 : 2);
+        SpriteAnimation e = (success ? explosions : explosion);
+        e.init(1, target.getCenterX(), target.getCenterY());
+        seq.addAnimation(e);
+        if (success) {
+            seq.addAnimation(RunnableAnimation.get(target, new Runnable() {
+                        @Override
+                        public void run() {
+                            animationDone();
+                        }
+            }));
+        }
+        seq.addAnimation(notifyDoneAnimation(target));
+        addAnimation(seq);
+        sound = engagementSound;
+        sound.play(1.0f);
+    }
+
     public boolean engageUnit(Unit unit, final Unit target)
     {
         boolean mayReroll = false;
@@ -332,23 +352,7 @@ public abstract class Map extends Board
             success = resolveFight(unit, target);
         }
 
-        TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus);
-
-        AnimationSequence seq = AnimationSequence.get(2);
-        if (success) {
-            explosions.init(1, target.getCenterX(), target.getCenterY());
-            seq.addAnimation(explosions);
-            seq.addAnimation(notifyDoneAnimation(unit));
-        } else {
-            explosion.init(1, target.getCenterX(), target.getCenterY());
-            seq.addAnimation(explosion);
-            seq.addAnimation(RunnableAnimation.get(unit, new Runnable() {
-                @Override
-                public void run() {
-                    animationDone();
-                }
-            }));
-        }
+        TankOnTank.debug(unit + "  engagements " + target + " : " + unit.engagement.calculus + " " + success);
 
         breakUnits.clear();
         for (Unit u: activatedUnits) {
@@ -360,9 +364,7 @@ public abstract class Map extends Board
         if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedUnits.clear();
 
-        addAnimation(seq);
-        sound = engagementSound;
-        sound.play(1.0f);
+        setFightAnimation(target, success);
 
         return success;
     }
