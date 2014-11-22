@@ -76,7 +76,7 @@ public class Hud implements Disposable
     {
         Position position = ctrl.battle.getHudPosition(ctrl.player);
         playerInfo.update(ctrl.player, position);
-        actionButtons.setPosition(position.down());
+        actionButtons.setPosition(position.horizontalMirror());
     }
 
     public void animate(float delta)

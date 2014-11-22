@@ -15,45 +15,51 @@ public enum Position
     BOTTOM_RIGHT,
     BOTTOM_CENTER;
 
-    public Position down()
+    public Position verticalMirror()
     {
-        Position p = BOTTOM_LEFT;
+        Position p = this;
         switch(this) {
             case TOP_LEFT:
-            case MIDDLE_LEFT:
-            case BOTTOM_LEFT:
-                p = BOTTOM_LEFT;
+                p = TOP_RIGHT;
                 break;
-            case TOP_CENTER:
-            case MIDDLE_CENTER:
-            case BOTTOM_CENTER:
-                p = BOTTOM_CENTER;
+            case MIDDLE_LEFT:
+                p = MIDDLE_RIGHT;
+                break;
+            case BOTTOM_LEFT:
+                p = BOTTOM_RIGHT;
                 break;
             case TOP_RIGHT:
+                p = TOP_LEFT;
+                break;
             case MIDDLE_RIGHT:
+                p = MIDDLE_LEFT;
+                break;
             case BOTTOM_RIGHT:
-                p = BOTTOM_RIGHT;
+                p = BOTTOM_LEFT;
                 break;
         }
         return p;
     }
 
-    public Position up()
+    public Position horizontalMirror()
     {
-        Position p = TOP_LEFT;
+        Position p = this;
         switch(this) {
             case TOP_LEFT:
-            case MIDDLE_LEFT:
+                p = BOTTOM_LEFT;
+                break;
+            case TOP_CENTER:
+                p = BOTTOM_CENTER;
+                break;
+            case TOP_RIGHT:
+                p = BOTTOM_RIGHT;
+                break;
             case BOTTOM_LEFT:
                 p = TOP_LEFT;
                 break;
-            case TOP_CENTER:
-            case MIDDLE_CENTER:
             case BOTTOM_CENTER:
                 p = TOP_CENTER;
                 break;
-            case TOP_RIGHT:
-            case MIDDLE_RIGHT:
             case BOTTOM_RIGHT:
                 p = TOP_RIGHT;
                 break;
