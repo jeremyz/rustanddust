@@ -90,14 +90,14 @@ public class PlayerInfo implements Disposable, Drawable
     public void update(Player player, Position position)
     {
         unitDock.hide();
-        turns.write("" + player.getCurrentTurn());
-        aps.write("" + player.getAp());
+        turns.write(String.format("%d", player.getCurrentTurn()));
+        aps.write(String.format("%d", player.getAp()));
         int r = player.reinforcement();
         if (r == 0) {
             reinforcement.visible = false;
         } else {
             reinforcement.visible = true;
-            reinforcement.write("" + r);
+            reinforcement.write(String.format("%d",  r));
         }
 
         if (player.is(Army.GE))
