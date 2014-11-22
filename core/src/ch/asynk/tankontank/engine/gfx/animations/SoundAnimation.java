@@ -16,6 +16,7 @@ public class SoundAnimation extends TimedAnimation
     private Sound sound;
     private long soundId;
     private Action action;
+    private float volume;
 
     private static final Pool<SoundAnimation> soundAnimationPool = new Pool<SoundAnimation>() {
         @Override
@@ -24,13 +25,14 @@ public class SoundAnimation extends TimedAnimation
         }
     };
 
-    public static SoundAnimation get(Action action, Sound sound, long soundId, float duration)
+    public static SoundAnimation get(Action action, Sound sound, long soundId, float volume, float duration)
     {
         SoundAnimation a = soundAnimationPool.obtain();
 
         a.action = action;
         a.sound = sound;
         a.soundId = soundId;
+        a.volume = volume;
         a.duration = duration;
 
         return a;
@@ -59,11 +61,11 @@ public class SoundAnimation extends TimedAnimation
         float v;
         switch(action) {
             case FADE_IN:
-                v = ( 1.0f * percent);
+                v = ( volume * percent);
                 sound.setVolume(soundId, v);
                 break;
             case FADE_OUT:
-                v = (1.0f - ( 1.0f * percent));
+                v = (volume - ( volume * percent));
                 sound.setVolume(soundId, v);
                 break;
         }

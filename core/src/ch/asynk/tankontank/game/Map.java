@@ -242,7 +242,7 @@ public abstract class Map extends Board
         moveableUnits.remove(unit);
         activatedUnits.add(unit);
         sound = moveSound;
-        soundId = sound.play(1.0f);
+        soundId = sound.play(ctrl.cfg.fxVolume);
         return moveableUnits.size();
     }
 
@@ -260,7 +260,7 @@ public abstract class Map extends Board
     {
         TankOnTank.debug("animation done");
         if (soundId >= 0)
-            addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, 0.5f));
+            addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, ctrl.cfg.fxVolume, 0.5f));
         soundId = -1;
         ctrl.animationDone();
     }
@@ -335,7 +335,7 @@ public abstract class Map extends Board
         seq.addAnimation(notifyDoneAnimation(target));
         addAnimation(seq);
         sound = engagementSound;
-        sound.play(1.0f);
+        sound.play(ctrl.cfg.fxVolume);
     }
 
     public boolean engageUnit(Unit unit, final Unit target)
