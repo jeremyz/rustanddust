@@ -39,9 +39,9 @@ allprojects {
         atlasesOutputPath 'android/assets/data/'
         atlases {
             add 'hud'
-            add 'pawns'
-            add 'pawn-overlays'
-            add 'tile-overlays'
+            add 'units'
+            add 'unit-overlays'
+            add 'hex-overlays'
         }
     }
 }

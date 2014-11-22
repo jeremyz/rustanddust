@@ -51,9 +51,9 @@ public class TankOnTank extends Game
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
-        manager.load("data/pawns.atlas", TextureAtlas.class);
-        manager.load("data/pawn-overlays.atlas", TextureAtlas.class);
-        manager.load("data/tile-overlays.atlas", TextureAtlas.class);
+        manager.load("data/units.atlas", TextureAtlas.class);
+        manager.load("data/unit-overlays.atlas", TextureAtlas.class);
+        manager.load("data/hex-overlays.atlas", TextureAtlas.class);
         manager.load("data/explosion.png", Texture.class);
         manager.load("data/explosions.png", Texture.class);
         manager.load("sounds/move.mp3", Sound.class);
@@ -67,9 +67,9 @@ public class TankOnTank extends Game
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
         manager.unload("data/hud.atlas");
-        manager.unload("data/pawns.atlas");
-        manager.unload("data/pawn-overlays.atlas");
-        manager.unload("data/tile-overlays.atlas");
+        manager.unload("data/units.atlas");
+        manager.unload("data/unit-overlays.atlas");
+        manager.unload("data/hex-overlays.atlas");
         manager.unload("data/explosion.png");
         manager.unload("data/explosions.png");
         manager.unload("sounds/move.mp3");

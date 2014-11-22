@@ -56,9 +56,9 @@ public class Factory implements Board.TileBuilder, Disposable
     public void assetsLoaded()
     {
         this.hudAtlas = game.manager.get("data/hud.atlas", TextureAtlas.class);
-        this.pawnsAtlas = game.manager.get("data/pawns.atlas", TextureAtlas.class);
-        this.pawnOverlaysAtlas = game.manager.get("data/pawn-overlays.atlas", TextureAtlas.class);
-        this.tileOverlaysAtlas = game.manager.get("data/tile-overlays.atlas", TextureAtlas.class);
+        this.pawnsAtlas = game.manager.get("data/units.atlas", TextureAtlas.class);
+        this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays.atlas", TextureAtlas.class);
+        this.tileOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
     }
 
     @Override

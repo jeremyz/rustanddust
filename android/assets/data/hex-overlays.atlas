@@ -1,5 +1,5 @@
 
-tile-overlays.png
+hex-overlays.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none

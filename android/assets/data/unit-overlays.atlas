@@ -1,5 +1,5 @@
 
-pawn-overlays.png
+unit-overlays.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
