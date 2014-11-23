@@ -14,6 +14,7 @@ import ch.asynk.tankontank.game.hud.PlayerInfo;
 import ch.asynk.tankontank.game.hud.ActionButtons;
 import ch.asynk.tankontank.game.hud.OkCancel;
 import ch.asynk.tankontank.game.hud.Statistics;
+import ch.asynk.tankontank.game.hud.Engagement;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -33,6 +34,7 @@ public class Hud implements Disposable
 
     private Msg msg;
     private Statistics stats;
+    private Engagement engagement;
     private OkCancel okCancel;
     private DialogAction dialogAction;
 
@@ -43,6 +45,7 @@ public class Hud implements Disposable
         END_TURN,
         END_DEPLOYMENT,
         END_GAME,
+        END_ENGAGEMENT,
         NONE
     }
 
@@ -60,6 +63,7 @@ public class Hud implements Disposable
         msg = new Msg(font, atlas.findRegion("disabled"), 10f);
         okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
         stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
+        engagement = new Engagement(font, atlas.findRegion("disabled"), atlas, 10f);
     }
 
     @Override
@@ -70,6 +74,7 @@ public class Hud implements Disposable
         actionButtons.dispose();
         msg.dispose();
         okCancel.dispose();
+        engagement.dispose();
         stats.dispose();
     }
 
@@ -92,6 +97,7 @@ public class Hud implements Disposable
         actionButtons.draw(batch);
         msg.draw(batch);
         okCancel.draw(batch);
+        engagement.draw(batch);
         stats.draw(batch);
     }
 
@@ -101,6 +107,7 @@ public class Hud implements Disposable
         actionButtons.drawDebug(debugShapes);
         msg.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
+        engagement.drawDebug(debugShapes);
         stats.drawDebug(debugShapes);
     }
 
@@ -127,9 +134,14 @@ public class Hud implements Disposable
         if (okCancel.visible) {
             if (okCancel.hit(x, y))
                 hit = okCancel;
-        } else if (stats.visible) {
+        }
+        else if (stats.visible) {
             if (stats.hit(x, y))
                 hit = stats;
+        }
+        else if (engagement.visible) {
+            if (engagement.hit(x, y))
+                hit = engagement;
         }
         else if (actionButtons.touchDown(x, y))
             hit = actionButtons;
@@ -156,6 +168,10 @@ public class Hud implements Disposable
         }
         else if (hit == stats) {
             if (stats.hit(x, y))
+                closeDialog();
+        }
+        else if (hit == engagement) {
+            if (engagement.hit(x, y))
                 closeDialog();
         }
 
@@ -187,6 +203,9 @@ public class Hud implements Disposable
             case END_GAME:
                 stats.visible = false;
                 ctrl.endGame();
+                break;
+            case END_ENGAGEMENT:
+                engagement.visible = false;
                 break;
             case NONE:
             default:
@@ -224,11 +243,11 @@ public class Hud implements Disposable
         okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", Position.MIDDLE_CENTER);
     }
 
-    public void engagementSummary(String msg)
+    public void engagementSummary(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.NONE;
-        okCancel.show(msg, Position.BOTTOM_CENTER, false);
+        dialogAction = DialogAction.END_ENGAGEMENT;
+        engagement.show(d1, d2, cnt, flk, def, tdf, wdf, msg, Position.BOTTOM_CENTER);
     }
 
     public void victory(Player winner, Player loser)

@@ -271,13 +271,12 @@ public abstract class Map extends Board
         int d2 = d6();
         int die = d1 + d2;
 
-        String msg;
         boolean success = false;
         if (die == 2) {
-            msg = "Die : 1 + 1 => Automatic failure";
+            ctrl.hud.engagementSummary(d1, d2, 0, 0, 0, 0, 0, target.toString() + " is destroyed");
             success = false;
         } else if (die == 12) {
-            msg = "Die : 6 + 6 => Automatic success";
+            ctrl.hud.engagementSummary(d1, d2, 0, 0, 0, 0, 0, target.toString() + " resisted the assault");
             success = true;
         } else {
 
@@ -315,10 +314,9 @@ public abstract class Map extends Board
             int s2 = (def + tdf + wdf);
             success = (s1 >= s2);
 
-            msg = String.format("die : %d + %d\nunits : +%d\nflank: +%d\n  = %d\ndefense: %d\nterrain: +%d\nweather: +%d\n  = %d\n%s",
-                    d1, d2, cnt, flk, s1, def, tdf, wdf, s2, (success ? "target destroyed" : "target missed"));
+            ctrl.hud.engagementSummary(d1, d2, cnt, flk, def, tdf, wdf,
+                    target.toString() + (success ? " is destroyed" : " resisted the assault"));
         }
-        ctrl.hud.engagementSummary(msg);
         return success;
     }
 
