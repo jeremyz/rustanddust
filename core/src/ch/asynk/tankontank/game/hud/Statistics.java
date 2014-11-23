@@ -11,11 +11,11 @@ import ch.asynk.tankontank.game.Player;
 public class Statistics extends Bg
 {
     public float padding;
-    protected Label title;
-    protected Label header;
-    protected Label stats1;
-    protected Label stats2;
-    protected Bg okBtn;
+    private Label title;
+    private Label header;
+    private Label stats1;
+    private Label stats2;
+    private Bg okBtn;
 
     public Statistics(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
     {
