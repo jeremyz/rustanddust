@@ -214,8 +214,11 @@ public abstract class Map extends Board
     public void leaveBoard(Unit unit)
     {
         Hex hex = unit.getHex();
-        if (removePawn(unit) == 0)
-            objectives.unclaim(hex);
+        if (unit.movement.entryMove) {
+            objectives.revert();
+            unit.reset();
+        }
+        removePawn(unit);
         activatedUnits.add(unit);
     }
 
