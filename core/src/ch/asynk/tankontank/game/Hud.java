@@ -15,6 +15,7 @@ import ch.asynk.tankontank.game.hud.ActionButtons;
 import ch.asynk.tankontank.game.hud.OkCancel;
 import ch.asynk.tankontank.game.hud.Statistics;
 import ch.asynk.tankontank.game.hud.Engagement;
+import ch.asynk.tankontank.game.hud.Widget;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -37,6 +38,7 @@ public class Hud implements Disposable
     private Engagement engagement;
     private OkCancel okCancel;
     private DialogAction dialogAction;
+    private Widget[] dialogs;
 
     enum DialogAction
     {
@@ -64,6 +66,7 @@ public class Hud implements Disposable
         okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
         stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
         engagement = new Engagement(font, atlas.findRegion("disabled"), atlas, 10f);
+        dialogs = new Widget[] { okCancel, stats, engagement};
     }
 
     @Override
@@ -131,22 +134,18 @@ public class Hud implements Disposable
     {
         hit = null;
 
-        if (okCancel.visible) {
-            if (okCancel.hit(x, y))
-                hit = okCancel;
+        for (Widget w : dialogs) {
+            if (w.visible && w.hit(x, y)) {
+                hit = w;
+                break;
+            }
         }
-        else if (stats.visible) {
-            if (stats.hit(x, y))
-                hit = stats;
+        if (hit == null) {
+            if (actionButtons.touchDown(x, y))
+                hit = actionButtons;
+            else if (playerInfo.touchDown(x, y))
+                hit = playerInfo;
         }
-        else if (engagement.visible) {
-            if (engagement.hit(x, y))
-                hit = engagement;
-        }
-        else if (actionButtons.touchDown(x, y))
-            hit = actionButtons;
-        else if (playerInfo.touchDown(x, y))
-            hit = playerInfo;
 
         return (hit != null);
     }
