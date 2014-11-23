@@ -383,6 +383,8 @@ public abstract class Board implements Disposable
     public int removePawn(Pawn pawn)
     {
         Tile tile = pawn.getTile();
+        if (tile == null)
+            return 0;
         int n = tile.remove(pawn);
         if (!tile.mustBeDrawn())
             tilesToDraw.remove(tile);
