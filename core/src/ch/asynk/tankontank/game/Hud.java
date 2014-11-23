@@ -135,9 +135,12 @@ public class Hud implements Disposable
         hit = null;
 
         for (Widget w : dialogs) {
-            if (w.visible && w.hit(x, y)) {
-                hit = w;
-                break;
+            if (w.visible) {
+                if (w.hit(x, y)) {
+                    hit = w;
+                    break;
+                }
+                return false;
             }
         }
         if (hit == null) {
