@@ -113,10 +113,12 @@ public class Ctrl implements Disposable
     {
         animationCount -= 1;
         if (animationCount == 0) {
-            map.animationsDone();
-            StateType tmp = stateAfterAnimation;
-            stateAfterAnimation = StateType.DONE;
-            setState(tmp);
+            animationCount = map.animationsDone();
+            if (animationCount == 0) {
+                StateType tmp = stateAfterAnimation;
+                stateAfterAnimation = StateType.DONE;
+                setState(tmp);
+            }
         }
         if (animationCount < 0)
             TankOnTank.debug("    animationCount < 0");

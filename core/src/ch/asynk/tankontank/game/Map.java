@@ -188,12 +188,15 @@ public abstract class Map extends Board
         activatedUnits.clear();
     }
 
-    public void animationsDone()
+    public int animationsDone()
     {
         ShotAnimation.resetAll();
-        if (animationClosure != null)
+        if (animationClosure != null) {
             addAnimation(animationClosure);
-        animationClosure = null;
+            animationClosure = null;
+            return 1;
+        }
+        return 0;
     }
 
     // ACTIONS
@@ -374,6 +377,7 @@ public abstract class Map extends Board
                 public void run() {
                     objectives.unclaim(target.getHex());
                     removePawn(target);
+                    animationDone();
                 }
             });
         }
