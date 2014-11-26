@@ -54,7 +54,6 @@ public class TankOnTank extends Game
         manager.load("data/units.atlas", TextureAtlas.class);
         manager.load("data/unit-overlays.atlas", TextureAtlas.class);
         manager.load("data/hex-overlays.atlas", TextureAtlas.class);
-        manager.load("data/explosion.png", Texture.class);
         manager.load("data/shots.png", Texture.class);
         manager.load("data/explosions.png", Texture.class);
         manager.load("sounds/move.mp3", Sound.class);
@@ -72,7 +71,6 @@ public class TankOnTank extends Game
         manager.unload("data/units.atlas");
         manager.unload("data/unit-overlays.atlas");
         manager.unload("data/hex-overlays.atlas");
-        manager.unload("data/explosion.png");
         manager.unload("data/shots.png");
         manager.unload("data/explosions.png");
         manager.unload("sounds/move.mp3");

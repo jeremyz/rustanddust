@@ -113,6 +113,7 @@ public class Ctrl implements Disposable
     {
         animationCount -= 1;
         if (animationCount == 0) {
+            map.animationsDone();
             StateType tmp = stateAfterAnimation;
             stateAfterAnimation = StateType.DONE;
             setState(tmp);

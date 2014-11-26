@@ -14,8 +14,9 @@ import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PossiblePaths;
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
-import ch.asynk.tankontank.engine.gfx.animations.SpriteAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.ShotAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
@@ -38,12 +39,10 @@ public abstract class Map extends Board
 
     public final Meteorology meteorology;
 
-    private final SpriteAnimation explosion;
-    private final SpriteAnimation explosions;
     private final Sound moveSound;
-    private final Sound engagementSound;
     private Sound sound;
     private long soundId = -1;
+    private Animation animationClosure;
 
     protected abstract void setup();
 
@@ -56,10 +55,12 @@ public abstract class Map extends Board
     {
         super(game.factory, cfg, game.manager.get(textureName, Texture.class));
         this.ctrl = game.ctrl;
-        this.explosion = new SpriteAnimation(game.manager.get("data/explosion.png", Texture.class), 10, 4, 40);
-        this.explosions = new SpriteAnimation(game.manager.get("data/explosions.png", Texture.class), 16, 8, 15);
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
-        this.engagementSound = game.manager.get("sounds/attack.mp3", Sound.class);
+        ShotAnimation.init(
+                game.manager.get("data/shots.png", Texture.class), 1, 7,
+                game.manager.get("data/explosions.png", Texture.class), 16, 8,
+                game.manager.get("sounds/shot.mp3", Sound.class)
+                );
 
         setup();
 
@@ -82,10 +83,8 @@ public abstract class Map extends Board
     {
         super.dispose();
         clearAll();
-        explosion.dispose();
-        explosions.dispose();
         moveSound.dispose();
-        engagementSound.dispose();
+        ShotAnimation.free();
     }
 
     public void clearAll()
@@ -186,6 +185,13 @@ public abstract class Map extends Board
         showPossibleMoves();
         showMoveableUnits();
         activatedUnits.clear();
+    }
+
+    public void animationsDone()
+    {
+        if (animationClosure != null)
+            addAnimation(animationClosure);
+        animationClosure = null;
     }
 
     // ACTIONS
@@ -323,25 +329,16 @@ public abstract class Map extends Board
         return success;
     }
 
-    private void setFightAnimation(final Unit target, boolean success)
+    public void addEngagementAnimation(Unit target)
     {
-        AnimationSequence seq = AnimationSequence.get(success ? 3 : 2);
-        SpriteAnimation e = (success ? explosions : explosion);
-        e.init(1, target.getCenterX(), target.getCenterY());
-        seq.addAnimation(e);
-        if (success) {
-            seq.addAnimation(RunnableAnimation.get(target, new Runnable() {
-                @Override
-                public void run() {
-                    objectives.unclaim(target.getHex());
-                    removePawn(target);
-                }
-            }));
+        Hex to = target.getHex();
+        for (Unit u : activatedUnits) {
+            Hex from = u.getHex();
+            AnimationSequence seq = AnimationSequence.get(2);
+            seq.addAnimation(ShotAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+            seq.addAnimation(notifyDoneAnimation(target));
+            addAnimation(seq);
         }
-        seq.addAnimation(notifyDoneAnimation(target));
-        addAnimation(seq);
-        sound = engagementSound;
-        sound.play(ctrl.cfg.fxVolume);
     }
 
     public boolean engageUnit(Unit unit, final Unit target)
@@ -369,7 +366,17 @@ public abstract class Map extends Board
         if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
             activatedUnits.clear();
 
-        setFightAnimation(target, success);
+        if (success) {
+            animationClosure = RunnableAnimation.get(target, new Runnable() {
+                @Override
+                public void run() {
+                    objectives.unclaim(target.getHex());
+                    removePawn(target);
+                }
+            });
+        }
+
+        addEngagementAnimation(target);
 
         return success;
     }

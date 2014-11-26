@@ -65,7 +65,7 @@ public class StateEngage extends StateCommon
         }
 
         activeUnit.showTarget();
-        ctrl.setAnimationCount(1);
+        ctrl.setAnimationCount(map.activatedUnits.size());
         ctrl.setAfterAnimationState(nextState);
         return StateType.ANIMATION;
     }
