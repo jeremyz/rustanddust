@@ -5,63 +5,63 @@ filter: Nearest,Nearest
 repeat: none
 00_fog
   rotate: false
-  xy: 234, 267
+  xy: 234, 227
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 01_select
   rotate: false
-  xy: 234, 48
+  xy: 234, 8
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 02_area
   rotate: false
-  xy: 426, 267
+  xy: 426, 227
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 03_move
   rotate: false
-  xy: 426, 48
-  size: 190, 217
-  orig: 190, 217
+  xy: 810, 330
+  size: 100, 114
+  orig: 100, 114
   offset: 0, 0
   index: -1
 04_directions
   rotate: false
-  xy: 2, 244
-  size: 230, 240
-  orig: 230, 240
+  xy: 2, 2
+  size: 230, 200
+  orig: 230, 200
   offset: 0, 0
   index: -1
 05_orientation
   rotate: false
-  xy: 2, 2
+  xy: 2, 204
   size: 230, 240
   orig: 230, 240
   offset: 0, 0
   index: -1
 06_objective
   rotate: false
-  xy: 618, 267
+  xy: 426, 8
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 07_objective_ge
   rotate: false
-  xy: 618, 48
+  xy: 618, 227
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 08_objective_us
   rotate: false
-  xy: 810, 267
+  xy: 618, 8
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
