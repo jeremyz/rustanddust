@@ -214,6 +214,7 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         if (!hit) {
             hit = true;
             // TODO hit sound
+            shortShot.play(volume);
         }
 
         if (elapsed < end_time) {
