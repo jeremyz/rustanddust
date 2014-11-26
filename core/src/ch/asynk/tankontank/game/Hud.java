@@ -219,6 +219,11 @@ public class Hud implements Disposable
         dialogAction = DialogAction.NONE;
     }
 
+    public boolean dialogOn()
+    {
+        return (dialogAction != DialogAction.NONE);
+    }
+
     private void setDialogAction(DialogAction action)
     {
         if (dialogAction != DialogAction.NONE)
