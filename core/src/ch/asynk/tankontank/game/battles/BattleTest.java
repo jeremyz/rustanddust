@@ -63,7 +63,8 @@ public class BattleTest extends BattleCommon
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH);
 
         setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH);
         setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST);
