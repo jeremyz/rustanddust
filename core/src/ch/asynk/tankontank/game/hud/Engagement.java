@@ -27,7 +27,7 @@ public class Engagement extends Bg
         this.defenseV = new Label(font);
         this.msg = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.attack.write("Attack: \n  die\n  units\n  flank");
+        this.attack.write("Attack: \n  2D6\n  units\n  flank");
         this.defense.write("Defense: \n  defense\n  terrain \n  weather");
         this.visible = false;
         this.padding = padding;
