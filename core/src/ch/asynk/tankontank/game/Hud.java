@@ -67,6 +67,7 @@ public class Hud implements Disposable
         stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
         engagement = new Engagement(font, atlas.findRegion("disabled"), atlas, 10f);
         dialogs = new Widget[] { okCancel, stats, engagement};
+        dialogAction = DialogAction.NONE;
     }
 
     @Override
@@ -215,47 +216,55 @@ public class Hud implements Disposable
         }
         okCancel.visible = false;
         ctrl.blockMap = false;
+        dialogAction = DialogAction.NONE;
+    }
+
+    private void setDialogAction(DialogAction action)
+    {
+        if (dialogAction != DialogAction.NONE)
+            System.err.println(":::: BUG ::::  dialogAction is already set to " + dialogAction);
+        dialogAction = action;
     }
 
     public void notifyEndOfTurn()
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.END_TURN;
+        setDialogAction(DialogAction.END_TURN);
         okCancel.show("You have no more Action Points left.", Position.MIDDLE_CENTER, false);
     }
 
     public void askExitBoard()
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.EXIT_BOARD;
+        setDialogAction(DialogAction.EXIT_BOARD);
         okCancel.show("Do you want this unit to escape the battle fierd ?", Position.MIDDLE_CENTER);
     }
 
     public void askEndOfTurn()
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.ABORT_TURN;
+        setDialogAction(DialogAction.ABORT_TURN);
         okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
     }
 
     public void askEndDeployment()
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.END_DEPLOYMENT;
+        setDialogAction(DialogAction.END_DEPLOYMENT);
         okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", Position.MIDDLE_CENTER);
     }
 
     public void engagementSummary(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.END_ENGAGEMENT;
+        setDialogAction(DialogAction.END_ENGAGEMENT);
         engagement.show(d1, d2, cnt, flk, def, tdf, wdf, msg, Position.BOTTOM_CENTER);
     }
 
     public void victory(Player winner, Player loser)
     {
         ctrl.blockMap = true;
-        dialogAction = DialogAction.END_GAME;
+        setDialogAction(DialogAction.END_GAME);
         stats.show(winner, loser, Position.MIDDLE_CENTER);
     }
 }
