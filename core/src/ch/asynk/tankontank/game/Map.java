@@ -59,7 +59,8 @@ public abstract class Map extends Board
         ShotAnimation.init(
                 game.manager.get("data/shots.png", Texture.class), 1, 7,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
-                game.manager.get("sounds/shot.mp3", Sound.class)
+                game.manager.get("sounds/shot.mp3", Sound.class),
+                game.manager.get("sounds/short_shot.mp3", Sound.class)
                 );
 
         setup();
@@ -189,6 +190,7 @@ public abstract class Map extends Board
 
     public void animationsDone()
     {
+        ShotAnimation.resetAll();
         if (animationClosure != null)
             addAnimation(animationClosure);
         animationClosure = null;

@@ -49,9 +49,11 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
     private static final float EXPLOSION_FRAME_DURATION = 0.05f;
 
     private static Random random = new Random();
-    private static Sound sound;
+    private static Sound shortShot;
+    private static Sound longShot;
     private static Sprites shot;
     private static Sprites explosion;
+    private static double longShotId;
 
     private TextureRegion shotRegion;
     private float shot_a;
@@ -79,7 +81,6 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
     private float end_time;
 
     private float volume;
-    private long soundId;
 
     private static final Pool<ShotAnimation> shotAnimationPool = new Pool<ShotAnimation>() {
         @Override
@@ -95,16 +96,24 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         return a;
     }
 
-    public static void init(Texture shot_texture, int scols, int srows, Texture explosion_texture, int ecols, int erows, Sound snd)
+    public static void init(Texture shot_texture, int scols, int srows, Texture explosion_texture, int ecols, int erows, Sound longSnd, Sound shortSnd)
     {
-        sound = snd;
+        longShot = longSnd;
+        shortShot = shortSnd;
         shot = new Sprites(shot_texture, scols, srows);
         explosion = new Sprites(explosion_texture, ecols, erows);
+        longShotId = -1;
+    }
+
+    public static void resetAll()
+    {
+        longShotId = -1;
     }
 
     public static void free()
     {
-        sound.dispose();
+        shortShot.dispose();
+        longShot.dispose();
         shot.texture.dispose();
         explosion.texture.dispose();
     }
@@ -165,8 +174,6 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         this.explosion_y = (y1 - (explosion.height / 2.0f));
         this.explosion_df = (explosion.cols / explosion_duration);
         this.explosion_frame = (random.nextInt(explosion.rows) * explosion.cols);
-
-        soundId = -1;
     }
 
     @Override
@@ -190,7 +197,10 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
 
         if (!fired) {
             fired = true;
-            soundId = sound.play(volume);
+            if (longShotId == -1)
+                longShotId = longShot.play(volume);
+            else
+                shortShot.play(volume);
         }
 
         if (!hit && (elapsed < hit_time)) {
