@@ -249,9 +249,9 @@ public class Hud implements Disposable
         pushDialog(okCancel);
     }
 
-    public void engagementSummary(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
+    public void engagementSummary(Map.Engagement e)
     {
-        engagement.show(d1, d2, cnt, flk, def, tdf, wdf, msg, Position.BOTTOM_CENTER);
+        engagement.show(e, Position.BOTTOM_CENTER);
         pushDialog(engagement);
     }
 

@@ -46,6 +46,36 @@ public abstract class Map extends Board
 
     protected abstract void setup();
 
+    public class Engagement
+    {
+        public int d1;
+        public int d2;
+        public int unitCount;
+        public int flankBonus;
+        public int unitDefense;
+        public int terrainDefense;
+        public int weatherDefense;
+        public int attack;
+        public int defense;
+        public String msg;
+
+        public void set(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
+        {
+            this.d1 = d1;
+            this.d2 = d2;
+            this.unitCount = cnt;
+            this.flankBonus = flk;
+            this.unitDefense = def;
+            this.terrainDefense = tdf;
+            this.weatherDefense = wdf;
+            this.msg = msg;
+            this.attack = (d1 + d2 + unitCount + flankBonus);
+            this.defense = (unitDefense + terrainDefense + weatherDefense);
+        }
+    }
+
+    private Engagement engagement;
+
     public int d6()
     {
         return rand.nextInt(6) + 1;
@@ -79,6 +109,7 @@ public abstract class Map extends Board
         objectives = new ObjectiveSet(this, 4);
 
         meteorology = new Meteorology();
+        engagement = new Engagement();
     }
 
     @Override
@@ -288,10 +319,10 @@ public abstract class Map extends Board
 
         boolean success = false;
         if (die == 2) {
-            ctrl.hud.engagementSummary(d1, d2, 0, 0, 0, 0, 0, target.toString() + " is destroyed");
+            engagement.set(d1, d2, 0, 0, 0, 0, 0, target.toString() + " is destroyed");
             success = false;
         } else if (die == 12) {
-            ctrl.hud.engagementSummary(d1, d2, 0, 0, 0, 0, 0, target.toString() + " resisted the assault");
+            engagement.set(d1, d2, 0, 0, 0, 0, 0, target.toString() + " resisted the assault");
             success = true;
         } else {
 
@@ -329,9 +360,11 @@ public abstract class Map extends Board
             int s2 = (def + tdf + wdf);
             success = (s1 >= s2);
 
-            ctrl.hud.engagementSummary(d1, d2, cnt, flk, def, tdf, wdf,
-                    target.toString() + (success ? " is destroyed" : " resisted the assault"));
+            engagement.set(d1, d2, cnt, flk, def, tdf, wdf, target.toString() + (success ? " is destroyed" : " resisted the assault"));
         }
+
+        ctrl.hud.engagementSummary(engagement);
+
         return success;
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.game.Map;
 
 public class Engagement extends Bg
 {
@@ -33,13 +34,11 @@ public class Engagement extends Bg
         this.padding = padding;
     }
 
-    public void show(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String m, Position position)
+    public void show(Map.Engagement e, Position position)
     {
-        int atk = (d1 + d2 + cnt + flk);
-        int df = (def + tdf + wdf);
-        attackV.write(String.format("%d\n%d + %d\n%d\n%d", atk, d1, d2, cnt, flk));
-        defenseV.write(String.format("%d\n%d\n%d\n%d", df, def, tdf, wdf));
-        msg.write(m);
+        attackV.write(String.format("%d\n%d + %d\n%d\n%d", e.attack, e.d1, e.d2, e.unitCount, e.flankBonus));
+        defenseV.write(String.format("%d\n%d\n%d\n%d", e.defense, e.unitDefense, e.terrainDefense, e.weatherDefense));
+        msg.write(e.msg);
 
         float height = (attack.getHeight() + okBtn.getHeight() + msg.getHeight() + (4 * padding));
         float width = (attack.getWidth() + defense.getWidth() + attackV.getWidth() + defenseV.getWidth() + (5 * padding));
