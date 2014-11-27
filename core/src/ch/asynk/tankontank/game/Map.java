@@ -60,7 +60,9 @@ public abstract class Map extends Board
                 game.manager.get("data/shots.png", Texture.class), 1, 7,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
                 game.manager.get("sounds/shot.mp3", Sound.class),
-                game.manager.get("sounds/short_shot.mp3", Sound.class)
+                game.manager.get("sounds/short_shot.mp3", Sound.class),
+                game.manager.get("sounds/explosion.mp3", Sound.class),
+                game.manager.get("sounds/explosion_short.mp3", Sound.class)
                 );
 
         setup();

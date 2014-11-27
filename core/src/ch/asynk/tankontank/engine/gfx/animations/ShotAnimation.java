@@ -49,11 +49,14 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
     private static final float EXPLOSION_FRAME_DURATION = 0.05f;
 
     private static Random random = new Random();
-    private static Sound shortShot;
-    private static Sound longShot;
+    private static Sound shotSnd;
+    private static Sound shotSndLong;
+    private static Sound explosionSnd;
+    private static Sound explosionSndLong;
     private static Sprites shot;
     private static Sprites explosion;
-    private static double longShotId;
+    private static double shotSndLongId;
+    private static double explosionSndLongId;
 
     private TextureRegion shotRegion;
     private float shot_a;
@@ -96,24 +99,30 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         return a;
     }
 
-    public static void init(Texture shot_texture, int scols, int srows, Texture explosion_texture, int ecols, int erows, Sound longSnd, Sound shortSnd)
+    public static void init(Texture shot_texture, int scols, int srows, Texture explosion_texture, int ecols, int erows, Sound ls, Sound ss, Sound le, Sound se)
     {
-        longShot = longSnd;
-        shortShot = shortSnd;
+        shotSndLong = ls;
+        shotSnd = ss;
+        explosionSndLong = le;
+        explosionSnd = se;
         shot = new Sprites(shot_texture, scols, srows);
         explosion = new Sprites(explosion_texture, ecols, erows);
-        longShotId = -1;
+        shotSndLongId = -1;
+        explosionSndLongId = -1;
     }
 
     public static void resetSound()
     {
-        longShotId = -1;
+        shotSndLongId = -1;
+        explosionSndLongId = -1;
     }
 
     public static void free()
     {
-        shortShot.dispose();
-        longShot.dispose();
+        shotSnd.dispose();
+        shotSndLong.dispose();
+        explosionSnd.dispose();
+        explosionSndLong.dispose();
         shot.texture.dispose();
         explosion.texture.dispose();
     }
@@ -197,10 +206,10 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
 
         if (!fired) {
             fired = true;
-            if (longShotId == -1)
-                longShotId = longShot.play(volume);
+            if (shotSndLongId == -1)
+                shotSndLongId = shotSndLong.play(volume);
             else
-                shortShot.play(volume);
+                shotSnd.play(volume);
         }
 
         if (!hit && (elapsed < hit_time)) {
@@ -213,8 +222,10 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
 
         if (!hit) {
             hit = true;
-            // TODO hit sound
-            shortShot.play(volume);
+            if (explosionSndLongId == -1)
+                explosionSndLongId = explosionSndLong.play(volume);
+            else
+                explosionSnd.play(volume);
         }
 
         if (elapsed < end_time) {
