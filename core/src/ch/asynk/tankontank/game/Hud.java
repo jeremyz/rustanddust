@@ -163,26 +163,25 @@ public class Hud implements Disposable
         if (hit == null)
             return false;
 
-        if (hit == actionButtons) {
-            actionButtons.touchUp(x, y);
-        }
-        else if (hit == playerInfo) {
-            playerInfo.touchUp(x, y);
-        }
-        else if (hit == okCancel) {
-            if (okCancel.hit(x, y))
-                closeDialog();
-        }
-        else if (hit == stats) {
-            if (stats.hit(x, y))
-                closeDialog();
-        }
-        else if (hit == engagement) {
-            if (engagement.hit(x, y))
-                closeDialog();
+        for (Widget w : dialogs) {
+            if (hit == w) {
+                if (w.hit(x, y))
+                    closeDialog();
+                hit = null;
+                break;
+            }
         }
 
-        hit = null;
+        if (hit != null) {
+            if (hit == actionButtons) {
+                actionButtons.touchUp(x, y);
+            }
+            else if (hit == playerInfo) {
+                playerInfo.touchUp(x, y);
+            }
+
+            hit = null;
+        }
 
         return true;
     }
