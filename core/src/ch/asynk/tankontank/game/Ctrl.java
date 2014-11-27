@@ -259,6 +259,11 @@ public class Ctrl implements Disposable
             state.touchUp();
     }
 
+    public boolean isInAnimation()
+    {
+        return (this.stateType == StateType.ANIMATION);
+    }
+
     public void stateTouchUp()
     {
         this.state.touchUp();

@@ -144,6 +144,10 @@ public class Hud implements Disposable
                 return false;
             }
         }
+
+        if (ctrl.isInAnimation())
+            return false;
+
         if (hit == null) {
             if (actionButtons.touchDown(x, y))
                 hit = actionButtons;
