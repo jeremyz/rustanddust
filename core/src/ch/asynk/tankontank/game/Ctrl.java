@@ -195,6 +195,10 @@ public class Ctrl implements Disposable
                 nextState = actionDone();
         }
 
+        if (stateType == StateType.ANIMATION) {
+            this.blockMap = hud.dialogActive();
+        }
+
         this.state.leave(nextState);
 
         TankOnTank.debug("  switch to : " + nextState);
@@ -222,6 +226,7 @@ public class Ctrl implements Disposable
                 this.state = escapeState;
                 break;
             case ANIMATION:
+                this.blockMap = true;
                 this.state = animationState;
                 break;
             case REINFORCEMENT:

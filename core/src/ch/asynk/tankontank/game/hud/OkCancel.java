@@ -13,6 +13,15 @@ public class OkCancel extends Bg
     protected Label label;
     protected Bg okBtn;
     protected Bg cancelBtn;
+    public Action action;
+
+    public enum Action
+    {
+        EXIT_BOARD,
+        ABORT_TURN,
+        END_TURN,
+        END_DEPLOYMENT,
+    }
 
     public OkCancel(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
     {
@@ -24,13 +33,15 @@ public class OkCancel extends Bg
         this.padding = padding;
     }
 
-    public void show(String msg, Position position)
+    public void show(String msg, Action action)
     {
-        show(msg, position, true);
+        show(msg, action, Position.MIDDLE_CENTER);
     }
 
-    public void show(String msg, Position position, boolean canCancel)
+    public void show(String msg, Action action, Position position)
     {
+        this.action = action;
+
         label.write(msg);
 
         float height = (label.getHeight() + (4 * padding) + okBtn.getHeight());
@@ -46,7 +57,11 @@ public class OkCancel extends Bg
         label.setPosition((x + padding), (y + okBtn.getHeight() + (2 * padding)));
         visible = true;
         ok = false;
-        cancelBtn.visible = canCancel;
+    }
+
+    public void noCancel()
+    {
+        cancelBtn.visible = false;
     }
 
     public boolean hit(float x, float y)

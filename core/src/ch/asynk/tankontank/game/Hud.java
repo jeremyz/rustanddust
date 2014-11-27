@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.game;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -37,19 +39,7 @@ public class Hud implements Disposable
     private Statistics stats;
     private Engagement engagement;
     private OkCancel okCancel;
-    private DialogAction dialogAction;
-    private Widget[] dialogs;
-
-    enum DialogAction
-    {
-        EXIT_BOARD,
-        ABORT_TURN,
-        END_TURN,
-        END_DEPLOYMENT,
-        END_GAME,
-        END_ENGAGEMENT,
-        NONE
-    }
+    private LinkedList<Widget> dialogs = new LinkedList<Widget>();
 
     public Hud(final Ctrl ctrl, final TankOnTank game)
     {
@@ -66,8 +56,6 @@ public class Hud implements Disposable
         okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
         stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
         engagement = new Engagement(font, atlas.findRegion("disabled"), atlas, 10f);
-        dialogs = new Widget[] { okCancel, stats, engagement};
-        dialogAction = DialogAction.NONE;
     }
 
     @Override
@@ -135,14 +123,13 @@ public class Hud implements Disposable
     {
         hit = null;
 
-        for (Widget w : dialogs) {
-            if (w.visible) {
-                if (w.hit(x, y)) {
-                    hit = w;
-                    break;
-                }
-                return false;
+        if (dialogs.size() > 0) {
+            Widget dialog = dialogs.getFirst();
+            if (dialog.hit(x, y)) {
+                hit = dialog;
+                return true;
             }
+            return false;
         }
 
         if (ctrl.isInAnimation())
@@ -163,16 +150,14 @@ public class Hud implements Disposable
         if (hit == null)
             return false;
 
-        for (Widget w : dialogs) {
-            if (hit == w) {
-                if (w.hit(x, y))
+        if (dialogs.size() > 0) {
+            Widget dialog = dialogs.getFirst();
+            if (hit == dialog) {
+                if (dialog.hit(x, y))
                     closeDialog();
                 hit = null;
-                break;
             }
-        }
-
-        if (hit != null) {
+        } else {
             if (hit == actionButtons) {
                 actionButtons.touchUp(x, y);
             }
@@ -188,9 +173,26 @@ public class Hud implements Disposable
 
     private void closeDialog()
     {
+        Widget dialog = dialogs.removeFirst();
+        dialog.visible = false;
+
+        if (dialog == okCancel)
+            closeOkCancel();
+        else if (dialog == stats)
+            ctrl.endGame();
+        // else if (dialog == engagement)
+
+        if (dialogs.size() > 0)
+            dialogs.getFirst().visible = true;
+        else
+            ctrl.blockMap = false;
+    }
+
+    private void closeOkCancel()
+    {
         boolean ok = okCancel.ok;
-        switch(dialogAction)
-        {
+
+        switch(okCancel.action) {
             case EXIT_BOARD:
                 ctrl.exitBoard(ok);
                 break;
@@ -206,73 +208,56 @@ public class Hud implements Disposable
                 if (ok)
                     ctrl.endDeployment();
                 break;
-            case END_GAME:
-                stats.visible = false;
-                ctrl.endGame();
-                break;
-            case END_ENGAGEMENT:
-                engagement.visible = false;
-                break;
-            case NONE:
-            default:
-                break;
         }
-        okCancel.visible = false;
-        ctrl.blockMap = false;
-        dialogAction = DialogAction.NONE;
     }
 
-    public boolean dialogOn()
+    public boolean dialogActive()
     {
-        return (dialogAction != DialogAction.NONE);
+        return (dialogs.size() > 0);
     }
 
-    private void setDialogAction(DialogAction action)
+    private void pushDialog(Widget dialog)
     {
-        if (dialogAction != DialogAction.NONE)
-            System.err.println(":::: BUG ::::  dialogAction is already set to " + dialogAction);
-        dialogAction = action;
+        ctrl.blockMap = true;
+        if (dialogs.size() != 0)
+            dialog.visible = false;
+        dialogs.addLast(dialog);
     }
 
     public void notifyEndOfTurn()
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.END_TURN);
-        okCancel.show("You have no more Action Points left.", Position.MIDDLE_CENTER, false);
+        okCancel.show("You have no more Action Points left.", OkCancel.Action.END_TURN);
+        okCancel.noCancel();
+        pushDialog(okCancel);
     }
 
     public void askExitBoard()
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.EXIT_BOARD);
-        okCancel.show("Do you want this unit to escape the battle fierd ?", Position.MIDDLE_CENTER);
+        okCancel.show("Do you want this unit to escape the battle fierd ?", OkCancel.Action.EXIT_BOARD);
+        pushDialog(okCancel);
     }
 
     public void askEndOfTurn()
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.ABORT_TURN);
-        okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", Position.MIDDLE_CENTER);
+        okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", OkCancel.Action.ABORT_TURN);
+        pushDialog(okCancel);
     }
 
     public void askEndDeployment()
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.END_DEPLOYMENT);
-        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", Position.MIDDLE_CENTER);
+        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", OkCancel.Action.END_DEPLOYMENT);
+        pushDialog(okCancel);
     }
 
     public void engagementSummary(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.END_ENGAGEMENT);
         engagement.show(d1, d2, cnt, flk, def, tdf, wdf, msg, Position.BOTTOM_CENTER);
+        pushDialog(engagement);
     }
 
     public void victory(Player winner, Player loser)
     {
-        ctrl.blockMap = true;
-        setDialogAction(DialogAction.END_GAME);
         stats.show(winner, loser, Position.MIDDLE_CENTER);
+        pushDialog(stats);
     }
 }

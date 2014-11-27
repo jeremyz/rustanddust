@@ -5,14 +5,12 @@ public class StateAnimation extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.blockMap = true;
         ctrl.hud.actionButtons.hide();
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        ctrl.blockMap = false;
     }
 
     @Override
