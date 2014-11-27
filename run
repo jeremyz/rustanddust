@@ -1,7 +1,7 @@
 #! /bin/bash
 [ -d out ] && rm -fr out
 
-ARGS="desktop:run"
+ARGS="desktop:run $@"
 
 function gradlew_do()
 {
@@ -12,29 +12,27 @@ case "$1" in
     "c")
         ARGS="clean packs $ARGS $@"
         gradlew_do
-        shift
         ;;
     "a")
-        ARGS="android:installDebug android:run"
+        ARGS="android:installDebug android:run $@"
         gradlew_do
         echo "on failure: sudo adb kill-server; (sudo adb start-server;) sudo adb devices"
-        shift
         ;;
     "t")
-        ARGS="core:test"
+        ARGS="core:test $@"
         gradlew_do
-        shift
         ;;
     "j")
-        ARGS="core:compileJava"
+        ARGS="core:compileJava $@"
         gradlew_do
-        shift
         ;;
     "d")
-        ARGS="desktop:dist"
+        ARGS="desktop:dist $@"
         gradlew_do
         mv ./desktop/build/libs/desktop-1.0.jar TankOnTank.jar
-        shift
+        ;;
+    *)
+        gradlew_do
         ;;
 esac
 

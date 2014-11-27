@@ -99,11 +99,6 @@ public class Ctrl implements Disposable
         return (state != selectState);
     }
 
-    public boolean mayProcessTouch()
-    {
-        return (state != animationState);
-    }
-
     public void setAnimationCount(int count)
     {
         animationCount = count;

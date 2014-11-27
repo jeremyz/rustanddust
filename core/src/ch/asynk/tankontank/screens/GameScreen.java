@@ -124,11 +124,9 @@ public class GameScreen implements Screen
                 // blocked = false;
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
-                    if (ctrl.mayProcessTouch()) {
-                        unprojectToHud(x, y, hudTouch);
-                        unprojectToMap(x, y, mapTouch);
-                        ctrl.touchDown(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
-                    }
+                    unprojectToHud(x, y, hudTouch);
+                    unprojectToMap(x, y, mapTouch);
+                    ctrl.touchDown(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
                 }
                 return true;
             }
@@ -137,11 +135,9 @@ public class GameScreen implements Screen
             {
                 // if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
-                    if (ctrl.mayProcessTouch()) {
-                        unprojectToHud(x, y, hudTouch);
-                        unprojectToMap(x, y, mapTouch);
-                        ctrl.touchUp(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
-                    }
+                    unprojectToHud(x, y, hudTouch);
+                    unprojectToMap(x, y, mapTouch);
+                    ctrl.touchUp(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
                 }
                 // blocked = true;
                 // inputDelay = INPUT_DELAY;
