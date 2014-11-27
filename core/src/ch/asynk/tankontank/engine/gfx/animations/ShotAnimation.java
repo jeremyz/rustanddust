@@ -105,7 +105,7 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         longShotId = -1;
     }
 
-    public static void resetAll()
+    public static void resetSound()
     {
         longShotId = -1;
     }

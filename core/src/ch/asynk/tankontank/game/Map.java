@@ -190,7 +190,6 @@ public abstract class Map extends Board
 
     public int animationsDone()
     {
-        ShotAnimation.resetAll();
         if (animationClosure != null) {
             addAnimation(animationClosure);
             animationClosure = null;
@@ -336,6 +335,7 @@ public abstract class Map extends Board
 
     public void addEngagementAnimation(Unit target)
     {
+        ShotAnimation.resetSound();
         Hex to = target.getHex();
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();
