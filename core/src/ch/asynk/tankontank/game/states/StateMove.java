@@ -144,6 +144,7 @@ public class StateMove extends StateCommon
         map.selectHex(hex);
         activeUnit.enableOverlay(Unit.MOVE, false);
         checkExit(activeUnit, hex);
+        ctrl.hud.notify(activeUnit.toString());
     }
 
     private int collectPaths(Hex hex)

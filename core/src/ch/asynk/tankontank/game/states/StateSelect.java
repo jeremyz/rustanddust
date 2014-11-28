@@ -90,6 +90,7 @@ public class StateSelect extends StateCommon
         isEnemy = ctrl.player.isEnemy(unit);
         if (!isEnemy && (unit == selectedUnit)) {
             if (unit.isHq()) {
+                ctrl.hud.notify("HQ activation");
                 select(upHex, unit, isEnemy);
                 ctrl.setState(StateType.MOVE);
             } else {
@@ -99,6 +100,7 @@ public class StateSelect extends StateCommon
             }
         } else {
             select(upHex, unit, isEnemy);
+            ctrl.hud.notify(selectedUnit.toString());
         }
     }
 
@@ -118,7 +120,6 @@ public class StateSelect extends StateCommon
         showPossibilities(selectedUnit);
 
         ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
-        ctrl.hud.notify(selectedUnit.toString());
         TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 }
