@@ -99,6 +99,11 @@ public class StateMove extends StateCommon
     @Override
     public void touchUp()
     {
+        if (upHex == activeUnit.getHex()) {
+            ctrl.setState(StateType.ROTATE);
+            return;
+        }
+
         int s = map.possiblePaths.size();
 
         Unit unit = upHex.getUnit();
