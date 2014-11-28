@@ -52,18 +52,6 @@ public abstract class StateCommon implements State
         return (selectedUnit != null);
     }
 
-    protected void selectHexAndUnit(Hex hex)
-    {
-        selectedHex = hex;
-        selectedUnit = selectedHex.getUnit();
-        if (!hex.isOffMap()) map.selectHex(selectedHex);
-        if (selectedUnit != null)
-            isEnemy = ctrl.player.isEnemy(selectedUnit);
-        else
-            isEnemy = false;
-        TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
-    }
-
     protected void showPossibilities(Unit unit)
     {
         if (ctrl.cfg.showMoves && unit.canMove()) map.showPossibleMoves();

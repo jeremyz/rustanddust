@@ -1,8 +1,12 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Hex;
+import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.hud.ActionButtons.Buttons;
+
+import ch.asynk.tankontank.TankOnTank;
 
 public class StateSelect extends StateCommon
 {
@@ -54,6 +58,7 @@ public class StateSelect extends StateCommon
     @Override
     public void touchUp()
     {
+
         if (!isEnemy) {
             if (map.possibleMoves.contains(upHex)) {
                 // quick move
@@ -69,25 +74,46 @@ public class StateSelect extends StateCommon
             }
         }
 
-        selectHexAndUnit(upHex);
         hidePossibilities();
+        if (upHex.isOffMap())
+            return;
 
-        if (hasUnit() && (!isEnemy || ctrl.cfg.showEnemyPossibilities)) {
-            // moves and targets == 0 if selectedUnit can't be activated for
-            int moves = map.collectPossibleMoves(selectedUnit);
-            int targets = 0;
-            if (isEnemy)
-                targets = map.collectPossibleTargets(selectedUnit, ctrl.player.units);
-            else
-                targets = map.collectPossibleTargets(selectedUnit, ctrl.opponent.units);
-            if (moves > 0)
-                map.collectMoveableUnits(selectedUnit);
-            showPossibilities(selectedUnit);
-            ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
-        } else {
+        Unit unit = upHex.getUnit();
+
+        if (unit == null) {
+            isEnemy = false;
             ctrl.hud.actionButtons.hide();
             map.clearAll();
+            return;
         }
-        if (selectedUnit != null) ctrl.hud.notify(selectedUnit.toString());
+
+        isEnemy = ctrl.player.isEnemy(unit);
+        if (!isEnemy && (unit == selectedUnit)) {
+            // quick rotate
+            to = upHex;
+            ctrl.setState(StateType.ROTATE);
+        } else {
+            select(upHex, unit, isEnemy);
+        }
+    }
+
+    private void select(Hex hex, Unit unit, boolean isEnemy)
+    {
+        selectedHex = hex;
+        selectedUnit = unit;
+
+        if (isEnemy && !ctrl.cfg.showEnemyPossibilities)
+            return;
+
+        map.selectHex(selectedHex);
+        // moves and targets == 0 if selectedUnit can't be activated for
+        if (map.collectPossibleMoves(selectedUnit) > 0)
+            map.collectMoveableUnits(selectedUnit);
+        map.collectPossibleTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
+        showPossibilities(selectedUnit);
+
+        ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
+        ctrl.hud.notify(selectedUnit.toString());
+        TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 }
