@@ -89,9 +89,14 @@ public class StateSelect extends StateCommon
 
         isEnemy = ctrl.player.isEnemy(unit);
         if (!isEnemy && (unit == selectedUnit)) {
-            // quick rotate
-            to = upHex;
-            ctrl.setState(StateType.ROTATE);
+            if (unit.isHq()) {
+                select(upHex, unit, isEnemy);
+                ctrl.setState(StateType.MOVE);
+            } else {
+                // quick rotate
+                to = upHex;
+                ctrl.setState(StateType.ROTATE);
+            }
         } else {
             select(upHex, unit, isEnemy);
         }
