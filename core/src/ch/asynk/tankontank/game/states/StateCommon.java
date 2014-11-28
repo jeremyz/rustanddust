@@ -69,6 +69,7 @@ public abstract class StateCommon implements State
         if (ctrl.cfg.showMoves && unit.canMove()) map.showPossibleMoves();
         if (ctrl.cfg.showTargets && unit.canEngage()) map.showPossibleTargets();
         if (ctrl.cfg.showMoveAssists && unit.canMove()) map.showMoveableUnits();
+        unit.enableOverlay(Unit.MOVE, false);
     }
 
     protected void hidePossibilities()

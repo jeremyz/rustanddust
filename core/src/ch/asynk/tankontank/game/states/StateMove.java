@@ -41,6 +41,7 @@ public class StateMove extends StateCommon
                 changeUnit(map.moveableUnits.get(0));
             }
         }
+        activeUnit.enableOverlay(Unit.MOVE, false);
     }
 
     @Override
@@ -125,17 +126,20 @@ public class StateMove extends StateCommon
 
     private void changeUnit(Unit unit)
     {
-        if (activeUnit != null )
+        if (activeUnit != null ) {
             map.unselectHex(activeUnit.getHex());
+            activeUnit.enableOverlay(Unit.MOVE, true);
+        }
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
         map.possiblePaths.init(activeUnit, hex);
-        map.selectHex(hex);
         activeUnit.showMoveable();
         map.hidePossibleMoves();
         map.collectPossibleMoves(activeUnit);
         map.showPossibleMoves();
-        checkExit(activeUnit, activeUnit.getHex());
+        map.selectHex(hex);
+        activeUnit.enableOverlay(Unit.MOVE, false);
+        checkExit(activeUnit, hex);
     }
 
     private int collectPaths(Hex hex)
