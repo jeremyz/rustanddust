@@ -62,6 +62,7 @@ public class BattleTest extends BattleCommon
     {
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH);
 
+        usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH);
         setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH);
