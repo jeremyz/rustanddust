@@ -88,7 +88,7 @@ public class StateSelect extends StateCommon
         }
 
         isEnemy = ctrl.player.isEnemy(unit);
-        if (!isEnemy && (unit == selectedUnit)) {
+        if (!isEnemy && (unit == selectedUnit) && unit.canMove()) {
             if (unit.isHq()) {
                 ctrl.hud.notify("HQ activation");
                 select(upHex, unit, isEnemy);
