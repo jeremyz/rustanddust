@@ -295,6 +295,8 @@ public class Ctrl implements Disposable
             setState(StateType.SELECT);
     }
 
+    // Hud callbacks
+
     public void endDeployment()
     {
         deploymentDone();
