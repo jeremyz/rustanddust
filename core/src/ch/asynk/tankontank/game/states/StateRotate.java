@@ -82,6 +82,11 @@ public class StateRotate extends StateCommon
     @Override
     public void touchUp()
     {
+        if (upHex == activeUnit.getHex()) {
+            ctrl.setState(StateType.ABORT);
+            return;
+        }
+
         if (rotationSet) return;
 
         o = Orientation.fromAdj(to, upHex);
