@@ -83,12 +83,7 @@ public class StateSelect extends StateCommon
             if (moves > 0)
                 map.collectMoveableUnits(selectedUnit);
             showPossibilities(selectedUnit);
-            ctrl.hud.actionButtons.show(
-                ((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 ) |
-                ((selectedUnit.canMove()) ? Buttons.ROTATE.b : 0 ) |
-                ((moves > 0) ? Buttons.MOVE.b : 0 ) |
-                ((targets > 0) ? Buttons.ENGAGE.b : 0)
-                );
+            ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
         } else {
             ctrl.hud.actionButtons.hide();
             map.clearAll();

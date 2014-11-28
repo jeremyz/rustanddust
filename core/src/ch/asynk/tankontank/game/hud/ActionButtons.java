@@ -14,13 +14,11 @@ public class ActionButtons extends Bg
 
     public enum Buttons {
         NONE(-1, 0),
-        MOVE(0, 1),
-        ROTATE( 1, 2),
-        PROMOTE(2, 4),
-        ENGAGE(3, 8),
-        DONE(4, 16),
-        ABORT(5, 32),
-        LAST(6, 0);
+        PROMOTE(0, 1),
+        ORDER(1, 2),
+        DONE(2, 4),
+        ABORT(3, 8),
+        LAST(4, 0);
 
         Buttons(int i, int b)
         {
@@ -34,7 +32,7 @@ public class ActionButtons extends Bg
 
     public float padding;
     private int idx;
-    private Button buttons [];
+    private Bg buttons [];
     private StateType states [];
     private Position position;
 
@@ -47,19 +45,17 @@ public class ActionButtons extends Bg
         this.position = Position.BOTTOM_RIGHT;
         this.idx = Buttons.NONE.i;
 
-        this.buttons = new Button[Buttons.LAST.i];
-        this.buttons[Buttons.MOVE.i] = new Button(atlas, "btn-move");
-        this.buttons[Buttons.ROTATE.i] = new Button(atlas, "btn-rotate");
-        this.buttons[Buttons.PROMOTE.i] = new Button(atlas, "btn-promote");
-        this.buttons[Buttons.ENGAGE.i] = new Button(atlas, "btn-engage");
-        this.buttons[Buttons.DONE.i] = new Button(atlas, "btn-check");
-        this.buttons[Buttons.ABORT.i] = new Button(atlas, "btn-cancel");
+
+        this.buttons = new Bg[Buttons.LAST.i];
+        this.buttons[Buttons.DONE.i] = new Bg(atlas.findRegion("ok"));
+        this.buttons[Buttons.ABORT.i] = new Bg(atlas.findRegion("cancel"));
+        this.buttons[Buttons.ORDER.i] = new Bg(atlas.findRegion("order"));
+        this.buttons[Buttons.PROMOTE.i] = new Bg(atlas.findRegion("promote"));
 
         this.states = new StateType[Buttons.LAST.i];
-        this.states[Buttons.MOVE.i] = StateType.MOVE;
-        this.states[Buttons.ROTATE.i] = StateType.ROTATE;
+        // FIXME
+        // this.states[Buttons.ORDER.i] = StateType.ORDER;
         this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
-        this.states[Buttons.ENGAGE.i] = StateType.ENGAGE;
         this.states[Buttons.DONE.i] = StateType.DONE;
         this.states[Buttons.ABORT.i] = StateType.ABORT;
     }
@@ -77,29 +73,14 @@ public class ActionButtons extends Bg
         this.position = position;
     }
 
-    public void setUp(Buttons b)
-    {
-        buttons[b.i].setUp();
-    }
-
-    public void setDown(Buttons b)
-    {
-        buttons[b.i].setDown();
-    }
-
-    public void setOn(Buttons b)
-    {
-        buttons[b.i].setOn();
-    }
-
     public void hide()
     {
         for (int i = 0; i < Buttons.LAST.i; i++)
-            buttons[i].hide();
+            buttons[i].visible = false;
         this.visible = false;
     }
 
-    private float setButton(Button btn, float x, float y)
+    private float setButton(Bg btn, float x, float y)
     {
         btn.visible = true;
         btn.setPosition(x, y);
@@ -134,7 +115,7 @@ public class ActionButtons extends Bg
             if ((bits & b) == b)
                 y = setButton(buttons[i], x, y);
             else
-                buttons[i].hide();
+                buttons[i].visible = false;
             b *= 2;
         }
 
@@ -155,9 +136,6 @@ public class ActionButtons extends Bg
             }
         }
 
-        if (idx != Buttons.NONE.i)
-            buttons[idx].setDown();
-
         return (idx != Buttons.NONE.i);
     }
 
@@ -171,8 +149,7 @@ public class ActionButtons extends Bg
         if (super.hit(x,y) && buttons[idx].hit(x, y)) {
             ctrl.setState(states[idx]);
             ret = true;
-        } else
-            buttons[idx].setUp();
+        }
 
         idx = Buttons.NONE.i;
 

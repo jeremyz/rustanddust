@@ -11,8 +11,7 @@ public class StateEngage extends StateCommon
     public void enter(StateType prevState)
     {
         map.possibleTargets.clear();
-        ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
-        ctrl.hud.actionButtons.setOn(Buttons.ENGAGE);
+        ctrl.hud.actionButtons.show(ctrl.cfg.canCancel ? Buttons.ABORT.b : 0);
 
         // activeUnit is the target
         if (prevState == StateType.SELECT) {
@@ -89,7 +88,7 @@ public class StateEngage extends StateCommon
             activeUnit.showTarget();
             map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.units);
             map.showAttackAssists();
-            ctrl.hud.actionButtons.show(Buttons.ENGAGE.b | Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+            ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         }
         else if (unit == activeUnit) {
             ctrl.setState(StateType.DONE);

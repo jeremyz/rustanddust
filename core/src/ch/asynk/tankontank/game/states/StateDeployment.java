@@ -117,8 +117,7 @@ public class StateDeployment extends StateCommon
         map.selectHex(selectedHex);
         map.showDirections(selectedHex);
         ctrl.hud.playerInfo.unitDock.hide();
-        ctrl.hud.actionButtons.show(Buttons.ROTATE.b | Buttons.ABORT.b);
-        ctrl.hud.actionButtons.setOn(Buttons.ROTATE);
+        ctrl.hud.actionButtons.show(Buttons.ABORT.b);
     }
 
     private void doRotation(Orientation o)
