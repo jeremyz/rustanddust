@@ -9,8 +9,9 @@ public class StateMove extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        boolean moreThanOne = ((map.moveableUnits.size() + map.activatedUnits.size()) > 1);
-        ctrl.hud.actionButtons.show((moreThanOne ? Buttons.DONE.b : 0) | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
+        ctrl.hud.actionButtons.show(
+                ((map.activatedUnits.size() > 0) ? Buttons.DONE.b : 0)
+                | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
 
         if (prevState == StateType.ESCAPE) {
             if (map.possiblePaths.size() == 1)
