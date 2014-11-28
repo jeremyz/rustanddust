@@ -133,7 +133,8 @@ public class StateMove extends StateCommon
     {
         if (activeUnit != null ) {
             map.unselectHex(activeUnit.getHex());
-            activeUnit.enableOverlay(Unit.MOVE, true);
+            if (activeUnit.canMove())
+                activeUnit.enableOverlay(Unit.MOVE, true);
         }
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
