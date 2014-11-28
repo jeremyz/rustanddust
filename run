@@ -1,7 +1,7 @@
 #! /bin/bash
 [ -d out ] && rm -fr out
 
-ARGS="desktop:run $@"
+ARGS="desktop:run"
 
 function gradlew_do()
 {
@@ -11,7 +11,7 @@ function gradlew_do()
 case "$1" in
     "c")
         shift;
-        ARGS="clean packs $ARGS $@"
+        ARGS="clean packs $ARGS"
         gradlew_do
         ;;
     "a")
@@ -37,6 +37,7 @@ case "$1" in
         mv ./desktop/build/libs/desktop-1.0.jar TankOnTank.jar
         ;;
     *)
+        ARGS="$ARGS $@"
         gradlew_do
         ;;
 esac
