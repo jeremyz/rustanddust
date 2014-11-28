@@ -15,10 +15,9 @@ public class ActionButtons extends Bg
     public enum Buttons {
         NONE(-1, 0),
         PROMOTE(0, 1),
-        ORDER(1, 2),
-        DONE(2, 4),
-        ABORT(3, 8),
-        LAST(4, 0);
+        DONE(1, 2),
+        ABORT(2, 4),
+        LAST(3, 0);
 
         Buttons(int i, int b)
         {
@@ -49,12 +48,9 @@ public class ActionButtons extends Bg
         this.buttons = new Bg[Buttons.LAST.i];
         this.buttons[Buttons.DONE.i] = new Bg(atlas.findRegion("ok"));
         this.buttons[Buttons.ABORT.i] = new Bg(atlas.findRegion("cancel"));
-        this.buttons[Buttons.ORDER.i] = new Bg(atlas.findRegion("order"));
         this.buttons[Buttons.PROMOTE.i] = new Bg(atlas.findRegion("promote"));
 
         this.states = new StateType[Buttons.LAST.i];
-        // FIXME
-        // this.states[Buttons.ORDER.i] = StateType.ORDER;
         this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
         this.states[Buttons.DONE.i] = StateType.DONE;
         this.states[Buttons.ABORT.i] = StateType.ABORT;

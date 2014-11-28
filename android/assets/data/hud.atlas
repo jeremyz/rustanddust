@@ -38,23 +38,16 @@ ok
   orig: 48, 48
   offset: 0, 0
   index: -1
-order
+promote
   rotate: false
   xy: 180, 130
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-promote
-  rotate: false
-  xy: 102, 2
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: -1
 reinforcement
   rotate: false
-  xy: 134, 80
+  xy: 102, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -68,7 +61,7 @@ reinforcement-selected
   index: -1
 turns
   rotate: false
-  xy: 184, 80
+  xy: 134, 80
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
