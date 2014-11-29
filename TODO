@@ -1,15 +1,16 @@
 BUGS:
-    - normalize sounds
-    - deploy on objective -> must show flag
-    - check mustValidate option
+    - resize -> Hud issues
 
-NOW:
-
+TODO:
     - Animations
         - selected Hex
-        - dice roll
     - battle description
-    - toggle objectives
+        - dice roll
+    - tutorial
+        - moves
+        - HQ moves
+        - objectives
+        - engagement
 
 NEXT:
     - support different board layout
