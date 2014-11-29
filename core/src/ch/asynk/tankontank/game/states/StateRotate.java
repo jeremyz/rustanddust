@@ -14,7 +14,7 @@ public class StateRotate extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.hud.actionButtons.show(ctrl.cfg.canCancel ? Buttons.ABORT.b : 0);
+        ctrl.hud.actionButtons.show((ctrl.cfg.canCancel && (map.moveableUnits.size() > 1))? Buttons.ABORT.b : 0);
 
         if (activeUnit == null)
             activeUnit = selectedUnit;
