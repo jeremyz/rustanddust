@@ -5,70 +5,77 @@ filter: Nearest,Nearest
 repeat: none
 aps
   rotate: false
-  xy: 2, 2
+  xy: 2, 19
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 cancel
   rotate: false
-  xy: 130, 130
+  xy: 130, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 84, 52
+  xy: 84, 69
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 2, 52
+  xy: 2, 69
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 ok
   rotate: false
-  xy: 52, 2
+  xy: 52, 19
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 promote
   rotate: false
-  xy: 180, 130
+  xy: 180, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 102, 2
+  xy: 102, 19
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement-selected
   rotate: false
-  xy: 2, 102
+  xy: 2, 119
   size: 126, 126
   orig: 126, 126
   offset: 0, 0
   index: -1
+stars
+  rotate: false
+  xy: 2, 2
+  size: 64, 15
+  orig: 64, 15
+  offset: 0, 0
+  index: -1
 turns
   rotate: false
-  xy: 134, 80
+  xy: 134, 97
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 130, 180
+  xy: 130, 197
   size: 80, 48
   orig: 80, 48
   offset: 0, 0

@@ -62,6 +62,7 @@ public class TankOnTank extends Game
         manager.load("sounds/short_shot.mp3", Sound.class);
         manager.load("sounds/explosion.mp3", Sound.class);
         manager.load("sounds/explosion_short.mp3", Sound.class);
+        manager.load("sounds/promote.mp3", Sound.class);
     }
 
     public void unloadAssets()
@@ -82,6 +83,7 @@ public class TankOnTank extends Game
         manager.unload("sounds/short_shot.mp3");
         manager.unload("sounds/explosion.mp3");
         manager.unload("sounds/explosion_short.mp3");
+        manager.unload("sounds/promote.mp3");
         debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
