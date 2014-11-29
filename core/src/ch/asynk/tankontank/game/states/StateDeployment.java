@@ -31,6 +31,7 @@ public class StateDeployment extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
+        selectedUnit = null;
         if (selectedHex != null)
             map.unselectHex(selectedHex);
         if (entryZone != null)
@@ -63,25 +64,20 @@ public class StateDeployment extends StateCommon
     {
         Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
         if (!done && (unit != null) && (unit != activeUnit)) {
-            changeUnit(unit);
+            showEntryZone(unit);
         } else if (selectedUnit != null) {
-            Orientation o = Orientation.fromAdj(selectedHex, upHex);
-            if (o != Orientation.KEEP)
-                doRotation(o);
+            doRotation(Orientation.fromAdj(selectedHex, upHex));
         } else if (!done && (entryZone != null) && (upHex != null)) {
             if (upHex.isEmpty() && entryZone.contains(upHex))
                 unitEnter(activeUnit);
         } else {
             unit = downHex.getUnit();
-            if (deployedUnits.contains(unit)) {
-                selectedUnit = unit;
-                selectedHex = downHex;
-                showRotation();
-            }
+            if (deployedUnits.contains(unit))
+                showRotation(unit, downHex);
         }
     }
 
-    private void changeUnit(Unit unit)
+    private void showEntryZone(Unit unit)
     {
         activeUnit = unit;
         if (entryZone != null) entryZone.enable(Hex.AREA, false);
@@ -108,12 +104,14 @@ public class StateDeployment extends StateCommon
         map.enterBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
         entryZone.enable(Hex.AREA, false);
-        showRotation();
+        showRotation(unit, upHex);
         ctrl.hud.update();
     }
 
-    private void showRotation()
+    private void showRotation(Unit unit, Hex hex)
     {
+        selectedUnit = unit;
+        selectedHex = hex;
         map.selectHex(selectedHex);
         map.showDirections(selectedHex);
         ctrl.hud.playerInfo.unitDock.hide();
@@ -124,15 +122,14 @@ public class StateDeployment extends StateCommon
     {
         map.unselectHex(selectedHex);
         map.hideDirections(selectedHex);
-        selectedUnit.setRotation(o.r());
+        if (o != Orientation.KEEP)
+            selectedUnit.setRotation(o.r());
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
         entryZone = null;
         activeUnit = null;
         selectedUnit = null;
-        if (ctrl.checkDeploymentDone()) {
+        if (ctrl.checkDeploymentDone())
             done = true;
-            ctrl.hud.actionButtons.show(Buttons.DONE.b);
-        }
     }
 }
