@@ -26,7 +26,7 @@ repeat: none
   index: -1
 03_move
   rotate: false
-  xy: 810, 330
+  xy: 618, 8
   size: 100, 114
   orig: 100, 114
   offset: 0, 0
@@ -52,17 +52,24 @@ repeat: none
   orig: 190, 217
   offset: 0, 0
   index: -1
-07_objective_ge
+07_hold_objective
   rotate: false
   xy: 618, 227
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
-08_objective_us
+08_objective_ge
   rotate: false
-  xy: 618, 8
-  size: 190, 217
-  orig: 190, 217
+  xy: 618, 124
+  size: 153, 101
+  orig: 153, 101
+  offset: 0, 0
+  index: -1
+09_objective_us
+  rotate: false
+  xy: 810, 346
+  size: 153, 98
+  orig: 153, 98
   offset: 0, 0
   index: -1

@@ -21,7 +21,7 @@ public class ObjectiveSet extends HashMap<Hex, Objective> implements MoveToAnima
     public void add(Hex hex, Army army, boolean persistent)
     {
         put(hex, new Objective(army, persistent));
-        map.showObjective(hex, army);
+        map.showObjective(hex, army, !persistent);
     }
 
     public int count(Army army)
