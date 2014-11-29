@@ -58,7 +58,6 @@ public class StateSelect extends StateCommon
     @Override
     public void touchUp()
     {
-
         if (!isEnemy) {
             if (map.possibleMoves.contains(upHex)) {
                 // quick move
@@ -75,8 +74,10 @@ public class StateSelect extends StateCommon
         }
 
         hidePossibilities();
-        if (upHex.isOffMap())
+        if (upHex.isOffMap()) {
+            selectedUnit = null;
             return;
+        }
 
         Unit unit = upHex.getUnit();
 
@@ -84,6 +85,7 @@ public class StateSelect extends StateCommon
             isEnemy = false;
             ctrl.hud.actionButtons.hide();
             map.clearAll();
+            selectedUnit = null;
             return;
         }
 

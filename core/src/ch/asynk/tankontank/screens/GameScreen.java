@@ -231,6 +231,7 @@ public class GameScreen implements Screen
     {
         // TankOnTank.debug("GameScreen", "resize (" + width + "," + height + ")");
         mapViewport.update(width, height);
+        // FIXME hudViewort must always match with map
         // hudViewport.update(width, height);
 
         maxZoomOut = Math.min((virtualWidth / cam.viewportWidth), (virtualHeight / cam.viewportHeight));
