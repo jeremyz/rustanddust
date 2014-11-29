@@ -1,8 +1,11 @@
 BUGS:
+    - normalize sounds
+    - deploy on objective -> must show flag
+    - check mustValidate option
 
 NOW:
+
     - Animations
-        - promote
         - selected Hex
         - dice roll
     - battle description
