@@ -122,7 +122,7 @@ public class Ctrl implements Disposable
     private void startPlayerTurn()
     {
         player.turnStart();
-        hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
+        // hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
         if (battle.getReinforcement(this, map))
             hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
         hud.update();
