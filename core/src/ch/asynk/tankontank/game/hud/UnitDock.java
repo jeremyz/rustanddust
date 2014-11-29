@@ -93,16 +93,21 @@ public class UnitDock extends Bg
 
     public void show()
     {
-        float x = position.getX(rect.width * SCALE);
+        int n = ctrl.player.reinforcement();
+        if (n == 0) {
+            visible = false;
+            return;
+        }
+
         if (mvtDone) {
-            if(ctrl.player.reinforcement() == 0)
-                return;
             units = ctrl.player.reinforcement;
             rect.width = units.get(0).getWidth() + (2 * padding);
-            rect.height = ((units.get(0).getHeight() * units.size()) + ((units.size() + 1) * padding));
-            rect.x = (position.isLeft() ? (0 - (rect.width * SCALE)) : (x + (rect.width * SCALE)));
+            rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
+            float scaledWidth = (rect.width * SCALE);
+            to = position.getX(scaledWidth);
+            rect.x = to + (position.isLeft() ? -scaledWidth : scaledWidth);
             rect.y = y - rect.height;
-            // position units here
+            // position units
             float px = rect.x;
             float py = rect.y + rect.height;
             float ph = units.get(0).getHeight();
@@ -110,12 +115,13 @@ public class UnitDock extends Bg
                 py -= (ph + padding);
                 // unit.setPosition(px, py, Orientation.SOUTH.r());
                 unit.centerOn((px + (rect.width / 2)), py + (ph / 2));
-                unit.setRotation(Orientation.SOUTH.r());
+                unit.setRotation(position.isLeft() ? Orientation.NORTH.r() : Orientation.SOUTH.r());
             }
+        } else {
+            to = position.getX(rect.width * SCALE);
         }
 
         selectedUnit = null;
-        to = x;
         show = true;
         mvtDone = false;
         visible = true;
