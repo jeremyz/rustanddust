@@ -88,7 +88,7 @@ public class StateEngage extends StateCommon
             activeUnit.showTarget();
             map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.units);
             map.showAttackAssists();
-            ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+            ctrl.hud.actionButtons.show((ctrl.cfg.mustValidate ? Buttons.DONE.b : 0) | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
         }
         else if (unit == activeUnit) {
             ctrl.setState(StateType.DONE);
