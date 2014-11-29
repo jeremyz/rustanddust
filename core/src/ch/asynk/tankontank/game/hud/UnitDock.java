@@ -26,7 +26,7 @@ public class UnitDock extends Bg
     private float step;
     private Position position;
     private boolean show;
-    private boolean done;
+    private boolean mvtDone;
     public Unit selectedUnit;
     private Sprite selected;
     private UnitList units;
@@ -40,7 +40,7 @@ public class UnitDock extends Bg
         super(bg);
         this.ctrl = ctrl;
         this.padding = padding;
-        this.done = true;
+        this.mvtDone = true;
         this.point = new Vector3();
         this.saved = new Matrix4();
         this.transform = new Matrix4();
@@ -54,7 +54,7 @@ public class UnitDock extends Bg
         this.position = position;
         this.y = y;
         this.step = (position.isLeft() ? STEP : -STEP);
-        this.done = true;
+        this.mvtDone = true;
         this.visible = false;
     }
 
@@ -75,7 +75,7 @@ public class UnitDock extends Bg
         if (!visible) return;
         to = rect.x;
         show = false;
-        done = false;
+        mvtDone = false;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class UnitDock extends Bg
     public void show()
     {
         float x = position.getX(rect.width * SCALE);
-        if (done) {
+        if (mvtDone) {
             if(ctrl.player.reinforcement() == 0)
                 return;
             units = ctrl.player.reinforcement;
@@ -117,7 +117,7 @@ public class UnitDock extends Bg
         selectedUnit = null;
         to = x;
         show = true;
-        done = false;
+        mvtDone = false;
         visible = true;
         dx = 0f;
     }
@@ -125,7 +125,7 @@ public class UnitDock extends Bg
     public void animate(float delta)
     {
         if (!visible) return;
-        if (done) return;
+        if (mvtDone) return;
 
         float x = (rect.x + dx);
         if (show) {
@@ -133,14 +133,14 @@ public class UnitDock extends Bg
                 dx += step;
             else {
                 dx = (to - rect.x);
-                done = true;
+                mvtDone = true;
             }
         } else {
             if ((position.isLeft() && (x > to)) || (!position.isLeft() && x < to))
                 dx -= step;
             else {
                 dx = (to - rect.x);
-                done = true;
+                mvtDone = true;
                 visible = false;
             }
         }
