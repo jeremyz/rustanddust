@@ -7,13 +7,10 @@ public class StatePromote extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.hud.actionButtons.hide();
-        String str = selectedUnit.toString();
-        if (ctrl.player.promote(selectedUnit)) {
-            map.activatedUnits.add(selectedUnit);
-            // ctrl.hud.notify(str+ " has been promoted");
-        }
-        ctrl.setState(StateType.DONE);
+        map.promoteUnit(ctrl.player, selectedUnit, ctrl.battle.getHudPosition(ctrl.player));
+        ctrl.setAnimationCount(1);
+        ctrl.setAfterAnimationState(StateType.SELECT);
+        ctrl.setState(StateType.ANIMATION);
     }
 
     @Override

@@ -17,9 +17,11 @@ import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.ShotAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
+import ch.asynk.tankontank.game.hud.Position;
 
 public abstract class Map extends Board
 {
@@ -86,6 +88,7 @@ public abstract class Map extends Board
         super(game.factory, cfg, game.manager.get(textureName, Texture.class));
         this.ctrl = game.ctrl;
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
+        PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
         ShotAnimation.init(
                 game.manager.get("data/shots.png", Texture.class), 1, 7,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
@@ -118,6 +121,7 @@ public abstract class Map extends Board
         super.dispose();
         clearAll();
         moveSound.dispose();
+        PromoteAnimation.free();
         ShotAnimation.free();
     }
 
@@ -263,6 +267,29 @@ public abstract class Map extends Board
         }
         removePawn(unit);
         activatedUnits.add(unit);
+    }
+
+    public void promoteUnit(final Player player, final Unit unit, Position position)
+    {
+        activatedUnits.add(unit);
+
+        // FIXME
+        float x = 60f;
+        float y = 60f;
+        if (position == Position.TOP_RIGHT)
+            x = getWidth() - 60f;
+
+        Hex hex = unit.getHex();
+        AnimationSequence seq = AnimationSequence.get(2);
+        seq.addAnimation(PromoteAnimation.get(x, y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
+            @Override
+            public void run() {
+                player.promote(unit);
+                animationDone();
+            }
+        }));
+        addAnimation(seq);
     }
 
     public int moveUnit(Unit unit, Orientation o)
