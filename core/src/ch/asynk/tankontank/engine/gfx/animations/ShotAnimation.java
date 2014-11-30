@@ -18,6 +18,7 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
 {
     private static final float SHOT_SCATTERING = 60f;
     private static final float TIME_SCATTERING = 0.6f;
+    private static final float START_DELAY = 0.8f;
     private static final float SHOT_SPEED = 700f;
     private static final float EXPLOSION_FRAME_DURATION = 0.05f;
 
@@ -128,7 +129,7 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         float w = (float) Math.sqrt((dx * dx) + (dy * dy));
 
         // timing
-        float delay = (random.nextFloat() * TIME_SCATTERING);
+        float delay = START_DELAY + (random.nextFloat() * TIME_SCATTERING);
         float shot_duration = ((random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
         float explosion_duration = (explosion.cols * EXPLOSION_FRAME_DURATION);
 
