@@ -107,16 +107,17 @@ public class Ctrl implements Disposable
     public void animationDone()
     {
         animationCount -= 1;
-        if (animationCount == 0) {
-            animationCount = map.animationsDone();
-            if (animationCount == 0) {
-                StateType tmp = stateAfterAnimation;
-                stateAfterAnimation = StateType.DONE;
-                setState(tmp);
-            }
-        }
-        if (animationCount < 0)
-            TankOnTank.debug("    animationCount < 0");
+        if (animationCount > 0)
+            return;
+        animationCount = map.animationsDone();
+        if (animationCount > 0)
+            return;
+        if (hud.dialogActive())
+            return;
+
+        StateType tmp = stateAfterAnimation;
+        stateAfterAnimation = StateType.DONE;
+        setState(tmp);
     }
 
     private void startPlayerTurn()

@@ -180,7 +180,9 @@ public class Hud implements Disposable
             closeOkCancel();
         else if (dialog == stats)
             ctrl.endGame();
-        // else if (dialog == engagement)
+        else if (dialog == engagement) {
+            ctrl.animationDone();
+        }
 
         if (dialogs.size() > 0)
             dialogs.getFirst().visible = true;
