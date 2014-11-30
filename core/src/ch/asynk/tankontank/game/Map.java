@@ -51,6 +51,9 @@ public abstract class Map extends Board
 
     public class Engagement
     {
+        public Army attacker;
+        public Army defender;
+        public boolean success;
         public int d1;
         public int d2;
         public int unitCount;
@@ -60,9 +63,8 @@ public abstract class Map extends Board
         public int weatherDefense;
         public int attack;
         public int defense;
-        public String msg;
 
-        public void set(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf, String msg)
+        public void set(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf)
         {
             this.d1 = d1;
             this.d2 = d2;
@@ -71,12 +73,10 @@ public abstract class Map extends Board
             this.unitDefense = def;
             this.terrainDefense = tdf;
             this.weatherDefense = wdf;
-            this.msg = msg;
             this.attack = (d1 + d2 + unitCount + flankBonus);
             this.defense = (unitDefense + terrainDefense + weatherDefense);
         }
     }
-
     private Engagement engagement;
 
     public int d6()
@@ -349,10 +349,10 @@ public abstract class Map extends Board
 
         boolean success = false;
         if (die == 2) {
-            engagement.set(d1, d2, 0, 0, 0, 0, 0, target.toString() + " is destroyed");
+            engagement.set(d1, d2, 0, 0, 0, 0, 0);
             success = false;
         } else if (die == 12) {
-            engagement.set(d1, d2, 0, 0, 0, 0, 0, target.toString() + " resisted the assault");
+            engagement.set(d1, d2, 0, 0, 0, 0, 0);
             success = true;
         } else {
 
@@ -389,11 +389,13 @@ public abstract class Map extends Board
             int s1 = (die + cnt + flk);
             int s2 = (def + tdf + wdf);
             success = (s1 >= s2);
-
-            engagement.set(d1, d2, cnt, flk, def, tdf, wdf, target.toString() + (success ? " is destroyed" : " resisted the assault"));
+            engagement.set(d1, d2, cnt, flk, def, tdf, wdf);
         }
 
-        ctrl.hud.engagementSummary(engagement);
+        engagement.success = success;
+        engagement.attacker = ctrl.player.army;
+        engagement.defender = ctrl.opponent.army;
+        ctrl.hud.engagementSummary(engagement, ctrl.cfg.fxVolume);
 
         return success;
     }

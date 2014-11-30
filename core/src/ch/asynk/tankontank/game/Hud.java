@@ -81,6 +81,7 @@ public class Hud implements Disposable
     {
         msg.animate(delta);
         playerInfo.animate(delta);
+        engagement.animate(delta);
     }
 
     public void draw(Batch batch)
@@ -251,9 +252,9 @@ public class Hud implements Disposable
         pushDialog(okCancel);
     }
 
-    public void engagementSummary(Map.Engagement e)
+    public void engagementSummary(Map.Engagement e, float volume)
     {
-        engagement.show(e, Position.BOTTOM_CENTER);
+        engagement.show(e, Position.BOTTOM_CENTER, volume);
         pushDialog(engagement);
     }
 
