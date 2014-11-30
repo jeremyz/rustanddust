@@ -16,6 +16,7 @@ import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
+import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.ShotAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
@@ -88,6 +89,7 @@ public abstract class Map extends Board
         super(game.factory, cfg, game.manager.get(textureName, Texture.class));
         this.ctrl = game.ctrl;
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
+        DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
         ShotAnimation.init(
                 game.manager.get("data/shots.png", Texture.class), 1, 7,
@@ -121,6 +123,7 @@ public abstract class Map extends Board
         super.dispose();
         clearAll();
         moveSound.dispose();
+        DiceAnimation.free();
         PromoteAnimation.free();
         ShotAnimation.free();
     }
