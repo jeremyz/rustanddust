@@ -52,8 +52,8 @@ public class GameScreen implements Screen
     private final TankOnTank game;
     private Ctrl ctrl;
 
-    // private boolean blocked;
-    // private float inputDelay = 0f;
+    private boolean blocked;
+    private float inputDelay = 0f;
     private Vector2 dragPos = new Vector2();
     private Vector3 mapTouch = new Vector3();
     private Vector3 hudTouch = new Vector3();
@@ -82,6 +82,7 @@ public class GameScreen implements Screen
         hudBatch = new SpriteBatch();
         if (DEBUG) debugShapes = new ShapeRenderer();
 
+        blocked = false;
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
@@ -99,8 +100,8 @@ public class GameScreen implements Screen
                     cam.zoom -= ZOOM_GESTURE_FACTOR;
                 cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
                 clampCameraPos();
-                // blocked = true;
-                // inputDelay = INPUT_DELAY;
+                blocked = true;
+                inputDelay = INPUT_DELAY;
                 return true;
             }
         }));
@@ -113,15 +114,12 @@ public class GameScreen implements Screen
                 dragPos.set(x, y);
                 cam.translate(-deltaX, -deltaY, 0);
                 clampCameraPos();
-                // blocked = true;
-                // inputDelay = INPUT_DELAY;
                 return true;
             }
             @Override
             public boolean touchDown(int x, int y, int pointer, int button)
             {
-                // if (inputDelay > 0f) return true;
-                // blocked = false;
+                if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
                     unprojectToHud(x, y, hudTouch);
@@ -133,14 +131,12 @@ public class GameScreen implements Screen
             @Override
             public boolean touchUp(int x, int y, int pointer, int button)
             {
-                // if (blocked) return true;
+                if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
                     unprojectToHud(x, y, hudTouch);
                     unprojectToMap(x, y, mapTouch);
                     ctrl.touchUp(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
                 }
-                // blocked = true;
-                // inputDelay = INPUT_DELAY;
                 return true;
             }
             @Override
@@ -149,8 +145,6 @@ public class GameScreen implements Screen
                 cam.zoom += amount * ZOOM_SCROLL_FACTOR;
                 cam.zoom = MathUtils.clamp(cam.zoom, ZOOM_IN_MAX, maxZoomOut);
                 clampCameraPos();
-                // blocked = true;
-                // inputDelay = INPUT_DELAY;
                 return true;
             }
         });
@@ -183,8 +177,11 @@ public class GameScreen implements Screen
     @Override
     public void render(float delta)
     {
-        // if (inputDelay > 0f)
-        //     inputDelay -= delta;
+        if (inputDelay > 0f) {
+            inputDelay -= delta;
+            if (inputDelay <= 0f)
+                blocked = false;
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
