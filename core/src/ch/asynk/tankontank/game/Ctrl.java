@@ -282,8 +282,8 @@ public class Ctrl implements Disposable
     public boolean checkDeploymentDone()
     {
         boolean done = battle.deploymentDone(player);
-        if (done)
-            hud.askEndDeployment();
+        // if (done)
+        //     hud.askEndDeployment();
         return done;
     }
 
