@@ -347,49 +347,47 @@ public abstract class Map extends Board
         int d2 = d6();
         int die = d1 + d2;
 
-        boolean success = false;
-        if (die == 2) {
-            engagement.set(d1, d2, 0, 0, 0, 0, 0);
-            success = false;
-        } else if (die == 12) {
-            engagement.set(d1, d2, 0, 0, 0, 0, 0);
-            success = true;
-        } else {
+        int distance = 0;
+        boolean night = (meteorology.day == Meteorology.Day.NIGHT);
+        boolean flankAttack = false;
+        boolean terrainBonus = true;
 
-            int distance = 0;
-            boolean night = (meteorology.day == Meteorology.Day.NIGHT);
-            boolean flankAttack = false;
-            boolean terrainBonus = true;
-
-            for (Pawn assist : activatedUnits) {
-                if (assist.isFlankAttack())
-                    flankAttack = true;
-                if (assist.isA(Unit.UnitType.INFANTRY))
-                    terrainBonus = false;
-                if (night) {
-                    int d = distance(assist.getTile(), target.getTile());
-                    if (d > distance)
-                        distance = d;
-                }
-            }
-
-            int cnt = activatedUnits.size();
-            int def = target.getDefense(unit.getTile());
-            int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
-            int tdf = (terrainBonus ? target.getTile().defense() : 0);
-            int wdf = 0;
+        for (Pawn assist : activatedUnits) {
+            if (assist.isFlankAttack())
+                flankAttack = true;
+            if (assist.isA(Unit.UnitType.INFANTRY))
+                terrainBonus = false;
             if (night) {
+                int d = distance(assist.getTile(), target.getTile());
+                if (d > distance)
+                    distance = d;
+            }
+        }
+
+        int cnt = activatedUnits.size();
+        int def = target.getDefense(unit.getTile());
+        int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
+        int tdf = (terrainBonus ? target.getTile().defense() : 0);
+        int wdf = 0;
+        if (night) {
             if (distance > 3)
                 wdf = 3;
             else if (distance > 2)
                 wdf = 2;
             else if (distance > 1)
                 wdf = 1;
-            }
-            int s1 = (die + cnt + flk);
-            int s2 = (def + tdf + wdf);
+        }
+        int s1 = (die + cnt + flk);
+        int s2 = (def + tdf + wdf);
+        engagement.set(d1, d2, cnt, flk, def, tdf, wdf);
+
+        boolean success = false;
+        if (die == 2) {
+            success = false;
+        } else if (die == 12) {
+            success = true;
+        } else {
             success = (s1 >= s2);
-            engagement.set(d1, d2, cnt, flk, def, tdf, wdf);
         }
 
         engagement.success = success;
