@@ -17,6 +17,8 @@ public class Engagement extends Bg
     public float padding;
     private Sprite usFlag;
     private Sprite geFlag;
+    private Sprite geWinner;
+    private Sprite usWinner;
     private Sprite winner;
     private Label attack;
     private Label defense;
@@ -31,7 +33,8 @@ public class Engagement extends Bg
         super(region);
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
-        winner = new Sprite();
+        usWinner = new Sprite(usFlag);
+        geWinner = new Sprite(geFlag);
         usFlag.setSize(usFlag.getWidth() * (FLAG_HEIGHT / usFlag.getHeight()), FLAG_HEIGHT);
         geFlag.setSize(geFlag.getWidth() * (FLAG_HEIGHT / geFlag.getHeight()), FLAG_HEIGHT);
         this.attack = new Label(font);
@@ -53,9 +56,9 @@ public class Engagement extends Bg
         attackR.write(String.format("= %d", e.attack));
         defenseR.write(String.format("= %d", e.defense));
         if (e.success)
-            winner.set((e.attacker == Army.US) ? usFlag : geFlag);
+            winner = ((e.attacker == Army.US) ? usWinner : geWinner);
         else
-            winner.set((e.attacker == Army.US) ? geFlag : usFlag);
+            winner = ((e.attacker == Army.US) ? geWinner : usWinner);
 
         float resultW = attackR.getWidth();
         float w = defenseR.getWidth();
