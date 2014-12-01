@@ -52,9 +52,9 @@ public class Engagement extends Bg
     {
         DiceAnimation.initSound(volume);
         attack.write(String.format(" + %d + %d", e.unitCount, e.flankBonus));
-        defense.write(String.format("%d + %d + %d = %d", e.unitDefense, e.terrainDefense, e.weatherDefense, e.defense));
-        attackR.write(String.format("= %d", e.attack));
-        defenseR.write(String.format("= %d", e.defense));
+        defense.write(String.format("%d + %d + %d", e.unitDefense, e.terrainDefense, e.weatherDefense));
+        attackR.write(String.format("= %2d", e.attack));
+        defenseR.write(String.format("= %2d", e.defense));
         if (e.success)
             winner = ((e.attacker == Army.US) ? usWinner : geWinner);
         else
