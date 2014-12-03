@@ -18,6 +18,7 @@ import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.FireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.TankFireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
@@ -93,7 +94,7 @@ public abstract class Map extends Board
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
-        TankFireAnimation.init(
+        FireAnimation.init(
                 game.manager.get("data/tank_fire.png", Texture.class), 1, 7,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
                 game.manager.get("sounds/tank_fire.mp3", Sound.class),
@@ -127,7 +128,7 @@ public abstract class Map extends Board
         moveSound.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
-        TankFireAnimation.free();
+        FireAnimation.free();
     }
 
     public void clearAll()
@@ -402,7 +403,7 @@ public abstract class Map extends Board
 
     public void addEngagementAnimation(Unit target)
     {
-        TankFireAnimation.resetSound();
+        FireAnimation.reset();
         Hex to = target.getHex();
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();

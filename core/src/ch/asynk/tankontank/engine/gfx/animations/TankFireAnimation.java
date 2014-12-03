@@ -5,8 +5,6 @@ import java.util.Random;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Pool;
 
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -21,16 +19,6 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private static final float START_DELAY = 0.8f;
     private static final float SHOT_SPEED = 700f;
     private static final float EXPLOSION_FRAME_DURATION = 0.05f;
-
-    private static Random random = new Random();
-    private static Sound fireSnd;
-    private static Sound fireSndLong;
-    private static Sound explosionSnd;
-    private static Sound explosionSndLong;
-    private static Sprites fire;
-    private static Sprites explosion;
-    private static double fireSndLongId;
-    private static double explosionSndLongId;
 
     private TextureRegion fireRegion;
     private float fire_a;
@@ -73,37 +61,9 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         return a;
     }
 
-    public static void init(Texture fire_texture, int scols, int srows, Texture explosion_texture, int ecols, int erows, Sound ls, Sound ss, Sound le, Sound se)
-    {
-        fireSndLong = ls;
-        fireSnd = ss;
-        explosionSndLong = le;
-        explosionSnd = se;
-        fire = new Sprites(fire_texture, scols, srows);
-        explosion = new Sprites(explosion_texture, ecols, erows);
-        fireSndLongId = -1;
-        explosionSndLongId = -1;
-    }
-
-    public static void resetSound()
-    {
-        fireSndLongId = -1;
-        explosionSndLongId = -1;
-    }
-
-    public static void free()
-    {
-        fireSnd.dispose();
-        fireSndLong.dispose();
-        explosionSnd.dispose();
-        explosionSndLong.dispose();
-        fire.dispose();
-        explosion.dispose();
-    }
-
     public TankFireAnimation()
     {
-        this.fireRegion = new TextureRegion(fire.frames[0]);
+        this.fireRegion = new TextureRegion(FireAnimation.tankFire.frames[0]);
     }
 
     private void set(float volume, float offset, float x0, float y0, float x1, float y1)
@@ -113,9 +73,9 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.volume = volume;
 
         // fire geometry
-        y0 -= (fire.height / 2.0f);
-        x1 += ((SHOT_SCATTERING * random.nextFloat()) - (SHOT_SCATTERING / 2f));
-        y1 += ((SHOT_SCATTERING * random.nextFloat()) - (SHOT_SCATTERING / 2f));
+        y0 -= (FireAnimation.tankFire.height / 2.0f);
+        x1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
+        y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
 
         double r = Math.atan2((y0 - y1), (x0 - x1));
         float xadj = (float) (Math.cos(r) * offset);
@@ -129,9 +89,9 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         float w = (float) Math.sqrt((dx * dx) + (dy * dy));
 
         // timing
-        float delay = START_DELAY + (random.nextFloat() * TIME_SCATTERING);
-        float fire_duration = ((random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
-        float explosion_duration = (explosion.cols * EXPLOSION_FRAME_DURATION);
+        float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
+        float fire_duration = ((FireAnimation.random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
+        float explosion_duration = (FireAnimation.explosion.cols * EXPLOSION_FRAME_DURATION);
 
         this.elapsed = 0f;
         this.fire_time = delay;
@@ -149,14 +109,14 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
         // smoke var
         this.smoke_dx = 0f;
-        this.smoke_df = (fire.rows / explosion_duration);
+        this.smoke_df = (FireAnimation.tankFire.rows / explosion_duration);
         this.smoke_frame = 0;
 
         // explosion vars
-        this.explosion_x = (x1 - (explosion.width / 2.0f));
-        this.explosion_y = (y1 - (explosion.height / 2.0f));
-        this.explosion_df = (explosion.cols / explosion_duration);
-        this.explosion_frame = (random.nextInt(explosion.rows) * explosion.cols);
+        this.explosion_x = (x1 - (FireAnimation.explosion.width / 2.0f));
+        this.explosion_y = (y1 - (FireAnimation.explosion.height / 2.0f));
+        this.explosion_df = (FireAnimation.explosion.cols / explosion_duration);
+        this.explosion_frame = (FireAnimation.random.nextInt(FireAnimation.explosion.rows) * FireAnimation.explosion.cols);
     }
 
     @Override
@@ -180,10 +140,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
         if (!fired) {
             fired = true;
-            if (fireSndLongId == -1)
-                fireSndLongId = fireSndLong.play(volume);
-            else
-                fireSnd.play(volume);
+            FireAnimation.tankFireSndPlay(volume);
         }
 
         if (!hit && (elapsed < hit_time)) {
@@ -196,17 +153,14 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
         if (!hit) {
             hit = true;
-            if (explosionSndLongId == -1)
-                explosionSndLongId = explosionSndLong.play(volume);
-            else
-                explosionSnd.play(volume);
+            FireAnimation.explosionSndPlay(volume);
         }
 
         if (elapsed < end_time) {
             int frame = (int) ((elapsed - hit_time) * smoke_df);
             if (frame != smoke_frame) {
                 smoke_frame = frame;
-                fireRegion.setRegion(fire.frames[smoke_frame]);
+                fireRegion.setRegion(FireAnimation.tankFire.frames[smoke_frame]);
                 fireRegion.setRegionWidth((int) fire_w);
             }
             return false;
@@ -223,7 +177,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
         if (hit) {
             int frame = (explosion_frame + (int) ((elapsed - hit_time) * explosion_df));
-            batch.draw(explosion.frames[frame], explosion_x, explosion_y);
+            batch.draw(FireAnimation.explosion.frames[frame], explosion_x, explosion_y);
         }
     }
 
@@ -236,7 +190,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         debugShapes.translate(fire_x, fire_y, 0);
         debugShapes.rotate(0, 0, 1, fire_a);
         debugShapes.translate(-fire_x, -fire_y, 0);
-        debugShapes.rect(fire_x, fire_y, fire_w, fire.height);
+        debugShapes.rect(fire_x, fire_y, fire_w, FireAnimation.tankFire.height);
         debugShapes.end();
         debugShapes.begin(ShapeRenderer.ShapeType.Line);
         debugShapes.identity();
