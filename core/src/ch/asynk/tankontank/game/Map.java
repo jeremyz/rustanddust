@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.SelectedTile;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PossiblePaths;
@@ -86,7 +87,8 @@ public abstract class Map extends Board
 
     public Map(final TankOnTank game, Board.Config cfg, String textureName)
     {
-        super(game.factory, cfg, game.manager.get(textureName, Texture.class));
+        super(game.factory, cfg, game.manager.get(textureName, Texture.class),
+                new SelectedTile(game.manager.get("data/hex.png", Texture.class), new float[] {.2f, .1f, .1f, .1f, .2f, .1f} ));
         this.ctrl = game.ctrl;
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
@@ -483,8 +485,8 @@ public abstract class Map extends Board
     public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
     public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
 
-    public void selectHex(Hex hex)      { enableOverlayOn(hex, Hex.SELECT, true); }
-    public void unselectHex(Hex hex)    { enableOverlayOn(hex, Hex.SELECT, false); }
+    public void selectHex(Hex hex)      { selectedTile.set(hex); }
+    public void unselectHex(Hex hex)    { selectedTile.hide(); }
     public void showMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, true); }
     public void hideMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, false); }
     public void showDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, true); }

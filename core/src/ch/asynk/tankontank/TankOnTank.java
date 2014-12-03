@@ -50,6 +50,7 @@ public class TankOnTank extends Game
         debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
+        manager.load("data/hex.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
         manager.load("data/units.atlas", TextureAtlas.class);
         manager.load("data/unit-overlays.atlas", TextureAtlas.class);
@@ -72,6 +73,7 @@ public class TankOnTank extends Game
         debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
+        manager.unload("data/hex.png");
         manager.unload("data/hud.atlas");
         manager.unload("data/units.atlas");
         manager.unload("data/unit-overlays.atlas");
