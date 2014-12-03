@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Msg extends Label
+import ch.asynk.tankontank.engine.gfx.Animation;
+
+public class Msg extends Label implements Animation
 {
     class MsgInfo
     {
@@ -69,9 +71,10 @@ public class Msg extends Label
         bg.set(rect);
     }
 
-    public void animate(float delta)
+    @Override
+    public boolean animate(float delta)
     {
-        if (!visible) return;
+        if (!visible) return true;
         elapsed += delta;
         if (elapsed >= duration) {
            visible = false;
@@ -80,6 +83,7 @@ public class Msg extends Label
                write(info.text, info.duration, info.position);
            }
         }
+        return false;
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.game.State.StateType;
 import ch.asynk.tankontank.game.hud.Position;
 import ch.asynk.tankontank.game.hud.Msg;
@@ -21,7 +22,7 @@ import ch.asynk.tankontank.game.hud.Widget;
 
 import ch.asynk.tankontank.TankOnTank;
 
-public class Hud implements Disposable
+public class Hud implements Disposable, Animation
 {
     public static final float OFFSET = 10f;
     public static final float NOTIFY_DURATION = 2f;
@@ -77,11 +78,13 @@ public class Hud implements Disposable
         actionButtons.setPosition(position.horizontalMirror());
     }
 
-    public void animate(float delta)
+    @Override
+    public boolean animate(float delta)
     {
         msg.animate(delta);
         playerInfo.animate(delta);
         engagement.animate(delta);
+        return false;
     }
 
     public void draw(Batch batch)

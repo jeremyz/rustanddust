@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Army;
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 
-public class Engagement extends Bg
+public class Engagement extends Bg implements Animation
 {
     public static int FLAG_HEIGHT = 24;
     public float padding;
@@ -106,11 +107,13 @@ public class Engagement extends Bg
         return false;
     }
 
-    public void animate(float delta)
+    @Override
+    public boolean animate(float delta)
     {
-        if (!visible) return;
+        if (!visible) return true;
         d1Animation.animate(delta);
         d2Animation.animate(delta);
+        return false;
     }
 
     @Override

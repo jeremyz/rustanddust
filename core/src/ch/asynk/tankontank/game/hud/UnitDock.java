@@ -8,12 +8,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.UnitList;
 
-public class UnitDock extends Bg
+public class UnitDock extends Bg implements Animation
 {
     private static final float SCALE = 0.4f;
     private static final float STEP = 5f;
@@ -128,10 +129,11 @@ public class UnitDock extends Bg
         dx = 0f;
     }
 
-    public void animate(float delta)
+    @Override
+    public boolean animate(float delta)
     {
-        if (!visible) return;
-        if (mvtDone) return;
+        if (!visible) return true;
+        if (mvtDone) return true;
 
         float x = (rect.x + dx);
         if (show) {
@@ -159,6 +161,7 @@ public class UnitDock extends Bg
         point.set((rect.x + rect.width), (rect.y + rect.height), 0).mul(transform);
         scaledRect.width = point.x - scaledRect.x;
         scaledRect.height = point.y - scaledRect.y;
+        return false;
     }
 
     @Override

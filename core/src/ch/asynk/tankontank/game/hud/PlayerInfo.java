@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.Drawable;
 
 import ch.asynk.tankontank.game.State.StateType;
@@ -17,7 +18,7 @@ import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Player;
 
-public class PlayerInfo implements Disposable, Drawable
+public class PlayerInfo implements Disposable, Drawable, Animation
 {
     private final Ctrl ctrl;
 
@@ -150,9 +151,11 @@ public class PlayerInfo implements Disposable, Drawable
         return true;
     }
 
-    public void animate(float delta)
+    @Override
+    public boolean animate(float delta)
     {
         unitDock.animate(delta);
+        return false;
     }
 
     @Override
