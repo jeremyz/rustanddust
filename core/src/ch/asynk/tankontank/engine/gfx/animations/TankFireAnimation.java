@@ -17,8 +17,8 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private static final float SHOT_SCATTERING = 60f;
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
-    private static final float SHOT_SPEED = 700f;
-    private static final float EXPLOSION_FRAME_DURATION = 0.05f;
+    private static final float SHOT_SPEED = 900f;
+    private static final float EXPLOSION_FRAME_DURATION = 0.07f;
 
     private TextureRegion fireRegion;
     private float fire_a;
@@ -29,7 +29,6 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private float fire_dy;
     private float fire_dw;
 
-    private float smoke_dx;
     private float smoke_df;
     private int smoke_frame;
 
@@ -108,7 +107,6 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.fire_dw = (w  / fire_duration);
 
         // smoke var
-        this.smoke_dx = 0f;
         this.smoke_df = (FireAnimation.tankFire.rows / explosion_duration);
         this.smoke_frame = 0;
 
