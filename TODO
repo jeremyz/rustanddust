@@ -11,6 +11,9 @@ TODO:
         - HQ moves
         - objectives
         - engagement
+    - correctly dispose of everything at the end of a game
+    - pause / resume
+    - maybe do not need cancel button in engagement and HQ mode, but must support canCancel option
 
 NEXT:
     - support different board layout
