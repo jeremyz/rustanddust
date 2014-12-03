@@ -21,7 +21,7 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation.MoveToAnimationCb;
 
-public abstract class Board implements Disposable
+public abstract class Board implements Disposable, Animation
 {
     private int cols;
     private int rows;
@@ -225,7 +225,7 @@ public abstract class Board implements Disposable
             Gdx.app.debug("Board", " tiles:" + tileCount + " pawns:" + pawnCount + " animations:" + animationCount);
     }
 
-    public void animate(float delta)
+    public boolean animate(float delta)
     {
 
         Iterator<Animation> iter = animations.iterator();
@@ -238,6 +238,8 @@ public abstract class Board implements Disposable
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
             animations.add(nextAnimations.get(i));
         nextAnimations.clear();
+
+        return true;
     }
 
     public void draw(Batch batch)
