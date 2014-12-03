@@ -18,9 +18,9 @@ public class Engagement extends Bg implements Animation
     public float padding;
     private Sprite usFlag;
     private Sprite geFlag;
-    private Sprite geWinner;
-    private Sprite usWinner;
     private Sprite winner;
+    private Sprite attackImg;
+    private Sprite defenseImg;
     private Label attack;
     private Label defense;
     private Label attackR;
@@ -34,10 +34,8 @@ public class Engagement extends Bg implements Animation
         super(region);
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
-        usWinner = new Sprite(usFlag);
-        geWinner = new Sprite(geFlag);
-        usFlag.setSize(usFlag.getWidth() * (FLAG_HEIGHT / usFlag.getHeight()), FLAG_HEIGHT);
-        geFlag.setSize(geFlag.getWidth() * (FLAG_HEIGHT / geFlag.getHeight()), FLAG_HEIGHT);
+        attackImg = new Sprite(atlas.findRegion("attack"));
+        defenseImg = new Sprite(atlas.findRegion("defense"));
         this.attack = new Label(font);
         this.defense = new Label(font);
         this.attackR = new Label(font);
@@ -57,16 +55,16 @@ public class Engagement extends Bg implements Animation
         attackR.write(String.format("= %2d", e.attack));
         defenseR.write(String.format("= %2d", e.defense));
         if (e.success)
-            winner = ((e.attacker == Army.US) ? usWinner : geWinner);
+            winner = ((e.attacker == Army.US) ? usFlag : geFlag);
         else
-            winner = ((e.attacker == Army.US) ? geWinner : usWinner);
+            winner = ((e.attacker == Army.US) ? geFlag : usFlag);
 
         float resultW = attackR.getWidth();
         float w = defenseR.getWidth();
         if (w > resultW)
             resultW = w;
-        float height = (okBtn.getHeight() + (2 * usFlag.getHeight()) + (4 * padding));
-        float width = (usFlag.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + resultW + (6 * padding));
+        float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (4 * padding));
+        float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + resultW + (6 * padding));
         float x = position.getX(width);
         float y = position.getY(height);
         set(x, y, width, height);
@@ -77,23 +75,21 @@ public class Engagement extends Bg implements Animation
         x += padding;
         y += (okBtn.getHeight() + padding);
 
-        Sprite flag = ((e.defender == Army.US) ? usFlag : geFlag);
-        flag.setPosition(x, y);
-        x += (flag.getWidth() + padding);
-        y = (y + (flag.getHeight() / 2.0f) - (defense.getHeight() / 2.0f));
+        defenseImg.setPosition(x, y);
+        x += (defenseImg.getWidth() + padding);
+        y = (y + (defenseImg.getHeight() / 2.0f) - (defense.getHeight() / 2.0f));
         defense.setPosition(x, y);
         defenseR.setPosition((getX() + width - resultW- padding), y);
 
         x = getX() + padding;
-        y += flag.getHeight() + padding;
-        flag = ((flag == geFlag) ? usFlag : geFlag);
-        flag.setPosition(x, y);
-        x += (flag.getWidth() + padding);
+        y += defenseImg.getHeight() + padding;
+        attackImg.setPosition(x, y);
+        x += (attackImg.getWidth() + padding);
         d1Animation.set(e.d1, x, y);
         x += (d1Animation.getWidth() + padding);
         d2Animation.set(e.d2, x, (y));
         x += (d1Animation.getWidth() + padding);
-        y = (y + (flag.getHeight() / 2.0f) - (attack.getHeight() / 2.0f));
+        y = (y + (attackImg.getHeight() / 2.0f) - (attack.getHeight() / 2.0f));
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);
 
@@ -134,13 +130,13 @@ public class Engagement extends Bg implements Animation
     {
         if (!visible) return;
         super.draw(batch);
-        attack.draw(batch);
-        defense.draw(batch);
-        defenseR.draw(batch);
-        geFlag.draw(batch);
-        usFlag.draw(batch);
+        attackImg.draw(batch);
         d1Animation.draw(batch);
         d2Animation.draw(batch);
+        attack.draw(batch);
+        defenseImg.draw(batch);
+        defense.draw(batch);
+        defenseR.draw(batch);
         okBtn.draw(batch);
         if (d1Animation.isDone() && d2Animation.isDone()) {
             attackR.draw(batch);
