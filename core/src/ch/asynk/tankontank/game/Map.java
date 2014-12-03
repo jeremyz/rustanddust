@@ -95,8 +95,10 @@ public abstract class Map extends Board
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
         FireAnimation.init(
-                game.manager.get("data/tank_fire.png", Texture.class), 1, 7,
+                game.manager.get("data/infantry_fire.png", Texture.class), 1, 8,
+                game.manager.get("data/tank_fire.png", Texture.class), 1, 8,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
+                game.manager.get("sounds/infantry_fire.mp3", Sound.class),
                 game.manager.get("sounds/tank_fire.mp3", Sound.class),
                 game.manager.get("sounds/tank_fire_short.mp3", Sound.class),
                 game.manager.get("sounds/explosion.mp3", Sound.class),
