@@ -1,9 +1,10 @@
 package ch.asynk.tankontank.engine.gfx.animations;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Sprites
+public class Sprites implements Disposable
 {
     public Texture texture;
     public TextureRegion[] frames;
@@ -27,5 +28,11 @@ public class Sprites
                 frames[idx++] = tmp[i][j];
             }
         }
+    }
+
+    @Override
+    public void dispose()
+    {
+        texture.dispose();
     }
 }

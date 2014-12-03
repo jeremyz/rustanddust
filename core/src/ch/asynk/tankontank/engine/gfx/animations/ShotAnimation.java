@@ -97,8 +97,8 @@ public class ShotAnimation implements Disposable, Animation, Pool.Poolable
         shotSndLong.dispose();
         explosionSnd.dispose();
         explosionSndLong.dispose();
-        shot.texture.dispose();
-        explosion.texture.dispose();
+        shot.dispose();
+        explosion.dispose();
     }
 
     public ShotAnimation()

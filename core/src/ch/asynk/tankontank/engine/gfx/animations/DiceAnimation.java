@@ -55,7 +55,7 @@ public class DiceAnimation implements Animation, Drawable
     public static void free()
     {
         sound.dispose();
-        dice.texture.dispose();
+        dice.dispose();
     }
 
     public float getX()

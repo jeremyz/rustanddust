@@ -34,7 +34,7 @@ public class SpriteAnimation implements Disposable, Animation
     @Override
     public void dispose()
     {
-        sprites.texture.dispose();
+        sprites.dispose();
     }
 
     public void init(float duration, float x, float y)
