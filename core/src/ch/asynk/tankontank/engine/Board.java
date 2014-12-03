@@ -63,6 +63,8 @@ public abstract class Board implements Disposable, Animation
     private final ArrayList<Animation> nextAnimations = new ArrayList<Animation>(2);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
 
+    protected SelectedTile selectedTile;
+
     protected Board(int cols, int rows)
     {
         // add a frame of OFFMAP Tiles
@@ -71,9 +73,9 @@ public abstract class Board implements Disposable, Animation
         searchBoard = new SearchBoard(this, cols, rows);
     }
 
-    public Board(TileBuilder tileBuilder, Config cfg, Texture texture)
+    public Board(TileBuilder tileBuilder, Config cfg, Texture boardTexture,  SelectedTile selectedTile)
     {
-        image = new Image(texture);
+        image = new Image(boardTexture);
         this.cfg = cfg;
         // add a frame of OFFMAP Tiles
         this.cols = (cfg.cols + 2);
@@ -104,6 +106,9 @@ public abstract class Board implements Disposable, Animation
         sides[3] = Orientation.SOUTH;
         sides[4] = Orientation.SOUTH_WEST;
         sides[5] = Orientation.NORTH_WEST;
+
+        this.selectedTile = selectedTile;
+        animations.add(selectedTile);
     }
 
     @Override
@@ -119,6 +124,8 @@ public abstract class Board implements Disposable, Animation
         for (int i = 0, n = animations.size(); i < n; i++)
             animations.get(i).dispose();
         animations.clear();
+        if (selectedTile != null)
+            selectedTile.dispose();
     }
 
     public float getWidth()
