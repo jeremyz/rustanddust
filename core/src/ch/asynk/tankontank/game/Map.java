@@ -18,7 +18,7 @@ import ch.asynk.tankontank.engine.PossiblePaths;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
-import ch.asynk.tankontank.engine.gfx.animations.ShotAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.TankFireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
@@ -93,11 +93,11 @@ public abstract class Map extends Board
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
-        ShotAnimation.init(
-                game.manager.get("data/shots.png", Texture.class), 1, 7,
+        TankFireAnimation.init(
+                game.manager.get("data/tank_fire.png", Texture.class), 1, 7,
                 game.manager.get("data/explosions.png", Texture.class), 16, 8,
-                game.manager.get("sounds/shot.mp3", Sound.class),
-                game.manager.get("sounds/short_shot.mp3", Sound.class),
+                game.manager.get("sounds/tank_fire.mp3", Sound.class),
+                game.manager.get("sounds/tank_fire_short.mp3", Sound.class),
                 game.manager.get("sounds/explosion.mp3", Sound.class),
                 game.manager.get("sounds/explosion_short.mp3", Sound.class)
                 );
@@ -127,7 +127,7 @@ public abstract class Map extends Board
         moveSound.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
-        ShotAnimation.free();
+        TankFireAnimation.free();
     }
 
     public void clearAll()
@@ -402,12 +402,12 @@ public abstract class Map extends Board
 
     public void addEngagementAnimation(Unit target)
     {
-        ShotAnimation.resetSound();
+        TankFireAnimation.resetSound();
         Hex to = target.getHex();
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();
             AnimationSequence seq = AnimationSequence.get(2);
-            seq.addAnimation(ShotAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+            seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
             seq.addAnimation(notifyDoneAnimation(target));
             addAnimation(seq);
         }
