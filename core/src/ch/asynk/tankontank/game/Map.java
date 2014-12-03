@@ -20,6 +20,7 @@ import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.FireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.TankFireAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.InfantryFireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
@@ -410,7 +411,10 @@ public abstract class Map extends Board
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();
             AnimationSequence seq = AnimationSequence.get(2);
-            seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+            if (u.isA(Unit.UnitType.INFANTRY))
+                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+            else
+                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
             seq.addAnimation(notifyDoneAnimation(target));
             addAnimation(seq);
         }
