@@ -41,6 +41,84 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         {
             this.fireRegion = region;
         }
+
+        public void set(float x0, float y0, float x1, float y1, float halfWidth)
+        {
+            // fire geometry
+            x1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
+            y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
+
+            double r = Math.atan2((y0 - y1), (x0 - x1));
+            float xadj = (float) (Math.cos(r) * halfWidth);
+            float yadj = (float) (Math.sin(r) * halfWidth);
+            x0 -= xadj;
+            y0 -= yadj;
+
+            float a = (float) Math.toDegrees(r);
+            float dx = (x1 - x0);
+            float dy = (y1 - y0);
+            float w = (float) Math.sqrt((dx * dx) + (dy * dy));
+
+            // timing
+            float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
+            float fire_duration = ((FireAnimation.random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
+            float hit_duration = (FireAnimation.infantryFire.rows * HIT_FRAME_DURATION);
+
+            this.fired = false;
+            this.fire_time = delay;
+            this.hit_time = (this.fire_time + fire_duration);
+            this.end_time = (this.hit_time + hit_duration);
+
+            // fire vars
+            this.fire_a = a;
+            this.fire_x = x0;
+            this.fire_y = y0;
+            this.fire_w = 0;
+            this.fire_dx = (dx / fire_duration);
+            this.fire_dy = (dy / fire_duration);
+            this.fire_dw = (w  / fire_duration);
+            this.hit_frame = 0;
+        }
+
+        public boolean animate(float delta)
+        {
+            if (!fired && (elapsed < fire_time))
+                return false;
+
+            if (!fired) {
+                fired = true;
+                FireAnimation.infantryFireSndPlay(volume);
+            }
+
+            if (!hit && (elapsed < hit_time)) {
+                fire_w += (fire_dw * delta);
+                fire_x += (fire_dx * delta);
+                fire_y += (fire_dy * delta);
+                fireRegion.setRegionWidth((int) fire_w);
+                return false;
+            }
+
+            if (!hit)
+                hit = true;
+
+            if (elapsed < end_time) {
+                int frame = (int) ((elapsed - hit_time) / HIT_FRAME_DURATION);
+                if (frame != hit_frame) {
+                    hit_frame = frame;
+                    fireRegion.setRegion(FireAnimation.infantryFire.frames[hit_frame]);
+                    fireRegion.setRegionWidth((int) fire_w);
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        public void draw(Batch batch)
+        {
+            if (fired)
+                batch.draw(fireRegion, fire_x, fire_y, 0, 0, fireRegion.getRegionWidth(), fireRegion.getRegionHeight(), 1f, 1f, fire_a);
+        }
     }
 
     private static final int SHOT_COUNT = 10;
@@ -82,44 +160,9 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         this.volume = volume;
         this.elapsed = 0f;
 
-        for (Shot shot : shots) {
-            // fire geometry
-            float x0 = _x0;
-            float y0 = (_y0 - (FireAnimation.infantryFire.height / 2.0f));
-            float x1 = (_x1 + ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f)));
-            float y1 = (_y1 + ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f)));
-
-            double r = Math.atan2((y0 - y1), (x0 - x1));
-            float xadj = (float) (Math.cos(r) * halfWidth);
-            float yadj = (float) (Math.sin(r) * halfWidth);
-            x0 -= xadj;
-            y0 -= yadj;
-
-            float a = (float) Math.toDegrees(r);
-            float dx = (x1 - x0);
-            float dy = (y1 - y0);
-            float w = (float) Math.sqrt((dx * dx) + (dy * dy));
-
-            // timing
-            float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
-            float fire_duration = ((FireAnimation.random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
-            float hit_duration = (FireAnimation.infantryFire.rows * HIT_FRAME_DURATION);
-
-            shot.fired = false;
-            shot.fire_time = delay;
-            shot.hit_time = (shot.fire_time + fire_duration);
-            shot.end_time = (shot.hit_time + hit_duration);
-
-            // fire vars
-            shot.fire_a = a;
-            shot.fire_x = x0;
-            shot.fire_y = y0;
-            shot.fire_w = 0;
-            shot.fire_dx = (dx / fire_duration);
-            shot.fire_dy = (dy / fire_duration);
-            shot.fire_dw = (w  / fire_duration);
-            shot.hit_frame = 0;
-        }
+        y0 -= (FireAnimation.infantryFire.height / 2.0f);
+        for (Shot shot : shots)
+            shot.set(x0, y0, x1, y1, halfWidth);
     }
 
     @Override
@@ -139,39 +182,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         elapsed += delta;
 
         boolean completed = true;
-        for (Shot shot : shots) {
-            completed &= shot.completed;
-
-            if (!shot.fired && (elapsed < shot.fire_time))
-                continue;
-
-            if (!shot.fired) {
-                shot.fired = true;
-                FireAnimation.infantryFireSndPlay(volume);
-            }
-
-            if (!shot.hit && (elapsed < shot.hit_time)) {
-                shot.fire_w += (shot.fire_dw * delta);
-                shot.fire_x += (shot.fire_dx * delta);
-                shot.fire_y += (shot.fire_dy * delta);
-                shot.fireRegion.setRegionWidth((int) shot.fire_w);
-                continue;
-            }
-
-            if (!shot.hit)
-                shot.hit = true;
-
-            if (elapsed < shot.end_time) {
-                int frame = (int) ((elapsed - shot.hit_time) / HIT_FRAME_DURATION);
-                if (frame != shot.hit_frame) {
-                    shot.hit_frame = frame;
-                    shot.fireRegion.setRegion(FireAnimation.infantryFire.frames[shot.hit_frame]);
-                    shot.fireRegion.setRegionWidth((int) shot.fire_w);
-                }
-                continue;
-            } else
-                shot.completed = true;
-        }
+        for (Shot shot : shots)
+            completed &= shot.animate(delta);
 
         return completed;
     }
@@ -181,8 +193,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
     {
         for (Shot shot : shots) {
             if (shot.fired)
-                batch.draw(shot.fireRegion, shot.fire_x, shot.fire_y, 0, 0,
-                        shot.fireRegion.getRegionWidth(), shot.fireRegion.getRegionHeight(), 1f, 1f, shot.fire_a);
+                shot.draw(batch);
         }
     }
 
