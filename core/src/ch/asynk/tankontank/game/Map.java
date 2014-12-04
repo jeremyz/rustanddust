@@ -411,10 +411,11 @@ public abstract class Map extends Board
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();
             AnimationSequence seq = AnimationSequence.get(2);
+            float halfWidth = (u.getWidth() / 2f);
             if (u.isA(Unit.UnitType.INFANTRY))
-                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
             else
-                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, (u.getWidth() / 2.f), from.getX(), from.getY(), to.getX(), to.getY()));
+                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
             seq.addAnimation(notifyDoneAnimation(target));
             addAnimation(seq);
         }

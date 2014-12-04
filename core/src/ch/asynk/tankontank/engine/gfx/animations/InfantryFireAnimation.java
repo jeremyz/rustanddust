@@ -63,10 +63,10 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         }
     };
 
-    public static InfantryFireAnimation get(float volume, float offset, float x0, float y0, float x1, float y1)
+    public static InfantryFireAnimation get(float volume, float x0, float y0, float x1, float y1, float halfWidth)
     {
         InfantryFireAnimation a = fireAnimationPool.obtain();
-        a.set(volume, offset, x0, y0, x1, y1);
+        a.set(volume, x0, y0, x1, y1, halfWidth);
         return a;
     }
 
@@ -77,7 +77,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             shots[i] = new Shot(new TextureRegion(FireAnimation.infantryFire.frames[0]));
     }
 
-    private void set(float volume, float offset, float _x0, float _y0, float _x1, float _y1)
+    private void set(float volume, float x0, float y0, float x1, float y1, float halfWidth)
     {
         this.volume = volume;
         this.elapsed = 0f;
@@ -90,8 +90,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             float y1 = (_y1 + ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f)));
 
             double r = Math.atan2((y0 - y1), (x0 - x1));
-            float xadj = (float) (Math.cos(r) * offset);
-            float yadj = (float) (Math.sin(r) * offset);
+            float xadj = (float) (Math.cos(r) * halfWidth);
+            float yadj = (float) (Math.sin(r) * halfWidth);
             x0 -= xadj;
             y0 -= yadj;
 

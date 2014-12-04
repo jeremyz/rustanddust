@@ -53,10 +53,10 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         }
     };
 
-    public static TankFireAnimation get(float volume, float offset, float x0, float y0, float x1, float y1)
+    public static TankFireAnimation get(float volume, float x0, float y0, float x1, float y1, float halfWidth)
     {
         TankFireAnimation a = fireAnimationPool.obtain();
-        a.set(volume, offset, x0, y0, x1, y1);
+        a.set(volume, x0, y0, x1, y1, halfWidth);
         return a;
     }
 
@@ -65,7 +65,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.fireRegion = new TextureRegion(FireAnimation.tankFire.frames[0]);
     }
 
-    private void set(float volume, float offset, float x0, float y0, float x1, float y1)
+    private void set(float volume, float x0, float y0, float x1, float y1, float halfWidth)
     {
         this.fired = false;
         this.hit = false;
@@ -77,8 +77,8 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
 
         double r = Math.atan2((y0 - y1), (x0 - x1));
-        float xadj = (float) (Math.cos(r) * offset);
-        float yadj = (float) (Math.sin(r) * offset);
+        float xadj = (float) (Math.cos(r) * halfWidth);
+        float yadj = (float) (Math.sin(r) * halfWidth);
         x0 -= xadj;
         y0 -= yadj;
 
