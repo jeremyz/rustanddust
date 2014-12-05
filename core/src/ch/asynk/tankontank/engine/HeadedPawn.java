@@ -30,6 +30,13 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
+    public void setAlpha(float alpha)
+    {
+        super.setAlpha(alpha);
+        head.setAlpha(alpha);
+    }
+
+    @Override
     public float getRotation()
     {
         return orientation.r();

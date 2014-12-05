@@ -368,6 +368,12 @@ public abstract class Pawn implements Moveable, Disposable
         return seq;
     }
 
+    public void setAlpha(float alpha)
+    {
+        image.setAlpha(alpha);
+        overlays.setAlpha(alpha);
+    }
+
     @Override
     public void draw(Batch batch)
     {
