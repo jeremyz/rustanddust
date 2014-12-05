@@ -109,13 +109,13 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         }
     }
 
-    private static final int SHOT_COUNT = 20;
-    private static final float SHOT_DELAY = 0.07f;
+    private static final int SHOT_COUNT = 19;
+    private static final float SHOT_DELAY = (1.6f / SHOT_COUNT);
     private static final float SHOT_SCATTERING = 40f;
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
     private static final float SHOT_SPEED = 1000f;
-    private static final float HIT_FRAME_DURATION = 0.07f;
+    private static final float HIT_FRAME_DURATION = 0.05f;
 
     private Shot[] shots;
 
@@ -161,10 +161,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         float w = (float) Math.sqrt((dx * dx) + (dy * dy));
         double dr = (Math.atan2(halfWidth, w) / 2f);
 
-        int half = (SHOT_COUNT / 2);
-        double a = (r + dr);
-        double aMax = (a - (2 * dr));
-        double da = ((2 * dr) / half);
+        double a = (r + (dr / 2f));
+        double da = (dr / (float) SHOT_COUNT);
 
         for (Shot shot : shots) {
             float x = (float) (x0 - (Math.cos(a) * w));
@@ -173,9 +171,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             shot.set(delay, x0, y0, x, y, w, (float) Math.toDegrees(a));
 
             delay += SHOT_DELAY;
-            a -= da;
-            if (a <= aMax)
-                da = -da;
+            a -= 2 * (da * FireAnimation.random.nextFloat());
         }
     }
 
