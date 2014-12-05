@@ -4,6 +4,7 @@ import ch.asynk.tankontank.engine.Faction;
 
 public interface Moveable extends Drawable
 {
+    public void setAlpha(float alpha);
     public float getX();
     public float getY();
     public float getWidth();
