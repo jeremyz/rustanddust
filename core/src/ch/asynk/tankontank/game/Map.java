@@ -22,6 +22,7 @@ import ch.asynk.tankontank.engine.gfx.animations.FireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.TankFireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.InfantryFireAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.DestroyAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
@@ -45,6 +46,7 @@ public abstract class Map extends Board
 
     public final Meteorology meteorology;
 
+    private final DestroyAnimation destroy;
     private final Sound moveSound;
     private Sound sound;
     private long soundId = -1;
@@ -92,6 +94,7 @@ public abstract class Map extends Board
         super(game.factory, cfg, game.manager.get(textureName, Texture.class),
                 new SelectedTile(game.manager.get("data/hex.png", Texture.class), new float[] {.2f, .1f, .1f, .1f, .2f, .1f} ));
         this.ctrl = game.ctrl;
+        this.destroy = new DestroyAnimation();
         this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
@@ -129,6 +132,7 @@ public abstract class Map extends Board
         super.dispose();
         clearAll();
         moveSound.dispose();
+        destroy.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();
@@ -447,14 +451,10 @@ public abstract class Map extends Board
             activatedUnits.clear();
 
         if (success) {
-            animationClosure = RunnableAnimation.get(target, new Runnable() {
-                @Override
-                public void run() {
-                    objectives.unclaim(target.getHex());
-                    removePawn(target);
-                    animationDone();
-                }
-            });
+            objectives.unclaim(target.getHex());
+            removePawn(target);
+            destroy.set(2f, target);
+            addAnimation(destroy);
         }
 
         addEngagementAnimation(target);
