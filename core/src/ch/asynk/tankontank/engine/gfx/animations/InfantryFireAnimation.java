@@ -42,25 +42,12 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             this.fireRegion = region;
         }
 
-        public void set(float x0, float y0, float x1, float y1, float halfWidth)
+        public void set(float delay, float x0, float y0, float x1, float y1, float w, float a)
         {
-            // fire geometry
-            x1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
-            y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
-
-            double r = Math.atan2((y0 - y1), (x0 - x1));
-            float xadj = (float) (Math.cos(r) * halfWidth);
-            float yadj = (float) (Math.sin(r) * halfWidth);
-            x0 -= xadj;
-            y0 -= yadj;
-
-            float a = (float) Math.toDegrees(r);
             float dx = (x1 - x0);
             float dy = (y1 - y0);
-            float w = (float) Math.sqrt((dx * dx) + (dy * dy));
 
             // timing
-            float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
             float fire_duration = ((FireAnimation.random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
             float hit_duration = (FireAnimation.infantryFire.rows * HIT_FRAME_DURATION);
 
@@ -122,7 +109,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         }
     }
 
-    private static final int SHOT_COUNT = 10;
+    private static final int SHOT_COUNT = 20;
+    private static final float SHOT_DELAY = 0.07f;
     private static final float SHOT_SCATTERING = 40f;
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
@@ -161,9 +149,34 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         this.volume = volume;
         this.elapsed = 0f;
 
+        float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
+
         y0 -= (FireAnimation.infantryFire.height / 2.0f);
-        for (Shot shot : shots)
-            shot.set(x0, y0, x1, y1, halfWidth);
+        double r = Math.atan2((y0 - y1), (x0 - x1));
+        x0 -= ((float) (Math.cos(r) * halfWidth));
+        y0 -= ((float) (Math.sin(r) * halfWidth));
+
+        float dx = (x1 - x0);
+        float dy = (y1 - y0);
+        float w = (float) Math.sqrt((dx * dx) + (dy * dy));
+        double dr = (Math.atan2(halfWidth, w) / 2f);
+
+        int half = (SHOT_COUNT / 2);
+        double a = (r + dr);
+        double aMax = (a - (2 * dr));
+        double da = ((2 * dr) / half);
+
+        for (Shot shot : shots) {
+            float x = (float) (x0 - (Math.cos(a) * w));
+            float y = (float) (y0 - (Math.sin(a) * w));
+
+            shot.set(delay, x0, y0, x, y, w, (float) Math.toDegrees(a));
+
+            delay += SHOT_DELAY;
+            a -= da;
+            if (a <= aMax)
+                da = -da;
+        }
     }
 
     @Override
