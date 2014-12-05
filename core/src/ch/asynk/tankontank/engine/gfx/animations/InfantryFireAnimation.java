@@ -111,12 +111,13 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
                 return false;
             }
 
+            completed = true;
             return true;
         }
 
         public void draw(Batch batch)
         {
-            if (fired)
+            if (fired && !completed)
                 batch.draw(fireRegion, fire_x, fire_y, 0, 0, fireRegion.getRegionWidth(), fireRegion.getRegionHeight(), 1f, 1f, fire_a);
         }
     }
@@ -191,10 +192,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
     @Override
     public void draw(Batch batch)
     {
-        for (Shot shot : shots) {
-            if (shot.fired)
-                shot.draw(batch);
-        }
+        for (Shot shot : shots)
+            shot.draw(batch);
     }
 
     @Override
