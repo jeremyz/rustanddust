@@ -3,12 +3,9 @@ package ch.asynk.tankontank.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -18,35 +15,32 @@ public class LoadScreen implements Screen
 {
     private final TankOnTank game;
 
-    private Stage stage;
-
-    private Image logo;
-    private Image loadingFrame;
-    private Image loadingBarHidden;
-    private Image screenBg;
-    private Image loadingBg;
-
-    private final int loadingBgWidth = 450;
-    private float startX, endX;
     private float percent;
-
-    private Actor loadingBar;
-
     private float delay = 0.0f;
+    private float[] xPath = { 68, 164, 260, 356, 452, 404, 356, 452, 548, 596, 692};
+    private float[] yPath = { 148,148, 148, 148, 148, 231, 314, 314, 314, 397, 397};
+
+    private boolean loaded;
+    private Texture bg;
+    private Texture unit;
+
+    private final SpriteBatch batch;
+    private final FitViewport viewport;
 
     public LoadScreen(final TankOnTank game)
     {
         this.game = game;
+        this.batch = new SpriteBatch();
+        this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        this.loaded = false;
     }
 
     @Override
     public void render(float delta)
     {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (game.manager.update()) {
             delay += delta;
-            if (delay >= 0.2f) {
+            if (delay >= 0.6f) {
                 TankOnTank.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
                 game.onLoaded();
                 game.setScreen(new OptionsScreen(game));
@@ -54,101 +48,79 @@ public class LoadScreen implements Screen
             }
         }
 
+        if (!loaded) return;
+
         percent = Interpolation.linear.apply(percent, game.manager.getProgress(), 0.1f);
+        int idx = (int) (percent * 10);
+        float fraction = ((percent * 100 ) % 10 / 10);
+        float x = (xPath[idx] + ((xPath[idx + 1] - xPath[idx]) * fraction));
+        float y = (yPath[idx] + ((yPath[idx + 1] - yPath[idx]) * fraction));
 
-        loadingBarHidden.setX(startX + endX * percent);
-        loadingBg.setX(loadingBarHidden.getX() + 30);
-        loadingBg.setWidth(loadingBgWidth - loadingBgWidth * percent);
-        loadingBg.invalidate();
+        viewport.getCamera().update();
 
-        stage.act();
-        stage.draw();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        batch.draw(bg, 0, 0);
+        batch.draw(unit, x, y);
+        batch.end();
     }
 
     @Override
     public void show()
     {
-        TankOnTank.debug("LoadScreen", "show()");
-        game.manager.load("loading.pack", TextureAtlas.class);
-        game.manager.finishLoading();
-
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        TextureAtlas atlas = game.manager.get("loading.pack", TextureAtlas.class);
-
-        // logo = new Image(atlas.findRegion("libgdx-logo"));
-        logo = new Image(atlas.findRegion("tank-logo"));
-        loadingFrame = new Image(atlas.findRegion("loading-frame"));
-        loadingBarHidden = new Image(atlas.findRegion("loading-bar-hidden"));
-        screenBg = new Image(atlas.findRegion("screen-bg"));
-        loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
-
-        Animation anim = new Animation(0.05f, atlas.findRegions("loading-bar-anim") );
-        anim.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
-        loadingBar = new LoadingBar(anim);
-        // loadingBar = new Image(atlas.findRegion("loading-bar1"));
-
-        stage.addActor(screenBg);
-        stage.addActor(logo);
-        stage.addActor(loadingBar);
-        stage.addActor(loadingBg);
-        stage.addActor(loadingBarHidden);
-        stage.addActor(loadingFrame);
-
+        load();
         game.loadAssets();
     }
 
     @Override
     public void resize(int width, int height)
     {
-        // TankOnTank.debug("LoadScreen", "resize (" + width + "," + height + ")");
-
-        stage.getViewport().update(width, height, true);
-
-        screenBg.setSize(stage.getWidth(), stage.getHeight());
-
-        logo.setX((stage.getWidth() - logo.getWidth()) / 2);
-        logo.setY(Math.min((stage.getHeight() / 2), (stage.getHeight() - logo.getHeight() - 10)));
-
-        loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
-        loadingFrame.setY(logo.getY() - loadingFrame.getHeight() - 20);
-
-        loadingBar.setX(loadingFrame.getX() + 15);
-        loadingBar.setY(loadingFrame.getY() + 5);
-
-        loadingBarHidden.setX(loadingBar.getX() + 35);
-        loadingBarHidden.setY(loadingBar.getY() - 3);
-        startX = loadingBarHidden.getX();
-        endX = loadingBgWidth - 10;
-
-        loadingBg.setSize(loadingBgWidth, 50);
-        loadingBg.setX(loadingBarHidden.getX() + 30);
-        loadingBg.setY(loadingBarHidden.getY() + 3);
+        viewport.update(width, height, true);
     }
 
     @Override
     public void dispose()
     {
-        // TankOnTank.debug("LoadScreen", "dispose()");
-        stage.dispose();
+        unload();
     }
 
     @Override
     public void hide()
     {
-        // TankOnTank.debug("LoadScreen", "hide()");
-        game.manager.unload("loading.pack");
+        unload();
     }
 
     @Override
     public void pause()
     {
-        // TankOnTank.debug("LoadScreen", "pause()");
+        unload();
     }
 
     @Override
     public void resume()
     {
-        // TankOnTank.debug("LoadScreen", "resume()");
+        load();
+    }
+
+    private void load()
+    {
+        game.manager.load("data/unit.png", Texture.class);
+        game.manager.load("data/loading.png", Texture.class);
+        game.manager.finishLoading();
+        bg = game.manager.get("data/loading.png", Texture.class);
+        unit = game.manager.get("data/unit.png", Texture.class);
+        loaded = true;
+    }
+
+    private void unload()
+    {
+        if (!loaded) return;
+        bg.dispose();
+        unit.dispose();
+        game.manager.unload("data/loading.png");
+        game.manager.unload("data/unit.png");
+        loaded = false;
     }
 }
