@@ -36,6 +36,11 @@ case "$1" in
         gradlew_do
         mv ./desktop/build/libs/desktop-1.0.jar TankOnTank.jar
         ;;
+    "f")
+        # java -cp gdx.jar:gdx-natives.jar:gdx-backend-lwjgl.jar:gdx-backend-lwjgl-natives.jar:extensions/gdx-tools/gdx-tools.jar:hiero.jar com.badlogic.gdx.tools.hiero.Hiero
+        java -cp ./data/misc/hiero.jar com.badlogic.gdx.tools.hiero.Hiero $@
+        exit
+        ;;
     *)
         ARGS="$ARGS $@"
         gradlew_do

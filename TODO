@@ -43,3 +43,7 @@ integrate native android stuff in libgdx:
 
 crypt:
     https://code.google.com/p/gwt-crypto/
+
+
+font:
+    http://kvazars.com/littera/
