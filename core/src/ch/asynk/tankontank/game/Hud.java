@@ -2,6 +2,8 @@ package ch.asynk.tankontank.game;
 
 import java.util.LinkedList;
 
+import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -47,9 +49,8 @@ public class Hud implements Disposable, Animation
         this.game = game;
         this.ctrl = ctrl;
 
-        font = game.skin.getFont("default-font");
         TextureAtlas atlas = game.factory.hudAtlas;
-
+        font = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), atlas.findRegion("veteran-white"));
         playerInfo = new PlayerInfo(ctrl, font, atlas, 5f);
         actionButtons = new ActionButtons(ctrl, atlas.findRegion("disabled"), atlas, 5f);
         actionButtons.hide();
