@@ -88,6 +88,7 @@ public class Hud implements Disposable, Animation
         return false;
     }
 
+    @Override
     public void draw(Batch batch)
     {
         playerInfo.draw(batch);
@@ -98,6 +99,7 @@ public class Hud implements Disposable, Animation
         stats.draw(batch);
     }
 
+    @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
         playerInfo.drawDebug(debugShapes);
