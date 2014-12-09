@@ -208,9 +208,7 @@ public class GameScreen implements Screen
         hudCam.update();
         hudBatch.setProjectionMatrix(hudCam.combined);
         hudBatch.begin();
-        ctrl.hud.draw(hudBatch);
-        if (DEBUG)
-            game.skin.getFont("default-font").draw(hudBatch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
+        ctrl.hud.draw(hudBatch, DEBUG);
         hudBatch.end();
 
         if (DEBUG) {

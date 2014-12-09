@@ -88,6 +88,13 @@ public class Hud implements Disposable, Animation
         return false;
     }
 
+    public void draw(Batch batch, boolean debug)
+    {
+        draw(batch);
+        if (debug)
+            font.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
+    }
+
     @Override
     public void draw(Batch batch)
     {
