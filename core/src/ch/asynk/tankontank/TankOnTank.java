@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ch.asynk.tankontank.screens.LoadScreen;
 import ch.asynk.tankontank.game.Ctrl;
@@ -17,7 +16,6 @@ public class TankOnTank extends Game
 {
     public AssetManager manager;
     public Factory factory;
-    public Skin skin;
     public Ctrl ctrl;
     public Config config;
 
@@ -39,7 +37,6 @@ public class TankOnTank extends Game
 
         manager = new AssetManager();
         factory = new Factory(this);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         config = new Config();
 
         this.setScreen(new LoadScreen(this));
