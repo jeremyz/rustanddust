@@ -85,20 +85,22 @@ public class OptionsScreen implements Screen
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        title1 = new Label("Options", game.skin);
-        okButton = new TextButton("OK", game.skin);
-        showMovesCk = new CheckBox("Show Moves", game.skin);
-        showTargetsCk = new CheckBox("Show Targets", game.skin);
-        showMoveAssistsCk = new CheckBox("Show Moves Assists", game.skin);
-        canCancelCk = new CheckBox("Can Cancel", game.skin);
-        mustValidateCk = new CheckBox("Must Validate", game.skin);
-        showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", game.skin);
-        debugCk = new CheckBox("Debug", game.skin);
-        fxLabel = new Label("FX volume", game.skin);
-        fxValue = new Label(String.format("%.1f", game.config.fxVolume), game.skin);
-        fxVolume = new Slider(0f, 1f, 0.1f, false, game.skin) ;
-        title2 = new Label("Scenarios", game.skin);
-        scenarios = new MyList(game.skin, game.factory.battles);
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+        title1 = new Label("Options", skin);
+        okButton = new TextButton("OK", skin);
+        showMovesCk = new CheckBox("Show Moves", skin);
+        showTargetsCk = new CheckBox("Show Targets", skin);
+        showMoveAssistsCk = new CheckBox("Show Moves Assists", skin);
+        canCancelCk = new CheckBox("Can Cancel", skin);
+        mustValidateCk = new CheckBox("Must Validate", skin);
+        showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", skin);
+        debugCk = new CheckBox("Debug", skin);
+        fxLabel = new Label("FX volume", skin);
+        fxValue = new Label(String.format("%.1f", game.config.fxVolume), skin);
+        fxVolume = new Slider(0f, 1f, 0.1f, false, skin) ;
+        title2 = new Label("Scenarios", skin);
+        scenarios = new MyList(skin, game.factory.battles);
 
         showMovesCk.setChecked(game.config.showMoves);
         showTargetsCk.setChecked(game.config.showTargets);
