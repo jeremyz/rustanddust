@@ -20,11 +20,12 @@ import ch.asynk.tankontank.game.Player;
 
 public class PlayerInfo implements Disposable, Drawable, Animation
 {
+    public static int PADDING = 20;
+
     private final Ctrl ctrl;
 
     private Object hit;
 
-    private float padding;
     private Sprite flag;
     private Sprite usFlag;
     private Sprite geFlag;
@@ -33,10 +34,9 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     private LabelImage reinforcement;
     public UnitDock unitDock;
 
-    public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas atlas, float padding)
+    public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas atlas)
     {
         this.ctrl = ctrl;
-        this.padding = padding;
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
         turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
@@ -56,36 +56,36 @@ public class PlayerInfo implements Disposable, Drawable, Animation
 
     public void setPosition(Position position)
     {
-        float width = (usFlag.getWidth() + turns.getWidth() + aps.getWidth() + (2 * padding));
-        float height = (usFlag.getHeight() + reinforcement.getHeight() + (1 * padding));
+        float width = (usFlag.getWidth() + turns.getWidth() + aps.getWidth() + (2 * PADDING));
+        float height = (usFlag.getHeight() + reinforcement.getHeight() + (1 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height);
 
         if (position.isLeft()) {
             reinforcement.setPosition(x, y);
-            y += (reinforcement.getHeight() + padding);
+            y += (reinforcement.getHeight() + PADDING);
             usFlag.setPosition(x, y);
             geFlag.setPosition(x, y);
-            x += (usFlag.getWidth() + padding);
+            x += (usFlag.getWidth() + PADDING);
             turns.setPosition(x, y);
-            x += (turns.getWidth() + padding);
+            x += (turns.getWidth() + PADDING);
             aps.setPosition(x, y);
         } else {
             x = (x + width);
             reinforcement.setPosition((x - reinforcement.getWidth()), y);
-            y += (reinforcement.getHeight() + padding);
+            y += (reinforcement.getHeight() + PADDING);
             x -= usFlag.getWidth();
             usFlag.setPosition(x, y);
             geFlag.setPosition(x, y);
-            x -= (turns.getWidth() + padding);
+            x -= (turns.getWidth() + PADDING);
             turns.setPosition(x, y);
-            x -= (aps.getWidth() + padding);
+            x -= (aps.getWidth() + PADDING);
             aps.setPosition(x, y);
         }
         aps.setLabelPosition(Position.TOP_RIGHT);
         turns.setLabelPosition(Position.MIDDLE_CENTER);
         reinforcement.setLabelPosition(Position.TOP_LEFT);
-        unitDock.setPosition(position, reinforcement.getY() - padding);
+        unitDock.setPosition(position, reinforcement.getY() - PADDING);
     }
 
     public void update(Player player, Position position)
