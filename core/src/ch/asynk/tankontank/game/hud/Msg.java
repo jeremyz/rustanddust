@@ -24,16 +24,16 @@ public class Msg extends Label implements Animation
         }
     }
 
-    private Bg bg;
+    private Patch bg;
     private float duration;
     private float elapsed;
     private ArrayDeque<MsgInfo> stack;
 
-    public Msg(BitmapFont font, TextureAtlas atlas, float padding)
+    public Msg(BitmapFont font, TextureAtlas atlas)
     {
-        super(font, padding);
+        super(font, 20f);
         this.visible = false;
-        this.bg = new Bg(atlas.findRegion("disabled"));
+        this.bg = new Patch(atlas.createPatch("typewriter"));
         this.stack = new ArrayDeque<MsgInfo>();
     }
 
