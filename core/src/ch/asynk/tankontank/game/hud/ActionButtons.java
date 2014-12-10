@@ -9,7 +9,7 @@ import ch.asynk.tankontank.game.State.StateType;
 
 public class ActionButtons extends Bg
 {
-    public static int PADDING = 20;
+    public static int PADDING = 5;
 
     private final Ctrl ctrl;
 
