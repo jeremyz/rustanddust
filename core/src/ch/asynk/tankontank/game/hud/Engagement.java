@@ -14,7 +14,9 @@ import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 public class Engagement extends Bg implements Animation
 {
     public static int FLAG_HEIGHT = 24;
-    public float padding;
+    public static int PADDING = 30;
+    public static int VSPACING = 10;
+    public static int HSPACING = 5;
     private Sprite usFlag;
     private Sprite geFlag;
     private Sprite winner;
@@ -28,7 +30,7 @@ public class Engagement extends Bg implements Animation
     private DiceAnimation d1Animation;
     private DiceAnimation d2Animation;
 
-    public Engagement(BitmapFont font, TextureAtlas atlas, float padding)
+    public Engagement(BitmapFont font, TextureAtlas atlas)
     {
         super(atlas.findRegion("disabled"));
         usFlag = new Sprite(atlas.findRegion("us-flag"));
@@ -41,7 +43,6 @@ public class Engagement extends Bg implements Animation
         this.defenseR = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.visible = false;
-        this.padding = padding;
         this.d1Animation = new DiceAnimation();
         this.d2Animation = new DiceAnimation();
     }
@@ -62,32 +63,32 @@ public class Engagement extends Bg implements Animation
         float w = defenseR.getWidth();
         if (w > resultW)
             resultW = w;
-        float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (4 * padding));
-        float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + resultW + (6 * padding));
+        float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (2 * VSPACING) + (2 * PADDING));
+        float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + resultW + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height);
         set(x, y, width, height);
 
-        y += padding;
-        okBtn.setPosition((x + width - okBtn.getWidth() - padding), y);
+        y += PADDING;
+        okBtn.setPosition((x + width - okBtn.getWidth() - PADDING), y);
         winner.setPosition((getX() + ((okBtn.getX() - getX()) / 2.0f) - (winner.getWidth() / 2.0f)), y);
-        x += padding;
-        y += (okBtn.getHeight() + padding);
+        x += PADDING;
+        y += (okBtn.getHeight() + VSPACING);
 
         defenseImg.setPosition(x, y);
-        x += (defenseImg.getWidth() + padding);
+        x += (defenseImg.getWidth() + HSPACING);
         y = (y + (defenseImg.getHeight() / 2.0f) - (defense.getHeight() / 2.0f));
         defense.setPosition(x, y);
-        defenseR.setPosition((getX() + width - resultW- padding), y);
+        defenseR.setPosition((getX() + width - resultW - PADDING), y);
 
-        x = getX() + padding;
-        y += defenseImg.getHeight() + padding;
+        x = getX() + PADDING;
+        y += defenseImg.getHeight() + VSPACING;
         attackImg.setPosition(x, y);
-        x += (attackImg.getWidth() + padding);
+        x += (attackImg.getWidth() + HSPACING);
         d1Animation.set(e.d1, x, y);
-        x += (d1Animation.getWidth() + padding);
+        x += (d1Animation.getWidth() + HSPACING);
         d2Animation.set(e.d2, x, (y));
-        x += (d1Animation.getWidth() + padding);
+        x += (d1Animation.getWidth() + HSPACING);
         y = (y + (attackImg.getHeight() / 2.0f) - (attack.getHeight() / 2.0f));
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);

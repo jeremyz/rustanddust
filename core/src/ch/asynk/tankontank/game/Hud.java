@@ -57,7 +57,7 @@ public class Hud implements Disposable, Animation
         msg = new Msg(font, atlas, 10f);
         okCancel = new OkCancel(font, atlas, 10f);
         stats = new Statistics(font, atlas, 10f);
-        engagement = new Engagement(font, atlas, 10f);
+        engagement = new Engagement(font, atlas);
     }
 
     @Override
