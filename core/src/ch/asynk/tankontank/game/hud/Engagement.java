@@ -11,12 +11,14 @@ import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 
-public class Engagement extends Bg implements Animation
+public class Engagement extends Patch implements Animation
 {
     public static int FLAG_HEIGHT = 24;
-    public static int PADDING = 30;
+    public static int OK_OFFSET = 10;
+    public static int PADDING = 20;
     public static int VSPACING = 10;
     public static int HSPACING = 5;
+
     private Sprite usFlag;
     private Sprite geFlag;
     private Sprite winner;
@@ -32,7 +34,7 @@ public class Engagement extends Bg implements Animation
 
     public Engagement(BitmapFont font, TextureAtlas atlas)
     {
-        super(atlas.findRegion("disabled"));
+        super(atlas.createPatch("typewriter"));
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
         attackImg = new Sprite(atlas.findRegion("attack"));
@@ -50,36 +52,40 @@ public class Engagement extends Bg implements Animation
     public void show(Map.Engagement e, Position position, float volume)
     {
         DiceAnimation.initSound(volume);
-        attack.write(String.format(" + %d + %d", e.unitCount, e.flankBonus));
-        defense.write(String.format("%d + %d + %d", e.unitDefense, e.terrainDefense, e.weatherDefense));
-        attackR.write(String.format("= %2d", e.attack));
-        defenseR.write(String.format("= %2d", e.defense));
+        attack.write(String.format(" + %d + %d =", e.unitCount, e.flankBonus));
+        if (e.weatherDefense == 0)
+            defense.write(String.format("%d + %d =", e.unitDefense, e.terrainDefense));
+        else
+            defense.write(String.format("%d + %d + %d =", e.unitDefense, e.terrainDefense, e.weatherDefense));
+        attackR.write(String.format(" %2d", e.attack));
+        defenseR.write(String.format(" %2d", e.defense));
         if (e.success)
             winner = ((e.attacker == Army.US) ? usFlag : geFlag);
         else
             winner = ((e.attacker == Army.US) ? geFlag : usFlag);
 
-        float resultW = attackR.getWidth();
-        float w = defenseR.getWidth();
-        if (w > resultW)
-            resultW = w;
+        float w = attackR.getWidth();
+        float w2 = defenseR.getWidth();
+        if (w2 > w)
+            w = w2;
         float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (2 * VSPACING) + (2 * PADDING));
-        float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + resultW + (4 * HSPACING) + (2 * PADDING));
+        float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + w + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height);
         set(x, y, width, height);
 
-        y += PADDING;
-        okBtn.setPosition((x + width - okBtn.getWidth() - PADDING), y);
-        winner.setPosition((getX() + ((okBtn.getX() - getX()) / 2.0f) - (winner.getWidth() / 2.0f)), y);
-        x += PADDING;
-        y += (okBtn.getHeight() + VSPACING);
+        okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
+
+        x = getX() + PADDING;
+        y = getY() + PADDING;
+        winner.setPosition((getX() + (width / 2f) - (winner.getWidth() / 2f)), y);
+        y += (winner.getHeight() + VSPACING);
 
         defenseImg.setPosition(x, y);
-        x += (defenseImg.getWidth() + HSPACING);
-        y = (y + (defenseImg.getHeight() / 2.0f) - (defense.getHeight() / 2.0f));
-        defense.setPosition(x, y);
-        defenseR.setPosition((getX() + width - resultW - PADDING), y);
+        y = (y + (defenseImg.getHeight() / 2f) - (defense.getHeight() / 2f));
+        defenseR.setPosition((getX() + width - w - PADDING), y);
+        // x += (defenseImg.getWidth() + HSPACING);
+        defense.setPosition((defenseR.getX() - defense.getWidth() - HSPACING), y);
 
         x = getX() + PADDING;
         y += defenseImg.getHeight() + VSPACING;
@@ -89,7 +95,7 @@ public class Engagement extends Bg implements Animation
         x += (d1Animation.getWidth() + HSPACING);
         d2Animation.set(e.d2, x, (y));
         x += (d1Animation.getWidth() + HSPACING);
-        y = (y + (attackImg.getHeight() / 2.0f) - (attack.getHeight() / 2.0f));
+        y = (y + (attackImg.getHeight() / 2f) - (attack.getHeight() / 2f));
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);
 
