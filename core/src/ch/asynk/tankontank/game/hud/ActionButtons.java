@@ -9,6 +9,8 @@ import ch.asynk.tankontank.game.State.StateType;
 
 public class ActionButtons extends Bg
 {
+    public static int PADDING = 20;
+
     private final Ctrl ctrl;
 
     public enum Buttons {
@@ -28,17 +30,15 @@ public class ActionButtons extends Bg
         public int b;
     }
 
-    public float padding;
     private int idx;
     private Bg buttons [];
     private StateType states [];
     private Position position;
 
-    public ActionButtons(Ctrl ctrl, TextureAtlas atlas, float padding)
+    public ActionButtons(Ctrl ctrl, TextureAtlas atlas)
     {
         super(atlas.findRegion("disabled"));
         this.ctrl = ctrl;
-        this.padding = padding;
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
         this.idx = Buttons.NONE.i;
@@ -79,7 +79,7 @@ public class ActionButtons extends Bg
     {
         btn.visible = true;
         btn.setPosition(x, y);
-        return (y + btn.getHeight() + padding);
+        return (y + btn.getHeight() + PADDING);
     }
 
     public void show(int bits)
@@ -97,13 +97,13 @@ public class ActionButtons extends Bg
             return;
         }
 
-        rect.width = (buttons[0].getWidth() + (2 * padding));
-        rect.height = ((buttons[0].getHeight() * count) + ((count + 1) * padding));
+        rect.width = (buttons[0].getWidth() + (2 * PADDING));
+        rect.height = ((buttons[0].getHeight() * count) + ((count + 1) * PADDING));
         rect.x =  position.getX(rect.width);
         rect.y =  position.getY(rect.height);
 
-        float x = (rect.x + padding);
-        float y = (rect.y + padding);
+        float x = (rect.x + PADDING);
+        float y = (rect.y + PADDING);
 
         b = 1;
         for (int i = 0; i < Buttons.LAST.i; i++) {
