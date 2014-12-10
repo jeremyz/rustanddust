@@ -3,7 +3,6 @@ package ch.asynk.tankontank.game.hud;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Player;
@@ -17,9 +16,9 @@ public class Statistics extends Bg
     private Label stats2;
     private Bg okBtn;
 
-    public Statistics(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
+    public Statistics(BitmapFont font, TextureAtlas atlas, float padding)
     {
-        super(region);
+        super(atlas.findRegion("disabled"));
         this.title = new Label(font);
         this.header = new Label(font);
         this.stats1 = new Label(font);

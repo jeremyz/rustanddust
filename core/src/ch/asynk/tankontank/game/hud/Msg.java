@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.gfx.Animation;
@@ -29,11 +29,11 @@ public class Msg extends Label implements Animation
     private float elapsed;
     private ArrayDeque<MsgInfo> stack;
 
-    public Msg(BitmapFont font, TextureRegion region, float padding)
+    public Msg(BitmapFont font, TextureAtlas atlas, float padding)
     {
         super(font, padding);
         this.visible = false;
-        this.bg = new Bg(region);
+        this.bg = new Bg(atlas.findRegion("disabled"));
         this.stack = new ArrayDeque<MsgInfo>();
     }
 

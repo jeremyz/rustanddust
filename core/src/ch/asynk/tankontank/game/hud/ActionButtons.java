@@ -2,7 +2,6 @@ package ch.asynk.tankontank.game.hud;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Ctrl;
@@ -35,9 +34,9 @@ public class ActionButtons extends Bg
     private StateType states [];
     private Position position;
 
-    public ActionButtons(Ctrl ctrl, TextureRegion region, TextureAtlas atlas, float padding)
+    public ActionButtons(Ctrl ctrl, TextureAtlas atlas, float padding)
     {
-        super(region);
+        super(atlas.findRegion("disabled"));
         this.ctrl = ctrl;
         this.padding = padding;
         this.visible = false;

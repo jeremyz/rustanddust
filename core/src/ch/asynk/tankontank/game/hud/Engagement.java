@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Map;
@@ -29,9 +28,9 @@ public class Engagement extends Bg implements Animation
     private DiceAnimation d1Animation;
     private DiceAnimation d2Animation;
 
-    public Engagement(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
+    public Engagement(BitmapFont font, TextureAtlas atlas, float padding)
     {
-        super(region);
+        super(atlas.findRegion("disabled"));
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
         attackImg = new Sprite(atlas.findRegion("attack"));

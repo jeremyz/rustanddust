@@ -3,7 +3,6 @@ package ch.asynk.tankontank.game.hud;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class OkCancel extends Bg
@@ -23,9 +22,9 @@ public class OkCancel extends Bg
         END_DEPLOYMENT,
     }
 
-    public OkCancel(BitmapFont font, TextureRegion region, TextureAtlas atlas, float padding)
+    public OkCancel(BitmapFont font, TextureAtlas atlas, float padding)
     {
-        super(region);
+        super(atlas.findRegion("disabled"));
         this.label = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.cancelBtn = new Bg(atlas.findRegion("cancel"));

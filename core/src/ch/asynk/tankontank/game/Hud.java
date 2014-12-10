@@ -52,12 +52,12 @@ public class Hud implements Disposable, Animation
         TextureAtlas atlas = game.factory.hudAtlas;
         font = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), atlas.findRegion("veteran-white"));
         playerInfo = new PlayerInfo(ctrl, font, atlas, 5f);
-        actionButtons = new ActionButtons(ctrl, atlas.findRegion("disabled"), atlas, 5f);
+        actionButtons = new ActionButtons(ctrl, atlas, 5f);
         actionButtons.hide();
-        msg = new Msg(font, atlas.findRegion("disabled"), 10f);
-        okCancel = new OkCancel(font, atlas.findRegion("disabled"), atlas, 10f);
-        stats = new Statistics(font, atlas.findRegion("disabled"), atlas, 10f);
-        engagement = new Engagement(font, atlas.findRegion("disabled"), atlas, 10f);
+        msg = new Msg(font, atlas, 10f);
+        okCancel = new OkCancel(font, atlas, 10f);
+        stats = new Statistics(font, atlas, 10f);
+        engagement = new Engagement(font, atlas, 10f);
     }
 
     @Override
