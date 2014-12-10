@@ -1,0 +1,70 @@
+configurations {
+    texturePacker
+}
+
+dependencies {
+    texturePacker "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+}
+
+defaultTasks 'build'
+
+task clean(type: Delete) {
+    delete '../android/assets'
+    doFirst {
+        println "Delete android/assets"
+    }
+}
+
+task copySkin(type: Copy) {
+    from 'skin'
+    into '../android/assets/skin'
+}
+
+task copyImages(type: Copy) {
+    from 'images'
+    into '../android/assets/data'
+}
+
+task copySounds(type: Copy) {
+    from 'sounds'
+    into '../android/assets/sounds'
+}
+
+task packHud(type: JavaExec) {
+    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+    classpath = configurations.texturePacker
+    args = ['../assets/hud', '../android/assets/data', 'hud']
+}
+
+task packUnits(type: JavaExec) {
+    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+    classpath = configurations.texturePacker
+    args = ['../assets/units', '../android/assets/data', 'units']
+}
+
+task packUnitOverlays(type: JavaExec) {
+    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+    classpath = configurations.texturePacker
+    args = ['../assets/unit-overlays', '../android/assets/data', 'unit-overlays']
+}
+
+task packHexOverlays(type: JavaExec) {
+    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+    classpath = configurations.texturePacker
+    args = ['../assets/hex-overlays', '../android/assets/data', 'hex-overlays']
+}
+
+/* task buildUI(dependsOn: ["processXHDPI"]) { */
+task build(dependsOn: clean) {
+    description "Builds the skin at various DPIs"
+    doFirst {
+        println "Packing the textures..."
+    }
+    doLast {
+        println "Finished"
+    }
+}
+
+build.dependsOn {
+    tasks.findAll { task -> (task.name.startsWith('pack') || task.name.startsWith('copy')) }
+}

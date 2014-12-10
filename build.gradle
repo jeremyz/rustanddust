@@ -7,14 +7,12 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
         classpath 'com.android.tools.build:gradle:0.10+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
-        classpath 'com.eowise:packer:0.5.0'
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-    apply plugin: 'packer'
 
     version = '1.0'
     ext {
@@ -31,17 +29,6 @@ allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-        }
-    }
-
-    task packs(type: com.eowise.packer.Packer) {
-        resourcesInputPath 'data/assets'
-        atlasesOutputPath 'android/assets/data/'
-        atlases {
-            add 'hud'
-            add 'units'
-            add 'unit-overlays'
-            add 'hex-overlays'
         }
     }
 }
@@ -105,6 +92,10 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
     }
+}
+
+project(":assets") {
+    configurations { texturePacker }
 }
 
 project(":core") {

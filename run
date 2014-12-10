@@ -11,7 +11,7 @@ function gradlew_do()
 case "$1" in
     "c")
         shift;
-        ARGS="clean packs $ARGS"
+        ARGS="clean assets:build $ARGS"
         gradlew_do
         ;;
     "a")

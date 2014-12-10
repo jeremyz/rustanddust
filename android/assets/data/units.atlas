@@ -1,5 +1,6 @@
 
 units.png
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -33,14 +34,14 @@ ge-kingtiger
   index: -1
 ge-panzer-iv
   rotate: false
-  xy: 128, 69
+  xy: 2, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv-hq
   rotate: false
-  xy: 2, 2
+  xy: 128, 69
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
@@ -82,14 +83,14 @@ us-infantry
   index: -1
 us-pershing
   rotate: false
-  xy: 407, 221
+  xy: 281, 221
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing-hq
   rotate: false
-  xy: 281, 221
+  xy: 407, 221
   size: 124, 124
   orig: 124, 124
   offset: 0, 0

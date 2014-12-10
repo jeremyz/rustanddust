@@ -1,109 +1,119 @@
 
 hud.png
+size: 512,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 aps
   rotate: false
-  xy: 370, 462
+  xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 attack
   rotate: false
-  xy: 324, 358
+  xy: 486, 435
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
+button
+  rotate: false
+  xy: 2, 52
+  size: 65, 64
+  split: 29, 29, 28, 27
+  pad: 19, 17, 15, 18
+  orig: 65, 64
+  offset: 0, 0
+  index: -1
 cancel
   rotate: false
-  xy: 2, 19
+  xy: 69, 68
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 defense
   rotate: false
-  xy: 134, 93
+  xy: 324, 357
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 84, 69
+  xy: 242, 283
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 2, 69
+  xy: 242, 333
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 ok
   rotate: false
-  xy: 52, 19
+  xy: 370, 411
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 promote
   rotate: false
-  xy: 242, 284
+  xy: 452, 461
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 370, 412
+  xy: 119, 68
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement-selected
   rotate: false
-  xy: 242, 384
+  xy: 242, 383
   size: 126, 126
   orig: 126, 126
   offset: 0, 0
   index: -1
 stars
   rotate: false
-  xy: 2, 2
+  xy: 420, 444
   size: 64, 15
   orig: 64, 15
   offset: 0, 0
   index: -1
 turns
   rotate: false
-  xy: 420, 462
+  xy: 242, 233
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 242, 334
+  xy: 370, 461
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 veteran-black
   rotate: false
-  xy: 2, 119
+  xy: 2, 118
   size: 118, 391
   orig: 118, 391
   offset: 0, 0
   index: -1
 veteran-white
   rotate: false
-  xy: 122, 119
+  xy: 122, 118
   size: 118, 391
   orig: 118, 391
   offset: 0, 0

@@ -11,7 +11,7 @@ public class DesktopLauncher {
         config.title = "Tank On Tank";
         config.width = 800;
         config.height = 682;
-        config.addIcon("icon.png", Files.FileType.Internal);
+        config.addIcon("data/icon.png", Files.FileType.Internal);
         new LwjglApplication(new TankOnTank(), config);
     }
 }
