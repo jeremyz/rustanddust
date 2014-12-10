@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,10 +22,12 @@ public class LoadScreen implements Screen
     private float[] xPath = { 68, 164, 260, 356, 452, 404, 356, 452, 548, 596, 692};
     private float[] yPath = { 148,148, 148, 148, 148, 231, 314, 314, 314, 397, 397};
 
-    private boolean loaded;
+    private boolean ready;
+    private boolean assetsLoaded;
     private Texture bg;
     private Texture unit;
 
+    private final Camera camera;
     private final SpriteBatch batch;
     private final FitViewport viewport;
 
@@ -31,8 +35,13 @@ public class LoadScreen implements Screen
     {
         this.game = game;
         this.batch = new SpriteBatch();
-        this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.loaded = false;
+
+        float width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight();
+        this.camera = new OrthographicCamera(width, height);
+        this.viewport = new FitViewport(width, height, camera);
+        this.ready = false;
+        this.assetsLoaded = false;
     }
 
     @Override
@@ -40,15 +49,11 @@ public class LoadScreen implements Screen
     {
         if (game.manager.update()) {
             delay += delta;
-            if (delay >= 0.6f) {
-                TankOnTank.debug("LoadScreen", "assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-                game.onLoaded();
-                game.setScreen(new OptionsScreen(game));
-                dispose();
-            }
+            if (delay >= 0.6f)
+                assetsLoadingCompleted();
         }
 
-        if (!loaded) return;
+        if (!ready) return;
 
         percent = Interpolation.linear.apply(percent, game.manager.getProgress(), 0.1f);
         int idx = (int) (percent * 10);
@@ -56,11 +61,11 @@ public class LoadScreen implements Screen
         float x = (xPath[idx] + ((xPath[idx + 1] - xPath[idx]) * fraction));
         float y = (yPath[idx] + ((yPath[idx + 1] - yPath[idx]) * fraction));
 
-        viewport.getCamera().update();
+        camera.update();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(bg, 0, 0);
         batch.draw(unit, x, y);
@@ -70,6 +75,7 @@ public class LoadScreen implements Screen
     @Override
     public void show()
     {
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         load();
         game.loadAssets();
     }
@@ -111,16 +117,26 @@ public class LoadScreen implements Screen
         game.manager.finishLoading();
         bg = game.manager.get("data/loading.png", Texture.class);
         unit = game.manager.get("data/unit.png", Texture.class);
-        loaded = true;
+        ready = true;
     }
 
     private void unload()
     {
-        if (!loaded) return;
+        if (!ready) return;
         bg.dispose();
         unit.dispose();
         game.manager.unload("data/loading.png");
         game.manager.unload("data/unit.png");
-        loaded = false;
+        ready = false;
+    }
+
+    private void assetsLoadingCompleted()
+    {
+        if (assetsLoaded) return;
+        assetsLoaded = true;
+        TankOnTank.debug("LoadScreen", "assets ready : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        game.onLoaded();
+        game.setScreen(new OptionsScreen(game));
+        dispose();
     }
 }
