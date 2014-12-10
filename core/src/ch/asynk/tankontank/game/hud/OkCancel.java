@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class OkCancel extends Bg
+public class OkCancel extends Patch
 {
+    public static int PADDING = 20;
+    public static int VSPACING = 10;
+    public static int HSPACING = 10;
+
     public boolean ok;
-    public float padding;
     protected Label label;
     protected Bg okBtn;
     protected Bg cancelBtn;
@@ -22,14 +25,13 @@ public class OkCancel extends Bg
         END_DEPLOYMENT,
     }
 
-    public OkCancel(BitmapFont font, TextureAtlas atlas, float padding)
+    public OkCancel(BitmapFont font, TextureAtlas atlas)
     {
-        super(atlas.findRegion("disabled"));
+        super(atlas.createPatch("typewriter"));
         this.label = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.cancelBtn = new Bg(atlas.findRegion("cancel"));
         this.visible = false;
-        this.padding = padding;
     }
 
     public void show(String msg, Action action)
@@ -43,17 +45,18 @@ public class OkCancel extends Bg
 
         label.write(msg);
 
-        float height = (label.getHeight() + (4 * padding) + okBtn.getHeight());
-        float width = (label.getWidth() + (2 * padding));
-        float w2 = ((3 * padding) + okBtn.getWidth() + cancelBtn.getWidth());
+        float height = (label.getHeight() + okBtn.getHeight() + (2 * PADDING) + (2 * VSPACING));
+        float width = (label.getWidth() + (2 * PADDING));
+        float w2 = (okBtn.getWidth() + cancelBtn.getWidth() + (2 * PADDING) + (1 * HSPACING));
         if (w2 > width)
             width = w2;
         float x = position.getX(width);
         float y = position.getY(height);
         set(x, y, width, height);
-        okBtn.setPosition((x + width - okBtn.getWidth() - padding), (y + padding));
-        cancelBtn.setPosition((okBtn.getX() - cancelBtn.getWidth() - padding), okBtn.getY());
-        label.setPosition((x + padding), (y + okBtn.getHeight() + (2 * padding)));
+
+        okBtn.setPosition((x + width - okBtn.getWidth() - PADDING), (y + PADDING));
+        cancelBtn.setPosition((okBtn.getX() - cancelBtn.getWidth() - HSPACING), okBtn.getY());
+        label.setPosition((x + PADDING), (y + PADDING + okBtn.getHeight() + VSPACING));
         visible = true;
         ok = false;
     }
