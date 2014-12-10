@@ -7,25 +7,28 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Player;
 
-public class Statistics extends Bg
+public class Statistics extends Patch
 {
-    public float padding;
+    public static int OK_OFFSET = 10;
+    public static int PADDING = 20;
+    public static int VSPACING = 10;
+    public static int HSPACING = 10;
+
     private Label title;
     private Label header;
     private Label stats1;
     private Label stats2;
     private Bg okBtn;
 
-    public Statistics(BitmapFont font, TextureAtlas atlas, float padding)
+    public Statistics(BitmapFont font, TextureAtlas atlas)
     {
-        super(atlas.findRegion("disabled"));
+        super(atlas.createPatch("typewriter"));
         this.title = new Label(font);
         this.header = new Label(font);
         this.stats1 = new Label(font);
         this.stats2 = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.visible = false;
-        this.padding = padding;
         this.header.write("\nActions\nUnits Left\nCasualties\nWon Attacks\nLost Attacks");
     }
 
@@ -35,22 +38,22 @@ public class Statistics extends Bg
         stats1.write(winner.getStats());
         stats2.write(loser.getStats());
 
-        float height = (title.getHeight() + header.getHeight() + okBtn.getHeight() + (4 * padding));
-        float width = (header.getWidth() + stats1.getWidth() + stats2.getWidth() + (6 * padding));
-        float w2 = (title.getWidth() + (2 * padding));
+        float height = (title.getHeight() + header.getHeight() + (2 * PADDING) + (1 * VSPACING));
+        float width = (header.getWidth() + stats1.getWidth() + stats2.getWidth() + (2 * PADDING) + (4 * HSPACING));
+        float w2 = (title.getWidth() + (2 * PADDING));
         if (w2 > width) width = w2;
         float x = position.getX(width);
         float y = position.getY(height);
         set(x, y, width, height);
 
-        y += padding;
-        okBtn.setPosition((x + width - okBtn.getWidth() - padding), y);
-        x += padding;
-        y += (okBtn.getHeight() + padding);
+        okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
+
+        y += PADDING;
+        x += PADDING;
         header.setPosition(x, y);
-        stats1.setPosition((x + header.getWidth() + (2 * padding)), y);
-        stats2.setPosition((stats1.getX() + stats1.getWidth() + (2 * padding)), y);
-        y += (header.getHeight() + padding);
+        stats1.setPosition((x + header.getWidth() + (2 * HSPACING)), y);
+        stats2.setPosition((stats1.getX() + stats1.getWidth() + (2 * HSPACING)), y);
+        y += (header.getHeight() + VSPACING);
         title.setPosition(x, y);
         visible = true;
     }
