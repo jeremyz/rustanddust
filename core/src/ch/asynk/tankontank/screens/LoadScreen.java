@@ -26,6 +26,8 @@ public class LoadScreen implements Screen
     private boolean assetsLoaded;
     private Texture bg;
     private Texture unit;
+    private float dx;
+    private float dy;
 
     private final Camera camera;
     private final SpriteBatch batch;
@@ -42,6 +44,8 @@ public class LoadScreen implements Screen
         this.viewport = new FitViewport(width, height, camera);
         this.ready = false;
         this.assetsLoaded = false;
+        this.dx = ((width - 800) / 2f);
+        this.dy = ((height - 600) / 4f);
     }
 
     @Override
@@ -67,8 +71,8 @@ public class LoadScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(bg, 0, 0);
-        batch.draw(unit, x, y);
+        batch.draw(bg, dx, dy);
+        batch.draw(unit, (x + dx), (y + dy));
         batch.end();
     }
 
