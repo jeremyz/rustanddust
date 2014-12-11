@@ -61,6 +61,8 @@ public abstract class Map extends Board
         public boolean success;
         public int d1;
         public int d2;
+        public int d3;
+        public int d4;
         public int unitCount;
         public int flankBonus;
         public int unitDefense;
@@ -69,16 +71,21 @@ public abstract class Map extends Board
         public int attack;
         public int defense;
 
-        public void set(int d1, int d2, int cnt, int flk, int def, int tdf, int wdf)
+        public void set(int d1, int d2, int d3, int d4, int cnt, int flk, int def, int tdf, int wdf)
         {
             this.d1 = d1;
             this.d2 = d2;
+            this.d3 = d3;
+            this.d4 = d4;
             this.unitCount = cnt;
             this.flankBonus = flk;
             this.unitDefense = def;
             this.terrainDefense = tdf;
             this.weatherDefense = wdf;
-            this.attack = (d1 + d2 + unitCount + flankBonus);
+            if (d3 == 0)
+                this.attack = (d1 + d2 + unitCount + flankBonus);
+            else
+                this.attack = (d3 + d4 + unitCount + flankBonus);
             this.defense = (unitDefense + terrainDefense + weatherDefense);
         }
     }
@@ -351,10 +358,12 @@ public abstract class Map extends Board
         ctrl.animationDone();
     }
 
-    private boolean resolveFight(Unit unit, final Unit target)
+    private boolean resolveFight(Unit unit, final Unit target, boolean mayReroll)
     {
         int d1 = d6();
         int d2 = d6();
+        int d3 = 0;
+        int d4 = 0;
         int die = d1 + d2;
 
         int distance = 0;
@@ -389,7 +398,6 @@ public abstract class Map extends Board
         }
         int s1 = (die + cnt + flk);
         int s2 = (def + tdf + wdf);
-        engagement.set(d1, d2, cnt, flk, def, tdf, wdf);
 
         boolean success = false;
         if (die == 2) {
@@ -399,7 +407,22 @@ public abstract class Map extends Board
         } else {
             success = (s1 >= s2);
         }
+        if (!success && mayReroll) {
+            d3 = d6();
+            d4 = d6();
+            die = d3 + d4;
+            TankOnTank.debug(String.format("Reroll: (%d %d -> %d %d)", d1, d2, d3, d4));
+            s1 = (die + cnt + flk);
+            if (die == 2) {
+                success = false;
+            } else if (die == 12) {
+                success = true;
+            } else {
+                success = (s1 >= s2);
+            }
+        }
 
+        engagement.set(d1, d2, d3, d4, cnt, flk, def, tdf, wdf);
         engagement.success = success;
         engagement.attacker = ctrl.player.army;
         engagement.defender = ctrl.opponent.army;
@@ -433,12 +456,7 @@ public abstract class Map extends Board
                 mayReroll = true;
         }
 
-        boolean success;
-        success = resolveFight(unit, target);
-        if (!success && mayReroll) {
-            TankOnTank.debug("Reroll");
-            success = resolveFight(unit, target);
-        }
+        boolean success = resolveFight(unit, target, mayReroll);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {

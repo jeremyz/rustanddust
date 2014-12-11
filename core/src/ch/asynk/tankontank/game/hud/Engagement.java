@@ -18,7 +18,11 @@ public class Engagement extends Patch implements Animation
     public static int PADDING = 20;
     public static int VSPACING = 10;
     public static int HSPACING = 5;
+    public static float REROLL_DELAY = 0.3f;
 
+    private boolean reroll;
+    private boolean roll2;
+    private float delay;
     private Sprite usFlag;
     private Sprite geFlag;
     private Sprite winner;
@@ -31,6 +35,8 @@ public class Engagement extends Patch implements Animation
     private Bg okBtn;
     private DiceAnimation d1Animation;
     private DiceAnimation d2Animation;
+    private DiceAnimation d3Animation;
+    private DiceAnimation d4Animation;
 
     public Engagement(BitmapFont font, TextureAtlas atlas)
     {
@@ -47,6 +53,8 @@ public class Engagement extends Patch implements Animation
         this.visible = false;
         this.d1Animation = new DiceAnimation();
         this.d2Animation = new DiceAnimation();
+        this.d3Animation = new DiceAnimation();
+        this.d4Animation = new DiceAnimation();
     }
 
     public void show(Map.Engagement e, Position position, float volume)
@@ -99,7 +107,26 @@ public class Engagement extends Patch implements Animation
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);
 
+        reroll = (e.d3 != 0);
+        delay = 0f;
+        if (reroll) {
+            d3Animation.set(e.d3, x, y);
+            d4Animation.set(e.d4, x, y);
+        }
+
         visible = true;
+    }
+
+    private void reroll()
+    {
+        // hud.notify("Ace re-roll");
+        roll2 = true;
+        float h = (getHeight() + d1Animation.getHeight() + VSPACING);
+        set(getX(), getY(), getWidth(), h);
+        d3Animation.set(d1Animation.getX(), d1Animation.getY());
+        d4Animation.set(d2Animation.getX(), d2Animation.getY());
+        d1Animation.set(d1Animation.getX(), (d1Animation.getY() + d1Animation.getHeight() + VSPACING));
+        d2Animation.set(d2Animation.getX(), (d2Animation.getY() + d2Animation.getHeight() + VSPACING));
     }
 
     public boolean hit(float x, float y)
@@ -113,8 +140,17 @@ public class Engagement extends Patch implements Animation
     public boolean animate(float delta)
     {
         if (!visible) return true;
-        d1Animation.animate(delta);
-        d2Animation.animate(delta);
+        if (!roll2) {
+            d1Animation.animate(delta);
+            d2Animation.animate(delta);
+        } else {
+            if (delay < REROLL_DELAY) {
+                delay += delta;
+                return false;
+            }
+            d3Animation.animate(delta);
+            d4Animation.animate(delta);
+        }
         return false;
     }
 
@@ -128,6 +164,8 @@ public class Engagement extends Patch implements Animation
         defenseR.dispose();
         d1Animation.dispose();
         d2Animation.dispose();
+        d3Animation.dispose();
+        d4Animation.dispose();
         okBtn.dispose();
     }
 
@@ -139,14 +177,27 @@ public class Engagement extends Patch implements Animation
         attackImg.draw(batch);
         d1Animation.draw(batch);
         d2Animation.draw(batch);
+        if (roll2) {
+            d3Animation.draw(batch);
+            d4Animation.draw(batch);
+        }
         attack.draw(batch);
         defenseImg.draw(batch);
         defense.draw(batch);
         defenseR.draw(batch);
         okBtn.draw(batch);
         if (d1Animation.isDone() && d2Animation.isDone()) {
-            attackR.draw(batch);
-            winner.draw(batch);
+            if (reroll) {
+                if (!roll2)
+                    reroll();
+                if (d3Animation.isDone() && d4Animation.isDone()) {
+                    attackR.draw(batch);
+                    winner.draw(batch);
+                }
+            } else {
+                attackR.draw(batch);
+                winner.draw(batch);
+            }
         }
     }
 
