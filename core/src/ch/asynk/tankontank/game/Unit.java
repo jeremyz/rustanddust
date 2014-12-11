@@ -19,6 +19,8 @@ public class Unit extends HeadedPawn
     public static final int MAY_FIRE    = 3;
     public static final int ACE         = 4;
     public static final int HQ          = 5;
+    public static final int HAS_FIRED   = 6;
+    public static final int HAS_MOVED   = 7;
 
     public static final int FLANK_ATTACK_BONUS = 1;
 
@@ -286,6 +288,7 @@ public class Unit extends HeadedPawn
     public void setMoved()
     {
         hasMoved = true;
+        showHasMoved();
     }
 
     @Override
@@ -305,6 +308,7 @@ public class Unit extends HeadedPawn
     {
         TankOnTank.debug(engagement.toString());
         hasFired = true;
+        showHasFired();
     }
 
     @Override
@@ -314,6 +318,8 @@ public class Unit extends HeadedPawn
         mpLeft = mp;
         hasFired = false;
         hasMoved = false;
+        hideHasMoved();
+        hideHasFired();
     }
 
     @Override
@@ -333,4 +339,8 @@ public class Unit extends HeadedPawn
     public void hideAttack()        { enableOverlay(FIRE, false); }
     public void showAttackAssist()  { enableOverlay(MAY_FIRE, true); }
     public void hideAttackAssist()  { enableOverlay(MAY_FIRE, false); }
+    public void showHasMoved()      { enableOverlay(HAS_MOVED, true); }
+    public void hideHasMoved()      { enableOverlay(HAS_MOVED, false); }
+    public void showHasFired()      { enableOverlay(HAS_FIRED, true); }
+    public void hideHasFired()      { enableOverlay(HAS_FIRED, false); }
 }
