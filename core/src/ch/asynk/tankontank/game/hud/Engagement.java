@@ -80,7 +80,7 @@ public class Engagement extends Patch implements Animation
         float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + w + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height);
-        set(x, y, width, height);
+        setPosition(x, y, width, height);
 
         okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
 
@@ -122,11 +122,11 @@ public class Engagement extends Patch implements Animation
         // hud.notify("Ace re-roll");
         roll2 = true;
         float h = (getHeight() + d1Animation.getHeight() + VSPACING);
-        set(getX(), getY(), getWidth(), h);
-        d3Animation.set(d1Animation.getX(), d1Animation.getY());
-        d4Animation.set(d2Animation.getX(), d2Animation.getY());
-        d1Animation.set(d1Animation.getX(), (d1Animation.getY() + d1Animation.getHeight() + VSPACING));
-        d2Animation.set(d2Animation.getX(), (d2Animation.getY() + d2Animation.getHeight() + VSPACING));
+        setPosition(getX(), getY(), getWidth(), h);
+        d3Animation.setPosition(d1Animation.getX(), d1Animation.getY());
+        d4Animation.setPosition(d2Animation.getX(), d2Animation.getY());
+        d1Animation.setPosition(d1Animation.getX(), (d1Animation.getY() + d1Animation.getHeight() + VSPACING));
+        d2Animation.setPosition(d2Animation.getX(), (d2Animation.getY() + d2Animation.getHeight() + VSPACING));
     }
 
     public boolean hit(float x, float y)

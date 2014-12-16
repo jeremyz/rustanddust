@@ -59,7 +59,7 @@ public class Msg extends Label implements Animation
         this.elapsed = 0f;
         write(text);
         setPosition(position.getX(getWidth()), position.getY(getHeight()));
-        bg.set(rect);
+        bg.setPosition(rect);
     }
 
     public void write(String text, float duration)
@@ -68,7 +68,7 @@ public class Msg extends Label implements Animation
         this.visible = true;
         this.elapsed = 0f;
         write(text);
-        bg.set(rect);
+        bg.setPosition(rect);
     }
 
     @Override

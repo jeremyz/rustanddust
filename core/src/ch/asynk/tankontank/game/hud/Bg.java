@@ -11,7 +11,7 @@ public class Bg extends Widget
     {
         super();
         this.region = region;
-        set(0, 0, region.getRegionWidth(), region.getRegionHeight());
+        setPosition(0, 0, region.getRegionWidth(), region.getRegionHeight());
     }
 
     @Override

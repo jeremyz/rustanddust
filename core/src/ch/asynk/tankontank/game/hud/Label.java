@@ -34,7 +34,7 @@ public class Label extends Widget
     public void setPosition(float x, float y)
     {
         TextBounds b = font.getMultiLineBounds((text == null) ? "" : text);
-        set(x, y, (b.width + (2 * padding)), (b.height + (2 * padding)));
+        setPosition(x, y, (b.width + (2 * padding)), (b.height + (2 * padding)));
         this.rx = x + (padding);
         this.ry = (y + padding + b.height);
     }

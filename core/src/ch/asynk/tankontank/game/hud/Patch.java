@@ -11,7 +11,7 @@ public class Patch extends Widget
     {
         super();
         this.patch = patch;
-        set(0, 0, patch.getTotalWidth(), patch.getTotalHeight());
+        setPosition(0, 0, patch.getTotalWidth(), patch.getTotalHeight());
     }
 
     @Override

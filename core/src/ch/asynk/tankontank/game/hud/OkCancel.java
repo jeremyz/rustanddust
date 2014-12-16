@@ -52,7 +52,7 @@ public class OkCancel extends Patch
             width = w2;
         float x = position.getX(width);
         float y = position.getY(height);
-        set(x, y, width, height);
+        setPosition(x, y, width, height);
 
         okBtn.setPosition((x + width - okBtn.getWidth() - PADDING), (y + PADDING));
         cancelBtn.setPosition((okBtn.getX() - cancelBtn.getWidth() - HSPACING), okBtn.getY());

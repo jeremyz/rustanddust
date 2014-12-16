@@ -78,7 +78,7 @@ public class DiceAnimation implements Animation, Drawable
         return DICE_DIMENSION;
     }
 
-    public void set(float x, float y)
+    public void setPosition(float x, float y)
     {
         this.x = x;
         this.y = y;

@@ -36,7 +36,7 @@ public class LabelImage extends Bg
 
     public void setPosition(float x, float y)
     {
-        set(x, y, getWidth(), getHeight());
+        setPosition(x, y, getWidth(), getHeight());
         label.setPosition(labelPosition.getX(this, label.getWidth()), labelPosition.getY(this, label.getHeight()));
     }
 

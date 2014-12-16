@@ -44,7 +44,7 @@ public class Statistics extends Patch
         if (w2 > width) width = w2;
         float x = position.getX(width);
         float y = position.getY(height);
-        set(x, y, width, height);
+        setPosition(x, y, width, height);
 
         okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
 
