@@ -34,6 +34,17 @@ public class OkCancel extends Patch
         this.visible = false;
     }
 
+    public void updatePosition()
+    {
+        if (!visible) return;
+        float dx = (position.getX(rect.width) - rect.x);
+        float dy = (position.getY(rect.height) - rect.y);
+        translate(dx, dy);
+        label.translate(dx, dy);
+        okBtn.translate(dx, dy);
+        cancelBtn.translate(dx, dy);
+    }
+
     public void show(String msg, Action action)
     {
         show(msg, action, Position.MIDDLE_CENTER);
