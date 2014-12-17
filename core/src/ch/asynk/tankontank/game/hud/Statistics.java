@@ -32,6 +32,19 @@ public class Statistics extends Patch
         this.header.write("\nActions\nUnits Left\nCasualties\nWon Attacks\nLost Attacks");
     }
 
+    public void updatePosition()
+    {
+        if (!visible) return;
+        float dx = (position.getX(rect.width) - rect.x);
+        float dy = (position.getY(rect.height) - rect.y);
+        translate(dx, dy);
+        title.translate(dx, dy);
+        header.translate(dx, dy);
+        stats1.translate(dx, dy);
+        stats2.translate(dx, dy);
+        okBtn.translate(dx, dy);
+    }
+
     public void show(Player winner, Player loser, Position position)
     {
         title.write(winner.getName() + " player won the battle in " + winner.getTurnDone() + " turns.");
