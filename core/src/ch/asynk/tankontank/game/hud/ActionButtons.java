@@ -1,5 +1,6 @@
 package ch.asynk.tankontank.game.hud;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State.StateType;
 
-public class ActionButtons extends Bg
+public class ActionButtons extends Widget
 {
     public static int PADDING = 5;
 
@@ -30,6 +31,7 @@ public class ActionButtons extends Bg
         public int b;
     }
 
+    private Sprite bg;
     private int idx;
     private Bg buttons [];
     private StateType states [];
@@ -37,7 +39,7 @@ public class ActionButtons extends Bg
 
     public ActionButtons(Ctrl ctrl, TextureAtlas atlas)
     {
-        super(atlas.findRegion("disabled"));
+        this.bg = new Sprite(atlas.findRegion("disabled"));
         this.ctrl = ctrl;
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
@@ -58,14 +60,18 @@ public class ActionButtons extends Bg
     @Override
     public void dispose()
     {
-        super.dispose();
         for (int i = 0; i < Buttons.LAST.i; i++)
             buttons[i].dispose();
     }
 
-    public void setPosition(Position position)
+    public void updatePosition()
     {
-        this.position = position;
+        if (!visible) return;
+        float dx = (position.getX(rect.width) - rect.x);
+        float dy = (position.getY(rect.height) - rect.y);
+        translate(dx, dy);
+        for (int i = 0; i < Buttons.LAST.i; i++)
+            buttons[i].translate(dx, dy);
     }
 
     public void hide()
@@ -155,7 +161,7 @@ public class ActionButtons extends Bg
     public void draw(Batch batch)
     {
         if (!visible) return;
-        super.draw(batch);
+        batch.draw(bg, rect.x, rect.y, rect.width, rect.height);
         for (int i = 0; i < Buttons.LAST.i; i++)
             buttons[i].draw(batch);
     }
