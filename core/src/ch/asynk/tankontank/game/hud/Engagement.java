@@ -57,6 +57,26 @@ public class Engagement extends Patch implements Animation
         this.d4Animation = new DiceAnimation();
     }
 
+    public void updatePosition()
+    {
+        if (!visible) return;
+        float dx = (position.getX(rect.width) - rect.x);
+        float dy = (position.getY(rect.height) - rect.y);
+        translate(dx, dy);
+        winner.translate(dx, dy);
+        attackImg.translate(dx, dy);
+        defenseImg.translate(dx, dy);
+        attack.translate(dx, dy);
+        defense.translate(dx, dy);
+        attackR.translate(dx, dy);
+        defenseR.translate(dx, dy);
+        okBtn.translate(dx, dy);
+        d1Animation.translate(dx, dy);
+        d2Animation.translate(dx, dy);
+        d3Animation.translate(dx, dy);
+        d4Animation.translate(dx, dy);
+    }
+
     public void show(Map.Engagement e, Position position, float volume)
     {
         DiceAnimation.initSound(volume);
@@ -72,6 +92,24 @@ public class Engagement extends Patch implements Animation
         else
             winner = ((e.attacker == Army.US) ? geFlag : usFlag);
 
+
+        reroll = (e.d3 != 0);
+        delay = 0f;
+        d1Animation.set(e.d1);
+        d2Animation.set(e.d2);
+        if (reroll) {
+            d3Animation.set(e.d3);
+            d4Animation.set(e.d4);
+        }
+
+        this.position = position;
+        placeElements();
+
+        visible = true;
+    }
+
+    private void placeElements()
+    {
         float w = attackR.getWidth();
         float w2 = defenseR.getWidth();
         if (w2 > w)
@@ -99,22 +137,18 @@ public class Engagement extends Patch implements Animation
         y += defenseImg.getHeight() + VSPACING;
         attackImg.setPosition(x, y);
         x += (attackImg.getWidth() + HSPACING);
-        d1Animation.set(e.d1, x, y);
+        d1Animation.setPosition(x, y);
         x += (d1Animation.getWidth() + HSPACING);
-        d2Animation.set(e.d2, x, (y));
+        d2Animation.setPosition(x, (y));
         x += (d1Animation.getWidth() + HSPACING);
         y = (y + (attackImg.getHeight() / 2f) - (attack.getHeight() / 2f));
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);
 
-        reroll = (e.d3 != 0);
-        delay = 0f;
         if (reroll) {
-            d3Animation.set(e.d3, x, y);
-            d4Animation.set(e.d4, x, y);
+            d3Animation.setPosition(x, y);
+            d4Animation.setPosition(x, y);
         }
-
-        visible = true;
     }
 
     private void reroll()
