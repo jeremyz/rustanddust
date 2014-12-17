@@ -58,6 +58,12 @@ public class DiceAnimation implements Animation, Drawable
         dice.dispose();
     }
 
+    public void translate(float dx, float dy)
+    {
+        x += dx;
+        y += dy;
+    }
+
     public float getX()
     {
         return x;
@@ -82,13 +88,6 @@ public class DiceAnimation implements Animation, Drawable
     {
         this.x = x;
         this.y = y;
-    }
-
-    public void set(int result, float x, float y)
-    {
-        this.x = x;
-        this.y = y;
-        set(result);
     }
 
     public void set(int result)
