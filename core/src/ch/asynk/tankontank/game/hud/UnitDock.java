@@ -20,12 +20,10 @@ public class UnitDock extends Bg implements Animation
     private static final float STEP = 5f;
     private final Ctrl ctrl;
 
-    private float padding;
     private float y;
     private float to;
     private float dx;
     private float step;
-    private Position position;
     private boolean show;
     private boolean mvtDone;
     public Unit selectedUnit;
@@ -36,9 +34,9 @@ public class UnitDock extends Bg implements Animation
     private Matrix4 transform;
     private Rectangle scaledRect;
 
-    public UnitDock(Ctrl ctrl, TextureRegion bg, TextureRegion selected, float padding)
+    public UnitDock(Ctrl ctrl, TextureRegion region, TextureRegion selected, float padding)
     {
-        super(bg);
+        super(region);
         this.ctrl = ctrl;
         this.padding = padding;
         this.mvtDone = true;
@@ -48,6 +46,24 @@ public class UnitDock extends Bg implements Animation
         this.scaledRect = new Rectangle();
         this.selected = new Sprite(selected);
         this.visible = false;
+    }
+
+    @Override
+    public void translate(float _dx, float _dy)
+    {
+        this.y += _dy;
+        if (!visible) return;
+        super.translate(_dx, _dy);
+        for (Unit unit : units)
+            unit.translate(_dx, _dy);
+        transform.idt();
+        transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
+        point.set(rect.x, rect.y, 0).mul(transform);
+        scaledRect.x = point.x;
+        scaledRect.y = point.y;
+        point.set((rect.x + rect.width), (rect.y + rect.height), 0).mul(transform);
+        scaledRect.width = point.x - scaledRect.x;
+        scaledRect.height = point.y - scaledRect.y;
     }
 
     public void setPosition(Position position, float y)
