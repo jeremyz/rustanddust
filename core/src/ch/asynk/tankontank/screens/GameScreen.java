@@ -48,19 +48,18 @@ public class GameScreen implements Screen
 
     public GameScreen(final TankOnTank game)
     {
-        this.game = game;
-
-        this.ctrl = new Ctrl(game, game.config.battle);
-
         DEBUG = game.config.debug;
 
-        cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX);
+        this.game = game;
+        this.blocked = false;
 
-        mapBatch = new SpriteBatch();
-        hudBatch = new SpriteBatch();
-        if (DEBUG) debugShapes = new ShapeRenderer();
+        this.ctrl = new Ctrl(game, game.config.battle);
+        this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX);
 
-        blocked = false;
+        this.mapBatch = new SpriteBatch();
+        this.hudBatch = new SpriteBatch();
+        if (DEBUG) this.debugShapes = new ShapeRenderer();
+
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
