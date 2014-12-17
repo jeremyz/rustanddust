@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class LabelImage extends Bg
 {
     private Label label;
-    public Position labelPosition;
 
     public LabelImage(TextureRegion region, BitmapFont font)
     {
@@ -17,9 +16,13 @@ public class LabelImage extends Bg
 
     public LabelImage(TextureRegion region, BitmapFont font, float padding)
     {
+        this(region, font, padding, Position.MIDDLE_CENTER);
+    }
+
+    public LabelImage(TextureRegion region, BitmapFont font, float padding, Position position)
+    {
         super(region);
-        this.label = new Label(font, padding);
-        this.labelPosition = Position.MIDDLE_CENTER;
+        this.label = new Label(font, padding, position);
     }
 
     @Override
@@ -28,22 +31,27 @@ public class LabelImage extends Bg
         label.dispose();
     }
 
-    public void setLabelPosition(Position position)
+    @Override
+    public void translate(float dx, float dy)
     {
-        labelPosition = position;
-        setPosition(rect.x, rect.y);
+        super.translate(dx, dy);
+        label.translate(dx, dy);
     }
 
     public void setPosition(float x, float y)
     {
-        setPosition(x, y, getWidth(), getHeight());
-        label.setPosition(labelPosition.getX(this, label.getWidth()), labelPosition.getY(this, label.getHeight()));
+        super.setPosition(x, y);
+        label.setPosition(x, y);
+    }
+
+    public void setLabelPosition(Position position)
+    {
+        label.setPosition(position, this);
     }
 
     public void write(String text)
     {
         this.label.write(text);
-        setPosition(getX(), getY());
     }
 
     @Override
