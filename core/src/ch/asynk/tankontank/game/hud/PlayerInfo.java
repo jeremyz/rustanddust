@@ -33,10 +33,12 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     private LabelImage aps;
     private LabelImage reinforcement;
     public UnitDock unitDock;
+    private Position position;
 
     public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas atlas)
     {
         this.ctrl = ctrl;
+        this.position = Position.MIDDLE_CENTER;
         usFlag = new Sprite(atlas.findRegion("us-flag"));
         geFlag = new Sprite(atlas.findRegion("ge-flag"));
         turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
@@ -54,8 +56,22 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         unitDock.dispose();
     }
 
+    public void updatePosition()
+    {
+        float dx = (position.getX(usFlag.getWidth()) - usFlag.getX());
+        float dy = (position.getY(usFlag.getHeight()) - usFlag.getY());
+        usFlag.translate(dx, dy);
+        geFlag.translate(dx, dy);
+        turns.translate(dx, dy);
+        aps.translate(dx, dy);
+        reinforcement.translate(dx, dy);
+        unitDock.translate(dx, dy);
+    }
+
     public void setPosition(Position position)
     {
+        this.position = position;
+
         float width = (usFlag.getWidth() + turns.getWidth() + aps.getWidth() + (2 * PADDING));
         float height = (usFlag.getHeight() + reinforcement.getHeight() + (1 * PADDING));
         float x = position.getX(width);
