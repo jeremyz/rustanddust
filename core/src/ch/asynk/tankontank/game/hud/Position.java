@@ -115,6 +115,15 @@ public enum Position
         return r;
     }
 
+    private static int hudWidth = Gdx.graphics.getWidth();
+    private static int hudHeight = Gdx.graphics.getHeight();
+
+    public static void update(int width, int height)
+    {
+        hudWidth = width;
+        hudHeight = height;
+    }
+
     public float getX(float width)
     {
         float x;
@@ -127,15 +136,15 @@ public enum Position
             case TOP_CENTER:
             case MIDDLE_CENTER:
             case BOTTOM_CENTER:
-                x = ((Gdx.graphics.getWidth() - width) / 2);
+                x = ((hudWidth - width) / 2);
                 break;
             case TOP_RIGHT:
             case MIDDLE_RIGHT:
             case BOTTOM_RIGHT:
-                x = (Gdx.graphics.getWidth() - width - Hud.OFFSET);
+                x = (hudWidth - width - Hud.OFFSET);
                 break;
             default:
-                x = ((Gdx.graphics.getWidth() - width) / 2);
+                x = ((hudWidth - width) / 2);
                 break;
         }
         return x;
@@ -148,12 +157,12 @@ public enum Position
             case TOP_LEFT:
             case TOP_CENTER:
             case TOP_RIGHT:
-                y = (Gdx.graphics.getHeight() - height - Hud.OFFSET);
+                y = (hudHeight - height - Hud.OFFSET);
                 break;
             case MIDDLE_LEFT:
             case MIDDLE_CENTER:
             case MIDDLE_RIGHT:
-                y = ((Gdx.graphics.getHeight() - height) / 2);
+                y = ((hudHeight - height) / 2);
                 break;
             case BOTTOM_LEFT:
             case BOTTOM_CENTER:
@@ -161,7 +170,7 @@ public enum Position
                 y = Hud.OFFSET;
                 break;
             default:
-                y = ((Gdx.graphics.getHeight() - height) / 2);
+                y = ((hudHeight - height) / 2);
                 break;
         }
         return y;
