@@ -1,104 +1,79 @@
 package ch.asynk.tankontank.game.hud;
 
-import java.util.ArrayDeque;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.engine.gfx.Animation;
-
-public class Msg extends Label implements Animation
+public class Msg extends Patch
 {
-    class MsgInfo
-    {
-        String text;
-        float duration;
-        Position position;
-        MsgInfo(String text, float duration, Position position)
-        {
-            this.text = text;
-            this.duration = duration;
-            this.position = position;
-        }
-    }
-
-    private Patch bg;
-    private float duration;
-    private float elapsed;
-    private ArrayDeque<MsgInfo> stack;
+    private LabelStack label;
 
     public Msg(BitmapFont font, TextureAtlas atlas)
     {
-        super(font, 20f);
-        this.visible = false;
-        this.bg = new Patch(atlas.createPatch("typewriter"));
-        this.stack = new ArrayDeque<MsgInfo>();
+        super(atlas.createPatch("typewriter"));
+        label = new LabelStack(font, 20f);
     }
 
     @Override
     public void dispose()
     {
         super.dispose();
-        bg.dispose();
+        label.dispose();
     }
 
-    public void pushWrite(String text, float duration, Position position)
+    public void updatePosition()
     {
-        if (visible)
-            stack.push(new MsgInfo(text, duration, position));
-        else
-            write(text, duration, position);
-    }
-
-    public void write(String text, float duration, Position position)
-    {
-        this.duration = duration;
-        this.visible = true;
-        this.elapsed = 0f;
-        write(text);
-        setPosition(position.getX(getWidth()), position.getY(getHeight()));
-        bg.setPosition(rect);
+        if (!visible) return;
+        float dx = (position.getX(rect.width) - rect.x);
+        float dy = (position.getY(rect.height) - rect.y);
+        translate(dx, dy);
+        label.translate(dx, dy);
     }
 
     public void write(String text, float duration)
     {
-        this.duration = duration;
-        this.visible = true;
-        this.elapsed = 0f;
-        write(text);
-        bg.setPosition(rect);
+        label.write(text, duration);
+        resize();
     }
 
-    @Override
+    public void write(String text, float duration, Position position)
+    {
+        this.position = position;
+        label.write(text, duration, position);
+        resize();
+    }
+
+    public void pushWrite(String text, float duration, Position position)
+    {
+        this.position = position;
+        label.pushWrite(text, duration, position);
+        resize();
+    }
+
+    private void resize()
+    {
+        setPosition(label.getX(), label.getY(), label.getWidth(), label.getHeight());
+    }
+
     public boolean animate(float delta)
     {
-        if (!visible) return true;
-        elapsed += delta;
-        if (elapsed >= duration) {
-           visible = false;
-           if (stack.size() > 0) {
-               MsgInfo info = stack.pop();
-               write(info.text, info.duration, info.position);
-           }
-        }
-        return false;
+        return label.animate(delta);
     }
 
     @Override
     public void draw(Batch batch)
     {
-        if (!visible) return;
-        bg.draw(batch);
+        if (!label.visible) return;
         super.draw(batch);
+        label.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer shapes)
     {
-        if (!visible) return;
+        if (!label.visible) return;
         super.drawDebug(shapes);
-        bg.drawDebug(shapes);
+        label.drawDebug(shapes);
     }
 }
