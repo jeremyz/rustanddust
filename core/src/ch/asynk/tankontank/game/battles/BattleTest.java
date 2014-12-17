@@ -17,7 +17,7 @@ public class BattleTest extends BattleCommon
     public BattleTest(Factory factory)
     {
         super(factory);
-        name = "Engagement Test";
+        name = "*** Test ***";
     }
 
     @Override
@@ -29,7 +29,12 @@ public class BattleTest extends BattleCommon
     @Override
     public Player getPlayer()
     {
-        return usPlayer;
+        if (!gePlayer.isDeploymentDone())
+            return gePlayer;
+
+        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
+            return usPlayer;
+        return gePlayer;
     }
 
     @Override
@@ -39,29 +44,55 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public boolean deploymentDone(Player player)
+    public Player checkVictory(Ctrl ctrl)
     {
-        return true;
+        if (usPlayer.getTurnDone() > 2)
+                return usPlayer;
+        return null;
     }
 
     @Override
-    public Player checkVictory(Ctrl ctrl)
+    public boolean getReinforcement(Ctrl ctrl, Map map)
     {
-        return null;
+        if (ctrl.player.is(Army.GE))
+            return false;
+        if (ctrl.player.getCurrentTurn() != 2)
+            return false;
+
+        Zone usEntry = new Zone(map, 1);
+        usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
+        usEntry.add(map.getHex(12, 6));
+        addEntryZone(usEntry);
+        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+
+        return true;
     }
 
     private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation)
     {
         Unit u = factory.getUnit(unitId);
         player.addUnit(u);
-        map.setPawnOnto(u, map.getHex(col, row), orientation);
+        map.enterBoard(u, map.getHex(col, row), orientation);
         return u;
     }
 
     @Override
     public void setup(Ctrl ctrl, Map map)
     {
+        map.addObjective(6, 4, Army.NONE);
+        map.addHoldObjective(5, 3, Army.NONE);
+
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH);
+        Zone geEntry = new Zone(map, 6);
+        geEntry.orientation = Orientation.NORTH;
+        geEntry.add(map.getHex(1, 2));
+        geEntry.add(map.getHex(1, 1));
+        geEntry.add(map.getHex(3, 3));
+        geEntry.add(map.getHex(3, 4));
+        geEntry.add(map.getHex(4, 0));
+        geEntry.add(map.getHex(5, 0));
+        addEntryZone(geEntry);
+        addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
 
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST);
@@ -70,5 +101,6 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST);
+        usPlayer.turnEnd();
     }
 }
