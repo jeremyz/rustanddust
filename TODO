@@ -2,10 +2,7 @@ BUGS:
     - resize -> Hud issues
 
 TODO:
-    - Animations
-        - selected Hex
-        - infantry move sound
-        - infantry shot
+    - infantry move sound
     - tutorial
         - moves
         - HQ moves
@@ -14,6 +11,10 @@ TODO:
     - correctly dispose of everything at the end of a game
     - pause / resume
     - maybe do not need cancel button in engagement and HQ mode, but must support canCancel option
+    - desktop config :
+        - config.fullscreen = false;
+        - config.forceExit = true;
+        - config.vSyncEnabled = true;
 
 NEXT:
     - support different board layout
@@ -22,28 +23,27 @@ NEXT:
         - inverted even/odd row scheme
     - automatic overlays to show unit stack depth
 
-device unique ID:
-    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 
-    final String tmDevice, tmSerial, androidId;
-    tmDevice = "" + tm.getDeviceId();
-    tmSerial = "" + tm.getSimSerialNumber();
-    androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+RESOURCES
+    - better to track installation:
+        - http://android-developers.blogspot.ch/2011/03/identifying-app-installations.html
 
-    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-    String deviceId = deviceUuid.toString();
+    - integrate native android stuff in libgdx:
+        - https://code.google.com/p/libgdx-users/wiki/IntegratingAndroidNativeUiElements
 
-better to track installation:
-    http://android-developers.blogspot.ch/2011/03/identifying-app-installations.html
+    - crypt:
+        - https://code.google.com/p/gwt-crypto/
 
+    - font:
+        - http://kvazars.com/littera/
 
-integrate native android stuff in libgdx:
-    https://code.google.com/p/libgdx-users/wiki/IntegratingAndroidNativeUiElements
+    - device unique ID:
+        final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 
+        final String tmDevice, tmSerial, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        tmSerial = "" + tm.getSimSerialNumber();
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
-crypt:
-    https://code.google.com/p/gwt-crypto/
-
-
-font:
-    http://kvazars.com/littera/
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        String deviceId = deviceUuid.toString();
