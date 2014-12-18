@@ -70,6 +70,8 @@ public class PlayerInfo implements Disposable, Drawable, Animation
 
     public void setPosition(Position position)
     {
+        if (this.position == position)
+            return;
         this.position = position;
 
         float width = (usFlag.getWidth() + turns.getWidth() + aps.getWidth() + (2 * PADDING));
