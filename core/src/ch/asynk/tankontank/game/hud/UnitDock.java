@@ -46,6 +46,7 @@ public class UnitDock extends Bg implements Animation
         this.scaledRect = new Rectangle();
         this.selected = new Sprite(selected);
         this.visible = false;
+        this.dx = 0f;
     }
 
     @Override
@@ -74,6 +75,7 @@ public class UnitDock extends Bg implements Animation
         this.step = (position.isLeft() ? STEP : -STEP);
         this.mvtDone = true;
         this.visible = false;
+        this.dx = 0f;
     }
 
     @Override
@@ -143,7 +145,6 @@ public class UnitDock extends Bg implements Animation
         show = true;
         mvtDone = false;
         visible = true;
-        dx = 0f;
     }
 
     @Override
