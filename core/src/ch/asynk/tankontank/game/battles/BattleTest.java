@@ -72,7 +72,7 @@ public class BattleTest extends BattleCommon
     {
         Unit u = factory.getUnit(unitId);
         player.addUnit(u);
-        map.enterBoard(u, map.getHex(col, row), orientation);
+        map.setOnBoard(u, map.getHex(col, row), orientation);
         return u;
     }
 

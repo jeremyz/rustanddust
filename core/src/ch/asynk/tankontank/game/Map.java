@@ -267,12 +267,15 @@ public abstract class Map extends Board
         Orientation entry = findBestEntry(unit, to, allowedMoves);
         if (entry == Orientation.KEEP)
             return false;
-        return enterBoard(unit, to, entry);
+        unit.enterBoard(to, entry);
+        setPawnOnto(unit, to, entry);
+        objectives.claim(to, unit.getArmy());
+        return true;
     }
 
-    public boolean enterBoard(Unit unit, Hex to, Orientation entry)
+    public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
     {
-        unit.enterBoard(to, entry);
+        TankOnTank.debug("Map", String.format("set %s %s %s", to.toShort(), unit, entry));
         setPawnOnto(unit, to, entry);
         objectives.claim(to, unit.getArmy());
         return true;

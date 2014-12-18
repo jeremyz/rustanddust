@@ -101,7 +101,7 @@ public class StateDeployment extends StateCommon
         selectedUnit = unit;
         selectedHex = upHex;
         ctrl.player.unitEntry(unit);
-        map.enterBoard(unit, upHex, entryZone.orientation);
+        map.setOnBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
         entryZone.enable(Hex.AREA, false);
         showRotation(unit, upHex);
