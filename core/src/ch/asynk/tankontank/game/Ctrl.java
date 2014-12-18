@@ -201,7 +201,7 @@ public class Ctrl implements Disposable
 
         this.state.leave(nextState);
 
-        TankOnTank.debug("  switch to : " + nextState);
+        TankOnTank.debug(String.format("  %s -> %s : %s", stateType, nextState, player));
 
         switch(nextState) {
             case SELECT:
