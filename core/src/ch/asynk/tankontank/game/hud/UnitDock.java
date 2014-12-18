@@ -70,6 +70,8 @@ public class UnitDock extends Bg implements Animation
 
     public void setPosition(Position position, float y)
     {
+        if (this.position == position)
+            return;
         this.position = position;
         this.y = y;
         this.step = (position.isLeft() ? STEP : -STEP);
