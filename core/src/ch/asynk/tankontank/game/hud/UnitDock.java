@@ -56,6 +56,7 @@ public class UnitDock extends Bg implements Animation
         super.translate(_dx, _dy);
         for (Unit unit : units)
             unit.translate(_dx, _dy);
+        to = position.getX(rect.width * SCALE);
         transform.idt();
         transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
         point.set(rect.x, rect.y, 0).mul(transform);
