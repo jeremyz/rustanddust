@@ -22,7 +22,6 @@ public class OkCancel extends Patch
         EXIT_BOARD,
         ABORT_TURN,
         END_TURN,
-        END_DEPLOYMENT,
     }
 
     public OkCancel(BitmapFont font, TextureAtlas atlas)

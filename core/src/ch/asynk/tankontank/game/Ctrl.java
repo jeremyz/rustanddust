@@ -283,10 +283,7 @@ public class Ctrl implements Disposable
 
     public boolean checkDeploymentDone()
     {
-        boolean done = battle.deploymentDone(player);
-        // if (done)
-        //     hud.askEndDeployment();
-        return done;
+        return battle.deploymentDone(player);
     }
 
     public void reinforcementHit()
@@ -298,11 +295,6 @@ public class Ctrl implements Disposable
     }
 
     // Hud callbacks
-
-    public void endDeployment()
-    {
-        deploymentDone();
-    }
 
     public void endGame()
     {
