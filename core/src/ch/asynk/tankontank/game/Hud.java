@@ -263,7 +263,7 @@ public class Hud implements Disposable, Animation
 
     public void askExitBoard()
     {
-        okCancel.show("Do you want this unit to escape the battle fierd ?", OkCancel.Action.EXIT_BOARD);
+        okCancel.show("Do you want this unit to escape the battle field ?", OkCancel.Action.EXIT_BOARD);
         pushDialog(okCancel);
     }
 
