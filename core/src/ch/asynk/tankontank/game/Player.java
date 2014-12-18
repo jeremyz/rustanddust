@@ -49,8 +49,7 @@ public class Player
 
     public String toString()
     {
-        return army + " AP: " + actionPoints +
-            " units:" + units.size() + " casualties:" + casualties.size();
+        return String.format("%s Turn:%d AP:%d units:%d casualties:%d", army, turn, actionPoints, units.size(), casualties.size());
     }
 
     public String getStats()
