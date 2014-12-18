@@ -20,6 +20,7 @@ public class UnitDock extends Bg implements Animation
     private static final float STEP = 5f;
     private final Ctrl ctrl;
 
+    private int n;
     private float y;
     private float to;
     private float dx;
@@ -86,20 +87,6 @@ public class UnitDock extends Bg implements Animation
         super.dispose();
     }
 
-    public void toggle()
-    {
-        if (visible) hide();
-        else show();
-    }
-
-    public void hide()
-    {
-        if (!visible) return;
-        to = rect.x;
-        show = false;
-        mvtDone = false;
-    }
-
     @Override
     public boolean hit(float x, float y)
     {
@@ -113,40 +100,58 @@ public class UnitDock extends Bg implements Animation
         return false;
     }
 
+    public void hide()
+    {
+        if (!visible) return;
+        resize();
+        to = rect.x;
+
+        show = false;
+        mvtDone = false;
+        selectedUnit = null;
+    }
+
     public void show()
     {
-        int n = ctrl.player.reinforcement();
-        if (n == 0) {
-            visible = false;
+        if (!resize())
             return;
-        }
+        to = position.getX(rect.width * SCALE);
 
-        if (mvtDone) {
-            units = ctrl.player.reinforcement;
-            rect.width = units.get(0).getWidth() + (2 * padding);
-            rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
-            float scaledWidth = (rect.width * SCALE);
-            to = position.getX(scaledWidth);
-            rect.x = to + (position.isLeft() ? -scaledWidth : scaledWidth);
-            rect.y = y - rect.height;
-            // position units
-            float px = rect.x;
-            float py = rect.y + rect.height;
-            float ph = units.get(0).getHeight();
-            for (Unit unit : units) {
-                py -= (ph + padding);
-                // unit.setPosition(px, py, Orientation.SOUTH.r());
-                unit.centerOn((px + (rect.width / 2)), py + (ph / 2));
-                unit.setRotation(position.isLeft() ? Orientation.NORTH.r() : Orientation.SOUTH.r());
-            }
-        } else {
-            to = position.getX(rect.width * SCALE);
-        }
-
-        selectedUnit = null;
         show = true;
         mvtDone = false;
+        selectedUnit = null;
         visible = true;
+    }
+
+    private boolean resize()
+    {
+        int count = ctrl.player.reinforcement();
+        if (count == 0) {
+            n = 0;
+            return false;
+        }
+        if (count == n) return true;
+        n = count;
+
+        units = ctrl.player.reinforcement;
+        rect.width = units.get(0).getWidth() + (2 * padding);
+        rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
+        float scaledWidth = (rect.width * SCALE);
+        to = position.getX(scaledWidth);
+        rect.x = to + (position.isLeft() ? -scaledWidth : scaledWidth);
+        rect.y = y - rect.height;
+
+        float px = rect.x;
+        float py = rect.y + rect.height;
+        float ph = units.get(0).getHeight();
+        for (Unit unit : units) {
+            py -= (ph + padding);
+            // unit.setPosition(px, py, Orientation.SOUTH.r());
+            unit.centerOn((px + (rect.width / 2)), py + (ph / 2));
+            unit.setRotation(position.isLeft() ? Orientation.NORTH.r() : Orientation.SOUTH.r());
+        }
+
+        return true;
     }
 
     @Override
