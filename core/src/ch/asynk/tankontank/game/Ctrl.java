@@ -169,7 +169,7 @@ public class Ctrl implements Disposable
                 hud.update();
             }
             if (player.apExhausted())
-                hud.notifyEndOfTurn();
+                hud.notifyNoMoreAP();
         }
 
         if (nextState == StateType.DONE)

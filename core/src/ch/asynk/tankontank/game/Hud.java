@@ -254,9 +254,16 @@ public class Hud implements Disposable, Animation
         dialogs.addLast(dialog);
     }
 
-    public void notifyEndOfTurn()
+    public void notifyDeploymentDone()
     {
-        okCancel.show("You have no more Action Points left.", OkCancel.Action.END_TURN);
+        okCancel.show("Deployment Phase completed.", OkCancel.Action.END_TURN);
+        okCancel.noCancel();
+        pushDialog(okCancel);
+    }
+
+    public void notifyNoMoreAP()
+    {
+        okCancel.show("No more Action Point left.", OkCancel.Action.END_TURN);
         okCancel.noCancel();
         pushDialog(okCancel);
     }
