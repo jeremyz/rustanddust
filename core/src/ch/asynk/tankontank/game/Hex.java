@@ -39,7 +39,12 @@ public class Hex extends Tile
 
     public String toString()
     {
-        return "(" + col + ";" + row + ") [" + x + ";" + y + "]  " + "t:" + terrain + " r:" + roads;
+        return String.format("(%d;%d) [%f;%f] t:%s r:%d", col, row, x, y, terrain, roads);
+    }
+
+    public String toShort()
+    {
+        return String.format("(%d;%d)", col, row);
     }
 
     public Hex(float x, float y, int col, int row, TextureAtlas atlas)
