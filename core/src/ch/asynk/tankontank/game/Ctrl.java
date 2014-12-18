@@ -180,9 +180,8 @@ public class Ctrl implements Disposable
 
     private StateType deploymentDone()
     {
-        StateType nextState = this.state.done();
-        turnDone();
-        return nextState;
+        hud.notifyDeploymentDone();
+        return this.state.done();
     }
 
     public void setState(StateType nextState)
