@@ -52,9 +52,9 @@ public class ActionButtons extends Widget
         this.buttons[Buttons.PROMOTE.i] = new Bg(atlas.findRegion("promote"));
 
         this.states = new StateType[Buttons.LAST.i];
-        this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
         this.states[Buttons.DONE.i] = StateType.DONE;
         this.states[Buttons.ABORT.i] = StateType.ABORT;
+        this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
     }
 
     @Override
