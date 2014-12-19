@@ -154,9 +154,7 @@ public class Engagement extends Patch implements Animation
 
     public boolean hit(float x, float y)
     {
-        if (okBtn.hit(x, y))
-            return true;
-        return false;
+        return rect.contains(x, y);
     }
 
     @Override
