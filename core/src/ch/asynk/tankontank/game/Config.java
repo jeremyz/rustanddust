@@ -8,6 +8,7 @@ public class Config
     public boolean canCancel;
     public boolean mustValidate;
     public boolean showEnemyPossibilities;
+    public boolean regularPawns;
     public boolean debug;
     public Battle battle;
     public float fxVolume;
@@ -21,6 +22,7 @@ public class Config
         this.canCancel = true;
         this.mustValidate = false;
         this.showEnemyPossibilities = false;
+        this.regularPawns = true;
         this.battle = null;
         this.fxVolume = 1f;
     }
