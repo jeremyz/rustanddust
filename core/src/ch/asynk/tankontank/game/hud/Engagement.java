@@ -13,16 +13,18 @@ import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
 
 public class Engagement extends Patch implements Animation
 {
+    private enum State { ROLL1, MOVE, ROLL2, RESULT };
+
     public static int FLAG_HEIGHT = 24;
     public static int OK_OFFSET = 10;
     public static int PADDING = 20;
     public static int VSPACING = 10;
     public static int HSPACING = 5;
-    public static float REROLL_DELAY = 0.3f;
+    public static float MOVE_STEP = 2f;
 
+    private State state;
     private boolean reroll;
-    private boolean roll2;
-    private float delay;
+    private float rerollY;
     private Sprite usFlag;
     private Sprite geFlag;
     private Sprite winner;
@@ -92,18 +94,18 @@ public class Engagement extends Patch implements Animation
         else
             winner = ((e.attacker == Army.US) ? geFlag : usFlag);
 
+        this.position = position;
+        placeElements();
 
+        state = State.ROLL1;
         reroll = (e.d3 != 0);
-        delay = 0f;
+
         d1Animation.set(e.d1);
         d2Animation.set(e.d2);
         if (reroll) {
             d3Animation.set(e.d3);
             d4Animation.set(e.d4);
         }
-
-        this.position = position;
-        placeElements();
 
         visible = true;
     }
@@ -138,29 +140,16 @@ public class Engagement extends Patch implements Animation
         attackImg.setPosition(x, y);
         x += (attackImg.getWidth() + HSPACING);
         d1Animation.setPosition(x, y);
+        d3Animation.setPosition(x, y);
         x += (d1Animation.getWidth() + HSPACING);
         d2Animation.setPosition(x, (y));
+        d4Animation.setPosition(x, y);
         x += (d1Animation.getWidth() + HSPACING);
         y = (y + (attackImg.getHeight() / 2f) - (attack.getHeight() / 2f));
         attack.setPosition(x, y);
         attackR.setPosition(defenseR.getX(), y);
 
-        if (reroll) {
-            d3Animation.setPosition(x, y);
-            d4Animation.setPosition(x, y);
-        }
-    }
-
-    private void reroll()
-    {
-        // hud.notify("Ace re-roll");
-        roll2 = true;
-        float h = (getHeight() + d1Animation.getHeight() + VSPACING);
-        setPosition(getX(), getY(), getWidth(), h);
-        d3Animation.setPosition(d1Animation.getX(), d1Animation.getY());
-        d4Animation.setPosition(d2Animation.getX(), d2Animation.getY());
-        d1Animation.setPosition(d1Animation.getX(), (d1Animation.getY() + d1Animation.getHeight() + VSPACING));
-        d2Animation.setPosition(d2Animation.getX(), (d2Animation.getY() + d2Animation.getHeight() + VSPACING));
+        rerollY = (d1Animation.getY() + d1Animation.getHeight() + VSPACING);
     }
 
     public boolean hit(float x, float y)
@@ -174,17 +163,40 @@ public class Engagement extends Patch implements Animation
     public boolean animate(float delta)
     {
         if (!visible) return true;
-        if (!roll2) {
+        if (state == State.ROLL1) {
             d1Animation.animate(delta);
             d2Animation.animate(delta);
-        } else {
-            if (delay < REROLL_DELAY) {
-                delay += delta;
-                return false;
+            if (d1Animation.isDone() && d2Animation.isDone()) {
+                if (reroll)
+                    state = State.MOVE;
+                else
+                    state = State.RESULT;
             }
-            d3Animation.animate(delta);
-            d4Animation.animate(delta);
         }
+
+        if (state == State.MOVE) {
+            float y = (d1Animation.getY() + MOVE_STEP);
+            if (y >= rerollY) {
+                y = rerollY;
+                state = State.ROLL2;
+            }
+            setPosition(getX(), getY(), getWidth(), (y + d1Animation.getHeight() + VSPACING));
+            d1Animation.setPosition(d1Animation.getX(), y);
+            d2Animation.setPosition(d2Animation.getX(), y);
+        }
+
+        if (state == State.ROLL2) {
+            if (d1Animation.getY() < rerollY) {
+                d1Animation.setPosition(d1Animation.getX(), (d1Animation.getY() + d1Animation.getHeight() + VSPACING));
+                d2Animation.setPosition(d2Animation.getX(), (d2Animation.getY() + d2Animation.getHeight() + VSPACING));
+            } else {
+                d3Animation.animate(delta);
+                d4Animation.animate(delta);
+                if (d3Animation.isDone() && d4Animation.isDone())
+                    state = State.RESULT;
+            }
+        }
+
         return false;
     }
 
@@ -211,7 +223,7 @@ public class Engagement extends Patch implements Animation
         attackImg.draw(batch);
         d1Animation.draw(batch);
         d2Animation.draw(batch);
-        if (roll2) {
+        if ((state == State.ROLL2) || (state == State.RESULT)) {
             d3Animation.draw(batch);
             d4Animation.draw(batch);
         }
@@ -220,18 +232,9 @@ public class Engagement extends Patch implements Animation
         defense.draw(batch);
         defenseR.draw(batch);
         okBtn.draw(batch);
-        if (d1Animation.isDone() && d2Animation.isDone()) {
-            if (reroll) {
-                if (!roll2)
-                    reroll();
-                if (d3Animation.isDone() && d4Animation.isDone()) {
-                    attackR.draw(batch);
-                    winner.draw(batch);
-                }
-            } else {
-                attackR.draw(batch);
-                winner.draw(batch);
-            }
+        if (state == State.RESULT) {
+            attackR.draw(batch);
+            winner.draw(batch);
         }
     }
 
