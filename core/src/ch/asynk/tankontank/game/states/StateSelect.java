@@ -114,12 +114,16 @@ public class StateSelect extends StateCommon
         if (isEnemy && !ctrl.cfg.showEnemyPossibilities)
             return;
 
-        map.selectHex(selectedHex);
-        // moves and targets == 0 if selectedUnit can't be activated for
-        if (map.collectPossibleMoves(selectedUnit) > 0)
+        int moves = map.collectPossibleMoves(selectedUnit);
+        int targets = map.collectPossibleTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
+
+        if (moves > 0)
             map.collectMoveableUnits(selectedUnit);
-        map.collectPossibleTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
-        showPossibilities(selectedUnit);
+
+        if ((moves > 0) || (targets > 0)) {
+            map.selectHex(selectedHex);
+            showPossibilities(selectedUnit);
+        }
 
         ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
         TankOnTank.debug("  select " + selectedHex + selectedUnit + (isEnemy ? " enemy " : " friend "));
