@@ -37,6 +37,7 @@ public class StateDeployment extends StateCommon
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
         ctrl.hud.playerInfo.unitDock.hide();
+        ctrl.hud.playerInfo.blockEndOfTurn(false);
     }
 
     @Override
@@ -50,7 +51,6 @@ public class StateDeployment extends StateCommon
     public StateType done()
     {
         deployedUnits.clear();
-        ctrl.hud.playerInfo.blockEndOfTurn(false);
         return StateType.DONE;
     }
 
