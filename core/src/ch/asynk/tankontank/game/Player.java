@@ -164,15 +164,14 @@ public class Player
             turn += 1;
         else
             deploymentDone = (reinforcement.size() == 0);
+        for (Unit unit : units)
+            unit.reset();
     }
 
     public void turnStart()
     {
-        if (isDeploymentDone()) {
-            for (Unit unit : units)
-                unit.reset();
+        if (isDeploymentDone())
             computeActionPoints();
-        }
     }
 
     public int d6()
