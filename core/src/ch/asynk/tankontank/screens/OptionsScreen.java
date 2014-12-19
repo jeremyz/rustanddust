@@ -43,6 +43,7 @@ public class OptionsScreen implements Screen
     private CheckBox canCancelCk;
     private CheckBox mustValidateCk;
     private CheckBox showEnemyPossibilitiesCk;
+    private CheckBox regularPawnsCk;
     private CheckBox debugCk;
     private Label fxLabel;
     private Label fxValue;
@@ -72,6 +73,7 @@ public class OptionsScreen implements Screen
         game.config.canCancel = canCancelCk.isChecked();
         game.config.mustValidate = mustValidateCk.isChecked();
         game.config.showEnemyPossibilities = showEnemyPossibilitiesCk.isChecked();
+        game.config.regularPawns = regularPawnsCk.isChecked();
         game.config.debug = debugCk.isChecked();
         game.config.fxVolume = fxVolume.getValue();
         game.config.battle = scenarios.getSelected();
@@ -95,6 +97,7 @@ public class OptionsScreen implements Screen
         canCancelCk = new CheckBox("Can Cancel", skin);
         mustValidateCk = new CheckBox("Must Validate", skin);
         showEnemyPossibilitiesCk = new CheckBox("Show Enemy Possibilities", skin);
+        regularPawnsCk = new CheckBox("Use Reqular Pawns", skin);
         debugCk = new CheckBox("Debug", skin);
         fxLabel = new Label("FX volume", skin);
         fxValue = new Label(String.format("%.1f", game.config.fxVolume), skin);
@@ -108,6 +111,7 @@ public class OptionsScreen implements Screen
         canCancelCk.setChecked(game.config.canCancel);
         mustValidateCk.setChecked(game.config.mustValidate);
         showEnemyPossibilitiesCk.setChecked(game.config.showEnemyPossibilities);
+        regularPawnsCk.setChecked(game.config.regularPawns);
         debugCk.setChecked(game.config.debug);
         fxVolume.setValue(game.config.fxVolume);
 
@@ -134,6 +138,7 @@ public class OptionsScreen implements Screen
         stage.addActor(canCancelCk);
         stage.addActor(mustValidateCk);
         stage.addActor(showEnemyPossibilitiesCk);
+        stage.addActor(regularPawnsCk);
         stage.addActor(debugCk);
         stage.addActor(fxLabel);
         stage.addActor(fxValue);
@@ -165,6 +170,8 @@ public class OptionsScreen implements Screen
         mustValidateCk.setPosition(x, y);
         y -= 20f;
         showEnemyPossibilitiesCk.setPosition(x, y);
+        y -= 20f;
+        regularPawnsCk.setPosition(x, y);
         y -= 20f;
         debugCk.setPosition(x, y);
         y -= 20f;
