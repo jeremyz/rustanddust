@@ -234,6 +234,10 @@ public class Hud implements Disposable, Animation
                 if (ok)
                     ctrl.endPlayerTurn(true);
                 break;
+            case END_DEPLOYMENT:
+                if (ok)
+                    ctrl.endDeployment();
+                break;
         }
     }
 
@@ -273,6 +277,12 @@ public class Hud implements Disposable, Animation
     public void askEndOfTurn()
     {
         okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", OkCancel.Action.ABORT_TURN);
+        pushDialog(okCancel);
+    }
+
+    public void askEndDeployment()
+    {
+        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", OkCancel.Action.END_DEPLOYMENT);
         pushDialog(okCancel);
     }
 
