@@ -11,7 +11,7 @@ import ch.asynk.tankontank.TankOnTank;
 
 public class StateDeployment extends StateCommon
 {
-    private boolean done;
+    private boolean completed;
     private Zone entryZone;
     private UnitList deployedUnits = new UnitList(10);
 
@@ -20,7 +20,7 @@ public class StateDeployment extends StateCommon
     {
         if (selectedHex != null)
             map.unselectHex(selectedHex);
-        done = false;
+        completed = false;
         entryZone = null;
         selectedHex = null;
         ctrl.hud.actionButtons.hide();
@@ -63,11 +63,11 @@ public class StateDeployment extends StateCommon
     public void touchUp()
     {
         Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
-        if (!done && (unit != null) && (unit != activeUnit)) {
+        if (!completed && (unit != null) && (unit != activeUnit)) {
             showEntryZone(unit);
         } else if (selectedUnit != null) {
             doRotation(Orientation.fromAdj(selectedHex, upHex));
-        } else if (!done && (entryZone != null) && (upHex != null)) {
+        } else if (!completed && (entryZone != null) && (upHex != null)) {
             if (upHex.isEmpty() && entryZone.contains(upHex))
                 unitEnter(activeUnit);
         } else {
@@ -130,7 +130,7 @@ public class StateDeployment extends StateCommon
         activeUnit = null;
         selectedUnit = null;
         if (ctrl.checkDeploymentDone()) {
-            done = true;
+            completed = true;
             ctrl.hud.actionButtons.show(Buttons.DONE.b);
         }
     }
