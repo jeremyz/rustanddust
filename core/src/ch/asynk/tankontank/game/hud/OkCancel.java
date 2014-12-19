@@ -67,6 +67,7 @@ public class OkCancel extends Patch
         okBtn.setPosition((x + width - okBtn.getWidth() - PADDING), (y + PADDING));
         cancelBtn.setPosition((okBtn.getX() - cancelBtn.getWidth() - HSPACING), okBtn.getY());
         label.setPosition((x + PADDING), (y + PADDING + okBtn.getHeight() + VSPACING));
+        cancelBtn.visible = true;
         visible = true;
         ok = false;
     }
