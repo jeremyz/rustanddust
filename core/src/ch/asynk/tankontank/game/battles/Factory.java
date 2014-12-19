@@ -116,6 +116,7 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public Unit getUnit(UnitId id)
     {
+        boolean regular = game.config.regularPawns;
         Unit u = null;
         UnitType ut = UnitType.HARD_TARGET;
         UnitType utHq = UnitType.HARD_TARGET_HQ;
@@ -163,7 +164,10 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, id, ut, 5, 8, 1, "us-priest", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_SHERMAN:
-                u = new Unit(Army.US, id, ut, 2, 9, 2, "us-sherman", "us-sherman-head", pawnsAtlas, pawnOverlaysAtlas);
+                if (regular)
+                    u = new Unit(Army.US, id, ut, 2, 9, 2, "us-sherman", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                else
+                    u = new Unit(Army.US, id, ut, 2, 9, 2, "us-sherman-values", "us-sherman-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_SHERMAN_HQ:
                 u = new Unit(Army.US, id, utHq, 2, 9, 2, "us-sherman-hq", "us-head", pawnsAtlas, pawnOverlaysAtlas);
