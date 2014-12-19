@@ -69,7 +69,7 @@ us-at-gun
   index: -1
 us-head
   rotate: false
-  xy: 281, 13
+  xy: 407, 13
   size: 25, 206
   orig: 25, 206
   offset: 0, 0
@@ -104,9 +104,9 @@ us-priest
   index: -1
 us-sherman
   rotate: false
-  xy: 2, 254
-  size: 124, 217
-  orig: 124, 217
+  xy: 659, 221
+  size: 124, 124
+  orig: 124, 124
   offset: 0, 0
   index: -1
 us-sherman-head
@@ -118,14 +118,21 @@ us-sherman-head
   index: -1
 us-sherman-hq
   rotate: false
-  xy: 659, 221
+  xy: 785, 221
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
+us-sherman-values
+  rotate: false
+  xy: 2, 254
+  size: 124, 217
+  orig: 124, 217
+  offset: 0, 0
+  index: -1
 us-wolverine
   rotate: false
-  xy: 785, 221
+  xy: 281, 95
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
