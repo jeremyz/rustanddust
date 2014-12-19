@@ -180,7 +180,6 @@ public class Ctrl implements Disposable
 
     private StateType deploymentDone()
     {
-        hud.notifyDeploymentDone();
         return this.state.done();
     }
 
@@ -302,6 +301,7 @@ public class Ctrl implements Disposable
     public void endDeployment()
     {
         setState(StateType.DONE);
+        turnDone();
     }
 
     public void endGame()

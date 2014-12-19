@@ -129,9 +129,7 @@ public class StateDeployment extends StateCommon
         entryZone = null;
         activeUnit = null;
         selectedUnit = null;
-        if (ctrl.checkDeploymentDone()) {
+        if (ctrl.checkDeploymentDone())
             completed = true;
-            ctrl.hud.actionButtons.show(Buttons.DONE.b);
-        }
     }
 }
