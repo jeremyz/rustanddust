@@ -223,7 +223,7 @@ public class Engagement extends Patch implements Animation
         attackImg.draw(batch);
         d1Animation.draw(batch);
         d2Animation.draw(batch);
-        if ((state == State.ROLL2) || (state == State.RESULT)) {
+        if ((state == State.ROLL2) || (reroll && (state == State.RESULT))) {
             d3Animation.draw(batch);
             d4Animation.draw(batch);
         }
