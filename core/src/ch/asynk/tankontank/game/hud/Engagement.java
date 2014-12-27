@@ -10,6 +10,10 @@ import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
+import ch.asynk.tankontank.ui.Bg;
+import ch.asynk.tankontank.ui.Label;
+import ch.asynk.tankontank.ui.Patch;
+import ch.asynk.tankontank.ui.Position;
 
 public class Engagement extends Patch implements Animation
 {

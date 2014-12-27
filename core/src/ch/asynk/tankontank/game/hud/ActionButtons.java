@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.State.StateType;
+import ch.asynk.tankontank.ui.Widget;
+import ch.asynk.tankontank.ui.Bg;
+import ch.asynk.tankontank.ui.Position;
 
 public class ActionButtons extends Widget
 {

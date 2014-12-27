@@ -13,14 +13,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.game.State.StateType;
-import ch.asynk.tankontank.game.hud.Position;
-import ch.asynk.tankontank.game.hud.Msg;
+import ch.asynk.tankontank.ui.Position;
+import ch.asynk.tankontank.ui.Msg;
+import ch.asynk.tankontank.ui.OkCancel;
+import ch.asynk.tankontank.ui.Widget;
 import ch.asynk.tankontank.game.hud.PlayerInfo;
 import ch.asynk.tankontank.game.hud.ActionButtons;
-import ch.asynk.tankontank.game.hud.OkCancel;
 import ch.asynk.tankontank.game.hud.Statistics;
 import ch.asynk.tankontank.game.hud.Engagement;
-import ch.asynk.tankontank.game.hud.Widget;
 
 import ch.asynk.tankontank.TankOnTank;
 

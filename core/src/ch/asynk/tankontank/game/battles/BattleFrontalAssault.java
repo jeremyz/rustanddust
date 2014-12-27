@@ -9,7 +9,7 @@ import ch.asynk.tankontank.game.HexSet;
 import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
-import ch.asynk.tankontank.game.hud.Position;
+import ch.asynk.tankontank.ui.Position;
 import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleFrontalAssault extends BattleCommon

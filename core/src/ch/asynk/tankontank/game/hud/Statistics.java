@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.ui.Bg;
+import ch.asynk.tankontank.ui.Label;
+import ch.asynk.tankontank.ui.Patch;
+import ch.asynk.tankontank.ui.Position;
 
 public class Statistics extends Patch
 {

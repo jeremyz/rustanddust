@@ -13,6 +13,8 @@ import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.UnitList;
+import ch.asynk.tankontank.ui.Bg;
+import ch.asynk.tankontank.ui.Position;
 
 public class UnitDock extends Bg implements Animation
 {

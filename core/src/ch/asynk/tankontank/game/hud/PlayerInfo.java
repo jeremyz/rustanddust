@@ -17,6 +17,8 @@ import ch.asynk.tankontank.game.Hud;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.ui.LabelImage;
+import ch.asynk.tankontank.ui.Position;
 
 public class PlayerInfo implements Disposable, Drawable, Animation
 {

@@ -26,7 +26,7 @@ import ch.asynk.tankontank.engine.gfx.animations.DestroyAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
 
-import ch.asynk.tankontank.game.hud.Position;
+import ch.asynk.tankontank.ui.Position;
 
 public abstract class Map extends Board
 {

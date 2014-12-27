@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game.hud;
+package ch.asynk.tankontank.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

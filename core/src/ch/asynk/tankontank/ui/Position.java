@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game.hud;
+package ch.asynk.tankontank.ui;
 
 import com.badlogic.gdx.Gdx;
 import ch.asynk.tankontank.game.Hud;

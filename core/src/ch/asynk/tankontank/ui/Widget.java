@@ -1,4 +1,4 @@
-package ch.asynk.tankontank.game.hud;
+package ch.asynk.tankontank.ui;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.math.Rectangle;
