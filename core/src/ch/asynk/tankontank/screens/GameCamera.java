@@ -40,13 +40,14 @@ public class GameCamera extends OrthographicCamera
 
         float viewportAspect = (viewportWidth / viewportHeight);
         float aspect = (screenWidth / (float) screenHeight);
+        float diff = (viewportAspect - aspect);
 
-        if ((viewportAspect - aspect) < ZEROF) {
+        if (diff < -ZEROF) {
             screen.width = (screenHeight * viewportAspect);
             screen.height = screenHeight;
             screen.x = ((screenWidth - screen.width) / 2f);
             screen.y = 0f;
-        } else {
+        } else if (diff > ZEROF) {
             screen.width = screenWidth;
             screen.height = (screenWidth / viewportAspect);
             screen.x = 0f;
