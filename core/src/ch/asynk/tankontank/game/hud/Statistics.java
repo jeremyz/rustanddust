@@ -75,6 +75,7 @@ public class Statistics extends Patch
         visible = true;
     }
 
+    @Override
     public boolean hit(float x, float y)
     {
         if (okBtn.hit(x, y))

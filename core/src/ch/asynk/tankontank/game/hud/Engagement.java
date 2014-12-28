@@ -156,6 +156,7 @@ public class Engagement extends Patch implements Animation
         rerollY = (d1Animation.getY() + d1Animation.getHeight() + VSPACING);
     }
 
+    @Override
     public boolean hit(float x, float y)
     {
         return rect.contains(x, y);
