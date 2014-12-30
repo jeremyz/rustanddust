@@ -1,0 +1,50 @@
+
+ui.png
+size: 256,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cancel
+  rotate: false
+  xy: 2, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+disabled
+  rotate: false
+  xy: 2, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ok
+  rotate: false
+  xy: 52, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+typewriter
+  rotate: false
+  xy: 52, 2
+  size: 48, 48
+  split: 23, 23, 23, 23
+  pad: 11, 11, 12, 12
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+veteran-black
+  rotate: false
+  xy: 2, 102
+  size: 118, 391
+  orig: 118, 391
+  offset: 0, 0
+  index: -1
+veteran-white
+  rotate: false
+  xy: 122, 102
+  size: 118, 391
+  orig: 118, 391
+  offset: 0, 0
+  index: -1

@@ -37,16 +37,16 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     public UnitDock unitDock;
     private Position position;
 
-    public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas atlas)
+    public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
         this.ctrl = ctrl;
         this.position = Position.MIDDLE_CENTER;
-        usFlag = new Sprite(atlas.findRegion("us-flag"));
-        geFlag = new Sprite(atlas.findRegion("ge-flag"));
-        turns = new LabelImage(atlas.findRegion("turns"), font, 5f);
-        aps = new LabelImage(atlas.findRegion("aps"), font, 5f);
-        reinforcement = new LabelImage(atlas.findRegion("reinforcement"), font, 5f);
-        unitDock = new UnitDock(ctrl, atlas.findRegion("disabled"), atlas.findRegion("reinforcement-selected"), 10f);
+        usFlag = new Sprite(hudAtlas.findRegion("us-flag"));
+        geFlag = new Sprite(hudAtlas.findRegion("ge-flag"));
+        turns = new LabelImage(hudAtlas.findRegion("turns"), font, 5f);
+        aps = new LabelImage(hudAtlas.findRegion("aps"), font, 5f);
+        reinforcement = new LabelImage(hudAtlas.findRegion("reinforcement"), font, 5f);
+        unitDock = new UnitDock(ctrl, uiAtlas.findRegion("disabled"), hudAtlas.findRegion("reinforcement-selected"), 10f);
     }
 
     @Override

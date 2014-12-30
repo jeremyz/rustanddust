@@ -44,18 +44,18 @@ public class Engagement extends Patch implements Animation
     private DiceAnimation d3Animation;
     private DiceAnimation d4Animation;
 
-    public Engagement(BitmapFont font, TextureAtlas atlas)
+    public Engagement(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
-        super(atlas.createPatch("typewriter"));
-        usFlag = new Sprite(atlas.findRegion("us-flag"));
-        geFlag = new Sprite(atlas.findRegion("ge-flag"));
-        attackImg = new Sprite(atlas.findRegion("attack"));
-        defenseImg = new Sprite(atlas.findRegion("defense"));
+        super(uiAtlas.createPatch("typewriter"));
+        usFlag = new Sprite(hudAtlas.findRegion("us-flag"));
+        geFlag = new Sprite(hudAtlas.findRegion("ge-flag"));
+        attackImg = new Sprite(hudAtlas.findRegion("attack"));
+        defenseImg = new Sprite(hudAtlas.findRegion("defense"));
         this.attack = new Label(font);
         this.defense = new Label(font);
         this.attackR = new Label(font);
         this.defenseR = new Label(font);
-        this.okBtn = new Bg(atlas.findRegion("ok"));
+        this.okBtn = new Bg(uiAtlas.findRegion("ok"));
         this.visible = false;
         this.d1Animation = new DiceAnimation();
         this.d2Animation = new DiceAnimation();

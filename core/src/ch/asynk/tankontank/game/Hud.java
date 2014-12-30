@@ -50,16 +50,17 @@ public class Hud implements Disposable, Animation
         this.game = game;
         this.ctrl = ctrl;
 
-        TextureAtlas atlas = game.factory.hudAtlas;
-        fontB = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), atlas.findRegion("veteran-black"));
-        fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), atlas.findRegion("veteran-white"));
-        playerInfo = new PlayerInfo(ctrl, fontW, atlas);
-        actionButtons = new ActionButtons(ctrl, atlas);
+        TextureAtlas hudAtlas = game.factory.hudAtlas;
+        TextureAtlas uiAtlas = game.manager.get("data/ui.atlas", TextureAtlas.class);
+        fontB = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-black"));
+        fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-white"));
+        playerInfo = new PlayerInfo(ctrl, fontW, uiAtlas, hudAtlas);
+        actionButtons = new ActionButtons(ctrl, uiAtlas, hudAtlas);
         actionButtons.hide();
-        msg = new Msg(fontB, atlas);
-        okCancel = new OkCancel(fontB, atlas);
-        stats = new Statistics(fontB, atlas);
-        engagement = new Engagement(fontB, atlas);
+        msg = new Msg(fontB, uiAtlas);
+        okCancel = new OkCancel(fontB, uiAtlas);
+        stats = new Statistics(fontB, uiAtlas);
+        engagement = new Engagement(fontB, uiAtlas, hudAtlas);
     }
 
     @Override

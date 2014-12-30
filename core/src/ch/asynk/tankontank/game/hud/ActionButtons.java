@@ -40,9 +40,9 @@ public class ActionButtons extends Widget
     private StateType states [];
     private Position position;
 
-    public ActionButtons(Ctrl ctrl, TextureAtlas atlas)
+    public ActionButtons(Ctrl ctrl, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
-        this.bg = new Sprite(atlas.findRegion("disabled"));
+        this.bg = new Sprite(uiAtlas.findRegion("disabled"));
         this.ctrl = ctrl;
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
@@ -50,9 +50,9 @@ public class ActionButtons extends Widget
 
 
         this.buttons = new Bg[Buttons.LAST.i];
-        this.buttons[Buttons.DONE.i] = new Bg(atlas.findRegion("ok"));
-        this.buttons[Buttons.ABORT.i] = new Bg(atlas.findRegion("cancel"));
-        this.buttons[Buttons.PROMOTE.i] = new Bg(atlas.findRegion("promote"));
+        this.buttons[Buttons.DONE.i] = new Bg(uiAtlas.findRegion("ok"));
+        this.buttons[Buttons.ABORT.i] = new Bg(uiAtlas.findRegion("cancel"));
+        this.buttons[Buttons.PROMOTE.i] = new Bg(hudAtlas.findRegion("promote"));
 
         this.states = new StateType[Buttons.LAST.i];
         this.states[Buttons.DONE.i] = StateType.DONE;
