@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.screens.LoadScreen;
@@ -20,6 +21,10 @@ public class TankOnTank extends Game
     public Factory factory;
     public Ctrl ctrl;
     public Config config;
+
+    public TextureAtlas uiAtlas;
+    public BitmapFont fontB;
+    public BitmapFont fontW;
 
     public static void debug(String msg)
     {
@@ -41,6 +46,7 @@ public class TankOnTank extends Game
         factory = new Factory(this);
         config = new Config();
 
+        loadUiAssets();
         this.setScreen(new LoadScreen(this));
     }
 
@@ -50,7 +56,6 @@ public class TankOnTank extends Game
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
         manager.load("data/hex.png", Texture.class);
-        manager.load("data/ui.atlas", TextureAtlas.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
         manager.load("data/units.atlas", TextureAtlas.class);
         manager.load("data/unit-overlays.atlas", TextureAtlas.class);
@@ -76,7 +81,6 @@ public class TankOnTank extends Game
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
         manager.unload("data/hex.png");
-        manager.unload("data/ui.atlas");
         manager.unload("data/hud.atlas");
         manager.unload("data/units.atlas");
         manager.unload("data/unit-overlays.atlas");
@@ -94,6 +98,23 @@ public class TankOnTank extends Game
         manager.unload("sounds/explosion_short.mp3");
         manager.unload("sounds/promote.mp3");
         debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
+    }
+
+    public void loadUiAssets()
+    {
+        manager.load("data/ui.atlas", TextureAtlas.class);
+        manager.finishLoading();
+        uiAtlas = manager.get("data/ui.atlas", TextureAtlas.class);
+        fontB = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-black"));
+        fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-white"));
+    }
+
+    public void unloadUiAssets()
+    {
+        fontB.dispose();
+        fontW.dispose();
+        uiAtlas.dispose();
+        manager.unload("data/ui.atlas");
     }
 
     public void switchToOptions()
@@ -128,6 +149,7 @@ public class TankOnTank extends Game
         debug("TankOnTank", "dispose()");
         getScreen().dispose();
         factory.dispose();
+        unloadUiAssets();
         unloadAssets();
     }
 

@@ -33,8 +33,6 @@ public class Hud implements Disposable, Animation
     private final Ctrl ctrl;
 
     private Object hit;
-    private BitmapFont fontB;
-    private BitmapFont fontW;
 
     public PlayerInfo playerInfo;
     public ActionButtons actionButtons;
@@ -51,23 +49,18 @@ public class Hud implements Disposable, Animation
         this.ctrl = ctrl;
 
         TextureAtlas hudAtlas = game.factory.hudAtlas;
-        TextureAtlas uiAtlas = game.manager.get("data/ui.atlas", TextureAtlas.class);
-        fontB = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-black"));
-        fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-white"));
-        playerInfo = new PlayerInfo(ctrl, fontW, uiAtlas, hudAtlas);
-        actionButtons = new ActionButtons(ctrl, uiAtlas, hudAtlas);
+        playerInfo = new PlayerInfo(ctrl, game.fontW, game.uiAtlas, hudAtlas);
+        actionButtons = new ActionButtons(ctrl, game.uiAtlas, hudAtlas);
         actionButtons.hide();
-        msg = new Msg(fontB, uiAtlas);
-        okCancel = new OkCancel(fontB, uiAtlas);
-        stats = new Statistics(fontB, uiAtlas);
-        engagement = new Engagement(fontB, uiAtlas, hudAtlas);
+        msg = new Msg(game.fontB, game.uiAtlas);
+        okCancel = new OkCancel(game.fontB, game.uiAtlas);
+        stats = new Statistics(game.fontB, game.uiAtlas);
+        engagement = new Engagement(game.fontB, game.uiAtlas, hudAtlas);
     }
 
     @Override
     public void dispose()
     {
-        fontB.dispose();
-        fontW.dispose();
         playerInfo.dispose();
         actionButtons.dispose();
         msg.dispose();
@@ -107,7 +100,7 @@ public class Hud implements Disposable, Animation
     {
         draw(batch);
         if (debug)
-            fontB.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
+            game.fontB.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
     }
 
     @Override
