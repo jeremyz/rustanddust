@@ -34,6 +34,7 @@ public class Factory implements Board.TileBuilder, Disposable
         FAKE
     }
 
+    public boolean assetsLoaded;
     public TextureAtlas hudAtlas;
     public TextureAtlas pawnsAtlas;
     public TextureAtlas pawnOverlaysAtlas;
@@ -44,6 +45,7 @@ public class Factory implements Board.TileBuilder, Disposable
     public Factory(final TankOnTank game)
     {
         this.game = game;
+        this.assetsLoaded = false;
         battles = new Battle[] {
             new BattleHeadToHead(this),
             new BattleFrontalAssault(this),
@@ -57,15 +59,18 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public void assetsLoaded()
     {
+        if (assetsLoaded) return;
         this.hudAtlas = game.manager.get("data/hud.atlas", TextureAtlas.class);
         this.pawnsAtlas = game.manager.get("data/units.atlas", TextureAtlas.class);
         this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays.atlas", TextureAtlas.class);
         this.tileOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
+        this.assetsLoaded = false;
     }
 
     @Override
     public void dispose()
     {
+        if (!assetsLoaded) return;
         hudAtlas.dispose();
         pawnsAtlas.dispose();
         pawnOverlaysAtlas.dispose();
