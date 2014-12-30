@@ -18,13 +18,9 @@ public class BattleFrontalAssault extends BattleCommon
     {
         super(factory);
         name = "Frontal Assault";
+        mapType = Factory.MapType.MAP_A;
     }
 
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_A);
-    }
 
     @Override
     public Player getPlayer()

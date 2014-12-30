@@ -21,12 +21,7 @@ public class BattleHeadToHead extends BattleCommon
         super(factory);
         name = "Head To Head";
         firstArmy = ((random.nextInt(2) == 0) ? Army.US : Army.GE);
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_A);
+        mapType = Factory.MapType.MAP_A;
     }
 
     @Override

@@ -3,6 +3,7 @@ package ch.asynk.tankontank.game;
 import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Player;
+import ch.asynk.tankontank.game.battles.Factory.MapType;
 import ch.asynk.tankontank.ui.Position;
 
 public interface Battle
@@ -14,6 +15,8 @@ public interface Battle
     public Player getPlayer();
 
     public Player opponent(Player player);
+
+    public MapType getMapType();
 
     public Map getMap();
 

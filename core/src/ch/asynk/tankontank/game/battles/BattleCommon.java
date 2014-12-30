@@ -19,6 +19,7 @@ public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random();
 
+    protected Factory.MapType mapType;
     protected String name;
     protected String description;
     protected Factory factory;
@@ -52,6 +53,18 @@ public abstract class BattleCommon implements Battle
     public String getDescription()
     {
         return description;
+    }
+
+    @Override
+    public Factory.MapType getMapType()
+    {
+        return mapType;
+    }
+
+    @Override
+    public Map getMap()
+    {
+        return factory.getMap(mapType);
     }
 
     @Override

@@ -16,12 +16,7 @@ public class BattleCounterAttack extends BattleCommon
     {
         super(factory);
         name = "Counterattack";
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_B);
+        mapType = Factory.MapType.MAP_B;
     }
 
     @Override

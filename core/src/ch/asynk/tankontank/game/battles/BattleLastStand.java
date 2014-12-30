@@ -18,12 +18,7 @@ public class BattleLastStand extends BattleCommon
     {
         super(factory);
         name = "Last Stand";
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_B);
+        mapType = Factory.MapType.MAP_B;
     }
 
     @Override

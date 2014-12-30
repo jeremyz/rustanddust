@@ -18,12 +18,7 @@ public class BattleStabToTheFlank extends BattleCommon
     {
         super(factory);
         name = "Stab To The Flank";
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_B);
+        mapType = Factory.MapType.MAP_B;
     }
 
     @Override

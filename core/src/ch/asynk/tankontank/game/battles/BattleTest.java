@@ -18,12 +18,7 @@ public class BattleTest extends BattleCommon
     {
         super(factory);
         name = "*** Test ***";
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return factory.getMap(Factory.MapType.MAP_B);
+        mapType = Factory.MapType.MAP_B;
     }
 
     @Override
