@@ -16,8 +16,6 @@ import ch.asynk.tankontank.game.states.StateReinforcement;
 import ch.asynk.tankontank.game.states.StateDeployment;
 import ch.asynk.tankontank.game.states.StateEscape;
 
-import ch.asynk.tankontank.screens.OptionsScreen;
-
 public class Ctrl implements Disposable
 {
     private final TankOnTank game;
@@ -306,7 +304,7 @@ public class Ctrl implements Disposable
 
     public void endGame()
     {
-        game.setScreen(new OptionsScreen(game));
+        game.switchToOptions();
     }
 
     public void endPlayerTurn(boolean abort)

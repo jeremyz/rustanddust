@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.screens.LoadScreen;
+import ch.asynk.tankontank.screens.OptionsScreen;
+import ch.asynk.tankontank.screens.GameScreen;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Config;
 import ch.asynk.tankontank.game.battles.Factory;
@@ -94,9 +96,15 @@ public class TankOnTank extends Game
         debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
-    public void onLoaded()
+    public void switchToOptions()
     {
         factory.assetsLoaded();
+        setScreen(new OptionsScreen(this));
+    }
+
+    public void switchToGame()
+    {
+        setScreen(new GameScreen(this));
     }
 
     // @Override
