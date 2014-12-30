@@ -304,7 +304,7 @@ public class Ctrl implements Disposable
 
     public void endGame()
     {
-        game.switchToOptions();
+        game.switchToMenu();
     }
 
     public void endPlayerTurn(boolean abort)

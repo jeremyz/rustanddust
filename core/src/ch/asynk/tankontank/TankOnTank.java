@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.tankontank.screens.LoadScreen;
-import ch.asynk.tankontank.screens.OptionsScreen;
+import ch.asynk.tankontank.screens.MenuScreen;
 import ch.asynk.tankontank.screens.GameScreen;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Config;
@@ -23,8 +22,17 @@ public class TankOnTank extends Game
     public Config config;
 
     public TextureAtlas uiAtlas;
+    public TextureAtlas menuAtlas;
     public BitmapFont fontB;
     public BitmapFont fontW;
+
+    public enum State
+    {
+        MENU,
+        GAME,
+        NONE
+    }
+    private State state;
 
     public static void debug(String msg)
     {
@@ -46,13 +54,37 @@ public class TankOnTank extends Game
         factory = new Factory(this);
         config = new Config();
 
+        state = State.NONE;
         loadUiAssets();
-        this.setScreen(new LoadScreen(this));
+        switchToMenu();
     }
 
-    public void loadAssets()
+    public void switchToMenu()
+    {
+        if (state == State.GAME) {
+            unloadGameAssets();
+            factory.dispose();
+            ctrl.dispose();
+            getScreen().dispose();
+        }
+        loadMenuAssets();
+        state = State.MENU;
+        setScreen(new MenuScreen(this));
+    }
+
+    public void switchToGame()
+    {
+        unloadMenuAssets();
+        getScreen().dispose();
+        factory.assetsLoaded();
+        state = State.GAME;
+        setScreen(new GameScreen(this));
+    }
+
+    public void loadGameAssets()
     {
         debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        // TODO load only needed map
         manager.load("data/map_a.png", Texture.class);
         manager.load("data/map_b.png", Texture.class);
         manager.load("data/hex.png", Texture.class);
@@ -74,10 +106,10 @@ public class TankOnTank extends Game
         manager.load("sounds/promote.mp3", Sound.class);
     }
 
-    public void unloadAssets()
+    private void unloadGameAssets()
     {
         debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
+        // TODO load only needed map
         manager.unload("data/map_a.png");
         manager.unload("data/map_b.png");
         manager.unload("data/hex.png");
@@ -97,10 +129,9 @@ public class TankOnTank extends Game
         manager.unload("sounds/explosion.mp3");
         manager.unload("sounds/explosion_short.mp3");
         manager.unload("sounds/promote.mp3");
-        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
-    public void loadUiAssets()
+    private void loadUiAssets()
     {
         manager.load("data/ui.atlas", TextureAtlas.class);
         manager.finishLoading();
@@ -109,7 +140,7 @@ public class TankOnTank extends Game
         fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-white"));
     }
 
-    public void unloadUiAssets()
+    private void unloadUiAssets()
     {
         fontB.dispose();
         fontW.dispose();
@@ -117,15 +148,19 @@ public class TankOnTank extends Game
         manager.unload("data/ui.atlas");
     }
 
-    public void switchToOptions()
+    private void loadMenuAssets()
     {
-        factory.assetsLoaded();
-        setScreen(new OptionsScreen(this));
+        manager.load("data/map_a.png", Texture.class);
+        manager.load("data/menu.atlas", TextureAtlas.class);
+        manager.finishLoading();
+        menuAtlas = manager.get("data/menu.atlas", TextureAtlas.class);
     }
 
-    public void switchToGame()
+    private void unloadMenuAssets()
     {
-        setScreen(new GameScreen(this));
+        menuAtlas.dispose();
+        manager.unload("data/map_a.png");
+        manager.unload("data/menu.atlas");
     }
 
     // @Override
@@ -147,10 +182,20 @@ public class TankOnTank extends Game
     public void dispose()
     {
         debug("TankOnTank", "dispose()");
+        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
         getScreen().dispose();
-        factory.dispose();
         unloadUiAssets();
-        unloadAssets();
+        switch(state) {
+            case MENU:
+                unloadMenuAssets();
+                break;
+            case GAME:
+                unloadGameAssets();
+                factory.dispose();
+                ctrl.dispose();
+                break;
+        }
+        debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
     }
 
     // @Override
