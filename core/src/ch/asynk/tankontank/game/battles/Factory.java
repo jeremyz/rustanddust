@@ -64,7 +64,7 @@ public class Factory implements Board.TileBuilder, Disposable
         this.pawnsAtlas = game.manager.get("data/units.atlas", TextureAtlas.class);
         this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays.atlas", TextureAtlas.class);
         this.tileOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
-        this.assetsLoaded = false;
+        this.assetsLoaded = true;
     }
 
     @Override
@@ -75,6 +75,7 @@ public class Factory implements Board.TileBuilder, Disposable
         pawnsAtlas.dispose();
         pawnOverlaysAtlas.dispose();
         tileOverlaysAtlas.dispose();
+        this.assetsLoaded = false;
     }
 
     private Board.Config config()
