@@ -53,6 +53,8 @@ public class Ctrl implements Disposable
         this.cfg = game.config;
         game.ctrl = this;
 
+        battle.init();
+
         this.map = battle.getMap();
         battle.setup(this, map);
         this.player = battle.getPlayer();

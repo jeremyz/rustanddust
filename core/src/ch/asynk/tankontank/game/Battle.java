@@ -8,6 +8,8 @@ import ch.asynk.tankontank.ui.Position;
 
 public interface Battle
 {
+    public void init();
+
     public String getName();
 
     public String getDescription();

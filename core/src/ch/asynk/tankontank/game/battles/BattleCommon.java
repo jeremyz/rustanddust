@@ -33,6 +33,11 @@ public abstract class BattleCommon implements Battle
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
+    }
+
+    @Override
+    public void init()
+    {
         this.usPlayer = factory.getPlayer(Army.US);
         this.gePlayer = factory.getPlayer(Army.GE);
     }
