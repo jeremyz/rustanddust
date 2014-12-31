@@ -33,8 +33,7 @@ public class GameScreen implements Screen
 
     private final GameCamera cam;
 
-    private final SpriteBatch mapBatch;
-    private final SpriteBatch hudBatch;
+    private final SpriteBatch batch;
     private ShapeRenderer debugShapes = null;
 
     private final TankOnTank game;
@@ -53,11 +52,10 @@ public class GameScreen implements Screen
         this.game = game;
         this.blocked = false;
 
+        this.batch = new SpriteBatch();
         this.ctrl = new Ctrl(game, game.config.battle);
         this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX);
 
-        this.mapBatch = new SpriteBatch();
-        this.hudBatch = new SpriteBatch();
         if (DEBUG) this.debugShapes = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(getMultiplexer());
@@ -138,10 +136,10 @@ public class GameScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // cam.update();
-        mapBatch.setProjectionMatrix(cam.combined);
-        mapBatch.begin();
-        ctrl.map.draw(mapBatch);
-        mapBatch.end();
+        batch.setProjectionMatrix(cam.combined);
+        batch.begin();
+        ctrl.map.draw(batch);
+        batch.end();
 
 
         if (DEBUG) {
@@ -153,10 +151,10 @@ public class GameScreen implements Screen
             debugShapes.end();
         }
 
-        hudBatch.setProjectionMatrix(cam.getHudMatrix());
-        hudBatch.begin();
-        ctrl.hud.draw(hudBatch, DEBUG);
-        hudBatch.end();
+        batch.setProjectionMatrix(cam.getHudMatrix());
+        batch.begin();
+        ctrl.hud.draw(batch, DEBUG);
+        batch.end();
 
         if (DEBUG) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -180,8 +178,7 @@ public class GameScreen implements Screen
     public void dispose()
     {
         // TankOnTank.debug("GameScreen", "dispose()");
-        mapBatch.dispose();
-        hudBatch.dispose();
+        batch.dispose();
         ctrl.dispose();
         if (DEBUG) debugShapes.dispose();
     }
