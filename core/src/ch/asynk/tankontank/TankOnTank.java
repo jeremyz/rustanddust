@@ -83,10 +83,10 @@ public class TankOnTank extends Game
 
     public void loadGameAssets()
     {
-        debug("TankOnTank", "  load assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-        // TODO load only needed map
-        manager.load("data/map_a.png", Texture.class);
-        manager.load("data/map_b.png", Texture.class);
+        if (config.battle.getMapType() == Factory.MapType.MAP_A)
+            manager.load("data/map_a.png", Texture.class);
+        if (config.battle.getMapType() == Factory.MapType.MAP_B)
+            manager.load("data/map_b.png", Texture.class);
         manager.load("data/hex.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
         manager.load("data/units.atlas", TextureAtlas.class);
@@ -104,14 +104,15 @@ public class TankOnTank extends Game
         manager.load("sounds/explosion.mp3", Sound.class);
         manager.load("sounds/explosion_short.mp3", Sound.class);
         manager.load("sounds/promote.mp3", Sound.class);
+        debug("TankOnTank", "  assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void unloadGameAssets()
     {
-        debug("TankOnTank", "unload assets : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
-        // TODO load only needed map
-        manager.unload("data/map_a.png");
-        manager.unload("data/map_b.png");
+        if (config.battle.getMapType() == Factory.MapType.MAP_A)
+            manager.unload("data/map_a.png");
+        if (config.battle.getMapType() == Factory.MapType.MAP_B)
+            manager.unload("data/map_b.png");
         manager.unload("data/hex.png");
         manager.unload("data/hud.atlas");
         manager.unload("data/units.atlas");
@@ -129,6 +130,7 @@ public class TankOnTank extends Game
         manager.unload("sounds/explosion.mp3");
         manager.unload("sounds/explosion_short.mp3");
         manager.unload("sounds/promote.mp3");
+        debug("TankOnTank", "  assets unloaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void loadUiAssets()
@@ -144,7 +146,6 @@ public class TankOnTank extends Game
     {
         fontB.dispose();
         fontW.dispose();
-        uiAtlas.dispose();
         manager.unload("data/ui.atlas");
     }
 
@@ -158,7 +159,6 @@ public class TankOnTank extends Game
 
     private void unloadMenuAssets()
     {
-        menuAtlas.dispose();
         manager.unload("data/map_a.png");
         manager.unload("data/menu.atlas");
     }
@@ -196,6 +196,8 @@ public class TankOnTank extends Game
                 break;
         }
         debug("TankOnTank", "diagnostics:\n" + manager.getDiagnostics() );
+        manager.clear();
+        manager.dispose();
     }
 
     // @Override
