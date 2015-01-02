@@ -11,11 +11,11 @@ import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Matrix4;
 
-import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
@@ -49,7 +49,7 @@ public abstract class Board implements Disposable, Animation
     private Config cfg;
     private Tile[] tiles;
     private SearchBoard searchBoard;
-    private Image image;
+    private Sprite board;
     private Orientation sides[];
 
     private boolean transform;
@@ -75,7 +75,7 @@ public abstract class Board implements Disposable, Animation
 
     public Board(TileBuilder tileBuilder, Config cfg, Texture boardTexture,  SelectedTile selectedTile)
     {
-        image = new Image(boardTexture);
+        board = new Sprite(boardTexture);
         this.cfg = cfg;
         // add a frame of OFFMAP Tiles
         this.cols = (cfg.cols + 2);
@@ -114,7 +114,6 @@ public abstract class Board implements Disposable, Animation
     @Override
     public void dispose()
     {
-        image.dispose();
         for (int i = 0; i < (this.cols * this.rows); i++)
             tiles[i].dispose();
         tilesToDraw.clear();
@@ -130,17 +129,17 @@ public abstract class Board implements Disposable, Animation
 
     public float getWidth()
     {
-        return image.getWidth();
+        return board.getWidth();
     }
 
     public float getHeight()
     {
-        return image.getHeight();
+        return board.getHeight();
     }
 
     public void setPosition(float x, float y)
     {
-        image.setPosition(x, y);
+        board.setPosition(x, y);
         if ((x != 0.0f) || (y != 0.0f)) {
             transform = true;
             prevTransform = new Matrix4();
@@ -251,7 +250,7 @@ public abstract class Board implements Disposable, Animation
 
     public void draw(Batch batch)
     {
-        image.draw(batch);
+        board.draw(batch);
 
         if (transform) {
             prevTransform.set(batch.getTransformMatrix());
