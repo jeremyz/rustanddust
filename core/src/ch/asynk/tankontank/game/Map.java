@@ -106,7 +106,9 @@ public abstract class Map extends Board
         this.tankMoveSound = game.manager.get("sounds/tank_move.mp3", Sound.class);
         this.infantryMoveSound = game.manager.get("sounds/infantry_move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
-        PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
+        PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class),
+                game.manager.get("sounds/promote_us.mp3", Sound.class),
+                game.manager.get("sounds/promote_ge.mp3", Sound.class));
         FireAnimation.init(
                 game.manager.get("data/infantry_fire.png", Texture.class), 1, 8,
                 game.manager.get("data/tank_fire.png", Texture.class), 1, 8,
@@ -305,7 +307,7 @@ public abstract class Map extends Board
 
         Hex hex = unit.getHex();
         AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get(x, y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), x, y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
         seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
             @Override
             public void run() {

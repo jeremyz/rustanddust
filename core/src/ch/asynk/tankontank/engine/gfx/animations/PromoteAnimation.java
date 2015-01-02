@@ -15,7 +15,9 @@ public class PromoteAnimation implements Animation, Drawable
 
     private static final float DURATION = 0.3f;
 
-    private static Sound sound;
+    private static Sound usSound;
+    private static Sound geSound;
+    private static Sound snd;
     private static TextureRegion region;
 
     private float x;
@@ -27,22 +29,22 @@ public class PromoteAnimation implements Animation, Drawable
     private float volume;
     private float elapsed;
 
-    public static void init(TextureAtlas atlas, Sound snd)
+    public static void init(TextureAtlas atlas, Sound usSnd, Sound geSnd)
     {
         region = atlas.findRegion("stars");
-        sound = snd;
+        usSound = usSnd;
+        geSound = geSnd;
     }
 
     public static void free()
     {
-        sound.dispose();
     }
 
     protected void PromoteAnimation()
     {
     }
 
-    public static PromoteAnimation get(float x0, float y0, float x1, float y1, float v)
+    public static PromoteAnimation get(boolean us, float x0, float y0, float x1, float y1, float v)
     {
         x0 = (x0 - (region.getRegionWidth() / 2.0f));
         y0 = (y0 - (region.getRegionHeight() / 2.0f));
@@ -57,6 +59,7 @@ public class PromoteAnimation implements Animation, Drawable
         instance.dx = ((x1 - x0)/ DURATION);
         instance.dy = ((y1 - y0) / DURATION);
         instance.elapsed = 0f;
+        snd = (us ? usSound : geSound);
 
         return instance;
     }
@@ -73,7 +76,7 @@ public class PromoteAnimation implements Animation, Drawable
         if (elapsed >= DURATION) {
             x = x1;
             y = y1;
-            sound.play(volume);
+            snd.play(volume);
             return true;
         }
 

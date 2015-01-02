@@ -104,7 +104,8 @@ public class TankOnTank extends Game
         manager.load("sounds/tank_fire_short.mp3", Sound.class);
         manager.load("sounds/explosion.mp3", Sound.class);
         manager.load("sounds/explosion_short.mp3", Sound.class);
-        manager.load("sounds/promote.mp3", Sound.class);
+        manager.load("sounds/promote_us.mp3", Sound.class);
+        manager.load("sounds/promote_ge.mp3", Sound.class);
         debug("TankOnTank", "  assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
@@ -131,7 +132,8 @@ public class TankOnTank extends Game
         manager.unload("sounds/tank_fire_short.mp3");
         manager.unload("sounds/explosion.mp3");
         manager.unload("sounds/explosion_short.mp3");
-        manager.unload("sounds/promote.mp3");
+        manager.unload("sounds/promote_us.mp3");
+        manager.unload("sounds/promote_ge.mp3");
         debug("TankOnTank", "  assets unloaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
