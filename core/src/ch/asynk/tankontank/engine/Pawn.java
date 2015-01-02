@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import ch.asynk.tankontank.engine.gfx.Image;
 import ch.asynk.tankontank.engine.gfx.Moveable;
 import ch.asynk.tankontank.engine.gfx.StackedImages;
 import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation;
@@ -99,7 +99,7 @@ public abstract class Pawn implements Moveable, Disposable
     private Tile prevTile;
     protected Faction faction;
     protected String descr;
-    private Image image;
+    private Sprite sprite;
     private StackedImages overlays;
     public Engagement engagement = new Engagement();
     public Movement movement= new Movement();
@@ -142,7 +142,7 @@ public abstract class Pawn implements Moveable, Disposable
         this();
         this.faction = faction;
         this.descr = descr;
-        this.image = new Image(pawns.findRegion(name));
+        this.sprite = new Sprite(pawns.findRegion(name));
         this.overlays = new StackedImages(overlays);
     }
 
@@ -155,7 +155,6 @@ public abstract class Pawn implements Moveable, Disposable
     @Override
     public void dispose()
     {
-        image.dispose();
     }
 
     @Override
@@ -262,38 +261,38 @@ public abstract class Pawn implements Moveable, Disposable
     @Override
     public void setAlpha(float alpha)
     {
-        image.setAlpha(alpha);
+        sprite.setAlpha(alpha);
         overlays.setAlpha(alpha);
     }
 
     @Override
     public float getX()
     {
-        return image.getX();
+        return sprite.getX();
     }
 
     @Override
     public float getY()
     {
-        return image.getY();
+        return sprite.getY();
     }
 
     @Override
     public float getWidth()
     {
-        return image.getWidth();
+        return sprite.getWidth();
     }
 
     @Override
     public float getHeight()
     {
-        return image.getHeight();
+        return sprite.getHeight();
     }
 
     @Override
     public float getRotation()
     {
-        return image.getRotation();
+        return sprite.getRotation();
     }
 
     public Orientation getOrientation()
@@ -315,7 +314,7 @@ public abstract class Pawn implements Moveable, Disposable
     public void setPosition(float x, float y)
     {
         position.set(x, y, 0f);
-        image.setPosition(x, y);
+        sprite.setPosition(x, y);
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
         overlays.centerOn(cx, cy);
@@ -324,7 +323,7 @@ public abstract class Pawn implements Moveable, Disposable
     public void setRotation(float z)
     {
         position.z = z;
-        image.setRotation(z);
+        sprite.setRotation(z);
         overlays.setRotation(z);
     }
 
@@ -383,14 +382,16 @@ public abstract class Pawn implements Moveable, Disposable
     @Override
     public void draw(Batch batch)
     {
-        image.draw(batch);
+        sprite.draw(batch);
         overlays.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
-        image.drawDebug(debugShapes);
+        float w = sprite.getWidth();
+        float h = sprite.getHeight();
+        debugShapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
         overlays.drawDebug(debugShapes);
     }
 }
