@@ -233,7 +233,6 @@ public class MenuScreen implements Screen
     @Override
     public void dispose()
     {
-        bg.dispose();
         mainMenu.dispose();
         optionsMenu.dispose();
         scenariosMenu.dispose();
