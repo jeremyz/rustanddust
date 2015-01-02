@@ -47,7 +47,8 @@ public abstract class Map extends Board
     public final Meteorology meteorology;
 
     private final DestroyAnimation destroy;
-    private final Sound moveSound;
+    private final Sound tankMoveSound;
+    private final Sound infantryMoveSound;
     private Sound sound;
     private long soundId = -1;
     private Animation animationClosure;
@@ -102,7 +103,8 @@ public abstract class Map extends Board
                 new SelectedTile(game.manager.get("data/hex.png", Texture.class), new float[] {.2f, .1f, .1f, .1f, .2f, .1f} ));
         this.ctrl = game.ctrl;
         this.destroy = new DestroyAnimation();
-        this.moveSound = game.manager.get("sounds/move.mp3", Sound.class);
+        this.tankMoveSound = game.manager.get("sounds/tank_move.mp3", Sound.class);
+        this.infantryMoveSound = game.manager.get("sounds/infantry_move.mp3", Sound.class);
         DiceAnimation.init(game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class));
         PromoteAnimation.init(game.manager.get("data/hud.atlas", TextureAtlas.class), game.manager.get("sounds/promote.mp3", Sound.class));
         FireAnimation.init(
@@ -138,7 +140,6 @@ public abstract class Map extends Board
     {
         super.dispose();
         clearAll();
-        moveSound.dispose();
         destroy.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
@@ -337,7 +338,10 @@ public abstract class Map extends Board
     {
         moveableUnits.remove(unit);
         activatedUnits.add(unit);
-        sound = moveSound;
+        if (unit.isA(Unit.UnitType.INFANTRY))
+            sound = infantryMoveSound;
+        else
+            sound = tankMoveSound;
         soundId = sound.play(ctrl.cfg.fxVolume);
         return moveableUnits.size();
     }

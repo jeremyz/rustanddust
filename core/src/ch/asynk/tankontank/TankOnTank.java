@@ -97,7 +97,8 @@ public class TankOnTank extends Game
         manager.load("data/tank_fire.png", Texture.class);
         manager.load("data/explosions.png", Texture.class);
         manager.load("sounds/dice.mp3", Sound.class);
-        manager.load("sounds/move.mp3", Sound.class);
+        manager.load("sounds/tank_move.mp3", Sound.class);
+        manager.load("sounds/infantry_move.mp3", Sound.class);
         manager.load("sounds/infantry_fire.mp3", Sound.class);
         manager.load("sounds/tank_fire.mp3", Sound.class);
         manager.load("sounds/tank_fire_short.mp3", Sound.class);
@@ -123,7 +124,8 @@ public class TankOnTank extends Game
         manager.unload("data/tank_fire.png");
         manager.unload("data/explosions.png");
         manager.unload("sounds/dice.mp3");
-        manager.unload("sounds/move.mp3");
+        manager.unload("sounds/tank_move.mp3");
+        manager.unload("sounds/infantry_move.mp3");
         manager.unload("sounds/infantry_fire.mp3");
         manager.unload("sounds/tank_fire.mp3");
         manager.unload("sounds/tank_fire_short.mp3");
