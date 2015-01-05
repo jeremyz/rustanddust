@@ -93,8 +93,7 @@ public class MenuScreen implements Screen
             @Override
             public boolean touchDown(int x, int y, int pointer, int button)
             {
-                touch.set(x, y, 0f);
-                camera.uiUnproject(touch);
+                camera.uiUnproject(x, y, touch);
                 return hit(touch.x, touch.y);
             }
         });

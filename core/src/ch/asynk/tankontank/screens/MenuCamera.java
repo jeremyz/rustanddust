@@ -59,9 +59,9 @@ public class MenuCamera extends OrthographicCamera
         return window.height;
     }
 
-    public Vector3 uiUnproject(Vector3 v)
+    public Vector3 uiUnproject(float x, float y, Vector3 v)
     {
-        return uiCamera.unproject(v);
+        return uiCamera.unproject(v.set(x, y, 0f));
     }
 
     public Matrix4 uiCombined()
