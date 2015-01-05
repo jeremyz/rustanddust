@@ -13,7 +13,9 @@ public class MenuCamera extends OrthographicCamera
     private float virtualAspect;
     private final Rectangle virtual;
     private final Rectangle window;
-    private final OrthographicCamera uiCamera;
+
+    private Matrix4 uiMatrix;
+    private Matrix4 uiInvProjMatrix;
 
     public MenuCamera(int cx, int cy, int width, int height)
     {
@@ -24,7 +26,9 @@ public class MenuCamera extends OrthographicCamera
         this.window = new Rectangle();
         this.window.set(0, 0, 0, 0);
         this.position.set(virtual.x, virtual.y, 0f);
-        this.uiCamera = new OrthographicCamera();
+
+        this.uiMatrix = new Matrix4();
+        this.uiInvProjMatrix = new Matrix4();
     }
 
     public void updateViewport(int screenWidth, int screenHeight)
@@ -46,7 +50,11 @@ public class MenuCamera extends OrthographicCamera
         Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
 
         update(true);
-        uiCamera.setToOrtho(false, screenWidth, screenHeight);
+
+        uiMatrix.set(combined);
+        uiMatrix.setToOrtho2D(0, 0, screenWidth, screenHeight);
+        uiInvProjMatrix.set(uiMatrix);
+        Matrix4.inv(uiInvProjMatrix.val);
     }
 
     public float getScreenWidth()
@@ -59,13 +67,19 @@ public class MenuCamera extends OrthographicCamera
         return window.height;
     }
 
-    public Vector3 uiUnproject(float x, float y, Vector3 v)
+    public void uiUnproject(float x, float y, Vector3 v)
     {
-        return uiCamera.unproject(v.set(x, y, 0f));
+        x = x - window.x;
+        y = Gdx.graphics.getHeight() - y - 1;
+        y = y - window.y;
+        v.x = (2 * x) / window.width - 1;
+        v.y = (2 * y) / window.height - 1;
+        v.z = 2 * v.z - 1;
+        v.prj(uiInvProjMatrix);
     }
 
     public Matrix4 uiCombined()
     {
-        return uiCamera.combined;
+        return uiMatrix;
     }
 }
