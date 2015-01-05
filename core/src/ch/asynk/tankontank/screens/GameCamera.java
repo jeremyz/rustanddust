@@ -13,8 +13,8 @@ public class GameCamera extends OrthographicCamera
 {
     private static final float ZEROF = 0.01f;
 
-    // private int screenWidth;
-    // private int screenHeight;
+    private int screenWidth;
+    private int screenHeight;
     private float zoomOut;
     private float zoomIn;
     private float widthFactor;
@@ -35,8 +35,8 @@ public class GameCamera extends OrthographicCamera
 
     public void updateViewport(int screenWidth, int screenHeight)
     {
-        // this.screenWidth = screenWidth;
-        // this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         float viewportAspect = (viewportWidth / viewportHeight);
         float aspect = (screenWidth / (float) screenHeight);
@@ -70,6 +70,16 @@ public class GameCamera extends OrthographicCamera
     public Matrix4 getHudMatrix()
     {
         return hudMatrix;
+    }
+
+    public int getScreenWidth()
+    {
+        return screenWidth;
+    }
+
+    public int getScreenHeight()
+    {
+        return screenHeight;
     }
 
     public int getHudWidth()
