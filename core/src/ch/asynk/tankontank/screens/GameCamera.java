@@ -59,7 +59,7 @@ public class GameCamera extends OrthographicCamera
         this.widthFactor = (viewportWidth / screenWidth);
         this.heightFactor = (viewportHeight / screenHeight);
 
-        clampZoom();
+        clampPosition();
         update(true);
         hudMatrix.set(combined);
         hudMatrix.setToOrtho2D(0, 0, window.width, window.height);
@@ -117,7 +117,6 @@ public class GameCamera extends OrthographicCamera
     public void clampZoom()
     {
         zoom = MathUtils.clamp(zoom, zoomIn, zoomOut);
-        clampPosition();
     }
 
     public void clampPosition()
