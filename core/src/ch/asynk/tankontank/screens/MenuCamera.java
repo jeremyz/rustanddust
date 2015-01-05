@@ -12,7 +12,7 @@ public class MenuCamera extends OrthographicCamera
 
     private float virtualAspect;
     private final Rectangle virtual;
-    private final Rectangle screen;
+    private final Rectangle window;
     private final OrthographicCamera uiCamera;
 
     public MenuCamera(int cx, int cy, int width, int height)
@@ -21,8 +21,8 @@ public class MenuCamera extends OrthographicCamera
         this.virtual = new Rectangle();
         this.virtual.set(cx, cy, width, height);
         this.virtualAspect = (virtual.width / virtual.height);
-        this.screen = new Rectangle();
-        this.screen.set(0, 0, 0, 0);
+        this.window = new Rectangle();
+        this.window.set(0, 0, 0, 0);
         this.position.set(virtual.x, virtual.y, 0f);
         this.uiCamera = new OrthographicCamera();
     }
@@ -40,10 +40,10 @@ public class MenuCamera extends OrthographicCamera
             viewportHeight = (virtual.width / aspect);
         }
 
-        screen.width= screenWidth;
-        screen.height= screenHeight;
+        window.width= screenWidth;
+        window.height= screenHeight;
 
-        Gdx.gl.glViewport((int)screen.x, (int)screen.y, (int)screen.width, (int)screen.height);
+        Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
 
         update(true);
         uiCamera.setToOrtho(false, screenWidth, screenHeight);
@@ -51,12 +51,12 @@ public class MenuCamera extends OrthographicCamera
 
     public float getScreenWidth()
     {
-        return screen.width;
+        return window.width;
     }
 
     public float getScreenHeight()
     {
-        return screen.height;
+        return window.height;
     }
 
     public Vector3 uiUnproject(Vector3 v)
