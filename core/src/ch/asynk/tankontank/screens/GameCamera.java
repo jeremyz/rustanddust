@@ -139,8 +139,9 @@ public class GameCamera extends OrthographicCamera
 
     public void debug()
     {
-        System.err.println(String.format("VIEWPORT: %dx%d", (int)viewportWidth, (int)viewportHeight));
-        System.err.println(String.format("  SCREEN: %d;%d %dx%d", (int)window.x, (int)window.y, (int)window.width, (int)window.height));
+        System.err.println(String.format(" VIEWPORT: %dx%d * %.2f -> %dx%d", (int)viewportWidth, (int)viewportHeight,
+                zoom, (int)(viewportWidth * zoom), (int)(viewportHeight * zoom)));
+        System.err.println(String.format("   WINDOW: %d;%d %dx%d", (int)window.x, (int)window.y, (int)window.width, (int)window.height));
         System.err.println("MATRIX:" + combined.toString());
     }
 
