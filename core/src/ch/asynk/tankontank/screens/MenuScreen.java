@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.ui.Position;
@@ -56,8 +55,7 @@ public class MenuScreen implements Screen
     private ScenariosMenu scenariosMenu;
     private TutorialsMenu tutorialsMenu;
 
-    private final MenuBgCamera bgCamera;
-    private final ScreenViewport screenViewport;
+    private final MenuCamera camera;
     private final SpriteBatch batch;
     private Vector3 touch = new Vector3();
 
@@ -69,8 +67,7 @@ public class MenuScreen implements Screen
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
 
-        this.bgCamera = new MenuBgCamera(V_CENTER_X, V_CENTER_Y, V_WIDTH, V_HEIGHT);
-        this.screenViewport = new ScreenViewport();
+        this.camera = new MenuCamera(V_CENTER_X, V_CENTER_Y, V_WIDTH, V_HEIGHT);
 
         this.gameAssetsLoading = false;
 
@@ -97,7 +94,7 @@ public class MenuScreen implements Screen
             public boolean touchDown(int x, int y, int pointer, int button)
             {
                 touch.set(x, y, 0f);
-                screenViewport.getCamera().unproject(touch);
+                camera.uiUnproject(touch);
                 return hit(touch.x, touch.y);
             }
         });
@@ -176,7 +173,7 @@ public class MenuScreen implements Screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(bgCamera.combined);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(bg, 0, 0);
         from.draw(batch);
@@ -188,10 +185,10 @@ public class MenuScreen implements Screen
         drawCentered(batch, unit, (int) (x + dx), (int) (y + dy));
         batch.end();
 
-        batch.setProjectionMatrix(screenViewport.getCamera().combined);
+        batch.setProjectionMatrix(camera.uiCombined());
         batch.begin();
-        batch.draw(logo, OFFSET, (screenViewport.getScreenHeight() - logo.getRegionHeight() - OFFSET));
-        batch.draw(lnl, (screenViewport.getScreenWidth() - lnl.getRegionWidth() - (2 * OFFSET)), (2 * OFFSET));
+        batch.draw(logo, OFFSET, (camera.getScreenHeight() - logo.getRegionHeight() - OFFSET));
+        batch.draw(lnl, (camera.getScreenWidth() - lnl.getRegionWidth() - (2 * OFFSET)), (2 * OFFSET));
         mainMenu.draw(batch);
         optionsMenu.draw(batch);
         scenariosMenu.draw(batch);
@@ -211,8 +208,7 @@ public class MenuScreen implements Screen
 
     private void update(int width, int height)
     {
-        bgCamera.updateViewport(width, height);
-        screenViewport.update(width, height, true);
+        camera.updateViewport(width, height);
         Position.update(width, height);
 
         setCenteredPosition(from, xPath[0], yPath[0]);

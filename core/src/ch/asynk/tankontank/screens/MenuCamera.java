@@ -2,17 +2,20 @@ package ch.asynk.tankontank.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
-public class MenuBgCamera extends OrthographicCamera
+public class MenuCamera extends OrthographicCamera
 {
     private static final float ZEROF = 0.01f;
 
     private float virtualAspect;
     private final Rectangle virtual;
     private final Rectangle screen;
+    private final OrthographicCamera uiCamera;
 
-    public MenuBgCamera(int cx, int cy, int width, int height)
+    public MenuCamera(int cx, int cy, int width, int height)
     {
         super(width, height);
         this.virtual = new Rectangle();
@@ -21,6 +24,7 @@ public class MenuBgCamera extends OrthographicCamera
         this.screen = new Rectangle();
         this.screen.set(0, 0, 0, 0);
         this.position.set(virtual.x, virtual.y, 0f);
+        this.uiCamera = new OrthographicCamera();
     }
 
     public void updateViewport(int screenWidth, int screenHeight)
@@ -42,5 +46,26 @@ public class MenuBgCamera extends OrthographicCamera
         Gdx.gl.glViewport((int)screen.x, (int)screen.y, (int)screen.width, (int)screen.height);
 
         update(true);
+        uiCamera.setToOrtho(false, screenWidth, screenHeight);
+    }
+
+    public float getScreenWidth()
+    {
+        return screen.width;
+    }
+
+    public float getScreenHeight()
+    {
+        return screen.height;
+    }
+
+    public Vector3 uiUnproject(Vector3 v)
+    {
+        return uiCamera.unproject(v);
+    }
+
+    public Matrix4 uiCombined()
+    {
+        return uiCamera.combined;
     }
 }
