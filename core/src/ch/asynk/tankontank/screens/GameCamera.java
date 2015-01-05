@@ -102,7 +102,7 @@ public class GameCamera extends OrthographicCamera
         // TODO adapt screen -> glViewport
         zoom += dz;
         clampZoom();
-        update(true);
+        updateViewport(screenWidth, screenHeight);
     }
 
     public void translate(float dx, float dy)
