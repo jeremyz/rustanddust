@@ -20,6 +20,7 @@ public class GameCamera extends OrthographicCamera
     private float viewportAspect;
     private float widthFactor;
     private float heightFactor;
+    private Rectangle virtual;
     private Rectangle window;
     private Matrix4 hudMatrix;
     private Matrix4 hudInvProjMatrix;
@@ -30,6 +31,8 @@ public class GameCamera extends OrthographicCamera
         this.zoomOut = zoomOut;
         this.zoomIn = zoomIn;
         this.viewportAspect = (viewportWidth / viewportHeight);
+        this.virtual = new Rectangle();
+        this.virtual.set(0, 0, virtualWidth, virtualHeight);
         this.window = new Rectangle();
         this.hudMatrix = new Matrix4();
         this.hudInvProjMatrix = new Matrix4();
@@ -44,15 +47,17 @@ public class GameCamera extends OrthographicCamera
         float diff = (viewportAspect - aspect);
 
         if (diff < -ZEROF) {
-            window.width = (screenHeight * viewportAspect);
+            window.width = java.lang.Math.min((screenHeight * viewportAspect / zoom), screenWidth);
             window.height = screenHeight;
             window.x = ((screenWidth - window.width) / 2f);
             window.y = 0f;
+            viewportWidth = (viewportHeight * (window.width / window.height));
         } else if (diff > ZEROF) {
             window.width = screenWidth;
-            window.height = (screenWidth / viewportAspect);
+            window.height = java.lang.Math.min((screenWidth * viewportAspect / zoom), screenHeight);
             window.x = 0f;
             window.y = ((screenHeight - window.height) / 2f);
+            viewportHeight = (viewportWidth * (window.height / window.width));
         }
 
         Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
@@ -100,7 +105,6 @@ public class GameCamera extends OrthographicCamera
 
     public void zoom(float dz)
     {
-        // TODO adapt screen -> glViewport
         zoom += dz;
         clampZoom();
         updateViewport(screenWidth, screenHeight);
@@ -125,17 +129,17 @@ public class GameCamera extends OrthographicCamera
         float cx = (viewportWidth * zoom);
         float cy = (viewportHeight * zoom);
 
-        if ((viewportWidth - cx) > ZEROF) {
+        if ((virtual.width - cx) > ZEROF) {
             cx /= 2f;
-            position.x = MathUtils.clamp(position.x, cx, (viewportWidth - cx));
+            position.x = MathUtils.clamp(position.x, cx, (virtual.width - cx));
         } else
-            position.x = (viewportWidth / 2f);
+            position.x = (virtual.width / 2f);
 
-        if ((viewportHeight - cy) > ZEROF) {
+        if ((virtual.height - cy) > ZEROF) {
             cy /= 2f;
-            position.y = MathUtils.clamp(position.y, cy, (viewportHeight - cy));
+            position.y = MathUtils.clamp(position.y, cy, (virtual.height - cy));
         } else
-            position.y = (viewportHeight / 2f);
+            position.y = (virtual.height / 2f);
     }
 
     public void debug()

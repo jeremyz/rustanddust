@@ -70,6 +70,7 @@ public class GameScreen implements Screen
                     cam.zoom(ZOOM_GESTURE_FACTOR);
                 else
                     cam.zoom(-ZOOM_GESTURE_FACTOR);
+                ctrl.hud.resize(cam.getHudWidth(), cam.getHudHeight());
                 blocked = true;
                 inputDelay = INPUT_DELAY;
                 return true;
@@ -110,6 +111,7 @@ public class GameScreen implements Screen
             public boolean scrolled(int amount)
             {
                 cam.zoom(amount * ZOOM_SCROLL_FACTOR);
+                ctrl.hud.resize(cam.getHudWidth(), cam.getHudHeight());
                 return true;
             }
         });
