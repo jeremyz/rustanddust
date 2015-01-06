@@ -38,6 +38,7 @@ public class GameScreen implements Screen
     private final TankOnTank game;
     private Ctrl ctrl;
 
+    private boolean dragged;
     private boolean blocked;
     private float inputDelay = 0f;
     private Vector2 dragPos = new Vector2();
@@ -47,6 +48,7 @@ public class GameScreen implements Screen
         DEBUG = game.config.debug;
 
         this.game = game;
+        this.dragged = false;
         this.blocked = false;
 
         this.batch = new SpriteBatch();
@@ -80,6 +82,7 @@ public class GameScreen implements Screen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
+                dragged = true;
                 cam.translate((dragPos.x - x), (dragPos.y - y));
                 dragPos.set(x, y);
                 return true;
@@ -100,6 +103,10 @@ public class GameScreen implements Screen
             public boolean touchUp(int x, int y, int pointer, int button)
             {
                 if (blocked) return true;
+                if (dragged) {
+                    dragged = false;
+                    return true;
+                }
                 if (button == Input.Buttons.LEFT) {
                     cam.unproject(x, y, ctrl.mapTouch);
                     cam.unprojectHud(x, y, ctrl.hudTouch);
