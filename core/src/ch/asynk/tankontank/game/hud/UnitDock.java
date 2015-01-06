@@ -98,7 +98,6 @@ public class UnitDock extends Bg implements Animation
             ctrl.hud.notify(selectedUnit.toString());
             return true;
         }
-        selectedUnit = null;
         return false;
     }
 
