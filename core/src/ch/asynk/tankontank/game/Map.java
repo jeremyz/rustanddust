@@ -295,19 +295,13 @@ public abstract class Map extends Board
         activatedUnits.add(unit);
     }
 
-    public void promoteUnit(final Player player, final Unit unit, Position position)
+    public void promoteUnit(final Player player, final Unit unit)
     {
         activatedUnits.add(unit);
 
-        // FIXME
-        float x = 60f;
-        float y = 60f;
-        if (position == Position.TOP_RIGHT)
-            x = getWidth() - 60f;
-
         Hex hex = unit.getHex();
         AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), x, y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
         seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
             @Override
             public void run() {
