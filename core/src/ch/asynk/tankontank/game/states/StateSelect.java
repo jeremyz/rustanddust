@@ -51,13 +51,14 @@ public class StateSelect extends StateCommon
     @Override
     public void touchDown()
     {
-        if (selectedHex != null)
-            map.unselectHex(selectedHex);
     }
 
     @Override
     public void touchUp()
     {
+        if (selectedHex != null)
+            map.unselectHex(selectedHex);
+
         if (!isEnemy) {
             if (map.possibleMoves.contains(upHex)) {
                 // quick move
