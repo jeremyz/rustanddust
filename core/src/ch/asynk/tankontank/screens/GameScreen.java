@@ -29,6 +29,7 @@ public class GameScreen implements Screen
     private static final float ZOOM_GESTURE_FACTOR = .01f;
     private static final float ZOOM_SCROLL_FACTOR = .1f;
     private static final int DRAGGED_Z_INDEX = 10;
+    private static final int DRAG_THRESHOLD = 6;
 
     private final GameCamera cam;
 
@@ -38,7 +39,7 @@ public class GameScreen implements Screen
     private final TankOnTank game;
     private Ctrl ctrl;
 
-    private boolean dragged;
+    private int dragged;
     private boolean blocked;
     private float inputDelay = 0f;
     private Vector2 dragPos = new Vector2();
@@ -48,7 +49,7 @@ public class GameScreen implements Screen
         DEBUG = game.config.debug;
 
         this.game = game;
-        this.dragged = false;
+        this.dragged = 0;
         this.blocked = false;
 
         this.batch = new SpriteBatch();
@@ -82,7 +83,7 @@ public class GameScreen implements Screen
             @Override
             public boolean touchDragged(int x, int y, int pointer)
             {
-                dragged = true;
+                dragged += 1;
                 cam.translate((dragPos.x - x), (dragPos.y - y));
                 dragPos.set(x, y);
                 return true;
@@ -103,10 +104,11 @@ public class GameScreen implements Screen
             public boolean touchUp(int x, int y, int pointer, int button)
             {
                 if (blocked) return true;
-                if (dragged) {
-                    dragged = false;
+                if (dragged > DRAG_THRESHOLD) {
+                    dragged = 0;
                     return true;
                 }
+                dragged = 0;
                 if (button == Input.Buttons.LEFT) {
                     cam.unproject(x, y, ctrl.mapTouch);
                     cam.unprojectHud(x, y, ctrl.hudTouch);
