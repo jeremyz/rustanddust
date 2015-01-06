@@ -2,6 +2,8 @@ package ch.asynk.tankontank.game;
 
 import com.badlogic.gdx.utils.Disposable;
 
+import com.badlogic.gdx.math.Vector3;
+
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.ui.Position;
 import ch.asynk.tankontank.game.State.StateType;
@@ -28,6 +30,9 @@ public class Ctrl implements Disposable
     public Player opponent;
     public boolean blockMap;
     public boolean blockHud;
+
+    public Vector3 mapTouch = new Vector3();
+    public Vector3 hudTouch = new Vector3();
 
     private State selectState;
     private State pathState;
@@ -245,21 +250,21 @@ public class Ctrl implements Disposable
 
     }
 
-    public void touchDown(float hx, float hy, float mx, float my)
+    public void touchDown()
     {
-        if (!blockHud && hud.touchDown(hx, hy))
+        if (!blockHud && hud.touchDown(hudTouch.x, hudTouch.y))
             return;
 
-        if (!blockMap && state.downInMap(mx, my))
+        if (!blockMap && state.downInMap(mapTouch.x, mapTouch.y))
             state.touchDown();
     }
 
-    public void touchUp(float hx, float hy, float mx, float my)
+    public void touchUp()
     {
-        if (!blockHud && hud.touchUp(hx, hy))
+        if (!blockHud && hud.touchUp(hudTouch.x, hudTouch.y))
             return;
 
-        if (!blockMap && state.upInMap(mx, my))
+        if (!blockMap && state.upInMap(mapTouch.x, mapTouch.y))
             state.touchUp();
     }
 

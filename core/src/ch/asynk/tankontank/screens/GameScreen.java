@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -42,8 +41,6 @@ public class GameScreen implements Screen
     private boolean blocked;
     private float inputDelay = 0f;
     private Vector2 dragPos = new Vector2();
-    private Vector3 mapTouch = new Vector3();
-    private Vector3 hudTouch = new Vector3();
 
     public GameScreen(final TankOnTank game)
     {
@@ -92,9 +89,9 @@ public class GameScreen implements Screen
                 if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
                     dragPos.set(x, y);
-                    cam.unproject(x, y, mapTouch);
-                    cam.unprojectHud(x, y, hudTouch);
-                    ctrl.touchDown(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
+                    cam.unproject(x, y, ctrl.mapTouch);
+                    cam.unprojectHud(x, y, ctrl.hudTouch);
+                    ctrl.touchDown();
                 }
                 return true;
             }
@@ -103,9 +100,9 @@ public class GameScreen implements Screen
             {
                 if (blocked) return true;
                 if (button == Input.Buttons.LEFT) {
-                    cam.unproject(x, y, mapTouch);
-                    cam.unprojectHud(x, y, hudTouch);
-                    ctrl.touchUp(hudTouch.x, hudTouch.y, mapTouch.x, mapTouch.y);
+                    cam.unproject(x, y, ctrl.mapTouch);
+                    cam.unprojectHud(x, y, ctrl.hudTouch);
+                    ctrl.touchUp();
                 }
                 return true;
             }
