@@ -17,6 +17,7 @@ public class GameCamera extends OrthographicCamera
     private int screenHeight;
     private float zoomOut;
     private float zoomIn;
+    private float viewportAspect;
     private float widthFactor;
     private float heightFactor;
     private Rectangle window;
@@ -28,6 +29,7 @@ public class GameCamera extends OrthographicCamera
         super(virtualWidth, virtualHeight);
         this.zoomOut = zoomOut;
         this.zoomIn = zoomIn;
+        this.viewportAspect = (viewportWidth / viewportHeight);
         this.window = new Rectangle();
         this.hudMatrix = new Matrix4();
         this.hudInvProjMatrix = new Matrix4();
@@ -38,7 +40,6 @@ public class GameCamera extends OrthographicCamera
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
-        float viewportAspect = (viewportWidth / viewportHeight);
         float aspect = (screenWidth / (float) screenHeight);
         float diff = (viewportAspect - aspect);
 
