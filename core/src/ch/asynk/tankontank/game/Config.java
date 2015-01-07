@@ -19,7 +19,7 @@ public class Config
         this.showMoves = true;
         this.showTargets = true;
         this.showMoveAssists = true;
-        this.canCancel = true;
+        this.canCancel = false;
         this.mustValidate = false;
         this.showEnemyPossibilities = false;
         this.regularPawns = true;
