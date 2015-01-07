@@ -101,6 +101,10 @@ public class StateMove extends StateCommon
     public void touchUp()
     {
         if (upHex == activeUnit.getHex()) {
+            if (to !=null)
+                map.hidePath(to);
+            to = null;
+            map.possiblePaths.clear();
             ctrl.setState(StateType.ROTATE);
             return;
         }
