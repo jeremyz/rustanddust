@@ -8,10 +8,6 @@ TODO:
         - engagement
     - pause / resume
     - maybe do not need cancel button in engagement and HQ mode, but must support canCancel option
-    - desktop config :
-        - config.fullscreen = false;
-        - config.forceExit = true;
-        - config.vSyncEnabled = true;
 
 NEXT:
     - support different board layout
