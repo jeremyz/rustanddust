@@ -41,6 +41,7 @@ public class StateMove extends StateCommon
                 changeUnit(map.moveableUnits.get(0));
             }
         }
+
         activeUnit.enableOverlay(Unit.MOVE, false);
     }
 
@@ -54,9 +55,8 @@ public class StateMove extends StateCommon
         activeUnit.hideMoveable();
         map.hidePossibleMoves();
         map.unselectHex(activeUnit.getHex());
-        if (to != null) {
+        if (to != null)
             map.hidePath(to);
-        }
 
         if (nextState != StateType.SELECT) {
             if (to == null)
