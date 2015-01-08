@@ -259,11 +259,11 @@ public class PossiblePaths implements Iterable<Vector3>
 
     private void printToErr(String what, List<ArrayList<Tile>> paths)
     {
-        System.err.println(what + " ("+paths.size()+")");
+        System.err.println(what + " ("+paths.size()+") " + from + " -> " + to);
         for (ArrayList<Tile> path : paths) {
-            System.err.println(" - path");
+            System.err.println(" - path (" + path.size() +")");
             for(Tile tile : path)
-                System.err.println("   " + tile);
+                System.err.println("   " + tile.toString());
         }
         System.err.println();
     }
