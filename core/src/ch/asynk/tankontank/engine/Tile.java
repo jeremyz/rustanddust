@@ -37,8 +37,10 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean blockLineOfSightFrom(Tile tile);
 
-    protected Tile()
+    protected Tile(int col, int row)
     {
+        this.col = col;
+        this.row = row;
     }
 
     public Tile(float x, float y, int col, int row, TextureAtlas atlas)
