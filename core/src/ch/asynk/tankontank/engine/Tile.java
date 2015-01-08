@@ -58,6 +58,12 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public int getRow() { return row; }
 
     @Override
+    public String toString()
+    {
+        return String.format("(%d;%d) %s", col, row, (isOffMap() ? "x" : ""));
+    }
+
+    @Override
     public void dispose()
     {
         stack.clear();
