@@ -221,7 +221,7 @@ public class PossiblePaths implements Iterable<Vector3>
         to = exitTile;
     }
 
-    private List<Tile> getPath(int i)
+    public List<Tile> getPath(int i)
     {
         if (ctrlTiles.size() == 0)
             return paths.get(i);
