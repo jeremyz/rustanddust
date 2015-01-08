@@ -224,8 +224,8 @@ public class PossiblePaths implements Iterable<Vector3>
     private List<Tile> getPath(int i)
     {
         if (ctrlTiles.size() == 0)
-            return paths.get(0);
-        return filteredPaths.get(0);
+            return paths.get(i);
+        return filteredPaths.get(i);
     }
 
     public int pathSteps(int idx)
