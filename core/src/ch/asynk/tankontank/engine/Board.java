@@ -160,7 +160,7 @@ public abstract class Board implements Disposable, Animation
         return sides[i];
     }
 
-    public int getTileOffset(int col, int row)
+    protected int getTileOffset(int col, int row)
     {
         col = (col + 1 - ((row + 1) / 2));
         row = (row + 1);
