@@ -86,7 +86,7 @@ public class SearchBoard
         return getNode(tile.col, tile.row);
     }
 
-    private Node getNode(int col, int row)
+    protected Node getNode(int col, int row)
     {
         int colOffset = ((row + 1) / 2);
         if ((col < colOffset) || (row < 0) || (row >= rows) || ((col - colOffset) >= cols))
