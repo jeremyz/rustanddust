@@ -32,7 +32,7 @@ public class LineOfSightTest
 
     private List<Node> lineOfSight(int x0, int y0, int x1, int y1)
     {
-        return sb.lineOfSight(x0, y0, x1, y1);
+        return sb.lineOfSight(x0, y0, x1, y1, true);
     }
 
     // from bottom left
