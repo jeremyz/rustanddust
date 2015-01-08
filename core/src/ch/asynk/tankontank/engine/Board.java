@@ -71,6 +71,7 @@ public abstract class Board implements Disposable, Animation
         this.cols = (cols + 2);
         this.rows = (rows + 2);
         searchBoard = new SearchBoard(this, cols, rows);
+        initSides();
     }
 
     public Board(TileBuilder tileBuilder, Config cfg, Texture boardTexture,  SelectedTile selectedTile)
@@ -99,6 +100,14 @@ public abstract class Board implements Disposable, Animation
             evenRow = !evenRow;
         }
 
+        initSides();
+
+        this.selectedTile = selectedTile;
+        animations.add(selectedTile);
+    }
+
+    private void initSides()
+    {
         this.sides = new Orientation[6];
         sides[0] = Orientation.NORTH;
         sides[1] = Orientation.NORTH_EAST;
@@ -106,9 +115,6 @@ public abstract class Board implements Disposable, Animation
         sides[3] = Orientation.SOUTH;
         sides[4] = Orientation.SOUTH_WEST;
         sides[5] = Orientation.NORTH_WEST;
-
-        this.selectedTile = selectedTile;
-        animations.add(selectedTile);
     }
 
     @Override
