@@ -315,6 +315,7 @@ public abstract class Map extends Board
     public int moveUnit(Unit unit, Orientation o)
     {
         possiblePaths.orientation = o;
+        possiblePaths.applyToPawn(0);
         movePawn(unit, possiblePaths, notifyDoneAnimation(unit), objectives);
 
         return startMove(unit);
