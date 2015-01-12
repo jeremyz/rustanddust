@@ -65,7 +65,13 @@ public class BattleTest extends BattleCommon
 
     private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation)
     {
+        return setUnit(map, player, unitId, col, row, orientation, false);
+    }
+
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace)
+    {
         Unit u = factory.getUnit(unitId);
+        u.setAce(ace);
         player.addUnit(u);
         map.setOnBoard(u, map.getHex(col, row), orientation);
         return u;
@@ -91,7 +97,7 @@ public class BattleTest extends BattleCommon
 
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH).setAce(true);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true);
         setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH);
         setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST);
