@@ -9,7 +9,6 @@ public class StateRotate extends StateCommon
 {
     private boolean rotateOnly;
     private boolean rotationSet;
-    private Orientation o = Orientation.KEEP;
 
     @Override
     public void enter(StateType prevState)
@@ -60,7 +59,7 @@ public class StateRotate extends StateCommon
             ctrl.player.revertUnitEntry(activeUnit);
             nextState = StateType.ABORT;
         } else if (map.activatedUnits.size() == 0) {
-            hideAssists();
+            map.hideMoveableUnits();
         } else {
             nextState = StateType.MOVE;
         }
@@ -70,7 +69,13 @@ public class StateRotate extends StateCommon
     @Override
     public StateType done()
     {
-        doRotation(o);
+        StateType whenDone = StateType.DONE;
+
+        if (map.moveUnit(activeUnit, map.possiblePaths.orientation) > 0)
+            whenDone = StateType.MOVE;
+
+        ctrl.setAnimationCount(1);
+        ctrl.setAfterAnimationState(whenDone);
         return StateType.ANIMATION;
     }
 
@@ -84,40 +89,25 @@ public class StateRotate extends StateCommon
     {
         if (rotationSet) return;
 
-        o = Orientation.fromAdj(to, upHex);
+        Orientation o = Orientation.fromAdj(to, upHex);
         if (o == Orientation.KEEP) {
             ctrl.setState(StateType.ABORT);
             return;
         }
 
-        if (!activeUnit.movement.entryMove && rotateOnly && (o == activeUnit.getOrientation())) return;
-        rotationSet = true;
+        if (!activeUnit.movement.entryMove && rotateOnly && (o == activeUnit.getOrientation()))
+            return;
 
+        map.possiblePaths.orientation = o;
+        rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {
             map.hideDirections(to);
             map.showOrientation(to, o);
             ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else {
-            doRotation(o);
+            done();
             ctrl.setState(StateType.ANIMATION);
         }
-    }
-
-    private void hideAssists()
-    {
-        map.hideMoveableUnits();
-    }
-
-    private void doRotation(Orientation o)
-    {
-        StateType whenDone = StateType.DONE;
-
-        // ctrl.hud.notify("Move " + activeUnit);
-        if (map.moveUnit(activeUnit, o) > 0)
-            whenDone = StateType.MOVE;
-
-        ctrl.setAnimationCount(1);
-        ctrl.setAfterAnimationState(whenDone);
     }
 }
