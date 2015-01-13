@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.game.states;
 
-import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
@@ -65,20 +64,5 @@ public abstract class StateCommon implements State
         map.hidePossibleMoves();
         map.hidePossibleTargets();
         map.hideMoveableUnits();
-    }
-
-    protected boolean checkExit(Unit unit, Hex hex)
-    {
-        Zone exitZone = ctrl.battle.getExitZone(unit);
-        if ((exitZone == null) || !exitZone.contains(hex))
-            return false;
-        if (map.possiblePaths.size() == 1) {
-            // TODO pathCost called with applayToPawn from Board it updates Pawn.move
-            int left = (unit.getMovementPoints() - map.possiblePaths.pathCost(0));
-            if (left < 1)
-                return false;
-        }
-        ctrl.setState(StateType.ESCAPE);
-        return true;
     }
 }
