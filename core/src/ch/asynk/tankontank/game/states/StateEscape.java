@@ -53,6 +53,7 @@ public class StateEscape extends StateCommon
             map.possiblePaths.setExit(exitZone.orientation);
         else
             map.possiblePaths.build(map.getAdjTileAt(unit.getTile(), exitZone.orientation));
+        map.possiblePaths.orientation = exitZone.orientation;
 
         unit.hideMoveable();
         map.hidePossibleMoves();
@@ -61,7 +62,7 @@ public class StateEscape extends StateCommon
         map.leaveBoard(unit);
         ctrl.player.unitEscape(unit);
 
-        if (map.moveUnit(activeUnit, exitZone.orientation) > 0)
+        if (map.moveUnit(activeUnit) > 0)
             return StateType.MOVE;
         return StateType.DONE;
     }
