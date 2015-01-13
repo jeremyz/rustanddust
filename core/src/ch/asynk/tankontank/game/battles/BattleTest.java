@@ -63,15 +63,17 @@ public class BattleTest extends BattleCommon
         return true;
     }
 
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation)
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
     {
-        return setUnit(map, player, unitId, col, row, orientation, false);
+        return setUnit(map, player, unitId, col, row, orientation, false, exitZone);
     }
 
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace)
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace, Zone exitZone)
     {
         Unit u = factory.getUnit(unitId);
         u.setAce(ace);
+        if (exitZone != null)
+            unitExit.put(u, exitZone);
         player.addUnit(u);
         map.setOnBoard(u, map.getHex(col, row), orientation);
         return u;
@@ -83,7 +85,7 @@ public class BattleTest extends BattleCommon
         map.addObjective(6, 4, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
 
-        setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH);
+        setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH, null);
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(map.getHex(1, 2));
@@ -95,13 +97,19 @@ public class BattleTest extends BattleCommon
         addEntryZone(geEntry);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
 
+        Zone usExit = new Zone(map, 9);
+        usExit.orientation = Orientation.NORTH;
+        usExit.add(map.getHex(11, 4));
+        usExit.add(map.getHex(12, 6));
+        addExitZone(usExit);
+
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
-        setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH);
-        setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST);
-        setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST);
+        setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH, usExit);
+        setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST, usExit);
         usPlayer.turnEnd();
     }
 }
