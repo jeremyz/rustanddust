@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.PossiblePaths;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,35 +38,37 @@ public class BoardUtils
     {
         int n = b.buildPossiblePaths(2, 2, 4, 3);
 
+        assertTrue(b.possiblePaths.distance == 2);
         assertTrue(n == 8);
 
         for(int p = 0; p < n; p++) {
 
-            List<Tile> path = b.possiblePaths.getPath(p);
-            int z = path.size();
+            PossiblePaths.Path path = b.possiblePaths.getPath(p);
+            int z = path.tiles.size();
+            assertTrue(path.cost == (z + 1));
 
             Tile t;
             int i = 0;
             if (z == 1) {
-                t = path.get(i);
+                t = path.tiles.get(i);
                 assertTrue(t.getCol() == 3);
                 assertTrue((t.getRow() == 2) || (t.getRow() == 3));;
             } else if (z == 2) {
-                t = path.get(i);
+                t = path.tiles.get(i);
                 if (t.getCol() == 2) {
                     i += 1;
                     if (t.getRow() == 1) {
-                        t = path.get(i);
+                        t = path.tiles.get(i);
                         assertTile(t, 3, 2);
                     } else {
                         assert(t.getRow()== 3);
-                        t = path.get(i);
+                        t = path.tiles.get(i);
                         assertTile(t, 3, 3);
                     }
                 } else if (t.getCol() == 3) {
                     i += 1;
                     if (t.getRow() == 2) {
-                        t = path.get(i);
+                        t = path.tiles.get(i);
                         if (t.getCol() == 3)
                             assert(t.getRow()== 3);
                         else {
@@ -73,7 +76,7 @@ public class BoardUtils
                         }
                     } else {
                         assert(t.getRow() == 3);
-                        t = path.get(i);
+                        t = path.tiles.get(i);
                         if (t.getCol() == 3)
                             assert(t.getRow() == 2);
                         else {
