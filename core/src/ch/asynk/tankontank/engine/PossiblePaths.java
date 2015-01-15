@@ -12,16 +12,38 @@ import com.badlogic.gdx.math.Vector3;
 
 public class PossiblePaths implements Iterable<Vector3>
 {
+    public class Path
+    {
+        public int cost;
+        public boolean roadMarch;
+        public ArrayList<Tile> tiles;
+
+        public Path(int size)
+        {
+            this.cost = -1;
+            this.roadMarch = true;
+            this.tiles = new ArrayList<Tile>(size);
+        }
+
+        public void clear()
+        {
+            this.cost = -1;
+            this.roadMarch = true;
+            this.tiles.clear();
+        }
+    }
+
     private final Board board;
 
     public Pawn pawn;
     public Tile from;
     public Tile to;
+    public int distance;
     public Orientation orientation;
     private List<Tile> stack;
     private List<Tile> ctrlTiles;
-    private List<ArrayList<Tile>> paths;
-    private List<ArrayList<Tile>> filteredPaths;
+    private List<Path> paths;
+    private List<Path> filteredPaths;
     private HashSet<Tile> tiles;
 
     public PossiblePaths(Board board, int tSize, int stSize, int ftSize, int vectSize)
@@ -30,8 +52,8 @@ public class PossiblePaths implements Iterable<Vector3>
         this.tiles = new LinkedHashSet<Tile>(tSize);
         this.stack = new ArrayList<Tile>(stSize);
         this.ctrlTiles = new ArrayList<Tile>(ftSize);
-        this.paths = new LinkedList<ArrayList<Tile>>();
-        this.filteredPaths = new LinkedList<ArrayList<Tile>>();
+        this.paths = new LinkedList<Path>();
+        this.filteredPaths = new LinkedList<Path>();
         this.to = null;
         this.pawn = null;
         this.orientation = Orientation.KEEP;
@@ -55,15 +77,16 @@ public class PossiblePaths implements Iterable<Vector3>
 
     public void clear()
     {
-        for (List<Tile> tiles : this.paths) tiles.clear();
-        for (List<Tile> tiles : this.filteredPaths) tiles.clear();
-        this.stack.clear();
-        this.paths.clear();
-        this.ctrlTiles.clear();
-        this.filteredPaths.clear();
-        this.tiles.clear();
         this.to = null;
+        this.distance = -1;
         this.orientation = Orientation.KEEP;
+        for (Path path : this.paths) path.clear();
+        for (Path path : this.filteredPaths) path.clear();
+        this.tiles.clear();
+        this.stack.clear();
+        this.ctrlTiles.clear();
+        this.paths.clear();
+        this.filteredPaths.clear();
     }
 
     public int size()
@@ -89,14 +112,14 @@ public class PossiblePaths implements Iterable<Vector3>
         clear();
         this.to = to;
         // from and to are not part of the path
-        if (board.distance(from, to) < 2) {
-            ArrayList<Tile> temp = new ArrayList<Tile>(0);
-            // temp.add(from);
-            // temp.add(to);
-            paths.add(temp);
-            for (Tile tile : temp) tiles.add(tile);
+        this.distance = board.distance(from, to);
+        if (distance < 2) {
+            Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
+            Path path = new Path(0);
+            path.roadMarch = to.road(o);
+            path.cost = to.costFrom(pawn, o);
+            paths.add(path);
         } else {
-            // stack.add(from);
             findAllPaths(from, pawn.getMovementPoints(), true);
         }
 
@@ -114,22 +137,25 @@ public class PossiblePaths implements Iterable<Vector3>
             Tile next = moves[i];
             if ((next == null) || next.isOffMap()) continue;
 
-            int cost = next.costFrom(pawn, board.getSide(i));
-            int r = (mvtLeft - cost);
-            boolean road = roadMarch & next.road(board.getSide(i));
-            if (road) r += pawn.getRoadMarchBonus();
+            Orientation o = board.getSide(i);
+            int m = (mvtLeft - next.costFrom(pawn, o));
+            boolean r = roadMarch & next.road(o);
 
-            if ((board.distance(next, to) <= r)) {
+            int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
+
+            if ((board.distance(next, to) <= l)) {
                 if (next == to) {
-                    ArrayList<Tile> temp = new ArrayList<Tile>(stack.size() + 1);
-                    for (Tile t: stack)
-                        temp.add(t);
-                    // temp.add(next);
-                    paths.add(temp);
-                    for (Tile tile : temp) tiles.add(tile);
+                    Path path = new Path(stack.size() + 1);
+                    for (Tile t: stack) {
+                        path.tiles.add(t);
+                        tiles.add(t);
+                    }
+                    path.roadMarch = r;
+                    path.cost = (pawn.getMovementPoints() - m);
+                    paths.add(path);
                 } else {
                     stack.add(next);
-                    findAllPaths(next, (mvtLeft - cost), road);
+                    findAllPaths(next, m, r);
                     stack.remove(stack.size() - 1);
                 }
             }
@@ -151,22 +177,22 @@ public class PossiblePaths implements Iterable<Vector3>
 
         tiles.clear();
         filteredPaths.clear();
-        for (ArrayList<Tile> path : paths) {
+        for (Path path : paths) {
             int ok = 0;
             for (Tile filter : ctrlTiles) {
-                if (path.contains(filter))
+                if (path.tiles.contains(filter))
                     ok += 1;
             }
             if (ok == s) {
-                if (path.size() == (s + 0)) { // from and to are not part of the path
+                if (path.tiles.size() == (s + 0)) { // from and to are not part of the path
                     filteredPaths.clear();
                     filteredPaths.add(path);
                     tiles.clear();
-                    for (Tile tile : path) tiles.add(tile);
+                    for (Tile tile : path.tiles) tiles.add(tile);
                     break;
                 } else {
                     filteredPaths.add(path);
-                    for (Tile tile : path) tiles.add(tile);
+                    for (Tile tile : path.tiles) tiles.add(tile);
                 }
             }
         }
@@ -180,52 +206,30 @@ public class PossiblePaths implements Iterable<Vector3>
         pawn.movement.from = from;
         pawn.movement.to = to;
         pawn.movement.orientation = orientation;
-        pathCost(i);
+        Path path = paths.get(i);
+        pawn.movement.cost = path.cost;
+        pawn.movement.distance = this.distance;
+        pawn.movement.roadMarch = path.roadMarch;
     }
 
     public int pathCost(int i)
     {
-        int cost = 0;
-        boolean roadMarch = true;
-        Tile prev = from;
-
-        pawn.movement.distance = board.distance(from, to);
-
-        if (pawn.movement.distance > 0) {
-            for (Tile next : paths.get(i)) {
-                Orientation o = Orientation.fromMove(next.col, next.row, prev.col, prev.row);
-                cost += next.costFrom(pawn, o);
-                roadMarch &= next.road(o);
-                prev = next;
-            }
-            Orientation o = Orientation.fromMove(to.col, to.row, prev.col, prev.row);
-            cost += to.costFrom(pawn, o);
-
-            if (roadMarch)
-                cost -= pawn.getRoadMarchBonus();
-            if (cost < 1)
-                cost = 1;
-        }
-
-        pawn.movement.cost = cost;
-        pawn.movement.roadMarch = roadMarch;
-
-        return cost;
+        return paths.get(i).cost;
     }
 
-    public void setExit(Orientation exit)
-    {
-        List<Tile> path = getPath(0);
-        Tile exitTile = board.getAdjTileAt(to, exit);
-        path.add(to);
-        to = exitTile;
-    }
-
-    public List<Tile> getPath(int i)
+    public Path getPath(int i)
     {
         if (ctrlTiles.size() == 0)
             return paths.get(i);
         return filteredPaths.get(i);
+    }
+
+    public void setExit(Orientation exit)
+    {
+        Path path = getPath(0);
+        path.cost += 1;
+        path.tiles.add(to);
+        to = board.getAdjTileAt(to, exit);
     }
 
     public int pathSteps(int idx)
@@ -234,7 +238,7 @@ public class PossiblePaths implements Iterable<Vector3>
 
         Tile tile = from;
         Orientation o = pawn.getOrientation();
-        for (Tile next : getPath(idx)) {
+        for (Tile next : getPath(idx).tiles) {
             Orientation nextO = Orientation.fromMove(tile.col, tile.row, next.col, next.row);
             if (nextO != o) {
                 steps += 2;
@@ -254,15 +258,15 @@ public class PossiblePaths implements Iterable<Vector3>
     @Override
     public Iterator<Vector3> iterator()
     {
-        return new Vector3Iterator(pawn, from, to, orientation, getPath(0));
+        return new Vector3Iterator(pawn, from, to, orientation, getPath(0).tiles);
     }
 
-    private void printToErr(String what, List<ArrayList<Tile>> paths)
+    private void printToErr(String what, List<Path> paths)
     {
         System.err.println(what + " ("+paths.size()+") " + from + " -> " + to);
-        for (ArrayList<Tile> path : paths) {
-            System.err.println(" - path (" + path.size() +")");
-            for(Tile tile : path)
+        for (Path path : paths) {
+            System.err.println(String.format(" - path (l:%d c:%d r:%b)", path.tiles.size(), path.cost, path.roadMarch));
+            for(Tile tile : path.tiles)
                 System.err.println("   " + tile.toString());
         }
         System.err.println();
