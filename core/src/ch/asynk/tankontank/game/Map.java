@@ -143,6 +143,7 @@ public abstract class Map extends Board
         super.dispose();
         clearAll();
         destroy.dispose();
+        possiblePaths.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();

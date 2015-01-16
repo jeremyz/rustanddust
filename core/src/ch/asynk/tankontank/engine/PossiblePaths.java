@@ -7,10 +7,11 @@ import java.util.LinkedList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class PossiblePaths implements Iterable<Vector3>
+public class PossiblePaths implements Disposable, Iterable<Vector3>
 {
     private final Board board;
 
@@ -52,6 +53,12 @@ public class PossiblePaths implements Iterable<Vector3>
     public boolean isSet()
     {
         return (to != null);
+    }
+
+    @Override
+    public void dispose()
+    {
+        clear();
     }
 
     public void clear()
