@@ -12,27 +12,6 @@ import com.badlogic.gdx.math.Vector3;
 
 public class PossiblePaths implements Iterable<Vector3>
 {
-    public class Path
-    {
-        public int cost;
-        public boolean roadMarch;
-        public ArrayList<Tile> tiles;
-
-        public Path(int size)
-        {
-            this.cost = -1;
-            this.roadMarch = true;
-            this.tiles = new ArrayList<Tile>(size);
-        }
-
-        public void clear()
-        {
-            this.cost = -1;
-            this.roadMarch = true;
-            this.tiles.clear();
-        }
-    }
-
     private final Board board;
 
     public Pawn pawn;
@@ -80,8 +59,8 @@ public class PossiblePaths implements Iterable<Vector3>
         this.to = null;
         this.distance = -1;
         this.orientation = Orientation.KEEP;
-        for (Path path : this.paths) path.clear();
-        for (Path path : this.filteredPaths) path.clear();
+        for (Path path : this.paths) path.dispose();
+        for (Path path : this.filteredPaths) path.dispose();
         this.tiles.clear();
         this.stack.clear();
         this.ctrlTiles.clear();
@@ -115,7 +94,7 @@ public class PossiblePaths implements Iterable<Vector3>
         this.distance = board.distance(from, to);
         if (distance < 2) {
             Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
-            Path path = new Path(0);
+            Path path = Path.get(0);
             path.roadMarch = to.road(o);
             path.cost = to.costFrom(pawn, o);
             paths.add(path);
@@ -145,7 +124,7 @@ public class PossiblePaths implements Iterable<Vector3>
 
             if ((board.distance(next, to) <= l)) {
                 if (next == to) {
-                    Path path = new Path(stack.size() + 1);
+                    Path path = Path.get(stack.size() + 1);
                     for (Tile t: stack) {
                         path.tiles.add(t);
                         tiles.add(t);
