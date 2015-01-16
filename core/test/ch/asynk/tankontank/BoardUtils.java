@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.PossiblePaths;
+import ch.asynk.tankontank.engine.Path;
 
 import static org.junit.Assert.assertTrue;
 
@@ -43,7 +43,7 @@ public class BoardUtils
 
         for(int p = 0; p < n; p++) {
 
-            PossiblePaths.Path path = b.possiblePaths.getPath(p);
+            Path path = b.possiblePaths.getPath(p);
             int z = path.tiles.size();
             assertTrue(path.cost == (z + 1));
 
