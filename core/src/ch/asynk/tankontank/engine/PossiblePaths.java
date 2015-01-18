@@ -67,7 +67,6 @@ public class PossiblePaths implements Disposable, Iterable<Vector3>
         this.distance = -1;
         this.orientation = Orientation.KEEP;
         for (Path path : this.paths) path.dispose();
-        for (Path path : this.filteredPaths) path.dispose();
         this.tiles.clear();
         this.stack.clear();
         this.ctrlTiles.clear();
