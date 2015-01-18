@@ -192,8 +192,10 @@ public class PossiblePaths implements Disposable
 
     public Move getMove()
     {
-        if (size() != 1)
+        if (size() != 1) {
+            System.err.println("ask for only move but they are many");
             return null;
+        }
 
         return Move.get(pawn, from, to, orientation, getPath(0));
     }
