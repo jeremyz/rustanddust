@@ -60,7 +60,7 @@ public class StateEscape extends StateCommon
         map.hidePossibleMoves();
         map.unselectHex(unit.getHex());
 
-        map.leaveBoard(unit);
+        map.exitBoard(unit);
         ctrl.player.unitEscape(unit);
 
         if (map.moveUnit(activeUnit) > 0)

@@ -293,7 +293,7 @@ public abstract class Map extends Board
         return true;
     }
 
-    public void leaveBoard(Unit unit)
+    public void exitBoard(Unit unit)
     {
         Hex hex = unit.getHex();
         if (unit.justEntered()) {
