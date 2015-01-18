@@ -18,7 +18,7 @@ public class Path implements Disposable, Pool.Poolable
         this.tiles = null;
     }
 
-    private void init(int size)
+    protected void init(int size)
     {
         if (tiles == null)
             tiles = new ArrayList<Tile>(size);
