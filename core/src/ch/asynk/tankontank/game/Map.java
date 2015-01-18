@@ -293,15 +293,19 @@ public abstract class Map extends Board
         return true;
     }
 
-    public void exitBoard(Unit unit)
+    public int exitBoard(Unit unit)
     {
-        Hex hex = unit.getHex();
-        if (unit.justEntered()) {
-            objectives.revert();
-            unit.reset();
-        }
-        removePawn(unit);
-        activatedUnits.add(unit);
+        // if (unit.justEntered()) {
+        //     objectives.revert();
+        //     unit.reset();
+        // }
+
+        Move move = possiblePaths.getMove();
+        move.setExit();
+
+        movePawn(unit, move, notifyDoneAnimation(unit), objectives);
+
+        return startMove(unit);
     }
 
     public void promoteUnit(final Player player, final Unit unit)
@@ -336,6 +340,14 @@ public abstract class Map extends Board
         }
         activatedUnits.clear();
         objectives.revert();
+    }
+
+    public void revertEnter(Unit unit)
+    {
+        unit.reset();
+        removePawn(unit);
+        objectives.revert();
+        ctrl.player.revertUnitEntry(unit);
     }
 
     private int startMove(Unit unit)

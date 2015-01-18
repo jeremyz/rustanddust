@@ -70,8 +70,7 @@ public class StateMove extends StateCommon
     {
         hideAssists();
         if (activeUnit.justEntered()) {
-            map.exitBoard(activeUnit);
-            ctrl.player.revertUnitEntry(activeUnit);
+            map.revertEnter(activeUnit);
             return StateType.ABORT;
         }
         int n = map.activatedUnits.size();

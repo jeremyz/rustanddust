@@ -89,8 +89,7 @@ public class StateDeployment extends StateCommon
     {
         map.unselectHex(selectedHex);
         map.hideDirections(selectedHex);
-        map.exitBoard(selectedUnit);
-        ctrl.player.revertUnitEntry(selectedUnit);
+        map.revertEnter(activeUnit);
         activeUnit = null;
         selectedUnit = null;
         ctrl.hud.update();
