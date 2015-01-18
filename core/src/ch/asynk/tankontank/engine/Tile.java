@@ -65,6 +65,11 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         return String.format("(%d;%d) %s", col, row, (isOffMap() ? "x" : ""));
     }
 
+    public String toShort()
+    {
+        return String.format("(%d;%d)", col, row);
+    }
+
     @Override
     public void dispose()
     {
