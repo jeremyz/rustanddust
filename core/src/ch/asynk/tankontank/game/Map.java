@@ -260,7 +260,7 @@ public abstract class Map extends Board
         return 0;
     }
 
-    // ACTIONS
+    // STATES ENTRY ->
 
     public void actionDone()
     {
@@ -341,6 +341,8 @@ public abstract class Map extends Board
         objectives.revert();
         ctrl.player.revertUnitEntry(unit);
     }
+
+    // STATES ENTRY <-
 
     private int startMove(Unit unit)
     {
