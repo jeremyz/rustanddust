@@ -295,10 +295,7 @@ public abstract class Map extends Board
         //     unit.reset();
         // }
 
-        Move move = possiblePaths.getMove();
-        move.setExit();
-
-        movePawn(unit, move, notifyDoneAnimation(unit), objectives);
+        movePawn(unit, possiblePaths.getExitMove(), notifyDoneAnimation(unit), objectives);
 
         return startMove(unit);
     }

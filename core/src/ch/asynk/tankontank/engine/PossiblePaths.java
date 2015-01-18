@@ -200,6 +200,13 @@ public class PossiblePaths implements Disposable
         return Move.get(pawn, from, to, orientation, getPath(0));
     }
 
+    public Move getExitMove()
+    {
+        Move move = getMove();
+        move.type = Move.MoveType.EXIT;
+        return move;
+    }
+
     public Path getPath(int i)
     {
         if (ctrlTiles.size() == 0)

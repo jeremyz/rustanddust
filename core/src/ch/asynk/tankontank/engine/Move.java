@@ -102,11 +102,6 @@ public class Move extends Path implements Iterable<Vector3>
         return (type != MoveType.ENTER);
     }
 
-    public void setExit()
-    {
-        type = MoveType.EXIT;
-    }
-
     public int steps()
     {
         int steps = 0;
