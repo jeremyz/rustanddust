@@ -354,12 +354,17 @@ public abstract class Map extends Board
     {
         moveableUnits.remove(unit);
         activatedUnits.add(unit);
+        playMoveSound(unit);
+        return moveableUnits.size();
+    }
+
+    private void playMoveSound(Unit unit)
+    {
         if (unit.isA(Unit.UnitType.INFANTRY))
             sound = infantryMoveSound;
         else
             sound = tankMoveSound;
         soundId = sound.play(ctrl.cfg.fxVolume);
-        return moveableUnits.size();
     }
 
     private RunnableAnimation notifyDoneAnimation(final Unit unit)
