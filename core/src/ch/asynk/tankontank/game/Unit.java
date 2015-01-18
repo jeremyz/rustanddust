@@ -285,6 +285,11 @@ public class Unit extends HeadedPawn
         return (isEnemy(other) && canEngage());
     }
 
+    public boolean canHQMove()
+    {
+        return (isHq() && ((move == null) || (!move.isEntry())));
+    }
+
     public void setMoved()
     {
         hasMoved = true;
@@ -294,13 +299,18 @@ public class Unit extends HeadedPawn
     @Override
     public void move()
     {
-        TankOnTank.debug(movement.toString());
-        if (movement.cost > mpLeft) TankOnTank.debug("ERROR: Movement point exceeded: " + movement.cost + "/" + mpLeft + " please report");
+        int cost = move.cost;
 
-        if (movement.isComplete())
+        if (move.roadMarch && (cost > mpLeft))
+            cost -= getRoadMarchBonus();
+
+        if (cost > mpLeft)
+            TankOnTank.debug("ERROR: Movement point exceeded: " + cost + "/" + mpLeft + " please report");
+
+        if (move.isComplete())
             setMoved();
 
-        mpLeft -= movement.cost;
+        mpLeft -= cost;
     }
 
     @Override

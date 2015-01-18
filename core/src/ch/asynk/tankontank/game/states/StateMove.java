@@ -69,7 +69,7 @@ public class StateMove extends StateCommon
     public StateType abort()
     {
         hideAssists();
-        if (activeUnit.movement.entryMove) {
+        if (activeUnit.justEntered()) {
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
             return StateType.ABORT;

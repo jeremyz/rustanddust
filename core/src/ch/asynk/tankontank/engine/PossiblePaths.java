@@ -1,6 +1,5 @@
 package ch.asynk.tankontank.engine;
 
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class PossiblePaths implements Disposable, Iterable<Vector3>
+public class PossiblePaths implements Disposable
 {
     private final Board board;
 
@@ -186,20 +185,17 @@ public class PossiblePaths implements Disposable, Iterable<Vector3>
         return filteredPaths.size();
     }
 
-    public void applyToPawn(int i)
-    {
-        pawn.movement.from = from;
-        pawn.movement.to = to;
-        pawn.movement.orientation = orientation;
-        Path path = paths.get(i);
-        pawn.movement.cost = path.cost;
-        pawn.movement.distance = this.distance;
-        pawn.movement.roadMarch = path.roadMarch;
-    }
-
     public int pathCost(int i)
     {
         return paths.get(i).cost;
+    }
+
+    public Move getMove()
+    {
+        if (size() != 1)
+            return null;
+
+        return Move.get(pawn, from, to, orientation, getPath(0));
     }
 
     public Path getPath(int i)
@@ -217,38 +213,9 @@ public class PossiblePaths implements Disposable, Iterable<Vector3>
         to = board.getAdjTileAt(to, exit);
     }
 
-    public int pathSteps(int idx)
-    {
-        int steps = 0;
-
-        Tile tile = from;
-        Orientation o = pawn.getOrientation();
-        for (Tile next : getPath(idx).tiles) {
-            Orientation nextO = Orientation.fromMove(tile.col, tile.row, next.col, next.row);
-            if (nextO != o) {
-                steps += 2;
-                o = nextO;
-            } else
-                steps += 1;
-            tile = next;
-        }
-        if (orientation != Orientation.fromMove(tile.col, tile.row, to.col, to.row))
-            steps += 2;
-        else
-            steps +=1;
-
-        return steps;
-    }
-
-    @Override
-    public Iterator<Vector3> iterator()
-    {
-        return new PathIterator(pawn, from, to, orientation, getPath(0).tiles);
-    }
-
     private void printToErr(String what, List<Path> paths)
     {
-        System.err.println(what + " ("+paths.size()+") " + from + " -> " + to);
+        System.err.println(what + pawn + " ("+paths.size()+") " + from + " -> " + to);
         for (Path path : paths) {
             System.err.println(String.format(" - path (l:%d c:%d r:%b)", path.tiles.size(), path.cost, path.roadMarch));
             for(Tile tile : path.tiles)

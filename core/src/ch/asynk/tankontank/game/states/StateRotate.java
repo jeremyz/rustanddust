@@ -54,7 +54,7 @@ public class StateRotate extends StateCommon
     {
         StateType nextState = StateType.ABORT;
         ctrl.hud.actionButtons.hide();
-        if (activeUnit.movement.entryMove) {
+        if (activeUnit.justEntered()) {
             map.leaveBoard(activeUnit);
             ctrl.player.revertUnitEntry(activeUnit);
             nextState = StateType.ABORT;
@@ -95,7 +95,7 @@ public class StateRotate extends StateCommon
             return;
         }
 
-        if (!activeUnit.movement.entryMove && rotateOnly && (o == activeUnit.getOrientation()))
+        if (!activeUnit.justEntered() && rotateOnly && (o == activeUnit.getOrientation()))
             return;
 
         map.possiblePaths.orientation = o;

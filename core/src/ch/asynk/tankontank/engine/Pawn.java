@@ -50,47 +50,6 @@ public abstract class Pawn implements Moveable, Disposable
         }
     }
 
-    public class Movement
-    {
-        Tile from;
-        Tile to;
-        int distance;
-        public int cost;
-        boolean roadMarch;
-        public boolean entryMove;
-        Orientation orientation;
-
-        public String toString()
-        {
-            if (to == null)
-                return "move : HQ activation";
-            else if (from == null)
-                return "move : reinforcement -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
-            else
-                return "move : [" + from.col + ";" + from.row + "] -> [" + to.col + ";" + to.row + ";" + orientation + "] dist:" + distance + " cost:" + cost + " road:" + roadMarch + " entry:" + entryMove;
-        }
-
-        public void reset()
-        {
-            from = null;
-            to = null;
-            cost = 0;
-            roadMarch = false;
-            entryMove = false;
-            orientation = Orientation.KEEP;
-        }
-
-        public boolean isRotation()
-        {
-            return (distance == 0);
-        }
-
-        public boolean isComplete()
-        {
-            return ((from != null) && (to != null));
-        }
-    }
-
     private static final float MOVE_TIME = 0.4f;
 
     private Vector3 position;
@@ -102,7 +61,7 @@ public abstract class Pawn implements Moveable, Disposable
     private Sprite sprite;
     private StackedImages overlays;
     public Engagement engagement = new Engagement();
-    public Movement movement= new Movement();
+    protected Move move;
 
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
@@ -166,17 +125,47 @@ public abstract class Pawn implements Moveable, Disposable
     public void reset()
     {
         engagement.reset();
-        movement.reset();
+        if (move != null) {
+            move.dispose();
+            move  = null;
+        }
     }
 
-    public void enterBoard(Tile to, Orientation o)
+    public void move(Move move)
     {
-        movement.to = to;
-        movement.from = null;
-        movement.entryMove = true;
-        movement.orientation = o;
-        movement.cost = to.costFrom(this, o);
+        if (move.isEntry())
+            throw new RuntimeException("wrong MoveType");
+
+        if (this.move != null) {
+            if (this.move.isEntry())
+                this.move.dispose();
+            else
+                throw new RuntimeException("try to override an existing move instance");
+        }
+
+        setMove(move);
+    }
+
+    public void enter(Move move)
+    {
+        if (!move.isEntry())
+            throw new RuntimeException("wrong MoveType");
+
+        if (this.move != null)
+            throw new RuntimeException("try to override an existing move instance");
+
+        setMove(move);
+    }
+
+    private void setMove(Move move)
+    {
+        this.move = move;
         move();
+    }
+
+    public boolean justEntered()
+    {
+        return ((move != null) && move.isEntry());
     }
 
     public boolean is(Faction faction)

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.SelectedTile;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
@@ -206,7 +207,7 @@ public abstract class Map extends Board
 
     public int collectMoveableUnits(Unit unit)
     {
-        if (unit.isHq() && !unit.movement.entryMove) {
+        if (unit.canHQMove()) {
             collectMoveAssists(unit, moveableUnits.asPawns());
         } else {
             moveableUnits.clear();
@@ -271,8 +272,11 @@ public abstract class Map extends Board
         Orientation entry = findBestEntry(unit, to, allowedMoves);
         if (entry == Orientation.KEEP)
             return false;
-        unit.enterBoard(to, entry);
-        setPawnOnto(unit, to, entry);
+
+        Move move = Move.get(unit, null, to, entry, null);
+        move.setEnter();
+
+        enterPawn(unit, move);
         objectives.claim(to, unit.getArmy());
         return true;
     }
@@ -280,7 +284,11 @@ public abstract class Map extends Board
     public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
     {
         TankOnTank.debug("Map", String.format("set %s %s %s", to.toShort(), unit, entry));
-        setPawnOnto(unit, to, entry);
+
+        Move move = Move.get(unit, null, to, entry, null);
+        move.setSet();
+
+        setPawnOnto(unit, move);
         objectives.claim(to, unit.getArmy());
         return true;
     }
@@ -288,7 +296,7 @@ public abstract class Map extends Board
     public void leaveBoard(Unit unit)
     {
         Hex hex = unit.getHex();
-        if (unit.movement.entryMove) {
+        if (unit.justEntered()) {
             objectives.revert();
             unit.reset();
         }
@@ -315,8 +323,7 @@ public abstract class Map extends Board
 
     public int moveUnit(Unit unit)
     {
-        possiblePaths.applyToPawn(0);
-        movePawn(unit, possiblePaths, notifyDoneAnimation(unit), objectives);
+        movePawn(unit, possiblePaths.getMove(), notifyDoneAnimation(unit), objectives);
 
         return startMove(unit);
     }
