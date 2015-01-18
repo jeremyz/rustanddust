@@ -23,6 +23,7 @@ public class StateDeployment extends StateCommon
         completed = false;
         entryZone = null;
         selectedHex = null;
+        selectedUnit = null;
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
         ctrl.hud.playerInfo.blockEndOfTurn(true);
