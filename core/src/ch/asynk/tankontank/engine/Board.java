@@ -423,7 +423,9 @@ public abstract class Board implements Disposable, Animation
         return RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
-                setPawnOnto(pawn, pawn.move.to, pawn.move.orientation);
+                Tile to = pawn.move.to;
+                if (!to.isOffMap())
+                    setPawnOnto(pawn, to, pawn.move.orientation);
             }
         });
     }
