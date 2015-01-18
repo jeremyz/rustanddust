@@ -48,7 +48,7 @@ public class StateDeployment extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         deployedUnits.clear();
         return StateType.DONE;

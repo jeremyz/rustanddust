@@ -23,7 +23,7 @@ public class StateEscape extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         if (activeUnit == null)
             activeUnit = selectedUnit;

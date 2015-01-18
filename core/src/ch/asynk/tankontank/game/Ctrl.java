@@ -164,7 +164,7 @@ public class Ctrl implements Disposable
 
     private StateType actionDone()
     {
-        StateType nextState = this.state.done();
+        StateType nextState = this.state.execute();
 
         if (nextState == StateType.DONE) {
             map.actionDone();
@@ -185,7 +185,7 @@ public class Ctrl implements Disposable
 
     private StateType deploymentDone()
     {
-        return this.state.done();
+        return this.state.execute();
     }
 
     public void setState(StateType nextState)

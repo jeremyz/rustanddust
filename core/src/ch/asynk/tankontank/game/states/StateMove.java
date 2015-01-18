@@ -83,7 +83,7 @@ public class StateMove extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         hideAssists();
         // be sure that the hq is activated

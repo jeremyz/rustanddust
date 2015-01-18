@@ -50,7 +50,7 @@ public class StateEngage extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         StateType nextState = StateType.DONE;
         if (map.engageUnit(selectedUnit, activeUnit)) {

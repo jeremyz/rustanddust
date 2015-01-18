@@ -37,7 +37,7 @@ public class StateReinforcement extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         return StateType.DONE;
     }

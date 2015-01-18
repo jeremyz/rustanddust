@@ -67,7 +67,7 @@ public class StateRotate extends StateCommon
     }
 
     @Override
-    public StateType done()
+    public StateType execute()
     {
         StateType whenDone = StateType.DONE;
 
@@ -106,7 +106,7 @@ public class StateRotate extends StateCommon
             map.showOrientation(to, o);
             ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else {
-            done();
+            execute();
             ctrl.setState(StateType.ANIMATION);
         }
     }

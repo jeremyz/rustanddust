@@ -435,7 +435,7 @@ public abstract class Map extends Board
         return success;
     }
 
-    public void addEngagementAnimation(Unit target)
+    private void addEngagementAnimation(Unit target)
     {
         FireAnimation.reset();
         Hex to = target.getHex();

@@ -23,7 +23,7 @@ public interface State
 
     public StateType abort();
 
-    public StateType done();
+    public StateType execute();
 
     public void touchDown();
 
