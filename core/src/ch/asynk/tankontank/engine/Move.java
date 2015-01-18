@@ -42,6 +42,22 @@ public class Move extends Path implements Iterable<Vector3>
         return m;
     }
 
+    public static Move getEnter(Pawn pawn, Tile to, Orientation orientation)
+    {
+        Move m = get(pawn, null, to, orientation, null);
+        m.type = MoveType.ENTER;
+        m.cost = to.costFrom(pawn, orientation);
+        return m;
+    }
+
+    public static Move getSet(Pawn pawn, Tile to, Orientation orientation)
+    {
+        Move m = get(pawn, null, to, orientation, null);
+        m.type = MoveType.SET;
+        m.cost = 0;
+        return m;
+    }
+
     public Pawn pawn;
     public Tile from;
     public Tile to;
@@ -84,18 +100,6 @@ public class Move extends Path implements Iterable<Vector3>
     public boolean isComplete()
     {
         return (type != MoveType.ENTER);
-    }
-
-    public void setSet()
-    {
-        type = MoveType.SET;
-        cost = 0;
-    }
-
-    public void setEnter()
-    {
-        type = MoveType.ENTER;
-        cost = to.costFrom(pawn, orientation);
     }
 
     public void setExit()

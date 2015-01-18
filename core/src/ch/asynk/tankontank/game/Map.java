@@ -273,10 +273,8 @@ public abstract class Map extends Board
         if (entry == Orientation.KEEP)
             return false;
 
-        Move move = Move.get(unit, null, to, entry, null);
-        move.setEnter();
 
-        enterPawn(unit, move);
+        enterPawn(unit, Move.getEnter(unit, to, entry));
         objectives.claim(to, unit.getArmy());
         return true;
     }
@@ -285,10 +283,7 @@ public abstract class Map extends Board
     {
         TankOnTank.debug("Map", String.format("set %s %s %s", to.toShort(), unit, entry));
 
-        Move move = Move.get(unit, null, to, entry, null);
-        move.setSet();
-
-        setPawnOnto(unit, move);
+        setPawnOnto(unit, Move.getSet(unit, to, entry));
         objectives.claim(to, unit.getArmy());
         return true;
     }
