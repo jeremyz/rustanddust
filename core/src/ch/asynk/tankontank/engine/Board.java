@@ -408,17 +408,12 @@ public abstract class Board implements Disposable, Animation
     public Pawn setPawnOnto(Pawn pawn, Move move)
     {
         pawn.move(move);
-        return setPawnOnto(pawn, move.to, move.orientation.r());
+        return setPawnOnto(pawn, move.to, move.orientation);
     }
 
     public Pawn setPawnOnto(Pawn pawn, Tile tile, Orientation o)
     {
-        return setPawnOnto(pawn, tile, o.r());
-    }
-
-    public Pawn setPawnOnto(Pawn pawn, Tile tile, float r)
-    {
-        pawn.setOnTile(tile, r);
+        pawn.setOnTile(tile, o.r());
         pushPawnOnto(pawn, tile);
         return pawn;
     }
