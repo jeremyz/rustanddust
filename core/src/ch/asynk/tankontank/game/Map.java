@@ -260,6 +260,38 @@ public abstract class Map extends Board
         return 0;
     }
 
+    private int process(Unit unit, Move move)
+    {
+        TankOnTank.debug("Process", String.format("%s %s", move.type, move.toString()));
+
+        int r = 1;
+
+        switch(move.type) {
+            case REGULAR:
+            case EXIT:
+                initMove(unit);
+                movePawn(unit, move, notifyDoneAnimation(unit), objectives);
+                r = moveableUnits.size();
+                break;
+            case SET:
+                // FIXME SET -> activatedUnits.add(unit); ??
+                setPawnOnto(unit, move);
+                objectives.claim((Hex) move.to, unit.getArmy());
+                break;
+            case ENTER:
+                // FIXME ENTER -> activatedUnits.add(unit); ??
+                enterPawn(unit, move);
+                objectives.claim((Hex) move.to, unit.getArmy());
+                break;
+            default:
+                System.err.println(String.format("process wrong type %s", move.type));
+                r = -1;
+                break;
+        }
+
+        return r;
+    }
+
     // STATES ENTRY ->
 
     public void actionDone()
@@ -273,19 +305,12 @@ public abstract class Map extends Board
         if (entry == Orientation.KEEP)
             return false;
 
-
-        enterPawn(unit, Move.getEnter(unit, to, entry));
-        objectives.claim(to, unit.getArmy());
-        return true;
+        return (process(unit, Move.getEnter(unit, to, entry)) == 1);
     }
 
     public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
     {
-        TankOnTank.debug("Map", String.format("set %s %s %s", to.toShort(), unit, entry));
-
-        setPawnOnto(unit, Move.getSet(unit, to, entry));
-        objectives.claim(to, unit.getArmy());
-        return true;
+        return (process(unit, Move.getSet(unit, to, entry)) == 1);
     }
 
     public int exitBoard(Unit unit)
@@ -295,9 +320,7 @@ public abstract class Map extends Board
         //     unit.reset();
         // }
 
-        movePawn(unit, possiblePaths.getExitMove(), notifyDoneAnimation(unit), objectives);
-
-        return startMove(unit);
+        return process(unit, possiblePaths.getExitMove());
     }
 
     public void promoteUnit(final Player player, final Unit unit)
@@ -319,9 +342,7 @@ public abstract class Map extends Board
 
     public int moveUnit(Unit unit)
     {
-        movePawn(unit, possiblePaths.getMove(), notifyDoneAnimation(unit), objectives);
-
-        return startMove(unit);
+        return process(unit, possiblePaths.getMove());
     }
 
     public void revertMoves()
@@ -344,12 +365,11 @@ public abstract class Map extends Board
 
     // STATES ENTRY <-
 
-    private int startMove(Unit unit)
+    private void initMove(Unit unit)
     {
         moveableUnits.remove(unit);
         activatedUnits.add(unit);
         playMoveSound(unit);
-        return moveableUnits.size();
     }
 
     private void playMoveSound(Unit unit)
