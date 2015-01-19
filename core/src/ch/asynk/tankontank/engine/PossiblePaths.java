@@ -207,6 +207,27 @@ public class PossiblePaths implements Disposable
         return move;
     }
 
+    public boolean canExit(Orientation o)
+    {
+        List<Path> ps;
+        if (ctrlTiles.size() == 0)
+            ps = paths;
+        else
+            ps = filteredPaths;
+
+        int mvt = pawn.getMovementPoints();
+        int rBonus = pawn.getRoadMarchBonus();
+        boolean road =  to.road(o);
+        int cost = to.exitCost();
+
+        for (Path p : ps) {
+            int c = (p.cost + cost);
+            if ((c <= mvt) || (p.roadMarch && road && (c <= (mvt + rBonus))))
+                return true;
+        }
+        return false;
+    }
+
     public Path getPath(int i)
     {
         if (ctrlTiles.size() == 0)

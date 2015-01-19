@@ -184,12 +184,8 @@ public class StateMove extends StateCommon
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
-        if (map.possiblePaths.size() == 1) {
-            // TODO pathCost called with applayToPawn from Board it updates Pawn.move
-            int left = (unit.getMovementPoints() - map.possiblePaths.pathCost(0));
-            if (left < 1)
+        if (!map.possiblePaths.canExit(exitZone.orientation))
                 return false;
-        }
         ctrl.setState(StateType.ESCAPE);
         return true;
     }
