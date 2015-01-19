@@ -33,6 +33,7 @@ public class Hex extends Tile
     public static final int OBJECTIVE_HOLD  = 7;
     public static final int OBJECTIVE_GE    = 8;
     public static final int OBJECTIVE_US    = 9;
+    public static final int EXIT        = 10;
 
     public Terrain terrain;
     public int roads;

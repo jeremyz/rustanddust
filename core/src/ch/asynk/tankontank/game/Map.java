@@ -564,6 +564,8 @@ public abstract class Map extends Board
     public void hideDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
     public void showOrientation(Hex hex, Orientation o) { enableOverlayOn(hex, Hex.ORIENTATION, o, true); }
     public void hideOrientation(Hex hex) { enableOverlayOn(hex, Hex.ORIENTATION, false); }
+    public void showExit(Hex hex)       { enableOverlayOn(hex, Hex.EXIT, true); }
+    public void hideExit(Hex hex)       { enableOverlayOn(hex, Hex.EXIT, false); }
 
     public void showObjective(Hex hex, Army army, boolean hold)
     {
