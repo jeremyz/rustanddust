@@ -85,6 +85,7 @@ public class BattleTest extends BattleCommon
         map.addObjective(6, 4, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
 
+        ctrl.player = gePlayer;
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH, null);
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
@@ -103,6 +104,7 @@ public class BattleTest extends BattleCommon
         usExit.add(map.getHex(12, 6));
         addExitZone(usExit);
 
+        ctrl.player = usPlayer;
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 10, 8, Orientation.SOUTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, usExit);
