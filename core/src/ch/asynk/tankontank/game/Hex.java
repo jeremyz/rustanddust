@@ -102,7 +102,7 @@ public class Hex extends Tile
     @Override
     public int costFrom(Pawn pawn, Orientation side)
     {
-        if (hasUnits()) return Integer.MAX_VALUE;
+        if (hasUnits()) return (Integer.MAX_VALUE / 2);
         if (road(side)) return 1;
 
         int c = 0;
@@ -117,7 +117,7 @@ public class Hex extends Tile
                 break;
             case OFFMAP:
             case BLOCKED:
-                c = Integer.MAX_VALUE;
+                c = (Integer.MAX_VALUE / 2);
                 break;
         }
 
