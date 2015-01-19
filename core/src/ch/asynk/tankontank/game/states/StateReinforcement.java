@@ -75,7 +75,6 @@ public class StateReinforcement extends StateCommon
         selectedHex = upHex;
         map.selectHex(selectedHex);
         entryZone.enable(Hex.AREA, false);
-        ctrl.player.unitEntry(unit);
         if (map.enterBoard(unit, upHex, entryZone.allowedMoves)) {
             if (unit.getMovementPoints() > 0)
                 ctrl.setState(StateType.MOVE);

@@ -271,16 +271,19 @@ public abstract class Map extends Board
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, notifyDoneAnimation(unit), objectives);
+                ctrl.player.unitEscape(unit);
                 r = moveableUnits.size();
                 break;
             case SET:
                 // FIXME SET -> activatedUnits.add(unit); ??
                 setPawnOnto(unit, move);
+                ctrl.player.unitEntry(unit);
                 objectives.claim((Hex) move.to, unit.getArmy());
                 break;
             case ENTER:
                 // FIXME ENTER -> activatedUnits.add(unit); ??
                 enterPawn(unit, move);
+                ctrl.player.unitEntry(unit);
                 objectives.claim((Hex) move.to, unit.getArmy());
                 break;
             default:
