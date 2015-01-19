@@ -357,6 +357,7 @@ public abstract class Board implements Disposable, Animation
             if (t.isOffMap()) {
                 Orientation o = Orientation.fromAdj(t.col, t.row, to.col, to.row);
                 if (o.isInSides(allowedMoves)) {
+                    o = o.opposite();
                     boolean r = to.road(o);
                     int c = to.costFrom(pawn, o);
                     if ((c < cost) || (r && (c == cost))) {
