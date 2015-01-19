@@ -184,8 +184,8 @@ public class StateMove extends StateCommon
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
-        if (!map.possiblePaths.canExit(exitZone.orientation))
-                return false;
+        if ((unit.getHex() != hex) && !map.possiblePaths.canExit(exitZone.orientation))
+            return false;
         ctrl.setState(StateType.ESCAPE);
         return true;
     }
