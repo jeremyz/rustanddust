@@ -10,6 +10,7 @@ import ch.asynk.tankontank.game.Player;
 import ch.asynk.tankontank.game.Ctrl;
 import ch.asynk.tankontank.game.Map;
 import ch.asynk.tankontank.game.Zone;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.HexSet;
 import ch.asynk.tankontank.game.Unit;
 import ch.asynk.tankontank.game.Unit.UnitId;
@@ -120,6 +121,7 @@ public abstract class BattleCommon implements Battle
     public void addExitZone(Zone exit)
     {
         exitZone.add(exit);
+        exit.enable(Hex.EXIT, true);
     }
 
     public void addReinforcement(Player player, Zone entryZone, UnitId unitId)
