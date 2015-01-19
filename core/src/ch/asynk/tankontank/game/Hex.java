@@ -100,6 +100,12 @@ public class Hex extends Tile
     }
 
     @Override
+    public int exitCost()
+    {
+        return 1;
+    }
+
+    @Override
     public int costFrom(Pawn pawn, Orientation side)
     {
         if (hasUnits()) return (Integer.MAX_VALUE / 2);

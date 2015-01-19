@@ -29,6 +29,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     private ArrayDeque<Pawn> stack;
 
     public abstract int defense();
+    public abstract int exitCost();
     public abstract int costFrom(Pawn pawn, Orientation side);
 
     public abstract boolean isOffMap();
