@@ -74,3 +74,10 @@ repeat: none
   orig: 153, 98
   offset: 0, 0
   index: -1
+10_exit
+  rotate: false
+  xy: 810, 230
+  size: 100, 114
+  orig: 100, 114
+  offset: 0, 0
+  index: -1
