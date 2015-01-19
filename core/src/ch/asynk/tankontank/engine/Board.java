@@ -180,12 +180,12 @@ public abstract class Board implements Disposable, Animation
 
     public void setAdjacentTiles(Tile tile, Tile tiles[])
     {
-        tiles[0] = getTile((tile.col - 1), (tile.row));
-        tiles[1] = getTile((tile.col),     (tile.row + 1));
-        tiles[2] = getTile((tile.col + 1), (tile.row + 1));
-        tiles[3] = getTile((tile.col + 1), (tile.row));
-        tiles[4] = getTile((tile.col),     (tile.row - 1));
-        tiles[5] = getTile((tile.col - 1), (tile.row - 1));
+        tiles[0] = getAdjTileAt(tile, Orientation.SOUTH);
+        tiles[1] = getAdjTileAt(tile, Orientation.SOUTH_WEST);
+        tiles[2] = getAdjTileAt(tile, Orientation.NORTH_WEST);
+        tiles[3] = getAdjTileAt(tile, Orientation.NORTH);
+        tiles[4] = getAdjTileAt(tile, Orientation.NORTH_EAST);
+        tiles[5] = getAdjTileAt(tile, Orientation.SOUTH_EAST);
     }
 
     public Tile getAdjTileAt(Tile tile, Orientation o)
