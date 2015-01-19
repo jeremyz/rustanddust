@@ -108,6 +108,7 @@ public class Hex extends Tile
     @Override
     public int costFrom(Pawn pawn, Orientation side)
     {
+        if (side == Orientation.KEEP) return 0;
         if (hasUnits()) return (Integer.MAX_VALUE / 2);
         if (road(side)) return 1;
 
