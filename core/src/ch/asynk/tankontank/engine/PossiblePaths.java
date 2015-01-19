@@ -235,12 +235,13 @@ public class PossiblePaths implements Disposable
         return filteredPaths.get(i);
     }
 
-    public void setExit(Orientation exit)
+    public void setExit(Orientation o)
     {
+        orientation = o;
         Path path = getPath(0);
         path.cost += 1;
         path.tiles.add(to);
-        to = board.getAdjTileAt(to, exit);
+        to = board.getAdjTileAt(to, o);
     }
 
     private void printToErr(String what, List<Path> paths)

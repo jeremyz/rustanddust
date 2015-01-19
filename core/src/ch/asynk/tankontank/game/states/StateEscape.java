@@ -1,6 +1,7 @@
 package ch.asynk.tankontank.game.states;
 
 import ch.asynk.tankontank.game.Zone;
+import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 
 public class StateEscape extends StateCommon
@@ -48,12 +49,16 @@ public class StateEscape extends StateCommon
         // ctrl.hud.notify("Escape " + unit);
 
         Zone exitZone = ctrl.battle.getExitZone(unit);
+        Hex hex = unit.getHex();
 
-        if (map.possiblePaths.size() == 1)
-            map.possiblePaths.setExit(exitZone.orientation);
-        else
-            map.possiblePaths.build(map.getAdjTileAt(unit.getTile(), exitZone.orientation));
-        map.possiblePaths.orientation = exitZone.orientation;
+        if (selectedHex == hex)
+            map.possiblePaths.build(hex);
+
+        Hex exitHex = (Hex) map.possiblePaths.to;
+        if (!exitZone.contains(exitHex))
+            throw new RuntimeException(String.format("%s not in exitZone", exitHex));
+
+        map.possiblePaths.setExit(exitZone.orientation);
 
         unit.hideMoveable();
         map.hidePath(to);
