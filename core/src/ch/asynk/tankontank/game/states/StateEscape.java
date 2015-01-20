@@ -61,7 +61,8 @@ public class StateEscape extends StateCommon
         map.possiblePaths.setExit(exitZone.orientation);
 
         unit.hideMoveable();
-        map.hidePath(to);
+        if (to != null)
+            map.hidePath(to);
         map.hidePossibleMoves();
         map.unselectHex(hex);
 
