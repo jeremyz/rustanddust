@@ -38,7 +38,6 @@ public class ActionButtons extends Widget
     private int idx;
     private Bg buttons [];
     private StateType states [];
-    private Position position;
 
     public ActionButtons(Ctrl ctrl, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
@@ -65,6 +64,12 @@ public class ActionButtons extends Widget
     {
         for (int i = 0; i < Buttons.LAST.i; i++)
             buttons[i].dispose();
+    }
+
+    public void update(Position position)
+    {
+        setPosition(position);
+        updatePosition();
     }
 
     public void updatePosition()
