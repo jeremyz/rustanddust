@@ -84,6 +84,8 @@ public class BattleTest extends BattleCommon
     {
         map.addObjective(6, 4, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
+        map.addObjective(3, 4, Army.NONE);
+        map.addHoldObjective(3, 3, Army.NONE);
 
         ctrl.player = gePlayer;
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH, null);
@@ -113,5 +115,6 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST, usExit);
         usPlayer.turnEnd();
+        map.turnDone();
     }
 }
