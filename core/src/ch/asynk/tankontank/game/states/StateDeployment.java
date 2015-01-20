@@ -44,7 +44,8 @@ public class StateDeployment extends StateCommon
     @Override
     public StateType abort()
     {
-        undo();
+        if (activeUnit != null)
+            undo();
         return StateType.DEPLOYMENT;
     }
 
@@ -73,8 +74,10 @@ public class StateDeployment extends StateCommon
                 unitEnter(activeUnit);
         } else {
             unit = downHex.getUnit();
-            if (deployedUnits.contains(unit))
+            if (deployedUnits.contains(unit)) {
                 showRotation(unit, downHex);
+                activeUnit = unit;
+            }
         }
     }
 
