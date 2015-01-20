@@ -204,7 +204,7 @@ public class Ctrl implements Disposable
         if (stateType == StateType.ANIMATION) {
             this.blockMap = hud.dialogActive();
         }
-        hud.playerInfo.blockEndOfTurn(stateType == StateType.SELECT);
+        hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
         this.state.leave(nextState);
 
