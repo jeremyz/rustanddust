@@ -156,6 +156,7 @@ public class Ctrl implements Disposable
 
     private void turnDone()
     {
+        map.turnDone();
         endPlayerTurn();
         player = battle.getPlayer();
         opponent = battle.opponent(player);
@@ -185,6 +186,7 @@ public class Ctrl implements Disposable
 
     private StateType deploymentDone()
     {
+        map.actionDone();
         return this.state.execute();
     }
 

@@ -297,6 +297,11 @@ public abstract class Map extends Board
 
     // STATES ENTRY ->
 
+    public void turnDone()
+    {
+        objectives.forget();
+    }
+
     public void actionDone()
     {
         objectives.forget();
