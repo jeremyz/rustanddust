@@ -4,7 +4,7 @@ import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 
-public class StateEscape extends StateCommon
+public class StateExit extends StateCommon
 {
     @Override
     public void enter(StateType prevState)
@@ -46,8 +46,6 @@ public class StateEscape extends StateCommon
 
     private StateType escape(Unit unit)
     {
-        // ctrl.hud.notify("Escape " + unit);
-
         Zone exitZone = ctrl.battle.getExitZone(unit);
         Hex hex = unit.getHex();
 
