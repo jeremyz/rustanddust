@@ -9,7 +9,7 @@ import ch.asynk.tankontank.engine.Tile;
 import ch.asynk.tankontank.engine.Board;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.SearchBoard;
-import ch.asynk.tankontank.engine.PossiblePaths;
+import ch.asynk.tankontank.engine.PathBuilder;
 
 public class Helpers
 {
@@ -95,7 +95,7 @@ public class Helpers
     {
         public FakePawn pawn;
         public FakeTile fakeTiles[];
-        public PossiblePaths possiblePaths;
+        public PathBuilder pathBuilder;
 
         public FakeBoard(int cols, int rows, int mvt)
         {
@@ -117,7 +117,7 @@ public class Helpers
             fakeTiles[108 - 2].offMap = true;
 
             pawn = new FakePawn(mvt);
-            possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
+            pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
         }
 
         @Override
@@ -129,15 +129,15 @@ public class Helpers
             return fakeTiles[i];
         }
 
-        public int buildPossiblePaths(int x0, int y0, int x1, int y1)
+        public int buildPathBuilder(int x0, int y0, int x1, int y1)
         {
-            possiblePaths.init(pawn, getTile(x0, y0));
-            return possiblePaths.build(getTile(x1, y1));
+            pathBuilder.init(pawn, getTile(x0, y0));
+            return pathBuilder.build(getTile(x1, y1));
         }
 
         public int togglePoint(int x, int y)
         {
-            return possiblePaths.toggleCtrlTile(getTile(x, y));
+            return pathBuilder.toggleCtrlTile(getTile(x, y));
         }
     }
 }

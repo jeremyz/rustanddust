@@ -20,13 +20,13 @@ public class StateRotate extends StateCommon
         if (to == null)
             to = activeUnit.getHex();
 
-        if (!map.possiblePaths.isSet()) {
-            map.possiblePaths.init(activeUnit);
-            map.possiblePaths.build(to);
+        if (!map.pathBuilder.isSet()) {
+            map.pathBuilder.init(activeUnit);
+            map.pathBuilder.build(to);
         }
 
-        if (map.possiblePaths.size() != 1)
-            TankOnTank.debug("ERROR: possiblePaths.size() == " + map.possiblePaths.size());
+        if (map.pathBuilder.size() != 1)
+            TankOnTank.debug("ERROR: pathBuilder.size() == " + map.pathBuilder.size());
 
         rotateOnly = (to == activeUnit.getHex());
 
@@ -45,7 +45,7 @@ public class StateRotate extends StateCommon
         map.hidePath(to);
         map.hideDirections(to);
         map.hideOrientation(to);
-        map.possiblePaths.clear();
+        map.pathBuilder.clear();
         to = null;
     }
 
@@ -97,7 +97,7 @@ public class StateRotate extends StateCommon
         if (!activeUnit.justEntered() && rotateOnly && (o == activeUnit.getOrientation()))
             return;
 
-        map.possiblePaths.orientation = o;
+        map.pathBuilder.orientation = o;
         rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {

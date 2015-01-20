@@ -15,7 +15,7 @@ import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.SelectedTile;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
-import ch.asynk.tankontank.engine.PossiblePaths;
+import ch.asynk.tankontank.engine.PathBuilder;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
@@ -36,7 +36,7 @@ public abstract class Map extends Board
     private Random rand = new Random();
 
     public final HexSet possibleMoves;
-    public final PossiblePaths possiblePaths;
+    public final PathBuilder pathBuilder;
 
     public final UnitList moveableUnits;
     public final UnitList possibleTargets;
@@ -124,7 +124,7 @@ public abstract class Map extends Board
         setup();
 
         possibleMoves = new HexSet(this, 40);
-        possiblePaths = new PossiblePaths(this, 10, 20, 5, 10);
+        pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
         moveableUnits = new UnitList(6);
 
         possibleTargets = new UnitList(10);
@@ -144,7 +144,7 @@ public abstract class Map extends Board
         super.dispose();
         clearAll();
         destroy.dispose();
-        possiblePaths.dispose();
+        pathBuilder.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();
@@ -154,7 +154,7 @@ public abstract class Map extends Board
     {
         possibleMoves.clear();
         possibleTargets.clear();
-        possiblePaths.clear();
+        pathBuilder.clear();
         moveableUnits.clear();
         engagementAssists.clear();
         activatedUnits.clear();
@@ -190,9 +190,9 @@ public abstract class Map extends Board
         return collectPossibleMoves(unit, possibleMoves.asTiles());
     }
 
-    public int togglePossiblePathHex(Hex hex)
+    public int togglePathBuilderHex(Hex hex)
     {
-        return possiblePaths.toggleCtrlTile(hex);
+        return pathBuilder.toggleCtrlTile(hex);
     }
 
     public int collectPossibleTargets(Unit unit, UnitList foes)
@@ -328,7 +328,7 @@ public abstract class Map extends Board
         //     unit.reset();
         // }
 
-        return process(unit, possiblePaths.getExitMove());
+        return process(unit, pathBuilder.getExitMove());
     }
 
     public void promoteUnit(final Player player, final Unit unit)
@@ -350,7 +350,7 @@ public abstract class Map extends Board
 
     public int moveUnit(Unit unit)
     {
-        return process(unit, possiblePaths.getMove());
+        return process(unit, pathBuilder.getMove());
     }
 
     public void revertMoves()
@@ -556,10 +556,10 @@ public abstract class Map extends Board
 
     public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
-    public void showPossiblePaths()     { possiblePaths.enable(Hex.AREA, true); }
-    public void hidePossiblePaths()     { possiblePaths.enable(Hex.AREA, false); }
-    public void showPath(Hex dst)       { possiblePaths.enable(Hex.MOVE, true); showMove(dst); }
-    public void hidePath(Hex dst)       { possiblePaths.enable(Hex.MOVE, false); hideMove(dst); }
+    public void showPathBuilder()     { pathBuilder.enable(Hex.AREA, true); }
+    public void hidePathBuilder()     { pathBuilder.enable(Hex.AREA, false); }
+    public void showPath(Hex dst)       { pathBuilder.enable(Hex.MOVE, true); showMove(dst); }
+    public void hidePath(Hex dst)       { pathBuilder.enable(Hex.MOVE, false); hideMove(dst); }
 
     public void selectHex(Hex hex)      { selectedTile.set(hex); }
     public void unselectHex(Hex hex)    { selectedTile.hide(); }

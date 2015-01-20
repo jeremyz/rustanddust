@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class PossiblePaths implements Disposable
+public class PathBuilder implements Disposable
 {
     private final Board board;
 
@@ -25,7 +25,7 @@ public class PossiblePaths implements Disposable
     private List<Path> filteredPaths;
     private HashSet<Tile> tiles;
 
-    public PossiblePaths(Board board, int tSize, int stSize, int ftSize, int vectSize)
+    public PathBuilder(Board board, int tSize, int stSize, int ftSize, int vectSize)
     {
         this.board = board;
         this.tiles = new LinkedHashSet<Tile>(tSize);

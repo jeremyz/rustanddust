@@ -15,18 +15,18 @@ public class StateMove extends StateCommon
                 | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
 
         if (prevState == StateType.ESCAPE) {
-            if (map.possiblePaths.size() == 1)
+            if (map.pathBuilder.size() == 1)
                 ctrl.setState(StateType.ROTATE);
             return;
         }
 
-        map.possiblePaths.clear();
+        map.pathBuilder.clear();
 
         if (prevState == StateType.SELECT) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
-            map.possiblePaths.init(activeUnit);
+            map.pathBuilder.init(activeUnit);
             map.collectAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
@@ -104,12 +104,12 @@ public class StateMove extends StateCommon
             if (to !=null)
                 map.hidePath(to);
             to = null;
-            map.possiblePaths.clear();
+            map.pathBuilder.clear();
             ctrl.setState(StateType.ROTATE);
             return;
         }
 
-        int s = map.possiblePaths.size();
+        int s = map.pathBuilder.size();
 
         Unit unit = upHex.getUnit();
 
@@ -118,7 +118,7 @@ public class StateMove extends StateCommon
                 changeUnit(unit);
         } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
             s = collectPaths(upHex);
-        } else if (map.possiblePaths.contains(upHex)) {
+        } else if (map.pathBuilder.contains(upHex)) {
             s = togglePoint(downHex, s);
         }
 
@@ -142,7 +142,7 @@ public class StateMove extends StateCommon
         }
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
-        map.possiblePaths.init(activeUnit, hex);
+        map.pathBuilder.init(activeUnit, hex);
         activeUnit.showMoveable();
         map.hidePossibleMoves();
         map.collectPossibleMoves(activeUnit);
@@ -156,10 +156,10 @@ public class StateMove extends StateCommon
     private int collectPaths(Hex hex)
     {
         to = hex;
-        int s = map.possiblePaths.build(to);
+        int s = map.pathBuilder.build(to);
         map.showMove(to);
         map.hidePossibleMoves();
-        map.showPossiblePaths();
+        map.showPathBuilder();
         return s;
     }
 
@@ -170,10 +170,10 @@ public class StateMove extends StateCommon
         } else if (hex == to) {
             //
         } else {
-            map.hidePossiblePaths();
+            map.hidePathBuilder();
             map.togglePathOverlay(hex);
-            s = map.togglePossiblePathHex(hex);
-            map.showPossiblePaths();
+            s = map.togglePathBuilderHex(hex);
+            map.showPathBuilder();
         }
 
         return s;
@@ -184,7 +184,7 @@ public class StateMove extends StateCommon
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
-        if ((unit.getHex() != hex) && !map.possiblePaths.canExit(exitZone.orientation))
+        if ((unit.getHex() != hex) && !map.pathBuilder.canExit(exitZone.orientation))
             return false;
         ctrl.setState(StateType.ESCAPE);
         return true;

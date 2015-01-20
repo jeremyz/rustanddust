@@ -36,14 +36,14 @@ public class BoardUtils
     @Test
     public void testPaths()
     {
-        int n = b.buildPossiblePaths(2, 2, 4, 3);
+        int n = b.buildPathBuilder(2, 2, 4, 3);
 
-        assertTrue(b.possiblePaths.distance == 2);
+        assertTrue(b.pathBuilder.distance == 2);
         assertTrue(n == 8);
 
         for(int p = 0; p < n; p++) {
 
-            Path path = b.possiblePaths.getPath(p);
+            Path path = b.pathBuilder.getPath(p);
             int z = path.tiles.size();
             assertTrue(path.cost == (z + 1));
 
@@ -95,16 +95,16 @@ public class BoardUtils
     @Test
     public void testPathSet()
     {
-        int n = b.buildPossiblePaths(2, 2, 3, 3);
+        int n = b.buildPathBuilder(2, 2, 3, 3);
         assertTrue(n == 1);
 
-        n = b.buildPossiblePaths(2, 2, 4, 3);
+        n = b.buildPathBuilder(2, 2, 4, 3);
         assertTrue(n == 8);
 
         n = b.togglePoint(3, 3);
         assertTrue(n == 1);
 
-        n = b.buildPossiblePaths(2, 2, 5, 3);
+        n = b.buildPathBuilder(2, 2, 5, 3);
         assertTrue(n == 3);
 
         n = b.togglePoint(3, 3);

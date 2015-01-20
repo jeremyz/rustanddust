@@ -78,9 +78,9 @@ public class StateBreak extends StateCommon
     {
         if (activeUnit == null) return;
 
-        map.possiblePaths.init(activeUnit);
-        if (map.possiblePaths.build(to) == 1) {
-            map.possiblePaths.orientation = o;
+        map.pathBuilder.init(activeUnit);
+        if (map.pathBuilder.build(to) == 1) {
+            map.pathBuilder.orientation = o;
             map.moveUnit(activeUnit);
             ctrl.setAnimationCount(1);
             ctrl.setAfterAnimationState(StateType.DONE);

@@ -50,13 +50,13 @@ public class StateExit extends StateCommon
         Hex hex = unit.getHex();
 
         if (selectedHex == hex)
-            map.possiblePaths.build(hex);
+            map.pathBuilder.build(hex);
 
-        Hex exitHex = (Hex) map.possiblePaths.to;
+        Hex exitHex = (Hex) map.pathBuilder.to;
         if (!exitZone.contains(exitHex))
             throw new RuntimeException(String.format("%s not in exitZone", exitHex));
 
-        map.possiblePaths.setExit(exitZone.orientation);
+        map.pathBuilder.setExit(exitZone.orientation);
 
         unit.hideMoveable();
         if (to != null)
