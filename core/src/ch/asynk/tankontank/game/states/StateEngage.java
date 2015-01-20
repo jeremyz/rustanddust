@@ -79,8 +79,10 @@ public class StateEngage extends StateCommon
     {
         Unit unit = upHex.getUnit();
 
-        // activeUnit is the target
-        if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
+        // activeUnit is the target, selectedTarget is the engagement leader
+        if (unit == selectedUnit) {
+            ctrl.setState(StateType.ABORT);
+        } else if ((activeUnit == null) && map.possibleTargets.contains(unit)) {
             // ctrl.hud.notify("Engage " + unit);
             map.hidePossibleTargets();
             to = upHex;
