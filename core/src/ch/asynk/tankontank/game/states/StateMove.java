@@ -181,6 +181,8 @@ public class StateMove extends StateCommon
 
     private boolean checkExit(Unit unit, Hex hex)
     {
+        if ((hex == unit.getHex()) && (unit.justEntered()))
+            return false;
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
