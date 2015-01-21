@@ -69,6 +69,7 @@ public class Helpers
         {
             return offMap;
         }
+        @Override public int exitCost()                             { return 1; }
         @Override public int costFrom(Pawn pawn, Orientation side)  { return 1; }
         @Override public int defense()                              { return 0; }
 
