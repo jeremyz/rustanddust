@@ -49,7 +49,8 @@ public class StateWithdraw extends StateCommon
         Zone exitZone = ctrl.battle.getExitZone(unit);
         Hex hex = unit.getHex();
 
-        if (selectedHex == hex)
+        // rotation
+        if (map.pathBuilder.to == null)
             map.pathBuilder.build(hex);
 
         Hex exitHex = (Hex) map.pathBuilder.to;
