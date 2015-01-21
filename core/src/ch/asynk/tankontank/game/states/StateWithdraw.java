@@ -30,7 +30,7 @@ public class StateWithdraw extends StateCommon
             activeUnit = selectedUnit;
 
         ctrl.setAnimationCount(1);
-        ctrl.setAfterAnimationState(escape(activeUnit));
+        ctrl.setAfterAnimationState(withdraw(activeUnit));
         return StateType.ANIMATION;
     }
 
@@ -44,7 +44,7 @@ public class StateWithdraw extends StateCommon
     {
     }
 
-    private StateType escape(Unit unit)
+    private StateType withdraw(Unit unit)
     {
         Zone exitZone = ctrl.battle.getExitZone(unit);
         Hex hex = unit.getHex();
