@@ -74,7 +74,6 @@ public class BattleTest extends BattleCommon
         u.setAce(ace);
         if (exitZone != null)
             unitExit.put(u, exitZone);
-        player.addUnit(u);
         map.setOnBoard(u, map.getHex(col, row), orientation);
         return u;
     }
