@@ -603,8 +603,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
-    public void showPathBuilder()     { pathBuilder.enable(Hex.AREA, true); }
-    public void hidePathBuilder()     { pathBuilder.enable(Hex.AREA, false); }
+    public void showPathBuilder()       { pathBuilder.enable(Hex.AREA, true); }
+    public void hidePathBuilder()       { pathBuilder.enable(Hex.AREA, false); }
     public void showPath(Hex dst)       { pathBuilder.enable(Hex.MOVE, true); showMove(dst); }
     public void hidePath(Hex dst)       { pathBuilder.enable(Hex.MOVE, false); hideMove(dst); }
 
