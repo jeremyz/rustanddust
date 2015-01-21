@@ -14,6 +14,8 @@ import ch.asynk.tankontank.engine.Orientation;
 
 public class BattleTest extends BattleCommon
 {
+    private Zone usExit;
+
     public BattleTest(Factory factory)
     {
         super(factory);
@@ -58,7 +60,7 @@ public class BattleTest extends BattleCommon
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(12, 6));
         addEntryZone(usEntry);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(usPlayer, usEntry, usExit, UnitId.US_WOLVERINE);
 
         return true;
     }
@@ -99,9 +101,10 @@ public class BattleTest extends BattleCommon
         addEntryZone(geEntry);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
 
-        Zone usExit = new Zone(map, 9);
+        usExit = new Zone(map, 9);
         usExit.orientation = Orientation.NORTH;
         usExit.add(map.getHex(11, 4));
+        usExit.add(map.getHex(11, 5));
         usExit.add(map.getHex(12, 6));
         addExitZone(usExit);
 
