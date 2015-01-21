@@ -12,7 +12,7 @@ public interface State
         ANIMATION,
         REINFORCEMENT,
         DEPLOYMENT,
-        ESCAPE,
+        WITHDRAW,
         ABORT,
         DONE
     };

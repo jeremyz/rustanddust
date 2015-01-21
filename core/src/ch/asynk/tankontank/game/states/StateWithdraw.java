@@ -4,7 +4,7 @@ import ch.asynk.tankontank.game.Zone;
 import ch.asynk.tankontank.game.Hex;
 import ch.asynk.tankontank.game.Unit;
 
-public class StateExit extends StateCommon
+public class StateWithdraw extends StateCommon
 {
     @Override
     public void enter(StateType prevState)

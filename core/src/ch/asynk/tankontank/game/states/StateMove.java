@@ -14,7 +14,7 @@ public class StateMove extends StateCommon
                 ((map.activatedUnits.size() > 0) ? Buttons.DONE.b : 0)
                 | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
 
-        if (prevState == StateType.ESCAPE) {
+        if (prevState == StateType.WITHDRAW) {
             if (map.pathBuilder.size() == 1)
                 ctrl.setState(StateType.ROTATE);
             return;
@@ -49,7 +49,7 @@ public class StateMove extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        if (nextState == StateType.ESCAPE)
+        if (nextState == StateType.WITHDRAW)
             return;
 
         // hide all but assists : want them when in rotation
@@ -188,7 +188,7 @@ public class StateMove extends StateCommon
             return false;
         if ((unit.getHex() != hex) && !map.pathBuilder.canExit(exitZone.orientation))
             return false;
-        ctrl.setState(StateType.ESCAPE);
+        ctrl.setState(StateType.WITHDRAW);
         return true;
     }
 }
