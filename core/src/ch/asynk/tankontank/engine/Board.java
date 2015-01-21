@@ -369,7 +369,7 @@ public abstract class Board implements Disposable, Animation
             }
         }
 
-        return entry;
+        return entry.opposite();
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
