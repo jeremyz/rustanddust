@@ -318,7 +318,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, notifyDoneAnimation(unit), this);
-                ctrl.player.unitEscape(unit);
+                ctrl.player.unitWithdraw(unit);
                 r = moveableUnits.size();
                 break;
             case SET:

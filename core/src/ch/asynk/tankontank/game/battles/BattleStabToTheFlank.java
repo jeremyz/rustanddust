@@ -49,11 +49,11 @@ public class BattleStabToTheFlank extends BattleCommon
         int usPoints = gePlayer.casualties();
         usPoints += ctrl.map.objectives.count(Army.US);
 
-        int escaped = usPlayer.escaped();
-        if (escaped == 0)
+        int withdrawed = usPlayer.withdrawed();
+        if (withdrawed == 0)
             gePoints += 1;
         else
-            usPoints += escaped;
+            usPoints += withdrawed;
 
         if (usPoints > gePoints)
             return usPlayer;

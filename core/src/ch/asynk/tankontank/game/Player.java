@@ -20,7 +20,7 @@ public class Player
     public UnitList units;
     public UnitList casualties;
     public UnitList reinforcement;
-    public UnitList escaped;
+    public UnitList withdrawed;
 
     public int actionCount;
     public int lostEngagementCount;
@@ -32,7 +32,7 @@ public class Player
         this.units = new UnitList(n);
         this.casualties = new UnitList(n);
         this.reinforcement = new UnitList(n);
-        this.escaped = new UnitList(n);
+        this.withdrawed = new UnitList(n);
         this.turn = 0;
         this.apSpent = 0;
         this.actionPoints = 0;
@@ -54,7 +54,7 @@ public class Player
 
     public String getStats()
     {
-        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), casualties.size(), wonEngagementCount, lostEngagementCount);
+        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), withdrawed(), casualties(), wonEngagementCount, lostEngagementCount);
     }
 
     public boolean is(Army army)
@@ -87,9 +87,9 @@ public class Player
         return casualties.size();
     }
 
-    public int escaped()
+    public int withdrawed()
     {
-        return escaped.size();
+        return withdrawed.size();
     }
 
     public void addUnit(Unit unit)
@@ -120,10 +120,10 @@ public class Player
         casualties.add(unit);
     }
 
-    public void unitEscape(Unit unit)
+    public void unitWithdraw(Unit unit)
     {
         units.remove(unit);
-        escaped.add(unit);
+        withdrawed.add(unit);
     }
 
     public int getAp()

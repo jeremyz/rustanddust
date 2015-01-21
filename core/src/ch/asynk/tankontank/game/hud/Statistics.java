@@ -33,7 +33,7 @@ public class Statistics extends Patch
         this.stats2 = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.visible = false;
-        this.header.write("\nActions\nUnits Left\nCasualties\nWon Attacks\nLost Attacks");
+        this.header.write("\nActions\nUnits Left\nUnits Withrawed\nCasualties\nWon Attacks\nLost Attacks");
     }
 
     public void updatePosition()

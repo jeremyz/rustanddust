@@ -42,7 +42,7 @@ public class BattleCounterAttack extends BattleCommon
         if (ctrl.opponent.unitsLeft() == 0)
             return ctrl.player;
 
-        if (gePlayer.escaped() >= 3)
+        if (gePlayer.withdrawed() >= 3)
             return gePlayer;
 
         if ((ctrl.player.getTurnDone() < 9) || (ctrl.opponent.getTurnDone() < 9))
