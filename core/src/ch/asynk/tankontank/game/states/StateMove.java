@@ -101,7 +101,7 @@ public class StateMove extends StateCommon
     public void touchUp()
     {
         if (upHex == activeUnit.getHex()) {
-            if (to !=null)
+            if (to != null)
                 map.hidePath(to);
             to = null;
             map.pathBuilder.clear();
@@ -123,7 +123,7 @@ public class StateMove extends StateCommon
         }
 
         if (s == 1) {
-            if (!checkExit(activeUnit, to))
+            if (!checkExit(activeUnit, upHex))
                 ctrl.setState(StateType.ROTATE);
         }
     }
@@ -149,8 +149,8 @@ public class StateMove extends StateCommon
         map.showPossibleMoves();
         map.selectHex(hex);
         activeUnit.enableOverlay(Unit.MOVE, false);
-        checkExit(activeUnit, hex);
         ctrl.hud.notify(activeUnit.toString());
+        checkExit(activeUnit, hex);
     }
 
     private int collectPaths(Hex hex)

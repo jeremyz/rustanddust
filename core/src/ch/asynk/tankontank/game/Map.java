@@ -370,11 +370,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int exitBoard(Unit unit)
     {
-        // if (unit.justEntered()) {
-        //     objectives.revert();
-        //     unit.reset();
-        // }
-
         return process(unit, pathBuilder.getExitMove());
     }
 
