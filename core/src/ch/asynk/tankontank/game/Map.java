@@ -412,6 +412,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void revertEnter(Unit unit)
     {
+        TankOnTank.debug("    revertEnter()"+ unit);
         unit.reset();
         removePawn(unit);
         objectives.revert(this);
@@ -448,7 +449,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private void animationDone()
     {
-        TankOnTank.debug("animation done");
         if (soundId >= 0)
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, ctrl.cfg.fxVolume, 0.5f));
         soundId = -1;

@@ -127,6 +127,6 @@ public class StateSelect extends StateCommon
         }
 
         ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
-        TankOnTank.debug("Select", selectedHex.toString() + selectedUnit + (isEnemy ? " enemy " : " friend "));
+        TankOnTank.debug("Select", selectedHex.toString() + " " + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 }
