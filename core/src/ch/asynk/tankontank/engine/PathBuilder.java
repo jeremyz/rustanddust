@@ -239,8 +239,10 @@ public class PathBuilder implements Disposable
     {
         orientation = o;
         Path path = getPath(0);
-        path.cost += 1;
-        path.tiles.add(to);
+        if (from != to) {
+            path.cost += 1;
+            path.tiles.add(to);
+        }
         to = board.getAdjTileAt(to, o);
     }
 
