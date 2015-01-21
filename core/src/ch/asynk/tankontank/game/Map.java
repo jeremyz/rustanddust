@@ -11,11 +11,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.tankontank.TankOnTank;
 import ch.asynk.tankontank.engine.Pawn;
 import ch.asynk.tankontank.engine.Board;
+import ch.asynk.tankontank.engine.Tile;
+import ch.asynk.tankontank.engine.Faction;
 import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.SelectedTile;
+import ch.asynk.tankontank.engine.ObjectiveSet;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PathBuilder;
+import ch.asynk.tankontank.engine.gfx.Moveable;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.AnimationSequence;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
@@ -26,10 +30,11 @@ import ch.asynk.tankontank.engine.gfx.animations.PromoteAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.DestroyAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.SoundAnimation;
 import ch.asynk.tankontank.engine.gfx.animations.RunnableAnimation;
+import ch.asynk.tankontank.engine.gfx.animations.MoveToAnimation.MoveToAnimationCb;
 
 import ch.asynk.tankontank.ui.Position;
 
-public abstract class Map extends Board
+public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveSet.ObjectiveCb
 {
     private final Ctrl ctrl;
 
@@ -173,12 +178,29 @@ public abstract class Map extends Board
 
     public void addObjective(int col, int row, Army army)
     {
-        objectives.add(getHex(col, row), army, true);
+        addObjective(col, row, army, true);
     }
 
     public void addHoldObjective(int col, int row, Army army)
     {
-        objectives.add(getHex(col, row), army, false);
+        addObjective(col, row, army, false);
+    }
+
+    private void addObjective(int col, int row, Army army, boolean persistent)
+    {
+        Hex hex = getHex(col, row);
+        objectives.add(hex, army, persistent);
+        showObjective(hex, army, !persistent);
+    }
+
+    private void claim(Hex hex, Army army)
+    {
+        showObjective(hex, objectives.claim(hex, army));
+    }
+
+    private void unclaim(Hex hex)
+    {
+        showObjective(hex, objectives.unclaim(hex));
     }
 
     public int collectPossibleMoves(Unit unit)
@@ -260,6 +282,27 @@ public abstract class Map extends Board
         return 0;
     }
 
+    // -> implement MoveToAnimationCb
+
+    @Override
+    public void moveToAnimationEnter(Moveable moveable, float x, float y, float r)
+    {
+        claim(getHexAt(x, y), (Army) moveable.getFaction());
+    }
+
+    @Override
+    public void moveToAnimationLeave(Moveable moveable, float x, float y, float r)
+    {
+        unclaim(getHexAt(x, y));
+    }
+
+    @Override
+    public void moveToAnimationDone(Moveable moveable, float x, float y, float r)
+    {
+    }
+
+    // <- implement MoveToAnimationCb
+
     private int process(Unit unit, Move move)
     {
         TankOnTank.debug("Process", String.format("%s %s", move.type, move.toString()));
@@ -278,13 +321,13 @@ public abstract class Map extends Board
                 // FIXME SET -> activatedUnits.add(unit); ??
                 setPawnOnto(unit, move);
                 ctrl.player.unitEntry(unit);
-                objectives.claim((Hex) move.to, unit.getArmy());
+                claim((Hex) move.to, unit.getArmy());
                 break;
             case ENTER:
                 // FIXME ENTER -> activatedUnits.add(unit); ??
                 enterPawn(unit, move);
                 ctrl.player.unitEntry(unit);
-                objectives.claim((Hex) move.to, unit.getArmy());
+                claim((Hex) move.to, unit.getArmy());
                 break;
             default:
                 System.err.println(String.format("process wrong type %s", move.type));
@@ -360,14 +403,14 @@ public abstract class Map extends Board
             revertLastPawnMove(unit, notifyDoneAnimation(unit));
         }
         activatedUnits.clear();
-        objectives.revert();
+        objectives.revert(this);
     }
 
     public void revertEnter(Unit unit)
     {
         unit.reset();
         removePawn(unit);
-        objectives.revert();
+        objectives.revert(this);
         ctrl.player.revertUnitEntry(unit);
     }
 
@@ -519,7 +562,7 @@ public abstract class Map extends Board
             activatedUnits.clear();
 
         if (success) {
-            objectives.unclaim(target.getHex());
+            unclaim(target.getHex());
             removePawn(target);
             destroy.set(2f, target);
             addAnimation(destroy);
@@ -580,8 +623,20 @@ public abstract class Map extends Board
             enableOverlayOn(hex, Hex.OBJECTIVE, true);
     }
 
+
+    // -> implement ObjectiveSet.ObjectiveCb
+
+    public void showObjective(Tile tile, Faction faction)
+    {
+        showObjective((Hex) tile, (Army) faction);
+    }
+
+    // <- implement MoveToAnimationCb
+
     public void showObjective(Hex hex, Army army)
     {
+        if (army == null)
+            army = Army.NONE;
         switch(army) {
             case GE:
                 enableOverlayOn(hex, Hex.OBJECTIVE_GE, true);
