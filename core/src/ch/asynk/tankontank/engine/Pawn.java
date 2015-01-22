@@ -29,27 +29,6 @@ public abstract class Pawn implements Moveable, Disposable
     {
     }
 
-    public class Engagement
-    {
-        Pawn target;
-        int distance;
-        boolean isClear;
-        boolean isFlank;
-
-        public String toString()
-        {
-            return "engage : " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank;
-        }
-
-        public void reset()
-        {
-            target = null;
-            distance = 0;;
-            isClear = false;
-            isFlank = false;
-        }
-    }
-
     private static final float MOVE_TIME = 0.4f;
 
     private Vector3 position;
@@ -60,7 +39,7 @@ public abstract class Pawn implements Moveable, Disposable
     protected String descr;
     private Sprite sprite;
     private StackedImages overlays;
-    public Engagement engagement = new Engagement();
+    protected Attack engagement;
     protected Move move;
 
     public abstract int getMovementPoints();
@@ -94,6 +73,8 @@ public abstract class Pawn implements Moveable, Disposable
         this.prevTile = null;
         this.position = new Vector3(0f, 0f, 0f);
         this.prevPosition = new Vector3(0f, 0f, 0f);
+        this.engagement = new Attack();
+        this.engagement.assaulter = this;
     }
 
     public Pawn(Faction faction, String name, TextureAtlas pawns, TextureAtlas overlays)
