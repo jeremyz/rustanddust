@@ -183,7 +183,7 @@ public class Engagement extends Patch implements Animation
                 y = rerollY;
                 state = State.ROLL2;
             }
-            setPosition(getX(), getY(), getWidth(), (y + d1Animation.getHeight() + VSPACING));
+            setPosition(getX(), getY(), getWidth(), (y + d1Animation.getHeight() + VSPACING - getY()));
             d1Animation.setPosition(d1Animation.getX(), y);
             d2Animation.setPosition(d2Animation.getX(), y);
         }
