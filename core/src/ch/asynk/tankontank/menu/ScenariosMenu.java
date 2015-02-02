@@ -15,7 +15,7 @@ public class ScenariosMenu extends Patch
     public static int PADDING = 40;
     public static int OK_PADDING = 10;
     public static int TITLE_PADDING = 30;
-    public static int VSPACING = 20;
+    public static int VSPACING = 5;
     public static int HSPACING = 30;
     public static String CHECK = "#";
 
@@ -37,7 +37,7 @@ public class ScenariosMenu extends Patch
         this.title.write("- Scenarios");
         this.battleLabels = new Label[game.factory.battles.length];
         for (int i = 0; i < battleLabels.length; i++) {
-            Label l = new Label(font);
+            Label l = new Label(font, 8f);
             l.write(game.factory.battles[i].getName());
             battleLabels[i] = l;
         }
@@ -68,7 +68,7 @@ public class ScenariosMenu extends Patch
 
         y += PADDING;
         x += PADDING + HSPACING;
-        float dy = (VSPACING + title.getHeight());
+        float dy = (VSPACING + battleLabels[0].getHeight());
 
         for (int i = (battleLabels.length - 1); i > -1; i--) {
             battleLabels[i].setPosition(x, y);

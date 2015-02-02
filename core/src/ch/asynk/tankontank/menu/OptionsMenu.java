@@ -15,7 +15,7 @@ public class OptionsMenu extends Patch
     public static int PADDING = 40;
     public static int OK_PADDING = 10;
     public static int TITLE_PADDING = 30;
-    public static int VSPACING = 20;
+    public static int VSPACING = 5;
     public static int HSPACING = 30;
     public static String CHECK = "#";
 
@@ -57,12 +57,12 @@ public class OptionsMenu extends Patch
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
-            Label l = new Label(font);
+            Label l = new Label(font, 5f);
             l.write(checkStrings[i]);
             this.checkLabels[i] = l;
         }
         getValues();
-        checkDy = font.getMultiLineBounds(CHECK).height;
+        checkDy = font.getMultiLineBounds(CHECK).height + 5;
 
         this.visible = false;
     }
@@ -125,7 +125,7 @@ public class OptionsMenu extends Patch
 
         y += PADDING;
         x += PADDING + HSPACING;
-        float dy = (VSPACING + title.getHeight());
+        float dy = (VSPACING + checkLabels[0].getHeight());
 
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + 10), y);

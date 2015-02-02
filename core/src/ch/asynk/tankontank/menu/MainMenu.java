@@ -11,7 +11,7 @@ import ch.asynk.tankontank.ui.Patch;
 public class MainMenu extends Patch
 {
     public static int PADDING = 40;
-    public static int VSPACING = 20;
+    public static int VSPACING = 8;
 
     private Label options;
     private Label scenarios;
@@ -29,10 +29,10 @@ public class MainMenu extends Patch
     public MainMenu(BitmapFont font, TextureAtlas atlas)
     {
         super(atlas.createPatch("typewriter"));
-        this.options = new Label(font);
-        this.scenarios = new Label(font);
-        this.tutorial = new Label(font);
-        this.exit = new Label(font);
+        this.options = new Label(font, 10);
+        this.scenarios = new Label(font, 10);
+        this.tutorial = new Label(font, 10);
+        this.exit = new Label(font, 10);
         this.menu = Menu.NONE;
 
         options.write("Options");
