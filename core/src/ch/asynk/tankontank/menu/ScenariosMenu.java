@@ -41,7 +41,7 @@ public class ScenariosMenu extends Patch
             l.write(game.factory.battles[i].getName());
             battleLabels[i] = l;
         }
-        checkDy = font.getMultiLineBounds(CHECK).height;
+        checkDy = font.getMultiLineBounds(CHECK).height + 9;
 
         this.visible = false;
     }
