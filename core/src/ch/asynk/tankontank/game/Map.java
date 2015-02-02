@@ -557,9 +557,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 breakUnits.add(u);
         }
 
-        if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
-            activatedUnits.clear();
-
         if (success) {
             unclaim(target.getHex());
             removePawn(target);
@@ -568,6 +565,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         }
 
         addEngagementAnimation(target);
+
+        if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+            activatedUnits.clear();
 
         return success;
     }
