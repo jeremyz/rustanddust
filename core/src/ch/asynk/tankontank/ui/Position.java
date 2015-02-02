@@ -115,36 +115,45 @@ public enum Position
         return r;
     }
 
+    private static int hudLeft = 0;
+    private static int hudBottom = 0;
     private static int hudWidth = Gdx.graphics.getWidth();
     private static int hudHeight = Gdx.graphics.getHeight();
 
     public static void update(int width, int height)
     {
+        update(0, 0, width, height);
+    }
+
+    public static void update(int left, int bottom, int width, int height)
+    {
+        hudLeft = left;
+        hudBottom = bottom;
         hudWidth = width;
         hudHeight = height;
     }
 
     public float getX(float width)
     {
-        float x;
+        float x = hudLeft;
         switch(this) {
             case TOP_LEFT:
             case MIDDLE_LEFT:
             case BOTTOM_LEFT:
-                x = Hud.OFFSET;
+                x += Hud.OFFSET;
                 break;
             case TOP_CENTER:
             case MIDDLE_CENTER:
             case BOTTOM_CENTER:
-                x = ((hudWidth - width) / 2);
+                x += ((hudWidth - width) / 2);
                 break;
             case TOP_RIGHT:
             case MIDDLE_RIGHT:
             case BOTTOM_RIGHT:
-                x = (hudWidth - width - Hud.OFFSET);
+                x += (hudWidth - width - Hud.OFFSET);
                 break;
             default:
-                x = ((hudWidth - width) / 2);
+                x += ((hudWidth - width) / 2);
                 break;
         }
         return x;
@@ -152,25 +161,25 @@ public enum Position
 
     public float getY(float height)
     {
-        float y;
+        float y = hudBottom;
         switch(this) {
             case TOP_LEFT:
             case TOP_CENTER:
             case TOP_RIGHT:
-                y = (hudHeight - height - Hud.OFFSET);
+                y += (hudHeight - height - Hud.OFFSET);
                 break;
             case MIDDLE_LEFT:
             case MIDDLE_CENTER:
             case MIDDLE_RIGHT:
-                y = ((hudHeight - height) / 2);
+                y += ((hudHeight - height) / 2);
                 break;
             case BOTTOM_LEFT:
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
-                y = Hud.OFFSET;
+                y += Hud.OFFSET;
                 break;
             default:
-                y = ((hudHeight - height) / 2);
+                y += ((hudHeight - height) / 2);
                 break;
         }
         return y;
@@ -178,7 +187,7 @@ public enum Position
 
     public float getX(Widget widget, float width)
     {
-        float x;
+        float x = 0;
         switch(this) {
             case TOP_LEFT:
             case MIDDLE_LEFT:
@@ -204,7 +213,7 @@ public enum Position
 
     public float getY(Widget widget, float height)
     {
-        float y;
+        float y = 0;
         switch(this) {
             case TOP_LEFT:
             case TOP_CENTER:
