@@ -48,7 +48,7 @@ public class TankOnTank extends Game
     public void create ()
     {
         Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
-        debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "]");
+        debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity());
 
         manager = new AssetManager();
         factory = new Factory(this);
