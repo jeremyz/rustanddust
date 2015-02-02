@@ -89,7 +89,11 @@ public class BattleTest extends BattleCommon
         map.addHoldObjective(3, 3, Army.NONE);
 
         ctrl.player = gePlayer;
+        setUnit(map, gePlayer, UnitId.GE_WESPE, 5, 8, Orientation.NORTH, null);
         setUnit(map, gePlayer, UnitId.GE_TIGER, 6, 4, Orientation.NORTH, null);
+        setUnit(map, gePlayer, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
+        setUnit(map, gePlayer, UnitId.GE_INFANTRY, 1, 2, Orientation.NORTH_WEST, null);
+        setUnit(map, gePlayer, UnitId.GE_KINGTIGER, 1, 1, Orientation.NORTH_WEST, null);
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(map.getHex(1, 2));
@@ -114,8 +118,9 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, usExit);
         setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 8, 4, Orientation.SOUTH, usExit);
         setUnit(map, usPlayer, UnitId.US_WOLVERINE, 9, 7, Orientation.SOUTH_EAST, usExit);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 6, 6, Orientation.NORTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_PERSHING, 6, 6, Orientation.NORTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST, usExit);
+        setUnit(map, usPlayer, UnitId.US_AT_GUN, 10, 3, Orientation.SOUTH, usExit);
         usPlayer.turnEnd();
         map.turnDone();
     }
