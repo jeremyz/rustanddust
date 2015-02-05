@@ -292,7 +292,7 @@ public class Unit extends HeadedPawn
     public void setMoved()
     {
         hasMoved = true;
-        showHasMoved();
+        updateOverlays();
     }
 
     @Override
@@ -317,7 +317,7 @@ public class Unit extends HeadedPawn
     {
         TankOnTank.debug(engagement.toString());
         hasFired = true;
-        showHasFired();
+        updateOverlays();
     }
 
     @Override
@@ -338,6 +338,11 @@ public class Unit extends HeadedPawn
         mpLeft = mp;
     }
 
+    private void updateOverlays()
+    {
+        enableOverlay(HAS_MOVED, !canMove());
+        enableOverlay(HAS_FIRED, !canEngage());
+    }
 
     // SHOW / HIDE
     public void showMoveable()      { enableOverlay(MOVE, true); }
