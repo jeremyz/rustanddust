@@ -255,8 +255,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean canRotate()
     {
-        if (isHardTarget()) return !hasMoved;
-        return (!hasMoved && !hasFired);
+        return canMove();
     }
 
     @Override
