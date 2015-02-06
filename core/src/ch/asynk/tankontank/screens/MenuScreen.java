@@ -67,7 +67,7 @@ public class MenuScreen implements Screen
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
 
-        this.camera = new MenuCamera(V_CENTER_X, V_CENTER_Y, V_WIDTH, V_HEIGHT);
+        this.camera = new MenuCamera(V_CENTER_X, V_CENTER_Y, V_WIDTH, V_HEIGHT, game.hudCorrection);
 
         this.gameAssetsLoading = false;
 
@@ -208,7 +208,7 @@ public class MenuScreen implements Screen
     private void update(int width, int height)
     {
         camera.updateViewport(width, height);
-        Position.update(width, height);
+        Position.update(camera.getHudLeft(), camera.getHudBottom(), camera.getHudWidth(), camera.getHudHeight());
 
         setCenteredPosition(from, xPath[0], yPath[0]);
         setCenteredPosition(to, xPath[n - 1], yPath[n - 1]);

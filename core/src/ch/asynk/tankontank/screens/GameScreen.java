@@ -54,7 +54,7 @@ public class GameScreen implements Screen
 
         this.batch = new SpriteBatch();
         this.ctrl = new Ctrl(game, game.config.battle);
-        this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX);
+        this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX, game.hudCorrection);
 
         if (DEBUG) this.debugShapes = new ShapeRenderer();
 
@@ -73,7 +73,7 @@ public class GameScreen implements Screen
                     cam.zoom(ZOOM_GESTURE_FACTOR);
                 else
                     cam.zoom(-ZOOM_GESTURE_FACTOR);
-                ctrl.hud.resize(cam.getHudWidth(), cam.getHudHeight());
+                ctrl.hud.resize(cam.getHudLeft(), cam.getHudBottom(), cam.getHudWidth(), cam.getHudHeight());
                 blocked = true;
                 inputDelay = INPUT_DELAY;
                 return true;
@@ -120,7 +120,7 @@ public class GameScreen implements Screen
             public boolean scrolled(int amount)
             {
                 cam.zoom(amount * ZOOM_SCROLL_FACTOR);
-                ctrl.hud.resize(cam.getHudWidth(), cam.getHudHeight());
+                ctrl.hud.resize(cam.getHudLeft(), cam.getHudBottom(), cam.getHudWidth(), cam.getHudHeight());
                 return true;
             }
         });
@@ -179,7 +179,7 @@ public class GameScreen implements Screen
     {
         // TankOnTank.debug("GameScreen", "resize (" + width + "," + height + ")");
         cam.updateViewport(width, height);
-        ctrl.hud.resize(cam.getHudWidth(), cam.getHudHeight());
+        ctrl.hud.resize(cam.getHudLeft(), cam.getHudBottom(), cam.getHudWidth(), cam.getHudHeight());
     }
 
     @Override

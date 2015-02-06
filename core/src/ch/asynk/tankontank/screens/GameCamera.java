@@ -24,8 +24,11 @@ public class GameCamera extends OrthographicCamera
     private Rectangle window;
     private Matrix4 hudMatrix;
     private Matrix4 hudInvProjMatrix;
+    private int hudCorrection;
+    private int hudLeft;
+    private int hudBottom;
 
-    public GameCamera(float virtualWidth, float virtualHeight, float zoomOut, float zoomIn)
+    public GameCamera(float virtualWidth, float virtualHeight, float zoomOut, float zoomIn, int hudCorrection)
     {
         super(virtualWidth, virtualHeight);
         this.zoomOut = zoomOut;
@@ -36,6 +39,9 @@ public class GameCamera extends OrthographicCamera
         this.window = new Rectangle();
         this.hudMatrix = new Matrix4();
         this.hudInvProjMatrix = new Matrix4();
+        this.hudLeft = 0;
+        this.hudBottom = 0;
+        this.hudCorrection = hudCorrection;
     }
 
     public void updateViewport(int screenWidth, int screenHeight)
@@ -52,12 +58,16 @@ public class GameCamera extends OrthographicCamera
             window.x = ((screenWidth - window.width) / 2f);
             window.y = 0f;
             viewportWidth = (viewportHeight * (window.width / window.height));
+            hudBottom = hudCorrection;
+            hudLeft = (int) (hudBottom * viewportWidth / viewportHeight);
         } else if (diff > ZEROF) {
             window.width = screenWidth;
             window.height = java.lang.Math.min((screenWidth * viewportAspect / zoom), screenHeight);
             window.x = 0f;
             window.y = ((screenHeight - window.height) / 2f);
             viewportHeight = (viewportWidth * (window.height / window.width));
+            hudLeft = hudCorrection;
+            hudBottom = (int) (hudLeft / viewportWidth * viewportHeight);
         }
 
         Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
@@ -68,7 +78,7 @@ public class GameCamera extends OrthographicCamera
         clampPosition();
         update(true);
         hudMatrix.set(combined);
-        hudMatrix.setToOrtho2D(0, 0, window.width, window.height);
+        hudMatrix.setToOrtho2D(getHudLeft(), getHudBottom(), getHudWidth(), getHudHeight());
         hudInvProjMatrix.set(hudMatrix);
         Matrix4.inv(hudInvProjMatrix.val);
     }
@@ -88,14 +98,24 @@ public class GameCamera extends OrthographicCamera
         return screenHeight;
     }
 
+    public int getHudLeft()
+    {
+        return hudLeft;
+    }
+
+    public int getHudBottom()
+    {
+        return hudBottom;
+    }
+
     public int getHudWidth()
     {
-        return (int) window.width;
+        return (int) window.width - (2 * getHudLeft());
     }
 
     public int getHudHeight()
     {
-        return (int) window.height;
+        return (int) window.height - (2 * getHudBottom());
     }
 
     public void centerOnWorld()

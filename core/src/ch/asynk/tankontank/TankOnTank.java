@@ -20,6 +20,7 @@ public class TankOnTank extends Game
     public Factory factory;
     public Ctrl ctrl;
     public Config config;
+    public int hudCorrection;
 
     public TextureAtlas uiAtlas;
     public TextureAtlas menuAtlas;
@@ -48,7 +49,8 @@ public class TankOnTank extends Game
     public void create ()
     {
         Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
-        debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity());
+        this.hudCorrection = ((int) (125 * Gdx.graphics.getDensity()) - 75);
+        debug("TankOnTank", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
 
         manager = new AssetManager();
         factory = new Factory(this);

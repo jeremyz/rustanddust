@@ -69,9 +69,9 @@ public class Hud implements Disposable, Animation
         stats.dispose();
     }
 
-    public void resize(int width, int height)
+    public void resize(int left, int bottom, int width, int height)
     {
-        Position.update(width, height);
+        Position.update(left, bottom, width, height);
         playerInfo.updatePosition();
         actionButtons.updatePosition();
         msg.updatePosition();

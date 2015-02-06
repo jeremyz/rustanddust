@@ -13,11 +13,14 @@ public class MenuCamera extends OrthographicCamera
     private float virtualAspect;
     private final Rectangle virtual;
     private final Rectangle window;
+    private int hudLeft;
+    private int hudBottom;
+    private int hudCorrection;
 
     private Matrix4 uiMatrix;
     private Matrix4 uiInvProjMatrix;
 
-    public MenuCamera(int cx, int cy, int width, int height)
+    public MenuCamera(int cx, int cy, int width, int height, int hudCorrection)
     {
         super(width, height);
         this.virtual = new Rectangle();
@@ -26,6 +29,9 @@ public class MenuCamera extends OrthographicCamera
         this.window = new Rectangle();
         this.window.set(0, 0, 0, 0);
         this.position.set(virtual.x, virtual.y, 0f);
+        this.hudLeft = 0;
+        this.hudBottom = 0;
+        this.hudCorrection = hudCorrection;
 
         this.uiMatrix = new Matrix4();
         this.uiInvProjMatrix = new Matrix4();
@@ -44,15 +50,17 @@ public class MenuCamera extends OrthographicCamera
             viewportHeight = (virtual.width / aspect);
         }
 
-        window.width= screenWidth;
-        window.height= screenHeight;
+        window.width = screenWidth;
+        window.height = screenHeight;
+        hudLeft = hudCorrection;
+        hudBottom = (int) (hudLeft / aspect);
 
         Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
 
         update(true);
 
         uiMatrix.set(combined);
-        uiMatrix.setToOrtho2D(0, 0, screenWidth, screenHeight);
+        uiMatrix.setToOrtho2D(getHudLeft(), getHudBottom(), getHudWidth(), getHudHeight());
         uiInvProjMatrix.set(uiMatrix);
         Matrix4.inv(uiInvProjMatrix.val);
     }
@@ -65,6 +73,26 @@ public class MenuCamera extends OrthographicCamera
     public float getScreenHeight()
     {
         return window.height;
+    }
+
+    public int getHudLeft()
+    {
+        return hudLeft;
+    }
+
+    public int getHudBottom()
+    {
+        return hudBottom;
+    }
+
+    public int getHudWidth()
+    {
+        return (int) window.width - (2 * getHudLeft());
+    }
+
+    public int getHudHeight()
+    {
+        return (int) window.height - (2 * getHudBottom());
     }
 
     public void uiUnproject(float x, float y, Vector3 v)
