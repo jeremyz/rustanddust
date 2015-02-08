@@ -147,7 +147,7 @@ public class OptionsMenu extends Patch
         if (okBtn.hit(x, y)) {
             apply();
             return true;
-        } else if (fxVolume.hit(x, y)) {
+        } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
