@@ -24,7 +24,6 @@ public class OptionsMenu extends Patch
 
     private String [] checkStrings = {
         "Debug",
-        "Use Reqular Pawns",
         "Must Validate",
         "Can Cancel",
         "Show Enemy Possibilities",
@@ -38,6 +37,8 @@ public class OptionsMenu extends Patch
     private Label title;
     private Label fxVolume;
     private Label fxVolumeValue;
+    private Label graphics;
+    private Label graphicsValue;
     private Label [] checkLabels;
     private boolean [] checkValues;
     protected Bg okBtn;
@@ -54,6 +55,10 @@ public class OptionsMenu extends Patch
         this.fxVolume.write("Fx Volume");
         this.fxVolumeValue = new Label(font);
         this.fxVolumeValue.write(fxStrings[(int) (game.config.fxVolume * 10)]);
+        this.graphics = new Label(font);
+        this.graphics.write("Graphics");
+        this.graphicsValue = new Label(font);
+        this.graphicsValue.write(game.config.graphics.s);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
@@ -69,25 +74,23 @@ public class OptionsMenu extends Patch
 
     private void getValues()
     {
-        checkValues[7] = game.config.showMoves;
-        checkValues[6] = game.config.showTargets;
-        checkValues[5] = game.config.showMoveAssists;
-        checkValues[4] = game.config.showEnemyPossibilities;
-        checkValues[3] = game.config.canCancel;
-        checkValues[2] = game.config.mustValidate;
-        checkValues[1] = game.config.regularPawns;
+        checkValues[6] = game.config.showMoves;
+        checkValues[5] = game.config.showTargets;
+        checkValues[4] = game.config.showMoveAssists;
+        checkValues[3] = game.config.showEnemyPossibilities;
+        checkValues[2] = game.config.canCancel;
+        checkValues[1] = game.config.mustValidate;
         checkValues[0] = game.config.debug;
     }
 
     private void apply()
     {
-        game.config.showMoves = checkValues[7];
-        game.config.showTargets = checkValues[6];
-        game.config.showMoveAssists = checkValues[5];
-        game.config.showEnemyPossibilities = checkValues[4];
-        game.config.canCancel = checkValues[3];
-        game.config.mustValidate = checkValues[2];
-        game.config.regularPawns = checkValues[1];
+        game.config.showMoves = checkValues[6];
+        game.config.showTargets = checkValues[5];
+        game.config.showMoveAssists = checkValues[4];
+        game.config.showEnemyPossibilities = checkValues[3];
+        game.config.canCancel = checkValues[2];
+        game.config.mustValidate = checkValues[1];
         game.config.debug = checkValues[0];
     }
 
@@ -101,6 +104,14 @@ public class OptionsMenu extends Patch
         fxVolumeValue.setPosition(fx, fy);
         game.config.fxVolume = (i / 10f);
     }
+
+    private void cycleGraphics()
+    {
+        game.config.graphics = game.config.graphics.next();
+        float fx = graphicsValue.getX();
+        float fy = graphicsValue.getY();
+        graphicsValue.write(game.config.graphics.s);
+        graphicsValue.setPosition(fx, fy);
     }
 
     public void setPosition()
@@ -108,6 +119,7 @@ public class OptionsMenu extends Patch
         float h = (title.getHeight() + TITLE_PADDING + ((checkLabels.length - 1) * VSPACING) + (2 * PADDING));
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
+        h += (graphics.getHeight() + VSPACING);
         h += (fxVolume.getHeight() + VSPACING);
 
         float w = title.getWidth();
@@ -128,6 +140,9 @@ public class OptionsMenu extends Patch
         x += PADDING + HSPACING;
         float dy = (VSPACING + checkLabels[0].getHeight());
 
+        graphics.setPosition(x, y);
+        graphicsValue.setPosition((x + graphics.getWidth() + 10), y);
+        y += dy;
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + 10), y);
         y += dy;
@@ -149,6 +164,8 @@ public class OptionsMenu extends Patch
             return true;
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
+        } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
+            cycleGraphics();
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
                 if (checkLabels[i].hit(x, y))
@@ -167,6 +184,8 @@ public class OptionsMenu extends Patch
         okBtn.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
+        graphics.dispose();
+        graphicsValue.dispose();
         for (int i = 0; i < checkLabels.length; i++)
             checkLabels[i].dispose();
     }
@@ -180,6 +199,8 @@ public class OptionsMenu extends Patch
         okBtn.draw(batch);
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
+        graphics.draw(batch);
+        graphicsValue.draw(batch);
         for (int i = 0; i < checkLabels.length; i++) {
             Label l = checkLabels[i];
             l.draw(batch);
