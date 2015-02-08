@@ -1,138 +1,124 @@
 
-units.png
+units1.png
 size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ge-at-gun
   rotate: false
-  xy: 2, 128
+  xy: 2, 380
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-head
   rotate: false
-  xy: 254, 113
+  xy: 380, 46
   size: 25, 206
   orig: 25, 206
   offset: 0, 0
   index: -1
 ge-infantry
   rotate: false
-  xy: 128, 195
+  xy: 2, 254
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-kingtiger
   rotate: false
-  xy: 280, 347
+  xy: 128, 380
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv
   rotate: false
-  xy: 2, 2
+  xy: 2, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-panzer-iv-hq
   rotate: false
-  xy: 128, 69
+  xy: 128, 254
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-tiger
   rotate: false
-  xy: 406, 347
+  xy: 254, 380
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 ge-wespe
   rotate: false
-  xy: 532, 347
+  xy: 2, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-at-gun
   rotate: false
-  xy: 658, 347
+  xy: 128, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-head
   rotate: false
-  xy: 407, 13
+  xy: 407, 46
   size: 25, 206
   orig: 25, 206
   offset: 0, 0
   index: -1
 us-infantry
   rotate: false
-  xy: 784, 347
+  xy: 254, 254
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing
   rotate: false
-  xy: 281, 221
+  xy: 380, 380
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-pershing-hq
   rotate: false
-  xy: 407, 221
+  xy: 128, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-priest
   rotate: false
-  xy: 533, 221
+  xy: 254, 128
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-sherman
   rotate: false
-  xy: 659, 221
+  xy: 380, 254
   size: 124, 124
   orig: 124, 124
-  offset: 0, 0
-  index: -1
-us-sherman-head
-  rotate: false
-  xy: 128, 321
-  size: 150, 150
-  orig: 150, 150
   offset: 0, 0
   index: -1
 us-sherman-hq
   rotate: false
-  xy: 785, 221
+  xy: 506, 380
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
-us-sherman-values
-  rotate: false
-  xy: 2, 254
-  size: 124, 217
-  orig: 124, 217
-  offset: 0, 0
-  index: -1
 us-wolverine
   rotate: false
-  xy: 281, 95
+  xy: 254, 2
   size: 124, 124
   orig: 124, 124
   offset: 0, 0

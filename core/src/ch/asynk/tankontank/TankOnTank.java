@@ -87,10 +87,18 @@ public class TankOnTank extends Game
             manager.load("data/map_a.png", Texture.class);
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.load("data/map_b.png", Texture.class);
+        switch (config.graphics) {
+            case MINE:
+                manager.load("data/units0.atlas", TextureAtlas.class);
+                manager.load("data/unit-overlays0.atlas", TextureAtlas.class);
+                break;
+            case ORIGINAL:
+                manager.load("data/units1.atlas", TextureAtlas.class);
+                manager.load("data/unit-overlays1.atlas", TextureAtlas.class);
+                break;
+        }
         manager.load("data/hex.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
-        manager.load("data/units.atlas", TextureAtlas.class);
-        manager.load("data/unit-overlays.atlas", TextureAtlas.class);
         manager.load("data/hex-overlays.atlas", TextureAtlas.class);
         manager.load("data/dice.png", Texture.class);
         manager.load("data/infantry_fire.png", Texture.class);
@@ -115,10 +123,18 @@ public class TankOnTank extends Game
             manager.unload("data/map_a.png");
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.unload("data/map_b.png");
+        switch (config.graphics) {
+            case MINE:
+                manager.unload("data/units0.atlas");
+                manager.unload("data/unit-overlays0.atlas");
+                break;
+            case ORIGINAL:
+                manager.unload("data/units1.atlas");
+                manager.unload("data/unit-overlays1.atlas");
+                break;
+        }
         manager.unload("data/hex.png");
         manager.unload("data/hud.atlas");
-        manager.unload("data/units.atlas");
-        manager.unload("data/unit-overlays.atlas");
         manager.unload("data/hex-overlays.atlas");
         manager.unload("data/dice.png");
         manager.unload("data/infantry_fire.png");

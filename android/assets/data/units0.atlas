@@ -1,0 +1,104 @@
+
+units0.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ge-at-gun
+  rotate: false
+  xy: 2, 272
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+ge-head
+  rotate: false
+  xy: 542, 73
+  size: 25, 206
+  orig: 25, 206
+  offset: 0, 0
+  index: -1
+ge-infantry
+  rotate: false
+  xy: 2, 137
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+ge-kingtiger
+  rotate: false
+  xy: 542, 281
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: -1
+ge-panzer-iv
+  rotate: false
+  xy: 137, 272
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+ge-tiger
+  rotate: false
+  xy: 2, 2
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+ge-wespe
+  rotate: false
+  xy: 137, 137
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-at-gun
+  rotate: false
+  xy: 272, 272
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-head
+  rotate: false
+  xy: 569, 73
+  size: 25, 206
+  orig: 25, 206
+  offset: 0, 0
+  index: -1
+us-infantry
+  rotate: false
+  xy: 137, 2
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-pershing
+  rotate: false
+  xy: 272, 137
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-priest
+  rotate: false
+  xy: 407, 272
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-sherman
+  rotate: false
+  xy: 272, 2
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1
+us-wolverine
+  rotate: false
+  xy: 407, 137
+  size: 133, 133
+  orig: 133, 133
+  offset: 0, 0
+  index: -1

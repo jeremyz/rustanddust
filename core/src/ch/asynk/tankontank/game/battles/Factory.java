@@ -61,9 +61,17 @@ public class Factory implements Board.TileBuilder, Disposable
     {
         if (assetsLoaded) return;
         this.hudAtlas = game.manager.get("data/hud.atlas", TextureAtlas.class);
-        this.pawnsAtlas = game.manager.get("data/units.atlas", TextureAtlas.class);
-        this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays.atlas", TextureAtlas.class);
         this.tileOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
+        switch (game.config.graphics) {
+            case MINE:
+                this.pawnsAtlas = game.manager.get("data/units0.atlas", TextureAtlas.class);
+                this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays0.atlas", TextureAtlas.class);
+                break;
+            case ORIGINAL:
+                this.pawnsAtlas = game.manager.get("data/units1.atlas", TextureAtlas.class);
+                this.pawnOverlaysAtlas = game.manager.get("data/unit-overlays1.atlas", TextureAtlas.class);
+                break;
+        }
         this.assetsLoaded = true;
     }
 
@@ -122,7 +130,6 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public Unit getUnit(UnitId id)
     {
-        boolean regular = game.config.regularPawns;
         Unit u = null;
         UnitType ut = UnitType.HARD_TARGET;
         UnitType utHq = UnitType.HARD_TARGET_HQ;
@@ -142,7 +149,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.GE, id, ut, 2, 9, 2, "ge-panzer-iv", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case GE_PANZER_IV_HQ:
-                u = new Unit(Army.GE, id, utHq, 2, 9, 2, "ge-panzer-iv-hq", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, utHq, 2, 9, 2, "ge-panzer-iv", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case GE_TIGER:
                 u = new Unit(Army.GE, id, ut, 3, 11, 1, "ge-tiger", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
@@ -163,20 +170,17 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, id, ut, 3, 10, 2, "us-pershing", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_PERSHING_HQ:
-                u = new Unit(Army.US, id, utHq, 3, 10, 2, "us-pershing-hq", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, utHq, 3, 10, 2, "us-pershing", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_PRIEST:
                 ut = UnitType.ARTILLERY;
                 u = new Unit(Army.US, id, ut, 5, 8, 1, "us-priest", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_SHERMAN:
-                if (regular)
                     u = new Unit(Army.US, id, ut, 2, 9, 2, "us-sherman", "us-head", pawnsAtlas, pawnOverlaysAtlas);
-                else
-                    u = new Unit(Army.US, id, ut, 2, 9, 2, "us-sherman-values", "us-sherman-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_SHERMAN_HQ:
-                u = new Unit(Army.US, id, utHq, 2, 9, 2, "us-sherman-hq", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, utHq, 2, 9, 2, "us-sherman", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_WOLVERINE:
                 u = new Unit(Army.US, id, ut, 3, 8, 3, "us-wolverine", "us-head", pawnsAtlas, pawnOverlaysAtlas);
