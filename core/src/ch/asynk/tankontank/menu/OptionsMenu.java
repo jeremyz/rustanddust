@@ -93,13 +93,14 @@ public class OptionsMenu extends Patch
 
     private void cycleFxVolume()
     {
-            int i = (int) (game.config.fxVolume * 10) + 1;
-            if (i > 10) i = 0;
-            float fx = fxVolumeValue.getX();
-            float fy = fxVolumeValue.getY();
-            fxVolumeValue.write(fxStrings[i]);
-            fxVolumeValue.setPosition(fx, fy);
-            game.config.fxVolume = (i / 10f);
+        int i = (int) (game.config.fxVolume * 10) + 1;
+        if (i > 10) i = 0;
+        float fx = fxVolumeValue.getX();
+        float fy = fxVolumeValue.getY();
+        fxVolumeValue.write(fxStrings[i]);
+        fxVolumeValue.setPosition(fx, fy);
+        game.config.fxVolume = (i / 10f);
+    }
     }
 
     public void setPosition()
