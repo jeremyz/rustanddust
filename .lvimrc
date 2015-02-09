@@ -1,0 +1,4 @@
+"
+set foldmethod=syntax
+set foldlevel=5
+set tags+=./.tags;/
