@@ -3,25 +3,20 @@ package ch.asynk.tankontank.game;
 public class Config
 {
     public enum Graphics {
-        ORIGINAL("original"),
-        MINE("mine");
+        MINE("mine", 0),
+        ORIGINAL("original", 1);
         public String s;
-        Graphics(String s)
+        public int i;
+        Graphics(String s, int i)
         {
             this.s = s;
+            this.i = i;
         }
         public Graphics next()
         {
-            Graphics next = null;
-            switch(this) {
-                case ORIGINAL:
-                    next = MINE;
-                    break;
-                case MINE:
-                    next = ORIGINAL;
-                    break;
-            }
-            return next;
+            if (this == ORIGINAL)
+                return MINE;
+            return ORIGINAL;
         }
     };
 

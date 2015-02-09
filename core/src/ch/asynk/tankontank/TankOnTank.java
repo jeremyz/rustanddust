@@ -89,16 +89,9 @@ public class TankOnTank extends Game
             manager.load("data/map_a.png", Texture.class);
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.load("data/map_b.png", Texture.class);
-        switch (config.graphics) {
-            case MINE:
-                manager.load("data/units0.atlas", TextureAtlas.class);
-                manager.load("data/unit-overlays0.atlas", TextureAtlas.class);
-                break;
-            case ORIGINAL:
-                manager.load("data/units1.atlas", TextureAtlas.class);
-                manager.load("data/unit-overlays1.atlas", TextureAtlas.class);
-                break;
-        }
+        int i = config.graphics.i;
+        manager.load(String.format("data/units%d.atlas",i), TextureAtlas.class);
+        manager.load(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
         manager.load("data/hex.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
         manager.load("data/hex-overlays.atlas", TextureAtlas.class);
@@ -125,16 +118,9 @@ public class TankOnTank extends Game
             manager.unload("data/map_a.png");
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.unload("data/map_b.png");
-        switch (config.graphics) {
-            case MINE:
-                manager.unload("data/units0.atlas");
-                manager.unload("data/unit-overlays0.atlas");
-                break;
-            case ORIGINAL:
-                manager.unload("data/units1.atlas");
-                manager.unload("data/unit-overlays1.atlas");
-                break;
-        }
+        int i = config.graphics.i;
+        manager.unload(String.format("data/units%d.atlas",i));
+        manager.unload(String.format("data/unit-overlays%d.atlas", i));
         manager.unload("data/hex.png");
         manager.unload("data/hud.atlas");
         manager.unload("data/hex-overlays.atlas");
