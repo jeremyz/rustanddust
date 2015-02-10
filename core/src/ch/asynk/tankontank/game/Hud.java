@@ -19,7 +19,7 @@ import ch.asynk.tankontank.ui.OkCancel;
 import ch.asynk.tankontank.ui.Widget;
 import ch.asynk.tankontank.game.hud.PlayerInfo;
 import ch.asynk.tankontank.game.hud.ActionButtons;
-import ch.asynk.tankontank.game.hud.Statistics;
+import ch.asynk.tankontank.game.hud.StatisticsPanel;
 import ch.asynk.tankontank.game.hud.Engagement;
 
 import ch.asynk.tankontank.TankOnTank;
@@ -38,7 +38,7 @@ public class Hud implements Disposable, Animation
     public ActionButtons actionButtons;
 
     private Msg msg;
-    private Statistics stats;
+    private StatisticsPanel stats;
     private Engagement engagement;
     private OkCancel okCancel;
     private LinkedList<Widget> dialogs = new LinkedList<Widget>();
@@ -54,7 +54,7 @@ public class Hud implements Disposable, Animation
         actionButtons.hide();
         msg = new Msg(game.fontB, game.uiAtlas);
         okCancel = new OkCancel(game.fontB, game.uiAtlas);
-        stats = new Statistics(game.fontB, game.uiAtlas);
+        stats = new StatisticsPanel(game.fontB, game.uiAtlas);
         engagement = new Engagement(game.fontB, game.uiAtlas, hudAtlas);
     }
 

@@ -11,7 +11,7 @@ import ch.asynk.tankontank.ui.Label;
 import ch.asynk.tankontank.ui.Patch;
 import ch.asynk.tankontank.ui.Position;
 
-public class Statistics extends Patch
+public class StatisticsPanel extends Patch
 {
     public static int OK_OFFSET = 10;
     public static int PADDING = 20;
@@ -24,7 +24,7 @@ public class Statistics extends Patch
     private Label stats2;
     private Bg okBtn;
 
-    public Statistics(BitmapFont font, TextureAtlas atlas)
+    public StatisticsPanel(BitmapFont font, TextureAtlas atlas)
     {
         super(atlas.createPatch("typewriter"));
         this.title = new Label(font);
