@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.game.Map;
+import ch.asynk.tankontank.game.Map.Engagement;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
@@ -15,7 +15,7 @@ import ch.asynk.tankontank.ui.Label;
 import ch.asynk.tankontank.ui.Patch;
 import ch.asynk.tankontank.ui.Position;
 
-public class Engagement extends Patch implements Animation
+public class EngagementPanel extends Patch implements Animation
 {
     private enum State { ROLL1, MOVE, ROLL2, RESULT };
 
@@ -44,7 +44,7 @@ public class Engagement extends Patch implements Animation
     private DiceAnimation d3Animation;
     private DiceAnimation d4Animation;
 
-    public Engagement(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
+    public EngagementPanel(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
         super(uiAtlas.createPatch("typewriter"));
         usFlag = new Sprite(hudAtlas.findRegion("us-flag"));
@@ -83,7 +83,7 @@ public class Engagement extends Patch implements Animation
         d4Animation.translate(dx, dy);
     }
 
-    public void show(Map.Engagement e, Position position, float volume)
+    public void show(Engagement e, Position position, float volume)
     {
         DiceAnimation.initSound(volume);
         attack.write(String.format(" + %d + %d =", e.unitCount, e.flankBonus));
