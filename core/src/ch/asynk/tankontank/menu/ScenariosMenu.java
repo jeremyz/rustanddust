@@ -88,7 +88,10 @@ public class ScenariosMenu extends Patch
         } else {
             for (int i = 0; i <battleLabels.length; i++) {
                 if (battleLabels[i].hit(x, y)) {
-                    game.config.battle = game.factory.battles[i];
+                    if (game.config.battle == game.factory.battles[i])
+                        game.config.battle = null;
+                    else
+                        game.config.battle = game.factory.battles[i];
                 }
             }
         }
