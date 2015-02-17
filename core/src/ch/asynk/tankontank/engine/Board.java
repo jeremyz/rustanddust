@@ -309,7 +309,7 @@ public abstract class Board implements Disposable, Animation
     {
         targets.clear();
         for (Pawn target : units) {
-            if (pawn.canEngage(target) && searchBoard.collectAttacks(pawn, target, true))
+            if (pawn.canEngage(target) && searchBoard.canAttack(pawn, target, true))
                 targets.add(target);
         }
 
@@ -338,7 +338,7 @@ public abstract class Board implements Disposable, Animation
     {
         assists.clear();
         for (Pawn p : units) {
-            if ((p != pawn) && p.canEngage(target) && searchBoard.collectAttacks(p, target, !p.canAssistEngagementWithoutLos()))
+            if ((p != pawn) && p.canEngage(target) && searchBoard.canAttack(p, target, !p.canAssistEngagementWithoutLos()))
                 assists.add(p);
         }
 
