@@ -269,7 +269,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private int process(Unit unit, Move move)
     {
-        TankOnTank.debug("Process", String.format("%s %s", move.type, move.toString()));
+        TankOnTank.debug("  Move", String.format("%s %s", move.type, move.toString()));
 
         int r = 1;
 
@@ -298,7 +298,26 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 claim((Hex) move.to, unit.getArmy());
                 break;
             default:
-                System.err.println(String.format("process wrong type %s", move.type));
+                System.err.println(String.format("process wrong Move type %s", move.type));
+                r = -1;
+                break;
+        }
+
+        return r;
+    }
+
+    private int process(Command cmd)
+    {
+        TankOnTank.debug("Command", cmd.toString());
+
+        int r = 1;
+
+        switch(cmd.type) {
+            case MOVE:
+                r = process(cmd.unit, cmd.move);
+                break;
+            default:
+                System.err.println(String.format("process wrong Command type %s", cmd.type));
                 r = -1;
                 break;
         }
@@ -339,7 +358,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
     {
-        return (process(unit, Move.getSet(unit, to, entry)) == 1);
+        return (process(getMoveCommand(unit, Move.getSet(unit, to, entry))) == 1);
     }
 
     public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
@@ -348,17 +367,17 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         if (entry == Orientation.KEEP)
             return false;
 
-        return (process(unit, Move.getEnter(unit, to, entry)) == 1);
+        return (process(getMoveCommand(unit, Move.getEnter(unit, to, entry))) == 1);
     }
 
     public int exitBoard(Unit unit)
     {
-        return process(unit, pathBuilder.getExitMove());
+        return process(getMoveCommand(unit, pathBuilder.getExitMove()));
     }
 
     public int moveUnit(Unit unit)
     {
-        return process(unit, pathBuilder.getMove());
+        return process(getMoveCommand(unit, pathBuilder.getMove()));
     }
 
     public void revertMoves()
@@ -407,6 +426,13 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     }
 
     // STATES ENTRY <-
+
+    private Command getMoveCommand(Unit unit, Move move)
+    {
+        Command cmd = Command.get(ctrl.player);
+        cmd.setMove(unit, move);
+        return cmd;
+    }
 
     private void initMove(Unit unit)
     {
