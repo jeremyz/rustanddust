@@ -49,6 +49,13 @@ public class PathBuilder implements Disposable
         init(pawn, pawn.getTile());
     }
 
+    public void initRotation(Pawn pawn, Orientation o)
+    {
+        init(pawn, pawn.getTile());
+        build(pawn.getTile());
+        orientation = o;
+    }
+
     public boolean isSet()
     {
         return (to != null);
