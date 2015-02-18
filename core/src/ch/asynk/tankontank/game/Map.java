@@ -342,6 +342,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             case PROMOTE:
                 r = promoteUnit(cmd.unit, cmd.player);
                 break;
+            case ENGAGE:
+                r = doEngagement(cmd.engagement);
+                break;
             default:
                 System.err.println(String.format("process wrong Command type %s", cmd.type));
                 r = -1;
@@ -436,10 +439,13 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public boolean engageUnit(final Unit unit, final Unit target)
     {
-        // FIXME engageUnit -> process
         attack(unit, target, true);
-        engagement = Engagement.get(unit, target);
-        return engage(unit, target, engagement);
+
+        Command cmd = Command.get(ctrl.player);
+        cmd.setEngage(unit, target);
+
+        resolveEngagement(cmd.engagement);
+        return (process(cmd) == 1);
     }
 
     public void promoteUnit(final Unit unit)
@@ -509,7 +515,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         }
     }
 
-    private boolean resolveFight(Unit unit, final Unit target, Engagement e)
+    private void resolveEngagement(Engagement e)
     {
         int d1 = d6();
         int d2 = d6();
@@ -523,23 +529,25 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         boolean flankAttack = false;
         boolean terrainBonus = true;
 
-        for (Unit assist : activatedUnits) {
-            if (assist.isAce())
+        for (Unit unit : activatedUnits) {
+            if (unit != e.attacker)
+                e.addAssist(unit);
+            if (unit.isAce())
                 mayReroll = true;
-            if (assist.isFlankAttack())
+            if (unit.isFlankAttack())
                 flankAttack = true;
-            if (assist.isA(Unit.UnitType.INFANTRY))
+            if (unit.isA(Unit.UnitType.INFANTRY))
                 terrainBonus = false;
             if (night) {
-                if (distance < assist.attackDistance())
-                    distance = assist.attackDistance();
+                if (distance < unit.attackDistance())
+                    distance = unit.attackDistance();
             }
         }
 
         int cnt = activatedUnits.size();
-        int def = target.getDefense(unit.getTile());
+        int def = e.defender.getDefense(e.attacker.getTile());
         int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
-        int tdf = (terrainBonus ? target.getTile().defense() : 0);
+        int tdf = (terrainBonus ? e.defender.getTile().defense() : 0);
         int wdf = 0;
         if (night) {
             if (distance > 3)
@@ -564,7 +572,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             d3 = d6();
             d4 = d6();
             dice = d3 + d4;
-            TankOnTank.debug(String.format("Reroll: (%d %d -> %d %d)", d1, d2, d3, d4));
             s1 = (dice + cnt + flk);
             if (dice == 2) {
                 success = false;
@@ -579,35 +586,37 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         e.success = success;
         e.attackerArmy = ctrl.player.army;
         e.defenderArmy = ctrl.opponent.army;
-        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
-
-        return success;
     }
 
-    private boolean engage(Unit unit, final Unit target, Engagement e)
+    private int doEngagement(Engagement e)
     {
-        boolean success = resolveFight(unit, target, e);
-
         breakUnits.clear();
+        activatedUnits.clear();
+
+        activatedUnits.add(e.attacker);
+        for (Unit u : e.assists)
+            activatedUnits.add(u);
+
         for (Unit u : activatedUnits) {
             u.engage();
             if (u.isA(Unit.UnitType.INFANTRY))
                 breakUnits.add(u);
         }
 
-        if (success) {
-            unclaim(target.getHex());
-            removePawn(target);
-            destroy.set(2f, target);
+        if (e.success) {
+            unclaim(e.defender.getHex());
+            removePawn(e.defender);
+            destroy.set(2f, e.defender);
             addAnimation(destroy);
         }
 
-        addEngagementAnimation(target);
-
-        if ((activatedUnits.size() == 1) && unit.isA(Unit.UnitType.AT_GUN) && target.isHardTarget())
+        if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())
             activatedUnits.clear();
 
-        return success;
+        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
+        addEngagementAnimation(e.defender);
+
+        return (e.success ? 1 : 0);
     }
 
     // SHOW / HIDE
