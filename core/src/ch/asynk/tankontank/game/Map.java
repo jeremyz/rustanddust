@@ -120,6 +120,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();
+        commands.dispose();
         Engagement.clearPool();
     }
 
@@ -375,7 +376,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             throw new RuntimeException("objectives not cleared");
 
         // FIXME do something with these Commands
-        orderList.clear();
+        orderList.dispose();
     }
 
     public void actionDone()
