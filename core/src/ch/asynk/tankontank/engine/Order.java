@@ -8,4 +8,9 @@ import com.badlogic.gdx.utils.Json;
 
 public abstract class Order implements Disposable, Pool.Poolable, Json.Serializable, Comparable<Pawn>
 {
+    public interface OrderType
+    {
+    }
+
+    public abstract boolean isA(OrderType type);
 }

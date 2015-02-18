@@ -8,9 +8,9 @@ import ch.asynk.tankontank.engine.Order;
 import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.Pawn;
 
-public class Command extends Order
+public  class Command extends Order
 {
-    public enum CommandType
+    public enum CommandType implements Order.OrderType
     {
         NONE,
         MOVE,
@@ -78,6 +78,12 @@ public class Command extends Order
         if (pawn == unit)
             return 0;
         return 1;
+    }
+
+    @Override
+    public boolean isA(OrderType type)
+    {
+        return (type == this.type);
     }
 
     @Override
