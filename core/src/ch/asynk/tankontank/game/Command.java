@@ -64,7 +64,7 @@ public class Command extends Order
     @Override
     public String toString()
     {
-        return String.format("%s %s : ", type, unit.id);
+        return String.format("%s : %s", type, unit.id);
     }
 
     public void setMove(Unit unit, Move move)
