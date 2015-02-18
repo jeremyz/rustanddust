@@ -39,7 +39,7 @@ public abstract class Pawn implements Moveable, Disposable
     protected String descr;
     private Sprite sprite;
     private StackedImages overlays;
-    protected Attack engagement;
+    protected Attack attack;
     protected Move move;
 
     public abstract int getMovementPoints();
@@ -73,8 +73,8 @@ public abstract class Pawn implements Moveable, Disposable
         this.prevTile = null;
         this.position = new Vector3(0f, 0f, 0f);
         this.prevPosition = new Vector3(0f, 0f, 0f);
-        this.engagement = new Attack();
-        this.engagement.assaulter = this;
+        this.attack = new Attack();
+        this.attack.attacker = this;
     }
 
     public Pawn(Faction faction, String name, TextureAtlas pawns, TextureAtlas overlays)
@@ -105,7 +105,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public void reset()
     {
-        engagement.reset();
+        attack.reset();
         if (move != null) {
             move.dispose();
             move  = null;
@@ -166,7 +166,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public boolean isFlankAttack()
     {
-        return (engagement.isClear && engagement.isFlank);
+        return (attack.isClear && attack.isFlank);
     }
 
     public Tile getTile()

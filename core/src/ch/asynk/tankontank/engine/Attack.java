@@ -2,20 +2,20 @@ package ch.asynk.tankontank.engine;
 
 public class Attack
 {
-    Pawn assaulter;
-    Pawn target;
-    int distance;
-    boolean isClear;
-    boolean isFlank;
+    public Pawn attacker;
+    public Pawn target;
+    public int distance;
+    public boolean isClear;
+    public boolean isFlank;
 
     public String toString()
     {
-        return "engage : " + assaulter + " " + target + " distance:" + distance + " clear:" + isClear + " flank:" + isFlank;
+        return String.format("attack : %s -> %s dist:%d clear:%b flank:%b", attacker, target, distance, isClear, isFlank);
     }
 
     public void reset()
     {
-        assaulter = null;
+        attacker = null;
         target = null;
         distance = 0;;
         isClear = false;

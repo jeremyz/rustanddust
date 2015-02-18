@@ -315,7 +315,7 @@ public class Unit extends HeadedPawn
     @Override
     public void engage()
     {
-        TankOnTank.debug(engagement.toString());
+        TankOnTank.debug(attack.toString());
         hasFired = true;
         updateOverlays();
     }
