@@ -60,7 +60,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private long soundId = -1;
     private Animation animationClosure;
 
-    private OrderList orderList;
+    private OrderList commands;
 
     protected abstract void setup();
 
@@ -106,7 +106,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         objectives = new ObjectiveSet(this, 4);
 
         meteorology = new Meteorology();
-        orderList = new OrderList();
+        commands = new OrderList();
     }
 
     @Override
@@ -120,6 +120,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         PromoteAnimation.free();
         FireAnimation.free();
         commands.dispose();
+        Command.clearPool();
         Engagement.clearPool();
     }
 
@@ -351,9 +352,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 break;
         }
 
-        if (r != -1) {
-            orderList.add(cmd);
-        }
+        if (r != -1)
+            commands.add(cmd);
 
         return r;
     }
@@ -367,13 +367,13 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void turnDone()
     {
-        TankOnTank.debug("TurnDone", String.format(" Processed Commands : %d", orderList.size()));
+        TankOnTank.debug("TurnDone", String.format(" Processed Commands : %d", commands.size()));
 
         if (objectives.modifiedCount() > 0)
             throw new RuntimeException("objectives not cleared");
 
         // FIXME do something with these Commands
-        orderList.dispose();
+        commands.dispose();
     }
 
     public void actionDone()
