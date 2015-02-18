@@ -332,6 +332,16 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     // STATES ENTRY ->
 
+    public void showOnBoard(Unit unit, Hex to, Orientation o)
+    {
+        setPawnOnto(unit, to, o);
+    }
+
+    public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
+    {
+        return (process(unit, Move.getSet(unit, to, entry)) == 1);
+    }
+
     public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
     {
         Orientation entry = findBestEntry(unit, to, allowedMoves);
@@ -339,11 +349,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             return false;
 
         return (process(unit, Move.getEnter(unit, to, entry)) == 1);
-    }
-
-    public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
-    {
-        return (process(unit, Move.getSet(unit, to, entry)) == 1);
     }
 
     public int exitBoard(Unit unit)
