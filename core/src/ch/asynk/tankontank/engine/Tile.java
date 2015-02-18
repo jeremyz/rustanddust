@@ -90,7 +90,8 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
 
     public int push(Pawn pawn)
     {
-        stack.push(pawn);
+        if (!stack.contains(pawn))
+            stack.push(pawn);
         return stack.size();
     }
 
