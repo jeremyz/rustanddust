@@ -359,6 +359,16 @@ public class SearchBoard
         return o.isInSides(angle);
     }
 
+    private boolean isClearAttack(Tile from, List<Node> los)
+    {
+        int n = los.size() - 1;
+        for (int i = 1; i < n; i++) {
+            if (getTile(los.get(i)).blockLineOfSightFrom(from))
+                return false;
+        }
+        return true;
+    }
+
     private boolean validatePathAngle(int angle, List<Node> los)
     {
         int forth = 0;
