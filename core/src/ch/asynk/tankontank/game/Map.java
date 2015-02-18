@@ -489,9 +489,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             if (assist.isA(Unit.UnitType.INFANTRY))
                 terrainBonus = false;
             if (night) {
-                int d = distance(assist.getTile(), target.getTile());
-                if (d > distance)
-                    distance = d;
+                if (distance < assist.attackDistance())
+                    distance = assist.attackDistance();
             }
         }
 

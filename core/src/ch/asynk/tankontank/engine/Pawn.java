@@ -175,6 +175,11 @@ public abstract class Pawn implements Moveable, Disposable
         return (attack.isClear && attack.isFlank);
     }
 
+    public int attackDistance()
+    {
+        return attack.distance;
+    }
+
     public Tile getTile()
     {
         return tile;
