@@ -544,6 +544,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public boolean engageUnit(Unit unit, final Unit target)
     {
+        attack(unit, target, true);
 
         boolean success = resolveFight(unit, target, engagement);
 

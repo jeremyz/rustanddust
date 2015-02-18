@@ -465,6 +465,12 @@ public abstract class Board implements Disposable, Animation
         pawn.revertLastMove();
     }
 
+    public void attack(final Pawn pawn, final Pawn target, boolean clearVisibility)
+    {
+        if (!pawn.canEngage(target) || !searchBoard.canAttack(pawn, target, clearVisibility))
+            throw new RuntimeException(String.format("%s cannot attack %s", pawn, target));
+    }
+
     public Tile getTileAt(float mx, float my)
     {
         // compute row
