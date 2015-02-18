@@ -104,41 +104,28 @@ public abstract class Pawn implements Moveable, Disposable
 
     public void reset()
     {
+        move = null;
         attack.reset();
-        if (move != null) {
-            move.dispose();
-            move  = null;
-        }
     }
 
     public void move(Move move)
     {
-        if (move.isEnter())
-            throw new RuntimeException("wrong MoveType");
-
-        if (this.move != null) {
-            if (this.move.isEnter())
-                this.move.dispose();
-            else
-                throw new RuntimeException("try to override an existing move instance");
+        switch(move.type)
+        {
+            case REGULAR:
+                if ((this.move != null) && (!this.move.isEnter()))
+                    throw new RuntimeException("try to override an existing move instance");
+                break;
+            case ENTER:
+                if (this.move != null)
+                    throw new RuntimeException("try to override an existing move instance");
+                break;
+            case SET:
+                break;
+            default:
+                throw new RuntimeException("unsupported MoveType");
         }
 
-        setMove(move);
-    }
-
-    public void enter(Move move)
-    {
-        if (!move.isEnter())
-            throw new RuntimeException("wrong MoveType");
-
-        if (this.move != null)
-            throw new RuntimeException("try to override an existing move instance");
-
-        setMove(move);
-    }
-
-    private void setMove(Move move)
-    {
         this.move = move;
         move();
     }

@@ -446,7 +446,7 @@ public abstract class Board implements Disposable, Animation
 
     protected void enterPawn(final Pawn pawn, Move move)
     {
-        pawn.enter(move);
+        pawn.move(move);
         setPawnOnto(pawn, move.to, move.orientation);
     }
 
