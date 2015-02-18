@@ -131,6 +131,8 @@ public abstract class Board implements Disposable, Animation
         animations.clear();
         if (selectedTile != null)
             selectedTile.dispose();
+        Move.clearPool();
+        Path.clearPool();
     }
 
     public float getWidth()

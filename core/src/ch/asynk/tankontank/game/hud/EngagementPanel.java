@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.tankontank.game.Map.Engagement;
+import ch.asynk.tankontank.game.Engagement;
 import ch.asynk.tankontank.game.Army;
 import ch.asynk.tankontank.engine.gfx.Animation;
 import ch.asynk.tankontank.engine.gfx.animations.DiceAnimation;
@@ -91,12 +91,12 @@ public class EngagementPanel extends Patch implements Animation
             defense.write(String.format("%d + %d =", e.unitDefense, e.terrainDefense));
         else
             defense.write(String.format("%d + %d + %d =", e.unitDefense, e.terrainDefense, e.weatherDefense));
-        attackR.write(String.format(" %2d", e.attack));
-        defenseR.write(String.format(" %2d", e.defense));
+        attackR.write(String.format(" %2d", e.attackSum));
+        defenseR.write(String.format(" %2d", e.defenseSum));
         if (e.success)
-            winner = ((e.attacker == Army.US) ? usFlag : geFlag);
+            winner = ((e.attackerArmy == Army.US) ? usFlag : geFlag);
         else
-            winner = ((e.attacker == Army.US) ? geFlag : usFlag);
+            winner = ((e.attackerArmy == Army.US) ? geFlag : usFlag);
 
         this.position = position;
         placeElements();

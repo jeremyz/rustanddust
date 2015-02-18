@@ -15,7 +15,8 @@ public class Move extends Path implements Iterable<Vector3>
         EXIT;
     }
 
-    private static final Pool<Move> movePool = new Pool<Move>() {
+    private static final Pool<Move> movePool = new Pool<Move>()
+    {
         @Override
         protected Move newObject() {
             return new Move();
@@ -40,6 +41,11 @@ public class Move extends Path implements Iterable<Vector3>
         }
 
         return m;
+    }
+
+    public static void clearPool()
+    {
+        movePool.clear();
     }
 
     public static Move getEnter(Pawn pawn, Tile to, Orientation orientation)

@@ -61,43 +61,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     protected abstract void setup();
 
-    public class Engagement
-    {
-        public Army attacker;
-        public Army defender;
-        public boolean success;
-        public int d1;
-        public int d2;
-        public int d3;
-        public int d4;
-        public int unitCount;
-        public int flankBonus;
-        public int unitDefense;
-        public int terrainDefense;
-        public int weatherDefense;
-        public int attack;
-        public int defense;
-
-        public void set(int d1, int d2, int d3, int d4, int cnt, int flk, int def, int tdf, int wdf)
-        {
-            this.d1 = d1;
-            this.d2 = d2;
-            this.d3 = d3;
-            this.d4 = d4;
-            this.unitCount = cnt;
-            this.flankBonus = flk;
-            this.unitDefense = def;
-            this.terrainDefense = tdf;
-            this.weatherDefense = wdf;
-            if (d3 == 0)
-                this.attack = (d1 + d2 + unitCount + flankBonus);
-            else
-                this.attack = (d3 + d4 + unitCount + flankBonus);
-            this.defense = (unitDefense + terrainDefense + weatherDefense);
-        }
-    }
-    private Engagement engagement;
-
     public int d6()
     {
         return rand.nextInt(6) + 1;
@@ -140,7 +103,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         objectives = new ObjectiveSet(this, 4);
 
         meteorology = new Meteorology();
-        engagement = new Engagement();
     }
 
     @Override
@@ -535,8 +497,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         e.set(d1, d2, d3, d4, cnt, flk, def, tdf, wdf);
         e.success = success;
-        e.attacker = ctrl.player.army;
-        e.defender = ctrl.opponent.army;
+        e.attackerArmy = ctrl.player.army;
+        e.defenderArmy = ctrl.opponent.army;
         ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
 
         return success;
@@ -545,8 +507,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public boolean engageUnit(Unit unit, final Unit target)
     {
         attack(unit, target, true);
+        Engagement e = Engagement.get(unit, target);
 
-        boolean success = resolveFight(unit, target, engagement);
+        boolean success = resolveFight(unit, target, e);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {
