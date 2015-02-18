@@ -37,6 +37,7 @@ public class Command extends Order
     public Player player;
     public Unit unit;
     public Move move;
+    public Engagement engagement;
 
     private Command()
     {
@@ -59,6 +60,10 @@ public class Command extends Order
             this.move.dispose();
             this.move = null;
         }
+        if (this.engagement != null) {
+            this.engagement.dispose();
+            this.engagement = null;
+        }
     }
 
     @Override
@@ -78,6 +83,13 @@ public class Command extends Order
     {
         this.type = CommandType.PROMOTE;
         this.unit = unit;
+    }
+
+    public void setEngage(Unit unit, Unit target)
+    {
+        this.type = CommandType.ENGAGE;
+        this.unit = unit;
+        this.engagement = Engagement.get(unit, target);
     }
 
     @Override
