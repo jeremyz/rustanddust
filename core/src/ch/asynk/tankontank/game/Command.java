@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import ch.asynk.tankontank.engine.Order;
 import ch.asynk.tankontank.engine.Move;
+import ch.asynk.tankontank.engine.Pawn;
 
 public class Command extends Order
 {
@@ -64,6 +65,14 @@ public class Command extends Order
             this.engagement.dispose();
             this.engagement = null;
         }
+    }
+
+    @Override
+    public int compareTo(Pawn pawn)
+    {
+        if (pawn == unit)
+            return 0;
+        return 1;
     }
 
     @Override
