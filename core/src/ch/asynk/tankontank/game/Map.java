@@ -291,13 +291,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 r = moveableUnits.size();
                 break;
             case SET:
-                // FIXME SET -> activatedUnits.add(unit); ??
                 setPawnOnto(unit, move);
                 ctrl.player.unitEntry(unit);
                 claim((Hex) move.to, unit.getArmy());
                 break;
             case ENTER:
-                // FIXME ENTER -> activatedUnits.add(unit); ??
                 enterPawn(unit, move);
                 ctrl.player.unitEntry(unit);
                 claim((Hex) move.to, unit.getArmy());
@@ -441,6 +439,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         Command cmd = Command.get(ctrl.player);
         cmd.setEngage(unit, target);
 
+        // FIXME resolve the engagement here does not work for the AI
         resolveEngagement(cmd.engagement);
         return (process(cmd) == 1);
     }
