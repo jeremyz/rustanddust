@@ -1,0 +1,104 @@
+diff --git a/core/src/ch/asynk/tankontank/engine/Move.java b/core/src/ch/asynk/tankontank/engine/Move.java
+index 06035c3..1bb55b1 100644
+--- a/core/src/ch/asynk/tankontank/engine/Move.java
++++ b/core/src/ch/asynk/tankontank/engine/Move.java
+@@ -15,12 +15,30 @@ public class Move extends Path implements Iterable<Vector3>
+         EXIT;
+     }
+ 
++    static int count = 0;
++
+     private static final Pool<Move> movePool = new Pool<Move>()
+     {
+         @Override
+         protected Move newObject() {
+             return new Move();
+         }
++
++        @Override
++        public Move obtain()
++        {
++            count += 1;
++            System.err.println("   MovePool " + count + "/" + getFree());
++            return super.obtain();
++        }
++
++        @Override
++        public void free(Move cmd)
++        {
++            count -= 1;
++            super.free(cmd);
++            System.err.println("   MovePool " + count + "/" + getFree());
++        }
+     };
+ 
+     public static Move get(Pawn pawn, Tile from, Tile to, Orientation orientation, Path path)
+diff --git a/core/src/ch/asynk/tankontank/game/Command.java b/core/src/ch/asynk/tankontank/game/Command.java
+index 0d39e6c..db3c910 100644
+--- a/core/src/ch/asynk/tankontank/game/Command.java
++++ b/core/src/ch/asynk/tankontank/game/Command.java
+@@ -19,12 +19,30 @@ public  class Command extends Order
+         END_OF_TURN;
+     }
+ 
++    static int count = 0;
++
+     private static final Pool<Command> commandPool = new Pool<Command>()
+     {
+         @Override
+         protected Command newObject() {
+             return new Command();
+         }
++
++        @Override
++        public Command obtain()
++        {
++            count += 1;
++            System.err.println("   CommandPool " + count + "/" + getFree());
++            return super.obtain();
++        }
++
++        @Override
++        public void free(Command cmd)
++        {
++            count -= 1;
++            super.free(cmd);
++            System.err.println("   CommandPool " + count + "/" + getFree());
++        }
+     };
+ 
+     public static void clearPool()
+diff --git a/core/src/ch/asynk/tankontank/game/Engagement.java b/core/src/ch/asynk/tankontank/game/Engagement.java
+index 8f01008..d06ac6d 100644
+--- a/core/src/ch/asynk/tankontank/game/Engagement.java
++++ b/core/src/ch/asynk/tankontank/game/Engagement.java
+@@ -8,11 +8,29 @@ import com.badlogic.gdx.utils.Disposable;
+ 
+ public class Engagement implements Disposable, Pool.Poolable
+ {
++    static int count = 0;
++
+     private static final Pool<Engagement> engagementPool = new Pool<Engagement>() {
+         @Override
+         protected Engagement newObject() {
+             return new Engagement();
+         }
++
++        @Override
++        public Engagement obtain()
++        {
++            count += 1;
++            System.err.println("   EngagementPool " + count + "/" + getFree());
++            return super.obtain();
++        }
++
++        @Override
++        public void free(Engagement cmd)
++        {
++            count -= 1;
++            super.free(cmd);
++            System.err.println("   EngagementPool " + count + "/" + getFree());
++        }
+     };
+ 
+     public static Engagement get(Unit attacker, Unit defender)
