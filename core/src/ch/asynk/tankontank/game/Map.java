@@ -310,7 +310,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void turnDone()
     {
-        objectives.forget();
+        if (engagement != null)
+            throw new RuntimeException("engagement not cleared");
+        if (objectives.modifiedCount() > 0)
+            throw new RuntimeException("objectives not cleared");
     }
 
     public void actionDone()
