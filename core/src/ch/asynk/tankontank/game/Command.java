@@ -19,7 +19,7 @@ public class Command extends Order
         END_OF_TURN;
     }
 
-    private static final Pool<Command> orderPool = new Pool<Command>()
+    private static final Pool<Command> commandPool = new Pool<Command>()
     {
         @Override
         protected Command newObject() {
@@ -27,9 +27,14 @@ public class Command extends Order
         }
     };
 
+    public static void clearPool()
+    {
+        commandPool.clear();
+    }
+
     public static Command get(Player player)
     {
-        Command c = orderPool.obtain();
+        Command c = commandPool.obtain();
         c.player = player;
         return c;
     }
@@ -48,7 +53,7 @@ public class Command extends Order
     @Override
     public void dispose()
     {
-        orderPool.free(this);
+        commandPool.free(this);
     }
 
     @Override
