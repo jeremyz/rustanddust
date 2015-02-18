@@ -58,6 +58,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private Sound sound;
     private long soundId = -1;
     private Animation animationClosure;
+    private Engagement engagement;
 
     protected abstract void setup();
 
@@ -315,6 +316,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void actionDone()
     {
         objectives.forget();
+        if (engagement != null) {
+            engagement.dispose();
+            engagement = null;
+        }
     }
 
     public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
@@ -508,9 +513,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public boolean engageUnit(Unit unit, final Unit target)
     {
         attack(unit, target, true);
-        Engagement e = Engagement.get(unit, target);
+        engagement = Engagement.get(unit, target);
 
-        boolean success = resolveFight(unit, target, e);
+        boolean success = resolveFight(unit, target, engagement);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {
