@@ -1,6 +1,7 @@
 BUGS:
     - deployment select for rotation, click on another unit : entryZone is null !!
     - unitDock click issues
+    - possible to select units before the end of engagement animation
 
 TODO:
     - add back/cancel to ScenarioMenu
