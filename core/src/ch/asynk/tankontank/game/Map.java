@@ -386,17 +386,17 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     // STATES ENTRY ->
 
-    public void showOnBoard(Unit unit, Hex to, Orientation o)
+    public void showOnBoard(final Unit unit, Hex to, Orientation o)
     {
         setPawnOnto(unit, to, o);
     }
 
-    public boolean setOnBoard(Unit unit, Hex to, Orientation entry)
+    public boolean setOnBoard(final Unit unit, Hex to, Orientation entry)
     {
         return (process(getMoveCommand(unit, Move.getSet(unit, to, entry))) == 1);
     }
 
-    public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
+    public boolean enterBoard(final Unit unit, Hex to, int allowedMoves)
     {
         Orientation entry = findBestEntry(unit, to, allowedMoves);
         if (entry == Orientation.KEEP)
@@ -405,12 +405,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return (process(getMoveCommand(unit, Move.getEnter(unit, to, entry))) == 1);
     }
 
-    public int exitBoard(Unit unit)
+    public int exitBoard(final Unit unit)
     {
         return process(getMoveCommand(unit, pathBuilder.getExitMove()));
     }
 
-    public int moveUnit(Unit unit)
+    public int moveUnit(final Unit unit)
     {
         return process(getMoveCommand(unit, pathBuilder.getMove()));
     }
@@ -425,7 +425,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         objectives.revert(this);
     }
 
-    public void revertEnter(Unit unit)
+    public void revertEnter(final Unit unit)
     {
         TankOnTank.debug("    revertEnter()"+ unit);
         unit.reset();
@@ -434,7 +434,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         ctrl.player.revertUnitEntry(unit);
     }
 
-    public boolean engageUnit(Unit unit, final Unit target)
+    public boolean engageUnit(final Unit unit, final Unit target)
     {
         // FIXME engageUnit -> process
         attack(unit, target, true);
