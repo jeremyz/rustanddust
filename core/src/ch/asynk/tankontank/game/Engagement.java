@@ -24,6 +24,10 @@ public class Engagement implements Disposable, Pool.Poolable
         return e;
     }
 
+    public static void clearPool()
+    {
+        engagementPool.clear();
+    }
 
     public Unit attacker;
     public Unit defender;

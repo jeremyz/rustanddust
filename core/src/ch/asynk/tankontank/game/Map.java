@@ -115,6 +115,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();
+        Engagement.clearPool();
     }
 
     public void clearAll()
