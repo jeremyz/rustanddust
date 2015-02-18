@@ -1,6 +1,13 @@
 BUGS:
+    - deployment select for rotation, click on another unit : entryZone is null !!
+    - unitDock click issues
 
 TODO:
+    - add back/cancel to ScenarioMenu
+    - GameModeMenu
+        - Solo
+        - vs AI
+        - vs Player
     - tutorial
         - moves
         - HQ moves
