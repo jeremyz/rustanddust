@@ -62,6 +62,11 @@ public class ObjectiveSet extends HashMap<Tile, Objective>
         modified.clear();
     }
 
+    public int modifiedCount()
+    {
+        return modified.size();
+    }
+
     public void revert(ObjectiveCb cb)
     {
         for (Objective objective : modified.keySet()) {
