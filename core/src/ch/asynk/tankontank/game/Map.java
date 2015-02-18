@@ -467,7 +467,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         }
     }
 
-    private boolean resolveFight(Unit unit, final Unit target, boolean mayReroll)
+    private boolean resolveFight(Unit unit, final Unit target, Engagement e)
     {
         int d1 = d6();
         int d2 = d6();
@@ -476,11 +476,14 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         int dice = d1 + d2;
 
         int distance = 0;
+        boolean mayReroll = false;
         boolean night = (meteorology.day == Meteorology.Day.NIGHT);
         boolean flankAttack = false;
         boolean terrainBonus = true;
 
-        for (Pawn assist : activatedUnits) {
+        for (Unit assist : activatedUnits) {
+            if (assist.isAce())
+                mayReroll = true;
             if (assist.isFlankAttack())
                 flankAttack = true;
             if (assist.isA(Unit.UnitType.INFANTRY))
@@ -531,24 +534,19 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             }
         }
 
-        engagement.set(d1, d2, d3, d4, cnt, flk, def, tdf, wdf);
-        engagement.success = success;
-        engagement.attacker = ctrl.player.army;
-        engagement.defender = ctrl.opponent.army;
-        ctrl.hud.engagementSummary(engagement, ctrl.cfg.fxVolume);
+        e.set(d1, d2, d3, d4, cnt, flk, def, tdf, wdf);
+        e.success = success;
+        e.attacker = ctrl.player.army;
+        e.defender = ctrl.opponent.army;
+        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
 
         return success;
     }
 
     public boolean engageUnit(Unit unit, final Unit target)
     {
-        boolean mayReroll = false;
-        for (Unit assist : activatedUnits) {
-            if (assist.isAce())
-                mayReroll = true;
-        }
 
-        boolean success = resolveFight(unit, target, mayReroll);
+        boolean success = resolveFight(unit, target, engagement);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {
