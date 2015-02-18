@@ -335,6 +335,8 @@ public class Unit extends HeadedPawn
     {
         hasMoved = false;
         mpLeft = mp;
+        updateOverlays();
+        move = null;
     }
 
     private void updateOverlays()
