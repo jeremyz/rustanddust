@@ -8,6 +8,11 @@ public class Attack
     public boolean isClear;
     public boolean isFlank;
 
+    public Attack(Pawn attacker)
+    {
+        this.attacker = attacker;
+    }
+
     public String toString()
     {
         return String.format("attack : %s -> %s dist:%d clear:%b flank:%b", attacker, target, distance, isClear, isFlank);
@@ -15,7 +20,6 @@ public class Attack
 
     public void reset()
     {
-        attacker = null;
         target = null;
         distance = 0;;
         isClear = false;
