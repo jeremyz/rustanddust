@@ -450,6 +450,23 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         ctrl.animationDone();
     }
 
+    private void addEngagementAnimation(Unit target)
+    {
+        FireAnimation.reset();
+        Hex to = target.getHex();
+        for (Unit u : activatedUnits) {
+            Hex from = u.getHex();
+            AnimationSequence seq = AnimationSequence.get(2);
+            float halfWidth = (u.getWidth() / 2f);
+            if (u.isA(Unit.UnitType.INFANTRY))
+                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
+            else
+                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
+            seq.addAnimation(notifyDoneAnimation(target));
+            addAnimation(seq);
+        }
+    }
+
     private boolean resolveFight(Unit unit, final Unit target, boolean mayReroll)
     {
         int d1 = d6();
@@ -521,23 +538,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         ctrl.hud.engagementSummary(engagement, ctrl.cfg.fxVolume);
 
         return success;
-    }
-
-    private void addEngagementAnimation(Unit target)
-    {
-        FireAnimation.reset();
-        Hex to = target.getHex();
-        for (Unit u : activatedUnits) {
-            Hex from = u.getHex();
-            AnimationSequence seq = AnimationSequence.get(2);
-            float halfWidth = (u.getWidth() / 2f);
-            if (u.isA(Unit.UnitType.INFANTRY))
-                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
-            else
-                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
-            seq.addAnimation(notifyDoneAnimation(target));
-            addAnimation(seq);
-        }
     }
 
     public boolean engageUnit(Unit unit, final Unit target)
