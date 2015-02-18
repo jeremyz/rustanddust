@@ -98,12 +98,22 @@ public class Move extends Path implements Iterable<Vector3>
         movePool.free(this);
     }
 
-    public boolean isEntry()
+    public boolean isSet()
+    {
+        return (type == MoveType.SET);
+    }
+
+    public boolean isEnter()
     {
         return (type == MoveType.ENTER);
     }
 
-    public boolean isComplete()
+    public boolean isRegular()
+    {
+        return (type == MoveType.REGULAR);
+    }
+
+    public boolean isFinal()
     {
         return (type != MoveType.ENTER);
     }

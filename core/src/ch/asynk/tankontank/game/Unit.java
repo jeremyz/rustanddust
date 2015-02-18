@@ -286,7 +286,7 @@ public class Unit extends HeadedPawn
 
     public boolean canHQMove()
     {
-        return (isHq() && ((move == null) || (!move.isEntry())));
+        return (isHq() && ((move == null) || (!move.isEnter())));
     }
 
     public void setMoved()
@@ -306,7 +306,7 @@ public class Unit extends HeadedPawn
         if (cost > mpLeft)
             TankOnTank.debug("ERROR: Movement point exceeded: " + cost + "/" + mpLeft + " please report");
 
-        if (move.isComplete())
+        if (move.isFinal())
             setMoved();
 
         mpLeft -= cost;

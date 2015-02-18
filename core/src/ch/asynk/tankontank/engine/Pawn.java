@@ -113,11 +113,11 @@ public abstract class Pawn implements Moveable, Disposable
 
     public void move(Move move)
     {
-        if (move.isEntry())
+        if (move.isEnter())
             throw new RuntimeException("wrong MoveType");
 
         if (this.move != null) {
-            if (this.move.isEntry())
+            if (this.move.isEnter())
                 this.move.dispose();
             else
                 throw new RuntimeException("try to override an existing move instance");
@@ -128,7 +128,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public void enter(Move move)
     {
-        if (!move.isEntry())
+        if (!move.isEnter())
             throw new RuntimeException("wrong MoveType");
 
         if (this.move != null)
@@ -152,7 +152,7 @@ public abstract class Pawn implements Moveable, Disposable
 
     public boolean justEntered()
     {
-        return ((move != null) && move.isEntry());
+        return ((move != null) && move.isEnter());
     }
 
     public boolean is(Faction faction)
