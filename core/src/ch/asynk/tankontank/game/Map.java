@@ -425,11 +425,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void revertEnter(final Unit unit)
     {
-        TankOnTank.debug("    revertEnter()"+ unit);
-        unit.reset();
+        TankOnTank.debug("    revertEnter() "+ unit);
         removePawn(unit);
         objectives.revert(this);
         ctrl.player.revertUnitEntry(unit);
+        commands.dispose(unit);
+        unit.reset();
     }
 
     public boolean engageUnit(final Unit unit, final Unit target)
