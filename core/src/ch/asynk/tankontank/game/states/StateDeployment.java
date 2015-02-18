@@ -101,7 +101,7 @@ public class StateDeployment extends StateCommon
     {
         selectedUnit = unit;
         selectedHex = upHex;
-        map.setOnBoard(unit, upHex, entryZone.orientation);
+        map.showOnBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
         entryZone.enable(Hex.AREA, false);
         showRotation(unit, upHex);
@@ -122,8 +122,11 @@ public class StateDeployment extends StateCommon
     {
         map.unselectHex(selectedHex);
         map.hideDirections(selectedHex);
-        if (o != Orientation.KEEP)
-            selectedUnit.setRotation(o.r());
+
+        if (o == Orientation.KEEP)
+            o = entryZone.orientation;
+        map.setOnBoard(selectedUnit, selectedHex, o);
+
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
         entryZone = null;
