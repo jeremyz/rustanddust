@@ -68,6 +68,11 @@ public class Engagement implements Disposable, Pool.Poolable
         engagementPool.free(this);
     }
 
+    public void addAssist(Unit unit)
+    {
+        assists.add(unit);
+    }
+
     public void set(int d1, int d2, int d3, int d4, int cnt, int flk, int def, int tdf, int wdf)
     {
         this.d1 = d1;
