@@ -122,6 +122,7 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_WEST, usExit);
         setUnit(map, usPlayer, UnitId.US_AT_GUN, 10, 3, Orientation.SOUTH, usExit);
         usPlayer.turnEnd();
+        map.init();
         map.turnDone();
     }
 }

@@ -306,7 +306,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return r;
     }
 
-    // STATES ENTRY ->
+    // Ctrl Methods
+
+    public void init()
+    {
+        actionDone();
+    }
 
     public void turnDone()
     {
@@ -324,6 +329,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             engagement = null;
         }
     }
+
+    // STATES ENTRY ->
 
     public boolean enterBoard(Unit unit, Hex to, int allowedMoves)
     {

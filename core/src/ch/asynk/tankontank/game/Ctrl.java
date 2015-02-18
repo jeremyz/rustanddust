@@ -62,6 +62,7 @@ public class Ctrl implements Disposable
 
         this.map = battle.getMap();
         battle.setup(this, map);
+        this.map.init();
         this.player = battle.getPlayer();
         this.opponent = battle.opponent(player);
 
