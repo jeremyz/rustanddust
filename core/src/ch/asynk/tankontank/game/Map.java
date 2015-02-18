@@ -344,23 +344,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return process(unit, pathBuilder.getExitMove());
     }
 
-    public void promoteUnit(final Player player, final Unit unit)
-    {
-        activatedUnits.add(unit);
-
-        Hex hex = unit.getHex();
-        AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
-        seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
-            @Override
-            public void run() {
-                player.promote(unit);
-                animationDone();
-            }
-        }));
-        addAnimation(seq);
-    }
-
     public int moveUnit(Unit unit)
     {
         return process(unit, pathBuilder.getMove());
@@ -383,6 +366,32 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         removePawn(unit);
         objectives.revert(this);
         ctrl.player.revertUnitEntry(unit);
+    }
+
+    public boolean engageUnit(Unit unit, final Unit target)
+    {
+        // FIXME engageUnit -> process
+        attack(unit, target, true);
+        engagement = Engagement.get(unit, target);
+        return engage(unit, target, engagement);
+    }
+
+    public void promoteUnit(final Player player, final Unit unit)
+    {
+        // FIXME promoteUnit -> process
+        activatedUnits.add(unit);
+
+        Hex hex = unit.getHex();
+        AnimationSequence seq = AnimationSequence.get(2);
+        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
+            @Override
+            public void run() {
+                player.promote(unit);
+                animationDone();
+            }
+        }));
+        addAnimation(seq);
     }
 
     // STATES ENTRY <-
@@ -513,12 +522,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return success;
     }
 
-    public boolean engageUnit(Unit unit, final Unit target)
+    private boolean engage(Unit unit, final Unit target, Engagement e)
     {
-        attack(unit, target, true);
-        engagement = Engagement.get(unit, target);
-
-        boolean success = resolveFight(unit, target, engagement);
+        boolean success = resolveFight(unit, target, e);
 
         breakUnits.clear();
         for (Unit u : activatedUnits) {
