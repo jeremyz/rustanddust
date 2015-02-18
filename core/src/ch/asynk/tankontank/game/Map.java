@@ -59,7 +59,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private Sound sound;
     private long soundId = -1;
     private Animation animationClosure;
-    private Engagement engagement;
 
     private OrderList orderList;
 
@@ -370,8 +369,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     {
         TankOnTank.debug("TurnDone", String.format(" Processed Commands : %d", orderList.size()));
 
-        if (engagement != null)
-            throw new RuntimeException("engagement not cleared");
         if (objectives.modifiedCount() > 0)
             throw new RuntimeException("objectives not cleared");
 
@@ -382,10 +379,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void actionDone()
     {
         objectives.forget();
-        if (engagement != null) {
-            engagement.dispose();
-            engagement = null;
-        }
     }
 
     // STATES ENTRY ->
