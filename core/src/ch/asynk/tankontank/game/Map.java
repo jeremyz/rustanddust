@@ -16,6 +16,7 @@ import ch.asynk.tankontank.engine.Faction;
 import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.SelectedTile;
 import ch.asynk.tankontank.engine.ObjectiveSet;
+import ch.asynk.tankontank.engine.OrderList;
 import ch.asynk.tankontank.engine.Orientation;
 import ch.asynk.tankontank.engine.Meteorology;
 import ch.asynk.tankontank.engine.PathBuilder;
@@ -59,6 +60,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private long soundId = -1;
     private Animation animationClosure;
     private Engagement engagement;
+
+    private OrderList orderList;
 
     protected abstract void setup();
 
@@ -104,6 +107,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         objectives = new ObjectiveSet(this, 4);
 
         meteorology = new Meteorology();
+        orderList = new OrderList();
     }
 
     @Override
@@ -322,6 +326,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 break;
         }
 
+        if (r != -1) {
+            orderList.add(cmd);
+        }
+
         return r;
     }
 
@@ -334,10 +342,15 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void turnDone()
     {
+        TankOnTank.debug("TurnDone", String.format(" Processed Commands : %d", orderList.size()));
+
         if (engagement != null)
             throw new RuntimeException("engagement not cleared");
         if (objectives.modifiedCount() > 0)
             throw new RuntimeException("objectives not cleared");
+
+        // FIXME do something with these Commands
+        orderList.clear();
     }
 
     public void actionDone()
