@@ -473,7 +473,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         int d2 = d6();
         int d3 = 0;
         int d4 = 0;
-        int die = d1 + d2;
+        int dice = d1 + d2;
 
         int distance = 0;
         boolean night = (meteorology.day == Meteorology.Day.NIGHT);
@@ -505,13 +505,13 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             else if (distance > 1)
                 wdf = 1;
         }
-        int s1 = (die + cnt + flk);
+        int s1 = (dice + cnt + flk);
         int s2 = (def + tdf + wdf);
 
         boolean success = false;
-        if (die == 2) {
+        if (dice == 2) {
             success = false;
-        } else if (die == 12) {
+        } else if (dice == 12) {
             success = true;
         } else {
             success = (s1 >= s2);
@@ -519,12 +519,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         if (!success && mayReroll) {
             d3 = d6();
             d4 = d6();
-            die = d3 + d4;
+            dice = d3 + d4;
             TankOnTank.debug(String.format("Reroll: (%d %d -> %d %d)", d1, d2, d3, d4));
-            s1 = (die + cnt + flk);
-            if (die == 2) {
+            s1 = (dice + cnt + flk);
+            if (dice == 2) {
                 success = false;
-            } else if (die == 12) {
+            } else if (dice == 12) {
                 success = true;
             } else {
                 success = (s1 >= s2);
