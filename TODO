@@ -15,6 +15,7 @@ NEXT:
         - hex orientation
         - inverted even/odd row scheme
     - automatic overlays to show unit stack depth
+    - option rotate head/pawn
 
 
 RESOURCES
