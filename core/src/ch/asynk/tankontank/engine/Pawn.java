@@ -143,6 +143,13 @@ public abstract class Pawn implements Moveable, Disposable
         move();
     }
 
+    public void setAttack(Pawn target, int distance)
+    {
+        attack.reset();
+        attack.target = target;
+        attack.distance = distance;
+    }
+
     public boolean justEntered()
     {
         return ((move != null) && move.isEntry());

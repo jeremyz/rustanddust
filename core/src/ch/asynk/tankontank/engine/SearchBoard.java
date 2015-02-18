@@ -326,9 +326,9 @@ public class SearchBoard
         Node from = getNode(pawn.getTile());
         Node to = getNode(target.getTile());
 
-        int distance = distance(from, to);
+        pawn.setAttack(target, distance(from, to));
 
-        if (distance > pawn.getEngagementRangeFrom(pawn.getTile()))
+        if (pawn.attack.distance > pawn.getEngagementRangeFrom(pawn.getTile()))
             return false;
 
         List<Node> los = lineOfSight(from.col, from.row, to.col, to.row, clearVisibility);
@@ -338,6 +338,9 @@ public class SearchBoard
 
         if (!validatePathAngle(pawn.getAngleOfAttack(), los))
             return false;
+
+        pawn.attack.isClear = isClearAttack(getTile(from), los);
+        pawn.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
 
         return true;
     }
