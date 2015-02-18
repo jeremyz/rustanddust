@@ -310,6 +310,25 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return r;
     }
 
+    private int promoteUnit(final Unit unit, final Player player)
+    {
+        // FIXME promoteUnit : ctrl.mapTouch. is not network safe
+        activatedUnits.add(unit);
+
+        Hex hex = unit.getHex();
+        AnimationSequence seq = AnimationSequence.get(2);
+        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
+            @Override
+            public void run() {
+                player.promote(unit);
+                animationDone();
+            }
+        }));
+        addAnimation(seq);
+        return 1;
+    }
+
     private int process(Command cmd)
     {
         TankOnTank.debug("Command", cmd.toString());
@@ -319,6 +338,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         switch(cmd.type) {
             case MOVE:
                 r = process(cmd.unit, cmd.move);
+                break;
+            case PROMOTE:
+                r = promoteUnit(cmd.unit, cmd.player);
                 break;
             default:
                 System.err.println(String.format("process wrong Command type %s", cmd.type));
@@ -420,22 +442,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return engage(unit, target, engagement);
     }
 
-    public void promoteUnit(final Player player, final Unit unit)
+    public void promoteUnit(final Unit unit)
     {
-        // FIXME promoteUnit -> process
-        activatedUnits.add(unit);
-
-        Hex hex = unit.getHex();
-        AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
-        seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
-            @Override
-            public void run() {
-                player.promote(unit);
-                animationDone();
-            }
-        }));
-        addAnimation(seq);
+        Command cmd = Command.get(ctrl.player);
+        cmd.setPromote(unit);
+        process(cmd);
     }
 
     // STATES ENTRY <-

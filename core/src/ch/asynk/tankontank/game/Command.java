@@ -74,6 +74,12 @@ public class Command extends Order
         this.move = move;
     }
 
+    public void setPromote(Unit unit)
+    {
+        this.type = CommandType.PROMOTE;
+        this.unit = unit;
+    }
+
     @Override
     public void write(Json json)
     {
