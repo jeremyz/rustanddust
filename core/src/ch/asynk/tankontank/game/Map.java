@@ -390,6 +390,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public boolean setOnBoard(final Unit unit, Hex to, Orientation entry)
     {
+        commands.dispose(unit);
         return (process(getMoveCommand(unit, Move.getSet(unit, to, entry))) == 1);
     }
 
