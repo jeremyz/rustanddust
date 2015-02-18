@@ -415,9 +415,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void revertMoves()
     {
-        TankOnTank.debug("    revertMoves()");
         for (Unit unit: activatedUnits) {
+            TankOnTank.debug("    revertMove() " + unit);
             revertLastPawnMove(unit, notifyDoneAnimation(unit));
+            commands.dispose(unit, Command.CommandType.MOVE);
         }
         activatedUnits.clear();
         objectives.revert(this);
