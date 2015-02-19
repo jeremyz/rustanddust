@@ -1,7 +1,5 @@
 package ch.asynk.tankontank.game;
 
-import java.util.Random;
-
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,8 +37,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 {
     private final Ctrl ctrl;
 
-    private Random rand = new Random();
-
     public final HexSet possibleMoves;
     public final PathBuilder pathBuilder;
 
@@ -63,11 +59,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private OrderList commands;
 
     protected abstract void setup();
-
-    public int d6()
-    {
-        return rand.nextInt(6) + 1;
-    }
 
     public Map(final TankOnTank game, Board.Config cfg, String textureName)
     {
@@ -341,7 +332,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 r = promoteUnit(cmd.unit, cmd.player);
                 break;
             case ENGAGE:
-                // FIXME having the dice roll here does not fit networking game
                 resolveEngagement(cmd.engagement);
                 r = doEngagement(cmd.engagement);
                 break;
@@ -511,11 +501,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private void resolveEngagement(Engagement e)
     {
-        int d1 = d6();
-        int d2 = d6();
-        int d3 = 0;
-        int d4 = 0;
-        int dice = d1 + d2;
+        int dice = e.d1 + e.d2;
 
         int distance = 0;
         boolean mayReroll = false;
@@ -563,9 +549,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             success = (s1 >= s2);
         }
         if (!success && mayReroll) {
-            d3 = d6();
-            d4 = d6();
-            dice = d3 + d4;
+            dice = e.d3 + e.d4;
             s1 = (dice + cnt + flk);
             if (dice == 2) {
                 success = false;
@@ -574,9 +558,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             } else {
                 success = (s1 >= s2);
             }
+        } else {
+            e.d3 = 0;
+            e.d4 = 0;
         }
 
-        e.set(d1, d2, d3, d4, cnt, flk, def, tdf, wdf);
+        e.set(cnt, flk, def, tdf, wdf);
         e.success = success;
         e.attackerArmy = ctrl.player.army;
         e.defenderArmy = ctrl.opponent.army;

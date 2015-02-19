@@ -2,12 +2,15 @@ package ch.asynk.tankontank.game;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Engagement implements Disposable, Pool.Poolable
 {
+    private static Random rand = new Random();
+
     private static final Pool<Engagement> engagementPool = new Pool<Engagement>() {
         @Override
         protected Engagement newObject() {
@@ -20,6 +23,7 @@ public class Engagement implements Disposable, Pool.Poolable
         Engagement e = engagementPool.obtain();
         e.attacker = attacker;
         e.defender = defender;
+        e.diceRoll();
 
         return e;
     }
@@ -73,12 +77,16 @@ public class Engagement implements Disposable, Pool.Poolable
         assists.add(unit);
     }
 
-    public void set(int d1, int d2, int d3, int d4, int cnt, int flk, int def, int tdf, int wdf)
+    private void diceRoll()
     {
-        this.d1 = d1;
-        this.d2 = d2;
-        this.d3 = d3;
-        this.d4 = d4;
+        d1 = rand.nextInt(6) + 1;
+        d2 = rand.nextInt(6) + 1;
+        d3 = rand.nextInt(6) + 1;
+        d4 = rand.nextInt(6) + 1;
+    }
+
+    public void set(int cnt, int flk, int def, int tdf, int wdf)
+    {
         this.unitCount = cnt;
         this.flankBonus = flk;
         this.unitDefense = def;
