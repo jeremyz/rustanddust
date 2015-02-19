@@ -7,7 +7,6 @@ public class StatePromote extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.setAnimationCount(1);
         ctrl.setAfterAnimationState(StateType.DONE);
         ctrl.setState(StateType.ANIMATION);
         map.promoteUnit(selectedUnit);

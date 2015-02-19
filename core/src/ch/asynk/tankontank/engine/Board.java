@@ -218,7 +218,18 @@ public abstract class Board implements Disposable, Animation
 
     protected void addAnimation(Animation a)
     {
+        animationCount += 1;
         nextAnimations.add(a);
+    }
+
+    protected void animationDone()
+    {
+        animationCount -= 1;
+    }
+
+    public int animationCount()
+    {
+        return animationCount;
     }
 
     private void stats()
@@ -230,10 +241,11 @@ public abstract class Board implements Disposable, Animation
             print = true;
         }
 
-        if (animationCount != animations.size()) {
-            animationCount = animations.size();
-            print = true;
-        }
+        // FIXME this will never be false
+        // if (animationCount != animations.size()) {
+        //     animationCount = animations.size();
+        //     print = true;
+        // }
 
         if (print)
             Gdx.app.debug("Board", " tiles:" + tileCount + " pawns:" + pawnCount + " animations:" + animationCount);

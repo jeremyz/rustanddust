@@ -76,7 +76,6 @@ public class StateMove extends StateCommon
         int n = map.activatedUnits.size();
         if (n == 0)
             return StateType.ABORT;
-        ctrl.setAnimationCount(n);
         map.revertMoves();
         return StateType.ANIMATION;
     }

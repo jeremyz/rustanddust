@@ -105,16 +105,8 @@ public class Ctrl implements Disposable
         return (state != selectState);
     }
 
-    public void setAnimationCount(int count)
+    public void animationsOver()
     {
-        animationCount = count;
-    }
-
-    public void animationDone()
-    {
-        animationCount -= 1;
-        if (animationCount > 0)
-            return;
         if (hud.dialogActive())
             return;
         leaveAnimationState();

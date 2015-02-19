@@ -29,7 +29,6 @@ public class StateWithdraw extends StateCommon
         if (activeUnit == null)
             activeUnit = selectedUnit;
 
-        ctrl.setAnimationCount(1);
         ctrl.setAfterAnimationState(withdraw(activeUnit));
         return StateType.ANIMATION;
     }

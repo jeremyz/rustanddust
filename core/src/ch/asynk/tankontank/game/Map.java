@@ -463,12 +463,15 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         });
     }
 
-    private void animationDone()
+    @Override
+    protected void animationDone()
     {
+        soundId = -1;
+        super.animationDone();
+        if (animationCount() == 0)
+            ctrl.animationsOver();
         if (soundId >= 0)
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, ctrl.cfg.fxVolume, 0.5f));
-        soundId = -1;
-        ctrl.animationDone();
     }
 
     private void addEngagementAnimation(Unit target)
@@ -577,7 +580,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             unclaim(e.defender.getHex());
             removePawn(e.defender);
             destroy.set(2f, e.defender);
-            addAnimation(destroy);
+            AnimationSequence seq = AnimationSequence.get(2);
+            seq.addAnimation(destroy);
+            seq.addAnimation(notifyDoneAnimation(e.defender));
+            addAnimation(seq);
         }
 
         if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())

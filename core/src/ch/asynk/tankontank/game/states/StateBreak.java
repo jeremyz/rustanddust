@@ -83,7 +83,6 @@ public class StateBreak extends StateCommon
         if (map.pathBuilder.build(to) == 1) {
             map.pathBuilder.orientation = o;
             map.moveUnit(activeUnit);
-            ctrl.setAnimationCount(1);
             ctrl.setAfterAnimationState(StateType.DONE);
         } else
             TankOnTank.debug("That's very wrong there should be only one path");

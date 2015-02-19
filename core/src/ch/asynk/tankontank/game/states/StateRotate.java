@@ -73,7 +73,6 @@ public class StateRotate extends StateCommon
         if (map.moveUnit(activeUnit) > 0)
             whenDone = StateType.MOVE;
 
-        ctrl.setAnimationCount(1);
         ctrl.setAfterAnimationState(whenDone);
         return StateType.ANIMATION;
     }
