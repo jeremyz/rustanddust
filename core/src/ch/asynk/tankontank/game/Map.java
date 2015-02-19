@@ -54,7 +54,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private final Sound infantryMoveSound;
     private Sound sound;
     private long soundId = -1;
-    private Animation animationClosure;
 
     private OrderList commands;
 
@@ -230,16 +229,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         showPossibleMoves();
         showMoveableUnits();
         activatedUnits.clear();
-    }
-
-    public int animationsDone()
-    {
-        if (animationClosure != null) {
-            addAnimation(animationClosure);
-            animationClosure = null;
-            return 1;
-        }
-        return 0;
     }
 
     // -> implement MoveToAnimationCb

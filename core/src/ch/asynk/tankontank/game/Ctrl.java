@@ -115,9 +115,6 @@ public class Ctrl implements Disposable
         animationCount -= 1;
         if (animationCount > 0)
             return;
-        animationCount = map.animationsDone();
-        if (animationCount > 0)
-            return;
         if (hud.dialogActive())
             return;
         leaveAnimationState();
