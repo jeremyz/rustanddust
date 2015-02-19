@@ -177,6 +177,7 @@ public class Ctrl implements Disposable
             map.actionDone();
             if (map.activatedUnits.size() > 0) {
                 TankOnTank.debug("Ctrl", "burn down 1AP");
+                hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
                 player.burnDownOneAp();
                 hud.update();
             }
