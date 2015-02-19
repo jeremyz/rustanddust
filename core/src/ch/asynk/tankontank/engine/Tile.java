@@ -26,7 +26,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     protected float x;
     protected float y;
     private StackedImages overlays;
-    private ArrayDeque<Pawn> stack;
+    protected ArrayDeque<Pawn> stack;
 
     public abstract int defense();
     public abstract int exitCost();
