@@ -124,9 +124,8 @@ public class StateDeployment extends StateCommon
         map.unselectHex(selectedHex);
         map.hideDirections(selectedHex);
 
-        if (o == Orientation.KEEP)
-            o = entryZone.orientation;
-        map.setOnBoard(selectedUnit, selectedHex, o);
+        if (o != Orientation.KEEP)
+            map.setOnBoard(selectedUnit, selectedHex, o);
 
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
