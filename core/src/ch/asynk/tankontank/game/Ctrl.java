@@ -120,6 +120,11 @@ public class Ctrl implements Disposable
             return;
         if (hud.dialogActive())
             return;
+        leaveAnimationState();
+    }
+
+    private void leaveAnimationState()
+    {
 
         StateType tmp = stateAfterAnimation;
         stateAfterAnimation = StateType.DONE;
@@ -306,6 +311,11 @@ public class Ctrl implements Disposable
     }
 
     // Hud callbacks
+    public void engagementPanelClosed()
+    {
+        if (animationCount == 0)
+            leaveAnimationState();
+    }
 
     public void endDeployment()
     {
