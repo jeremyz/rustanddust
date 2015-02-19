@@ -25,7 +25,7 @@ public class ScenariosMenu extends Patch
     private float checkDy;
     private Label title;
     protected Bg okBtn;
-    protected Bg backBtn;
+    protected Bg cancelBtn;
     private Label [] battleLabels;
 
     public boolean launch;
@@ -36,7 +36,7 @@ public class ScenariosMenu extends Patch
         this.game = game;
         this.font = font;
         this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.backBtn = new Bg(atlas.findRegion("cancel"));
+        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
         this.title = new Label(font);
         this.title.write("- Scenarios");
         this.battleLabels = new Label[game.factory.battles.length];
@@ -70,7 +70,7 @@ public class ScenariosMenu extends Patch
         setPosition(x, y, w, h);
 
         okBtn.setPosition((x + w - okBtn.getWidth() + BTN_PADDING), (y - BTN_PADDING));
-        backBtn.setPosition((okBtn.getX() - backBtn.getWidth() - BTN_PADDING), okBtn.getY());
+        cancelBtn.setPosition((x - BTN_PADDING), okBtn.getY());
 
         y += PADDING;
         x += PADDING + HSPACING;
@@ -92,7 +92,7 @@ public class ScenariosMenu extends Patch
         if (okBtn.hit(x, y)) {
             this.launch = (game.config.battle != null);
             return true;
-        } else if (backBtn.hit(x, y)) {
+        } else if (cancelBtn.hit(x, y)) {
             this.launch = false;
             return true;
         } else {
@@ -115,7 +115,7 @@ public class ScenariosMenu extends Patch
         super.dispose();
         title.dispose();
         okBtn.dispose();
-        backBtn.dispose();
+        cancelBtn.dispose();
         for (int i = 0; i < battleLabels.length; i++)
             battleLabels[i].dispose();
     }
@@ -127,7 +127,7 @@ public class ScenariosMenu extends Patch
         super.draw(batch);
         title.draw(batch);
         okBtn.draw(batch);
-        backBtn.draw(batch);
+        cancelBtn.draw(batch);
         for (int i = 0; i < battleLabels.length; i++) {
             Label l = battleLabels[i];
             l.draw(batch);
