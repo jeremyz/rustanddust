@@ -57,9 +57,7 @@ public class Hex extends Tile
 
     public Unit getUnit()
     {
-        // TODO ugly
-        if (isEmpty()) return null;
-        return (Unit) iterator().next();
+        return (Unit) stack.peekFirst();
     }
 
     @Override
