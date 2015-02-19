@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.engine.gfx.animations;
 
+import java.lang.Math;
+
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,18 +16,19 @@ public class PromoteAnimation implements Animation, Drawable
     private static PromoteAnimation instance = new PromoteAnimation();
 
     private static final float DURATION = 0.3f;
+    private static final float MAX_SCALE = 2f;
 
     private static Sound usSound;
     private static Sound geSound;
     private static Sound snd;
     private static TextureRegion region;
 
+    private float x0;
+    private float y0;
     private float x;
     private float y;
-    private float x1;
-    private float y1;
-    private float dx;
-    private float dy;
+    private float scale;
+    private float step;
     private float volume;
     private float elapsed;
 
@@ -44,20 +47,15 @@ public class PromoteAnimation implements Animation, Drawable
     {
     }
 
-    public static PromoteAnimation get(boolean us, float x0, float y0, float x1, float y1, float v)
+    public static PromoteAnimation get(boolean us, float x, float y, float v)
     {
-        x0 = (x0 - (region.getRegionWidth() / 2.0f));
-        y0 = (y0 - (region.getRegionHeight() / 2.0f));
-        x1 = (x1 - (region.getRegionWidth() / 2.0f));
-        y1 = (y1 - (region.getRegionHeight() / 2.0f));
+        x = (x - (region.getRegionWidth() / 2.0f));
+        y = (y - (region.getRegionHeight() / 2.0f));
 
         instance.volume = v;
-        instance.x = x0;
-        instance.y = y0;
-        instance.x1 = x1;
-        instance.y1 = y1;
-        instance.dx = ((x1 - x0)/ DURATION);
-        instance.dy = ((y1 - y0) / DURATION);
+        instance.x0 = x;
+        instance.y0 = y;
+        instance.scale = 0f;
         instance.elapsed = 0f;
         snd = (us ? usSound : geSound);
 
@@ -74,14 +72,14 @@ public class PromoteAnimation implements Animation, Drawable
     {
         elapsed += delta;
         if (elapsed >= DURATION) {
-            x = x1;
-            y = y1;
             snd.play(volume);
             return true;
         }
 
-        x += (dx * delta);
-        y += (dy * delta);
+        float s = MAX_SCALE * (float) Math.sin(Math.PI / DURATION * elapsed);
+        scale = 1f + s;
+        x = x0 - ((region.getRegionWidth() * scale) / 4f);
+        y = y0 - ((region.getRegionHeight() * scale) / 4f);
 
         return false;
     }
@@ -89,7 +87,7 @@ public class PromoteAnimation implements Animation, Drawable
     @Override
     public void draw(Batch batch)
     {
-        batch.draw(region, x, y);
+        batch.draw(region, x, y, 0, 0, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0f);
     }
 
     @Override

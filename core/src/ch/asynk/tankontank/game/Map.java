@@ -311,12 +311,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private int promoteUnit(final Unit unit, final Player player)
     {
-        // FIXME promoteUnit : ctrl.mapTouch. is not network safe
         activatedUnits.add(unit);
 
         Hex hex = unit.getHex();
         AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), ctrl.mapTouch.x, ctrl.mapTouch.y, hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
+        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), hex.getX(), hex.getY(), ctrl.cfg.fxVolume));
         seq.addAnimation ( RunnableAnimation.get(unit, new Runnable() {
             @Override
             public void run() {
