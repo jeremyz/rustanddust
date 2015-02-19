@@ -162,8 +162,10 @@ public class PlayerInfo implements Disposable, Drawable, Animation
                 ctrl.reinforcementHit();
         }
         else if (hit == unitDock) {
-            if (unitDock.hit(x, y))
+            if (unitDock.hit(x, y)) {
+                ctrl.hud.notify(unitDock.select(x, y).toString());
                 ctrl.stateTouchUp();
+            }
         }
 
         hit = null;

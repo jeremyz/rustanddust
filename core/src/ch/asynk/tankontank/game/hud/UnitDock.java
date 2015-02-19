@@ -92,13 +92,14 @@ public class UnitDock extends Bg implements Animation
     @Override
     public boolean hit(float x, float y)
     {
-        if (visible && scaledRect.contains(x, y)) {
-            int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
-            selectedUnit = units.get(i);
-            ctrl.hud.notify(selectedUnit.toString());
-            return true;
-        }
-        return false;
+        return (visible && scaledRect.contains(x, y));
+    }
+
+    public Unit select(float x, float y)
+    {
+        int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
+        selectedUnit = units.get(i);
+        return selectedUnit;
     }
 
     public void hide()
