@@ -342,6 +342,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 r = promoteUnit(cmd.unit, cmd.player);
                 break;
             case ENGAGE:
+                // FIXME having the dice roll here does not fit networking game
+                resolveEngagement(cmd.engagement);
                 r = doEngagement(cmd.engagement);
                 break;
             default:
@@ -438,9 +440,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         Command cmd = Command.get(ctrl.player);
         cmd.setEngage(unit, target);
-
-        // FIXME resolve the engagement here does not work for the AI
-        resolveEngagement(cmd.engagement);
         return (process(cmd) == 1);
     }
 
