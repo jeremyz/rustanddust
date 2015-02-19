@@ -112,7 +112,7 @@ public class MenuScreen implements Screen
         } else if (scenariosMenu.hit(x, y)) {
             mainMenu.visible = true;
             scenariosMenu.visible = false;
-            if (game.config.battle != null)
+            if (scenariosMenu.launch)
                 startLoading();
             return true;
         } else if (tutorialsMenu.hit(x, y)) {

@@ -13,7 +13,7 @@ import ch.asynk.tankontank.game.Battle;
 public class ScenariosMenu extends Patch
 {
     public static int PADDING = 40;
-    public static int OK_PADDING = 10;
+    public static int BTN_PADDING = 10;
     public static int TITLE_PADDING = 30;
     public static int VSPACING = 5;
     public static int HSPACING = 30;
@@ -25,7 +25,10 @@ public class ScenariosMenu extends Patch
     private float checkDy;
     private Label title;
     protected Bg okBtn;
+    protected Bg backBtn;
     private Label [] battleLabels;
+
+    public boolean launch;
 
     public ScenariosMenu(TankOnTank game, BitmapFont font, TextureAtlas atlas)
     {
@@ -33,6 +36,7 @@ public class ScenariosMenu extends Patch
         this.game = game;
         this.font = font;
         this.okBtn = new Bg(atlas.findRegion("ok"));
+        this.backBtn = new Bg(atlas.findRegion("cancel"));
         this.title = new Label(font);
         this.title.write("- Scenarios");
         this.battleLabels = new Label[game.factory.battles.length];
@@ -44,6 +48,7 @@ public class ScenariosMenu extends Patch
         checkDy = font.getMultiLineBounds(CHECK).height + 9;
 
         this.visible = false;
+        this.launch = false;
     }
 
     public void setPosition()
@@ -64,7 +69,8 @@ public class ScenariosMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        okBtn.setPosition((x + w - okBtn.getWidth() + OK_PADDING), (y - OK_PADDING));
+        okBtn.setPosition((x + w - okBtn.getWidth() + BTN_PADDING), (y - BTN_PADDING));
+        backBtn.setPosition((okBtn.getX() - backBtn.getWidth() - BTN_PADDING), okBtn.getY());
 
         y += PADDING;
         x += PADDING + HSPACING;
@@ -84,6 +90,10 @@ public class ScenariosMenu extends Patch
         if (!visible) return false;
 
         if (okBtn.hit(x, y)) {
+            this.launch = (game.config.battle != null);
+            return true;
+        } else if (backBtn.hit(x, y)) {
+            this.launch = false;
             return true;
         } else {
             for (int i = 0; i <battleLabels.length; i++) {
@@ -105,6 +115,7 @@ public class ScenariosMenu extends Patch
         super.dispose();
         title.dispose();
         okBtn.dispose();
+        backBtn.dispose();
         for (int i = 0; i < battleLabels.length; i++)
             battleLabels[i].dispose();
     }
@@ -116,6 +127,7 @@ public class ScenariosMenu extends Patch
         super.draw(batch);
         title.draw(batch);
         okBtn.draw(batch);
+        backBtn.draw(batch);
         for (int i = 0; i < battleLabels.length; i++) {
             Label l = battleLabels[i];
             l.draw(batch);
