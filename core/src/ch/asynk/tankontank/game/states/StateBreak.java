@@ -49,6 +49,7 @@ public class StateBreak extends StateCommon
     @Override
     public void touchUp()
     {
+        // TODO : cancel preview move before showing rotation
         if (activeUnit == null) {
             Unit unit = upHex.getUnit();
             if (map.breakUnits.contains(unit)) {
