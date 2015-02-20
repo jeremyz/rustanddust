@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import ch.asynk.tankontank.engine.Order;
 import ch.asynk.tankontank.engine.Move;
 import ch.asynk.tankontank.engine.Pawn;
+import ch.asynk.tankontank.engine.Tile;
 
 public  class Command extends Order
 {
@@ -36,12 +37,19 @@ public  class Command extends Order
     {
         Command c = commandPool.obtain();
         c.player = player;
+        c.ap = player.getAp();
+        c.turn = player.getCurrentTurn();
         return c;
     }
 
     public CommandType type;
     public Player player;
+    public int ap;
+    public int turn;
     public Unit unit;
+    public Unit.UnitId unitId;
+    public Unit.UnitType unitType;
+    public Tile unitTile;
     public Move move;
     public Engagement engagement;
 
@@ -95,21 +103,29 @@ public  class Command extends Order
     public void setMove(Unit unit, Move move)
     {
         this.type = CommandType.MOVE;
-        this.unit = unit;
         this.move = move;
+        setUnit(unit);
     }
 
     public void setPromote(Unit unit)
     {
         this.type = CommandType.PROMOTE;
-        this.unit = unit;
+        setUnit(unit);
     }
 
     public void setEngage(Unit unit, Unit target)
     {
         this.type = CommandType.ENGAGE;
-        this.unit = unit;
         this.engagement = Engagement.get(unit, target);
+        setUnit(unit);
+    }
+
+    private void setUnit(Unit unit)
+    {
+        this.unit = unit;
+        this.unitId = unit.id;
+        this.unitType = unit.type;
+        this.unitTile = unit.getTile();
     }
 
     @Override
