@@ -3,7 +3,11 @@ package ch.asynk.tankontank.engine;
 import java.util.LinkedList;
 import java.util.Iterator;
 
-public class OrderList extends LinkedList<Order>
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
+public class OrderList extends LinkedList<Order> implements Json.Serializable
 {
     public void dispose(Pawn pawn)
     {
@@ -34,5 +38,27 @@ public class OrderList extends LinkedList<Order>
         for (Order o : this)
             o.dispose();
         clear();
+    }
+
+    public String toJson()
+    {
+        Json json = new Json();
+        json.setOutputType(OutputType.json);
+        return json.toJson(this);
+    }
+
+    @Override
+    public void write(Json json)
+    {
+        json.writeArrayStart("commands");
+        for (Order o : this)
+            json.writeValue(o);
+        json.writeArrayEnd();
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonMap)
+    {
+        // TODO read(Json json, JsonValue jsonMap)
     }
 }
