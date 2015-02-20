@@ -109,7 +109,8 @@ public class Ctrl implements Disposable
     {
         if (hud.dialogActive())
             return;
-        leaveAnimationState();
+        if (stateType == StateType.ANIMATION)
+            leaveAnimationState();
     }
 
     private void leaveAnimationState()

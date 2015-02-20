@@ -261,12 +261,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         switch(move.type) {
             case REGULAR:
                 initMove(unit);
-                movePawn(unit, move, notifyDoneAnimation(unit), this);
+                movePawn(unit, move, this);
                 r = moveableUnits.size();
                 break;
             case EXIT:
                 initMove(unit);
-                movePawn(unit, move, notifyDoneAnimation(unit), this);
+                movePawn(unit, move, this);
                 ctrl.player.unitWithdraw(unit);
                 r = moveableUnits.size();
                 break;
@@ -300,7 +300,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             @Override
             public void run() {
                 player.promote(unit);
-                animationDone();
             }
         }));
         addAnimation(seq);
@@ -395,7 +394,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     {
         for (Unit unit: activatedUnits) {
             TankOnTank.debug("    revertMove() " + unit);
-            revertLastPawnMove(unit, notifyDoneAnimation(unit));
+            revertLastPawnMove(unit);
             commands.dispose(unit, Command.CommandType.MOVE);
         }
         activatedUnits.clear();
@@ -453,25 +452,15 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         soundId = sound.play(ctrl.cfg.fxVolume);
     }
 
-    private RunnableAnimation notifyDoneAnimation(final Unit unit)
-    {
-        return RunnableAnimation.get(unit, new Runnable() {
-            @Override
-            public void run() {
-                animationDone();
-            }
-        });
-    }
-
     @Override
-    protected void animationDone()
+    protected void animationsOver()
     {
-        soundId = -1;
-        super.animationDone();
-        if (animationCount() == 0)
-            ctrl.animationsOver();
-        if (soundId >= 0)
+        if (soundId >= 0) {
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, ctrl.cfg.fxVolume, 0.5f));
+            soundId = -1;
+            return;
+        }
+        ctrl.animationsOver();
     }
 
     private void addEngagementAnimation(Unit target)
@@ -480,14 +469,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         Hex to = target.getHex();
         for (Unit u : activatedUnits) {
             Hex from = u.getHex();
-            AnimationSequence seq = AnimationSequence.get(2);
             float halfWidth = (u.getWidth() / 2f);
             if (u.isA(Unit.UnitType.INFANTRY))
-                seq.addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
+                addAnimation(InfantryFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
             else
-                seq.addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
-            seq.addAnimation(notifyDoneAnimation(target));
-            addAnimation(seq);
+                addAnimation(TankFireAnimation.get(ctrl.cfg.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
         }
     }
 
@@ -580,10 +566,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             unclaim(e.defender.getHex());
             removePawn(e.defender);
             destroy.set(2f, e.defender);
-            AnimationSequence seq = AnimationSequence.get(2);
-            seq.addAnimation(destroy);
-            seq.addAnimation(notifyDoneAnimation(e.defender));
-            addAnimation(seq);
+            addAnimation(destroy);
         }
 
         if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())

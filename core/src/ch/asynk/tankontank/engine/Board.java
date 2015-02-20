@@ -103,7 +103,6 @@ public abstract class Board implements Disposable, Animation
         initSides();
 
         this.selectedTile = selectedTile;
-        animations.add(selectedTile);
     }
 
     private void initSides()
@@ -216,20 +215,16 @@ public abstract class Board implements Disposable, Animation
         return t;
     }
 
+    protected abstract void animationsOver();
+
     protected void addAnimation(Animation a)
     {
-        animationCount += 1;
         nextAnimations.add(a);
-    }
-
-    protected void animationDone()
-    {
-        animationCount -= 1;
     }
 
     public int animationCount()
     {
-        return animationCount;
+        return animations.size();
     }
 
     private void stats()
@@ -241,11 +236,10 @@ public abstract class Board implements Disposable, Animation
             print = true;
         }
 
-        // FIXME this will never be false
-        // if (animationCount != animations.size()) {
-        //     animationCount = animations.size();
-        //     print = true;
-        // }
+        if (animationCount != animations.size()) {
+            animationCount = animations.size();
+            print = true;
+        }
 
         if (print)
             Gdx.app.debug("Board", " tiles:" + tileCount + " pawns:" + pawnCount + " animations:" + animationCount);
@@ -253,17 +247,21 @@ public abstract class Board implements Disposable, Animation
 
     public boolean animate(float delta)
     {
-
+        boolean over = (animations.size() > 0);
         Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
             Animation a = iter.next();
             if (a.animate(delta))
                 iter.remove();
         }
+        if (over && (animations.size() == 0))
+            animationsOver();
 
         for (int i = 0, n = nextAnimations.size(); i < n; i++)
             animations.add(nextAnimations.get(i));
         nextAnimations.clear();
+
+        selectedTile.animate(delta);
 
         return true;
     }
@@ -284,6 +282,8 @@ public abstract class Board implements Disposable, Animation
         Iterator<Animation> animationIter = animations.iterator();
         while (animationIter.hasNext())
             animationIter.next().draw(batch);
+
+        selectedTile.draw(batch);
 
         if (transform)
             batch.setTransformMatrix(prevTransform);
@@ -445,14 +445,13 @@ public abstract class Board implements Disposable, Animation
         });
     }
 
-    protected void movePawn(final Pawn pawn, Move move, RunnableAnimation whenDone, MoveToAnimationCb cb)
+    protected void movePawn(final Pawn pawn, Move move, MoveToAnimationCb cb)
     {
         pawn.move(move);
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getMoveAnimation(move.iterator(), (move.steps() + 2), cb);
+        AnimationSequence seq = pawn.getMoveAnimation(move.iterator(), (move.steps() + 1), cb);
         seq.addAnimation(getSetPawnOntoAnimation(pawn));
-        seq.addAnimation(whenDone);
         addAnimation(seq);
     }
 
@@ -462,19 +461,16 @@ public abstract class Board implements Disposable, Animation
         setPawnOnto(pawn, move.to, move.orientation);
     }
 
-    protected void revertLastPawnMove(final Pawn pawn, RunnableAnimation whenDone)
+    protected void revertLastPawnMove(final Pawn pawn)
     {
         removePawn(pawn);
 
-        AnimationSequence seq = pawn.getRevertLastMoveAnimation(2);
-        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+        addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
                 pushPawnOnto(pawn, pawn.getTile());
             }
         }));
-        seq.addAnimation(whenDone);
-        addAnimation(seq);
 
         pawn.revertLastMove();
     }
