@@ -94,9 +94,9 @@ public class EngagementPanel extends Patch implements Animation
         attackR.write(String.format(" %2d", e.attackSum));
         defenseR.write(String.format(" %2d", e.defenseSum));
         if (e.success)
-            winner = ((e.attackerArmy == Army.US) ? usFlag : geFlag);
+            winner = ((e.attacker.getArmy() == Army.US) ? usFlag : geFlag);
         else
-            winner = ((e.attackerArmy == Army.US) ? geFlag : usFlag);
+            winner = ((e.attacker.getArmy() == Army.US) ? geFlag : usFlag);
 
         this.position = position;
         placeElements();

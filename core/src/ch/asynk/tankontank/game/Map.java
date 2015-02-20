@@ -543,8 +543,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         e.set(cnt, flk, def, tdf, wdf);
         e.success = success;
-        e.attackerArmy = ctrl.player.army;
-        e.defenderArmy = ctrl.opponent.army;
     }
 
     private int doEngagement(Engagement e)
