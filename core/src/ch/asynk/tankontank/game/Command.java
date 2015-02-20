@@ -1,5 +1,7 @@
 package ch.asynk.tankontank.game;
 
+import java.util.List;
+
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -131,7 +133,88 @@ public  class Command extends Order
     @Override
     public void write(Json json)
     {
-        // FIXME Command.write(Json);
+        json.writeValue("type", type);
+        json.writeObjectStart("player");
+        json.writeValue("army", player.getName());
+        json.writeValue("turn", turn);
+        json.writeValue("aps", ap);
+        json.writeObjectEnd();
+        json.writeObjectStart("unit");
+        json.writeValue("id", unitId);
+        json.writeValue("type", unitType);
+        json.writeValue("ace", unit.ace);
+        writeTile(json, "tile", unitTile);
+        json.writeObjectEnd();
+        if (move != null) writeMove(json, "move", move);
+        if (engagement != null) writeEngagement(json, "engagement", engagement);
+    }
+
+    private void writeMove(Json json, String key, Move m)
+    {
+        json.writeObjectStart(key);
+        json.writeValue("type", move.type);
+        writeTile(json, "from", move.from);
+        writeTile(json, "to", move.to);
+        json.writeValue("orientation", move.orientation.r());
+        writeTiles(json, "path", move.tiles);
+        json.writeObjectEnd();
+    }
+
+    private void writeEngagement(Json json, String key, Engagement e)
+    {
+        json.writeObjectStart(key);
+        writeUnit(json, "attacker", e.attacker);
+        writeUnit(json, "defender", e.defender);
+        writeUnits(json, "assists", e.assists);
+        json.writeObjectStart("dice");
+        json.writeValue("d1", e.d1);
+        json.writeValue("d2", e.d2);
+        json.writeValue("d3", e.d3);
+        json.writeValue("d4", e.d4);
+        json.writeObjectEnd();
+        json.writeObjectStart("results");
+        json.writeValue("success", e.success);
+        json.writeValue("attackSum", e.attackSum);
+        json.writeValue("defenseSum", e.defenseSum);
+        json.writeObjectEnd();
+        json.writeObjectEnd();
+    }
+
+    private void writeUnit(Json json, String key, Unit u)
+    {
+        if (key != null) json.writeObjectStart(key);
+        else json.writeObjectStart();
+        json.writeValue("id", u.id);
+        json.writeValue("ace", u.ace);
+        json.writeValue("army", u.getArmy());
+        writeTile(json, "tile", u.getTile());
+        json.writeObjectEnd();
+    }
+
+    private void writeUnits(Json json, String key, List<Unit> units)
+    {
+        json.writeArrayStart(key);
+        for (Unit u : units)
+            writeUnit(json, null, u);
+        json.writeArrayEnd();
+    }
+
+    private void writeTile(Json json, String key, Tile t)
+    {
+        if (t == null) return;
+        if (key != null) json.writeObjectStart(key);
+        else json.writeObjectStart();
+        json.writeValue("col", t.getCol());
+        json.writeValue("row", t.getRow());
+        json.writeObjectEnd();
+    }
+
+    private void writeTiles(Json json, String key, List<Tile> tiles)
+    {
+        json.writeArrayStart(key);
+        for (Tile t : tiles)
+            writeTile(json, null, t);
+        json.writeArrayEnd();
     }
 
     @Override
