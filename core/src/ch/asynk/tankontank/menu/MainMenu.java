@@ -1,114 +1,67 @@
 package ch.asynk.tankontank.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.tankontank.ui.Label;
-import ch.asynk.tankontank.ui.Patch;
+import ch.asynk.tankontank.ui.Menu;
 
-public class MainMenu extends Patch
+public class MainMenu extends Menu
 {
-    public static int PADDING = 40;
-    public static int VSPACING = 8;
-
-    private Label options;
-    private Label scenarios;
-    private Label tutorial;
-    private Label exit;
-
-    public enum Menu {
-        OPTIONS,
-        TUTORIALS,
-        SCENARIOS,
-        NONE
+    public enum Items implements Menu.MenuItem
+    {
+        EXIT(0),
+        OPTIONS(1),
+        TUTORIALS(2),
+        SCENARIOS(3),
+        NONE(4);
+        public int i;
+        Items(int i)
+        {
+            this.i = i;
+        }
+        public int i() { return i; }
+        public int last() { return NONE.i; }
     };
-    private Menu menu;
 
     public MainMenu(BitmapFont font, TextureAtlas atlas)
     {
-        super(atlas.createPatch("typewriter"));
-        this.options = new Label(font, 10);
-        this.scenarios = new Label(font, 10);
-        this.tutorial = new Label(font, 10);
-        this.exit = new Label(font, 10);
-        this.menu = Menu.NONE;
+        super(Items.NONE, font, atlas.createPatch("typewriter"));
 
-        options.write("Options");
-        scenarios.write("Scenarios");
-        tutorial.write("Tutorial");
-        exit.write("Quit");
+        label(Items.OPTIONS).write("Options");
+        label(Items.TUTORIALS).write("Tutorials");
+        label(Items.SCENARIOS).write("Scenarios");
+        label(Items.EXIT).write("Exit");
+
+        this.visible = true;
     }
 
-    public Menu getMenu()
+    public Items getMenu()
     {
-        return menu;
-    }
-
-    public void setPosition()
-    {
-        float h = ((4 * tutorial.getHeight()) + (2 * PADDING) + (3 * VSPACING));
-        float w = (scenarios.getWidth() + (2 * PADDING));
-        float x = position.getX(w);
-        float y = position.getY(h);
-        setPosition(x, y, w, h);
-
-        y += PADDING;
-        x += PADDING;
-        float dy = (VSPACING + tutorial.getHeight());
-
-        exit.setPosition(x, y);
-        y += dy;
-        options.setPosition(x, y);
-        y += dy;
-        tutorial.setPosition(x, y);
-        y += dy;
-        scenarios.setPosition(x, y);
+        return (Items) menuItem;
     }
 
     @Override
     public boolean hit(float x, float y)
     {
         boolean ret = false;
-        menu = Menu.NONE;
+        menuItem = Items.NONE;
 
         if (!visible) return ret;
 
-        if (scenarios.hit(x, y)) {
-            menu = Menu.SCENARIOS;
+        if (label(Items.SCENARIOS).hit(x, y)) {
+            menuItem = Items.SCENARIOS;
             ret = true;
-        } else if (tutorial.hit(x, y)) {
-            menu = Menu.TUTORIALS;
+        } else if (label(Items.TUTORIALS).hit(x, y)) {
+            menuItem = Items.TUTORIALS;
             ret = true;
-        } else if (options.hit(x, y)) {
-            menu = Menu.OPTIONS;
+        } else if (label(Items.OPTIONS).hit(x, y)) {
+            menuItem = Items.OPTIONS;
             ret = true;
-        } else if (exit.hit(x, y)) {
+        } else if (label(Items.EXIT).hit(x, y)) {
             Gdx.app.exit();
         }
 
         return ret;
-    }
-
-    @Override
-    public void dispose()
-    {
-        super.dispose();
-        scenarios.dispose();
-        tutorial.dispose();
-        options.dispose();
-        exit.dispose();
-    }
-
-    @Override
-    public void draw(Batch batch)
-    {
-        if (!visible) return;
-        super.draw(batch);
-        scenarios.draw(batch);
-        tutorial.draw(batch);
-        options.draw(batch);
-        exit.draw(batch);
     }
 }

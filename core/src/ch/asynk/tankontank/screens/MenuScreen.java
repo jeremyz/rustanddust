@@ -126,13 +126,13 @@ public class MenuScreen implements Screen
 
     private void showNextMenu()
     {
-        MainMenu.Menu menu = mainMenu.getMenu();
+        MainMenu.Items item = mainMenu.getMenu();
 
-        if (menu == MainMenu.Menu.OPTIONS)
+        if (item == MainMenu.Items.OPTIONS)
             optionsMenu.visible = true;
-        else if (menu == MainMenu.Menu.SCENARIOS)
+        else if (item == MainMenu.Items.SCENARIOS)
             scenariosMenu.visible = true;
-        else if (menu == MainMenu.Menu.TUTORIALS)
+        else if (item == MainMenu.Items.TUTORIALS)
             tutorialsMenu.visible = true;
     }
 
