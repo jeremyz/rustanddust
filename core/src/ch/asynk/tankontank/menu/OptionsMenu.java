@@ -39,6 +39,8 @@ public class OptionsMenu extends Patch
     private Label fxVolumeValue;
     private Label graphics;
     private Label graphicsValue;
+    private Label gameMode;
+    private Label gameModeValue;
     private Label [] checkLabels;
     private boolean [] checkValues;
     protected Bg okBtn;
@@ -59,6 +61,10 @@ public class OptionsMenu extends Patch
         this.graphics.write("Graphics");
         this.graphicsValue = new Label(font);
         this.graphicsValue.write(game.config.graphics.s);
+        this.gameMode = new Label(font);
+        this.gameMode.write("Game mode");
+        this.gameModeValue = new Label(font);
+        this.gameModeValue.write(game.config.gameMode.s);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
@@ -114,12 +120,22 @@ public class OptionsMenu extends Patch
         graphicsValue.setPosition(fx, fy);
     }
 
+    private void cycleGameMode()
+    {
+        game.config.gameMode = game.config.gameMode.next();
+        float fx = gameModeValue.getX();
+        float fy = gameModeValue.getY();
+        gameModeValue.write(game.config.gameMode.s);
+        gameModeValue.setPosition(fx, fy);
+    }
+
     public void setPosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + ((checkLabels.length - 1) * VSPACING) + (2 * PADDING));
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
         h += (graphics.getHeight() + VSPACING);
+        h += (gameMode.getHeight() + VSPACING);
         h += (fxVolume.getHeight() + VSPACING);
 
         float w = title.getWidth();
@@ -142,6 +158,9 @@ public class OptionsMenu extends Patch
 
         graphics.setPosition(x, y);
         graphicsValue.setPosition((x + graphics.getWidth() + 10), y);
+        y += dy;
+        gameMode.setPosition(x, y);
+        gameModeValue.setPosition((x + gameMode.getWidth() + 10), y);
         y += dy;
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + 10), y);
@@ -166,6 +185,8 @@ public class OptionsMenu extends Patch
             cycleFxVolume();
         } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
             cycleGraphics();
+        } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
+            cycleGameMode();
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
                 if (checkLabels[i].hit(x, y))
@@ -186,6 +207,8 @@ public class OptionsMenu extends Patch
         fxVolumeValue.dispose();
         graphics.dispose();
         graphicsValue.dispose();
+        gameMode.dispose();
+        gameModeValue.dispose();
         for (int i = 0; i < checkLabels.length; i++)
             checkLabels[i].dispose();
     }
@@ -201,6 +224,8 @@ public class OptionsMenu extends Patch
         fxVolumeValue.draw(batch);
         graphics.draw(batch);
         graphicsValue.draw(batch);
+        gameMode.draw(batch);
+        gameModeValue.draw(batch);
         for (int i = 0; i < checkLabels.length; i++) {
             Label l = checkLabels[i];
             l.draw(batch);
