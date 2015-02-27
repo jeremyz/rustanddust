@@ -20,6 +20,29 @@ public class Config
         }
     };
 
+    public enum GameMode
+    {
+        SOLO("Solo", 0),
+        PVE("Player vs AI", 1),
+        PVP("Player vs Player", 2);
+        public String s;
+        public int i;
+        GameMode(String s, int i)
+        {
+            this.s = s;
+            this.i = i;
+        }
+        public GameMode next()
+        {
+            if (this == SOLO)
+                return PVE;
+            if(this == PVE)
+                return PVP;
+            return SOLO;
+        }
+    };
+
+    public GameMode gameMode;
     public boolean showMoves;
     public boolean showTargets;
     public boolean showMoveAssists;
@@ -33,6 +56,7 @@ public class Config
 
     public Config()
     {
+        this.gameMode = GameMode.SOLO;
         this.debug = false;
         this.showMoves = true;
         this.showTargets = true;
