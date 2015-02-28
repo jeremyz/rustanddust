@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import ch.asynk.tankontank.ui.Label;
 import ch.asynk.tankontank.ui.Bg;
 import ch.asynk.tankontank.ui.Patch;
+import ch.asynk.tankontank.ui.OkCancel;
 
 import ch.asynk.tankontank.TankOnTank;
 
@@ -43,6 +44,7 @@ public class OptionsMenu extends Patch
     private Label gameModeValue;
     private Label [] checkLabels;
     private boolean [] checkValues;
+    private OkCancel okCancel;
     protected Bg okBtn;
 
     public OptionsMenu(TankOnTank game, BitmapFont font, TextureAtlas atlas)
@@ -50,6 +52,7 @@ public class OptionsMenu extends Patch
         super(atlas.createPatch("typewriter"));
         this.game = game;
         this.font = font;
+        this.okCancel = new OkCancel(font, atlas);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.title = new Label(font);
         this.title.write("- Options");
@@ -89,7 +92,7 @@ public class OptionsMenu extends Patch
         checkValues[0] = game.config.debug;
     }
 
-    private void apply()
+    private boolean apply()
     {
         game.config.showMoves = checkValues[6];
         game.config.showTargets = checkValues[5];
@@ -98,6 +101,13 @@ public class OptionsMenu extends Patch
         game.config.canCancel = checkValues[2];
         game.config.mustValidate = checkValues[1];
         game.config.debug = checkValues[0];
+        if (!game.config.gameModeImplemented()) {
+            this.visible = false;
+            okCancel.show(String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s));
+            okCancel.noCancel();
+            return false;
+        }
+        return true;
     }
 
     private void cycleFxVolume()
@@ -176,11 +186,16 @@ public class OptionsMenu extends Patch
     @Override
     public boolean hit(float x, float y)
     {
+        if (okCancel.hit(x, y)) {
+            this.visible = true;
+            okCancel.visible = false;
+            return false;
+        }
+
         if (!visible) return false;
 
         if (okBtn.hit(x, y)) {
-            apply();
-            return true;
+            return apply();
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
         } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
@@ -203,6 +218,7 @@ public class OptionsMenu extends Patch
         super.dispose();
         title.dispose();
         okBtn.dispose();
+        okCancel.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
         graphics.dispose();
@@ -216,6 +232,8 @@ public class OptionsMenu extends Patch
     @Override
     public void draw(Batch batch)
     {
+        okCancel.draw(batch);
+
         if (!visible) return;
         super.draw(batch);
         title.draw(batch);
