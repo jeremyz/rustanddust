@@ -43,6 +43,15 @@ public class Hud implements Disposable, Animation
     private OkCancel okCancel;
     private LinkedList<Widget> dialogs = new LinkedList<Widget>();
 
+    public enum OkCancelAction
+    {
+        EXIT_BOARD,
+        ABORT_TURN,
+        END_TURN,
+        END_DEPLOYMENT,
+    }
+    private OkCancelAction okCancelAction;
+
     public Hud(final Ctrl ctrl, final TankOnTank game)
     {
         this.game = game;
@@ -215,7 +224,7 @@ public class Hud implements Disposable, Animation
     {
         boolean ok = okCancel.ok;
 
-        switch(okCancel.action) {
+        switch(okCancelAction) {
             case EXIT_BOARD:
                 ctrl.exitBoard(ok);
                 break;
@@ -249,33 +258,38 @@ public class Hud implements Disposable, Animation
 
     public void notifyDeploymentDone()
     {
-        okCancel.show("Deployment Phase completed.", OkCancel.Action.END_TURN);
+        this.okCancelAction = OkCancelAction.END_TURN;
+        okCancel.show("Deployment Phase completed.");
         okCancel.noCancel();
         pushDialog(okCancel);
     }
 
     public void notifyNoMoreAP()
     {
-        okCancel.show("No more Action Point left.", OkCancel.Action.END_TURN);
+        this.okCancelAction = OkCancelAction.END_TURN;
+        okCancel.show("No more Action Point left.");
         okCancel.noCancel();
         pushDialog(okCancel);
     }
 
     public void askExitBoard()
     {
-        okCancel.show("Do you want this unit to escape the battle field ?", OkCancel.Action.EXIT_BOARD);
+        this.okCancelAction = OkCancelAction.EXIT_BOARD;
+        okCancel.show("Do you want this unit to escape the battle field ?");
         pushDialog(okCancel);
     }
 
     public void askEndOfTurn()
     {
-        okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?", OkCancel.Action.ABORT_TURN);
+        this.okCancelAction = OkCancelAction.ABORT_TURN;
+        okCancel.show("You still have Action Points left.\nEnd your Turn anyway ?");
         pushDialog(okCancel);
     }
 
     public void askEndDeployment()
     {
-        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?", OkCancel.Action.END_DEPLOYMENT);
+        this.okCancelAction = OkCancelAction.END_DEPLOYMENT;
+        okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?");
         pushDialog(okCancel);
     }
 
