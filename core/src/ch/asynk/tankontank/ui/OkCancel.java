@@ -15,15 +15,6 @@ public class OkCancel extends Patch
     protected Label label;
     protected Bg okBtn;
     protected Bg cancelBtn;
-    public Action action;
-
-    public enum Action
-    {
-        EXIT_BOARD,
-        ABORT_TURN,
-        END_TURN,
-        END_DEPLOYMENT,
-    }
 
     public OkCancel(BitmapFont font, TextureAtlas atlas)
     {
@@ -45,15 +36,13 @@ public class OkCancel extends Patch
         cancelBtn.translate(dx, dy);
     }
 
-    public void show(String msg, Action action)
+    public void show(String msg)
     {
-        show(msg, action, Position.MIDDLE_CENTER);
+        show(msg, Position.MIDDLE_CENTER);
     }
 
-    public void show(String msg, Action action, Position position)
+    public void show(String msg, Position position)
     {
-        this.action = action;
-
         label.write(msg);
 
         float height = (label.getHeight() + okBtn.getHeight() + (2 * PADDING) + (2 * VSPACING));
