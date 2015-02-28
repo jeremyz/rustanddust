@@ -68,4 +68,9 @@ public class Config
         this.battle = null;
         this.fxVolume = 1f;
     }
+
+    public boolean gameModeImplemented()
+    {
+        return (gameMode == GameMode.SOLO);
+    }
 }
