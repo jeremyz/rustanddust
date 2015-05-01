@@ -2,11 +2,12 @@ package ch.asynk.tankontank.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class Label extends Widget
 {
     private BitmapFont font;
+    private GlyphLayout layout;
     private float dx;
     private float dy;
     protected String text;
@@ -27,6 +28,7 @@ public class Label extends Widget
         this.font = font;
         this.padding = padding;
         this.position = position;
+        this.layout = new GlyphLayout();
     }
 
     @Override
@@ -43,10 +45,10 @@ public class Label extends Widget
     @Override
     public void setPosition(float x, float y)
     {
-        TextBounds b = font.getMultiLineBounds((text == null) ? "" : text);
-        setPosition(x, y, (b.width + (2 * padding)), (b.height + (2 * padding)));
+        this.layout.setText(font, (text == null) ? "" : text);
+        setPosition(x, y, (layout.width + (2 * padding)), (layout.height + (2 * padding)));
         this.dx = (x + padding);
-        this.dy = (y + padding + b.height);
+        this.dy = (y + padding + layout.height);
     }
 
     public void write(String text)
@@ -65,6 +67,6 @@ public class Label extends Widget
     public void draw(Batch batch)
     {
         if (!visible) return;
-        font.drawMultiLine(batch, text, dx, dy);
+        font.draw(batch, layout, dx, dy);
     }
 }

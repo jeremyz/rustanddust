@@ -2,6 +2,7 @@ package ch.asynk.tankontank.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.ui.Label;
@@ -45,7 +46,9 @@ public class ScenariosMenu extends Patch
             l.write(game.factory.battles[i].getName());
             battleLabels[i] = l;
         }
-        checkDy = font.getMultiLineBounds(CHECK).height + 9;
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, CHECK);
+        checkDy = layout.height + 9;
 
         this.visible = false;
         this.launch = false;

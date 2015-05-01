@@ -2,6 +2,7 @@ package ch.asynk.tankontank.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.tankontank.ui.Label;
@@ -76,7 +77,9 @@ public class OptionsMenu extends Patch
             this.checkLabels[i] = l;
         }
         getValues();
-        checkDy = font.getMultiLineBounds(CHECK).height + 5;
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, CHECK);
+        checkDy = layout.height + 5;
 
         this.visible = false;
     }
