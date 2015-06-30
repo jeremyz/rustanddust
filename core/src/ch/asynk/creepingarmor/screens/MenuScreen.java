@@ -47,8 +47,6 @@ public class MenuScreen implements Screen
     private Sprite to;
     private Sprite geFlag;
     private Sprite usFlag;
-    private Sprite lnl;
-    private Sprite logo;
 
     private MainMenu mainMenu;
     private OptionsMenu optionsMenu;
@@ -79,8 +77,6 @@ public class MenuScreen implements Screen
         this.to = new Sprite(game.menuAtlas.findRegion("to"));
         this.usFlag = new Sprite(game.menuAtlas.findRegion("us-flag"));
         this.geFlag = new Sprite(game.menuAtlas.findRegion("ge-flag"));
-        this.lnl = new Sprite(game.menuAtlas.findRegion("lnl"));
-        this.logo = new Sprite(game.menuAtlas.findRegion("logo"));
 
         this.mainMenu = new MainMenu(game.fontB, game.uiAtlas);
         this.optionsMenu = new OptionsMenu(game, game.fontB, game.uiAtlas);
@@ -186,8 +182,6 @@ public class MenuScreen implements Screen
 
         batch.setProjectionMatrix(camera.uiCombined());
         batch.begin();
-        batch.draw(logo, OFFSET, (camera.getScreenHeight() - logo.getRegionHeight() - OFFSET));
-        batch.draw(lnl, (camera.getScreenWidth() - lnl.getRegionWidth() - (2 * OFFSET)), (2 * OFFSET));
         mainMenu.draw(batch);
         optionsMenu.draw(batch);
         scenariosMenu.draw(batch);

@@ -1,61 +1,47 @@
 
 menu.png
-size: 1024,512
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 from
   rotate: false
-  xy: 251, 184
+  xy: 2, 2
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 2, 2
+  xy: 386, 118
   size: 153, 101
   orig: 153, 101
   offset: 0, 0
   index: -1
-lnl
-  rotate: false
-  xy: 251, 117
-  size: 270, 65
-  orig: 270, 65
-  offset: 0, 0
-  index: -1
-logo
-  rotate: false
-  xy: 2, 105
-  size: 247, 296
-  orig: 247, 296
-  offset: 0, 0
-  index: -1
 move
   rotate: false
-  xy: 790, 287
+  xy: 667, 105
   size: 100, 114
   orig: 100, 114
   offset: 0, 0
   index: -1
 to
   rotate: false
-  xy: 443, 184
+  xy: 194, 2
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 unit
   rotate: false
-  xy: 635, 177
+  xy: 541, 95
   size: 124, 124
   orig: 124, 124
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 635, 303
+  xy: 386, 18
   size: 153, 98
   orig: 153, 98
   offset: 0, 0
