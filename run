@@ -34,7 +34,7 @@ case "$1" in
         shift;
         ARGS="desktop:dist $@"
         gradlew_do
-        scp ./desktop/build/libs/desktop-1.0.jar erratic:/var/www/public/TankOnTank.jar
+        scp ./desktop/build/libs/desktop-1.0.jar erratic:/var/www/public/CreepingArmor.jar
         ;;
     "f")
         # java -cp gdx.jar:gdx-natives.jar:gdx-backend-lwjgl.jar:gdx-backend-lwjgl-natives.jar:extensions/gdx-tools/gdx-tools.jar:hiero.jar com.badlogic.gdx.tools.hiero.Hiero

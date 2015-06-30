@@ -1,12 +1,12 @@
-package ch.asynk.tankontank;
+package ch.asynk.creepingarmor;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.tankontank.engine.SearchBoard;
-import ch.asynk.tankontank.engine.SearchBoard.Node;
+import ch.asynk.creepingarmor.engine.SearchBoard;
+import ch.asynk.creepingarmor.engine.SearchBoard.Node;
 
 import static org.junit.Assert.assertTrue;
 

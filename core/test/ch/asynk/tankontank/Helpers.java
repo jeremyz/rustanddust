@@ -1,15 +1,15 @@
-package ch.asynk.tankontank;
+package ch.asynk.creepingarmor;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import ch.asynk.tankontank.engine.Pawn;
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.Board;
-import ch.asynk.tankontank.engine.Orientation;
-import ch.asynk.tankontank.engine.SearchBoard;
-import ch.asynk.tankontank.engine.PathBuilder;
+import ch.asynk.creepingarmor.engine.Pawn;
+import ch.asynk.creepingarmor.engine.Tile;
+import ch.asynk.creepingarmor.engine.Board;
+import ch.asynk.creepingarmor.engine.Orientation;
+import ch.asynk.creepingarmor.engine.SearchBoard;
+import ch.asynk.creepingarmor.engine.PathBuilder;
 
 public class Helpers
 {

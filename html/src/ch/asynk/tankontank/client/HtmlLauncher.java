@@ -1,9 +1,9 @@
-package ch.asynk.tankontank.client;
+package ch.asynk.creepingarmor.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import ch.asynk.tankontank.TankOnTank;
+import ch.asynk.creepingarmor.CreepingArmor;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new TankOnTank();
+                return new CreepingArmor();
         }
 }

@@ -1,4 +1,4 @@
-package ch.asynk.tankontank;
+package ch.asynk.creepingarmor;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.HashSet;
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.tankontank.engine.Tile;
-import ch.asynk.tankontank.engine.Path;
+import ch.asynk.creepingarmor.engine.Tile;
+import ch.asynk.creepingarmor.engine.Path;
 
 import static org.junit.Assert.assertTrue;
 

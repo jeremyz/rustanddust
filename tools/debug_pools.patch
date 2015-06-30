@@ -1,7 +1,7 @@
-diff --git a/core/src/ch/asynk/tankontank/engine/Move.java b/core/src/ch/asynk/tankontank/engine/Move.java
+diff --git a/core/src/ch/asynk/creepingarmor/engine/Move.java b/core/src/ch/asynk/creepingarmor/engine/Move.java
 index 06035c3..1bb55b1 100644
---- a/core/src/ch/asynk/tankontank/engine/Move.java
-+++ b/core/src/ch/asynk/tankontank/engine/Move.java
+--- a/core/src/ch/asynk/creepingarmor/engine/Move.java
++++ b/core/src/ch/asynk/creepingarmor/engine/Move.java
 @@ -15,12 +15,30 @@ public class Move extends Path implements Iterable<Vector3>
          EXIT;
      }
@@ -33,10 +33,10 @@ index 06035c3..1bb55b1 100644
      };
  
      public static Move get(Pawn pawn, Tile from, Tile to, Orientation orientation, Path path)
-diff --git a/core/src/ch/asynk/tankontank/game/Command.java b/core/src/ch/asynk/tankontank/game/Command.java
+diff --git a/core/src/ch/asynk/creepingarmor/game/Command.java b/core/src/ch/asynk/creepingarmor/game/Command.java
 index 0d39e6c..db3c910 100644
---- a/core/src/ch/asynk/tankontank/game/Command.java
-+++ b/core/src/ch/asynk/tankontank/game/Command.java
+--- a/core/src/ch/asynk/creepingarmor/game/Command.java
++++ b/core/src/ch/asynk/creepingarmor/game/Command.java
 @@ -19,12 +19,30 @@ public  class Command extends Order
          END_OF_TURN;
      }
@@ -68,10 +68,10 @@ index 0d39e6c..db3c910 100644
      };
  
      public static void clearPool()
-diff --git a/core/src/ch/asynk/tankontank/game/Engagement.java b/core/src/ch/asynk/tankontank/game/Engagement.java
+diff --git a/core/src/ch/asynk/creepingarmor/game/Engagement.java b/core/src/ch/asynk/creepingarmor/game/Engagement.java
 index 8f01008..d06ac6d 100644
---- a/core/src/ch/asynk/tankontank/game/Engagement.java
-+++ b/core/src/ch/asynk/tankontank/game/Engagement.java
+--- a/core/src/ch/asynk/creepingarmor/game/Engagement.java
++++ b/core/src/ch/asynk/creepingarmor/game/Engagement.java
 @@ -8,11 +8,29 @@ import com.badlogic.gdx.utils.Disposable;
  
  public class Engagement implements Disposable, Pool.Poolable
