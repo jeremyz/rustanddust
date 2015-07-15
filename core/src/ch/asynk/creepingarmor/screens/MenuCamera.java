@@ -59,7 +59,6 @@ public class MenuCamera extends OrthographicCamera
 
         update(true);
 
-        uiMatrix.set(combined);
         uiMatrix.setToOrtho2D(getHudLeft(), getHudBottom(), getHudWidth(), getHudHeight());
         uiInvProjMatrix.set(uiMatrix);
         Matrix4.inv(uiInvProjMatrix.val);

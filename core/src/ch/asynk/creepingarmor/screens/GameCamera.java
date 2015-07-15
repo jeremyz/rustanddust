@@ -77,7 +77,6 @@ public class GameCamera extends OrthographicCamera
 
         clampPosition();
         update(true);
-        hudMatrix.set(combined);
         hudMatrix.setToOrtho2D(getHudLeft(), getHudBottom(), getHudWidth(), getHudHeight());
         hudInvProjMatrix.set(hudMatrix);
         Matrix4.inv(hudInvProjMatrix.val);
