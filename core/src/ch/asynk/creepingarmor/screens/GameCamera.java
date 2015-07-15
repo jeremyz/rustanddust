@@ -55,14 +55,17 @@ public class GameCamera extends OrthographicCamera
         float diff = (viewportAspect - aspect);
 
         if (diff < -ZEROF) {
+            // wider than tall
             window.width = java.lang.Math.min((screenHeight * viewportAspect / zoom), screenWidth);
             window.height = screenHeight;
             window.x = ((screenWidth - window.width) / 2f);
             window.y = 0f;
+            viewportWidth = (viewportHeight * (window.width / window.height));
             hud.y = hudCorrection;
             hud.x = (hud.y * viewportWidth / viewportHeight);
-            viewportWidth = (viewportHeight * (window.width / window.height));
         } else if (diff > ZEROF) {
+            // taller than wide
+            // FIXME fix hud vertical position
             window.width = screenWidth;
             window.height = java.lang.Math.min((screenWidth * viewportAspect / zoom), screenHeight);
             window.x = 0f;
@@ -71,19 +74,20 @@ public class GameCamera extends OrthographicCamera
             hud.x = hudCorrection;
             hud.y = (hud.x / viewportWidth * viewportHeight);
         }
+
         hud.width = (window.width - (2 * hud.x));
         hud.height = (window.height - (2 * hud.y));
 
-        Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
-
-        this.widthFactor = (viewportWidth / screenWidth);
-        this.heightFactor = (viewportHeight / screenHeight);
+        widthFactor = (viewportWidth / screenWidth);
+        heightFactor = (viewportHeight / screenHeight);
 
         clampPosition();
         update(true);
         hudMatrix.setToOrtho2D(hud.x, hud.y, hud.width, hud.height);
         hudInvProjMatrix.set(hudMatrix);
         Matrix4.inv(hudInvProjMatrix.val);
+
+        Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
     }
 
     public Matrix4 getHudMatrix()
