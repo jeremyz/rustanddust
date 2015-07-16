@@ -172,6 +172,7 @@ public class GameScreen implements Screen
             debugShapes.setAutoShapeType(true);
             debugShapes.setProjectionMatrix(cam.getHudMatrix());
             debugShapes.begin();
+            debugShapes.rect(cam.getHudLeft(), cam.getHudBottom(), cam.getHudWidth(), cam.getHudHeight());
             ctrl.hud.drawDebug(debugShapes);
             debugShapes.end();
         }
