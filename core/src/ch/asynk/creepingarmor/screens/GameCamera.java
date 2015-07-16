@@ -70,7 +70,7 @@ public class GameCamera extends OrthographicCamera
             window.y = ((screenHeight - window.height) / 2f);
             viewportHeight = (viewportWidth * (window.height / window.width));
             hud.x = hudCorrection;
-            hud.y = (hud.x / viewportWidth * viewportHeight);
+            hud.y = (hud.x * viewportHeight / viewportWidth);
         }
 
         hud.width = (window.width - (2 * hud.x));
