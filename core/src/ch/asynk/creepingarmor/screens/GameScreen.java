@@ -23,6 +23,7 @@ public class GameScreen implements Screen
 {
     private static boolean DEBUG = false;
 
+    private static final boolean FIXED_HUD = true;
     private static final float INPUT_DELAY = 0.1f;
     private static final float ZOOM_IN_MAX = 0.3f;
     private static final float ZOOM_OUT_MAX = 1f;
@@ -54,7 +55,7 @@ public class GameScreen implements Screen
 
         this.batch = new SpriteBatch();
         this.ctrl = new Ctrl(game, game.config.battle);
-        this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX, game.hudCorrection);
+        this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX, game.hudCorrection, FIXED_HUD);
 
         if (DEBUG) this.debugShapes = new ShapeRenderer();
 
@@ -144,6 +145,7 @@ public class GameScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // cam.update();
+        cam.applyMapViewport();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         ctrl.map.draw(batch);
@@ -159,6 +161,7 @@ public class GameScreen implements Screen
             debugShapes.end();
         }
 
+        cam.applyHudViewport();
         batch.setProjectionMatrix(cam.getHudMatrix());
         batch.begin();
         ctrl.hud.draw(batch, DEBUG);

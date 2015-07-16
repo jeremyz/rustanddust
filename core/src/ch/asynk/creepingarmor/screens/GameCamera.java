@@ -28,8 +28,9 @@ public class GameCamera extends OrthographicCamera
     private int hudCorrection;
     private int hudLeft;
     private int hudBottom;
+    private boolean fixedHud;
 
-    public GameCamera(float virtualWidth, float virtualHeight, float zoomOut, float zoomIn, int hudCorrection)
+    public GameCamera(float virtualWidth, float virtualHeight, float zoomOut, float zoomIn, int hudCorrection, boolean fixedHud)
     {
         super(virtualWidth, virtualHeight);
         this.zoomOut = zoomOut;
@@ -42,6 +43,7 @@ public class GameCamera extends OrthographicCamera
         this.hudMatrix = new Matrix4();
         this.hudInvProjMatrix = new Matrix4();
         this.hudCorrection = hudCorrection;
+        this.fixedHud = fixedHud;
     }
 
     public void updateViewport(int screenWidth, int screenHeight)
@@ -73,8 +75,15 @@ public class GameCamera extends OrthographicCamera
             hud.y = (hud.x * viewportHeight / viewportWidth);
         }
 
-        hud.width = (window.width - (2 * hud.x));
-        hud.height = (window.height - (2 * hud.y));
+        if (fixedHud) {
+            hud.x = 0;
+            hud.y = 0;
+            hud.width = screenWidth;
+            hud.height = screenHeight;
+        } else {
+            hud.width = (window.width - (2 * hud.x));
+            hud.height = (window.height - (2 * hud.y));
+        }
 
         widthFactor = (viewportWidth / screenWidth);
         heightFactor = (viewportHeight / screenHeight);
@@ -84,8 +93,17 @@ public class GameCamera extends OrthographicCamera
         hudMatrix.setToOrtho2D(hud.x, hud.y, hud.width, hud.height);
         hudInvProjMatrix.set(hudMatrix);
         Matrix4.inv(hudInvProjMatrix.val);
+    }
 
+    public void applyMapViewport()
+    {
         Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
+    }
+
+    public void applyHudViewport()
+    {
+        if (fixedHud)
+            Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
     }
 
     public Matrix4 getHudMatrix()
@@ -182,11 +200,12 @@ public class GameCamera extends OrthographicCamera
 
     public void unprojectHud(float x, float y, Vector3 v)
     {
-        x = x - window.x;
+        Rectangle r = (fixedHud ? hud : window);
+        x = x - r.x;
         y = Gdx.graphics.getHeight() - y - 1;
-        y = y - window.y;
-        v.x = (2 * x) / window.width - 1;
-        v.y = (2 * y) / window.height - 1;
+        y = y - r.y;
+        v.x = (2 * x) / r.width - 1;
+        v.y = (2 * y) / r.height - 1;
         v.z = 2 * v.z - 1;
         v.prj(hudInvProjMatrix);
     }
