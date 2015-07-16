@@ -41,8 +41,6 @@ public class GameCamera extends OrthographicCamera
         this.hud = new Rectangle();
         this.hudMatrix = new Matrix4();
         this.hudInvProjMatrix = new Matrix4();
-        this.hudLeft = 0;
-        this.hudBottom = 0;
         this.hudCorrection = hudCorrection;
     }
 
