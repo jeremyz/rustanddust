@@ -1,0 +1,28 @@
+#! /bin/bash
+
+if [ $# -lt 2 ]; then
+    echo "usage $0 old_name new_name"
+    exit 1
+fi
+
+OLD=$1
+NEW=$2
+OLD_L=$(echo $OLD | tr '[:upper:]' '[:lower:]')
+NEW_L=$(echo $NEW | tr '[:upper:]' '[:lower:]')
+
+WHERE="core android desktop ios html build.gradle run"
+
+./gradlew clean
+
+for F in $(ack -l $OLD $WHERE); do
+    sed -i "s/$OLD/$NEW/" $F
+done
+for F in $(ack -l $OLD_L $WHERE); do
+    sed -i "s/$OLD_L/$NEW_L/" $F
+done
+
+DIR=$(find .  -type d -name $OLD_L)
+mv $DIR ${DIR%/*}/$NEW_L
+
+FILE=$(find .  -type f -name $OLD.java)
+mv $FILE ${FILE%/*}/$NEW.java
