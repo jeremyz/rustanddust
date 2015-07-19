@@ -4,8 +4,8 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 
-    <inherits name='CreepingArmor' />
-	<entry-point class='ch.asynk.creepingarmor.client.HtmlLauncher' />
+    <inherits name='RustAndDust' />
+	<entry-point class='ch.asynk.rustanddust.client.HtmlLauncher' />
 	
 	<add-linker name="xsiframe"/>
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>

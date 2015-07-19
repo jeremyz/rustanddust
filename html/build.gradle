@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'ch.asynk.creepingarmor.GdxDefinition'
-    devModules 'ch.asynk.creepingarmor.GdxDefinitionSuperdev'
+    modules 'ch.asynk.rustanddust.GdxDefinition'
+    devModules 'ch.asynk.rustanddust.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {

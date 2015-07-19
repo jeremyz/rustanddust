@@ -1,16 +1,16 @@
-package ch.asynk.creepingarmor.android;
+package ch.asynk.rustanddust.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import ch.asynk.creepingarmor.CreepingArmor;
+import ch.asynk.rustanddust.RustAndDust;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new CreepingArmor(), config);
+		initialize(new RustAndDust(), config);
 	}
 }

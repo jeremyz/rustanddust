@@ -1,4 +1,4 @@
-package ch.asynk.creepingarmor;
+package ch.asynk.rustanddust;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.HashSet;
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.creepingarmor.engine.Tile;
-import ch.asynk.creepingarmor.engine.Path;
+import ch.asynk.rustanddust.engine.Tile;
+import ch.asynk.rustanddust.engine.Path;
 
 import static org.junit.Assert.assertTrue;
 

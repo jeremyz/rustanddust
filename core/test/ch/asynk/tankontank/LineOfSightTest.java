@@ -1,12 +1,12 @@
-package ch.asynk.creepingarmor;
+package ch.asynk.rustanddust;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.creepingarmor.engine.SearchBoard;
-import ch.asynk.creepingarmor.engine.SearchBoard.Node;
+import ch.asynk.rustanddust.engine.SearchBoard;
+import ch.asynk.rustanddust.engine.SearchBoard.Node;
 
 import static org.junit.Assert.assertTrue;
 

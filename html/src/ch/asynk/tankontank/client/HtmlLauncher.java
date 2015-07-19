@@ -1,9 +1,9 @@
-package ch.asynk.creepingarmor.client;
+package ch.asynk.rustanddust.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import ch.asynk.creepingarmor.CreepingArmor;
+import ch.asynk.rustanddust.RustAndDust;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new CreepingArmor();
+                return new RustAndDust();
         }
 }

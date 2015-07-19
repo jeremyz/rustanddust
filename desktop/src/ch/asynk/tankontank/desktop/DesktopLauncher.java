@@ -1,9 +1,9 @@
-package ch.asynk.creepingarmor.desktop;
+package ch.asynk.rustanddust.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.Files;
-import ch.asynk.creepingarmor.CreepingArmor;
+import ch.asynk.rustanddust.RustAndDust;
 
 public class DesktopLauncher {
     public static void main (String[] arg) {
@@ -13,6 +13,6 @@ public class DesktopLauncher {
         config.height = 768;
         // config.fullscreen = true;
         config.addIcon("data/icon.png", Files.FileType.Internal);
-        new LwjglApplication(new CreepingArmor(), config);
+        new LwjglApplication(new RustAndDust(), config);
     }
 }

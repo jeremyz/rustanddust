@@ -1,15 +1,15 @@
-package ch.asynk.creepingarmor;
+package ch.asynk.rustanddust;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import ch.asynk.creepingarmor.engine.Pawn;
-import ch.asynk.creepingarmor.engine.Tile;
-import ch.asynk.creepingarmor.engine.Board;
-import ch.asynk.creepingarmor.engine.Orientation;
-import ch.asynk.creepingarmor.engine.SearchBoard;
-import ch.asynk.creepingarmor.engine.PathBuilder;
+import ch.asynk.rustanddust.engine.Pawn;
+import ch.asynk.rustanddust.engine.Tile;
+import ch.asynk.rustanddust.engine.Board;
+import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.engine.SearchBoard;
+import ch.asynk.rustanddust.engine.PathBuilder;
 
 public class Helpers
 {
