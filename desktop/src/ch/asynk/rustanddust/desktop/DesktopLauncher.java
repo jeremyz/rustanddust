@@ -8,7 +8,7 @@ import ch.asynk.rustanddust.RustAndDust;
 public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Creeping Armor";
+        config.title = "Dust And Rust";
         config.width = 1024;
         config.height = 768;
         // config.fullscreen = true;
