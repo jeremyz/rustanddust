@@ -14,15 +14,27 @@ WHERE="core android desktop ios html build.gradle run"
 
 ./gradlew clean
 
+echo "replace '$OLD with $NEW'"
 for F in $(ack -l $OLD $WHERE); do
-    sed -i "s/$OLD/$NEW/" $F
+    sed -i "s/$OLD/$NEW/g" $F
 done
+
+echo "replace '$OLD_L' with '$NEW_L'"
 for F in $(ack -l $OLD_L $WHERE); do
-    sed -i "s/$OLD_L/$NEW_L/" $F
+    sed -i "s/$OLD_L/$NEW_L/g" $F
 done
 
-DIR=$(find .  -type d -name $OLD_L)
-mv $DIR ${DIR%/*}/$NEW_L
+echo "move '$OLD_L' directories into '$NEW_L'"
+for D in $(find .  -type d -name $OLD_L); do
+    mv $D ${D%/*}/$NEW_L
+done
 
-FILE=$(find .  -type f -name $OLD.java)
-mv $FILE ${FILE%/*}/$NEW.java
+echo "move '$OLD.java' files into '$NEW.java'"
+for F in $(find .  -type f -name $OLD.java); do
+    mv $F ${F%/*}/$NEW.java
+done
+
+echo "mv core/src/${OLD}.gwt.xml core/src/${NEW}.gwt.xml"
+mv core/src/${OLD}.gwt.xml core/src/${NEW}.gwt.xml
+
+vim $(find desktop/src/ -name DesktopLauncher.java)
