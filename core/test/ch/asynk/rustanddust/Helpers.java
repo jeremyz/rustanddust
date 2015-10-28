@@ -121,6 +121,8 @@ public class Helpers
             pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
         }
 
+        @Override public void animationsOver() {}
+
         @Override
         public Tile getTile(int col, int row)
         {
