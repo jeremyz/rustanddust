@@ -356,10 +356,17 @@ public class SearchBoard
 
     private boolean isFlankAttack(int angle, List<Node> los)
     {
+        Node before = los.get(los.size() - 3);
         Node from = los.get(los.size() - 2);
         Node to = los.get(los.size() - 1);
+        boolean special = (distance(from, to) == distance(before, to));
+
         Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
-        return o.isInSides(angle);
+        if (!special)
+            return o.isInSides(angle);
+
+        Orientation o2 = Orientation.fromMove(to.col, to.row, before.col, before.row);
+        return (o.isInSides(angle) && o2.isInSides(angle));
     }
 
     private boolean isClearAttack(Tile from, List<Node> los)
