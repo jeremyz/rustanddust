@@ -260,6 +260,12 @@ public class SearchBoard
             a[5] = null;
     }
 
+    public List<Node> buildLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
+    {
+        lineOfSight(x0, y0, x1, y1, clearVisibility);
+        return los;
+    }
+
     public int possibleTargetsFrom(Pawn shooter, Collection<Pawn> targets)
     {
         targets.clear();
