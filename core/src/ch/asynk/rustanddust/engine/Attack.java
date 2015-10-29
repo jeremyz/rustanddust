@@ -21,7 +21,7 @@ public class Attack
     public void reset()
     {
         target = null;
-        distance = 0;;
+        distance = 0;
         isClear = false;
         isFlank = false;
     }
