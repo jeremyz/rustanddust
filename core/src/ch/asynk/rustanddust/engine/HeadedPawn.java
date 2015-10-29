@@ -13,6 +13,12 @@ public abstract class HeadedPawn extends Pawn
     private Sprite head;
     protected Orientation orientation;
 
+    protected HeadedPawn()
+    {
+        super();
+        this.orientation = Orientation.KEEP;
+    }
+
     public HeadedPawn(Faction faction, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
         super(faction, pawn, pawns, overlays);
