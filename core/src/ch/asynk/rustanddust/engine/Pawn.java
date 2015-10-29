@@ -159,7 +159,12 @@ public abstract class Pawn implements Moveable, Disposable
 
     public boolean isFlankAttack()
     {
-        return (attack.isClear && attack.isFlank);
+        return (isClearAttack() && attack.isFlank);
+    }
+
+    public boolean isClearAttack()
+    {
+        return attack.isClear;
     }
 
     public int attackDistance()
