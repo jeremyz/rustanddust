@@ -19,7 +19,7 @@ public class LineOfSightTest
     {
         int cols = 10;
         int rows = 9;
-        fakeBoard = new Helpers.FakeBoard(cols, rows, 0);
+        fakeBoard = new Helpers.FakeBoard(cols, rows);
         sb = new Helpers.FakeSearchBoard(fakeBoard, cols, rows);
     }
 

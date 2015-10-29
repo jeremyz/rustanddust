@@ -15,13 +15,9 @@ public class Helpers
 {
     public static class FakePawn extends Pawn
     {
-        private int mvt;
-        public FakePawn (int mvt)
-        {
-            this.mvt = mvt;
-        }
+        public FakePawn () {}
 
-        @Override public int getMovementPoints()                    { return mvt; }
+        @Override public int getMovementPoints()                    { return 3; }
         @Override public int getRoadMarchBonus()                    { return 1; }
         @Override public int getAngleOfAttack()                     { return 0; }
         @Override public int getFlankSides()                        { return 0; }
@@ -104,7 +100,7 @@ public class Helpers
         public FakeTile fakeTiles[];
         public PathBuilder pathBuilder;
 
-        public FakeBoard(int cols, int rows, int mvt)
+        public FakeBoard(int cols, int rows)
         {
             super(cols, rows);
             fakeTiles = new FakeTile[(cols + 2) * (rows + 2)];
@@ -123,7 +119,7 @@ public class Helpers
             fakeTiles[ 84 - 2].offMap = true;
             fakeTiles[108 - 2].offMap = true;
 
-            pawn = new FakePawn(mvt);
+            pawn = new FakePawn();
             pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
         }
 

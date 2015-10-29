@@ -23,7 +23,7 @@ public class BoardUtils
         int cols = 10;
         int rows = 9;
         int mvt = 3;
-        b = new Helpers.FakeBoard(cols, rows, 3);
+        b = new Helpers.FakeBoard(cols, rows);
         sb = new Helpers.FakeSearchBoard(b, cols, rows);
     }
 
