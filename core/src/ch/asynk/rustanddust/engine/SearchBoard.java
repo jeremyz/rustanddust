@@ -259,18 +259,18 @@ public class SearchBoard
             a[5] = null;
     }
 
-    public int possibleTargetsFrom(Pawn pawn, Collection<Pawn> targets)
+    public int possibleTargetsFrom(Pawn shooter, Collection<Pawn> targets)
     {
         targets.clear();
         searchCount += 1;
 
         Node adjacents[] = new Node[6];
 
-        int range = pawn.getEngagementRangeFrom(pawn.getTile());
-        int angle = pawn.getAngleOfAttack();
-        int extendedAngle = pawn.getOrientation().opposite().allBut();
+        int range = shooter.getEngagementRangeFrom(shooter.getTile());
+        int angle = shooter.getAngleOfAttack();
+        int extendedAngle = shooter.getOrientation().opposite().allBut();
 
-        Node from = getNode(pawn.getTile());
+        Node from = getNode(shooter.getTile());
         from.search = searchCount;
         from.remaining = range;
 
@@ -309,7 +309,7 @@ public class SearchBoard
                             Iterator<Pawn> it = t.iterator();
                             while (it.hasNext()) {
                                 Pawn target = it.next();
-                                if (pawn.canEngage(target))
+                                if (shooter.canEngage(target))
                                     targets.add(target);
                             }
                         }
@@ -321,26 +321,25 @@ public class SearchBoard
         return targets.size();
     }
 
-    public boolean canAttack(Pawn pawn, Pawn target, boolean clearVisibility)
+    public boolean canAttack(Pawn shooter, Pawn target, boolean clearVisibility)
     {
-        Node from = getNode(pawn.getTile());
+        Node from = getNode(shooter.getTile());
         Node to = getNode(target.getTile());
 
-        pawn.setAttack(target, distance(from, to));
+        shooter.setAttack(target, distance(from, to));
 
-        if (pawn.attack.distance > pawn.getEngagementRangeFrom(pawn.getTile()))
+        if (shooter.attack.distance > shooter.getEngagementRangeFrom(shooter.getTile()))
             return false;
 
         List<Node> los = lineOfSight(from.col, from.row, to.col, to.row, clearVisibility);
-        Node last = los.get(los.size() -1);
-        if (last != to)
+        if (los.get(los.size() -1) != to)
             return false;
 
-        if (!validatePathAngle(pawn.getAngleOfAttack(), los))
+        if (!validatePathAngle(shooter.getAngleOfAttack(), los))
             return false;
 
-        pawn.attack.isClear = isClearAttack(getTile(from), los);
-        pawn.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
+        shooter.attack.isClear = isClearAttack(getTile(from), los);
+        shooter.attack.isFlank = isFlankAttack(target.getFlankSides(), los);
 
         return true;
     }
