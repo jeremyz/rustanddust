@@ -484,18 +484,18 @@ public class SearchBoard
         Tile t = null;
         los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
-            boolean ok = false;
+            boolean ok = !clearVisibility;
 
             y += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!clearVisibility || !t.blockLineOfSightFrom(from))
+            if (!ok && !t.blockLineOfSightFrom(from))
                 ok = true;
 
             x += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!clearVisibility || !t.blockLineOfSightFrom(from))
+            if (!ok && !t.blockLineOfSightFrom(from))
                 ok = true;
 
             if (!ok)
@@ -523,12 +523,12 @@ public class SearchBoard
         Tile t = null;
         los.add(getNode(x, y));
         while((x != x1) || (y != y1)) {
-            boolean ok = false;
+            boolean ok = !clearVisibility;
 
             x += dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!clearVisibility || !t.blockLineOfSightFrom(from))
+            if (!ok && !t.blockLineOfSightFrom(from))
                 ok = true;
 
             y += dy;
@@ -536,7 +536,7 @@ public class SearchBoard
                 x -= dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!clearVisibility || !t.blockLineOfSightFrom(from))
+            if (!ok && !t.blockLineOfSightFrom(from))
                 ok = true;
 
             if (!ok)
