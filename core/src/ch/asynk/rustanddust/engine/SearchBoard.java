@@ -355,13 +355,15 @@ public class SearchBoard
 
     private boolean isFlankAttack(int angle, List<Node> los)
     {
-        Node before = los.get(los.size() - 3);
         Node from = los.get(los.size() - 2);
         Node to = los.get(los.size() - 1);
-        boolean special = (distance(from, to) == distance(before, to));
-
         Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
-        if (!special)
+
+        if (los.size() < 3)
+            return o.isInSides(angle);
+
+        Node before = los.get(los.size() - 3);
+        if (distance(before, to) > 1)
             return o.isInSides(angle);
 
         Orientation o2 = Orientation.fromMove(to.col, to.row, before.col, before.row);
