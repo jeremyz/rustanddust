@@ -335,7 +335,7 @@ public class SearchBoard
         if (los.get(los.size() -1) != to)
             return false;
 
-        if (!validatePathAngle(shooter.getAngleOfAttack(), los))
+        if (!validateFireAngle(shooter.getAngleOfAttack(), los))
             return false;
 
         shooter.attack.isClear = isClearAttack(getTile(from), los);
@@ -350,7 +350,7 @@ public class SearchBoard
         Node last = los.get(los.size() -1);
         if ((last.col != to.col) || (last.row != to.row))
             return false;
-        return validatePathAngle(angleOfAttack, los);
+        return validateFireAngle(angleOfAttack, los);
     }
 
     private boolean isFlankAttack(int angle, List<Node> los)
@@ -380,24 +380,21 @@ public class SearchBoard
         return true;
     }
 
-    private boolean validatePathAngle(int angle, List<Node> los)
+    private boolean validateFireAngle(int angle, List<Node> los)
     {
-        int forth = 0;
-        Node prev = null;
-        for (Node next : los) {
-            if (prev != null) {
-                Orientation o = Orientation.fromMove(prev.col, prev.row, next.col, next.row);
-                if (!o.isInSides(angle)) {
-                    forth -= 1;
-                    if (forth < 0)
-                        return false;
-                }
-                forth += 1;
-            }
-            prev = next;
-        }
+        Node from = los.get(0);
+        Node p0 = los.get(1);
+        Orientation o = Orientation.fromMove(from.col, from.row, p0.col, p0.row);
 
-        return true;
+        if (los.size() < 3)
+            return o.isInSides(angle);
+
+        Node p1 = los.get(2);
+        if (distance(from, p1) > 1)
+            return o.isInSides(angle);
+
+        Orientation o2 = Orientation.fromMove(from.col, from.row, p1.col, p1.row);
+        return (o.isInSides(angle) || o2.isInSides(angle));
     }
 
     public List<Node> lineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
