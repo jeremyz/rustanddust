@@ -52,11 +52,13 @@ public class Helpers
     public static class FakeTile extends Tile
     {
         public boolean offMap;
+        public boolean blockLineOfSight;
 
         public FakeTile(int col, int row)
         {
             super(col, row);
             offMap = false;
+            blockLineOfSight = false;
         }
 
         public FakeTile(int col, int row, boolean offMap)
@@ -76,7 +78,9 @@ public class Helpers
         @Override public boolean isA(TileTerrain terrain)           { return true; }
         @Override public boolean road(Orientation side)             { return false; }
         @Override public boolean atLeastOneMove(Pawn pawn)          { return true; }
-        @Override public boolean blockLineOfSightFrom(Tile from)    { return false; }
+        @Override public boolean blockLineOfSightFrom(Tile from)    { return blockLineOfSight; }
+
+        public void setBlockLineOfSight(boolean block)              { blockLineOfSight = block; }
     }
 
     public static class FakeSearchBoard extends SearchBoard
@@ -90,6 +94,8 @@ public class Helpers
         {
             return distance(getNode(col0, row0), getNode(col1, row1));
         }
+
+        public Node get(int col, int row) { return getNode(col, row); }
     }
 
     public static class FakeBoard extends Board

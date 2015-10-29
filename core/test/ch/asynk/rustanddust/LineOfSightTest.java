@@ -5,22 +5,27 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.Before;
 
-import ch.asynk.rustanddust.engine.SearchBoard;
 import ch.asynk.rustanddust.engine.SearchBoard.Node;
 
 import static org.junit.Assert.assertTrue;
 
 public class LineOfSightTest
 {
-    private SearchBoard sb;
+    private Helpers.FakeBoard fakeBoard;
+    private Helpers.FakeSearchBoard sb;
 
     @Before
     public void initialize()
     {
         int cols = 10;
         int rows = 9;
-        Helpers.FakeBoard fakeBoard = new Helpers.FakeBoard(cols, rows, 0);
-        sb = new SearchBoard(fakeBoard, cols, rows);
+        fakeBoard = new Helpers.FakeBoard(cols, rows, 0);
+        sb = new Helpers.FakeSearchBoard(fakeBoard, cols, rows);
+    }
+
+    private void block(int i, int j, boolean block)
+    {
+        ((Helpers.FakeTile) fakeBoard.getTile(i, j)).setBlockLineOfSight(block);
     }
 
     private void checkNode(List<Node> l, int i, int col, int row)
@@ -1417,5 +1422,98 @@ public class LineOfSightTest
         checkNode(s, 11, 5, 7);
         checkNode(s, 12, 4, 7);
         checkNode(s, 13, 4, 8);
+    }
+
+    private void testBlocking(Node from, Node to, Node blockA, Node blockB)
+    {
+        List<Node> s = null;
+
+        // clear
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, from.col, from.row);
+        checkNode(s, 3, to.col, to.row);
+
+        // block A
+        block(blockA.col, blockA.row, true);
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, from.col, from.row);
+        checkNode(s, 3, to.col, to.row);
+        block(blockA.col, blockA.row, false);
+
+        // block B
+        block(blockB.col, blockB.row, true);
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, from.col, from.row);
+        checkNode(s, 3, to.col, to.row);
+        block(blockB.col, blockB.row, false);
+
+        // block A and B
+        block(blockA.col, blockA.row, true);
+        block(blockB.col, blockB.row, true);
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 3);
+        checkNode(s, 0, from.col, from.row);
+        block(blockA.col, blockA.row, false);
+        block(blockB.col, blockB.row, false);
+
+        // reverse
+        // clear
+        s = lineOfSight(to.col, to.row, from.col, from.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, to.col, to.row);
+        checkNode(s, 3, from.col, from.row);
+
+        // block A
+        block(blockA.col, blockA.row, true);
+        s = lineOfSight(to.col, to.row, from.col, from.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, to.col, to.row);
+        checkNode(s, 3, from.col, from.row);
+        block(blockA.col, blockA.row, false);
+
+        // block B
+        block(blockB.col, blockB.row, true);
+        s = lineOfSight(to.col, to.row, from.col, from.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, to.col, to.row);
+        checkNode(s, 3, from.col, from.row);
+        block(blockB.col, blockB.row, false);
+
+        // block A and B
+        block(blockA.col, blockA.row, true);
+        block(blockB.col, blockB.row, true);
+        s = lineOfSight(to.col, to.row, from.col, from.row);
+        assertTrue(s.size() == 3);
+        checkNode(s, 0, to.col, to.row);
+        block(blockA.col, blockA.row, false);
+        block(blockB.col, blockB.row, false);
+
+    }
+
+    @Test public void test_97() {
+        testBlocking(sb.get(6, 4), sb.get(7, 6), sb.get(6, 5), sb.get(7, 5));
+    }
+
+    @Test public void test_98() {
+        testBlocking(sb.get(6, 4), sb.get(8, 5), sb.get(7, 5), sb.get(7, 4));
+    }
+
+    @Test public void test_99() {
+        testBlocking(sb.get(6, 4), sb.get(7, 3), sb.get(7, 4), sb.get(6, 3));
+    }
+
+    @Test public void test_100() {
+        testBlocking(sb.get(6, 4), sb.get(5, 2), sb.get(5, 3), sb.get(6, 3));
+    }
+
+    @Test public void test_101() {
+        testBlocking(sb.get(6, 4), sb.get(4, 3), sb.get(5, 4), sb.get(5, 3));
+    }
+
+    @Test public void test_102() {
+        testBlocking(sb.get(6, 4), sb.get(5, 5), sb.get(5, 4), sb.get(6, 5));
     }
 }
