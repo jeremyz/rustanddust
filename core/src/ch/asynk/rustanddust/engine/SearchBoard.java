@@ -286,40 +286,34 @@ public class SearchBoard
 
         queue.add(from);
 
-        boolean first = true;
         while (queue.size() != 0) {
             Node src = queue.remove();
 
             if (src.remaining <= 0)
                 continue;
 
-            if (!first && (((range - src.remaining) % 2) == 0))
+            if (((range - src.remaining) % 2) == 1)
                 adjacentTargets(src, extendedAngle, adjacents);
             else
                 adjacentTargets(src, angle, adjacents);
 
-            first = false;
             int rangeLeft = src.remaining - 1;
 
             for(int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
-                if (dst != null) {
-                    if (dst.search == searchCount) {
-                        if ((rangeLeft > dst.remaining))
-                            dst.remaining = rangeLeft;
-                    } else {
-                        dst.search = searchCount;
-                        dst.remaining = rangeLeft;
-                        queue.add(dst);
-                        Tile t = getTile(dst);
-                        if (hasClearLineOfSight(from, dst, angle)) {
-                            Iterator<Pawn> it = t.iterator();
-                            while (it.hasNext()) {
-                                Pawn target = it.next();
-                                if (shooter.canEngage(target))
-                                    targets.add(target);
-                            }
-                        }
+                if ((dst == null) || (dst.search == searchCount))
+                    continue;
+
+                dst.search = searchCount;
+                dst.remaining = rangeLeft;
+                queue.add(dst);
+                Tile t = getTile(dst);
+                if (!t.isEmpty() && hasClearLineOfSight(from, dst, angle)) {
+                    Iterator<Pawn> it = t.iterator();
+                    while (it.hasNext()) {
+                        Pawn target = it.next();
+                        if (shooter.canEngage(target))
+                            targets.add(target);
                     }
                 }
             }
