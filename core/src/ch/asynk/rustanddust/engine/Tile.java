@@ -42,6 +42,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     {
         this.col = col;
         this.row = row;
+        this.stack = new ArrayDeque<Pawn>();
     }
 
     public Tile(float x, float y, int col, int row, TextureAtlas atlas)
