@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import ch.asynk.rustanddust.engine.Pawn;
+import ch.asynk.rustanddust.engine.HeadedPawn;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.engine.Orientation;
@@ -13,14 +14,13 @@ import ch.asynk.rustanddust.engine.PathBuilder;
 
 public class Helpers
 {
-    public static class FakePawn extends Pawn
+    public static class FakePawn extends HeadedPawn
     {
-        public FakePawn () {}
-
         @Override public int getMovementPoints()                    { return 3; }
         @Override public int getRoadMarchBonus()                    { return 1; }
-        @Override public int getAngleOfAttack()                     { return 0; }
-        @Override public int getFlankSides()                        { return 0; }
+        @Override public int getFlankSides()                        { return orientation.getBackSides(); }
+        @Override public int getAngleOfAttack()                     { return orientation.getFrontSides(); }
+
         @Override public int getDefense(Tile tile)                  { return 8; }
         @Override public int getEngagementRangeFrom(Tile tile)      { return 3; }
 
@@ -43,6 +43,12 @@ public class Helpers
 
         @Override public void reset()                               { }
         @Override public void revertLastMove()                      { }
+
+        @Override public float getWidth()                           { return 24.0f; }
+        @Override public float getHeight()                          { return 24.0f; }
+        @Override public void setPosition(float x, float y, float z) { }
+
+        public void setOrientation(Orientation o)                   { this.orientation = o; }
     }
 
     public static class FakeTile extends Tile
