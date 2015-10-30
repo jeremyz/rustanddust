@@ -111,4 +111,32 @@ public class Attacks
         setPawn(target, sb.get(5, 2), Orientation.NORTH);
         sb.possibleTargetsFrom(shooter, targets);
     }
+
+    private void checkFlank(int col, int row, Orientation o, boolean isFlank)
+    {
+        setPawn(target, sb.get(col, row), o);
+        assertTrue(sb.canAttack(target, shooter, true));
+        assertTrue(target.isFlankAttack() == isFlank);
+    }
+
+    @Test public void test_4() {
+        checkFlank(9, 4, Orientation.SOUTH, false);
+        checkFlank(9, 5, Orientation.SOUTH, false);
+        checkFlank(9, 6, Orientation.SOUTH, false);
+        checkFlank(9, 7, Orientation.SOUTH, false);
+        checkFlank(8, 7, Orientation.SOUTH, false);
+        checkFlank(7, 7, Orientation.SOUTH_EAST, true);
+        checkFlank(6, 7, Orientation.SOUTH_EAST, true);
+        checkFlank(5, 6, Orientation.SOUTH_EAST, true);
+        checkFlank(4, 5, Orientation.NORTH, true);
+        checkFlank(3, 4, Orientation.NORTH, true);
+        checkFlank(3, 3, Orientation.NORTH, true);
+        checkFlank(3, 2, Orientation.NORTH, true);
+        checkFlank(3, 1, Orientation.NORTH, true);
+        checkFlank(4, 1, Orientation.NORTH, true);
+        checkFlank(5, 1, Orientation.SOUTH_WEST, false);
+        checkFlank(6, 1, Orientation.SOUTH_WEST, false);
+        checkFlank(7, 2, Orientation.SOUTH_WEST, false);
+        checkFlank(8, 3, Orientation.SOUTH_WEST, false);
+    }
 }
