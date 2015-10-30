@@ -388,6 +388,19 @@ public class SearchBoard
         return (o.isInSides(angle) || o2.isInSides(angle));
     }
 
+    private boolean fixLineOfSight(boolean ret, int x1, int y1)
+    {
+        if (ret) return true;
+        if (!losBlocked) return false;
+
+        Node last = los.get(los.size() - 1);
+        if ((last.col == x1) && (last.row == y1)) {
+            losBlocked = false;
+            return true;
+        }
+        return false;
+    }
+
     private boolean lineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         los.clear();
@@ -418,9 +431,9 @@ public class SearchBoard
         }
 
         if (dx == 0)
-            return verticalLineOfSight(x0, y0, x1, y1, clearVisibility);
+            return fixLineOfSight(verticalLineOfSight(x0, y0, x1, y1, clearVisibility), x1, y1);
         if (dx == (3 * dy))
-            return diagonalLineOfSight(x0, y0, x1, y1, clearVisibility);
+            return fixLineOfSight(diagonalLineOfSight(x0, y0, x1, y1, clearVisibility), x1, y1);
 
         int dx3 = 3 * dx;
         int dy3 = 3 * dy;
@@ -458,7 +471,7 @@ public class SearchBoard
             }
             los.add(getNode(x, y));
             if (!losBlocked) losBlocked = board.getTile(x, y).blockLineOfSightFrom(from);
-            if(losBlocked && clearVisibility) return false;
+            if(losBlocked && clearVisibility) return fixLineOfSight(false, x1, y1);
         }
 
         return true;
