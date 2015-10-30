@@ -1450,6 +1450,14 @@ public class LineOfSightTest
         checkNode(s, 3, to.col, to.row);
         block(blockB.col, blockB.row, false);
 
+        // block to
+        block(to.col, to.row, true);
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, from.col, from.row);
+        checkNode(s, 3, to.col, to.row);
+        block(to.col, to.row, false);
+
         // block A and B
         block(blockA.col, blockA.row, true);
         block(blockB.col, blockB.row, true);
@@ -1481,6 +1489,14 @@ public class LineOfSightTest
         checkNode(s, 0, to.col, to.row);
         checkNode(s, 3, from.col, from.row);
         block(blockB.col, blockB.row, false);
+
+        // block from
+        block(from.col, from.row, true);
+        s = lineOfSight(from.col, from.row, to.col, to.row);
+        assertTrue(s.size() == 4);
+        checkNode(s, 0, from.col, from.row);
+        checkNode(s, 3, to.col, to.row);
+        block(from.col, from.row, false);
 
         // block A and B
         block(blockA.col, blockA.row, true);
