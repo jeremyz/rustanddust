@@ -348,9 +348,6 @@ public class SearchBoard
     {
         if (!lineOfSight(from.col, from.row, to.col, to.row, true))
             return false;
-        Node last = los.get(los.size() -1);
-        if ((last.col != to.col) || (last.row != to.row))
-            return false;
         return validateFireAngle(angleOfAttack, los);
     }
 
