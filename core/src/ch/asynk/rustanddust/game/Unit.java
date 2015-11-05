@@ -182,6 +182,15 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean preventDefenseOn(Tile tile)
+    {
+        if (isA(UnitType.INFANTRY) && (tile.isA(Terrain.WOODS) || tile.isA(Terrain.TOWN)))
+            return true;
+
+        return false;
+    }
+
+    @Override
     public boolean isUnit()
     {
         return true;

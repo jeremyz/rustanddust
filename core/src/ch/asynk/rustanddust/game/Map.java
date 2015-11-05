@@ -494,7 +494,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
                 mayReroll = true;
             if (unit.isFlankAttack())
                 flankAttack = true;
-            if (unit.isA(Unit.UnitType.INFANTRY))
+            if (unit.preventDefenseOn(e.defender.getTile()))
                 terrainBonus = false;
             if (night) {
                 if (distance < unit.attackDistance())

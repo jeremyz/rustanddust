@@ -48,6 +48,7 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract int getFlankSides();
     public abstract int getEngagementRangeFrom(Tile tile);
     public abstract int getDefense(Tile tile);
+    public abstract boolean preventDefenseOn(Tile tile);
 
     public abstract boolean isUnit();
     public abstract boolean isA(PawnId id);
