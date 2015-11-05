@@ -13,7 +13,7 @@ public class MainMenu extends Menu
         EXIT(0),
         OPTIONS(1),
         TUTORIALS(2),
-        SCENARIOS(3),
+        PLAY(3),
         NONE(4);
         public int i;
         Items(int i)
@@ -28,9 +28,9 @@ public class MainMenu extends Menu
     {
         super(Items.NONE, font, atlas.createPatch("typewriter"));
 
-        label(Items.OPTIONS).write("Options");
+        label(Items.PLAY).write("Play");
         label(Items.TUTORIALS).write("Tutorials");
-        label(Items.SCENARIOS).write("Scenarios");
+        label(Items.OPTIONS).write("Options");
         label(Items.EXIT).write("Exit");
 
         this.visible = true;
@@ -49,8 +49,8 @@ public class MainMenu extends Menu
 
         if (!visible) return ret;
 
-        if (label(Items.SCENARIOS).hit(x, y)) {
-            menuItem = Items.SCENARIOS;
+        if (label(Items.PLAY).hit(x, y)) {
+            menuItem = Items.PLAY;
             ret = true;
         } else if (label(Items.TUTORIALS).hit(x, y)) {
             menuItem = Items.TUTORIALS;

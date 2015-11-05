@@ -15,8 +15,8 @@ import com.badlogic.gdx.math.Interpolation;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.menu.MainMenu;
+import ch.asynk.rustanddust.menu.PlayMenu;
 import ch.asynk.rustanddust.menu.OptionsMenu;
-import ch.asynk.rustanddust.menu.ScenariosMenu;
 import ch.asynk.rustanddust.menu.TutorialsMenu;
 
 public class MenuScreen implements Screen
@@ -49,8 +49,8 @@ public class MenuScreen implements Screen
     private Sprite usFlag;
 
     private MainMenu mainMenu;
+    private PlayMenu playMenu;
     private OptionsMenu optionsMenu;
-    private ScenariosMenu scenariosMenu;
     private TutorialsMenu tutorialsMenu;
 
     private final MenuCamera camera;
@@ -79,8 +79,8 @@ public class MenuScreen implements Screen
         this.geFlag = new Sprite(game.menuAtlas.findRegion("ge-flag"));
 
         this.mainMenu = new MainMenu(game.fontB, game.uiAtlas);
+        this.playMenu = new PlayMenu(game, game.fontB, game.uiAtlas);
         this.optionsMenu = new OptionsMenu(game, game.fontB, game.uiAtlas);
-        this.scenariosMenu = new ScenariosMenu(game, game.fontB, game.uiAtlas);
         this.tutorialsMenu = new TutorialsMenu(game, game.fontB, game.uiAtlas);
 
         this.game.config.battle = null;
@@ -101,15 +101,15 @@ public class MenuScreen implements Screen
             mainMenu.visible = false;
             showNextMenu();
             return true;
+        } else if (playMenu.hit(x, y)) {
+            mainMenu.visible = true;
+            playMenu.visible = false;
+            if (playMenu.launch)
+                startLoading();
+            return true;
         } else if (optionsMenu.hit(x, y)) {
             mainMenu.visible = true;
             optionsMenu.visible = false;
-            return true;
-        } else if (scenariosMenu.hit(x, y)) {
-            mainMenu.visible = true;
-            scenariosMenu.visible = false;
-            if (scenariosMenu.launch)
-                startLoading();
             return true;
         } else if (tutorialsMenu.hit(x, y)) {
             mainMenu.visible = true;
@@ -124,10 +124,10 @@ public class MenuScreen implements Screen
     {
         MainMenu.Items item = mainMenu.getMenu();
 
-        if (item == MainMenu.Items.OPTIONS)
+        if (item == MainMenu.Items.PLAY)
+            playMenu.visible = true;
+        else if (item == MainMenu.Items.OPTIONS)
             optionsMenu.visible = true;
-        else if (item == MainMenu.Items.SCENARIOS)
-            scenariosMenu.visible = true;
         else if (item == MainMenu.Items.TUTORIALS)
             tutorialsMenu.visible = true;
     }
@@ -183,8 +183,8 @@ public class MenuScreen implements Screen
         batch.setProjectionMatrix(camera.uiCombined());
         batch.begin();
         mainMenu.draw(batch);
+        playMenu.draw(batch);
         optionsMenu.draw(batch);
-        scenariosMenu.draw(batch);
         tutorialsMenu.draw(batch);
         batch.end();
     }
@@ -210,8 +210,8 @@ public class MenuScreen implements Screen
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
         mainMenu.setPosition();
+        playMenu.setPosition();
         optionsMenu.setPosition();
-        scenariosMenu.setPosition();
         tutorialsMenu.setPosition();
     }
 
@@ -225,8 +225,8 @@ public class MenuScreen implements Screen
     public void dispose()
     {
         mainMenu.dispose();
+        playMenu.dispose();
         optionsMenu.dispose();
-        scenariosMenu.dispose();
         tutorialsMenu.dispose();
     }
 
