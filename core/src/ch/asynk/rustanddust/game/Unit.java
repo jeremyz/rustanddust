@@ -293,6 +293,12 @@ public class Unit extends HeadedPawn
         return (isEnemy(other) && canEngage());
     }
 
+    @Override
+    public boolean canBreak()
+    {
+        return isA(UnitType.INFANTRY);
+    }
+
     public boolean canHQMove()
     {
         return (isHq() && ((move == null) || (!move.isEnter())));

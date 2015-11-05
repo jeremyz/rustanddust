@@ -556,7 +556,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         for (Unit u : activatedUnits) {
             u.engage();
-            if (u.isA(Unit.UnitType.INFANTRY))
+            if (u.canBreak())
                 breakUnits.add(u);
         }
 
