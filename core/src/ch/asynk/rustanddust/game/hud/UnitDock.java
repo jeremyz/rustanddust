@@ -66,6 +66,11 @@ public class UnitDock extends Bg implements Animation
         for (Unit unit : units)
             unit.translate(_dx, _dy);
         to = position.getX(rect.width * SCALE);
+        compute();
+    }
+
+    private void compute()
+    {
         transform.idt();
         transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
         point.set(rect.x, rect.y, 0).mul(transform);
@@ -187,14 +192,7 @@ public class UnitDock extends Bg implements Animation
             }
         }
 
-        transform.idt();
-        transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
-        point.set(rect.x, rect.y, 0).mul(transform);
-        scaledRect.x = point.x;
-        scaledRect.y = point.y;
-        point.set((rect.x + rect.width), (rect.y + rect.height), 0).mul(transform);
-        scaledRect.width = point.x - scaledRect.x;
-        scaledRect.height = point.y - scaledRect.y;
+        compute();
         return false;
     }
 
