@@ -1,5 +1,7 @@
 package ch.asynk.rustanddust.game.hud;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,6 +22,7 @@ public class UnitDock extends Bg implements Animation
 {
     private static final float SCALE = 0.4f;
     private static final float STEP = 5f;
+    private static final float SCISSORS_BOTTOM = 50f;
     private final Ctrl ctrl;
 
     private int n;
@@ -36,6 +39,7 @@ public class UnitDock extends Bg implements Animation
     private Matrix4 saved;
     private Matrix4 transform;
     private Rectangle scaledRect;
+    private Rectangle scissors;
 
     public UnitDock(Ctrl ctrl, TextureRegion region, TextureRegion selected, float padding)
     {
@@ -47,6 +51,7 @@ public class UnitDock extends Bg implements Animation
         this.saved = new Matrix4();
         this.transform = new Matrix4();
         this.scaledRect = new Rectangle();
+        this.scissors = new Rectangle();
         this.selected = new Sprite(selected);
         this.visible = false;
         this.dx = 0f;
@@ -69,6 +74,7 @@ public class UnitDock extends Bg implements Animation
         point.set((rect.x + rect.width), (rect.y + rect.height), 0).mul(transform);
         scaledRect.width = point.x - scaledRect.x;
         scaledRect.height = point.y - scaledRect.y;
+        scissors.set(0, SCISSORS_BOTTOM, Gdx.graphics.getWidth(), (y - SCISSORS_BOTTOM));
     }
 
     public void setPosition(Position position, float y)
@@ -81,6 +87,7 @@ public class UnitDock extends Bg implements Animation
         this.mvtDone = true;
         this.visible = false;
         this.dx = 0f;
+        scissors.set(0, SCISSORS_BOTTOM, Gdx.graphics.getWidth(), (y - SCISSORS_BOTTOM));
     }
 
     @Override
@@ -199,6 +206,10 @@ public class UnitDock extends Bg implements Animation
         saved.set(batch.getTransformMatrix());
         batch.setTransformMatrix(transform);
 
+        // batch.flush();
+        Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+        Gdx.gl.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
+
         super.draw(batch);
         for (Unit unit : units) {
             unit.draw(batch);
@@ -209,6 +220,9 @@ public class UnitDock extends Bg implements Animation
         }
 
         batch.setTransformMatrix(saved);
+
+        Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+        // batch.flush();
     }
 
     @Override
@@ -222,5 +236,7 @@ public class UnitDock extends Bg implements Animation
         shapes.rect(rect.x, rect.y, rect.width, rect.height);
 
         shapes.setTransformMatrix(saved);
+
+        shapes.rect(scissors.x, scissors.y, scissors.width, scissors.height);
     }
 }
