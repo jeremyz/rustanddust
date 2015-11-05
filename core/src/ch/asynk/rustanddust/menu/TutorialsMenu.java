@@ -14,7 +14,6 @@ public class TutorialsMenu extends Patch
     public static int PADDING = 40;
     public static int OK_PADDING = 10;
     public static int TITLE_PADDING = 30;
-    public static int VSPACING = 20;
 
     private final RustAndDust game;
     private final BitmapFont font;
