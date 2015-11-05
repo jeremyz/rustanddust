@@ -83,8 +83,6 @@ public class MenuScreen implements Screen
         this.optionsMenu = new OptionsMenu(game, game.fontB, game.uiAtlas);
         this.tutorialsMenu = new TutorialsMenu(game, game.fontB, game.uiAtlas);
 
-        this.game.config.battle = null;
-
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int x, int y, int pointer, int button)
