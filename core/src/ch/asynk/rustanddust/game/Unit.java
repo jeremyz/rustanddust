@@ -155,6 +155,8 @@ public class Unit extends HeadedPawn
     @Override
     public int getEngagementRangeFrom(Tile tile)
     {
+        if (tile.isA(Terrain.DEPRESSION))
+            return 1;
         if (!isA(UnitType.INFANTRY) && tile.isA(Terrain.HILLS))
             return rng + 1;
         return rng;

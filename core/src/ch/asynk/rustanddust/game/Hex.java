@@ -20,7 +20,8 @@ public class Hex extends Tile
         CLEAR,
         HILLS,
         WOODS,
-        TOWN
+        TOWN,
+        DEPRESSION
     }
 
     public static final int FOG         = 0;
@@ -75,6 +76,9 @@ public class Hex extends Tile
     @Override
     public boolean blockLineOfSightFrom(Tile tile)
     {
+        if (isA(Terrain.DEPRESSION))
+            return false;
+
         if (isA(Terrain.CLEAR) && !hasUnits())
             return false;
 
