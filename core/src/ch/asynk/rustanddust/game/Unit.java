@@ -200,6 +200,12 @@ public class Unit extends HeadedPawn
     }
 
     @Override
+    public boolean isHardTarget()
+    {
+        return (isA(UnitType.HARD_TARGET) || isA(UnitType.HARD_TARGET_HQ) || isA(UnitType.ARTILLERY));
+    }
+
+    @Override
     public boolean isHq()
     {
         return isA(UnitType.HARD_TARGET_HQ);
@@ -244,12 +250,6 @@ public class Unit extends HeadedPawn
         type = UnitType.HARD_TARGET;
         enableOverlay(HQ, false);
         updateDescr();
-    }
-
-    @Override
-    public boolean isHardTarget()
-    {
-        return (isA(UnitType.HARD_TARGET) || isA(UnitType.HARD_TARGET_HQ) || isA(UnitType.ARTILLERY));
     }
 
     @Override
