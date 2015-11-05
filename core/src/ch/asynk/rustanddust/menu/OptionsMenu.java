@@ -16,6 +16,7 @@ public class OptionsMenu extends Patch
 {
     public static int PADDING = 40;
     public static int OK_PADDING = 10;
+    public static int OPT_PADDING = 10;
     public static int TITLE_PADDING = 30;
     public static int VSPACING = 5;
     public static int HSPACING = 30;
@@ -148,10 +149,10 @@ public class OptionsMenu extends Patch
         float dy = (VSPACING + checkLabels[0].getHeight());
 
         graphics.setPosition(x, y);
-        graphicsValue.setPosition((x + graphics.getWidth() + 10), y);
+        graphicsValue.setPosition((x + graphics.getWidth() + OPT_PADDING), y);
         y += dy;
         fxVolume.setPosition(x, y);
-        fxVolumeValue.setPosition((x + fxVolume.getWidth() + 10), y);
+        fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
         y += dy;
         for (int i = 0; i < checkLabels.length; i++) {
             checkLabels[i].setPosition(x, y);
