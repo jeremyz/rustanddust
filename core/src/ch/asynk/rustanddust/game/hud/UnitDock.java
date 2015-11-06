@@ -22,6 +22,7 @@ public class UnitDock extends Bg implements Animation
 {
     private static final float SCALE = 0.4f;
     private static final float STEP = 5f;
+    private static final float BOUNCE_SPEED = 5;
     private static final float SCISSORS_BOTTOM = 50f;
     private final Ctrl ctrl;
 
@@ -112,10 +113,6 @@ public class UnitDock extends Bg implements Animation
     public void drag(int dx, int dy)
     {
         this.dy += dy;
-        if ((rect.y + this.dy + rect.height) < y)
-            this.dy = (y - rect.height - rect.y);
-        else if (scaledRect.y > SCISSORS_BOTTOM)
-            this.dy -= (scaledRect.y - SCISSORS_BOTTOM);
         compute();
     }
 
@@ -216,6 +213,14 @@ public class UnitDock extends Bg implements Animation
     public void draw(Batch batch)
     {
         if (!visible) return;
+
+        if ((rect.y + this.dy + rect.height) < y) {
+            this.dy += BOUNCE_SPEED;
+            compute();
+        } else if (scaledRect.y > SCISSORS_BOTTOM) {
+            this.dy -= BOUNCE_SPEED;
+            compute();
+        }
 
         saved.set(batch.getTransformMatrix());
         batch.setTransformMatrix(transform);
