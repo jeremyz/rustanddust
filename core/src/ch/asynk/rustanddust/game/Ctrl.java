@@ -250,6 +250,13 @@ public class Ctrl implements Disposable
 
     }
 
+    public boolean drag(int dx, int dy)
+    {
+        if (!blockHud && hud.drag(hudTouch.x, hudTouch.y, dx, dy))
+            return true;
+        return false;
+    }
+
     public void touchDown()
     {
         if (!blockHud && hud.touchDown(hudTouch.x, hudTouch.y))

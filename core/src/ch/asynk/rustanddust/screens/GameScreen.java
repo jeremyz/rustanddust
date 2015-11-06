@@ -85,8 +85,12 @@ public class GameScreen implements Screen
             public boolean touchDragged(int x, int y, int pointer)
             {
                 dragged += 1;
-                cam.translate((dragPos.x - x), (dragPos.y - y));
+                int dx = (int) (dragPos.x - x);
+                int dy = (int) (dragPos.y - y);
                 dragPos.set(x, y);
+                cam.unprojectHud(x, y, ctrl.hudTouch);
+                if (!ctrl.drag(-dx, dy))
+                    cam.translate(dx, dy);
                 return true;
             }
             @Override

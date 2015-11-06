@@ -134,6 +134,14 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         turns.blocked = blocked;
     }
 
+    public boolean drag(float x, float y, int dx, int dy)
+    {
+        if (!unitDock.hit(x, y))
+            return false;
+        unitDock.drag(dx, dy);
+        return true;
+    }
+
     public boolean touchDown(float x, float y)
     {
         hit = null;

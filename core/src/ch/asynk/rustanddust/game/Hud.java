@@ -150,6 +150,11 @@ public class Hud implements Disposable, Animation
         else msg.write(s, duration, position);
     }
 
+    public boolean drag(float x, float y, int dx, int dy)
+    {
+        return playerInfo.drag(x, y, dx, dy);
+    }
+
     public boolean touchDown(float x, float y)
     {
         hit = null;

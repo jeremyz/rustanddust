@@ -29,6 +29,7 @@ public class UnitDock extends Bg implements Animation
     private float y;
     private float to;
     private float dx;
+    private float dy;
     private float step;
     private boolean show;
     private boolean mvtDone;
@@ -55,6 +56,7 @@ public class UnitDock extends Bg implements Animation
         this.selected = new Sprite(selected);
         this.visible = false;
         this.dx = 0f;
+        this.dy = 0f;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class UnitDock extends Bg implements Animation
     private void compute()
     {
         transform.idt();
-        transform.translate((rect.x + dx), (rect.y + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
+        transform.translate((rect.x + dx), (rect.y + dy + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
         point.set(rect.x, rect.y, 0).mul(transform);
         scaledRect.x = point.x;
         scaledRect.y = point.y;
@@ -107,6 +109,16 @@ public class UnitDock extends Bg implements Animation
         return (visible && scaledRect.contains(x, y));
     }
 
+    public void drag(int dx, int dy)
+    {
+        this.dy += dy;
+        if ((rect.y + this.dy + rect.height) < y)
+            this.dy = (y - rect.height - rect.y);
+        else if (scaledRect.y > SCISSORS_BOTTOM)
+            this.dy -= (scaledRect.y - SCISSORS_BOTTOM);
+        compute();
+    }
+
     public Unit select(float x, float y)
     {
         int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
@@ -129,6 +141,10 @@ public class UnitDock extends Bg implements Animation
     {
         if (!resize())
             return;
+        if (dy != 0) {
+            dy = 0;
+            compute();
+        }
         to = position.getX(rect.width * SCALE);
 
         show = true;
