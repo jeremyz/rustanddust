@@ -214,12 +214,15 @@ public class UnitDock extends Bg implements Animation
     {
         if (!visible) return;
 
-        if ((rect.y + this.dy + rect.height) < y) {
-            this.dy += BOUNCE_SPEED;
-            compute();
-        } else if (scaledRect.y > SCISSORS_BOTTOM) {
-            this.dy -= BOUNCE_SPEED;
-            compute();
+        float top = scaledRect.y + scaledRect.height;
+        if (top != y) {
+            if (top < y) {
+                this.dy += Math.min(BOUNCE_SPEED, (y - top));
+                compute();
+            } else if (scaledRect.y > SCISSORS_BOTTOM) {
+                this.dy -= Math.min(BOUNCE_SPEED, (scaledRect.y - SCISSORS_BOTTOM));
+                compute();
+            }
         }
 
         saved.set(batch.getTransformMatrix());
