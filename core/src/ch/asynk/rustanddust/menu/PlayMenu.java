@@ -137,6 +137,7 @@ public class PlayMenu extends Patch
             this.visible = false;
             okCancel.show(String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s));
             okCancel.noCancel();
+            return false;
         } else
             this.launch = true;
         return true;
