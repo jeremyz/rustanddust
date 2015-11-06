@@ -2,6 +2,10 @@
 [ -d out ] && rm -fr out
 
 ARGS="desktop:run"
+ALIAS=jeyzu
+KEYSTORE="/home/jeyzu/etc/sync/jeyzu-key.keystore"
+APK="./android/build/apk/android-release-unsigned.apk"
+ZIPALIGN="/opt/android-sdk/build-tools/23.0.2/zipalign"
 
 function gradlew_do()
 {
@@ -24,6 +28,15 @@ case "$1" in
         shift;
         ARGS="android:assembleRelease$@"
         gradlew_do
+        ;;
+
+    "s")
+        shift;
+        ARGS="android:assembleRelease$@"
+        gradlew_do
+        jarsigner -verbose -tsa http://timestamp.digicert.com -sigalg SHA1withRSA -digestalg SHA1 -keystore $KEYSTORE $APK $ALIAS
+        jarsigner -verify $APK
+        $ZIPALIGN -v 4 $APK ./RustAndDust-signed-aligned.apk
         ;;
     "t")
         shift;
