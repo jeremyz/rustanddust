@@ -20,6 +20,11 @@ case "$1" in
         gradlew_do
         echo "on failure: sudo adb kill-server; (sudo adb start-server;) sudo adb devices"
         ;;
+    "r")
+        shift;
+        ARGS="android:assembleRelease$@"
+        gradlew_do
+        ;;
     "t")
         shift;
         ARGS="core:test $@"
