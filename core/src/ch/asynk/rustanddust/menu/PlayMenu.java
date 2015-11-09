@@ -41,12 +41,12 @@ public class PlayMenu extends Patch
         this.title = new Label(font);
         this.title.write("- Play");
         this.gameMode = new Label(font);
-        this.gameMode.write("Game mode");
+        this.gameMode.write("Game mode : ");
         this.gameModeValue = new Label(font);
         this.okBtn = new Bg(atlas.findRegion("ok"));
         this.cancelBtn = new Bg(atlas.findRegion("cancel"));
         this.battle = new Label(font);
-        this.battle.write("Scenario");
+        this.battle.write("Scenario : ");
         this.battleValue = new Label(font);
         this.okCancel = new OkCancel(font, atlas);
 
