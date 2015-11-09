@@ -54,6 +54,7 @@ public class Label extends Widget
     public void write(String text)
     {
         this.text = text;
+        compute();
         setPosition(position);
     }
 
@@ -61,6 +62,13 @@ public class Label extends Widget
     {
         this.text = text;
         setPosition(x, y);
+    }
+
+    private void compute()
+    {
+        this.layout.setText(font, (text == null) ? "" : text);
+        this.rect.width = (layout.width + (2 * padding));
+        this.rect.height = (layout.height + (2 * padding));
     }
 
     @Override
