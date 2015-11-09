@@ -220,7 +220,7 @@ public class UnitDock extends Bg implements Animation
         if (!visible) return;
 
         float top = scaledRect.y + scaledRect.height;
-        if (top != y) {
+        if ((int)top != (int)y) {
             if (top < y) {
                 this.dy += Math.min(BOUNCE_SPEED, (y - top));
                 compute();
