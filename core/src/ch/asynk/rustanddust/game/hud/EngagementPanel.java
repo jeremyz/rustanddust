@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.game.hud;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -28,11 +27,11 @@ public class EngagementPanel extends Patch implements Animation
     private State state;
     private boolean reroll;
     private float rerollY;
-    private Sprite usFlag;
-    private Sprite geFlag;
-    private Sprite winner;
-    private Sprite attackImg;
-    private Sprite defenseImg;
+    private Bg usFlag;
+    private Bg geFlag;
+    private Bg winner;
+    private Bg attackImg;
+    private Bg defenseImg;
     private Label attack;
     private Label defense;
     private Label attackR;
@@ -46,10 +45,10 @@ public class EngagementPanel extends Patch implements Animation
     public EngagementPanel(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
         super(uiAtlas.createPatch("typewriter"));
-        usFlag = new Sprite(hudAtlas.findRegion("us-flag"));
-        geFlag = new Sprite(hudAtlas.findRegion("ge-flag"));
-        attackImg = new Sprite(hudAtlas.findRegion("attack"));
-        defenseImg = new Sprite(hudAtlas.findRegion("defense"));
+        usFlag = new Bg(hudAtlas.findRegion("us-flag"));
+        geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
+        attackImg = new Bg(hudAtlas.findRegion("attack"));
+        defenseImg = new Bg(hudAtlas.findRegion("defense"));
         this.attack = new Label(font);
         this.defense = new Label(font);
         this.attackR = new Label(font);
