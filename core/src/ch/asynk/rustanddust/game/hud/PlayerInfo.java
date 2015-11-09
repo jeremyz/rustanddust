@@ -22,7 +22,7 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class PlayerInfo implements Disposable, Drawable, Animation
 {
-    public static int PADDING = 5;
+    public static final int PADDING = 5;
 
     private final Ctrl ctrl;
 
