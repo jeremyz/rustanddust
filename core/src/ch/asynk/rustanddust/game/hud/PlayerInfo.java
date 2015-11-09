@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.game.hud;
 import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,6 +16,7 @@ import ch.asynk.rustanddust.game.Hud;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Player;
+import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.LabelImage;
 import ch.asynk.rustanddust.ui.Position;
 
@@ -28,9 +28,9 @@ public class PlayerInfo implements Disposable, Drawable, Animation
 
     private Object hit;
 
-    private Sprite flag;
-    private Sprite usFlag;
-    private Sprite geFlag;
+    private Bg flag;
+    private Bg usFlag;
+    private Bg geFlag;
     private LabelImage turns;
     private LabelImage aps;
     private LabelImage reinforcement;
@@ -41,8 +41,8 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     {
         this.ctrl = ctrl;
         this.position = Position.MIDDLE_CENTER;
-        usFlag = new Sprite(hudAtlas.findRegion("us-flag"));
-        geFlag = new Sprite(hudAtlas.findRegion("ge-flag"));
+        usFlag = new Bg(hudAtlas.findRegion("us-flag"));
+        geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
         turns = new LabelImage(hudAtlas.findRegion("turns"), font, 5f);
         aps = new LabelImage(hudAtlas.findRegion("aps"), font, 5f);
         reinforcement = new LabelImage(hudAtlas.findRegion("reinforcement"), font, 5f);
