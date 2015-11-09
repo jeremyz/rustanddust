@@ -21,7 +21,7 @@ public class EngagementPanel extends Patch implements Animation
 
     public static int FLAG_HEIGHT = 24;
     public static int PADDING = 20;
-    public static int VSPACING = 10;
+    public static int VSPACING = 15;
     public static int HSPACING = 5;
     public static float MOVE_STEP = 2f;
 
@@ -119,7 +119,7 @@ public class EngagementPanel extends Patch implements Animation
         float w2 = defenseR.getWidth();
         if (w2 > w)
             w = w2;
-        float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (2 * VSPACING) + (2 * PADDING));
+        float height = (winner.getHeight() + attack.getHeight() + defense.getHeight() + (2 * VSPACING) + (2 * PADDING));
         float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + w + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height) + (okBtn.getHeight() / 2.0f);
@@ -127,19 +127,21 @@ public class EngagementPanel extends Patch implements Animation
 
         okBtn.setPosition((x + width - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
 
-        x = getX() + PADDING;
-        y = getY() + PADDING;
-        winner.setPosition((getX() + (width / 2f) - (winner.getWidth() / 2f)), y);
+        x += PADDING;
+        y += PADDING;
+        winner.setPosition((x + (width / 2f) - (winner.getWidth() / 2f)), y);
         y += (winner.getHeight() + VSPACING);
 
-        defenseImg.setPosition(x, y);
-        y = (y + (defenseImg.getHeight() / 2f) - (defense.getHeight() / 2f));
         defenseR.setPosition((getX() + width - w - PADDING), y);
-        // x += (defenseImg.getWidth() + HSPACING);
         defense.setPosition((defenseR.getX() - defense.getWidth() - HSPACING), y);
+        defenseImg.setPosition(x, (y + (defense.getHeight() / 2.0f) - (defenseImg.getHeight() / 2.0f)));
 
-        x = getX() + PADDING;
-        y += defenseImg.getHeight() + VSPACING;
+        y += defense.getHeight() + VSPACING;
+
+        attackR.setPosition(defenseR.getX(), y);
+        attack.setPosition((attackR.getX() - attack.getWidth() - HSPACING), y);
+
+        y += ((attack.getHeight() / 2.0f) - (attackImg.getHeight() / 2.0f));
         attackImg.setPosition(x, y);
         x += (attackImg.getWidth() + HSPACING);
         d1Animation.setPosition(x, y);
@@ -148,9 +150,6 @@ public class EngagementPanel extends Patch implements Animation
         d2Animation.setPosition(x, (y));
         d4Animation.setPosition(x, y);
         x += (d1Animation.getWidth() + HSPACING);
-        y = (y + (attackImg.getHeight() / 2f) - (attack.getHeight() / 2f));
-        attack.setPosition(x, y);
-        attackR.setPosition(defenseR.getX(), y);
 
         rerollY = (d1Animation.getY() + d1Animation.getHeight() + VSPACING);
     }
