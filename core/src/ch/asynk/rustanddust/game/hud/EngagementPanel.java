@@ -158,7 +158,7 @@ public class EngagementPanel extends Patch implements Animation
     @Override
     public boolean hit(float x, float y)
     {
-        return rect.contains(x, y);
+        return (rect.contains(x, y) || okBtn.hit(x, y));
     }
 
     @Override
