@@ -58,7 +58,11 @@ public class UnitDock extends Bg implements Animation
         this.visible = false;
         this.dx = 0f;
         this.dy = 0f;
-        SCALE = Math.max((Gdx.graphics.getHeight() * 0.0005f), 0.4f);
+    }
+
+    public static void setScale(float scale)
+    {
+        SCALE = scale;
     }
 
     @Override
