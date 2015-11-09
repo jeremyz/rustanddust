@@ -16,6 +16,8 @@ import ch.asynk.rustanddust.screens.GameScreen;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Config;
 import ch.asynk.rustanddust.game.battles.Factory;
+import ch.asynk.rustanddust.ui.Bg;
+import ch.asynk.rustanddust.game.hud.UnitDock;
 
 public class RustAndDust extends Game
 {
@@ -151,11 +153,16 @@ public class RustAndDust extends Game
         uiAtlas = manager.get("data/ui.atlas", TextureAtlas.class);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/veteran-typewriter.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = Math.max((int) (Gdx.graphics.getHeight() * 0.04f), 15);
+
+        float h = Gdx.graphics.getHeight();
+        parameter.size = Math.max((int) (h * 0.04f), 15);
         parameter.color = Color.BLACK;
         fontB = generator.generateFont(parameter);
         parameter.color = Color.WHITE;
         fontW = generator.generateFont(parameter);
+
+        UnitDock.setScale(Math.max((h * 0.0005f), 0.4f));
+        Bg.setScale(Math.max((h * 0.00125f), 0.4f));
     }
 
     private void unloadUiAssets()
