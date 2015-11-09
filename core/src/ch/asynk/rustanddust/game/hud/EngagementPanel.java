@@ -23,6 +23,7 @@ public class EngagementPanel extends Patch implements Animation
     public static int VSPACING = 15;
     public static int HSPACING = 5;
     public static float MOVE_STEP = 2f;
+    public static int DICE_DIMENSION = 24;
 
     private State state;
     private boolean reroll;
@@ -55,10 +56,15 @@ public class EngagementPanel extends Patch implements Animation
         this.defenseR = new Label(font);
         this.okBtn = new Bg(uiAtlas.findRegion("ok"));
         this.visible = false;
-        this.d1Animation = new DiceAnimation();
-        this.d2Animation = new DiceAnimation();
-        this.d3Animation = new DiceAnimation();
-        this.d4Animation = new DiceAnimation();
+        this.d1Animation = new DiceAnimation(DICE_DIMENSION);
+        this.d2Animation = new DiceAnimation(DICE_DIMENSION);
+        this.d3Animation = new DiceAnimation(DICE_DIMENSION);
+        this.d4Animation = new DiceAnimation(DICE_DIMENSION);
+    }
+
+    public static void setDiceDimension(int dimension)
+    {
+        DICE_DIMENSION = dimension;
     }
 
     public void updatePosition()
