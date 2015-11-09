@@ -151,7 +151,7 @@ public class RustAndDust extends Game
         uiAtlas = manager.get("data/ui.atlas", TextureAtlas.class);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/veteran-typewriter.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 20;
+        parameter.size = Math.max((int) (Gdx.graphics.getHeight() * 0.04f), 15);
         parameter.color = Color.BLACK;
         fontB = generator.generateFont(parameter);
         parameter.color = Color.WHITE;
