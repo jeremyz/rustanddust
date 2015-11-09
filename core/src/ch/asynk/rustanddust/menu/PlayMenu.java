@@ -13,7 +13,6 @@ import ch.asynk.rustanddust.RustAndDust;
 public class PlayMenu extends Patch
 {
     public static int PADDING = 40;
-    public static int BTN_PADDING = 10;
     public static int TITLE_PADDING = 30;
     public static int VSPACING = 20;
 
@@ -90,8 +89,8 @@ public class PlayMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        okBtn.setPosition((x + w - okBtn.getWidth() + BTN_PADDING), (y - BTN_PADDING));
-        cancelBtn.setPosition((x - BTN_PADDING), okBtn.getY());
+        okBtn.setPosition((x + w - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
+        cancelBtn.setPosition((x - (cancelBtn.getWidth() / 2.0f)), okBtn.getY());
 
         y += PADDING;
         x += PADDING;

@@ -15,7 +15,6 @@ import ch.asynk.rustanddust.RustAndDust;
 public class OptionsMenu extends Patch
 {
     public static int PADDING = 40;
-    public static int OK_PADDING = 10;
     public static int OPT_PADDING = 10;
     public static int TITLE_PADDING = 30;
     public static int VSPACING = 5;
@@ -142,7 +141,7 @@ public class OptionsMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        okBtn.setPosition((x + w - okBtn.getWidth() + OK_PADDING), (y - OK_PADDING));
+        okBtn.setPosition((x + w - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
 
         y += PADDING;
         x += PADDING + HSPACING;

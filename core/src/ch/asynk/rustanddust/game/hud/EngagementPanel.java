@@ -20,7 +20,6 @@ public class EngagementPanel extends Patch implements Animation
     private enum State { ROLL1, MOVE, ROLL2, RESULT };
 
     public static int FLAG_HEIGHT = 24;
-    public static int OK_OFFSET = 10;
     public static int PADDING = 20;
     public static int VSPACING = 10;
     public static int HSPACING = 5;
@@ -123,10 +122,10 @@ public class EngagementPanel extends Patch implements Animation
         float height = (okBtn.getHeight() + attackImg.getHeight() + defenseImg.getHeight() + (2 * VSPACING) + (2 * PADDING));
         float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + w + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
-        float y = position.getY(height);
+        float y = position.getY(height) + (okBtn.getHeight() / 2.0f);
         setPosition(x, y, width, height);
 
-        okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
+        okBtn.setPosition((x + width - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
 
         x = getX() + PADDING;
         y = getY() + PADDING;

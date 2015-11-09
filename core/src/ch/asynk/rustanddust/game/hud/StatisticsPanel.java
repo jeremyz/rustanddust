@@ -13,7 +13,6 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class StatisticsPanel extends Patch
 {
-    public static int OK_OFFSET = 10;
     public static int PADDING = 20;
     public static int VSPACING = 10;
     public static int HSPACING = 10;
@@ -63,7 +62,7 @@ public class StatisticsPanel extends Patch
         float y = position.getY(height);
         setPosition(x, y, width, height);
 
-        okBtn.setPosition((x + width - okBtn.getWidth() + OK_OFFSET), (y - OK_OFFSET));
+        okBtn.setPosition((x + width - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
 
         y += PADDING;
         x += PADDING;
