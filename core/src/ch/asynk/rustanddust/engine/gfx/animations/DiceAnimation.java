@@ -15,7 +15,6 @@ public class DiceAnimation implements Animation, Drawable
 {
     private static final float DURATION = 0.7f;
     private static final float DURATION_SCATTERING = 0.5f;
-    private static final int DICE_DIMENSION = 24;
 
     private static Random random = new Random();
     private static Sprites dice;
@@ -37,7 +36,13 @@ public class DiceAnimation implements Animation, Drawable
     private int[] roll;
     private float elapsed;
     private float duration;
+    private int dimension;
     // public boolean stop;
+
+    public DiceAnimation(int dimension)
+    {
+        this.dimension = dimension;
+    }
 
     public static void init(Texture texture, int cols, int rows, Sound s)
     {
@@ -76,12 +81,12 @@ public class DiceAnimation implements Animation, Drawable
 
     public int getWidth()
     {
-        return DICE_DIMENSION;
+        return dimension;
     }
 
     public int getHeight()
     {
-        return DICE_DIMENSION;
+        return dimension;
     }
 
     public void setPosition(float x, float y)
@@ -130,7 +135,7 @@ public class DiceAnimation implements Animation, Drawable
     @Override
     public void draw(Batch batch)
     {
-        batch.draw(dice.frames[frame], x, y, DICE_DIMENSION, DICE_DIMENSION);
+        batch.draw(dice.frames[frame], x, y, dimension, dimension);
     }
 
     @Override
