@@ -5,13 +5,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Bg extends Widget
 {
+    private static float SCALE = 1.0f;
     private TextureRegion region;
 
     public Bg(TextureRegion region)
     {
         super();
         this.region = region;
-        setPosition(0, 0, region.getRegionWidth(), region.getRegionHeight());
+        setPosition(0, 0, region.getRegionWidth() * SCALE, region.getRegionHeight() * SCALE);
+    }
+
+    public static void setScale(float scale)
+    {
+        SCALE = scale;
     }
 
     @Override
