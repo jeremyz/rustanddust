@@ -20,7 +20,7 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class UnitDock extends Bg implements Animation
 {
-    private static final float SCALE = 0.4f;
+    private static float SCALE = 1.0f;
     private static final float STEP = 5f;
     private static final float BOUNCE_SPEED = 5;
     private static final float SCISSORS_BOTTOM = 50f;
@@ -58,6 +58,7 @@ public class UnitDock extends Bg implements Animation
         this.visible = false;
         this.dx = 0f;
         this.dy = 0f;
+        SCALE = Math.max((Gdx.graphics.getHeight() * 0.0005f), 0.4f);
     }
 
     @Override
