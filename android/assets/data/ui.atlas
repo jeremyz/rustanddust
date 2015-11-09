@@ -7,8 +7,8 @@ repeat: none
 cancel
   rotate: false
   xy: 2, 52
-  size: 48, 48
-  orig: 48, 48
+  size: 64, 63
+  orig: 64, 63
   offset: 0, 0
   index: -1
 disabled
@@ -20,14 +20,14 @@ disabled
   index: -1
 ok
   rotate: false
-  xy: 52, 52
-  size: 48, 48
-  orig: 48, 48
+  xy: 68, 52
+  size: 64, 63
+  orig: 64, 63
   offset: 0, 0
   index: -1
 typewriter
   rotate: false
-  xy: 52, 2
+  xy: 134, 67
   size: 48, 48
   split: 23, 23, 23, 23
   pad: 11, 11, 12, 12
@@ -36,14 +36,14 @@ typewriter
   index: -1
 veteran-black
   rotate: false
-  xy: 2, 102
+  xy: 2, 117
   size: 118, 391
   orig: 118, 391
   offset: 0, 0
   index: -1
 veteran-white
   rotate: false
-  xy: 122, 102
+  xy: 122, 117
   size: 118, 391
   orig: 118, 391
   offset: 0, 0
