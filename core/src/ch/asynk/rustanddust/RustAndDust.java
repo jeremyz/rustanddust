@@ -18,6 +18,7 @@ import ch.asynk.rustanddust.game.Config;
 import ch.asynk.rustanddust.game.battles.Factory;
 import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.game.hud.UnitDock;
+import ch.asynk.rustanddust.game.hud.EngagementPanel;
 
 public class RustAndDust extends Game
 {
@@ -161,8 +162,9 @@ public class RustAndDust extends Game
         parameter.color = Color.WHITE;
         fontW = generator.generateFont(parameter);
 
-        UnitDock.setScale(Math.max((h * 0.0005f), 0.4f));
         Bg.setScale(Math.max((h * 0.00125f), 0.4f));
+        UnitDock.setScale(Math.max((h * 0.0005f), 0.4f));
+        EngagementPanel.setDiceDimension((int) Math.max((h * 0.03f), 24));
     }
 
     private void unloadUiAssets()
