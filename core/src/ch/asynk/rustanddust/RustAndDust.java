@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 import ch.asynk.rustanddust.screens.MenuScreen;
 import ch.asynk.rustanddust.screens.GameScreen;
@@ -146,8 +149,13 @@ public class RustAndDust extends Game
         manager.load("data/ui.atlas", TextureAtlas.class);
         manager.finishLoading();
         uiAtlas = manager.get("data/ui.atlas", TextureAtlas.class);
-        fontB = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-black"));
-        fontW = new BitmapFont(Gdx.files.internal("skin/veteran.fnt"), uiAtlas.findRegion("veteran-white"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/veteran-typewriter.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.color = Color.BLACK;
+        fontB = generator.generateFont(parameter);
+        parameter.color = Color.WHITE;
+        fontW = generator.generateFont(parameter);
     }
 
     private void unloadUiAssets()
