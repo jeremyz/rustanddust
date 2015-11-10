@@ -12,9 +12,9 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public class PlayMenu extends Patch
 {
-    public static int PADDING = 40;
-    public static int TITLE_PADDING = 30;
-    public static int VSPACING = 20;
+    public static int PADDING = 50;
+    public static int TITLE_PADDING = 35;
+    public static int VSPACING = 30;
 
     private final RustAndDust game;
     private final BitmapFont font;
