@@ -18,6 +18,14 @@ public class Config
                 return MINE;
             return ORIGINAL;
         }
+        public Graphics get(int i)
+        {
+            if (i == MINE.i)
+                return MINE;
+            else if (i == ORIGINAL.i)
+                return ORIGINAL;
+            return null;
+        }
     };
 
     public enum GameMode
