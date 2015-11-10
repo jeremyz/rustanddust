@@ -119,6 +119,21 @@ public class PathBuilder implements Disposable
         return paths.size();
     }
 
+    public int choosePath()
+    {
+        if (paths.size() > 1) {
+            ctrlTiles.clear();
+            Path good = paths.get(1);
+            for (Tile tile : good.tiles) {
+                toggleCtrlTile(tile);
+                if (paths.size() == 1)
+                    break;
+            }
+        }
+
+        return 1;
+    }
+
     private void findAllPaths(Tile from, int mvtLeft, boolean roadMarch)
     {
         Tile moves[] = new Tile[6];
