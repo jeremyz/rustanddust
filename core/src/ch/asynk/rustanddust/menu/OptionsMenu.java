@@ -14,9 +14,9 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public class OptionsMenu extends Patch
 {
-    public static int PADDING = 40;
+    public static int PADDING = 30;
     public static int OPT_PADDING = 10;
-    public static int TITLE_PADDING = 30;
+    public static int TITLE_PADDING = 20;
     public static int VSPACING = 5;
     public static int HSPACING = 30;
     public static String CHECK = "#";
@@ -145,19 +145,19 @@ public class OptionsMenu extends Patch
 
         y += PADDING;
         x += PADDING + HSPACING;
-        float dy = (VSPACING + checkLabels[0].getHeight());
 
         graphics.setPosition(x, y);
         graphicsValue.setPosition((x + graphics.getWidth() + OPT_PADDING), y);
-        y += dy;
+        y += (VSPACING + graphics.getHeight());
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
-        y += dy;
+        y += (VSPACING + fxVolume.getHeight());
         for (int i = 0; i < checkLabels.length; i++) {
             checkLabels[i].setPosition(x, y);
-            y += dy;
+            y += (VSPACING + checkLabels[i].getHeight());
         }
         y += (TITLE_PADDING - VSPACING);
+        x -= PADDING;
         title.setPosition(x, y);
     }
 
