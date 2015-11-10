@@ -42,6 +42,7 @@ public class OptionsMenu extends Patch
     private Label graphics;
     private Label graphicsValue;
     private Label [] checkLabels;
+    private int fxVolumeIdx;
     private boolean [] checkValues;
     private OkCancel okCancel;
     protected Bg okBtn;
@@ -60,7 +61,6 @@ public class OptionsMenu extends Patch
         this.fxVolume = new Label(font);
         this.fxVolume.write("Fx Volume");
         this.fxVolumeValue = new Label(font);
-        this.fxVolumeValue.write(fxStrings[(int) (game.config.fxVolume * 10)]);
         this.graphics = new Label(font);
         this.graphics.write("Graphics");
         this.graphicsValue = new Label(font);
@@ -89,6 +89,8 @@ public class OptionsMenu extends Patch
         checkValues[2] = game.config.canCancel;
         checkValues[1] = game.config.mustValidate;
         checkValues[0] = game.config.debug;
+        fxVolumeIdx = (int) (game.config.fxVolume * 10);
+        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
 
     private boolean apply()
@@ -100,18 +102,15 @@ public class OptionsMenu extends Patch
         game.config.canCancel = checkValues[2];
         game.config.mustValidate = checkValues[1];
         game.config.debug = checkValues[0];
+        game.config.fxVolume = (fxVolumeIdx / 10.0f);
         return true;
     }
 
     private void cycleFxVolume()
     {
-        int i = (int) (game.config.fxVolume * 10) + 1;
-        if (i > 10) i = 0;
-        float fx = fxVolumeValue.getX();
-        float fy = fxVolumeValue.getY();
-        fxVolumeValue.write(fxStrings[i]);
-        fxVolumeValue.setPosition(fx, fy);
-        game.config.fxVolume = (i / 10f);
+        fxVolumeIdx += 1;
+        if (fxVolumeIdx > 10) fxVolumeIdx = 0;
+        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
 
     private void cycleGraphics()
