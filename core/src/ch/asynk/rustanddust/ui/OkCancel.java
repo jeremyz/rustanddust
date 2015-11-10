@@ -54,8 +54,8 @@ public class OkCancel extends Patch
         float y = position.getY(height);
         setPosition(x, y, width, height);
 
-        okBtn.setPosition((x + width - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
-        cancelBtn.setPosition((x - (cancelBtn.getWidth() / 2.0f)), (y - (cancelBtn.getHeight() / 2.0f)));
+        setBtnRight(okBtn);
+        setBtnLeft(cancelBtn);
         label.setPosition((x + PADDING), (y + PADDING + okBtn.getHeight() + VSPACING));
         cancelBtn.visible = true;
         visible = true;

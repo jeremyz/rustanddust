@@ -89,8 +89,8 @@ public class PlayMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        okBtn.setPosition((x + w - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
-        cancelBtn.setPosition((x - (cancelBtn.getWidth() / 2.0f)), okBtn.getY());
+        setBtnRight(okBtn);
+        setBtnLeft(cancelBtn);
 
         y += PADDING;
         x += PADDING;

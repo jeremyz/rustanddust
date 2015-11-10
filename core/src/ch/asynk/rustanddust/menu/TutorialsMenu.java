@@ -49,7 +49,7 @@ public class TutorialsMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        okBtn.setPosition((x + w - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
+        setBtnRight(okBtn);
 
         y += PADDING;
         x += PADDING;

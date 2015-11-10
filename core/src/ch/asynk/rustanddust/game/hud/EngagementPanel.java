@@ -130,7 +130,7 @@ public class EngagementPanel extends Patch implements Animation
         float y = position.getY(height) + (okBtn.getHeight() / 2.0f);
         setPosition(x, y, width, height);
 
-        okBtn.setPosition((x + width - (okBtn.getWidth() / 2.0f)), (y - (okBtn.getHeight() / 2.0f)));
+        setBtnRight(okBtn);
 
         x += PADDING;
         y += PADDING;
