@@ -156,13 +156,13 @@ public class RustAndDust extends Game
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
         float h = Gdx.graphics.getHeight();
-        parameter.size = Math.max((int) (h * 0.04f), 15);
+        parameter.size = Math.max((int) (h * 0.04f), 16);
         parameter.color = Color.BLACK;
         fontB = generator.generateFont(parameter);
         parameter.color = Color.WHITE;
         fontW = generator.generateFont(parameter);
 
-        Bg.setScale(Math.max((h * 0.00125f), 0.4f));
+        Bg.setScale(Math.max((h * 0.00125f), 1.0f));
         UnitDock.setScale(Math.max((h * 0.0005f), 0.4f));
         EngagementPanel.setDiceDimension((int) Math.max((h * 0.03f), 24));
     }
