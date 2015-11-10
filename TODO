@@ -1,6 +1,7 @@
 BUGS:
 
 TODO:
+    - improve PathBuilder.choosePath
     - Rules
         - 9.6 improved position as trait on Unit ??
         - 6.3 Russian mass activation
