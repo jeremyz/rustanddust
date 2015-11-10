@@ -156,6 +156,8 @@ public class StateMove extends StateCommon
     {
         to = hex;
         int s = map.pathBuilder.build(to);
+        if (s > 1)
+            s = map.pathBuilder.choosePath();
         map.showMove(to);
         map.hidePossibleMoves();
         map.showPathBuilder();
