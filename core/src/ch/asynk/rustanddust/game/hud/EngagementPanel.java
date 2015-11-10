@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.game.hud;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -56,15 +57,11 @@ public class EngagementPanel extends Patch implements Animation
         this.defenseR = new Label(font);
         this.okBtn = new Bg(uiAtlas.findRegion("ok"));
         this.visible = false;
-        this.d1Animation = new DiceAnimation(DICE_DIMENSION);
-        this.d2Animation = new DiceAnimation(DICE_DIMENSION);
-        this.d3Animation = new DiceAnimation(DICE_DIMENSION);
-        this.d4Animation = new DiceAnimation(DICE_DIMENSION);
-    }
-
-    public static void setDiceDimension(int dimension)
-    {
-        DICE_DIMENSION = dimension;
+        int d = (int) Math.max((Gdx.graphics.getWidth() * 0.03f), DICE_DIMENSION);
+        this.d1Animation = new DiceAnimation(d);
+        this.d2Animation = new DiceAnimation(d);
+        this.d3Animation = new DiceAnimation(d);
+        this.d4Animation = new DiceAnimation(d);
     }
 
     public void updatePosition()
