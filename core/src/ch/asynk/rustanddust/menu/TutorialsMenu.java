@@ -65,7 +65,7 @@ public class TutorialsMenu extends Patch
     {
         if (!visible) return false;
 
-        if (okBtn.hit(x, y))
+        if (rect.contains(x, y) || okBtn.hit(x, y))
             return true;
 
         return false;
