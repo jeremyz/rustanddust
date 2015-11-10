@@ -45,6 +45,7 @@ public class OptionsMenu extends Patch
     private boolean [] checkValues;
     private OkCancel okCancel;
     protected Bg okBtn;
+    protected Bg cancelBtn;
 
     public OptionsMenu(RustAndDust game, BitmapFont font, TextureAtlas atlas)
     {
@@ -53,6 +54,7 @@ public class OptionsMenu extends Patch
         this.font = font;
         this.okCancel = new OkCancel(font, atlas);
         this.okBtn = new Bg(atlas.findRegion("ok"));
+        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
         this.title = new Label(font);
         this.title.write("- Options");
         this.fxVolume = new Label(font);
@@ -142,6 +144,7 @@ public class OptionsMenu extends Patch
         setPosition(x, y, w, h);
 
         setBtnRight(okBtn);
+        setBtnLeft(cancelBtn);
 
         y += PADDING;
         x += PADDING + HSPACING;
@@ -174,6 +177,9 @@ public class OptionsMenu extends Patch
 
         if (okBtn.hit(x, y)) {
             return apply();
+        } else if (cancelBtn.hit(x, y)) {
+            getValues();
+            return true;
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
         } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
@@ -194,6 +200,7 @@ public class OptionsMenu extends Patch
         super.dispose();
         title.dispose();
         okBtn.dispose();
+        cancelBtn.dispose();
         okCancel.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
@@ -212,6 +219,7 @@ public class OptionsMenu extends Patch
         super.draw(batch);
         title.draw(batch);
         okBtn.draw(batch);
+        cancelBtn.draw(batch);
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
         graphics.draw(batch);
