@@ -64,7 +64,6 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         float dy = (position.getY(usFlag.getHeight()) - usFlag.getY());
         usFlag.translate(dx, dy);
         geFlag.translate(dx, dy);
-        turns.translate(dx, dy);
         aps.translate(dx, dy);
         reinforcement.translate(dx, dy);
         unitDock.translate(dx, dy);
@@ -76,7 +75,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             return;
         this.position = position;
 
-        float width = (usFlag.getWidth() + turns.getWidth() + aps.getWidth() + (2 * PADDING));
+        float width = (usFlag.getWidth() + aps.getWidth() + (2 * PADDING));
         float height = (usFlag.getHeight() + reinforcement.getHeight() + (1 * PADDING));
         float x = position.getX(width);
         float y = position.getY(height);
@@ -87,8 +86,6 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             usFlag.setPosition(x, y);
             geFlag.setPosition(x, y);
             x += (usFlag.getWidth() + PADDING);
-            turns.setPosition(x, y);
-            x += (turns.getWidth() + PADDING);
             aps.setPosition(x, y);
         } else {
             x = (x + width);
@@ -97,11 +94,10 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             x -= usFlag.getWidth();
             usFlag.setPosition(x, y);
             geFlag.setPosition(x, y);
-            x -= (turns.getWidth() + PADDING);
-            turns.setPosition(x, y);
             x -= (aps.getWidth() + PADDING);
             aps.setPosition(x, y);
         }
+        turns.setPosition(Position.TOP_CENTER);
         aps.setLabelPosition(Position.TOP_RIGHT);
         turns.setLabelPosition(Position.MIDDLE_CENTER);
         reinforcement.setLabelPosition(Position.TOP_LEFT);
