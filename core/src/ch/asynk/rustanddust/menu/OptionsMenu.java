@@ -43,6 +43,7 @@ public class OptionsMenu extends Patch
     private Label graphicsValue;
     private Label [] checkLabels;
     private int fxVolumeIdx;
+    private int graphicsIdx;
     private boolean [] checkValues;
     private OkCancel okCancel;
     protected Bg okBtn;
@@ -64,7 +65,6 @@ public class OptionsMenu extends Patch
         this.graphics = new Label(font);
         this.graphics.write("Graphics");
         this.graphicsValue = new Label(font);
-        this.graphicsValue.write(game.config.graphics.s);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
@@ -91,6 +91,8 @@ public class OptionsMenu extends Patch
         checkValues[0] = game.config.debug;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
+        graphicsIdx = game.config.graphics.i;
+        graphicsValue.write(game.config.graphics.s, graphicsValue.getX(), graphicsValue.getY());
     }
 
     private boolean apply()
@@ -103,6 +105,7 @@ public class OptionsMenu extends Patch
         game.config.mustValidate = checkValues[1];
         game.config.debug = checkValues[0];
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
+        game.config.graphics = game.config.graphics.get(graphicsIdx);
         return true;
     }
 
@@ -115,11 +118,8 @@ public class OptionsMenu extends Patch
 
     private void cycleGraphics()
     {
-        game.config.graphics = game.config.graphics.next();
-        float fx = graphicsValue.getX();
-        float fy = graphicsValue.getY();
-        graphicsValue.write(game.config.graphics.s);
-        graphicsValue.setPosition(fx, fy);
+        graphicsIdx = game.config.graphics.get(graphicsIdx).next().i;
+        graphicsValue.write(game.config.graphics.get(graphicsIdx).s, graphicsValue.getX(), graphicsValue.getY());
     }
 
     public void setPosition()
