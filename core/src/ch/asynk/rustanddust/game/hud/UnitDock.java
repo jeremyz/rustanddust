@@ -20,7 +20,6 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class UnitDock extends Bg implements Animation
 {
-    private static float SCALE = 1.0f;
     private static final float STEP = 5f;
     private static final float BOUNCE_SPEED = 5;
     private static final float SCISSORS_BOTTOM = 50f;
@@ -32,6 +31,7 @@ public class UnitDock extends Bg implements Animation
     private float dx;
     private float dy;
     private float step;
+    private float scale;
     private boolean show;
     private boolean mvtDone;
     public Unit selectedUnit;
@@ -58,11 +58,7 @@ public class UnitDock extends Bg implements Animation
         this.visible = false;
         this.dx = 0f;
         this.dy = 0f;
-    }
-
-    public static void setScale(float scale)
-    {
-        SCALE = scale;
+        this.scale = Math.max((Gdx.graphics.getHeight() * 0.0005f), 0.4f);
     }
 
     @Override
@@ -73,14 +69,14 @@ public class UnitDock extends Bg implements Animation
         super.translate(_dx, _dy);
         for (Unit unit : units)
             unit.translate(_dx, _dy);
-        to = position.getX(rect.width * SCALE);
+        to = position.getX(rect.width * scale);
         compute();
     }
 
     private void compute()
     {
         transform.idt();
-        transform.translate((rect.x + dx), (rect.y + dy + rect.height), 0).scale(SCALE, SCALE, 0).translate(-rect.x, - (rect.y + rect.height), 0);
+        transform.translate((rect.x + dx), (rect.y + dy + rect.height), 0).scale(scale, scale, 0).translate(-rect.x, - (rect.y + rect.height), 0);
         point.set(rect.x, rect.y, 0).mul(transform);
         scaledRect.x = point.x;
         scaledRect.y = point.y;
@@ -147,7 +143,7 @@ public class UnitDock extends Bg implements Animation
             dy = 0;
             compute();
         }
-        to = position.getX(rect.width * SCALE);
+        to = position.getX(rect.width * scale);
 
         show = true;
         mvtDone = false;
@@ -168,7 +164,7 @@ public class UnitDock extends Bg implements Animation
         units = ctrl.player.reinforcement;
         rect.width = units.get(0).getWidth() + (2 * padding);
         rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
-        float scaledWidth = (rect.width * SCALE);
+        float scaledWidth = (rect.width * scale);
         to = position.getX(scaledWidth);
         rect.x = to + (position.isLeft() ? -scaledWidth : scaledWidth);
         rect.y = y - rect.height;

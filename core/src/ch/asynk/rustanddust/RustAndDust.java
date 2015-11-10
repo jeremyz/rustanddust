@@ -17,7 +17,6 @@ import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Config;
 import ch.asynk.rustanddust.game.battles.Factory;
 import ch.asynk.rustanddust.ui.Bg;
-import ch.asynk.rustanddust.game.hud.UnitDock;
 
 public class RustAndDust extends Game
 {
@@ -162,7 +161,6 @@ public class RustAndDust extends Game
         fontW = generator.generateFont(parameter);
 
         Bg.setScale(Math.max((h * 0.00125f), 1.0f));
-        UnitDock.setScale(Math.max((h * 0.0005f), 0.4f));
     }
 
     private void unloadUiAssets()
