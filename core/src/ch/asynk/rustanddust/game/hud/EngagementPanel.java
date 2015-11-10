@@ -149,6 +149,7 @@ public class EngagementPanel extends Patch implements Animation
         y += ((attack.getHeight() / 2.0f) - (attackImg.getHeight() / 2.0f));
         attackImg.setPosition(x, y);
         x += (attackImg.getWidth() + HSPACING);
+        y += ((attackImg.getHeight() / 2.0f) - (d1Animation.getHeight() / 2.0f));
         d1Animation.setPosition(x, y);
         d3Animation.setPosition(x, y);
         x += (d1Animation.getWidth() + HSPACING);
