@@ -77,9 +77,7 @@ public class StatisticsPanel extends Patch
     @Override
     public boolean hit(float x, float y)
     {
-        if (okBtn.hit(x, y))
-            return true;
-        return false;
+        return (rect.contains(x, y) || okBtn.hit(x, y));
     }
 
     @Override
