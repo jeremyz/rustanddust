@@ -23,7 +23,6 @@ public class MenuScreen implements Screen
 {
     private final RustAndDust game;
 
-    private final int OFFSET = 20;
     private final int V_WIDTH = 1600;
     private final int V_HEIGHT = 1125;
     private final int V_CENTER_X = 1000;
