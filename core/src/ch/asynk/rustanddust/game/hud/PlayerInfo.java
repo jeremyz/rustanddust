@@ -68,6 +68,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         reinforcement.translate(dx, dy);
         unitDock.translate(dx, dy);
         turns.setPosition(Position.TOP_CENTER);
+        turns.setLabelPosition(Position.MIDDLE_CENTER);
     }
 
     public void setPosition(Position position)
@@ -99,7 +100,6 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             aps.setPosition(x, y);
         }
         aps.setLabelPosition(Position.TOP_RIGHT);
-        turns.setLabelPosition(Position.MIDDLE_CENTER);
         reinforcement.setLabelPosition(Position.TOP_LEFT);
         unitDock.setPosition(position, reinforcement.getY() - PADDING);
     }
