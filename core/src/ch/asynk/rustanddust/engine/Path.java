@@ -27,6 +27,7 @@ public class Path implements Disposable, Pool.Poolable
     }
 
     public int cost;
+    public int fitness;
     public boolean roadMarch;
     public ArrayList<Tile> tiles;
 

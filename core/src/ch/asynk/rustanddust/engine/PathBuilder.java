@@ -111,7 +111,7 @@ public class PathBuilder implements Disposable
             path.cost = to.costFrom(pawn, o);
             paths.add(path);
         } else {
-            findAllPaths(from, pawn.getMovementPoints(), true);
+            findAllPaths(from, pawn.getMovementPoints(), 0, true);
         }
 
         // printToErr("paths", paths);
@@ -122,8 +122,15 @@ public class PathBuilder implements Disposable
     public int choosePath()
     {
         if (paths.size() > 1) {
+            int f = Integer.MAX_VALUE;
+            Path good = null;
+            for (Path path : paths) {
+                if (path.fitness < f) {
+                    good = path;
+                    f = path.fitness;
+                }
+            }
             ctrlTiles.clear();
-            Path good = paths.get(1);
             for (Tile tile : good.tiles) {
                 toggleCtrlTile(tile);
                 if (paths.size() == 1)
@@ -134,7 +141,7 @@ public class PathBuilder implements Disposable
         return 1;
     }
 
-    private void findAllPaths(Tile from, int mvtLeft, boolean roadMarch)
+    private void findAllPaths(Tile from, int mvtLeft, int fitness, boolean roadMarch)
     {
         Tile moves[] = new Tile[6];
         board.setAdjacentTiles(from, moves);
@@ -144,8 +151,12 @@ public class PathBuilder implements Disposable
             if ((next == null) || next.isOffMap()) continue;
 
             Orientation o = board.getSide(i);
-            int m = (mvtLeft - next.costFrom(pawn, o));
-            boolean r = roadMarch & next.road(o);
+            int n = next.costFrom(pawn, o);
+            boolean r = next.road(o);
+            if (!r) fitness += n;
+
+            int m = (mvtLeft - n);
+            r &= roadMarch;
 
             int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
 
@@ -157,11 +168,12 @@ public class PathBuilder implements Disposable
                         tiles.add(t);
                     }
                     path.roadMarch = r;
+                    path.fitness = fitness;
                     path.cost = (pawn.getMovementPoints() - m);
                     paths.add(path);
                 } else {
                     stack.add(next);
-                    findAllPaths(next, m, r);
+                    findAllPaths(next, m, fitness, r);
                     stack.remove(stack.size() - 1);
                 }
             }
@@ -272,7 +284,7 @@ public class PathBuilder implements Disposable
     {
         System.err.println(what + pawn + " ("+paths.size()+") " + from + " -> " + to);
         for (Path path : paths) {
-            System.err.println(String.format(" - path (l:%d c:%d r:%b)", path.tiles.size(), path.cost, path.roadMarch));
+            System.err.println(String.format(" - path (l:%d c:%d r:%b f:%d)", path.tiles.size(), path.cost, path.roadMarch, path.fitness));
             for(Tile tile : path.tiles)
                 System.err.println("   " + tile.toString());
         }
