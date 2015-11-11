@@ -158,9 +158,11 @@ public class UnitDock extends Bg implements Animation
             n = 0;
             return false;
         }
-        if (count == n) return true;
-        n = count;
 
+        if ((count == n) && (units == ctrl.player.reinforcement))
+            return true;
+
+        n = count;
         units = ctrl.player.reinforcement;
         rect.width = units.get(0).getWidth() + (2 * padding);
         rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
