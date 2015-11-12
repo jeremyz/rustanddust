@@ -2,6 +2,7 @@ BUGS:
 
 TODO:
     - improve PathBuilder.choosePath
+    - gimp script replace units layers
     - Rules
         - 9.6 improved position as trait on Unit ??
         - 6.3 Russian mass activation
