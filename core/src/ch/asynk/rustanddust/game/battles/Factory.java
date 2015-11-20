@@ -25,6 +25,7 @@ public class Factory implements Board.TileBuilder, Disposable
 {
     public enum MapType
     {
+        MAP_00,
         MAP_A,
         MAP_B
     }
@@ -83,6 +84,9 @@ public class Factory implements Board.TileBuilder, Disposable
     {
         Map m = null;
         switch(t) {
+            case MAP_00:
+                m = new Map00(game, "data/map_00.png", "data/hex.png");
+                break;
             case MAP_A:
                 m = new MapA(game, "data/map_a.png", "data/hex.png");
                 break;

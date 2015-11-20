@@ -93,6 +93,8 @@ public class RustAndDust extends Game
             manager.load("data/map_a.png", Texture.class);
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.load("data/map_b.png", Texture.class);
+        if (config.battle.getMapType() == Factory.MapType.MAP_00)
+            manager.load("data/map_00.png", Texture.class);
         int i = config.graphics.i;
         manager.load(String.format("data/units%d.atlas",i), TextureAtlas.class);
         manager.load(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
@@ -122,6 +124,8 @@ public class RustAndDust extends Game
             manager.unload("data/map_a.png");
         if (config.battle.getMapType() == Factory.MapType.MAP_B)
             manager.unload("data/map_b.png");
+        if (config.battle.getMapType() == Factory.MapType.MAP_00)
+            manager.unload("data/map_00.png");
         int i = config.graphics.i;
         manager.unload(String.format("data/units%d.atlas",i));
         manager.unload(String.format("data/unit-overlays%d.atlas", i));
