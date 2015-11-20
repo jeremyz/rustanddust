@@ -65,6 +65,8 @@ public abstract class Board implements Disposable, Animation
 
     protected SelectedTile selectedTile;
 
+    abstract protected Config getConfig();
+
     protected Board(int cols, int rows)
     {
         // add a frame of OFFMAP Tiles
@@ -74,10 +76,10 @@ public abstract class Board implements Disposable, Animation
         initSides();
     }
 
-    public Board(TileBuilder tileBuilder, Config cfg, Texture boardTexture,  SelectedTile selectedTile)
+    public Board(TileBuilder tileBuilder, Texture boardTexture,  SelectedTile selectedTile)
     {
         board = new Sprite(boardTexture);
-        this.cfg = cfg;
+        this.cfg = getConfig();
         // add a frame of OFFMAP Tiles
         this.cols = (cfg.cols + 2);
         this.rows = (cfg.rows + 2);

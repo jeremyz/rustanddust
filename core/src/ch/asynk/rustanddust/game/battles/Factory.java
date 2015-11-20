@@ -79,34 +79,15 @@ public class Factory implements Board.TileBuilder, Disposable
         this.assetsLoaded = false;
     }
 
-    private Board.Config config()
-    {
-        Board.Config cfg = new Board.Config();
-        cfg.cols = 10;
-        cfg.rows = 9;
-        cfg.x0 = 86;
-        cfg.y0 = 182;
-        cfg.w = 189;
-        cfg.dw = 94;
-        cfg.s = 110;
-        cfg.dh = 53.6f;
-        cfg.h = cfg.s + cfg.dh;
-        cfg.slope = (cfg.dh / (float) cfg.dw);
-
-        return cfg;
-    }
-
     public Map getMap(MapType t)
     {
-        Board.Config cfg = config();
-
         Map m = null;
         switch(t) {
             case MAP_A:
-                m = new MapA(game, config(), "data/map_a.png");
+                m = new MapA(game, "data/map_a.png");
                 break;
             case MAP_B:
-                m = new MapB(game, config(), "data/map_b.png");
+                m = new MapB(game, "data/map_b.png");
                 break;
         }
 

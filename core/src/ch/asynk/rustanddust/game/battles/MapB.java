@@ -8,9 +8,27 @@ import ch.asynk.rustanddust.game.Hex;
 
 public class MapB extends Map
 {
-    public MapB(final RustAndDust game, Board.Config cfg, String textureName)
+    public MapB(final RustAndDust game, String textureName)
     {
-        super(game, cfg, textureName);
+        super(game, textureName);
+    }
+
+    @Override
+    protected Board.Config getConfig()
+    {
+        Board.Config cfg = new Board.Config();
+        cfg.cols = 10;
+        cfg.rows = 9;
+        cfg.x0 = 86;
+        cfg.y0 = 182;
+        cfg.w = 189;
+        cfg.dw = 94;
+        cfg.s = 110;
+        cfg.dh = 53.6f;
+        cfg.h = cfg.s + cfg.dh;
+        cfg.slope = (cfg.dh / (float) cfg.dw);
+
+        return cfg;
     }
 
     @Override
