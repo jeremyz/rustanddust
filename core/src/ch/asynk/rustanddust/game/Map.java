@@ -59,10 +59,10 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     protected abstract void setup();
 
-    public Map(final RustAndDust game, String textureName)
+    public Map(final RustAndDust game, String map, String hex)
     {
-        super(game.factory, game.manager.get(textureName, Texture.class),
-                new SelectedTile(game.manager.get("data/hex.png", Texture.class), new float[] {.2f, .1f, .1f, .1f, .2f, .1f} ));
+        super(game.factory, game.manager.get(map, Texture.class),
+                new SelectedTile(game.manager.get(hex, Texture.class), new float[] {.2f, .1f, .1f, .1f, .2f, .1f} ));
         this.ctrl = game.ctrl;
         this.destroy = new DestroyAnimation();
         this.tankMoveSound = game.manager.get("sounds/tank_move.mp3", Sound.class);

@@ -8,9 +8,9 @@ import ch.asynk.rustanddust.game.Hex;
 
 public class MapB extends Map
 {
-    public MapB(final RustAndDust game, String textureName)
+    public MapB(final RustAndDust game, String map, String hex)
     {
-        super(game, textureName);
+        super(game, map, hex);
     }
 
     @Override
