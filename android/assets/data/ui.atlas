@@ -1,6 +1,6 @@
 
 ui.png
-size: 256,512
+size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -32,19 +32,5 @@ typewriter
   split: 23, 23, 23, 23
   pad: 11, 11, 12, 12
   orig: 48, 48
-  offset: 0, 0
-  index: -1
-veteran-black
-  rotate: false
-  xy: 2, 117
-  size: 118, 391
-  orig: 118, 391
-  offset: 0, 0
-  index: -1
-veteran-white
-  rotate: false
-  xy: 122, 117
-  size: 118, 391
-  orig: 118, 391
   offset: 0, 0
   index: -1
