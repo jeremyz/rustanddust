@@ -13,14 +13,14 @@ from
   index: -1
 ge-flag
   rotate: false
-  xy: 386, 118
+  xy: 516, 118
   size: 153, 101
   orig: 153, 101
   offset: 0, 0
   index: -1
 move
   rotate: false
-  xy: 667, 105
+  xy: 826, 105
   size: 100, 114
   orig: 100, 114
   offset: 0, 0
@@ -34,14 +34,14 @@ to
   index: -1
 unit
   rotate: false
-  xy: 541, 95
-  size: 124, 124
-  orig: 124, 124
+  xy: 386, 91
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 386, 18
+  xy: 671, 121
   size: 153, 98
   orig: 153, 98
   offset: 0, 0
