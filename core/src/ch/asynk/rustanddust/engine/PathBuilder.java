@@ -153,7 +153,7 @@ public class PathBuilder implements Disposable
             Orientation o = board.getSide(i);
             int n = next.costFrom(pawn, o);
             boolean r = next.road(o);
-            if (!r) fitness += n;
+            int f = (fitness + 1 + (r ? 0 : 1));
 
             int m = (mvtLeft - n);
             r &= roadMarch;
@@ -168,12 +168,12 @@ public class PathBuilder implements Disposable
                         tiles.add(t);
                     }
                     path.roadMarch = r;
-                    path.fitness = fitness;
+                    path.fitness = f;
                     path.cost = (pawn.getMovementPoints() - m);
                     paths.add(path);
                 } else {
                     stack.add(next);
-                    findAllPaths(next, m, fitness, r);
+                    findAllPaths(next, m, f, r);
                     stack.remove(stack.size() - 1);
                 }
             }
