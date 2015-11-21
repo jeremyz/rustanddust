@@ -55,22 +55,10 @@ task packUnits0(type: JavaExec) {
     args = ['../assets/units0', '../android/assets/data', 'units0']
 }
 
-task packUnits1(type: JavaExec) {
-    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
-    classpath = configurations.texturePacker
-    args = ['../assets/units1', '../android/assets/data', 'units1']
-}
-
 task packUnitOverlays0(type: JavaExec) {
     main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
     classpath = configurations.texturePacker
     args = ['../assets/unit-overlays0', '../android/assets/data', 'unit-overlays0']
-}
-
-task packUnitOverlays1(type: JavaExec) {
-    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
-    classpath = configurations.texturePacker
-    args = ['../assets/unit-overlays1', '../android/assets/data', 'unit-overlays1']
 }
 
 task packHexOverlays(type: JavaExec) {
