@@ -28,8 +28,7 @@ public class RustAndDust extends Game
 
     public TextureAtlas uiAtlas;
     public TextureAtlas menuAtlas;
-    public BitmapFont fontB;
-    public BitmapFont fontW;
+    public BitmapFont font;
 
     public enum State
     {
@@ -161,15 +160,12 @@ public class RustAndDust extends Game
         Bg.setScale(Math.max((h * 0.00125f), 1.0f));
         parameter.size = Math.max((int) (h * 0.04f), 16);
         parameter.color = Color.BLACK;
-        fontB = generator.generateFont(parameter);
-        parameter.color = Color.WHITE;
-        fontW = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
     }
 
     private void unloadUiAssets()
     {
-        fontB.dispose();
-        fontW.dispose();
+        font.dispose();
         manager.unload("data/ui.atlas");
     }
 

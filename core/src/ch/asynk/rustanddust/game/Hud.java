@@ -58,13 +58,13 @@ public class Hud implements Disposable, Animation
         this.ctrl = ctrl;
 
         TextureAtlas hudAtlas = game.factory.hudAtlas;
-        playerInfo = new PlayerInfo(ctrl, game.fontW, game.uiAtlas, hudAtlas);
+        playerInfo = new PlayerInfo(ctrl, game.font, game.uiAtlas, hudAtlas);
         actionButtons = new ActionButtons(ctrl, game.uiAtlas, hudAtlas);
         actionButtons.hide();
-        msg = new Msg(game.fontB, game.uiAtlas);
-        okCancel = new OkCancel(game.fontB, game.uiAtlas);
-        stats = new StatisticsPanel(game.fontB, game.uiAtlas);
-        engagement = new EngagementPanel(game.fontB, game.uiAtlas, hudAtlas);
+        msg = new Msg(game.font, game.uiAtlas);
+        okCancel = new OkCancel(game.font, game.uiAtlas);
+        stats = new StatisticsPanel(game.font, game.uiAtlas);
+        engagement = new EngagementPanel(game.font, game.uiAtlas, hudAtlas);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class Hud implements Disposable, Animation
     {
         draw(batch);
         if (debug)
-            game.fontB.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
+            game.font.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
     }
 
     @Override

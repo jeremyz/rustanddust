@@ -77,10 +77,10 @@ public class MenuScreen implements Screen
         this.usFlag = new Sprite(game.menuAtlas.findRegion("us-flag"));
         this.geFlag = new Sprite(game.menuAtlas.findRegion("ge-flag"));
 
-        this.mainMenu = new MainMenu(game.fontB, game.uiAtlas);
-        this.playMenu = new PlayMenu(game, game.fontB, game.uiAtlas);
-        this.optionsMenu = new OptionsMenu(game, game.fontB, game.uiAtlas);
-        this.tutorialsMenu = new TutorialsMenu(game, game.fontB, game.uiAtlas);
+        this.mainMenu = new MainMenu(game.font, game.uiAtlas);
+        this.playMenu = new PlayMenu(game, game.font, game.uiAtlas);
+        this.optionsMenu = new OptionsMenu(game, game.font, game.uiAtlas);
+        this.tutorialsMenu = new TutorialsMenu(game, game.font, game.uiAtlas);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
