@@ -163,7 +163,7 @@ public class RustAndDust extends Game
 
     private void loadMenuAssets()
     {
-        manager.load("data/map_a.png", Texture.class);
+        manager.load("data/map_00.png", Texture.class);
         manager.load("data/menu.atlas", TextureAtlas.class);
         manager.finishLoading();
         menuAtlas = manager.get("data/menu.atlas", TextureAtlas.class);
@@ -171,7 +171,7 @@ public class RustAndDust extends Game
 
     private void unloadMenuAssets()
     {
-        manager.unload("data/map_a.png");
+        manager.unload("data/map_00.png");
         manager.unload("data/menu.atlas");
     }
 

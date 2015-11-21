@@ -32,8 +32,9 @@ public class MenuScreen implements Screen
     private float delay = 0.0f;
     private float dx;
     private float dy;
-    private int[] xPath = { 369, 558, 747, 936, 1125, 1030, 936, 1125, 1314, 1408, 1597};
-    private int[] yPath = { 565, 565, 565, 565,  565,  729, 892,  892,  892, 1056, 1056};
+    private int[] xPath = { 907, 812, 908, 1098, 1288, 1384, 1481, 1578};
+    private int[] yPath = { 491, 653, 818, 818, 818, 984, 1150, 1316};
+
     private int n = xPath.length;
 
     private boolean ready;
@@ -68,7 +69,7 @@ public class MenuScreen implements Screen
 
         this.gameAssetsLoading = false;
 
-        this.bg = game.manager.get("data/map_a.png", Texture.class);
+        this.bg = game.manager.get("data/map_00.png", Texture.class);
 
         this.unit = new Sprite(game.menuAtlas.findRegion("unit"));
         this.move = new Sprite(game.menuAtlas.findRegion("move"));
@@ -156,8 +157,9 @@ public class MenuScreen implements Screen
             }
 
             percent = Interpolation.linear.apply(percent, game.manager.getProgress(), 0.1f);
-            int idx = (int) (percent * 10);
-            float fraction = ((percent * 100 ) % 10 / 10);
+            float p = (percent * (xPath.length - 1));
+            int idx = (int) p;
+            float fraction = (p - idx);
             x = (xPath[idx] + ((xPath[idx + 1] - xPath[idx]) * fraction));
             y = (yPath[idx] + ((yPath[idx + 1] - yPath[idx]) * fraction));
         }
