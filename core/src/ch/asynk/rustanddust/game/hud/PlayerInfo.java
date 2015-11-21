@@ -99,8 +99,10 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             x -= (aps.getWidth() + PADDING);
             aps.setPosition(x, y);
         }
-        aps.setLabelPosition(Position.TOP_RIGHT);
-        reinforcement.setLabelPosition(Position.TOP_LEFT);
+        turns.setPosition(Position.TOP_CENTER);
+        turns.setLabelPosition(Position.MIDDLE_CENTER);
+        aps.setLabelPosition(Position.MIDDLE_CENTER);
+        reinforcement.setLabelPosition(Position.MIDDLE_CENTER);
         unitDock.setPosition(position, reinforcement.getY() - PADDING);
     }
 
