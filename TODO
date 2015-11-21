@@ -1,8 +1,8 @@
 BUGS:
 
 TODO:
-    - improve PathBuilder.choosePath
-    - gimp script replace units layers
+    - check units values position
+    - moving cloudy sky overlay
     - Rules
         - 9.6 improved position as trait on Unit ??
         - 6.3 Russian mass activation
