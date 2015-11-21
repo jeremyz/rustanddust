@@ -36,6 +36,7 @@ public class Path implements Disposable, Pool.Poolable
         this.cost = -1;
         this.roadMarch = true;
         this.tiles = null;
+        this.fitness = 0;
     }
 
     protected void init(int size)
@@ -44,6 +45,9 @@ public class Path implements Disposable, Pool.Poolable
             tiles = new ArrayList<Tile>(size);
         else
             tiles. ensureCapacity(size);
+        cost = -1;
+        roadMarch = true;
+        fitness = 0;
     }
 
     @Override
