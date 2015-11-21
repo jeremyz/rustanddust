@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 aps
   rotate: false
-  xy: 2, 28
+  xy: 130, 156
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -27,21 +27,21 @@ defense
   index: -1
 ge-flag
   rotate: false
-  xy: 2, 78
+  xy: 130, 206
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 promote
   rotate: false
-  xy: 130, 156
+  xy: 88, 78
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 84, 78
+  xy: 84, 28
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -62,14 +62,14 @@ stars
   index: -1
 turns
   rotate: false
-  xy: 52, 28
-  size: 48, 48
-  orig: 48, 48
+  xy: 2, 78
+  size: 84, 48
+  orig: 84, 48
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 130, 206
+  xy: 2, 28
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
