@@ -39,11 +39,8 @@ public class OptionsMenu extends Patch
     private Label title;
     private Label fxVolume;
     private Label fxVolumeValue;
-    private Label graphics;
-    private Label graphicsValue;
     private Label [] checkLabels;
     private int fxVolumeIdx;
-    private int graphicsIdx;
     private boolean [] checkValues;
     private OkCancel okCancel;
     protected Bg okBtn;
@@ -62,9 +59,6 @@ public class OptionsMenu extends Patch
         this.fxVolume = new Label(font);
         this.fxVolume.write("Fx Volume");
         this.fxVolumeValue = new Label(font);
-        this.graphics = new Label(font);
-        this.graphics.write("Graphics");
-        this.graphicsValue = new Label(font);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
@@ -91,8 +85,6 @@ public class OptionsMenu extends Patch
         checkValues[0] = game.config.debug;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
-        graphicsIdx = game.config.graphics.i;
-        graphicsValue.write(game.config.graphics.s, graphicsValue.getX(), graphicsValue.getY());
     }
 
     private boolean apply()
@@ -105,7 +97,6 @@ public class OptionsMenu extends Patch
         game.config.mustValidate = checkValues[1];
         game.config.debug = checkValues[0];
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
-        game.config.graphics = game.config.graphics.get(graphicsIdx);
         return true;
     }
 
@@ -116,18 +107,11 @@ public class OptionsMenu extends Patch
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
 
-    private void cycleGraphics()
-    {
-        graphicsIdx = game.config.graphics.get(graphicsIdx).next().i;
-        graphicsValue.write(game.config.graphics.get(graphicsIdx).s, graphicsValue.getX(), graphicsValue.getY());
-    }
-
     public void setPosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + ((checkLabels.length - 1) * VSPACING) + (2 * PADDING));
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
-        h += (graphics.getHeight() + VSPACING);
         h += (fxVolume.getHeight() + VSPACING);
 
         float w = title.getWidth();
@@ -148,9 +132,6 @@ public class OptionsMenu extends Patch
         y += PADDING;
         x += PADDING + HSPACING;
 
-        graphics.setPosition(x, y);
-        graphicsValue.setPosition((x + graphics.getWidth() + OPT_PADDING), y);
-        y += (VSPACING + graphics.getHeight());
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
         y += (VSPACING + fxVolume.getHeight());
@@ -181,8 +162,6 @@ public class OptionsMenu extends Patch
             return true;
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
-        } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
-            cycleGraphics();
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
                 if (checkLabels[i].hit(x, y))
@@ -203,8 +182,6 @@ public class OptionsMenu extends Patch
         okCancel.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
-        graphics.dispose();
-        graphicsValue.dispose();
         for (int i = 0; i < checkLabels.length; i++)
             checkLabels[i].dispose();
     }
@@ -221,8 +198,6 @@ public class OptionsMenu extends Patch
         cancelBtn.draw(batch);
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
-        graphics.draw(batch);
-        graphicsValue.draw(batch);
         for (int i = 0; i < checkLabels.length; i++) {
             Label l = checkLabels[i];
             l.draw(batch);
