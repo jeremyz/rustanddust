@@ -23,6 +23,7 @@ public class Helpers
 
         @Override public int getDefense(Tile tile)                  { return 8; }
         @Override public int getEngagementRangeFrom(Tile tile)      { return 3; }
+        @Override public boolean preventDefenseOn(Tile tile)        { return true; }
 
         @Override public boolean isA(PawnId id)                     { return true; }
         @Override public boolean isA(PawnType type)                 { return true; }
@@ -34,6 +35,7 @@ public class Helpers
 
         @Override public boolean canMove()                          { return true; }
         @Override public boolean canRotate()                        { return true; }
+        @Override public boolean canBreak()                         { return true; }
         @Override public boolean canEngage()                        { return true; }
         @Override public boolean canEngage(Pawn other)              { return true; }
         @Override public boolean canAssistEngagementWithoutLos()    { return true; }
@@ -128,6 +130,8 @@ public class Helpers
             pawn = new FakePawn();
             pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
         }
+
+        @Override protected Board.Config getConfig() { return null; }
 
         @Override public void animationsOver() {}
 
