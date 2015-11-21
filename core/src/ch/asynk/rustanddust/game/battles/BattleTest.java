@@ -20,7 +20,7 @@ public class BattleTest extends BattleCommon
     {
         super(factory);
         name = "*** Test ***";
-        mapType = Factory.MapType.MAP_B;
+        mapType = Factory.MapType.MAP_00;
     }
 
     @Override

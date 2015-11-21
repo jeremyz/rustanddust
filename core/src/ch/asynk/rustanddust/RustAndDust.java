@@ -88,10 +88,6 @@ public class RustAndDust extends Game
 
     public void loadGameAssets()
     {
-        if (config.battle.getMapType() == Factory.MapType.MAP_A)
-            manager.load("data/map_a.png", Texture.class);
-        if (config.battle.getMapType() == Factory.MapType.MAP_B)
-            manager.load("data/map_b.png", Texture.class);
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
             manager.load("data/map_00.png", Texture.class);
         int i = config.graphics.i;
@@ -119,10 +115,6 @@ public class RustAndDust extends Game
 
     private void unloadGameAssets()
     {
-        if (config.battle.getMapType() == Factory.MapType.MAP_A)
-            manager.unload("data/map_a.png");
-        if (config.battle.getMapType() == Factory.MapType.MAP_B)
-            manager.unload("data/map_b.png");
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
             manager.unload("data/map_00.png");
         int i = config.graphics.i;

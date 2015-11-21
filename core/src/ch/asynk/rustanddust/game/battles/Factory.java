@@ -13,12 +13,6 @@ import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.Unit.UnitType;
 import ch.asynk.rustanddust.game.Battle;
-import ch.asynk.rustanddust.game.battles.BattleHeadToHead;
-import ch.asynk.rustanddust.game.battles.BattleFrontalAssault;
-import ch.asynk.rustanddust.game.battles.BattleLastStand;
-import ch.asynk.rustanddust.game.battles.BattleCounterAttack;
-import ch.asynk.rustanddust.game.battles.BattleStabToTheFlank;
-import ch.asynk.rustanddust.game.battles.BattleNightAction;
 import ch.asynk.rustanddust.game.battles.BattleTest;
 
 public class Factory implements Board.TileBuilder, Disposable
@@ -48,12 +42,6 @@ public class Factory implements Board.TileBuilder, Disposable
         this.game = game;
         this.assetsLoaded = false;
         battles = new Battle[] {
-            new BattleHeadToHead(this),
-            new BattleFrontalAssault(this),
-            new BattleLastStand(this),
-            new BattleCounterAttack(this),
-            new BattleStabToTheFlank(this),
-            new BattleNightAction(this),
             new BattleTest(this),
         };
     }
@@ -86,12 +74,6 @@ public class Factory implements Board.TileBuilder, Disposable
         switch(t) {
             case MAP_00:
                 m = new Map00(game, "data/map_00.png", "data/hex.png");
-                break;
-            case MAP_A:
-                m = new MapA(game, "data/map_a.png", "data/hex.png");
-                break;
-            case MAP_B:
-                m = new MapB(game, "data/map_b.png", "data/hex.png");
                 break;
         }
 
