@@ -121,6 +121,7 @@ public class UnitDock extends Bg implements Animation
     {
         int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
         selectedUnit = units.get(i);
+        selected.setCenter((selectedUnit.getX() + (selectedUnit.getWidth() / 2)), (selectedUnit.getY() + (selectedUnit.getHeight() / 2)));
         return selectedUnit;
     }
 
@@ -236,13 +237,9 @@ public class UnitDock extends Bg implements Animation
         Gdx.gl.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
 
         super.draw(batch);
-        for (Unit unit : units) {
-            unit.draw(batch);
-            if (unit == selectedUnit) {
-                selected.setCenter((unit.getX() + (unit.getWidth() / 2)), (unit.getY() + (unit.getHeight() / 2)));
-                selected.draw(batch);
-            }
-        }
+        for (Unit unit : units) unit.draw(batch);
+
+        if (selectedUnit != null) selected.draw(batch);
 
         batch.setTransformMatrix(saved);
 
