@@ -7,6 +7,7 @@
 *.war
 *.ear
 hs_err_pid*
+**/javadoc
 
 ## GWT
 war/
