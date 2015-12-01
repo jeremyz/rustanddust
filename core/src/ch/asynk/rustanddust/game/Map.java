@@ -567,12 +567,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             addAnimation(destroy);
         }
 
+        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
+        addEngagementAnimation(e.defender);
+
         // do not consume action points
         if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())
             activatedUnits.clear();
-
-        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
-        addEngagementAnimation(e.defender);
 
         return (e.success ? 1 : 0);
     }
