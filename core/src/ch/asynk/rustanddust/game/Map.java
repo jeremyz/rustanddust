@@ -37,8 +37,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 {
     private final Ctrl ctrl;
 
-    public final HexSet possibleMoves;
-    public final PathBuilder pathBuilder;
+    protected final HexSet moves;
+    public final PathBuilder paths;
 
     protected final UnitList moveableUnits;
     protected final UnitList targetUnits;
@@ -84,8 +84,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         setup();
 
-        possibleMoves = new HexSet(this, 40);
-        pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
+        moves = new HexSet(this, 40);
+        paths = new PathBuilder(this, 10, 20, 5, 10);
 
         moveableUnits = new UnitList(6);
         targetUnits = new UnitList(10);
@@ -105,7 +105,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         super.dispose();
         clearAll();
         destroy.dispose();
-        pathBuilder.dispose();
+        paths.dispose();
         DiceAnimation.free();
         PromoteAnimation.free();
         FireAnimation.free();
@@ -116,8 +116,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void clearAll()
     {
-        possibleMoves.clear();
-        pathBuilder.clear();
+        moves.clear();
+        paths.clear();
         moveableUnits.clear();
         targetUnits.clear();
         assistUnits.clear();
@@ -162,18 +162,23 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         showObjective(hex, objectives.unclaim(hex));
     }
 
-    public int collectPossibleMoves(Unit unit)
+    public boolean movesContains(Hex hex)
+    {
+        return moves.contains(hex);
+    }
+
+    public int movesCollect(Unit unit)
     {
         if (unit.canMove())
-            return collectPossibleMoves(unit, possibleMoves.asTiles());
+            return collectPossibleMoves(unit, moves.asTiles());
 
-        possibleMoves.clear();
+        moves.clear();
         return 0;
     }
 
-    public int togglePathBuilderHex(Hex hex)
+    public int pathsToggleHex(Hex hex)
     {
-        return pathBuilder.toggleCtrlTile(hex);
+        return paths.toggleCtrlTile(hex);
     }
 
     public int collectPossibleTargets(Unit unit, UnitList foes)
@@ -221,11 +226,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public void collectAndShowMovesAndAssits(Unit unit)
     {
-        hidePossibleMoves();
+        movesHide();
         unitsHide(UnitType.MOVEABLE);
-        collectPossibleMoves(unit);
+        movesCollect(unit);
         collectMoveableUnits(unit);
-        showPossibleMoves();
+        movesShow();
         unitsShow(UnitType.MOVEABLE);
         activatedUnits.clear();
     }
@@ -381,12 +386,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int exitBoard(final Unit unit)
     {
-        return process(getMoveCommand(unit, pathBuilder.getExitMove()));
+        return process(getMoveCommand(unit, paths.getExitMove()));
     }
 
     public int moveUnit(final Unit unit)
     {
-        return process(getMoveCommand(unit, pathBuilder.getMove()));
+        return process(getMoveCommand(unit, paths.getMove()));
     }
 
     public void revertMoves()
@@ -663,12 +668,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             unit.enableOverlay(overlay, on);
     }
 
-    public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
-    public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
-    public void showPathBuilder()       { pathBuilder.enable(Hex.AREA, true); }
-    public void hidePathBuilder()       { pathBuilder.enable(Hex.AREA, false); }
-    public void showPath(Hex dst)       { pathBuilder.enable(Hex.MOVE, true); hexMoveShow(dst); }
-    public void hidePath(Hex dst)       { pathBuilder.enable(Hex.MOVE, false); hexMoveHide(dst); }
+    public void movesShow()             { moves.enable(Hex.AREA, true); }
+    public void movesHide()             { moves.enable(Hex.AREA, false); }
+    public void pathsShow()             { paths.enable(Hex.AREA, true); }
+    public void pathsHide()             { paths.enable(Hex.AREA, false); }
+    public void pathShow(Hex dst)       { paths.enable(Hex.MOVE, true); hexMoveShow(dst); }
+    public void pathHide(Hex dst)       { paths.enable(Hex.MOVE, false); hexMoveHide(dst); }
 
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
     public void hexUnselect(Hex hex)        { selectedTile.hide(); }

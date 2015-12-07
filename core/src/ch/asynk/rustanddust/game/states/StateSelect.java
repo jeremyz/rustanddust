@@ -58,7 +58,7 @@ public class StateSelect extends StateCommon
     public void touchUp()
     {
         if (!isEnemy) {
-            if (map.possibleMoves.contains(upHex)) {
+            if (map.movesContains(upHex)) {
                 // quick move
                 to = upHex;
                 ctrl.setState(StateType.MOVE);
@@ -116,7 +116,7 @@ public class StateSelect extends StateCommon
         if (isEnemy && !ctrl.cfg.showEnemyPossibilities)
             return;
 
-        int moves = map.collectPossibleMoves(selectedUnit);
+        int moves = map.movesCollect(selectedUnit);
         int targets = map.collectPossibleTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
 
         if (moves > 0)

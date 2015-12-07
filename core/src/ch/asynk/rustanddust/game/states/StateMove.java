@@ -16,18 +16,18 @@ public class StateMove extends StateCommon
                 | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
 
         if (prevState == StateType.WITHDRAW) {
-            if (map.pathBuilder.size() == 1)
+            if (map.paths.size() == 1)
                 ctrl.setState(StateType.ROTATE);
             return;
         }
 
-        map.pathBuilder.clear();
+        map.paths.clear();
 
         if (prevState == StateType.SELECT) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
-            map.pathBuilder.init(activeUnit);
+            map.paths.init(activeUnit);
             map.collectAndShowMovesAndAssits(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
@@ -55,10 +55,10 @@ public class StateMove extends StateCommon
 
         // hide all but assists : want them when in rotation
         activeUnit.hideMoveable();
-        map.hidePossibleMoves();
+        map.movesHide();
         map.hexUnselect(activeUnit.getHex());
         if (to != null)
-            map.hidePath(to);
+            map.pathHide(to);
 
         if (nextState != StateType.SELECT) {
             if (to == null)
@@ -102,23 +102,23 @@ public class StateMove extends StateCommon
     {
         if (upHex == activeUnit.getHex()) {
             if (to != null)
-                map.hidePath(to);
+                map.pathHide(to);
             to = null;
-            map.pathBuilder.clear();
+            map.paths.clear();
             ctrl.setState(StateType.ROTATE);
             return;
         }
 
-        int s = map.pathBuilder.size();
+        int s = map.paths.size();
 
         Unit unit = upHex.getUnit();
 
         if (map.unitsContains(UnitType.MOVEABLE, unit)) {
             if(unit != activeUnit)
                 changeUnit(unit);
-        } else if ((s == 0) && map.possibleMoves.contains(upHex)) {
+        } else if ((s == 0) && map.movesContains(upHex)) {
             s = collectPaths(upHex);
-        } else if (map.pathBuilder.contains(upHex)) {
+        } else if (map.paths.contains(upHex)) {
             s = togglePoint(downHex, s);
         }
 
@@ -142,11 +142,11 @@ public class StateMove extends StateCommon
         }
         activeUnit = unit;
         Hex hex = activeUnit.getHex();
-        map.pathBuilder.init(activeUnit, hex);
+        map.paths.init(activeUnit, hex);
         activeUnit.showMoveable();
-        map.hidePossibleMoves();
-        map.collectPossibleMoves(activeUnit);
-        map.showPossibleMoves();
+        map.movesHide();
+        map.movesCollect(activeUnit);
+        map.movesShow();
         map.hexSelect(hex);
         activeUnit.enableOverlay(Unit.MOVE, false);
         ctrl.hud.notify(activeUnit.toString());
@@ -156,12 +156,12 @@ public class StateMove extends StateCommon
     private int collectPaths(Hex hex)
     {
         to = hex;
-        int s = map.pathBuilder.build(to);
+        int s = map.paths.build(to);
         if (s > 1)
-            s = map.pathBuilder.choosePath();
+            s = map.paths.choosePath();
         map.hexMoveShow(to);
-        map.hidePossibleMoves();
-        map.showPathBuilder();
+        map.movesHide();
+        map.pathsShow();
         return s;
     }
 
@@ -172,10 +172,10 @@ public class StateMove extends StateCommon
         } else if (hex == to) {
             //
         } else {
-            map.hidePathBuilder();
+            map.pathsHide();
             map.togglePathOverlay(hex);
-            s = map.togglePathBuilderHex(hex);
-            map.showPathBuilder();
+            s = map.pathsToggleHex(hex);
+            map.pathsShow();
         }
 
         return s;
@@ -188,7 +188,7 @@ public class StateMove extends StateCommon
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
-        if ((unit.getHex() != hex) && !map.pathBuilder.canExit(exitZone.orientation))
+        if ((unit.getHex() != hex) && !map.paths.canExit(exitZone.orientation))
             return false;
         ctrl.setState(StateType.WITHDRAW);
         return true;

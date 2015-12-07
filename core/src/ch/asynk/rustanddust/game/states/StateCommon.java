@@ -54,7 +54,7 @@ public abstract class StateCommon implements State
 
     protected void showPossibilities(Unit unit)
     {
-        if (ctrl.cfg.showMoves && unit.canMove()) map.showPossibleMoves();
+        if (ctrl.cfg.showMoves && unit.canMove()) map.movesShow();
         if (ctrl.cfg.showTargets && unit.canEngage()) map.unitsShow(UnitType.TARGETS);
         if (ctrl.cfg.showMoveAssists && unit.canMove()) map.unitsShow(UnitType.MOVEABLE);
         unit.enableOverlay(Unit.MOVE, false);
@@ -62,8 +62,8 @@ public abstract class StateCommon implements State
 
     protected void hidePossibilities()
     {
-        map.hidePossibleMoves();
-        map.unitsShow(UnitType.TARGETS);
-        map.unitsShow(UnitType.MOVEABLE);
+        map.movesHide();
+        map.unitsHide(UnitType.TARGETS);
+        map.unitsHide(UnitType.MOVEABLE);
     }
 }

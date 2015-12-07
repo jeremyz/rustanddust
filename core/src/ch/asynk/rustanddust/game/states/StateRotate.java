@@ -21,18 +21,18 @@ public class StateRotate extends StateCommon
         if (to == null)
             to = activeUnit.getHex();
 
-        if (!map.pathBuilder.isSet()) {
-            map.pathBuilder.init(activeUnit);
-            map.pathBuilder.build(to);
+        if (!map.paths.isSet()) {
+            map.paths.init(activeUnit);
+            map.paths.build(to);
         }
 
-        if (map.pathBuilder.size() != 1)
-            RustAndDust.debug("ERROR: pathBuilder.size() == " + map.pathBuilder.size());
+        if (map.paths.size() != 1)
+            RustAndDust.debug("ERROR: paths.size() == " + map.paths.size());
 
         rotateOnly = (to == activeUnit.getHex());
 
         if (!rotateOnly)
-            map.showPath(to);
+            map.pathShow(to);
         map.hexSelect(activeUnit.getHex());
         map.hexDirectionsShow(to);
 
@@ -43,9 +43,9 @@ public class StateRotate extends StateCommon
     public void leave(StateType nextState)
     {
         map.hexUnselect(activeUnit.getHex());
-        map.hidePath(to);
+        map.pathHide(to);
         map.hexDirectionsHide(to);
-        map.pathBuilder.clear();
+        map.paths.clear();
         to = null;
     }
 
@@ -96,7 +96,7 @@ public class StateRotate extends StateCommon
         if (!activeUnit.justEntered() && rotateOnly && (o == activeUnit.getOrientation()))
             return;
 
-        map.pathBuilder.orientation = o;
+        map.paths.orientation = o;
         rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {
