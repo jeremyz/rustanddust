@@ -6,7 +6,7 @@ import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Hex;
 
-public class Map00 extends Map
+public class Map00 extends MapRules
 {
     public Map00(final RustAndDust game, String map, String hex)
     {
