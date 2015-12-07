@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 ge-at-gun
   rotate: false
-  xy: 2, 340
+  xy: 2, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -14,90 +14,90 @@ ge-at-gun
 ge-head
   rotate: false
   xy: 392, 2
-  size: 25, 206
-  orig: 25, 206
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+us-head
+  rotate: false
+  xy: 392, 2
+  size: 25, 195
+  orig: 25, 195
   offset: 0, 0
   index: -1
 ge-infantry
   rotate: false
-  xy: 2, 210
+  xy: 2, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 ge-kingtiger
   rotate: false
-  xy: 132, 340
+  xy: 132, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 ge-panzer-iv
   rotate: false
-  xy: 2, 80
+  xy: 2, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 ge-tiger
   rotate: false
-  xy: 132, 210
+  xy: 132, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 ge-wespe
   rotate: false
-  xy: 262, 340
+  xy: 262, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 us-at-gun
   rotate: false
-  xy: 132, 80
+  xy: 132, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-us-head
-  rotate: false
-  xy: 419, 2
-  size: 25, 206
-  orig: 25, 206
-  offset: 0, 0
-  index: -1
 us-infantry
   rotate: false
-  xy: 262, 210
+  xy: 262, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 us-pershing
   rotate: false
-  xy: 392, 340
+  xy: 392, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 us-priest
   rotate: false
-  xy: 262, 80
+  xy: 262, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 us-sherman
   rotate: false
-  xy: 392, 210
+  xy: 392, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 us-wolverine
   rotate: false
-  xy: 522, 340
+  xy: 522, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
