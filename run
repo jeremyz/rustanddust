@@ -47,7 +47,7 @@ case "$1" in
         ;;
     "j")
         shift;
-        ARGS="core:compileJava ctags $@"
+        ARGS="core:javadocs ctags $@"
         gradlew_do
         ;;
     "d")
