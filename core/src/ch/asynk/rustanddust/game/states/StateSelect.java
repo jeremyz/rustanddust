@@ -1,6 +1,7 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.game.Map;
+import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Ctrl;
@@ -63,7 +64,7 @@ public class StateSelect extends StateCommon
                 ctrl.setState(StateType.MOVE);
                 return;
             }
-            if (map.possibleTargets.contains(upHex.getUnit())) {
+            if (map.unitsContains(UnitType.TARGETS, upHex.getUnit())) {
                 // quick fire
                 to = upHex;
                 ctrl.setState(StateType.ENGAGE);

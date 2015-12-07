@@ -40,13 +40,13 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public final HexSet possibleMoves;
     public final PathBuilder pathBuilder;
 
-    public final UnitList moveableUnits;
-    public final UnitList possibleTargets;
-    public final UnitList engagementAssists;
-    public final UnitList activatedUnits;
-    public final UnitList breakUnits;
-    public final ObjectiveSet objectives;
+    protected final UnitList moveableUnits;
+    protected final UnitList targetUnits;
+    protected final UnitList assistUnits;
+    protected final UnitList breakthroughUnits;
+    protected final UnitList activatedUnits;
 
+    public final ObjectiveSet objectives;
     public final Meteorology meteorology;
 
     private final DestroyAnimation destroy;
@@ -86,12 +86,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
         possibleMoves = new HexSet(this, 40);
         pathBuilder = new PathBuilder(this, 10, 20, 5, 10);
-        moveableUnits = new UnitList(6);
 
-        possibleTargets = new UnitList(10);
-        engagementAssists = new UnitList(6);
+        moveableUnits = new UnitList(6);
+        targetUnits = new UnitList(10);
+        assistUnits = new UnitList(6);
+        breakthroughUnits = new UnitList(4);
         activatedUnits = new UnitList(7);
-        breakUnits = new UnitList(4);
 
         objectives = new ObjectiveSet(this, 4);
 
@@ -117,12 +117,12 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void clearAll()
     {
         possibleMoves.clear();
-        possibleTargets.clear();
         pathBuilder.clear();
         moveableUnits.clear();
-        engagementAssists.clear();
+        targetUnits.clear();
+        assistUnits.clear();
+        breakthroughUnits.clear();
         activatedUnits.clear();
-        breakUnits.clear();
     }
 
     public Hex getHexAt(float x, float y)
@@ -164,11 +164,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int collectPossibleMoves(Unit unit)
     {
-        if (!unit.canMove()) {
-            possibleMoves.clear();
-            return 0;
-        }
-        return collectPossibleMoves(unit, possibleMoves.asTiles());
+        if (unit.canMove())
+            return collectPossibleMoves(unit, possibleMoves.asTiles());
+
+        possibleMoves.clear();
+        return 0;
     }
 
     public int togglePathBuilderHex(Hex hex)
@@ -178,12 +178,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int collectPossibleTargets(Unit unit, UnitList foes)
     {
-        if (!unit.canEngage()) {
-            possibleTargets.clear();
-            return 0;
-        }
-        // return collectPossibleTargets(unit, possibleTargets);
-        return collectPossibleTargets(unit, foes.asPawns(), possibleTargets.asPawns());
+        if (unit.canEngage())
+            return collectPossibleTargets(unit, foes.asPawns(), targetUnits.asPawns());
+
+        targetUnits.clear();
+        return 0;
     }
 
     public int collectMoveableUnits(Unit unit)
@@ -200,7 +199,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int collectAttackAssists(Unit unit, Unit target, UnitList units)
     {
-        int s = collectAttackAssists(unit, target, units.asPawns(), engagementAssists.asPawns());
+        int s = collectAttackAssists(unit, target, units.asPawns(), assistUnits.asPawns());
         activatedUnits.add(unit);
         return s;
     }
@@ -223,11 +222,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void collectAndShowMovesAndAssits(Unit unit)
     {
         hidePossibleMoves();
-        hideMoveableUnits();
+        unitsHide(UnitType.MOVEABLE);
         collectPossibleMoves(unit);
         collectMoveableUnits(unit);
         showPossibleMoves();
-        showMoveableUnits();
+        unitsShow(UnitType.MOVEABLE);
         activatedUnits.clear();
     }
 
@@ -547,7 +546,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private int doEngagement(Engagement e)
     {
-        breakUnits.clear();
+        breakthroughUnits.clear();
         activatedUnits.clear();
 
         activatedUnits.add(e.attacker);
@@ -557,7 +556,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         for (Unit u : activatedUnits) {
             u.engage();
             if (u.canBreak())
-                breakUnits.add(u);
+                breakthroughUnits.add(u);
         }
 
         if (e.success) {
@@ -585,21 +584,84 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         enableOverlayOn(hex, Hex.MOVE, enable);
     }
 
-    private void showUnitsOverlay(UnitList units, int overlay, boolean on)
+    public enum UnitType
+    {
+        MOVEABLE,
+        TARGETS,
+        ASSISTS,
+        BREAK_THROUGH,
+        ACTIVATED
+    };
+
+    public void unitsClear(UnitType unitType)
+    {
+        getUnitList(unitType).clear();
+    }
+
+    public int unitsSize(UnitType unitType)
+    {
+        return getUnitList(unitType).size();
+    }
+
+    public Unit unitsGet(UnitType unitType, int i)
+    {
+        return getUnitList(unitType).get(i);
+    }
+
+    public boolean unitsContains(UnitType unitType, Unit unit)
+    {
+        return getUnitList(unitType).contains(unit);
+    }
+
+    private UnitList getUnitList(UnitType unitType)
+    {
+        UnitList ul = null;
+        switch(unitType) {
+            case MOVEABLE:
+                ul = moveableUnits;
+                break;
+            case TARGETS:
+                ul = targetUnits;
+                break;
+            case ASSISTS:
+                ul = assistUnits;
+                break;
+            case BREAK_THROUGH:
+                ul = breakthroughUnits;
+                break;
+            case ACTIVATED:
+                ul = activatedUnits;
+                break;
+        }
+        return ul;
+    }
+
+    public void unitsShow(UnitType unitType) { unitsShow(unitType, true); }
+    public void unitsHide(UnitType unitType) { unitsShow(unitType, false); }
+    private void unitsShow(UnitType unitType, boolean show)
+    {
+        switch(unitType) {
+            case MOVEABLE:
+                unitsShowOverlay(moveableUnits, Unit.MOVE, show);
+                break;
+            case TARGETS:
+                unitsShowOverlay(targetUnits, Unit.TARGET, show);
+                break;
+            case ASSISTS:
+                unitsShowOverlay(assistUnits, Unit.MAY_FIRE, show);
+                if (!show)
+                    unitsShowOverlay(assistUnits, Unit.FIRE, show);
+                break;
+            case BREAK_THROUGH:
+                unitsShowOverlay(breakthroughUnits, Unit.MOVE, show);
+                break;
+        }
+    }
+    private void unitsShowOverlay(UnitList units, int overlay, boolean on)
     {
         for (Unit unit : units)
             unit.enableOverlay(overlay, on);
     }
-
-    public void showMoveableUnits()     { showUnitsOverlay(moveableUnits, Unit.MOVE, true); }
-    public void hideMoveableUnits()     { showUnitsOverlay(moveableUnits, Unit.MOVE, false); }
-    public void showPossibleTargets()   { showUnitsOverlay(possibleTargets, Unit.TARGET, true); }
-    public void hidePossibleTargets()   { showUnitsOverlay(possibleTargets, Unit.TARGET, false); }
-    public void showAttackAssists()     { showUnitsOverlay(engagementAssists, Unit.MAY_FIRE, true); }
-    public void hideAttackAssists()     { showUnitsOverlay(engagementAssists, Unit.FIRE, false);
-                                          showUnitsOverlay(engagementAssists, Unit.MAY_FIRE, false); }
-    public void showBreakUnits()        { showUnitsOverlay(breakUnits, Unit.MOVE, true); }
-    public void hideBreakUnits()        { showUnitsOverlay(breakUnits, Unit.MOVE, false); }
 
     public void showPossibleMoves()     { possibleMoves.enable(Hex.AREA, true); }
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
