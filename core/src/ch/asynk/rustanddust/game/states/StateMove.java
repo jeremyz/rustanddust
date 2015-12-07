@@ -173,7 +173,6 @@ public class StateMove extends StateCommon
             //
         } else {
             map.pathsHide();
-            map.togglePathOverlay(hex);
             s = map.pathsToggleHex(hex);
             map.pathsShow();
         }

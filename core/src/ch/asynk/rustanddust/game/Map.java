@@ -180,6 +180,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int pathsToggleHex(Hex hex)
     {
+        boolean enable = !hex.isOverlayEnabled(Hex.MOVE);
+        enableOverlayOn(hex, Hex.MOVE, enable);
         return paths.toggleCtrlTile(hex);
     }
 
@@ -516,12 +518,6 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     }
 
     // SHOW / HIDE
-
-    public void togglePathOverlay(Hex hex)
-    {
-        boolean enable= !hex.isOverlayEnabled(Hex.MOVE);
-        enableOverlayOn(hex, Hex.MOVE, enable);
-    }
 
     public enum UnitType
     {
