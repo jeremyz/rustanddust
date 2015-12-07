@@ -49,14 +49,14 @@ public class StateWithdraw extends StateCommon
         Hex hex = unit.getHex();
 
         // rotation
-        if (map.paths.to == null)
-            map.paths.build(hex);
+        if (map.pathsTo() == null)
+            map.pathsBuild(hex);
 
-        Hex exitHex = (Hex) map.paths.to;
+        Hex exitHex = (Hex) map.pathsTo();
         if (!exitZone.contains(exitHex))
             throw new RuntimeException(String.format("%s not in exitZone", exitHex));
 
-        map.paths.setExit(exitZone.orientation);
+        map.pathsSetExit(exitZone.orientation);
 
         unit.hideMoveable();
         if (to != null)

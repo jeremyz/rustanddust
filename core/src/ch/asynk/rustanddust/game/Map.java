@@ -38,7 +38,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     private final Ctrl ctrl;
 
     protected final HexSet moves;
-    public final PathBuilder paths;
+    protected final PathBuilder paths;
 
     protected final UnitList moveableUnits;
     protected final UnitList targetUnits;
@@ -177,6 +177,30 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         moves.clear();
         return 0;
     }
+
+    public void pathsClear()                        { paths.clear(); }
+
+    public int pathsSize()                          { return paths.size(); }
+
+    public void pathsInit(Unit unit)                { paths.init(unit); }
+
+    public void pathsInit(Unit unit, Hex hex)       { paths.init(unit, hex); }
+
+    public boolean pathsIsSet()                     { return paths.isSet(); }
+
+    public boolean pathsCanExit(Orientation o)      { return paths.canExit(o); }
+
+    public void pathsSetExit(Orientation o)         { paths.setExit(o); }
+
+    public int pathsBuild(Hex hex)                  { return pathsBuild(hex); }
+
+    public boolean pathsContains(Hex hex)           { return paths.contains(hex); }
+
+    public void pathsSetOrientation(Orientation o)  { paths.orientation = o; }
+
+    public Hex pathsTo()                            { return (Hex) paths.to; }
+
+    public int pathsChooseOne()                     { return paths.choosePath(); }
 
     public int pathsToggleHex(Hex hex)
     {
