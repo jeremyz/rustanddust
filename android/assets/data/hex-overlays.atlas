@@ -6,78 +6,71 @@ filter: Nearest,Nearest
 repeat: none
 00_fog
   rotate: false
-  xy: 304, 288
+  xy: 2, 2
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 01_select
   rotate: false
-  xy: 496, 288
+  xy: 304, 265
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 02_area
   rotate: false
-  xy: 688, 288
+  xy: 496, 265
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 03_move
   rotate: false
-  xy: 880, 391
+  xy: 880, 368
   size: 100, 114
   orig: 100, 114
   offset: 0, 0
   index: -1
 04_directions
   rotate: false
-  xy: 2, 244
+  xy: 2, 221
   size: 300, 261
   orig: 300, 261
   offset: 0, 0
   index: -1
-05_orientation
+05_exit
   rotate: false
-  xy: 2, 2
-  size: 230, 240
-  orig: 230, 240
+  xy: 541, 149
+  size: 100, 114
+  orig: 100, 114
   offset: 0, 0
   index: -1
 06_objective
   rotate: false
-  xy: 234, 25
+  xy: 688, 265
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 07_hold_objective
   rotate: false
-  xy: 426, 69
+  xy: 194, 2
   size: 190, 217
   orig: 190, 217
   offset: 0, 0
   index: -1
 08_objective_ge
   rotate: false
-  xy: 618, 185
+  xy: 386, 162
   size: 153, 101
   orig: 153, 101
   offset: 0, 0
   index: -1
 09_objective_us
   rotate: false
-  xy: 618, 85
+  xy: 386, 62
   size: 153, 98
   orig: 153, 98
-  offset: 0, 0
-  index: -1
-10_exit
-  rotate: false
-  xy: 773, 172
-  size: 100, 114
-  orig: 100, 114
   offset: 0, 0
   index: -1

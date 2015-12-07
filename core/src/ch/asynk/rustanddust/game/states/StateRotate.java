@@ -44,7 +44,6 @@ public class StateRotate extends StateCommon
         map.unselectHex(activeUnit.getHex());
         map.hidePath(to);
         map.hideDirections(to);
-        map.hideOrientation(to);
         map.pathBuilder.clear();
         to = null;
     }
@@ -101,7 +100,6 @@ public class StateRotate extends StateCommon
 
         if (ctrl.cfg.mustValidate) {
             map.hideDirections(to);
-            map.showOrientation(to, o);
             ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else {
             execute();

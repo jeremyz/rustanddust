@@ -25,7 +25,6 @@ public class StateBreak extends StateCommon
         map.hideBreakUnits();
         map.hideMove(to);
         map.hideDirections(to);
-        map.hideOrientation(to);
         if (activeUnit != null) map.hideMove(activeUnit.getHex());
     }
 
@@ -66,7 +65,6 @@ public class StateBreak extends StateCommon
 
             if (ctrl.cfg.mustValidate) {
                 map.hideDirections(to);
-                map.showOrientation(to, o);
                 ctrl.hud.actionButtons.show(Buttons.DONE.b);
             } else {
                 doRotation(o);
