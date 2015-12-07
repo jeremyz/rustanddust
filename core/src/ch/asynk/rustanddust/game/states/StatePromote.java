@@ -15,7 +15,7 @@ public class StatePromote extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        map.unselectHex(selectedHex);
+        map.hexUnselect(selectedHex);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class StateDeployment extends StateCommon
     public void enter(StateType prevState)
     {
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
         completed = false;
         entryZone = null;
         selectedHex = null;
@@ -33,7 +33,7 @@ public class StateDeployment extends StateCommon
     {
         selectedUnit = null;
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
         ctrl.hud.playerInfo.unitDock.hide();
@@ -89,8 +89,8 @@ public class StateDeployment extends StateCommon
 
     private void undo()
     {
-        map.unselectHex(selectedHex);
-        map.hideDirections(selectedHex);
+        map.hexUnselect(selectedHex);
+        map.hexDirectionsHide(selectedHex);
         map.revertEnter(activeUnit);
         activeUnit = null;
         selectedUnit = null;
@@ -113,16 +113,16 @@ public class StateDeployment extends StateCommon
     {
         selectedUnit = unit;
         selectedHex = hex;
-        map.selectHex(selectedHex);
-        map.showDirections(selectedHex);
+        map.hexSelect(selectedHex);
+        map.hexDirectionsShow(selectedHex);
         ctrl.hud.playerInfo.unitDock.hide();
         ctrl.hud.actionButtons.show(Buttons.ABORT.b);
     }
 
     private void doRotation(Orientation o)
     {
-        map.unselectHex(selectedHex);
-        map.hideDirections(selectedHex);
+        map.hexUnselect(selectedHex);
+        map.hexDirectionsHide(selectedHex);
 
         if (o != Orientation.KEEP)
             map.setOnBoard(selectedUnit, selectedHex, o);

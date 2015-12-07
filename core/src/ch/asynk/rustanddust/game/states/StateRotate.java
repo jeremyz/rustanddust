@@ -33,8 +33,8 @@ public class StateRotate extends StateCommon
 
         if (!rotateOnly)
             map.showPath(to);
-        map.selectHex(activeUnit.getHex());
-        map.showDirections(to);
+        map.hexSelect(activeUnit.getHex());
+        map.hexDirectionsShow(to);
 
         rotationSet = false;
     }
@@ -42,9 +42,9 @@ public class StateRotate extends StateCommon
     @Override
     public void leave(StateType nextState)
     {
-        map.unselectHex(activeUnit.getHex());
+        map.hexUnselect(activeUnit.getHex());
         map.hidePath(to);
-        map.hideDirections(to);
+        map.hexDirectionsHide(to);
         map.pathBuilder.clear();
         to = null;
     }
@@ -100,7 +100,7 @@ public class StateRotate extends StateCommon
         rotationSet = true;
 
         if (ctrl.cfg.mustValidate) {
-            map.hideDirections(to);
+            map.hexDirectionsHide(to);
             ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else {
             execute();

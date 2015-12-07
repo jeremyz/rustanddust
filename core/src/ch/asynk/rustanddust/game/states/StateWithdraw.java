@@ -62,7 +62,7 @@ public class StateWithdraw extends StateCommon
         if (to != null)
             map.hidePath(to);
         map.hidePossibleMoves();
-        map.unselectHex(hex);
+        map.hexUnselect(hex);
 
         if (map.exitBoard(unit) > 0)
             return StateType.MOVE;

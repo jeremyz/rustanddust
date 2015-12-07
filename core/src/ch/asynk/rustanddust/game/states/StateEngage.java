@@ -27,7 +27,7 @@ public class StateEngage extends StateCommon
                 touchUp();
             }
             selectedUnit.showAttack();
-            map.selectHex(selectedHex);
+            map.hexSelect(selectedHex);
         } else
             RustAndDust.debug("should not happen");
     }
@@ -38,9 +38,9 @@ public class StateEngage extends StateCommon
         selectedUnit.hideAttack();
         map.unitsHide(UnitType.ASSISTS);
         map.unitsHide(UnitType.TARGETS);
-        map.unselectHex(selectedHex);
+        map.hexUnselect(selectedHex);
         if (to != null)
-            map.unselectHex(to);
+            map.hexUnselect(to);
     }
 
     @Override

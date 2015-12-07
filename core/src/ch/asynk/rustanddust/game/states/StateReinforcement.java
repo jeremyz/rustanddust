@@ -14,7 +14,7 @@ public class StateReinforcement extends StateCommon
     {
         map.clearAll();
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
         entryZone = null;
         selectedHex = null;
         ctrl.hud.playerInfo.unitDock.show();
@@ -24,7 +24,7 @@ public class StateReinforcement extends StateCommon
     public void leave(StateType nextState)
     {
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
         ctrl.hud.playerInfo.unitDock.hide();
@@ -73,7 +73,7 @@ public class StateReinforcement extends StateCommon
     {
         selectedUnit = unit;
         selectedHex = upHex;
-        map.selectHex(selectedHex);
+        map.hexSelect(selectedHex);
         entryZone.enable(Hex.AREA, false);
         if (map.enterBoard(unit, upHex, entryZone.allowedMoves)) {
             if (unit.getMovementPoints() > 0)

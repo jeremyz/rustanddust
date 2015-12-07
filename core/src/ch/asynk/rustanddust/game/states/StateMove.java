@@ -56,7 +56,7 @@ public class StateMove extends StateCommon
         // hide all but assists : want them when in rotation
         activeUnit.hideMoveable();
         map.hidePossibleMoves();
-        map.unselectHex(activeUnit.getHex());
+        map.hexUnselect(activeUnit.getHex());
         if (to != null)
             map.hidePath(to);
 
@@ -136,7 +136,7 @@ public class StateMove extends StateCommon
     private void changeUnit(Unit unit)
     {
         if (activeUnit != null ) {
-            map.unselectHex(activeUnit.getHex());
+            map.hexUnselect(activeUnit.getHex());
             if (activeUnit.canMove())
                 activeUnit.enableOverlay(Unit.MOVE, true);
         }
@@ -147,7 +147,7 @@ public class StateMove extends StateCommon
         map.hidePossibleMoves();
         map.collectPossibleMoves(activeUnit);
         map.showPossibleMoves();
-        map.selectHex(hex);
+        map.hexSelect(hex);
         activeUnit.enableOverlay(Unit.MOVE, false);
         ctrl.hud.notify(activeUnit.toString());
         checkExit(activeUnit, hex);
@@ -159,7 +159,7 @@ public class StateMove extends StateCommon
         int s = map.pathBuilder.build(to);
         if (s > 1)
             s = map.pathBuilder.choosePath();
-        map.showMove(to);
+        map.hexMoveShow(to);
         map.hidePossibleMoves();
         map.showPathBuilder();
         return s;

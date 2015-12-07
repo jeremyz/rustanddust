@@ -37,7 +37,7 @@ public class StateSelect extends StateCommon
     public StateType abort()
     {
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
         hidePossibilities();
         map.clearAll();
         return StateType.ABORT;
@@ -73,7 +73,7 @@ public class StateSelect extends StateCommon
         }
 
         if (selectedHex != null)
-            map.unselectHex(selectedHex);
+            map.hexUnselect(selectedHex);
 
         hidePossibilities();
         if (upHex.isOffMap()) {
@@ -123,7 +123,7 @@ public class StateSelect extends StateCommon
             map.collectMoveableUnits(selectedUnit);
 
         if ((moves > 0) || (targets > 0)) {
-            map.selectHex(selectedHex);
+            map.hexSelect(selectedHex);
             showPossibilities(selectedUnit);
         }
 

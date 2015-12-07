@@ -24,9 +24,9 @@ public class StateBreak extends StateCommon
     public void leave(StateType nextState)
     {
         map.unitsHide(UnitType.BREAK_THROUGH);
-        map.hideMove(to);
-        map.hideDirections(to);
-        if (activeUnit != null) map.hideMove(activeUnit.getHex());
+        map.hexMoveHide(to);
+        map.hexDirectionsHide(to);
+        if (activeUnit != null) map.hexMoveHide(activeUnit.getHex());
     }
 
     @Override
@@ -54,9 +54,9 @@ public class StateBreak extends StateCommon
             Unit unit = upHex.getUnit();
             if (map.unitsContains(UnitType.BREAK_THROUGH, unit)) {
                 activeUnit = unit;
-                map.showMove(upHex);
-                map.showMove(to);
-                map.showDirections(to);
+                map.hexMoveShow(upHex);
+                map.hexMoveShow(to);
+                map.hexDirectionsShow(to);
                 map.unitsHide(UnitType.BREAK_THROUGH);
             }
         } else {
@@ -65,7 +65,7 @@ public class StateBreak extends StateCommon
             if (o == Orientation.KEEP) return;
 
             if (ctrl.cfg.mustValidate) {
-                map.hideDirections(to);
+                map.hexDirectionsHide(to);
                 ctrl.hud.actionButtons.show(Buttons.DONE.b);
             } else {
                 doRotation(o);

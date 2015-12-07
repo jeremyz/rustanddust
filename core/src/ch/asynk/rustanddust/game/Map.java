@@ -667,17 +667,17 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void hidePossibleMoves()     { possibleMoves.enable(Hex.AREA, false); }
     public void showPathBuilder()       { pathBuilder.enable(Hex.AREA, true); }
     public void hidePathBuilder()       { pathBuilder.enable(Hex.AREA, false); }
-    public void showPath(Hex dst)       { pathBuilder.enable(Hex.MOVE, true); showMove(dst); }
-    public void hidePath(Hex dst)       { pathBuilder.enable(Hex.MOVE, false); hideMove(dst); }
+    public void showPath(Hex dst)       { pathBuilder.enable(Hex.MOVE, true); hexMoveShow(dst); }
+    public void hidePath(Hex dst)       { pathBuilder.enable(Hex.MOVE, false); hexMoveHide(dst); }
 
-    public void selectHex(Hex hex)      { selectedTile.set(hex); }
-    public void unselectHex(Hex hex)    { selectedTile.hide(); }
-    public void showMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, true); }
-    public void hideMove(Hex hex)       { enableOverlayOn(hex, Hex.MOVE, false); }
-    public void showDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, true); }
-    public void hideDirections(Hex hex) { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
-    public void showExit(Hex hex)       { enableOverlayOn(hex, Hex.EXIT, true); }
-    public void hideExit(Hex hex)       { enableOverlayOn(hex, Hex.EXIT, false); }
+    public void hexSelect(Hex hex)          { selectedTile.set(hex); }
+    public void hexUnselect(Hex hex)        { selectedTile.hide(); }
+    public void hexMoveShow(Hex hex)        { enableOverlayOn(hex, Hex.MOVE, true); }
+    public void hexMoveHide(Hex hex)        { enableOverlayOn(hex, Hex.MOVE, false); }
+    public void hexDirectionsShow(Hex hex)  { enableOverlayOn(hex, Hex.DIRECTIONS, true); }
+    public void hexDirectionsHide(Hex hex)  { enableOverlayOn(hex, Hex.DIRECTIONS, false); }
+    public void hexExitShow(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, true); }
+    public void hexExitHide(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, false); }
 
     public void showObjective(Hex hex, Army army, boolean hold)
     {
