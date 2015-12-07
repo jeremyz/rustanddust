@@ -15,6 +15,11 @@ public class Meteorology
         clear();
     }
 
+    public boolean isNight()
+    {
+        return (this.day == Day.NIGHT);
+    }
+
     public void clear()
     {
         day = Day.DAY;
