@@ -192,13 +192,14 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     public int collectMoveableUnits(Unit unit)
     {
-        if (unit.canHQMove()) {
-            collectMoveAssists(unit, moveableUnits.asPawns());
-        } else {
+        if (unit.canHQMove())
+                collectMoveAssists(unit, moveableUnits.asPawns());
+        else
             moveableUnits.clear();
-        }
+
         if (unit.canMove())
             moveableUnits.add(unit);
+
         return moveableUnits.size();
     }
 
