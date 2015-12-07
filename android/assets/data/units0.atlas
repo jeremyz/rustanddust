@@ -18,13 +18,6 @@ ge-head
   orig: 25, 195
   offset: 0, 0
   index: -1
-us-head
-  rotate: false
-  xy: 392, 2
-  size: 25, 195
-  orig: 25, 195
-  offset: 0, 0
-  index: -1
 ge-infantry
   rotate: false
   xy: 2, 199
@@ -65,6 +58,13 @@ us-at-gun
   xy: 132, 69
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+us-head
+  rotate: false
+  xy: 419, 2
+  size: 25, 195
+  orig: 25, 195
   offset: 0, 0
   index: -1
 us-infantry

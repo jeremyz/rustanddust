@@ -73,7 +73,7 @@ public class Factory implements Board.TileBuilder, Disposable
         Map m = null;
         switch(t) {
             case MAP_00:
-                m = new Map00(game, "data/map_00.png", "data/hex.png");
+                m = new Map00(game, "data/map_00.png", "data/selected.png");
                 break;
         }
 

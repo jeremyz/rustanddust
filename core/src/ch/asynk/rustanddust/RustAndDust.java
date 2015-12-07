@@ -93,7 +93,7 @@ public class RustAndDust extends Game
         int i = config.graphics.i;
         manager.load(String.format("data/units%d.atlas",i), TextureAtlas.class);
         manager.load(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
-        manager.load("data/hex.png", Texture.class);
+        manager.load("data/selected.png", Texture.class);
         manager.load("data/hud.atlas", TextureAtlas.class);
         manager.load("data/hex-overlays.atlas", TextureAtlas.class);
         manager.load("data/dice.png", Texture.class);
@@ -120,7 +120,7 @@ public class RustAndDust extends Game
         int i = config.graphics.i;
         manager.unload(String.format("data/units%d.atlas",i));
         manager.unload(String.format("data/unit-overlays%d.atlas", i));
-        manager.unload("data/hex.png");
+        manager.unload("data/selected.png");
         manager.unload("data/hud.atlas");
         manager.unload("data/hex-overlays.atlas");
         manager.unload("data/dice.png");
