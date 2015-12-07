@@ -46,8 +46,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     protected final UnitList breakthroughUnits;
     protected final UnitList activatedUnits;
 
-    public final ObjectiveSet objectives;
-    public final Meteorology meteorology;
+    protected final ObjectiveSet objectives;
+    protected final Meteorology meteorology;
 
     private final DestroyAnimation destroy;
     private final Sound tankMoveSound;
