@@ -67,7 +67,7 @@ public abstract class Map2Moves extends Map1Units
     public void pathsClear()                        { paths.clear(); }
     public void pathsInit(Unit unit)                { paths.init(unit); }
     public void pathsInit(Unit unit, Hex hex)       { paths.init(unit, hex); }
-    public int pathsBuild(Hex hex)                  { return pathsBuild(hex); }
+    public int pathsBuild(Hex hex)                  { return paths.build(hex); }
     public Hex pathsTo()                            { return (Hex) paths.to; }
     public void pathsSetOrientation(Orientation o)  { paths.orientation = o; }
     public boolean pathsIsSet()                     { return paths.isSet(); }
