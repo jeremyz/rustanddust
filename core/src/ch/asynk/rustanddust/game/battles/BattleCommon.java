@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
-import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Hex;
-import ch.asynk.rustanddust.game.HexSet;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.State.StateType;
@@ -63,7 +61,7 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public Map setup(Ctrl ctrl)
+    public Map setup()
     {
         this.map = factory.getMap(mapType);
         this.usPlayer = factory.getPlayer(Army.US);
@@ -105,7 +103,7 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl)
+    public boolean hasReinforcement()
     {
         return false;
     }

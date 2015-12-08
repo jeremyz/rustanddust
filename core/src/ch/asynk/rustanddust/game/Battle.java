@@ -1,10 +1,7 @@
 package ch.asynk.rustanddust.game;
 
-import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Player;
-import ch.asynk.rustanddust.game.battles.Factory.MapType;
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.game.battles.Factory.MapType;
 
 public interface Battle
 {
@@ -20,9 +17,9 @@ public interface Battle
 
     public void changePlayer();
 
-    public Player checkVictory(Ctrl ctrl);
+    public Player getVictor();
 
-    public boolean getReinforcement(Ctrl ctrl);
+    public boolean hasReinforcement();
 
     public Zone getEntryZone(Unit unit);
 
@@ -34,5 +31,5 @@ public interface Battle
 
     public boolean deploymentDone();
 
-    public Map setup(Ctrl ctrl);
+    public Map setup();
 }

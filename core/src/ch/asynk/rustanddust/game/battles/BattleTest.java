@@ -2,10 +2,7 @@ package ch.asynk.rustanddust.game.battles;
 
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
-import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Map;
-import ch.asynk.rustanddust.game.Hex;
-import ch.asynk.rustanddust.game.HexSet;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
@@ -30,15 +27,15 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Player checkVictory(Ctrl ctrl)
+    public Player getVictor()
     {
         if (usPlayer.getTurnDone() > 2)
-                return usPlayer;
+            return usPlayer;
         return null;
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl)
+    public boolean hasReinforcement()
     {
         if (currentPlayer.is(Army.GE))
             return false;
@@ -55,9 +52,9 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Map setup(Ctrl ctrl)
+    public Map setup()
     {
-        super.setup(ctrl);
+        super.setup();
 
         map.addObjective(5, 2, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
