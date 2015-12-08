@@ -515,7 +515,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
             addAnimation(destroy);
         }
 
-        ctrl.hud.engagementSummary(e, ctrl.cfg.fxVolume);
+        ctrl.hud.engagementSummary(e);
         addEngagementAnimation(e.defender);
 
         if (engagementCost(e) == 0)

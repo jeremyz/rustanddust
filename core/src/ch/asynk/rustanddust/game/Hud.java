@@ -298,9 +298,9 @@ public class Hud implements Disposable, Animation
         pushDialog(okCancel);
     }
 
-    public void engagementSummary(Engagement e, float volume)
+    public void engagementSummary(Engagement e)
     {
-        engagement.show(e, Position.BOTTOM_CENTER, volume);
+        engagement.show(e, Position.BOTTOM_CENTER, game.config.fxVolume);
         pushDialog(engagement);
     }
 
