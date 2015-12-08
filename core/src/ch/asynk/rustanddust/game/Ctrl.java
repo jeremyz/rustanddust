@@ -87,11 +87,6 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
-    public boolean isInAction()
-    {
-        return (state != selectState);
-    }
-
     public void animationsOver()
     {
         if (hud.dialogActive())
@@ -266,6 +261,11 @@ public class Ctrl implements Disposable
         state.downInMap(-1, -1);
         state.upInMap(-1, -1);
         state.touchUp();
+    }
+
+    public boolean isInAction()
+    {
+        return (state != selectState);
     }
 
     public boolean isInAnimation()
