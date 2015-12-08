@@ -20,8 +20,6 @@ public class Factory implements Board.TileBuilder, Disposable
     public enum MapType
     {
         MAP_00,
-        MAP_A,
-        MAP_B
     }
 
     public enum Scenarios
