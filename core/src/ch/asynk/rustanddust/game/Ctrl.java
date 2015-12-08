@@ -26,7 +26,6 @@ public class Ctrl implements Disposable
 
     public Map map;
     public Hud hud;
-    public Config cfg;
     public boolean blockMap;
     public boolean blockHud;
 
@@ -54,7 +53,6 @@ public class Ctrl implements Disposable
     {
         this.game = game;
         this.battle = battle;
-        this.cfg = game.config;
         game.ctrl = this;
 
         this.map = battle.setup();
