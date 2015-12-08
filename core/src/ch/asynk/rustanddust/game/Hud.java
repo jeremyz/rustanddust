@@ -91,7 +91,7 @@ public class Hud implements Disposable, Animation
 
     public void update()
     {
-        Position position = ctrl.battle.getHudPosition(ctrl.battle.getPlayer());
+        Position position = ctrl.battle.getHudPosition();
         playerInfo.update(ctrl.battle.getPlayer(), position);
         actionButtons.update(position.horizontalMirror());
     }

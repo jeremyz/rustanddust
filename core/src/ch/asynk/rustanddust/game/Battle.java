@@ -32,11 +32,11 @@ public interface Battle
 
     public Zone getExitZone(Unit unit);
 
-    public Position getHudPosition(Player player);
+    public Position getHudPosition();
 
-    public State.StateType getState(Player player);
+    public State.StateType getState();
 
-    public boolean deploymentDone(Player player);
+    public boolean deploymentDone();
 
     public void setup(Ctrl ctrl, Map map);
 }

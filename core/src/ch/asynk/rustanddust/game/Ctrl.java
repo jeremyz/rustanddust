@@ -119,7 +119,7 @@ public class Ctrl implements Disposable
         if (battle.getReinforcement(this, map))
             hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
         hud.update();
-        setState(battle.getState(battle.getPlayer()));
+        setState(battle.getState());
     }
 
     private void endPlayerTurn()
@@ -136,7 +136,7 @@ public class Ctrl implements Disposable
         StateType nextState = this.state.abort();
 
         if (nextState == StateType.ABORT)
-            nextState = battle.getState(battle.getPlayer());
+            nextState = battle.getState();
 
         return nextState;
     }
@@ -166,7 +166,7 @@ public class Ctrl implements Disposable
         }
 
         if (nextState == StateType.DONE)
-            nextState = battle.getState(battle.getPlayer());
+            nextState = battle.getState();
 
         return nextState;
     }
@@ -284,7 +284,7 @@ public class Ctrl implements Disposable
 
     public boolean checkDeploymentDone()
     {
-        boolean done = battle.deploymentDone(battle.getPlayer());
+        boolean done = battle.deploymentDone();
         if (done)
             hud.askEndDeployment();
         return done;

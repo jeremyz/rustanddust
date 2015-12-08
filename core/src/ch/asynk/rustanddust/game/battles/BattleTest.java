@@ -24,9 +24,9 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Position getHudPosition(Player player)
+    public Position getHudPosition()
     {
-        return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
+        return (currentPlayer.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
     }
 
     @Override

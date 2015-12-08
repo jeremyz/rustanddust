@@ -93,15 +93,15 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public boolean deploymentDone(Player player)
+    public boolean deploymentDone()
     {
-        return player.isDeploymentDone();
+        return currentPlayer.isDeploymentDone();
     }
 
     @Override
-    public StateType getState(Player player)
+    public StateType getState()
     {
-        if (!player.isDeploymentDone())
+        if (!currentPlayer.isDeploymentDone())
             return StateType.DEPLOYMENT;
         return StateType.SELECT;
     }
