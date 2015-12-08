@@ -14,6 +14,30 @@ abstract public class MapRules extends Map
     }
 
     @Override
+    public void init()
+    {
+        actionDone();
+    }
+
+    @Override
+    public void turnDone()
+    {
+        RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commandsSize()));
+
+        if (objectives.modifiedCount() > 0)
+            throw new RuntimeException("objectives not cleared");
+
+        // FIXME do something with these Commands
+        commandsClear();
+    }
+
+    @Override
+    public void actionDone()
+    {
+        objectives.forget();
+    }
+
+    @Override
     protected int engagementCost(Engagement e)
     {
         if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())

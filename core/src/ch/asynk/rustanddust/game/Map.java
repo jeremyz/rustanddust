@@ -57,6 +57,9 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
 
     private OrderList commands;
 
+    public abstract void init();
+    public abstract void turnDone();
+    public abstract void actionDone();
     protected abstract void setup();
     protected abstract void resolveEngagement(Engagement e);
     protected abstract int engagementCost(Engagement e);
@@ -368,28 +371,8 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return r;
     }
 
-    // Ctrl Methods
-
-    public void init()
-    {
-        actionDone();
-    }
-
-    public void turnDone()
-    {
-        RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commands.size()));
-
-        if (objectives.modifiedCount() > 0)
-            throw new RuntimeException("objectives not cleared");
-
-        // FIXME do something with these Commands
-        commands.dispose();
-    }
-
-    public void actionDone()
-    {
-        objectives.forget();
-    }
+    protected int commandsSize() { return commands.size(); }
+    protected void commandsClear() { commands.dispose(); }
 
     // STATES ENTRY ->
 
