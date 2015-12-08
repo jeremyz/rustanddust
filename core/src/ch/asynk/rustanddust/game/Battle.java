@@ -8,8 +8,6 @@ import ch.asynk.rustanddust.ui.Position;
 
 public interface Battle
 {
-    public void init();
-
     public String getName();
 
     public String getDescription();
@@ -22,11 +20,9 @@ public interface Battle
 
     public void changePlayer();
 
-    public Map getMap();
-
     public Player checkVictory(Ctrl ctrl);
 
-    public boolean getReinforcement(Ctrl ctrl, Map map);
+    public boolean getReinforcement(Ctrl ctrl);
 
     public Zone getEntryZone(Unit unit);
 
@@ -38,5 +34,5 @@ public interface Battle
 
     public boolean deploymentDone();
 
-    public void setup(Ctrl ctrl, Map map);
+    public Map setup(Ctrl ctrl);
 }

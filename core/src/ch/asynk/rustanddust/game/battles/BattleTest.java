@@ -38,7 +38,7 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
+    public boolean getReinforcement(Ctrl ctrl)
     {
         if (currentPlayer.is(Army.GE))
             return false;
@@ -70,8 +70,10 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public void setup(Ctrl ctrl, Map map)
+    public Map setup(Ctrl ctrl)
     {
+        super.setup(ctrl);
+
         map.addObjective(5, 2, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
         map.addObjective(3, 4, Army.NONE);
@@ -83,6 +85,7 @@ public class BattleTest extends BattleCommon
         setUnit(map, gePlayer, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
         setUnit(map, gePlayer, UnitId.GE_INFANTRY, 1, 2, Orientation.NORTH_WEST, null);
         setUnit(map, gePlayer, UnitId.GE_KINGTIGER, 1, 1, Orientation.NORTH_WEST, null);
+
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(map.getHex(1, 2));
@@ -112,5 +115,7 @@ public class BattleTest extends BattleCommon
         map.init();
         map.turnDone();
         currentPlayer = gePlayer;
+
+        return this.map;
     }
 }

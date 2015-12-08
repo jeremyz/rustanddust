@@ -57,11 +57,7 @@ public class Ctrl implements Disposable
         this.cfg = game.config;
         game.ctrl = this;
 
-        battle.init();
-
-        this.map = battle.getMap();
-        battle.setup(this, map);
-        this.map.init();
+        this.map = battle.setup(this);
 
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
@@ -118,7 +114,7 @@ public class Ctrl implements Disposable
     {
         battle.getPlayer().turnStart();
         // hud.notify(battle.getPlayer().getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
-        if (battle.getReinforcement(this, map))
+        if (battle.getReinforcement(this))
             hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
         hud.update();
         setState(battle.getState());

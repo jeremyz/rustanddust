@@ -24,6 +24,7 @@ public abstract class BattleCommon implements Battle
     protected String name;
     protected String description;
     protected Factory factory;
+    protected Map map;
     protected Player currentPlayer;
     protected Player usPlayer;
     protected Player gePlayer;
@@ -35,13 +36,6 @@ public abstract class BattleCommon implements Battle
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
-    }
-
-    @Override
-    public void init()
-    {
-        this.usPlayer = factory.getPlayer(Army.US);
-        this.gePlayer = factory.getPlayer(Army.GE);
     }
 
     @Override
@@ -69,9 +63,13 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public Map getMap()
+    public Map setup(Ctrl ctrl)
     {
-        return factory.getMap(mapType);
+        this.map = factory.getMap(mapType);
+        this.usPlayer = factory.getPlayer(Army.US);
+        this.gePlayer = factory.getPlayer(Army.GE);
+
+        return this.map;
     }
 
     @Override
@@ -107,7 +105,7 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public boolean getReinforcement(Ctrl ctrl, Map map)
+    public boolean getReinforcement(Ctrl ctrl)
     {
         return false;
     }
