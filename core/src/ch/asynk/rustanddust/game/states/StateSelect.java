@@ -10,11 +10,6 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public class StateSelect extends StateCommon
 {
-    public StateSelect(Ctrl ctrl, Map map)
-    {
-        super(ctrl, map);
-    }
-
     @Override
     public void enter(StateType prevState)
     {
@@ -112,7 +107,7 @@ public class StateSelect extends StateCommon
         selectedHex = hex;
         selectedUnit = unit;
 
-        if (isEnemy && !ctrl.cfg.showEnemyPossibilities)
+        if (isEnemy && !cfg.showEnemyPossibilities)
             return;
 
         int moves = map.movesCollect(selectedUnit);

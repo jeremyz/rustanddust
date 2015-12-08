@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.State.StateType;
+import ch.asynk.rustanddust.game.states.StateCommon;
 import ch.asynk.rustanddust.game.states.StateSelect;
 import ch.asynk.rustanddust.game.states.StateMove;
 import ch.asynk.rustanddust.game.states.StateRotate;
@@ -62,7 +63,7 @@ public class Ctrl implements Disposable
         battle.setup(this, map);
         this.map.init();
 
-        this.selectState = new StateSelect(this, map);
+        this.selectState = new StateSelect();
         this.pathState = new StateMove();
         this.rotateState = new StateRotate();
         this.promoteState = new StatePromote();
@@ -75,6 +76,7 @@ public class Ctrl implements Disposable
 
         this.state = selectState;
         this.stateType = StateType.DONE;
+        StateCommon.set(game);
 
         this.hud = new Hud(this, game);
         this.blockMap = false;

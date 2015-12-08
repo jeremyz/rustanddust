@@ -12,7 +12,7 @@ public class StateMove extends StateCommon
     {
         ctrl.hud.actionButtons.show(
                 ((map.unitsActivatedSize() > 0) ? Buttons.DONE.b : 0)
-                | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
+                | (cfg.canCancel ? Buttons.ABORT.b : 0));
 
         if (prevState == StateType.WITHDRAW) {
             if (map.pathsSize() == 1)

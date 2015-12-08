@@ -5,11 +5,13 @@ import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.State;
+import ch.asynk.rustanddust.game.Config;
 
 import ch.asynk.rustanddust.RustAndDust;
 
 public abstract class StateCommon implements State
 {
+    protected static Config cfg;
     protected static Ctrl ctrl;
     protected static Map map;
 
@@ -22,14 +24,11 @@ public abstract class StateCommon implements State
     protected static Unit activeUnit;
     protected static Unit selectedUnit;
 
-    protected StateCommon()
+    public static void set(RustAndDust game)
     {
-    }
-
-    public StateCommon(Ctrl ctrl, Map map)
-    {
-        this.ctrl = ctrl;
-        this.map = map;
+        ctrl = game.ctrl;
+        cfg = game.config;
+        map = game.ctrl.map;
     }
 
     @Override
@@ -53,9 +52,9 @@ public abstract class StateCommon implements State
 
     protected void showPossibilities(Unit unit)
     {
-        if (ctrl.cfg.showMoves && unit.canMove()) map.movesShow();
-        if (ctrl.cfg.showTargets && unit.canEngage()) map.unitsTargetShow();
-        if (ctrl.cfg.showMoveAssists && unit.canMove()) map.unitsMoveableShow();
+        if (cfg.showMoves && unit.canMove()) map.movesShow();
+        if (cfg.showTargets && unit.canEngage()) map.unitsTargetShow();
+        if (cfg.showMoveAssists && unit.canMove()) map.unitsMoveableShow();
         unit.enableOverlay(Unit.MOVE, false);
     }
 

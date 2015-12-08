@@ -13,7 +13,7 @@ public class StateRotate extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.hud.actionButtons.show((ctrl.cfg.canCancel && (map.unitsMoveableSize() > 1))? Buttons.ABORT.b : 0);
+        ctrl.hud.actionButtons.show((cfg.canCancel && (map.unitsMoveableSize() > 1))? Buttons.ABORT.b : 0);
 
         if (activeUnit == null)
             activeUnit = selectedUnit;
@@ -98,9 +98,9 @@ public class StateRotate extends StateCommon
         map.pathsSetOrientation(o);
         rotationSet = true;
 
-        if (ctrl.cfg.mustValidate) {
+        if (cfg.mustValidate) {
             map.hexDirectionsHide(to);
-            ctrl.hud.actionButtons.show(Buttons.DONE.b | ((ctrl.cfg.canCancel) ? Buttons.ABORT.b : 0));
+            ctrl.hud.actionButtons.show(Buttons.DONE.b | ((cfg.canCancel) ? Buttons.ABORT.b : 0));
         } else {
             execute();
             ctrl.setState(StateType.ANIMATION);
