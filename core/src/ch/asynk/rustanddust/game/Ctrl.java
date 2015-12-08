@@ -26,8 +26,6 @@ public class Ctrl implements Disposable
     public Map map;
     public Hud hud;
     public Config cfg;
-    public Player player;
-    public Player opponent;
     public boolean blockMap;
     public boolean blockHud;
 
@@ -63,8 +61,6 @@ public class Ctrl implements Disposable
         this.map = battle.getMap();
         battle.setup(this, map);
         this.map.init();
-        this.player = battle.getPlayer();
-        this.opponent = battle.opponent(player);
 
         this.selectState = new StateSelect(this, map);
         this.pathState = new StateMove();
@@ -95,11 +91,6 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
-    public Player getPlayer(Army army)
-    {
-        return (player.is(army) ? player : opponent);
-    }
-
     public boolean isInAction()
     {
         return (state != selectState);
@@ -123,20 +114,20 @@ public class Ctrl implements Disposable
 
     private void startPlayerTurn()
     {
-        player.turnStart();
-        // hud.notify(player.getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
+        battle.getPlayer().turnStart();
+        // hud.notify(battle.getPlayer().getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
         if (battle.getReinforcement(this, map))
             hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
         hud.update();
-        setState(battle.getState(player));
+        setState(battle.getState(battle.getPlayer()));
     }
 
     private void endPlayerTurn()
     {
-        player.turnEnd();
+        battle.getPlayer().turnEnd();
         Player winner = battle.checkVictory(this);
         if (winner != null)
-            hud.victory(winner, ((winner == player) ? opponent : player));
+            hud.victory(winner, ((winner == battle.getPlayer()) ? battle.getOpponent() : battle.getPlayer()));
     }
 
     private StateType actionAborted()
@@ -145,7 +136,7 @@ public class Ctrl implements Disposable
         StateType nextState = this.state.abort();
 
         if (nextState == StateType.ABORT)
-            nextState = battle.getState(player);
+            nextState = battle.getState(battle.getPlayer());
 
         return nextState;
     }
@@ -154,8 +145,7 @@ public class Ctrl implements Disposable
     {
         map.turnDone();
         endPlayerTurn();
-        player = battle.getPlayer();
-        opponent = battle.opponent(player);
+        battle.changePlayer();
         startPlayerTurn();
     }
 
@@ -168,15 +158,15 @@ public class Ctrl implements Disposable
             if (map.unitsActivatedSize() > 0) {
                 RustAndDust.debug("Ctrl", "burn down 1AP");
                 hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
-                player.burnDownOneAp();
+                battle.getPlayer().burnDownOneAp();
                 hud.update();
             }
-            if (player.apExhausted())
+            if (battle.getPlayer().apExhausted())
                 hud.notifyNoMoreAP();
         }
 
         if (nextState == StateType.DONE)
-            nextState = battle.getState(player);
+            nextState = battle.getState(battle.getPlayer());
 
         return nextState;
     }
@@ -205,7 +195,7 @@ public class Ctrl implements Disposable
 
         this.state.leave(nextState);
 
-        RustAndDust.debug("Ctrl", String.format("  %s -> %s : %s", stateType, nextState, player));
+        RustAndDust.debug("Ctrl", String.format("  %s -> %s : %s", stateType, nextState, battle.getPlayer()));
 
         switch(nextState) {
             case SELECT:
@@ -294,7 +284,7 @@ public class Ctrl implements Disposable
 
     public boolean checkDeploymentDone()
     {
-        boolean done = battle.deploymentDone(player);
+        boolean done = battle.deploymentDone(battle.getPlayer());
         if (done)
             hud.askEndDeployment();
         return done;

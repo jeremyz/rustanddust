@@ -16,9 +16,11 @@ public interface Battle
 
     public Player getPlayer();
 
-    public Player opponent(Player player);
+    public Player getOpponent();
 
     public MapType getMapType();
+
+    public void changePlayer();
 
     public Map getMap();
 

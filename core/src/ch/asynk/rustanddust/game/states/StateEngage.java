@@ -18,7 +18,7 @@ public class StateEngage extends StateCommon
             activeUnit = null;
             // use selectedHex and selectedUnit
             map.unitsTargetHide();
-            map.collectTargets(selectedUnit, ctrl.opponent.units);
+            map.collectTargets(selectedUnit, ctrl.battle.getOpponent().units);
             map.unitsTargetShow();
             if (to != null) {
                 // quick fire -> replay touchUp
@@ -54,13 +54,13 @@ public class StateEngage extends StateCommon
     {
         StateType nextState = StateType.DONE;
         if (map.engageUnit(selectedUnit, activeUnit)) {
-            ctrl.player.wonEngagementCount += 1;
-            ctrl.opponent.casualty(activeUnit);
+            ctrl.battle.getPlayer().wonEngagementCount += 1;
+            ctrl.battle.getOpponent().casualty(activeUnit);
             if (map.unitsBreakThroughSize() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
-            ctrl.player.lostEngagementCount += 1;
+            ctrl.battle.getPlayer().lostEngagementCount += 1;
         }
 
         activeUnit.showTarget();
@@ -87,7 +87,7 @@ public class StateEngage extends StateCommon
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
-            map.collectAssists(selectedUnit, activeUnit, ctrl.player.units);
+            map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);
             map.unitsAssistShow();
             ctrl.hud.actionButtons.show((ctrl.cfg.mustValidate ? Buttons.DONE.b : 0) | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
         }

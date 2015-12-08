@@ -24,6 +24,7 @@ public abstract class BattleCommon implements Battle
     protected String name;
     protected String description;
     protected Factory factory;
+    protected Player currentPlayer;
     protected Player usPlayer;
     protected Player gePlayer;
     protected ArrayList<Zone> entryZone = new ArrayList<Zone>();
@@ -74,11 +75,21 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public Player opponent(Player player)
+    public Player getPlayer()
     {
-        if (player == usPlayer)
-            return gePlayer;
-        return usPlayer;
+        return currentPlayer;
+    }
+
+    @Override
+    public Player getOpponent()
+    {
+        return ((currentPlayer == usPlayer) ? gePlayer : usPlayer);
+    }
+
+    @Override
+    public void changePlayer()
+    {
+        currentPlayer = getOpponent();
     }
 
     @Override

@@ -24,17 +24,6 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Player getPlayer()
-    {
-        if (!gePlayer.isDeploymentDone())
-            return gePlayer;
-
-        if (gePlayer.getTurnDone() == usPlayer.getTurnDone())
-            return usPlayer;
-        return gePlayer;
-    }
-
-    @Override
     public Position getHudPosition(Player player)
     {
         return (player.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
@@ -51,9 +40,9 @@ public class BattleTest extends BattleCommon
     @Override
     public boolean getReinforcement(Ctrl ctrl, Map map)
     {
-        if (ctrl.player.is(Army.GE))
+        if (currentPlayer.is(Army.GE))
             return false;
-        if (ctrl.player.getCurrentTurn() != 2)
+        if (currentPlayer.getCurrentTurn() != 2)
             return false;
 
         Zone usEntry = new Zone(map, 1);
@@ -88,7 +77,7 @@ public class BattleTest extends BattleCommon
         map.addObjective(3, 4, Army.NONE);
         map.addHoldObjective(3, 3, Army.NONE);
 
-        ctrl.player = gePlayer;
+        currentPlayer = gePlayer;
         setUnit(map, gePlayer, UnitId.GE_WESPE, 6, 8, Orientation.NORTH, null);
         setUnit(map, gePlayer, UnitId.GE_TIGER, 5, 2, Orientation.NORTH, null);
         setUnit(map, gePlayer, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
@@ -110,7 +99,7 @@ public class BattleTest extends BattleCommon
         usExit.add(map.getHex(12, 6));
         addExitZone(usExit);
 
-        ctrl.player = usPlayer;
+        currentPlayer = usPlayer;
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 7, 6, Orientation.SOUTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH, true, usExit);
@@ -122,5 +111,6 @@ public class BattleTest extends BattleCommon
         usPlayer.turnEnd();
         map.init();
         map.turnDone();
+        currentPlayer = gePlayer;
     }
 }

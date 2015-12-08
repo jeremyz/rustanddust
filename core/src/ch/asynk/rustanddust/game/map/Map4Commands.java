@@ -12,10 +12,12 @@ import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Command;
 import ch.asynk.rustanddust.game.Engagement;
+import ch.asynk.rustanddust.game.Battle;
 
 public abstract class Map4Commands extends Map3Animations
 {
-    private OrderList commands;
+    private final Battle battle;
+    private final OrderList commands;
 
     protected abstract int engagementCost(Engagement e);
     protected abstract void resolveEngagement(Engagement e);
@@ -24,7 +26,8 @@ public abstract class Map4Commands extends Map3Animations
     {
         super(game, map, hex);
 
-        commands = new OrderList();
+        this.battle = game.ctrl.battle;
+        this.commands = new OrderList();
     }
 
     @Override
@@ -87,7 +90,7 @@ public abstract class Map4Commands extends Map3Animations
         RustAndDust.debug("    revertEnter() "+ unit);
         removePawn(unit);
         objectives.revert(this);
-        game.ctrl.player.revertUnitEntry(unit);
+        battle.getPlayer().revertUnitEntry(unit);
         commands.dispose(unit);
         unit.reset();
     }
@@ -96,14 +99,14 @@ public abstract class Map4Commands extends Map3Animations
     {
         attack(unit, target, true);
 
-        Command cmd = Command.get(game.ctrl.player);
+        Command cmd = Command.get(battle.getPlayer());
         cmd.setEngage(unit, target);
         return (process(cmd) == 1);
     }
 
     public void promoteUnit(final Unit unit)
     {
-        Command cmd = Command.get(game.ctrl.player);
+        Command cmd = Command.get(battle.getPlayer());
         cmd.setPromote(unit);
         process(cmd);
     }
@@ -112,7 +115,7 @@ public abstract class Map4Commands extends Map3Animations
 
     private Command getMoveCommand(Unit unit, Move move)
     {
-        Command cmd = Command.get(game.ctrl.player);
+        Command cmd = Command.get(battle.getPlayer());
         cmd.setMove(unit, move);
         return cmd;
     }
@@ -179,17 +182,17 @@ public abstract class Map4Commands extends Map3Animations
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, this);
-                game.ctrl.player.unitWithdraw(unit);
+                battle.getPlayer().unitWithdraw(unit);
                 r = moveableUnits.size();
                 break;
             case SET:
                 setPawnOnto(unit, move);
-                game.ctrl.player.unitEntry(unit);
+                battle.getPlayer().unitEntry(unit);
                 claim((Hex) move.to, unit.getArmy());
                 break;
             case ENTER:
                 enterPawn(unit, move);
-                game.ctrl.player.unitEntry(unit);
+                battle.getPlayer().unitEntry(unit);
                 claim((Hex) move.to, unit.getArmy());
                 break;
             default:

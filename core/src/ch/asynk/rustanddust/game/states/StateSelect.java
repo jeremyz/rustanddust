@@ -90,7 +90,7 @@ public class StateSelect extends StateCommon
             return;
         }
 
-        isEnemy = ctrl.player.isEnemy(unit);
+        isEnemy = ctrl.battle.getPlayer().isEnemy(unit);
         if (!isEnemy && (unit == selectedUnit) && unit.canMove()) {
             if (unit.isHq()) {
                 ctrl.hud.notify("HQ activation");
@@ -116,7 +116,7 @@ public class StateSelect extends StateCommon
             return;
 
         int moves = map.movesCollect(selectedUnit);
-        int targets = map.collectTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
+        int targets = map.collectTargets(selectedUnit, (isEnemy ? ctrl.battle.getPlayer() : ctrl.battle.getOpponent()).units);
 
         if (moves > 0)
             map.collectMoveable(selectedUnit);
@@ -126,7 +126,7 @@ public class StateSelect extends StateCommon
             showPossibilities(selectedUnit);
         }
 
-        ctrl.hud.actionButtons.show((ctrl.player.canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
+        ctrl.hud.actionButtons.show((ctrl.battle.getPlayer().canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
         RustAndDust.debug("Select", selectedHex.toString() + " " + selectedUnit + (isEnemy ? " enemy " : " friend "));
     }
 }

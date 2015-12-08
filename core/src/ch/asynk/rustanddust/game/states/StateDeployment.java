@@ -101,7 +101,7 @@ public class StateDeployment extends StateCommon
     {
         selectedUnit = unit;
         selectedHex = upHex;
-        ctrl.player.reinforcement.remove(unit);
+        ctrl.battle.getPlayer().reinforcement.remove(unit);
         map.showOnBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
         entryZone.enable(Hex.AREA, false);

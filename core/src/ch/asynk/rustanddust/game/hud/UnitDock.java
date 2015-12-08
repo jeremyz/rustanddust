@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.UnitList;
@@ -154,17 +155,18 @@ public class UnitDock extends Bg implements Animation
 
     private boolean resize()
     {
-        int count = ctrl.player.reinforcement();
+        Player player = ctrl.battle.getPlayer();
+        int count = player.reinforcement();
         if (count == 0) {
             n = 0;
             return false;
         }
 
-        if ((count == n) && (units == ctrl.player.reinforcement))
+        if ((count == n) && (units == player.reinforcement))
             return true;
 
         n = count;
-        units = ctrl.player.reinforcement;
+        units = player.reinforcement;
         rect.width = units.get(0).getWidth() + (2 * padding);
         rect.height = ((units.get(0).getHeight() * n) + ((n + 1) * padding));
         float scaledWidth = (rect.width * scale);
