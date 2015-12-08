@@ -4,21 +4,22 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import ch.asynk.rustanddust.engine.Tile;
+import ch.asynk.rustanddust.engine.Board;
 
 public class HexSet extends LinkedHashSet<Hex>
 {
-    private final Map map;
+    private final Board board;
 
-    public HexSet(Map map, int n)
+    public HexSet(Board board, int n)
     {
         super(n);
-        this.map = map;
+        this.board = board;
     }
 
     public void enable(int i, boolean enable)
     {
         for (Hex hex : this)
-            map.enableOverlayOn(hex, i, enable);
+            board.enableOverlayOn(hex, i, enable);
     }
 
     @SuppressWarnings("unchecked")
