@@ -256,7 +256,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         }
     }
 
-    public void collectAndShowMovesAndAssits(Unit unit)
+    public void collectUpdate(Unit unit)
     {
         movesHide();
         unitsHide(UnitType.MOVEABLE);

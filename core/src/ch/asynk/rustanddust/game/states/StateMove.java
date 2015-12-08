@@ -28,7 +28,7 @@ public class StateMove extends StateCommon
             activeUnit = selectedUnit;
             activeUnit.showMoveable();
             map.pathsInit(activeUnit);
-            map.collectAndShowMovesAndAssits(activeUnit);
+            map.collectUpdate(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
                 upHex = to;
