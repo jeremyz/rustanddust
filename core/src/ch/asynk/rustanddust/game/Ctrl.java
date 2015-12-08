@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateSelect;
 import ch.asynk.rustanddust.game.states.StateMove;
@@ -166,7 +165,7 @@ public class Ctrl implements Disposable
 
         if (nextState == StateType.DONE) {
             map.actionDone();
-            if (map.unitsSize(UnitType.ACTIVATED) > 0) {
+            if (map.unitsActivatedSize() > 0) {
                 RustAndDust.debug("Ctrl", "burn down 1AP");
                 hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
                 player.burnDownOneAp();

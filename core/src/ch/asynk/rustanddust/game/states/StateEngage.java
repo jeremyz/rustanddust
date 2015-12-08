@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -11,16 +10,16 @@ public class StateEngage extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        map.unitsClear(UnitType.TARGETS);
+        map.unitsTargetClear();
         ctrl.hud.actionButtons.show(ctrl.cfg.canCancel ? Buttons.ABORT.b : 0);
 
         // activeUnit is the target
         if (prevState == StateType.SELECT) {
             activeUnit = null;
             // use selectedHex and selectedUnit
-            map.unitsHide(UnitType.TARGETS);
+            map.unitsTargetHide();
             map.collectTargets(selectedUnit, ctrl.opponent.units);
-            map.unitsShow(UnitType.TARGETS);
+            map.unitsTargetShow();
             if (to != null) {
                 // quick fire -> replay touchUp
                 upHex = to;
@@ -36,8 +35,8 @@ public class StateEngage extends StateCommon
     public void leave(StateType nextState)
     {
         selectedUnit.hideAttack();
-        map.unitsHide(UnitType.ASSISTS);
-        map.unitsHide(UnitType.TARGETS);
+        map.unitsAssistHide();
+        map.unitsTargetHide();
         map.hexUnselect(selectedHex);
         if (to != null)
             map.hexUnselect(to);
@@ -46,7 +45,7 @@ public class StateEngage extends StateCommon
     @Override
     public StateType abort()
     {
-        map.unitsClear(UnitType.ACTIVATED);
+        map.unitsActivatedClear();
         return StateType.ABORT;
     }
 
@@ -57,7 +56,7 @@ public class StateEngage extends StateCommon
         if (map.engageUnit(selectedUnit, activeUnit)) {
             ctrl.player.wonEngagementCount += 1;
             ctrl.opponent.casualty(activeUnit);
-            if (map.unitsSize(UnitType.BREAK_THROUGH) > 0) {
+            if (map.unitsBreakThroughSize() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
@@ -82,20 +81,20 @@ public class StateEngage extends StateCommon
         // activeUnit is the target, selectedTarget is the engagement leader
         if (unit == selectedUnit) {
             ctrl.setState(StateType.ABORT);
-        } else if ((activeUnit == null) && map.unitsContains(UnitType.TARGETS, unit)) {
+        } else if ((activeUnit == null) && map.unitsTargetContains(unit)) {
             // ctrl.hud.notify("Engage " + unit);
-            map.unitsHide(UnitType.TARGETS);
+            map.unitsTargetHide();
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
             map.collectAssists(selectedUnit, activeUnit, ctrl.player.units);
-            map.unitsShow(UnitType.ASSISTS);
+            map.unitsAssistShow();
             ctrl.hud.actionButtons.show((ctrl.cfg.mustValidate ? Buttons.DONE.b : 0) | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
         }
         else if (unit == activeUnit) {
             ctrl.setState(StateType.DONE);
         }
-        else if ((activeUnit != null) && map.unitsContains(UnitType.ASSISTS, unit)) {
+        else if ((activeUnit != null) && map.unitsAssistContains(unit)) {
             map.toggleAssist(unit);
             // if(map.toggleAssist(unit))
             //     ctrl.hud.notify(unit + " will fire");

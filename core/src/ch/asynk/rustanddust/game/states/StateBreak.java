@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -17,13 +16,13 @@ public class StateBreak extends StateCommon
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
         ctrl.hud.pushNotify("Break move possible");
-        map.unitsShow(UnitType.BREAK_THROUGH);
+        map.unitsBreakThroughShow();
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        map.unitsHide(UnitType.BREAK_THROUGH);
+        map.unitsBreakThroughHide();
         map.hexMoveHide(to);
         map.hexDirectionsHide(to);
         if (activeUnit != null) map.hexMoveHide(activeUnit.getHex());
@@ -52,12 +51,12 @@ public class StateBreak extends StateCommon
         // TODO : cancel preview move before showing rotation
         if (activeUnit == null) {
             Unit unit = upHex.getUnit();
-            if (map.unitsContains(UnitType.BREAK_THROUGH, unit)) {
+            if (map.unitsBreakThroughContains(unit)) {
                 activeUnit = unit;
                 map.hexMoveShow(upHex);
                 map.hexMoveShow(to);
                 map.hexDirectionsShow(to);
-                map.unitsHide(UnitType.BREAK_THROUGH);
+                map.unitsBreakThroughHide();
             }
         } else {
             o = Orientation.fromAdj(to, upHex);

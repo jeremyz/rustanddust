@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.game.Map;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Ctrl;
@@ -55,15 +54,15 @@ public abstract class StateCommon implements State
     protected void showPossibilities(Unit unit)
     {
         if (ctrl.cfg.showMoves && unit.canMove()) map.movesShow();
-        if (ctrl.cfg.showTargets && unit.canEngage()) map.unitsShow(UnitType.TARGETS);
-        if (ctrl.cfg.showMoveAssists && unit.canMove()) map.unitsShow(UnitType.MOVEABLE);
+        if (ctrl.cfg.showTargets && unit.canEngage()) map.unitsTargetShow();
+        if (ctrl.cfg.showMoveAssists && unit.canMove()) map.unitsMoveableShow();
         unit.enableOverlay(Unit.MOVE, false);
     }
 
     protected void hidePossibilities()
     {
         map.movesHide();
-        map.unitsHide(UnitType.TARGETS);
-        map.unitsHide(UnitType.MOVEABLE);
+        map.unitsTargetHide();
+        map.unitsMoveableHide();
     }
 }

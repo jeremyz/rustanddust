@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.engine.Orientation;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -14,7 +13,7 @@ public class StateRotate extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        ctrl.hud.actionButtons.show((ctrl.cfg.canCancel && (map.unitsSize(UnitType.MOVEABLE) > 1))? Buttons.ABORT.b : 0);
+        ctrl.hud.actionButtons.show((ctrl.cfg.canCancel && (map.unitsMoveableSize() > 1))? Buttons.ABORT.b : 0);
 
         if (activeUnit == null)
             activeUnit = selectedUnit;
@@ -57,8 +56,8 @@ public class StateRotate extends StateCommon
         if (activeUnit.justEntered()) {
             map.revertEnter(activeUnit);
             nextState = StateType.ABORT;
-        } else if (map.unitsSize(UnitType.ACTIVATED) == 0) {
-            map.unitsHide(UnitType.MOVEABLE);
+        } else if (map.unitsActivatedSize() == 0) {
+            map.unitsMoveableHide();
         } else {
             nextState = StateType.MOVE;
         }

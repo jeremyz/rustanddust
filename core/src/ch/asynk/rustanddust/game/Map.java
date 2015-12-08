@@ -259,11 +259,11 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
     public void collectUpdate(Unit unit)
     {
         movesHide();
-        unitsHide(UnitType.MOVEABLE);
+        unitsMoveableHide();
         movesCollect(unit);
         collectMoveable(unit);
         movesShow();
-        unitsShow(UnitType.MOVEABLE);
+        unitsMoveableShow();
         activatedUnits.clear();
     }
 
@@ -524,81 +524,29 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return (e.success ? 1 : 0);
     }
 
-    // SHOW / HIDE
+    public Unit unitsMoveableGet(int i) { return moveableUnits.get(i); }
 
-    public enum UnitType
-    {
-        MOVEABLE,
-        TARGETS,
-        ASSISTS,
-        BREAK_THROUGH,
-        ACTIVATED
-    };
+    public void unitsTargetClear()      { targetUnits.clear(); }
+    public void unitsActivatedClear()   { activatedUnits.clear(); }
 
-    public void unitsClear(UnitType unitType)
-    {
-        getUnitList(unitType).clear();
-    }
+    public int unitsActivatedSize()     { return activatedUnits.size(); }
+    public int unitsMoveableSize()      { return moveableUnits.size(); }
+    public int unitsBreakThroughSize()  { return breakthroughUnits.size(); }
 
-    public int unitsSize(UnitType unitType)
-    {
-        return getUnitList(unitType).size();
-    }
+    public boolean unitsTargetContains(Unit unit)       { return targetUnits.contains(unit); }
+    public boolean unitsAssistContains(Unit unit)       { return assistUnits.contains(unit); }
+    public boolean unitsMoveableContains(Unit unit)     { return moveableUnits.contains(unit); }
+    public boolean unitsBreakThroughContains(Unit unit) { return breakthroughUnits.contains(unit); }
 
-    public Unit unitsGet(UnitType unitType, int i)
-    {
-        return getUnitList(unitType).get(i);
-    }
+    public void unitsTargetShow()       { unitsShowOverlay(targetUnits, Unit.TARGET, true); }
+    public void unitsTargetHide()       { unitsShowOverlay(targetUnits, Unit.TARGET, false); }
+    public void unitsAssistShow()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, true); }
+    public void unitsAssistHide()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, false); unitsShowOverlay(assistUnits, Unit.FIRE, false); }
+    public void unitsMoveableShow()     { unitsShowOverlay(moveableUnits, Unit.MOVE, true); }
+    public void unitsMoveableHide()     { unitsShowOverlay(moveableUnits, Unit.MOVE, false); }
+    public void unitsBreakThroughShow() { unitsShowOverlay(breakthroughUnits, Unit.MOVE, true); }
+    public void unitsBreakThroughHide() { unitsShowOverlay(breakthroughUnits, Unit.MOVE, false); }
 
-    public boolean unitsContains(UnitType unitType, Unit unit)
-    {
-        return getUnitList(unitType).contains(unit);
-    }
-
-    private UnitList getUnitList(UnitType unitType)
-    {
-        UnitList ul = null;
-        switch(unitType) {
-            case MOVEABLE:
-                ul = moveableUnits;
-                break;
-            case TARGETS:
-                ul = targetUnits;
-                break;
-            case ASSISTS:
-                ul = assistUnits;
-                break;
-            case BREAK_THROUGH:
-                ul = breakthroughUnits;
-                break;
-            case ACTIVATED:
-                ul = activatedUnits;
-                break;
-        }
-        return ul;
-    }
-
-    public void unitsShow(UnitType unitType) { unitsShow(unitType, true); }
-    public void unitsHide(UnitType unitType) { unitsShow(unitType, false); }
-    private void unitsShow(UnitType unitType, boolean show)
-    {
-        switch(unitType) {
-            case MOVEABLE:
-                unitsShowOverlay(moveableUnits, Unit.MOVE, show);
-                break;
-            case TARGETS:
-                unitsShowOverlay(targetUnits, Unit.TARGET, show);
-                break;
-            case ASSISTS:
-                unitsShowOverlay(assistUnits, Unit.MAY_FIRE, show);
-                if (!show)
-                    unitsShowOverlay(assistUnits, Unit.FIRE, show);
-                break;
-            case BREAK_THROUGH:
-                unitsShowOverlay(breakthroughUnits, Unit.MOVE, show);
-                break;
-        }
-    }
     private void unitsShowOverlay(UnitList units, int overlay, boolean on)
     {
         for (Unit unit : units)

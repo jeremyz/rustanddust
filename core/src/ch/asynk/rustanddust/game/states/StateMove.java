@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.game.states;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Map.UnitType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateMove extends StateCommon
@@ -12,7 +11,7 @@ public class StateMove extends StateCommon
     public void enter(StateType prevState)
     {
         ctrl.hud.actionButtons.show(
-                ((map.unitsSize(UnitType.ACTIVATED) > 0) ? Buttons.DONE.b : 0)
+                ((map.unitsActivatedSize() > 0) ? Buttons.DONE.b : 0)
                 | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
 
         if (prevState == StateType.WITHDRAW) {
@@ -40,7 +39,7 @@ public class StateMove extends StateCommon
             if (selectedUnit.canMove()) {
                 changeUnit(selectedUnit);
             } else {
-                changeUnit(map.unitsGet(UnitType.MOVEABLE, 0));
+                changeUnit(map.unitsMoveableGet(0));
             }
         }
 
@@ -74,7 +73,7 @@ public class StateMove extends StateCommon
             map.revertEnter(activeUnit);
             return StateType.ABORT;
         }
-        int n = map.unitsSize(UnitType.ACTIVATED);
+        int n = map.unitsActivatedSize();
         if (n == 0)
             return StateType.ABORT;
         map.revertMoves();
@@ -86,7 +85,7 @@ public class StateMove extends StateCommon
     {
         hideAssists();
         // be sure that the hq is activated
-        if (selectedUnit.canMove() && (map.unitsSize(UnitType.ACTIVATED) > 0))
+        if (selectedUnit.canMove() && (map.unitsActivatedSize() > 0))
             selectedUnit.setMoved();
 
         return StateType.DONE;
@@ -113,7 +112,7 @@ public class StateMove extends StateCommon
 
         Unit unit = upHex.getUnit();
 
-        if (map.unitsContains(UnitType.MOVEABLE, unit)) {
+        if (map.unitsMoveableContains(unit)) {
             if(unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.movesContains(upHex)) {
@@ -130,7 +129,7 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        map.unitsHide(UnitType.MOVEABLE);
+        map.unitsMoveableHide();
     }
 
     private void changeUnit(Unit unit)
