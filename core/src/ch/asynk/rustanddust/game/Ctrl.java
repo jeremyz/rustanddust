@@ -74,7 +74,7 @@ public class Ctrl implements Disposable
         this.stateType = StateType.DONE;
         StateCommon.set(game);
 
-        this.hud = new Hud(this, game);
+        this.hud = new Hud(game);
         this.blockMap = false;
         this.blockHud = false;
 

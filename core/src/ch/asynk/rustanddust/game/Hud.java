@@ -52,10 +52,10 @@ public class Hud implements Disposable, Animation
     }
     private OkCancelAction okCancelAction;
 
-    public Hud(final Ctrl ctrl, final RustAndDust game)
+    public Hud(final RustAndDust game)
     {
         this.game = game;
-        this.ctrl = ctrl;
+        this.ctrl = game.ctrl;
 
         TextureAtlas hudAtlas = game.factory.hudAtlas;
         playerInfo = new PlayerInfo(ctrl, game.font, game.uiAtlas, hudAtlas);
