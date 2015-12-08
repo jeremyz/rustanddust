@@ -212,7 +212,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return paths.toggleCtrlTile(hex);
     }
 
-    public int collectPossibleTargets(Unit unit, UnitList foes)
+    public int collectTargets(Unit unit, UnitList foes)
     {
         if (unit.canEngage())
             return collectPossibleTargets(unit, foes.asPawns(), targetUnits.asPawns());
@@ -221,7 +221,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return 0;
     }
 
-    public int collectMoveableUnits(Unit unit)
+    public int collectMoveable(Unit unit)
     {
         if (unit.canHQMove())
                 collectMoveAssists(unit, moveableUnits.asPawns());
@@ -234,14 +234,14 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         return moveableUnits.size();
     }
 
-    public int collectAttackAssists(Unit unit, Unit target, UnitList units)
+    public int collectAssists(Unit unit, Unit target, UnitList units)
     {
         int s = collectAttackAssists(unit, target, units.asPawns(), assistUnits.asPawns());
         activatedUnits.add(unit);
         return s;
     }
 
-    public boolean toggleAttackAssist(Unit unit)
+    public boolean toggleAssist(Unit unit)
     {
         if (activatedUnits.contains(unit)) {
             activatedUnits.remove(unit);
@@ -261,7 +261,7 @@ public abstract class Map extends Board implements MoveToAnimationCb, ObjectiveS
         movesHide();
         unitsHide(UnitType.MOVEABLE);
         movesCollect(unit);
-        collectMoveableUnits(unit);
+        collectMoveable(unit);
         movesShow();
         unitsShow(UnitType.MOVEABLE);
         activatedUnits.clear();

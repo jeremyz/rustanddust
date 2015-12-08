@@ -19,7 +19,7 @@ public class StateEngage extends StateCommon
             activeUnit = null;
             // use selectedHex and selectedUnit
             map.unitsHide(UnitType.TARGETS);
-            map.collectPossibleTargets(selectedUnit, ctrl.opponent.units);
+            map.collectTargets(selectedUnit, ctrl.opponent.units);
             map.unitsShow(UnitType.TARGETS);
             if (to != null) {
                 // quick fire -> replay touchUp
@@ -88,7 +88,7 @@ public class StateEngage extends StateCommon
             to = upHex;
             activeUnit = unit;
             activeUnit.showTarget();
-            map.collectAttackAssists(selectedUnit, activeUnit, ctrl.player.units);
+            map.collectAssists(selectedUnit, activeUnit, ctrl.player.units);
             map.unitsShow(UnitType.ASSISTS);
             ctrl.hud.actionButtons.show((ctrl.cfg.mustValidate ? Buttons.DONE.b : 0) | (ctrl.cfg.canCancel ? Buttons.ABORT.b : 0));
         }
@@ -96,8 +96,8 @@ public class StateEngage extends StateCommon
             ctrl.setState(StateType.DONE);
         }
         else if ((activeUnit != null) && map.unitsContains(UnitType.ASSISTS, unit)) {
-            map.toggleAttackAssist(unit);
-            // if(map.toggleAttackAssist(unit))
+            map.toggleAssist(unit);
+            // if(map.toggleAssist(unit))
             //     ctrl.hud.notify(unit + " will fire");
             // else
             //     ctrl.hud.notify(unit + " wont fire");

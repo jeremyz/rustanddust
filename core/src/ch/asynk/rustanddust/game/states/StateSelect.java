@@ -117,10 +117,10 @@ public class StateSelect extends StateCommon
             return;
 
         int moves = map.movesCollect(selectedUnit);
-        int targets = map.collectPossibleTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
+        int targets = map.collectTargets(selectedUnit, (isEnemy ? ctrl.player.units : ctrl.opponent.units));
 
         if (moves > 0)
-            map.collectMoveableUnits(selectedUnit);
+            map.collectMoveable(selectedUnit);
 
         if ((moves > 0) || (targets > 0)) {
             map.hexSelect(selectedHex);
