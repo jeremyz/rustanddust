@@ -31,7 +31,6 @@ public class Map00 extends MapRules
         return cfg;
     }
 
-    @Override
     protected void setup()
     {
         getHex(6, 1).terrain = Hex.Terrain.HILLS;
