@@ -54,21 +54,6 @@ public class BattleTest extends BattleCommon
         return true;
     }
 
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
-    {
-        return setUnit(map, player, unitId, col, row, orientation, false, exitZone);
-    }
-
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace, Zone exitZone)
-    {
-        Unit u = factory.getUnit(unitId);
-        u.setAce(ace);
-        if (exitZone != null)
-            unitExit.put(u, exitZone);
-        map.setOnBoard(u, map.getHex(col, row), orientation);
-        return u;
-    }
-
     @Override
     public Map setup(Ctrl ctrl)
     {
@@ -117,5 +102,20 @@ public class BattleTest extends BattleCommon
         currentPlayer = gePlayer;
 
         return this.map;
+    }
+
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
+    {
+        return setUnit(map, player, unitId, col, row, orientation, false, exitZone);
+    }
+
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace, Zone exitZone)
+    {
+        Unit u = factory.getUnit(unitId);
+        u.setAce(ace);
+        if (exitZone != null)
+            unitExit.put(u, exitZone);
+        map.setOnBoard(u, map.getHex(col, row), orientation);
+        return u;
     }
 }
