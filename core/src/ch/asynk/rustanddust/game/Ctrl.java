@@ -149,7 +149,7 @@ public class Ctrl implements Disposable
 
     private StateType deploymentDone()
     {
-        map.actionDone();
+        battle.actionDone();
         return this.state.execute();
     }
 
