@@ -70,21 +70,22 @@ public abstract class Map0Hex extends Board implements ObjectiveSet.ObjectiveCb
     public void hexExitShow(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, true); }
     public void hexExitHide(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, false); }
 
-    protected void showObjective(Hex hex, Army army, boolean hold)
-    {
-        if (hold)
-            enableOverlayOn(hex, Hex.OBJECTIVE_HOLD, true);
-        else
-            enableOverlayOn(hex, Hex.OBJECTIVE, true);
-    }
-
     @Override
     public void showObjective(Tile tile, Faction faction)
     {
         showObjective((Hex) tile, (Army) faction);
     }
 
-    protected void showObjective(Hex hex, Army army)
+    private void showObjective(Hex hex, Army army, boolean hold)
+    {
+        if (hold)
+            enableOverlayOn(hex, Hex.OBJECTIVE_HOLD, true);
+        else
+            enableOverlayOn(hex, Hex.OBJECTIVE, true);
+        showObjective(hex, army);
+    }
+
+    private void showObjective(Hex hex, Army army)
     {
         if (army == null)
             army = Army.NONE;
