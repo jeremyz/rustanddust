@@ -184,6 +184,14 @@ public class Ctrl implements Disposable
             setState(StateType.ABORT);
     }
 
+    public void reinforcementHit()
+    {
+        if (this.stateType == StateType.SELECT)
+            setState(StateType.REINFORCEMENT);
+        else if (this.stateType == StateType.REINFORCEMENT)
+            setState(StateType.SELECT);
+    }
+
     //
 
     private void turnDone()
@@ -295,13 +303,5 @@ public class Ctrl implements Disposable
 
         this.state.enter(tmp);
 
-    }
-
-    public void reinforcementHit()
-    {
-        if (this.stateType == StateType.SELECT)
-            setState(StateType.REINFORCEMENT);
-        else if (this.stateType == StateType.REINFORCEMENT)
-            setState(StateType.SELECT);
     }
 }
