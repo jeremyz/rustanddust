@@ -71,6 +71,22 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public boolean turnDone()
+    {
+        map.turnDone();
+        currentPlayer.turnEnd();
+        Player winner = getVictor();
+        if (winner != null) {
+            currentPlayer = winner;
+            return true;
+        } else {
+            currentPlayer = getOpponent();
+            currentPlayer.turnStart();
+            return false;
+        }
+    }
+
+    @Override
     public Player getPlayer()
     {
         return currentPlayer;
@@ -80,12 +96,6 @@ public abstract class BattleCommon implements Battle
     public Player getOpponent()
     {
         return ((currentPlayer == usPlayer) ? gePlayer : usPlayer);
-    }
-
-    @Override
-    public void changePlayer()
-    {
-        currentPlayer = getOpponent();
     }
 
     @Override

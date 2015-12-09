@@ -27,6 +27,16 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
+    public void start()
+    {
+        map.actionDone();
+        map.turnDone();
+        usPlayer.turnEnd();
+        gePlayer.turnEnd();
+        currentPlayer = gePlayer;
+    }
+
+    @Override
     public Player getVictor()
     {
         if (usPlayer.getTurnDone() > 2)
@@ -93,10 +103,6 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_AT_GUN, 6, 1, Orientation.SOUTH, usExit);
-        usPlayer.turnEnd();
-        map.init();
-        map.turnDone();
-        currentPlayer = gePlayer;
 
         return this.map;
     }

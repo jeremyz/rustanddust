@@ -55,8 +55,6 @@ public class Ctrl implements Disposable
         this.battle = battle;
         game.ctrl = this;
 
-        this.map = battle.setup();
-
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
         this.rotateState = new StateRotate();
@@ -70,14 +68,19 @@ public class Ctrl implements Disposable
 
         this.state = selectState;
         this.stateType = StateType.DONE;
-        StateCommon.set(game);
 
-        this.hud = new Hud(game);
         this.blockMap = false;
         this.blockHud = false;
 
-        hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
-        startPlayerTurn();
+        this.map = battle.setup();
+        this.hud = new Hud(game);
+        StateCommon.set(game);
+
+        battle.start();
+        hud.update();
+        setState(battle.getState());
+
+        this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
     }
 
     @Override
@@ -85,6 +88,18 @@ public class Ctrl implements Disposable
     {
         hud.dispose();
         map.dispose();
+    }
+
+    private void turnDone()
+    {
+        if (battle.turnDone())
+            hud.victory(battle.getPlayer(), battle.getOpponent());
+        else {
+            hud.update();
+            if (battle.hasReinforcement())
+                hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
+            setState(battle.getState());
+        }
     }
 
     public void animationsOver()
@@ -97,28 +112,9 @@ public class Ctrl implements Disposable
 
     private void leaveAnimationState()
     {
-
         StateType tmp = stateAfterAnimation;
         stateAfterAnimation = StateType.DONE;
         setState(tmp);
-    }
-
-    private void startPlayerTurn()
-    {
-        battle.getPlayer().turnStart();
-        // hud.notify(battle.getPlayer().getName() + "'s turn", 2, Position.MIDDLE_CENTER, true);
-        if (battle.hasReinforcement())
-            hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
-        hud.update();
-        setState(battle.getState());
-    }
-
-    private void endPlayerTurn()
-    {
-        battle.getPlayer().turnEnd();
-        Player winner = battle.getVictor();
-        if (winner != null)
-            hud.victory(winner, ((winner == battle.getPlayer()) ? battle.getOpponent() : battle.getPlayer()));
     }
 
     private StateType actionAborted()
@@ -130,14 +126,6 @@ public class Ctrl implements Disposable
             nextState = battle.getState();
 
         return nextState;
-    }
-
-    private void turnDone()
-    {
-        map.turnDone();
-        endPlayerTurn();
-        battle.changePlayer();
-        startPlayerTurn();
     }
 
     private StateType actionDone()

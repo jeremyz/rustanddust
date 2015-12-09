@@ -15,9 +15,11 @@ public interface Battle
 
     public MapType getMapType();
 
-    public void changePlayer();
-
     public Player getVictor();
+
+    public void start();
+
+    public boolean turnDone();
 
     public boolean hasReinforcement();
 
