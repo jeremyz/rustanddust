@@ -299,10 +299,8 @@ public class Ctrl implements Disposable
             }
             if (battle.getPlayer().apExhausted())
                 hud.notifyNoMoreAP();
-        }
-
-        if (nextState == StateType.DONE)
             nextState = battle.getState();
+        }
 
         return nextState;
     }
