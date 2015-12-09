@@ -37,7 +37,7 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Player getVictor()
+    public Player getWinner()
     {
         if (usPlayer.getTurnDone() > 2)
             return usPlayer;

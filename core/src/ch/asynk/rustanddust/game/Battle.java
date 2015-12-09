@@ -21,8 +21,6 @@ public interface Battle
 
     public void start();
 
-    public Player getVictor();
-
     public boolean actionDone();
 
     public boolean turnDone();

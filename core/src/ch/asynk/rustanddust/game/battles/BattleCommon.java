@@ -31,6 +31,8 @@ public abstract class BattleCommon implements Battle
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 
+    public abstract Player getWinner();
+
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
@@ -85,15 +87,20 @@ public abstract class BattleCommon implements Battle
     {
         map.turnDone();
         currentPlayer.turnEnd();
-        Player winner = getVictor();
+        Player winner = getWinner();
         if (winner != null) {
             currentPlayer = winner;
             return true;
         } else {
-            currentPlayer = getOpponent();
+            currentPlayer = getNextPlayer();
             currentPlayer.turnStart();
             return false;
         }
+    }
+
+    public Player getNextPlayer()
+    {
+        return getOpponent();
     }
 
     @Override
