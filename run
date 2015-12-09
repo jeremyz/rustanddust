@@ -24,6 +24,7 @@ case "$1" in
         ARGS="android:installDebug android:run $@"
         gradlew_do
         echo "on failure: sudo adb kill-server; (sudo adb start-server;) sudo adb devices"
+        echo "  adb logcat RustAndDust:D *:S"
         ;;
     "r")
         shift;
