@@ -14,7 +14,8 @@ public interface State
         DEPLOYMENT,
         WITHDRAW,
         ABORT,
-        DONE
+        DONE,
+        TURN_OVER
     };
 
     public void enter(StateType prevState);

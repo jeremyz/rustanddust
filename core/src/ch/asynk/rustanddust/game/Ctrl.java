@@ -233,6 +233,8 @@ public class Ctrl implements Disposable
 
         this.state.enter(tmp);
 
+        if (nextState == StateType.TURN_OVER)
+            turnDone();
     }
 
     private StateType completeDeployment()
@@ -257,13 +259,15 @@ public class Ctrl implements Disposable
         StateType nextState = this.state.execute();
 
         if (nextState == StateType.DONE) {
-            if (battle.actionDone()) {
+            if (battle.getPlayer().apExhausted()) {
+                hud.notify("No more Action Points", 1f, Position.MIDDLE_CENTER, false);
+                nextState = StateType.TURN_OVER;
+            }
+            else if (battle.actionDone()) {
                 hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
                 hud.update();
+                nextState = battle.getState();
             }
-            if (battle.getPlayer().apExhausted())
-                hud.notifyNoMoreAP();
-            nextState = battle.getState();
         }
 
         return nextState;
