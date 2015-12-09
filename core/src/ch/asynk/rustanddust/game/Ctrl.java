@@ -119,11 +119,13 @@ public class Ctrl implements Disposable
             state.touchUp();
     }
 
-    public void stateTouchUp()
+    public void showEntryZone()
     {
-        state.downInMap(-1, -1);
-        state.upInMap(-1, -1);
-        state.touchUp();
+        if (stateType == StateType.DEPLOYMENT) {
+            state.downInMap(-1, -1);
+            state.upInMap(-1, -1);
+            state.touchUp();
+        }
     }
 
     private void turnDone()

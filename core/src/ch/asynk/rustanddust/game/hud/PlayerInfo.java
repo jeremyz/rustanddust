@@ -170,7 +170,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         else if (hit == unitDock) {
             if (unitDock.hit(x, y)) {
                 ctrl.hud.notify(unitDock.select(x, y).toString());
-                ctrl.stateTouchUp();
+                ctrl.showEntryZone();
             }
         }
 
