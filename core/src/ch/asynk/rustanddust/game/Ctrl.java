@@ -134,6 +134,11 @@ public class Ctrl implements Disposable
 
     // State callbacks
 
+    public void setAfterAnimationState(StateType after)
+    {
+        stateAfterAnimation = after;
+    }
+
     public boolean checkDeploymentDone()
     {
         boolean done = battle.isDeploymentDone();
@@ -290,11 +295,6 @@ public class Ctrl implements Disposable
 
         this.state.enter(tmp);
 
-    }
-
-    public void setAfterAnimationState(StateType after)
-    {
-        stateAfterAnimation = after;
     }
 
     public void reinforcementHit()
