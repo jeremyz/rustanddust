@@ -31,7 +31,7 @@ public interface Battle
 
     public State.StateType getState();
 
-    public boolean deploymentDone();
+    public boolean isDeploymentDone();
 
     public Map setup();
 }

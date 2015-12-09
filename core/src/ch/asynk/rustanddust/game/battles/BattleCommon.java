@@ -99,7 +99,7 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public boolean deploymentDone()
+    public boolean isDeploymentDone()
     {
         return currentPlayer.isDeploymentDone();
     }
