@@ -119,6 +119,31 @@ public class Ctrl implements Disposable
             state.touchUp();
     }
 
+    // Map callbacks
+
+    public void animationsOver()
+    {
+        if (hud.dialogActive())
+            hud.notifyAnimationsEnd();
+        if (stateType == StateType.ANIMATION) {
+            StateType tmp = stateAfterAnimation;
+            stateAfterAnimation = StateType.DONE;
+            setState(tmp);
+        }
+    }
+
+    // State callbacks
+
+    public boolean checkDeploymentDone()
+    {
+        boolean done = battle.isDeploymentDone();
+        if (done)
+            hud.askEndDeployment();
+        return done;
+    }
+
+    // Hud callbacks
+
     public void showEntryZone()
     {
         if (stateType == StateType.DEPLOYMENT) {
@@ -137,17 +162,6 @@ public class Ctrl implements Disposable
                 hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
             hud.update();
             setState(battle.getState());
-        }
-    }
-
-    public void animationsOver()
-    {
-        if (hud.dialogActive())
-            hud.notifyAnimationsEnd();
-        if (stateType == StateType.ANIMATION) {
-            StateType tmp = stateAfterAnimation;
-            stateAfterAnimation = StateType.DONE;
-            setState(tmp);
         }
     }
 
@@ -253,14 +267,6 @@ public class Ctrl implements Disposable
     public void setAfterAnimationState(StateType after)
     {
         stateAfterAnimation = after;
-    }
-
-    public boolean checkDeploymentDone()
-    {
-        boolean done = battle.isDeploymentDone();
-        if (done)
-            hud.askEndDeployment();
-        return done;
     }
 
     public void reinforcementHit()
