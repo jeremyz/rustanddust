@@ -38,7 +38,6 @@ public class EngagementPanel extends Patch implements Animation
     private Label defense;
     private Label attackR;
     private Label defenseR;
-    private Bg okBtn;
     private DiceAnimation d1Animation;
     private DiceAnimation d2Animation;
     private DiceAnimation d3Animation;
@@ -55,7 +54,6 @@ public class EngagementPanel extends Patch implements Animation
         this.defense = new Label(font);
         this.attackR = new Label(font);
         this.defenseR = new Label(font);
-        this.okBtn = new Bg(uiAtlas.findRegion("ok"));
         this.visible = false;
         int d = (int) Math.max((Gdx.graphics.getWidth() * 0.03f), DICE_DIMENSION);
         this.d1Animation = new DiceAnimation(d);
@@ -77,7 +75,6 @@ public class EngagementPanel extends Patch implements Animation
         defense.translate(dx, dy);
         attackR.translate(dx, dy);
         defenseR.translate(dx, dy);
-        okBtn.translate(dx, dy);
         d1Animation.translate(dx, dy);
         d2Animation.translate(dx, dy);
         d3Animation.translate(dx, dy);
@@ -124,10 +121,8 @@ public class EngagementPanel extends Patch implements Animation
         float height = (winner.getHeight() + attack.getHeight() + defense.getHeight() + (2 * VSPACING) + (2 * PADDING));
         float width = (attackImg.getWidth() + (2 * d1Animation.getWidth()) + attack.getWidth() + w + (4 * HSPACING) + (2 * PADDING));
         float x = position.getX(width);
-        float y = position.getY(height) + (okBtn.getHeight() / 2.0f);
+        float y = position.getY(height);
         setPosition(x, y, width, height);
-
-        setBtnRight(okBtn);
 
         x += PADDING;
         y += PADDING;
@@ -160,7 +155,7 @@ public class EngagementPanel extends Patch implements Animation
     @Override
     public boolean hit(float x, float y)
     {
-        return (rect.contains(x, y) || okBtn.hit(x, y));
+        return rect.contains(x, y);
     }
 
     @Override
@@ -216,7 +211,6 @@ public class EngagementPanel extends Patch implements Animation
         d2Animation.dispose();
         d3Animation.dispose();
         d4Animation.dispose();
-        okBtn.dispose();
     }
 
     @Override
@@ -235,7 +229,6 @@ public class EngagementPanel extends Patch implements Animation
         defenseImg.draw(batch);
         defense.draw(batch);
         defenseR.draw(batch);
-        okBtn.draw(batch);
         if (state == State.RESULT) {
             attackR.draw(batch);
             winner.draw(batch);
@@ -251,6 +244,5 @@ public class EngagementPanel extends Patch implements Animation
         defense.drawDebug(shapes);
         attackR.drawDebug(shapes);
         defenseR.drawDebug(shapes);
-        okBtn.drawDebug(shapes);
     }
 }
