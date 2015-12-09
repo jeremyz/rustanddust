@@ -144,6 +144,11 @@ public class Ctrl implements Disposable
 
     // Hud callbacks
 
+    public void endGame()
+    {
+        game.switchToMenu();
+    }
+
     public void showEntryZone()
     {
         if (stateType == StateType.DEPLOYMENT) {
@@ -157,11 +162,6 @@ public class Ctrl implements Disposable
     {
         setState(StateType.DONE);
         turnDone();
-    }
-
-    public void endGame()
-    {
-        game.switchToMenu();
     }
 
     public void endPlayerTurn(boolean abort)
