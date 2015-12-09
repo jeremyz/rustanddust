@@ -248,6 +248,13 @@ public class Hud implements Disposable, Animation
         }
     }
 
+    public void notifyAnimationsEnd()
+    {
+        Widget dialog = dialogs.getFirst();
+        if (dialog == engagement)
+            closeDialog();
+    }
+
     public boolean dialogActive()
     {
         return (dialogs.size() > 0);
