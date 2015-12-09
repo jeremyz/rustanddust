@@ -133,11 +133,8 @@ public class Ctrl implements Disposable
         StateType nextState = this.state.execute();
 
         if (nextState == StateType.DONE) {
-            map.actionDone();
-            if (map.unitsActivatedSize() > 0) {
-                RustAndDust.debug("Ctrl", "burn down 1AP");
+            if (battle.actionDone()) {
                 hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
-                battle.getPlayer().burnDownOneAp();
                 hud.update();
             }
             if (battle.getPlayer().apExhausted())

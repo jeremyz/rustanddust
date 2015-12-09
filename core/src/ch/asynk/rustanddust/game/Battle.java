@@ -23,6 +23,8 @@ public interface Battle
 
     public Player getVictor();
 
+    public boolean actionDone();
+
     public boolean turnDone();
 
     public boolean isDeploymentDone();

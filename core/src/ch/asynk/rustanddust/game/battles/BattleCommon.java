@@ -71,6 +71,16 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public boolean actionDone()
+    {
+        boolean burn = (map.unitsActivatedSize() > 0);
+        if (burn)
+            currentPlayer.burnDownOneAp();
+        map.actionDone();
+        return burn;
+    }
+
+    @Override
     public boolean turnDone()
     {
         map.turnDone();
