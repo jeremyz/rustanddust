@@ -21,7 +21,7 @@ import ch.asynk.rustanddust.game.states.StateWithdraw;
 
 public class Ctrl implements Disposable
 {
-    private final RustAndDust game;
+    public final RustAndDust game;
     public final Battle battle;
 
     public Map map;
@@ -51,9 +51,9 @@ public class Ctrl implements Disposable
 
     public Ctrl(final RustAndDust game, final Battle battle)
     {
+        game.ctrl = this;
         this.game = game;
         this.battle = battle;
-        game.ctrl = this;
 
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
