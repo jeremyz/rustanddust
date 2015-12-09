@@ -219,50 +219,14 @@ public class Ctrl implements Disposable
                 nextState = completeAction();
         }
 
-        if (stateType == StateType.ANIMATION) {
+        if (stateType == StateType.ANIMATION)
             this.blockMap = hud.dialogActive();
-        }
+
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
         this.state.leave(nextState);
 
-        RustAndDust.debug("Ctrl", String.format("  %s -> %s : %s", stateType, nextState, battle.getPlayer()));
-
-        switch(nextState) {
-            case SELECT:
-                this.state = selectState;
-                break;
-            case MOVE:
-                this.state = pathState;
-                break;
-            case ROTATE:
-                this.state = rotateState;
-                break;
-            case PROMOTE:
-                this.state = promoteState;
-                break;
-            case ENGAGE:
-                this.state = engageState;
-                break;
-            case BREAK:
-                this.state = breakState;
-                break;
-            case WITHDRAW:
-                this.state = withdrawState;
-                break;
-            case ANIMATION:
-                this.blockMap = true;
-                this.state = animationState;
-                break;
-            case REINFORCEMENT:
-                this.state = reinforcementState;
-                break;
-            case DEPLOYMENT:
-                this.state = deploymentState;
-                break;
-            default:
-                break;
-        }
+        this.state = getNextState(nextState);
 
         StateType tmp = stateType;
         stateType = nextState;
@@ -303,5 +267,50 @@ public class Ctrl implements Disposable
         }
 
         return nextState;
+    }
+
+    private State getNextState(StateType nextState)
+    {
+        RustAndDust.debug("Ctrl", String.format("  %s -> %s : %s", stateType, nextState, battle.getPlayer()));
+
+        State state = this.state;
+
+        switch(nextState) {
+            case SELECT:
+                state = selectState;
+                break;
+            case MOVE:
+                state = pathState;
+                break;
+            case ROTATE:
+                state = rotateState;
+                break;
+            case PROMOTE:
+                state = promoteState;
+                break;
+            case ENGAGE:
+                state = engageState;
+                break;
+            case BREAK:
+                state = breakState;
+                break;
+            case WITHDRAW:
+                state = withdrawState;
+                break;
+            case ANIMATION:
+                state = animationState;
+                this.blockMap = true;
+                break;
+            case REINFORCEMENT:
+                state = reinforcementState;
+                break;
+            case DEPLOYMENT:
+                state = deploymentState;
+                break;
+            default:
+                break;
+        }
+
+        return state;
     }
 }
