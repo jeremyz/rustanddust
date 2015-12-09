@@ -24,9 +24,15 @@ public abstract class Map extends Map4Commands
         meteorology = new Meteorology();
     }
 
-    public void init()
+    public void clearAll()
     {
-        actionDone();
+        clearMoves();
+        clearUnits();
+    }
+
+    public void actionDone()
+    {
+        objectives.forget();
     }
 
     public void turnDone()
@@ -38,17 +44,6 @@ public abstract class Map extends Map4Commands
 
         // FIXME do something with these Commands
         commandsClear();
-    }
-
-    public void actionDone()
-    {
-        objectives.forget();
-    }
-
-    public void clearAll()
-    {
-        clearMoves();
-        clearUnits();
     }
 
     @Override
