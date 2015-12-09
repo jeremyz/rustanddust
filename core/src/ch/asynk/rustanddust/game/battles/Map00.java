@@ -11,6 +11,7 @@ public class Map00 extends Map
     public Map00(final RustAndDust game, String map, String hex)
     {
         super(game, map, hex);
+        setup();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class Map00 extends Map
         return cfg;
     }
 
-    protected void setup()
+    private void setup()
     {
         getHex(6, 1).terrain = Hex.Terrain.HILLS;
         getHex(5, 7).terrain = Hex.Terrain.HILLS;
