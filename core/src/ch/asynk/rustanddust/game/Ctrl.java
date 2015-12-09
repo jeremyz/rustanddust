@@ -106,15 +106,11 @@ public class Ctrl implements Disposable
     {
         if (hud.dialogActive())
             hud.notifyAnimationsEnd();
-        else if (stateType == StateType.ANIMATION)
-            leaveAnimationState();
-    }
-
-    private void leaveAnimationState()
-    {
-        StateType tmp = stateAfterAnimation;
-        stateAfterAnimation = StateType.DONE;
-        setState(tmp);
+        if (stateType == StateType.ANIMATION) {
+            StateType tmp = stateAfterAnimation;
+            stateAfterAnimation = StateType.DONE;
+            setState(tmp);
+        }
     }
 
     private StateType actionAborted()
@@ -280,11 +276,6 @@ public class Ctrl implements Disposable
     }
 
     // Hud callbacks
-    public void engagementPanelClosed()
-    {
-        if (animationCount == 0)
-            leaveAnimationState();
-    }
 
     public void endDeployment()
     {

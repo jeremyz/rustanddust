@@ -216,8 +216,6 @@ public class Hud implements Disposable, Animation
             closeOkCancel();
         else if (dialog == stats)
             ctrl.endGame();
-        else if (dialog == engagement)
-            ctrl.engagementPanelClosed();
 
         if (dialogs.size() > 0)
             dialogs.getFirst().visible = true;
