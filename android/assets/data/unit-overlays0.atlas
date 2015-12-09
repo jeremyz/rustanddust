@@ -13,7 +13,7 @@ repeat: none
   index: -1
 01_target
   rotate: false
-  xy: 611, 157
+  xy: 603, 157
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
@@ -34,7 +34,7 @@ repeat: none
   index: -1
 04_ace
   rotate: false
-  xy: 703, 112
+  xy: 695, 112
   size: 29, 135
   orig: 29, 135
   offset: 0, 0
@@ -48,15 +48,15 @@ repeat: none
   index: -1
 06_fired
   rotate: false
-  xy: 401, 126
-  size: 112, 121
-  orig: 112, 121
+  xy: 401, 133
+  size: 104, 114
+  orig: 104, 114
   offset: 0, 0
   index: -1
 07_moved
   rotate: false
-  xy: 515, 128
-  size: 94, 119
-  orig: 94, 119
+  xy: 507, 133
+  size: 94, 114
+  orig: 94, 114
   offset: 0, 0
   index: -1
