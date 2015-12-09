@@ -9,29 +9,29 @@ public interface Battle
 
     public String getDescription();
 
+    public MapType getMapType();
+
     public Player getPlayer();
 
     public Player getOpponent();
 
-    public MapType getMapType();
+    public Position getHudPosition();
 
-    public Player getVictor();
+    public Map setup();
 
     public void start();
 
+    public Player getVictor();
+
     public boolean turnDone();
 
+    public boolean isDeploymentDone();
+
     public boolean hasReinforcement();
+
+    public State.StateType getState();
 
     public Zone getEntryZone(Unit unit);
 
     public Zone getExitZone(Unit unit);
-
-    public Position getHudPosition();
-
-    public State.StateType getState();
-
-    public boolean isDeploymentDone();
-
-    public Map setup();
 }
