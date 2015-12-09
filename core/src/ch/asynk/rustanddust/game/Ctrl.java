@@ -153,6 +153,34 @@ public class Ctrl implements Disposable
         }
     }
 
+    public void endDeployment()
+    {
+        setState(StateType.DONE);
+        turnDone();
+    }
+
+    public void endGame()
+    {
+        game.switchToMenu();
+    }
+
+    public void endPlayerTurn(boolean abort)
+    {
+        if (abort)
+            state.abort();
+        turnDone();
+    }
+
+    public void exitBoard(boolean doit)
+    {
+        if (doit)
+            setState(StateType.DONE);
+        else
+            setState(StateType.ABORT);
+    }
+
+    //
+
     private void turnDone()
     {
         if (battle.turnDone())
@@ -275,33 +303,5 @@ public class Ctrl implements Disposable
             setState(StateType.REINFORCEMENT);
         else if (this.stateType == StateType.REINFORCEMENT)
             setState(StateType.SELECT);
-    }
-
-    // Hud callbacks
-
-    public void endDeployment()
-    {
-        setState(StateType.DONE);
-        turnDone();
-    }
-
-    public void endGame()
-    {
-        game.switchToMenu();
-    }
-
-    public void endPlayerTurn(boolean abort)
-    {
-        if (abort)
-            state.abort();
-        turnDone();
-    }
-
-    public void exitBoard(boolean doit)
-    {
-        if (doit)
-            setState(StateType.DONE);
-        else
-            setState(StateType.ABORT);
     }
 }
