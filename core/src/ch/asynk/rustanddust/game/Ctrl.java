@@ -206,51 +206,17 @@ public class Ctrl implements Disposable
         }
     }
 
-    private StateType actionAborted()
-    {
-        hud.notify("Action canceled");
-        StateType nextState = this.state.abort();
-
-        if (nextState == StateType.ABORT)
-            nextState = battle.getState();
-
-        return nextState;
-    }
-
-    private StateType actionDone()
-    {
-        StateType nextState = this.state.execute();
-
-        if (nextState == StateType.DONE) {
-            if (battle.actionDone()) {
-                hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
-                hud.update();
-            }
-            if (battle.getPlayer().apExhausted())
-                hud.notifyNoMoreAP();
-        }
-
-        if (nextState == StateType.DONE)
-            nextState = battle.getState();
-
-        return nextState;
-    }
-
-    private StateType deploymentDone()
-    {
-        battle.actionDone();
-        return this.state.execute();
-    }
+    //
 
     public void setState(StateType nextState)
     {
         if (nextState == StateType.ABORT)
-            nextState = actionAborted();
+            nextState = abortAction();
         else if (nextState == StateType.DONE) {
             if (stateType == StateType.DEPLOYMENT)
-                nextState = deploymentDone();
+                nextState = completeDeployment();
             else
-                nextState = actionDone();
+                nextState = completeAction();
         }
 
         if (stateType == StateType.ANIMATION) {
@@ -303,5 +269,41 @@ public class Ctrl implements Disposable
 
         this.state.enter(tmp);
 
+    }
+
+    private StateType completeDeployment()
+    {
+        battle.actionDone();
+        return this.state.execute();
+    }
+
+    private StateType abortAction()
+    {
+        hud.notify("Action canceled");
+        StateType nextState = this.state.abort();
+
+        if (nextState == StateType.ABORT)
+            nextState = battle.getState();
+
+        return nextState;
+    }
+
+    private StateType completeAction()
+    {
+        StateType nextState = this.state.execute();
+
+        if (nextState == StateType.DONE) {
+            if (battle.actionDone()) {
+                hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
+                hud.update();
+            }
+            if (battle.getPlayer().apExhausted())
+                hud.notifyNoMoreAP();
+        }
+
+        if (nextState == StateType.DONE)
+            nextState = battle.getState();
+
+        return nextState;
     }
 }
