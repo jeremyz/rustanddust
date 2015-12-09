@@ -155,7 +155,7 @@ public class Hud implements Disposable, Animation
         return playerInfo.drag(x, y, dx, dy);
     }
 
-    public boolean touchDown(float x, float y)
+    public boolean touchDown(float x, float y, boolean isInAnimation)
     {
         hit = null;
 
@@ -168,7 +168,7 @@ public class Hud implements Disposable, Animation
             return false;
         }
 
-        if (ctrl.isInAnimation())
+        if (isInAnimation)
             return false;
 
         if (hit == null) {
