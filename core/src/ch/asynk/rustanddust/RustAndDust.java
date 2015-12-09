@@ -212,15 +212,15 @@ public class RustAndDust extends Game
         manager.dispose();
     }
 
-    // @Override
-    // public void pause()
-    // {
-    //     debug("RustAndDust", "pause()");
-    // }
+    @Override
+    public void pause()
+    {
+        debug("RustAndDust", "pause()");
+    }
 
-    // @Override
-    // public void resume()
-    // {
-    //     debug("RustAndDust", "resume()");
-    // }
+    @Override
+    public void resume()
+    {
+        debug("RustAndDust", "resume()");
+    }
 }
