@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.Random;
 import java.util.List;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -8,8 +7,6 @@ import ch.asynk.rustanddust.RustAndDust;
 public class Player
 {
     private static final float MOVE_TIME = 0.4f;
-
-    private static Random rand = new Random();
 
     private int turn;
     private int apSpent;
@@ -174,26 +171,12 @@ public class Player
             unit.reset();
     }
 
-    public void turnStart()
+    public void turnStart(int aps)
     {
-        if (isDeploymentDone())
-            computeActionPoints();
-    }
-
-    public int d6()
-    {
-        return rand.nextInt(6) + 1;
-    }
-
-    private void computeActionPoints()
-    {
-        this.actionPoints = 2;
-        if (d6() > 2) {
-            this.actionPoints += 1;
-            if (d6() > 3)
-                this.actionPoints += 1;
+        if (isDeploymentDone()) {
+            actionPoints = aps;
+            apSpent = 0;
         }
-        apSpent = 0;
     }
 
     public boolean canPromote(Unit unit)

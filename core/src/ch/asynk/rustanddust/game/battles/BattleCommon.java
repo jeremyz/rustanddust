@@ -33,6 +33,22 @@ public abstract class BattleCommon implements Battle
 
     public abstract Player getWinner();
 
+    private int d6()
+    {
+        return random.nextInt(6) + 1;
+    }
+
+    protected int getActionPoints()
+    {
+        int aps = 2;
+        if (d6() > 2) {
+            aps += 1;
+            if (d6() > 3)
+                aps += 1;
+        }
+        return aps;
+    }
+
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
@@ -93,7 +109,7 @@ public abstract class BattleCommon implements Battle
             return true;
         } else {
             currentPlayer = getNextPlayer();
-            currentPlayer.turnStart();
+            currentPlayer.turnStart(getActionPoints());
             return false;
         }
     }
