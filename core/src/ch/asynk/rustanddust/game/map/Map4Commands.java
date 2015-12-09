@@ -44,11 +44,6 @@ public abstract class Map4Commands extends Map3Animations
 
     // STATES ENTRY ->
 
-    public void showOnBoard(final Unit unit, Hex to, Orientation o)
-    {
-        setPawnOnto(unit, to, o);
-    }
-
     public boolean setOnBoard(final Unit unit, Hex to, Orientation entry)
     {
         commands.dispose(unit);
