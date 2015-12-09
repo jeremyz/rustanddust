@@ -90,6 +90,42 @@ public class Ctrl implements Disposable
         map.dispose();
     }
 
+    // INPUTS
+
+    public boolean drag(int dx, int dy)
+    {
+        if (!blockHud && hud.drag(hudTouch.x, hudTouch.y, dx, dy))
+            return true;
+        return false;
+    }
+
+    public void touchDown()
+    {
+        boolean inAnimation = (this.stateType == StateType.ANIMATION);
+
+        if (!blockHud && hud.touchDown(hudTouch.x, hudTouch.y, inAnimation))
+            return;
+
+        if (!blockMap && state.downInMap(mapTouch.x, mapTouch.y))
+            state.touchDown();
+    }
+
+    public void touchUp()
+    {
+        if (!blockHud && hud.touchUp(hudTouch.x, hudTouch.y))
+            return;
+
+        if (!blockMap && state.upInMap(mapTouch.x, mapTouch.y))
+            state.touchUp();
+    }
+
+    public void stateTouchUp()
+    {
+        state.downInMap(-1, -1);
+        state.upInMap(-1, -1);
+        state.touchUp();
+    }
+
     private void turnDone()
     {
         if (battle.turnDone())
@@ -210,40 +246,6 @@ public class Ctrl implements Disposable
 
         this.state.enter(tmp);
 
-    }
-
-    public boolean drag(int dx, int dy)
-    {
-        if (!blockHud && hud.drag(hudTouch.x, hudTouch.y, dx, dy))
-            return true;
-        return false;
-    }
-
-    public void touchDown()
-    {
-        boolean inAnimation = (this.stateType == StateType.ANIMATION);
-
-        if (!blockHud && hud.touchDown(hudTouch.x, hudTouch.y, inAnimation))
-            return;
-
-        if (!blockMap && state.downInMap(mapTouch.x, mapTouch.y))
-            state.touchDown();
-    }
-
-    public void touchUp()
-    {
-        if (!blockHud && hud.touchUp(hudTouch.x, hudTouch.y))
-            return;
-
-        if (!blockMap && state.upInMap(mapTouch.x, mapTouch.y))
-            state.touchUp();
-    }
-
-    public void stateTouchUp()
-    {
-        state.downInMap(-1, -1);
-        state.upInMap(-1, -1);
-        state.touchUp();
     }
 
     public void setAfterAnimationState(StateType after)
