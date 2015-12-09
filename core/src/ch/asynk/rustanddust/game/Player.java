@@ -92,11 +92,6 @@ public class Player
         return withdrawed.size();
     }
 
-    public void addUnit(Unit unit)
-    {
-        units.add(unit);
-    }
-
     public void addReinforcement(Unit unit)
     {
         reinforcement.add(unit);
@@ -105,25 +100,35 @@ public class Player
     public void unitEntry(Unit unit)
     {
         reinforcement.remove(unit);
-        units.add(unit);
+        addUnit(unit);
     }
 
     public void revertUnitEntry(Unit unit)
     {
-        units.remove(unit);
+        removeUnit(unit);
         reinforcement.add(unit);
     }
 
     public void casualty(Unit unit)
     {
-        units.remove(unit);
+        removeUnit(unit);
         casualties.add(unit);
     }
 
     public void unitWithdraw(Unit unit)
     {
-        units.remove(unit);
+        removeUnit(unit);
         withdrawed.add(unit);
+    }
+
+    private void addUnit(Unit unit)
+    {
+        units.add(unit);
+    }
+
+    private void removeUnit(Unit unit)
+    {
+        units.remove(unit);
     }
 
     public int getAp()
