@@ -54,8 +54,6 @@ public class Config
     public boolean showMoves;
     public boolean showTargets;
     public boolean showMoveAssists;
-    public boolean canCancel;
-    public boolean mustValidate;
     public boolean showEnemyPossibilities;
     public boolean debug;
     public Battle battle;
@@ -69,8 +67,6 @@ public class Config
         this.showMoves = true;
         this.showTargets = true;
         this.showMoveAssists = true;
-        this.canCancel = false;
-        this.mustValidate = false;
         this.showEnemyPossibilities = false;
         this.graphics = Graphics.MINE;
         this.battle = null;

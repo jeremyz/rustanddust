@@ -26,8 +26,6 @@ public class OptionsMenu extends Patch
 
     private String [] checkStrings = {
         "Debug",
-        "Must Validate",
-        "Can Cancel",
         "Show Enemy Possibilities",
         "Show Moves Assists",
         "Show Targets",
@@ -76,12 +74,10 @@ public class OptionsMenu extends Patch
 
     private void getValues()
     {
-        checkValues[6] = game.config.showMoves;
-        checkValues[5] = game.config.showTargets;
-        checkValues[4] = game.config.showMoveAssists;
-        checkValues[3] = game.config.showEnemyPossibilities;
-        checkValues[2] = game.config.canCancel;
-        checkValues[1] = game.config.mustValidate;
+        checkValues[4] = game.config.showMoves;
+        checkValues[3] = game.config.showTargets;
+        checkValues[2] = game.config.showMoveAssists;
+        checkValues[1] = game.config.showEnemyPossibilities;
         checkValues[0] = game.config.debug;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
@@ -89,12 +85,10 @@ public class OptionsMenu extends Patch
 
     private boolean apply()
     {
-        game.config.showMoves = checkValues[6];
-        game.config.showTargets = checkValues[5];
-        game.config.showMoveAssists = checkValues[4];
-        game.config.showEnemyPossibilities = checkValues[3];
-        game.config.canCancel = checkValues[2];
-        game.config.mustValidate = checkValues[1];
+        game.config.showMoves = checkValues[4];
+        game.config.showTargets = checkValues[3];
+        game.config.showMoveAssists = checkValues[2];
+        game.config.showEnemyPossibilities = checkValues[1];
         game.config.debug = checkValues[0];
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
         return true;

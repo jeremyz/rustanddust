@@ -66,7 +66,6 @@ public class StateReinforcement extends StateCommon
             entryZone.enable(Hex.AREA, false);
         entryZone = ctrl.battle.getEntryZone(activeUnit);
         entryZone.enable(Hex.AREA, true);
-        ctrl.hud.actionButtons.show(((cfg.canCancel) ? Buttons.ABORT.b : 0));
     }
 
     private void unitEnter(Unit unit)

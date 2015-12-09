@@ -11,7 +11,6 @@ public class StateEngage extends StateCommon
     public void enter(StateType prevState)
     {
         map.unitsTargetClear();
-        ctrl.hud.actionButtons.show(cfg.canCancel ? Buttons.ABORT.b : 0);
 
         // activeUnit is the target
         if (prevState == StateType.SELECT) {
@@ -89,7 +88,6 @@ public class StateEngage extends StateCommon
             activeUnit.showTarget();
             map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);
             map.unitsAssistShow();
-            ctrl.hud.actionButtons.show((cfg.mustValidate ? Buttons.DONE.b : 0) | (cfg.canCancel ? Buttons.ABORT.b : 0));
         }
         else if (unit == activeUnit) {
             ctrl.setState(StateType.DONE);

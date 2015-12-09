@@ -63,13 +63,8 @@ public class StateBreak extends StateCommon
 
             if (o == Orientation.KEEP) return;
 
-            if (cfg.mustValidate) {
-                map.hexDirectionsHide(to);
-                ctrl.hud.actionButtons.show(Buttons.DONE.b);
-            } else {
-                doRotation(o);
-                ctrl.setState(StateType.ANIMATION);
-            }
+            doRotation(o);
+            ctrl.setState(StateType.ANIMATION);
         }
     }
 
