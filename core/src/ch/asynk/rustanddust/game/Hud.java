@@ -28,6 +28,7 @@ public class Hud implements Disposable, Animation
 {
     public static final float OFFSET = 10f;
     public static final float NOTIFY_DURATION = 2f;
+    private static final float CLOSE_DELAY = 0.8f;
 
     private final RustAndDust game;
     private final Ctrl ctrl;
@@ -37,6 +38,8 @@ public class Hud implements Disposable, Animation
     public PlayerInfo playerInfo;
     public ActionButtons actionButtons;
 
+    private float delay;
+    private boolean delayOn;
     private Msg msg;
     private StatisticsPanel stats;
     private EngagementPanel engagement;
@@ -56,6 +59,7 @@ public class Hud implements Disposable, Animation
     {
         this.game = game;
         this.ctrl = game.ctrl;
+        this.delayOn = false;
 
         TextureAtlas hudAtlas = game.factory.hudAtlas;
         playerInfo = new PlayerInfo(ctrl, game.font, game.uiAtlas, hudAtlas);
@@ -99,6 +103,12 @@ public class Hud implements Disposable, Animation
     @Override
     public boolean animate(float delta)
     {
+        if (delayOn) {
+            delay -= delta;
+            if (delay < 0f) {
+                delayOver();
+            }
+        }
         msg.animate(delta);
         playerInfo.animate(delta);
         engagement.animate(delta);
@@ -248,6 +258,13 @@ public class Hud implements Disposable, Animation
 
     public void notifyAnimationsEnd()
     {
+        delay = CLOSE_DELAY;
+        delayOn = true;
+    }
+
+    private void delayOver()
+    {
+        delayOn = false;
         Widget dialog = dialogs.getFirst();
         if (dialog == engagement)
             closeDialog();
