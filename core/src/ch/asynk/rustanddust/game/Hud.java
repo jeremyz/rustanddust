@@ -154,6 +154,11 @@ public class Hud implements Disposable, Animation
         notify(s, NOTIFY_DURATION, Position.TOP_CENTER, false);
     }
 
+    public void notify(String s, Position pos)
+    {
+        notify(s, NOTIFY_DURATION, pos, false);
+    }
+
     public void notify(String s, float duration, Position position, boolean push)
     {
         if (push) msg.pushWrite(s, duration, position);
