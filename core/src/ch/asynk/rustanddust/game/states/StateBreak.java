@@ -16,7 +16,7 @@ public class StateBreak extends StateCommon
     {
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
-        ctrl.hud.notify("Break Through possible", Position.MIDDLE_CENTER);
+        ctrl.hud.notify("Break Through possible");
         map.unitsBreakThroughShow();
     }
 

@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Zone;
@@ -148,7 +149,7 @@ public class StateMove extends StateCommon
         map.movesShow();
         map.hexSelect(hex);
         activeUnit.enableOverlay(Unit.MOVE, false);
-        ctrl.hud.notify(activeUnit.toString());
+        ctrl.hud.notify(activeUnit.toString(), Position.TOP_CENTER);
         checkExit(activeUnit, hex);
     }
 

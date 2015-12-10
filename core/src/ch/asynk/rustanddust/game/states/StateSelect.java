@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
@@ -98,7 +99,7 @@ public class StateSelect extends StateCommon
             }
         } else {
             select(upHex, unit, isEnemy);
-            ctrl.hud.notify(selectedUnit.toString());
+            ctrl.hud.notify(selectedUnit.toString(), Position.TOP_CENTER);
         }
     }
 
