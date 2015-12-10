@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
@@ -15,7 +16,7 @@ public class StateBreak extends StateCommon
     {
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
-        ctrl.hud.pushNotify("Break move possible");
+        ctrl.hud.notify("Break Through possible", Position.MIDDLE_CENTER);
         map.unitsBreakThroughShow();
     }
 
