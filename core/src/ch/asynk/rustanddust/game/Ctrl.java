@@ -259,15 +259,15 @@ public class Ctrl implements Disposable
         StateType nextState = this.state.execute();
 
         if (nextState == StateType.DONE) {
-            if (battle.getPlayer().apExhausted()) {
-                hud.notify("No more Action Points", 1f, Position.MIDDLE_CENTER, false);
-                nextState = StateType.TURN_OVER;
-            }
-            else if (battle.actionDone()) {
-                hud.notify("1 Action Point burnt", 0.6f, Position.BOTTOM_CENTER, false);
+            if (battle.actionDone()) {
+                hud.notify("1 Action Point burnt");
                 hud.update();
-                nextState = battle.getState();
             }
+            if (battle.getPlayer().apExhausted()) {
+                hud.notify("No more Action Points");
+                nextState = StateType.TURN_OVER;
+            } else
+                nextState = battle.getState();
         }
 
         return nextState;
