@@ -155,9 +155,9 @@ public class Player
 
     public void burnDownOneAp()
     {
-        RustAndDust.debug("Player", "burn down 1AP");
         apSpent += 1;
         actionCount += 1;
+        RustAndDust.debug("Player", String.format("%d/%d - %d", apSpent, actionPoints, actionCount));
         if (apSpent > actionPoints) RustAndDust.debug("ERROR: spent too much AP, please report");
     }
 
