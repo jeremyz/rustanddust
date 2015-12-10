@@ -16,7 +16,7 @@ import ch.asynk.rustanddust.game.State.StateType;
 
 public abstract class BattleCommon implements Battle
 {
-    protected final static Random random = new Random();
+    protected final static Random random = new Random(System.currentTimeMillis());
 
     protected Factory.MapType mapType;
     protected String name;
