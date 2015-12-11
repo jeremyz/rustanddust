@@ -156,7 +156,7 @@ public class Ctrl implements Disposable
 
     public void showEntryZone()
     {
-        if (stateType == StateType.DEPLOYMENT) {
+        if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT)) {
             state.downInMap(-1, -1);
             state.upInMap(-1, -1);
             state.touchUp();
