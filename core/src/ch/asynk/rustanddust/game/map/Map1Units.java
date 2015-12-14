@@ -104,10 +104,10 @@ public abstract class Map1Units extends Map0Hex
     public void unitsTargetHide()       { unitsShowOverlay(targetUnits, Unit.TARGET, false); }
     public void unitsAssistShow()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, true); }
     public void unitsAssistHide()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, false); unitsShowOverlay(assistUnits, Unit.FIRE, false); }
-    public void unitsMoveableShow()     { unitsShowOverlay(moveableUnits, Unit.MOVE, true); }
-    public void unitsMoveableHide()     { unitsShowOverlay(moveableUnits, Unit.MOVE, false); }
-    public void unitsBreakThroughShow() { unitsShowOverlay(breakthroughUnits, Unit.MOVE, true); }
-    public void unitsBreakThroughHide() { unitsShowOverlay(breakthroughUnits, Unit.MOVE, false); }
+    public void unitsMoveableShow()     { unitsShowOverlay(moveableUnits, Unit.ACTIVEABLE, true); }
+    public void unitsMoveableHide()     { unitsShowOverlay(moveableUnits, Unit.ACTIVEABLE, false); }
+    public void unitsBreakThroughShow() { unitsShowOverlay(breakthroughUnits, Unit.ACTIVEABLE, true); }
+    public void unitsBreakThroughHide() { unitsShowOverlay(breakthroughUnits, Unit.ACTIVEABLE, false); }
 
     private void unitsShowOverlay(UnitList units, int overlay, boolean on)
     {

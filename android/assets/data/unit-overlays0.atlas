@@ -4,7 +4,7 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-00_move
+00_activable
   rotate: false
   xy: 2, 24
   size: 193, 223

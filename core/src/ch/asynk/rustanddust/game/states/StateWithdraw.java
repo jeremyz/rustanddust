@@ -58,7 +58,7 @@ public class StateWithdraw extends StateCommon
 
         map.pathsSetExit(exitZone.orientation);
 
-        unit.hideMoveable();
+        unit.hideActiveable();
         if (to != null)
             map.pathHide(to);
         map.movesHide();

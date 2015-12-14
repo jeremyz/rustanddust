@@ -26,7 +26,6 @@ public class StateMove extends StateCommon
         if (prevState == StateType.SELECT) {
             // use selectedHex and selectedUnit
             activeUnit = selectedUnit;
-            activeUnit.showMoveable();
             map.pathsInit(activeUnit);
             map.collectUpdate(activeUnit);
             if (to != null) {
@@ -44,7 +43,7 @@ public class StateMove extends StateCommon
             }
         }
 
-        activeUnit.enableOverlay(Unit.MOVE, false);
+        activeUnit.hideActiveable();
     }
 
     @Override
@@ -54,7 +53,7 @@ public class StateMove extends StateCommon
             return;
 
         // hide all but assists : want them when in rotation
-        activeUnit.hideMoveable();
+        activeUnit.hideActiveable();
         map.movesHide();
         map.hexUnselect(activeUnit.getHex());
         if (to != null)
@@ -138,17 +137,16 @@ public class StateMove extends StateCommon
         if (activeUnit != null ) {
             map.hexUnselect(activeUnit.getHex());
             if (activeUnit.canMove())
-                activeUnit.enableOverlay(Unit.MOVE, true);
+                activeUnit.showActiveable();
         }
         activeUnit = unit;
+        activeUnit.hideActiveable();
         Hex hex = activeUnit.getHex();
         map.pathsInit(activeUnit, hex);
-        activeUnit.showMoveable();
         map.movesHide();
         map.movesCollect(activeUnit);
         map.movesShow();
         map.hexSelect(hex);
-        activeUnit.enableOverlay(Unit.MOVE, false);
         ctrl.hud.notify(activeUnit.toString(), Position.TOP_CENTER);
         checkExit(activeUnit, hex);
     }
