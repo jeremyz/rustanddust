@@ -122,6 +122,10 @@ public abstract class Pawn implements Moveable, Disposable
                 if (this.move != null)
                     throw new RuntimeException("try to override an existing move instance");
                 break;
+            case EXIT:
+                if (this.move != null)
+                    throw new RuntimeException("try to override an existing move instance");
+                break;
             case SET:
                 break;
             default:
