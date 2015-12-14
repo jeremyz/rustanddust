@@ -49,8 +49,8 @@ public class ActionButtons extends Widget
 
 
         this.buttons = new Bg[Buttons.LAST.i];
-        this.buttons[Buttons.DONE.i] = new Bg(uiAtlas.findRegion("ok"));
-        this.buttons[Buttons.ABORT.i] = new Bg(uiAtlas.findRegion("cancel"));
+        this.buttons[Buttons.DONE.i] = new Bg(hudAtlas.findRegion("ok"));
+        this.buttons[Buttons.ABORT.i] = new Bg(hudAtlas.findRegion("cancel"));
         this.buttons[Buttons.PROMOTE.i] = new Bg(hudAtlas.findRegion("promote"));
 
         this.states = new StateType[Buttons.LAST.i];
