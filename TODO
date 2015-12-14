@@ -1,6 +1,7 @@
 BUGS:
 
 TODO:
+    - battle description
     - check units values position
     - moving cloudy sky overlay
     - Rules
@@ -14,6 +15,7 @@ TODO:
         - engagement
     - pause / resume
     - jar Hextacy !?!
+    - Tank You !!
 
 NEXT:
     - support different board layout
