@@ -121,7 +121,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_PERSHING:
-                u = new Unit(Army.US, id, ut, hq, ace, 3, 10, -1, 2, "us-pershing", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-pershing", "us-head", pawnsAtlas, pawnOverlaysAtlas);
                 break;
             case US_PRIEST:
                 ut = UnitType.ARTILLERY;
