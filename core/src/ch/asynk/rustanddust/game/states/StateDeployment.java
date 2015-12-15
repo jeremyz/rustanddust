@@ -66,16 +66,15 @@ public class StateDeployment extends StateCommon
         if (!completed && (unit != null) && (unit != activeUnit)) {
             showEntryZone(unit);
         } else if (selectedUnit != null) {
-            doRotation(Orientation.fromAdj(selectedHex, upHex));
+            deployUnit(Orientation.fromAdj(selectedHex, upHex));
         } else if (!completed && (entryZone != null) && (upHex != null)) {
-            if (upHex.isEmpty() && entryZone.contains(upHex))
-                unitEnter(activeUnit);
-        } else {
-            unit = downHex.getUnit();
-            if (deployedUnits.contains(unit)) {
-                showRotation(unit, downHex);
-                activeUnit = unit;
+            if (upHex.isEmpty() && entryZone.contains(upHex)) {
+                showUnit(activeUnit, upHex);
             }
+        } else {
+            unit = upHex.getUnit();
+            if (deployedUnits.contains(unit))
+                showRotation(unit, upHex);
         }
     }
 
@@ -97,10 +96,10 @@ public class StateDeployment extends StateCommon
         ctrl.hud.update();
     }
 
-    private void unitEnter(Unit unit)
+    private void showUnit(Unit unit, Hex hex)
     {
         selectedUnit = unit;
-        selectedHex = upHex;
+        selectedHex = hex;
         ctrl.battle.getPlayer().reinforcement.remove(unit);
         map.showOnBoard(unit, upHex, entryZone.orientation);
         deployedUnits.add(unit);
@@ -111,6 +110,7 @@ public class StateDeployment extends StateCommon
 
     private void showRotation(Unit unit, Hex hex)
     {
+        activeUnit = unit;
         selectedUnit = unit;
         selectedHex = hex;
         map.hexSelect(selectedHex);
@@ -119,19 +119,20 @@ public class StateDeployment extends StateCommon
         ctrl.hud.actionButtons.show(Buttons.ABORT.b);
     }
 
-    private void doRotation(Orientation o)
+    private void deployUnit(Orientation o)
     {
-        map.hexUnselect(selectedHex);
-        map.hexDirectionsHide(selectedHex);
-        map.revertEnter(selectedUnit);
         if (o == Orientation.KEEP)
             o = selectedUnit.getOrientation();
+        map.revertEnter(selectedUnit);
         map.setOnBoard(selectedUnit, selectedHex, o);
-        ctrl.hud.actionButtons.hide();
-        ctrl.hud.playerInfo.unitDock.show();
+
         entryZone = null;
         activeUnit = null;
         selectedUnit = null;
+        map.hexUnselect(selectedHex);
+        map.hexDirectionsHide(selectedHex);
+        ctrl.hud.actionButtons.hide();
+        ctrl.hud.playerInfo.unitDock.show();
         if (ctrl.checkDeploymentDone())
             completed = true;
     }
