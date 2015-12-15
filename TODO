@@ -1,6 +1,7 @@
 BUGS:
 
 TODO:
+    - take objectives into account when computing path
     - battle description
     - moving cloudy sky overlay
     - Rules
