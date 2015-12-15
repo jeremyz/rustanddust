@@ -95,10 +95,10 @@ public class BattleTest extends BattleCommon
         addExitZone(usExit);
 
         currentPlayer = usPlayer;
-        usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN_HQ));
+        usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN, true, false));
         setUnit(map, usPlayer, UnitId.US_PRIEST, 7, 6, Orientation.SOUTH_EAST, usExit);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH, true, usExit);
-        setUnit(map, usPlayer, UnitId.US_SHERMAN_HQ, 7, 3, Orientation.SOUTH, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH, false, true, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, false, usExit);
         setUnit(map, usPlayer, UnitId.US_WOLVERINE, 11, 7, Orientation.SOUTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
@@ -109,13 +109,12 @@ public class BattleTest extends BattleCommon
 
     private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
     {
-        return setUnit(map, player, unitId, col, row, orientation, false, exitZone);
+        return setUnit(map, player, unitId, col, row, orientation, false, false, exitZone);
     }
 
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean ace, Zone exitZone)
+    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
     {
-        Unit u = factory.getUnit(unitId);
-        u.setAce(ace);
+        Unit u = factory.getUnit(unitId, hq, ace);
         if (exitZone != null)
             unitExit.put(u, exitZone);
         map.setOnBoard(u, map.getHex(col, row), orientation);

@@ -27,7 +27,6 @@ public class Unit extends HeadedPawn
     public enum UnitType implements Pawn.PawnType
     {
         HARD_TARGET,
-        HARD_TARGET_HQ,
         INFANTRY,
         AT_GUN,
         ARTILLERY
@@ -39,17 +38,14 @@ public class Unit extends HeadedPawn
         GE_INFANTRY("German Infantry"),
         GE_KINGTIGER("German King Tiger"),
         GE_PANZER_IV("German Panzer IV"),
-        GE_PANZER_IV_HQ("German Panzer IV HQ"),
         GE_TIGER("German Tiger"),
         GE_WESPE("German Wespe"),
 
         US_AT_GUN("US Anti-Tank Gun"),
         US_INFANTRY("US Infantry"),
         US_PERSHING("US Pershing"),
-        US_PERSHING_HQ("US Pershing HQ"),
         US_PRIEST("US Priest"),
         US_SHERMAN("US Sherman"),
-        US_SHERMAN_HQ("US Sherman HQ"),
         US_WOLVERINE("US Wolverine");
 
         private String s;
@@ -64,6 +60,7 @@ public class Unit extends HeadedPawn
     public int mpLeft;
     public UnitType type;
     public UnitId id;
+    public boolean hq;
     public boolean ace;
     private boolean hasMoved;
     private boolean hasFired;
@@ -71,6 +68,7 @@ public class Unit extends HeadedPawn
     protected Unit(Army army, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
         super(army, pawn, head, pawns, overlays);
+        hq = false;
         ace = false;
 
     }
@@ -87,28 +85,16 @@ public class Unit extends HeadedPawn
     private void updateDescr()
     {
         if (cdef == -1)
-            this.descr = id.toString() + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
+            this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
         else
-            this.descr = id.toString() + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
+            this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
-    // hard tager
-    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
+    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
     {
         this(army, unit, head, pawns, overlays);
-        this.rng = range;
-        this.def = defense;
-        this.cdef = -1;
-        this.mp = movementPoints;
-        this.id = id;
-        this.type = type;
-        commonSetup();
-    }
-
-    // soft tager
-    public Unit(Army army, UnitId id, UnitType type, int range, int defense, int concealedDefense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
-    {
-        this(army, unit, head, pawns, overlays);
+        this.hq = hq;
+        this.ace = ace;
         this.rng = range;
         this.def = defense;
         this.cdef = concealedDefense;
@@ -131,13 +117,6 @@ public class Unit extends HeadedPawn
     public boolean isAce()
     {
         return ace;
-    }
-
-    public void setAce(boolean ace)
-    {
-        this.ace = ace;
-        updateDescr();
-        enableOverlay(ACE, ace);
     }
 
     @Override
@@ -213,54 +192,36 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHardTarget()
     {
-        return (isA(UnitType.HARD_TARGET) || isA(UnitType.HARD_TARGET_HQ) || isA(UnitType.ARTILLERY));
+        return (isA(UnitType.HARD_TARGET) || isA(UnitType.ARTILLERY));
     }
 
     @Override
     public boolean isHq()
     {
-        return isA(UnitType.HARD_TARGET_HQ);
+        return hq;
     }
 
     @Override
     public boolean isHqOf(Pawn other)
     {
-        if (isA(UnitId.GE_PANZER_IV_HQ) && other.isA(UnitId.GE_PANZER_IV)) return true;
-        if (isA(UnitId.US_PERSHING_HQ) && other.isA(UnitId.US_PERSHING)) return true;
-        if (isA(UnitId.US_SHERMAN_HQ) && other.isA(UnitId.US_SHERMAN)) return true;
-        return false;
+        return (isHq() && other.isA(id));
     }
 
     public void promote()
     {
-        if (isA(UnitId.GE_PANZER_IV))
-            id = UnitId.GE_PANZER_IV_HQ;
-        else if (isA(UnitId.US_PERSHING))
-            id = UnitId.US_PERSHING_HQ;
-        else if (isA(UnitId.US_SHERMAN))
-            id = UnitId.US_SHERMAN_HQ;
-        else
-            return;
-
-        type = UnitType.HARD_TARGET_HQ;
-        enableOverlay(HQ, true);
-        updateDescr();
+        setHq(true);
     }
 
     public void degrade()
     {
-        if (isA(UnitId.GE_PANZER_IV_HQ))
-            id = UnitId.GE_PANZER_IV;
-        else if (isA(UnitId.US_PERSHING_HQ))
-            id = UnitId.US_PERSHING;
-        else if (isA(UnitId.US_SHERMAN_HQ))
-            id = UnitId.US_SHERMAN;
-        else
-            return;
+        setHq(false);
+    }
 
-        type = UnitType.HARD_TARGET;
-        enableOverlay(HQ, false);
+    private void setHq(boolean hq)
+    {
+        this.hq = hq;
         updateDescr();
+        enableOverlay(HQ, hq);
     }
 
     @Override

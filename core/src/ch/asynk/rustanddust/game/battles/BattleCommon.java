@@ -176,23 +176,22 @@ public abstract class BattleCommon implements Battle
 
     public void addReinforcement(Player player, Zone entryZone, UnitId unitId)
     {
-        addReinforcement(player, entryZone, unitId, false);
+        addReinforcement(player, entryZone, unitId, false, false);
     }
 
     public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId)
     {
-        addReinforcement(player, entryZone, exitZone, unitId, false);
+        addReinforcement(player, entryZone, exitZone, unitId, false, false);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean ace)
+    public void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean hq, boolean ace)
     {
-        addReinforcement(player, entryZone, null, unitId, ace);
+        addReinforcement(player, entryZone, null, unitId, hq, ace);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId, boolean ace)
+    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId, boolean hq, boolean ace)
     {
-        Unit unit = factory.getUnit(unitId);
-        unit.setAce(ace);
+        Unit unit = factory.getUnit(unitId, hq, ace);
         player.addReinforcement(unit);
         unitEntry.put(unit, entryZone);
         if (exitZone != null)
