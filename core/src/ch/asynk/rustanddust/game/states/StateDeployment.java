@@ -123,7 +123,6 @@ public class StateDeployment extends StateCommon
     {
         if (o == Orientation.KEEP)
             o = selectedUnit.getOrientation();
-        map.revertEnter(selectedUnit);
         map.setOnBoard(selectedUnit, selectedHex, o);
 
         entryZone = null;
