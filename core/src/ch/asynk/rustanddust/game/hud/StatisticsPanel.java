@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.game.Player;
+import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Patch;
@@ -22,15 +23,20 @@ public class StatisticsPanel extends Patch
     private Label stats1;
     private Label stats2;
     private Bg okBtn;
+    private Bg flag;
+    private Bg geFlag;
+    private Bg usFlag;
 
-    public StatisticsPanel(BitmapFont font, TextureAtlas atlas)
+    public StatisticsPanel(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
     {
-        super(atlas.createPatch("typewriter"));
+        super(uiAtlas.createPatch("typewriter"));
         this.title = new Label(font);
         this.header = new Label(font);
         this.stats1 = new Label(font);
         this.stats2 = new Label(font);
-        this.okBtn = new Bg(atlas.findRegion("ok"));
+        this.okBtn = new Bg(uiAtlas.findRegion("ok"));
+        this.geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
+        this.usFlag = new Bg(hudAtlas.findRegion("us-flag"));
         this.visible = false;
         this.header.write("\nActions\nUnits Left\nUnits Withrawed\nCasualties\nWon Attacks\nLost Attacks");
     }
@@ -41,6 +47,7 @@ public class StatisticsPanel extends Patch
         float dx = (position.getX(rect.width) - rect.x);
         float dy = (position.getY(rect.height) - rect.y);
         translate(dx, dy);
+        flag.translate(dx, dy);
         title.translate(dx, dy);
         header.translate(dx, dy);
         stats1.translate(dx, dy);
@@ -50,13 +57,14 @@ public class StatisticsPanel extends Patch
 
     public void show(Player winner, Player loser, Position position)
     {
-        title.write(winner.getName() + " player won the battle in " + winner.getTurnDone() + " turns.");
+        flag = ((winner.army == Army.US) ? usFlag : geFlag);
+        title.write("is triumphant in " + winner.getTurnDone() + " turns.");
         stats1.write(winner.getStats());
         stats2.write(loser.getStats());
 
-        float height = (title.getHeight() + header.getHeight() + (2 * PADDING) + (1 * VSPACING));
+        float height = (flag.getHeight() + header.getHeight() + (2 * PADDING) + (1 * VSPACING));
         float width = (header.getWidth() + stats1.getWidth() + stats2.getWidth() + (2 * PADDING) + (4 * HSPACING));
-        float w2 = (title.getWidth() + (2 * PADDING));
+        float w2 = (flag.getWidth() + HSPACING + title.getWidth() + (2 * PADDING));
         if (w2 > width) width = w2;
         float x = position.getX(width);
         float y = position.getY(height);
@@ -70,7 +78,8 @@ public class StatisticsPanel extends Patch
         stats1.setPosition((x + header.getWidth() + (2 * HSPACING)), y);
         stats2.setPosition((stats1.getX() + stats1.getWidth() + (2 * HSPACING)), y);
         y += (header.getHeight() + VSPACING);
-        title.setPosition(x, y);
+        flag.setPosition(x, y);
+        title.setPosition(x + flag.getWidth() + VSPACING, y + flag.getHeight() / 3);
         visible = true;
     }
 
@@ -84,6 +93,7 @@ public class StatisticsPanel extends Patch
     public void dispose()
     {
         super.dispose();
+        flag.dispose();
         title.dispose();
         header.dispose();
         stats1.dispose();
@@ -96,6 +106,7 @@ public class StatisticsPanel extends Patch
     {
         if (!visible) return;
         super.draw(batch);
+        flag.draw(batch);
         title.draw(batch);
         header.draw(batch);
         stats1.draw(batch);
@@ -108,6 +119,7 @@ public class StatisticsPanel extends Patch
     {
         if (!visible) return;
         super.drawDebug(shapes);
+        flag.drawDebug(shapes);
         title.drawDebug(shapes);
         header.drawDebug(shapes);
         stats1.drawDebug(shapes);
