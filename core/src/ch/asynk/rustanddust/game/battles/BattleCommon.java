@@ -13,6 +13,7 @@ import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.State.StateType;
+import ch.asynk.rustanddust.engine.Orientation;
 
 public abstract class BattleCommon implements Battle
 {
@@ -163,38 +164,52 @@ public abstract class BattleCommon implements Battle
         return unitExit.get(unit);
     }
 
-    public void addEntryZone(Zone entry)
+    protected void addEntryZone(Zone entry)
     {
         entryZone.add(entry);
     }
 
-    public void addExitZone(Zone exit)
+    protected void addExitZone(Zone exit)
     {
         exitZone.add(exit);
         exit.enable(Hex.EXIT, true);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, UnitId unitId)
+    protected void addReinforcement(Player player, Zone entryZone, UnitId unitId)
     {
         addReinforcement(player, entryZone, unitId, false, false);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId)
+    protected void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId)
     {
         addReinforcement(player, entryZone, exitZone, unitId, false, false);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean hq, boolean ace)
+    protected void addReinforcement(Player player, Zone entryZone, UnitId unitId, boolean hq, boolean ace)
     {
         addReinforcement(player, entryZone, null, unitId, hq, ace);
     }
 
-    public void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId, boolean hq, boolean ace)
+    protected void addReinforcement(Player player, Zone entryZone, Zone exitZone, UnitId unitId, boolean hq, boolean ace)
     {
         Unit unit = factory.getUnit(unitId, hq, ace);
         player.addReinforcement(unit);
         unitEntry.put(unit, entryZone);
         if (exitZone != null)
             unitExit.put(unit, exitZone);
+    }
+
+    protected Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
+    {
+        return setUnit(map, player, unitId, col, row, orientation, false, false, exitZone);
+    }
+
+    protected Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
+    {
+        Unit u = factory.getUnit(unitId, hq, ace);
+        if (exitZone != null)
+            unitExit.put(u, exitZone);
+        map.setOnBoard(u, map.getHex(col, row), orientation);
+        return u;
     }
 }

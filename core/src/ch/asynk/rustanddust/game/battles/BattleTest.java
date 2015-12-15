@@ -106,18 +106,4 @@ public class BattleTest extends BattleCommon
 
         return this.map;
     }
-
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, Zone exitZone)
-    {
-        return setUnit(map, player, unitId, col, row, orientation, false, false, exitZone);
-    }
-
-    private Unit setUnit(Map map, Player player, UnitId unitId, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
-    {
-        Unit u = factory.getUnit(unitId, hq, ace);
-        if (exitZone != null)
-            unitExit.put(u, exitZone);
-        map.setOnBoard(u, map.getHex(col, row), orientation);
-        return u;
-    }
 }
