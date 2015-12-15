@@ -99,6 +99,11 @@ public abstract class BattleCommon implements Battle
         return burn;
     }
 
+    protected boolean abTurnDone()
+    {
+        return ((currentPlayer.getTurnDone() > 0) && (currentPlayer.getTurnDone() == getOpponent().getTurnDone()));
+    }
+
     @Override
     public boolean turnDone()
     {
