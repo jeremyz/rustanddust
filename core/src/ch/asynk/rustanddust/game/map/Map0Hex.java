@@ -61,6 +61,11 @@ public abstract class Map0Hex extends Board implements ObjectiveSet.ObjectiveCb
         showObjective(hex, objectives.unclaim(hex));
     }
 
+    public int objectivesCount(Army army)
+    {
+        return objectives.count(army);
+    }
+
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
     public void hexUnselect(Hex hex)        { selectedTile.hide(); }
     public void hexMoveShow(Hex hex)        { enableOverlayOn(hex, Hex.MOVE, true); }
