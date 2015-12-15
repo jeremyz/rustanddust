@@ -53,13 +53,13 @@ public class StateEngage extends StateCommon
     {
         StateType nextState = StateType.DONE;
         if (map.engageUnit(selectedUnit, activeUnit)) {
-            ctrl.battle.getPlayer().wonEngagementCount += 1;
+            ctrl.battle.getPlayer().engagementWon += 1;
             ctrl.battle.getOpponent().casualty(activeUnit);
             if (map.unitsBreakThroughSize() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
-            ctrl.battle.getPlayer().lostEngagementCount += 1;
+            ctrl.battle.getPlayer().engagementLost += 1;
         }
 
         activeUnit.showTarget();

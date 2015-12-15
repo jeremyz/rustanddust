@@ -20,8 +20,9 @@ public class Player
     public UnitList withdrawed;
 
     public int actionCount;
-    public int lostEngagementCount;
-    public int wonEngagementCount;
+    public int objectivesWon;
+    public int engagementWon;
+    public int engagementLost;
 
     public Player(final RustAndDust game, Army army, int n)
     {
@@ -35,8 +36,9 @@ public class Player
         this.actionPoints = 0;
         this.deploymentDone = false;
         this.actionCount = 0;
-        this.lostEngagementCount = 0;
-        this.wonEngagementCount = 0;
+        this.objectivesWon = 0;
+        this.engagementWon = 0;
+        this.engagementLost = 0;
     }
 
     public String getName()
@@ -51,7 +53,7 @@ public class Player
 
     public String getStats()
     {
-        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), withdrawed(), casualties(), wonEngagementCount, lostEngagementCount);
+        return String.format("%s\n%4d\n%4d\n%4d\n%4d\n%4d", getName(), actionCount, unitsLeft(), withdrawed(), casualties(), objectivesWon);
     }
 
     public boolean is(Army army)

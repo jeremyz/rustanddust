@@ -38,7 +38,7 @@ public class StatisticsPanel extends Patch
         this.geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
         this.usFlag = new Bg(hudAtlas.findRegion("us-flag"));
         this.visible = false;
-        this.header.write("\nActions\nUnits Left\nUnits Withrawed\nCasualties\nWon Attacks\nLost Attacks");
+        this.header.write("\nActions\nUnits Left\nUnits Withrawed\nCasualties\nObjectives");
     }
 
     public void updatePosition()
