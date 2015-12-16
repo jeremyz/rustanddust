@@ -37,8 +37,8 @@ public abstract class Pawn implements Moveable, Disposable
     private Tile prevTile;
     protected Faction faction;
     protected String descr;
-    private Sprite sprite;
-    private StackedImages overlays;
+    protected Sprite sprite;
+    protected StackedImages overlays;
     protected Attack attack;
     protected Move move;
 
