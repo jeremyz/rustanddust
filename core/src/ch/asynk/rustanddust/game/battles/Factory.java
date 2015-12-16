@@ -29,9 +29,9 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public boolean assetsLoaded;
     public TextureAtlas hudAtlas;
-    public TextureAtlas pawnsAtlas;
-    public TextureAtlas pawnOverlaysAtlas;
-    public TextureAtlas tileOverlaysAtlas;
+    public TextureAtlas unitsAtlas;
+    public TextureAtlas unitOverlaysAtlas;
+    public TextureAtlas hexOverlaysAtlas;
     public Battle battles[];
     private final RustAndDust game;
 
@@ -49,9 +49,9 @@ public class Factory implements Board.TileBuilder, Disposable
         if (assetsLoaded) return;
         int i = game.config.graphics.i;
         this.hudAtlas = game.manager.get("data/hud.atlas", TextureAtlas.class);
-        this.tileOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
-        this.pawnsAtlas = game.manager.get(String.format("data/units%d.atlas", i), TextureAtlas.class);
-        this.pawnOverlaysAtlas = game.manager.get(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
+        this.hexOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
+        this.unitsAtlas = game.manager.get(String.format("data/units%d.atlas", i), TextureAtlas.class);
+        this.unitOverlaysAtlas = game.manager.get(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
         this.assetsLoaded = true;
     }
 
@@ -60,9 +60,9 @@ public class Factory implements Board.TileBuilder, Disposable
     {
         if (!assetsLoaded) return;
         hudAtlas.dispose();
-        pawnsAtlas.dispose();
-        pawnOverlaysAtlas.dispose();
-        tileOverlaysAtlas.dispose();
+        unitsAtlas.dispose();
+        unitOverlaysAtlas.dispose();
+        hexOverlaysAtlas.dispose();
         this.assetsLoaded = false;
     }
 
@@ -93,45 +93,45 @@ public class Factory implements Board.TileBuilder, Disposable
         switch(id) {
             case GE_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case GE_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = new Unit(Army.GE, id, ut, hq, ace, 1, 7, 10, 1, "ge-infantry", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 1, 7, 10, 1, "ge-infantry", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case GE_KINGTIGER:
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case GE_PANZER_IV:
-                u = new Unit(Army.GE, id, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case GE_TIGER:
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 11, -1, 1, "ge-tiger", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 3, 11, -1, 1, "ge-tiger", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case GE_WESPE:
                 ut = UnitType.ARTILLERY;
-                u = new Unit(Army.GE, id, ut, hq, ace, 5, 8, -1, 1, "ge-wespe", "ge-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.GE, id, ut, hq, ace, 5, 8, -1, 1, "ge-wespe", "ge-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-at-gun", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-at-gun", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_PERSHING:
-                u = new Unit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-pershing", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-pershing", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_PRIEST:
                 ut = UnitType.ARTILLERY;
-                u = new Unit(Army.US, id, ut, hq, ace, 5, 8, -1, 1, "us-priest", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 5, 8, -1, 1, "us-priest", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_SHERMAN:
-                    u = new Unit(Army.US, id, ut, hq, ace, 2, 9, -1, 2, "us-sherman", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                    u = new Unit(Army.US, id, ut, hq, ace, 2, 9, -1, 2, "us-sherman", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
             case US_WOLVERINE:
-                u = new Unit(Army.US, id, ut, hq, ace, 3, 8, -1, 3, "us-wolverine", "us-head", pawnsAtlas, pawnOverlaysAtlas);
+                u = new Unit(Army.US, id, ut, hq, ace, 3, 8, -1, 3, "us-wolverine", "us-head", unitsAtlas, unitOverlaysAtlas);
                 break;
         }
 
@@ -140,7 +140,7 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)
     {
-        Hex hex = new Hex(x, y, col, row, tileOverlaysAtlas);
+        Hex hex = new Hex(x, y, col, row, hexOverlaysAtlas);
         if (offmap) hex.terrain = Hex.Terrain.OFFMAP;
         return hex;
     }
