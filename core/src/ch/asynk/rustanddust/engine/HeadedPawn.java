@@ -79,16 +79,16 @@ public abstract class HeadedPawn extends Pawn
     @Override
     public void draw(Batch batch)
     {
-        head.draw(batch);
         super.draw(batch);
+        head.draw(batch);
     }
 
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
+        super.drawDebug(debugShapes);
         float w = head.getWidth();
         float h = head.getHeight();
         debugShapes.rect(head.getX(), head.getY(), (w / 2f), (h / 2f), w, h, head.getScaleX(), head.getScaleY(), head.getRotation());
-        super.drawDebug(debugShapes);
     }
 }
