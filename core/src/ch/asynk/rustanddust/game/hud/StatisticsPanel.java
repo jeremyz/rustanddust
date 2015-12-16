@@ -93,7 +93,8 @@ public class StatisticsPanel extends Patch
     public void dispose()
     {
         super.dispose();
-        flag.dispose();
+        geFlag.dispose();
+        usFlag.dispose();
         title.dispose();
         header.dispose();
         stats1.dispose();
