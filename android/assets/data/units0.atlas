@@ -74,28 +74,28 @@ us-infantry
   orig: 128, 128
   offset: 0, 0
   index: -1
-us-pershing
+us-m10-wolverine
   rotate: false
   xy: 392, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-us-priest
+us-m26-pershing
   rotate: false
   xy: 262, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-us-sherman
+us-m4-sherman
   rotate: false
   xy: 392, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-us-wolverine
+us-m7-priest
   rotate: false
   xy: 522, 329
   size: 128, 128
