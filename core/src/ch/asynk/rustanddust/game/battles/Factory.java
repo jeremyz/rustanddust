@@ -93,49 +93,69 @@ public class Factory implements Board.TileBuilder, Disposable
         switch(id) {
             case GE_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun");
                 break;
             case GE_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = new Unit(Army.GE, id, ut, hq, ace, 1, 7, 10, 1, "ge-infantry", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 1, 7, 10, 1, "ge-infantry");
                 break;
             case GE_KINGTIGER:
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger");
                 break;
             case GE_PANZER_IV:
-                u = new Unit(Army.GE, id, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv");
                 break;
             case GE_TIGER:
-                u = new Unit(Army.GE, id, ut, hq, ace, 3, 11, -1, 1, "ge-tiger", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 11, -1, 1, "ge-tiger");
                 break;
             case GE_WESPE:
                 ut = UnitType.ARTILLERY;
-                u = new Unit(Army.GE, id, ut, hq, ace, 5, 8, -1, 1, "ge-wespe", "ge-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.GE, id, ut, hq, ace, 5, 8, -1, 1, "ge-wespe");
                 break;
             case US_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-at-gun", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-at-gun");
                 break;
             case US_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = new Unit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry");
                 break;
             case US_PERSHING:
-                u = new Unit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-pershing", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-m26-pershing");
                 break;
             case US_PRIEST:
                 ut = UnitType.ARTILLERY;
-                u = new Unit(Army.US, id, ut, hq, ace, 5, 8, -1, 1, "us-priest", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 5, 8, -1, 1, "us-m7-priest");
                 break;
             case US_SHERMAN:
-                    u = new Unit(Army.US, id, ut, hq, ace, 2, 9, -1, 2, "us-sherman", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 2, 9, -1, 2, "us-m4-sherman");
                 break;
             case US_WOLVERINE:
-                u = new Unit(Army.US, id, ut, hq, ace, 3, 8, -1, 3, "us-wolverine", "us-head", unitsAtlas, unitOverlaysAtlas);
+                u = buildUnit(Army.US, id, ut, hq, ace, 3, 8, -1, 3, "us-m10-wolverine");
                 break;
         }
 
         return u;
+    }
+
+    private Unit buildUnit(Army army, UnitId id, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String body)
+    {
+        return new Unit(army, id, ut, hq, ace, a, d, cd, m, body, getHead(army, body), unitsAtlas, unitOverlaysAtlas);
+    }
+
+    private String getHead(Army army, String body)
+    {
+        String head = null;
+        switch(game.config.graphics) {
+            case CHITS:
+                head = ((army == Army.US) ? "us-head" : "ge-head");
+                break;
+            case TANKS:
+                head = body + "-head";
+                break;
+        }
+        System.err.println(head);
+        return head;
     }
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)
