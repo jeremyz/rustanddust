@@ -3,8 +3,8 @@ package ch.asynk.rustanddust.game;
 public class Config
 {
     public enum Graphics {
-        MINE("mine", 0),
-        ORIGINAL("original", 1);
+        CHITS("chits", 0),
+        TANKS("tanks", 1);
         public String s;
         public int i;
         Graphics(String s, int i)
@@ -14,16 +14,16 @@ public class Config
         }
         public Graphics next()
         {
-            if (this == ORIGINAL)
-                return MINE;
-            return ORIGINAL;
+            if (this == TANKS)
+                return CHITS;
+            return TANKS;
         }
         public Graphics get(int i)
         {
-            if (i == MINE.i)
-                return MINE;
-            else if (i == ORIGINAL.i)
-                return ORIGINAL;
+            if (i == CHITS.i)
+                return CHITS;
+            else if (i == TANKS.i)
+                return TANKS;
             return null;
         }
     };
@@ -68,7 +68,7 @@ public class Config
         this.showTargets = true;
         this.showMoveAssists = true;
         this.showEnemyPossibilities = false;
-        this.graphics = Graphics.MINE;
+        this.graphics = Graphics.TANKS;
         this.battle = null;
         this.fxVolume = 1f;
     }
