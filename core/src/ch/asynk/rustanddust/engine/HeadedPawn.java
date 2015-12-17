@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.engine;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Vector3;
@@ -19,10 +19,10 @@ public abstract class HeadedPawn extends Pawn
         this.orientation = Orientation.KEEP;
     }
 
-    public HeadedPawn(Faction faction, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
+    public HeadedPawn(Faction faction, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
     {
-        super(faction, pawn, pawns, overlays);
-        this.head = new Sprite(pawns.findRegion(head));
+        super(faction, body, overlays);
+        this.head = new Sprite(head);
         this.orientation = Orientation.KEEP;
         this.descr += " " + orientation;
     }

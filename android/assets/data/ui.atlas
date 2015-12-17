@@ -11,13 +11,6 @@ cancel
   orig: 64, 63
   offset: 0, 0
   index: -1
-disabled
-  rotate: false
-  xy: 452, 41
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: -1
 from
   rotate: false
   xy: 2, 2
@@ -55,7 +48,7 @@ to
   index: -1
 typewriter
   rotate: false
-  xy: 928, 106
+  xy: 452, 41
   size: 48, 48
   split: 23, 23, 23, 23
   pad: 11, 11, 12, 12

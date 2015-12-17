@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Engagement;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.engine.gfx.Animation;
@@ -43,17 +44,17 @@ public class EngagementPanel extends Patch implements Animation
     private DiceAnimation d3Animation;
     private DiceAnimation d4Animation;
 
-    public EngagementPanel(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
+    public EngagementPanel(RustAndDust game)
     {
-        super(uiAtlas.createPatch("typewriter"));
-        usFlag = new Bg(hudAtlas.findRegion("us-flag"));
-        geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
-        attackImg = new Bg(hudAtlas.findRegion("attack"));
-        defenseImg = new Bg(hudAtlas.findRegion("defense"));
-        this.attack = new Label(font);
-        this.defense = new Label(font);
-        this.attackR = new Label(font);
-        this.defenseR = new Label(font);
+        super(game.ninePatch);
+        this.usFlag = new Bg(game.factory.getFlag(Army.US));
+        this.geFlag = new Bg(game.factory.getFlag(Army.GE));
+        this.attackImg = new Bg(game.factory.getHudRegion(game.factory.PNG_ATTACK));
+        this.defenseImg = new Bg(game.factory.getHudRegion(game.factory.PNG_DEFENSE));
+        this.attack = new Label(game.font);
+        this.defense = new Label(game.font);
+        this.attackR = new Label(game.font);
+        this.defenseR = new Label(game.font);
         this.visible = false;
         int d = (int) Math.max((Gdx.graphics.getWidth() * 0.03f), DICE_DIMENSION);
         this.d1Animation = new DiceAnimation(d);

@@ -2,6 +2,7 @@ package ch.asynk.rustanddust.game.battles;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Board;
@@ -17,6 +18,20 @@ import ch.asynk.rustanddust.game.battles.BattleTest;
 
 public class Factory implements Board.TileBuilder, Disposable
 {
+    public static final String FLAG_US = "us-flag";
+    public static final String FLAG_GE = "ge-flag";
+    public static final String HUD_TURNS = "turns";
+    public static final String HUD_STARS = "stars";
+    public static final String HUD_APS = "aps";
+    public static final String PNG_ATTACK = "attack";
+    public static final String PNG_DEFENSE = "defense";
+    public static final String ACT_DONE = "ok";
+    public static final String ACT_ABORT  = "cancel";
+    public static final String ACT_PROMOTE = "promote";
+    public static final String DISABLED = "disabled";
+    public static final String REINFORCEMENT = "reinforcement";
+    public static final String REINFORCEMENT_SELECTED = "reinforcement-selected";
+
     public enum MapType
     {
         MAP_00,
@@ -48,10 +63,10 @@ public class Factory implements Board.TileBuilder, Disposable
     {
         if (assetsLoaded) return;
         int i = game.config.graphics.i;
-        this.hudAtlas = game.manager.get("data/hud.atlas", TextureAtlas.class);
-        this.hexOverlaysAtlas = game.manager.get("data/hex-overlays.atlas", TextureAtlas.class);
-        this.unitsAtlas = game.manager.get(String.format("data/units%d.atlas", i), TextureAtlas.class);
-        this.unitOverlaysAtlas = game.manager.get(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
+        this.hudAtlas = game.manager.get(game.ATLAS_HUD, TextureAtlas.class);
+        this.hexOverlaysAtlas = game.manager.get(game.ATLAS_HEX_OVERLAYS, TextureAtlas.class);
+        this.unitsAtlas = game.manager.get(String.format(game.ATLAS_UNITS, i), TextureAtlas.class);
+        this.unitOverlaysAtlas = game.manager.get(String.format(game.ATLAS_UNIT_OVERLAYS, i), TextureAtlas.class);
         this.assetsLoaded = true;
     }
 
@@ -66,12 +81,22 @@ public class Factory implements Board.TileBuilder, Disposable
         this.assetsLoaded = false;
     }
 
+    public AtlasRegion getHudRegion(String s)
+    {
+        return hudAtlas.findRegion(s);
+    }
+
+    public AtlasRegion getFlag(Army army)
+    {
+        return hudAtlas.findRegion(army.flag());
+    }
+
     public Map getMap(MapType t)
     {
         Map m = null;
         switch(t) {
             case MAP_00:
-                m = new Map00(game, "data/map_00.png", "data/selected.png");
+                m = new Map00(game, game.PNG_MAP_00, game.PNG_SELECTED);
                 break;
         }
 
@@ -140,10 +165,15 @@ public class Factory implements Board.TileBuilder, Disposable
 
     private Unit buildUnit(Army army, UnitId id, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String body)
     {
-        return new Unit(army, id, ut, hq, ace, a, d, cd, m, body, getHead(army, body), unitsAtlas, unitOverlaysAtlas);
+        return new Unit(army, id, ut, hq, ace, a, d, cd, m, getUnitRegion(body), getHead(army, body), unitOverlaysAtlas);
     }
 
-    private String getHead(Army army, String body)
+    private AtlasRegion getUnitRegion(String s)
+    {
+        return unitsAtlas.findRegion(s);
+    }
+
+    private AtlasRegion getHead(Army army, String body)
     {
         String head = null;
         switch(game.config.graphics) {
@@ -154,8 +184,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 head = body + "-head";
                 break;
         }
-        System.err.println(head);
-        return head;
+        return getUnitRegion(head);
     }
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)

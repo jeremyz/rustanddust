@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.ui.Bg;
@@ -27,16 +28,16 @@ public class StatisticsPanel extends Patch
     private Bg geFlag;
     private Bg usFlag;
 
-    public StatisticsPanel(BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
+    public StatisticsPanel(RustAndDust game)
     {
-        super(uiAtlas.createPatch("typewriter"));
-        this.title = new Label(font);
-        this.header = new Label(font);
-        this.stats1 = new Label(font);
-        this.stats2 = new Label(font);
-        this.okBtn = new Bg(uiAtlas.findRegion("ok"));
-        this.geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
-        this.usFlag = new Bg(hudAtlas.findRegion("us-flag"));
+        super(game.ninePatch);
+        this.title = new Label(game.font);
+        this.header = new Label(game.font);
+        this.stats1 = new Label(game.font);
+        this.stats2 = new Label(game.font);
+        this.okBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_DONE));
+        this.usFlag = new Bg(game.factory.getFlag(Army.US));
+        this.geFlag = new Bg(game.factory.getFlag(Army.GE));
         this.visible = false;
         this.header.write("\nActions\nUnits Left\nUnits Withrawed\nCasualties\nObjectives");
     }

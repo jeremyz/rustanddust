@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.Drawable;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Hud;
@@ -37,16 +38,16 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     public UnitDock unitDock;
     private Position position;
 
-    public PlayerInfo(Ctrl ctrl, BitmapFont font, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
+    public PlayerInfo(RustAndDust game)
     {
-        this.ctrl = ctrl;
+        this.ctrl = game.ctrl;
         this.position = Position.MIDDLE_CENTER;
-        usFlag = new Bg(hudAtlas.findRegion("us-flag"));
-        geFlag = new Bg(hudAtlas.findRegion("ge-flag"));
-        turns = new LabelImage(hudAtlas.findRegion("turns"), font, 5f);
-        aps = new LabelImage(hudAtlas.findRegion("aps"), font, 5f);
-        reinforcement = new LabelImage(hudAtlas.findRegion("reinforcement"), font, 5f);
-        unitDock = new UnitDock(ctrl, uiAtlas.findRegion("disabled"), hudAtlas.findRegion("reinforcement-selected"), 10f);
+        usFlag = new Bg(game.factory.getFlag(Army.US));
+        geFlag = new Bg(game.factory.getFlag(Army.GE));
+        turns = new LabelImage(game.factory.getHudRegion(game.factory.HUD_TURNS), game.font, 5f);
+        aps = new LabelImage(game.factory.getHudRegion(game.factory.HUD_APS), game.font, 5f);
+        reinforcement = new LabelImage(game.factory.getHudRegion(game.factory.REINFORCEMENT), game.font, 5f);
+        unitDock = new UnitDock(game, 10f);
     }
 
     @Override

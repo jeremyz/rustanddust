@@ -20,7 +20,7 @@ attack
   index: -1
 cancel
   rotate: false
-  xy: 180, 157
+  xy: 138, 107
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
@@ -32,6 +32,13 @@ defense
   orig: 24, 24
   offset: 0, 0
   index: -1
+disabled
+  rotate: false
+  xy: 88, 78
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 ge-flag
   rotate: false
   xy: 130, 206
@@ -41,21 +48,21 @@ ge-flag
   index: -1
 ok
   rotate: false
-  xy: 138, 107
+  xy: 188, 107
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
   index: -1
 promote
   rotate: false
-  xy: 88, 78
+  xy: 84, 28
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 84, 28
+  xy: 180, 156
   size: 48, 48
   orig: 48, 48
   offset: 0, 0

@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.engine.gfx.animations;
 import java.lang.Math;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -32,9 +32,9 @@ public class PromoteAnimation implements Animation, Drawable
     private float volume;
     private float elapsed;
 
-    public static void init(TextureAtlas atlas, Sound usSnd, Sound geSnd)
+    public static void init(AtlasRegion r, Sound usSnd, Sound geSnd)
     {
-        region = atlas.findRegion("stars");
+        region = r;
         usSound = usSnd;
         geSound = geSnd;
     }

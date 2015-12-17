@@ -36,26 +36,26 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
         super(game, map, hex);
 
         this.destroyAnimation = new DestroyAnimation();
-        this.tankMoveSound = game.manager.get("sounds/tank_move.mp3", Sound.class);
-        this.infantryMoveSound = game.manager.get("sounds/infantry_move.mp3", Sound.class);
+        this.tankMoveSound = game.manager.get(game.SND_TANK_MOVE, Sound.class);
+        this.infantryMoveSound = game.manager.get(game.SND_INF_MOVE, Sound.class);
 
         DiceAnimation.init(
-                game.manager.get("data/dice.png", Texture.class), 16, 9, game.manager.get("sounds/dice.mp3", Sound.class)
+                game.manager.get(game.PNG_DICE, Texture.class), 16, 9, game.manager.get(game.SND_DICE, Sound.class)
                 );
         PromoteAnimation.init(
-                game.manager.get("data/hud.atlas", TextureAtlas.class),
-                game.manager.get("sounds/promote_us.mp3", Sound.class),
-                game.manager.get("sounds/promote_ge.mp3", Sound.class)
+                game.factory.getHudRegion(game.factory.HUD_STARS),
+                game.manager.get(game.SND_PROMOTE_US, Sound.class),
+                game.manager.get(game.SND_PROMOTE_GE, Sound.class)
                 );
         FireAnimation.init(
-                game.manager.get("data/infantry_fire.png", Texture.class), 1, 8,
-                game.manager.get("data/tank_fire.png", Texture.class), 1, 8,
-                game.manager.get("data/explosions.png", Texture.class), 16, 8,
-                game.manager.get("sounds/infantry_fire.mp3", Sound.class),
-                game.manager.get("sounds/tank_fire.mp3", Sound.class),
-                game.manager.get("sounds/tank_fire_short.mp3", Sound.class),
-                game.manager.get("sounds/explosion.mp3", Sound.class),
-                game.manager.get("sounds/explosion_short.mp3", Sound.class)
+                game.manager.get(game.PNG_INF_FIRE, Texture.class), 1, 8,
+                game.manager.get(game.PNG_TANK_FIRE, Texture.class), 1, 8,
+                game.manager.get(game.PNG_EXPLOSIONS, Texture.class), 16, 8,
+                game.manager.get(game.SND_INF_FIRE, Sound.class),
+                game.manager.get(game.SND_TANK_FIRE, Sound.class),
+                game.manager.get(game.SND_TANK_FIRE_SHORT, Sound.class),
+                game.manager.get(game.SND_EXPLOSION, Sound.class),
+                game.manager.get(game.SND_EXPLOSION_SHORT, Sound.class)
                 );
     }
 

@@ -62,13 +62,13 @@ public class Hud implements Disposable, Animation
         this.delayOn = false;
 
         TextureAtlas hudAtlas = game.factory.hudAtlas;
-        playerInfo = new PlayerInfo(ctrl, game.font, game.uiAtlas, hudAtlas);
-        actionButtons = new ActionButtons(ctrl, game.uiAtlas, hudAtlas);
+        playerInfo = new PlayerInfo(game);
+        actionButtons = new ActionButtons(game);
         actionButtons.hide();
         msg = new Msg(game.font, game.ninePatch, 20f);
-        okCancel = new OkCancel(game.font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
-        stats = new StatisticsPanel(game.font, game.uiAtlas, hudAtlas);
-        engagement = new EngagementPanel(game.font, game.uiAtlas, hudAtlas);
+        okCancel = new OkCancel(game.font, game.ninePatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
+        stats = new StatisticsPanel(game);
+        engagement = new EngagementPanel(game);
     }
 
     @Override

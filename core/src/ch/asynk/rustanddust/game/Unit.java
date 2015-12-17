@@ -1,7 +1,7 @@
 package ch.asynk.rustanddust.game;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
@@ -65,9 +65,9 @@ public class Unit extends HeadedPawn
     private boolean hasMoved;
     private boolean hasFired;
 
-    protected Unit(Army army, String pawn, String head, TextureAtlas pawns, TextureAtlas overlays)
+    protected Unit(Army army, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
     {
-        super(army, pawn, head, pawns, overlays);
+        super(army, body, head, overlays);
         hq = false;
         ace = false;
 
@@ -90,9 +90,9 @@ public class Unit extends HeadedPawn
             this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
-    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints, String unit, String head, TextureAtlas pawns, TextureAtlas overlays)
+    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
     {
-        this(army, unit, head, pawns, overlays);
+        this(army, body, head, overlays);
         this.hq = hq;
         this.ace = ace;
         this.rng = range;

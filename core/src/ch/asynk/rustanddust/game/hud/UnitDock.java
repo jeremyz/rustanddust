@@ -3,13 +3,13 @@ package ch.asynk.rustanddust.game.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Player;
@@ -44,10 +44,10 @@ public class UnitDock extends Bg implements Animation
     private Rectangle scaledRect;
     private Rectangle scissors;
 
-    public UnitDock(Ctrl ctrl, TextureRegion region, TextureRegion selected, float padding)
+    public UnitDock(RustAndDust game, float padding)
     {
-        super(region);
-        this.ctrl = ctrl;
+        super(game.factory.getHudRegion(game.factory.DISABLED));
+        this.ctrl = game.ctrl;
         this.padding = padding;
         this.mvtDone = true;
         this.point = new Vector3();
@@ -55,7 +55,7 @@ public class UnitDock extends Bg implements Animation
         this.transform = new Matrix4();
         this.scaledRect = new Rectangle();
         this.scissors = new Rectangle();
-        this.selected = new Sprite(selected);
+        this.selected = new Sprite(game.factory.getHudRegion(game.factory.REINFORCEMENT_SELECTED));
         this.visible = false;
         this.dx = 0f;
         this.dy = 0f;

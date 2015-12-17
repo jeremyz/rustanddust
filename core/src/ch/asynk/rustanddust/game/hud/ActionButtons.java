@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.ui.Widget;
@@ -39,19 +40,19 @@ public class ActionButtons extends Widget
     private Bg buttons [];
     private StateType states [];
 
-    public ActionButtons(Ctrl ctrl, TextureAtlas uiAtlas, TextureAtlas hudAtlas)
+    public ActionButtons(RustAndDust game)
     {
-        this.bg = new Sprite(uiAtlas.findRegion("disabled"));
-        this.ctrl = ctrl;
+        this.bg = new Sprite(game.factory.getHudRegion(game.factory.DISABLED));
+        this.ctrl = game.ctrl;
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
         this.idx = Buttons.NONE.i;
 
 
         this.buttons = new Bg[Buttons.LAST.i];
-        this.buttons[Buttons.DONE.i] = new Bg(hudAtlas.findRegion("ok"));
-        this.buttons[Buttons.ABORT.i] = new Bg(hudAtlas.findRegion("cancel"));
-        this.buttons[Buttons.PROMOTE.i] = new Bg(hudAtlas.findRegion("promote"));
+        this.buttons[Buttons.DONE.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_DONE));
+        this.buttons[Buttons.ABORT.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_ABORT));
+        this.buttons[Buttons.PROMOTE.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_PROMOTE));
 
         this.states = new StateType[Buttons.LAST.i];
         this.states[Buttons.DONE.i] = StateType.DONE;

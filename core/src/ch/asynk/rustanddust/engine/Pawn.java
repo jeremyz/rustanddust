@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -78,12 +79,12 @@ public abstract class Pawn implements Moveable, Disposable
         this.attack = new Attack(this);
     }
 
-    public Pawn(Faction faction, String name, TextureAtlas pawns, TextureAtlas overlays)
+    public Pawn(Faction faction, AtlasRegion body, TextureAtlas overlays)
     {
         this();
         this.faction = faction;
         this.descr = descr;
-        this.sprite = new Sprite(pawns.findRegion(name));
+        this.sprite = new Sprite(body);
         this.overlays = new StackedImages(overlays);
     }
 
