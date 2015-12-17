@@ -15,7 +15,8 @@ public interface State
         WITHDRAW,
         ABORT,
         DONE,
-        TURN_OVER
+        TURN_OVER,
+        OPTIONS
     };
 
     public void enter(StateType prevState);

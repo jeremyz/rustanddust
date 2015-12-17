@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Msg;
 import ch.asynk.rustanddust.ui.OkCancel;
 import ch.asynk.rustanddust.ui.Widget;
@@ -41,6 +42,7 @@ public class Hud implements Disposable, Animation
     private float delay;
     private boolean delayOn;
     private Msg msg;
+    private Bg optionsBtn;
     private StatisticsPanel stats;
     private EngagementPanel engagement;
     private OkCancel okCancel;
@@ -66,6 +68,7 @@ public class Hud implements Disposable, Animation
         actionButtons = new ActionButtons(game);
         actionButtons.hide();
         msg = new Msg(game.font, game.ninePatch, 20f);
+        optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         okCancel = new OkCancel(game.font, game.ninePatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
         stats = new StatisticsPanel(game);
         engagement = new EngagementPanel(game);
@@ -77,6 +80,7 @@ public class Hud implements Disposable, Animation
         playerInfo.dispose();
         actionButtons.dispose();
         msg.dispose();
+        optionsBtn.dispose();
         okCancel.dispose();
         engagement.dispose();
         stats.dispose();
@@ -88,6 +92,7 @@ public class Hud implements Disposable, Animation
         playerInfo.updatePosition();
         actionButtons.updatePosition();
         msg.updatePosition();
+        optionsBtn.setPosition(ctrl.battle.getHudPosition().verticalMirror().horizontalMirror());
         stats.updatePosition();
         engagement.updatePosition();
         okCancel.updatePosition();
@@ -98,6 +103,7 @@ public class Hud implements Disposable, Animation
         Position position = ctrl.battle.getHudPosition();
         playerInfo.update(ctrl.battle.getPlayer(), position);
         actionButtons.update(position.horizontalMirror());
+        optionsBtn.setPosition(position.verticalMirror().horizontalMirror());
     }
 
     @Override
@@ -128,6 +134,7 @@ public class Hud implements Disposable, Animation
         playerInfo.draw(batch);
         actionButtons.draw(batch);
         msg.draw(batch);
+        optionsBtn.draw(batch);
         okCancel.draw(batch);
         engagement.draw(batch);
         stats.draw(batch);
@@ -139,6 +146,7 @@ public class Hud implements Disposable, Animation
         playerInfo.drawDebug(debugShapes);
         actionButtons.drawDebug(debugShapes);
         msg.drawDebug(debugShapes);
+        optionsBtn.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
         engagement.drawDebug(debugShapes);
         stats.drawDebug(debugShapes);
@@ -191,6 +199,8 @@ public class Hud implements Disposable, Animation
                 hit = actionButtons;
             else if (playerInfo.touchDown(x, y))
                 hit = playerInfo;
+            else if (optionsBtn.hit(x, y))
+                hit = optionsBtn;
         }
 
         return (hit != null);
@@ -214,6 +224,11 @@ public class Hud implements Disposable, Animation
             }
             else if (hit == playerInfo) {
                 playerInfo.touchUp(x, y);
+            }
+            else if (hit == optionsBtn) {
+                if (optionsBtn.hit(x, y)) {
+                    System.err.println("Options Not Implemented yet");
+                }
             }
 
             hit = null;

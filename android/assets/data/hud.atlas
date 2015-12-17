@@ -53,6 +53,13 @@ ok
   orig: 48, 47
   offset: 0, 0
   index: -1
+options
+  rotate: false
+  xy: 138, 58
+  size: 48, 47
+  orig: 48, 47
+  offset: 0, 0
+  index: -1
 promote
   rotate: false
   xy: 84, 28
