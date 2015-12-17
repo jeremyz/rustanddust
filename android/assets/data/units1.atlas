@@ -1,0 +1,174 @@
+
+units1.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ge-at-gun
+  rotate: false
+  xy: 364, 322
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ge-at-gun-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-wespe-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-infantry-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-tiger-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-panzer-iv-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-kingtiger-head
+  rotate: false
+  xy: 883, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+ge-infantry
+  rotate: false
+  xy: 364, 192
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ge-kingtiger
+  rotate: false
+  xy: 494, 322
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ge-panzer-iv
+  rotate: false
+  xy: 364, 62
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ge-tiger
+  rotate: false
+  xy: 494, 192
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ge-wespe
+  rotate: false
+  xy: 624, 322
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+us-at-gun
+  rotate: false
+  xy: 494, 62
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+us-at-gun-head
+  rotate: false
+  xy: 910, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+us-infantry-head
+  rotate: false
+  xy: 910, 255
+  size: 25, 195
+  orig: 25, 195
+  offset: 0, 0
+  index: -1
+us-infantry
+  rotate: false
+  xy: 624, 192
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+us-m10-wolverine
+  rotate: false
+  xy: 2, 227
+  size: 179, 223
+  orig: 179, 223
+  offset: 0, 0
+  index: -1
+us-m10-wolverine-head
+  rotate: false
+  xy: 823, 287
+  size: 58, 163
+  orig: 58, 163
+  offset: 0, 0
+  index: -1
+us-m26-pershing
+  rotate: false
+  xy: 2, 2
+  size: 179, 223
+  orig: 179, 223
+  offset: 0, 0
+  index: -1
+us-m26-pershing-head
+  rotate: false
+  xy: 754, 268
+  size: 67, 182
+  orig: 67, 182
+  offset: 0, 0
+  index: -1
+us-m4-sherman
+  rotate: false
+  xy: 183, 227
+  size: 179, 223
+  orig: 179, 223
+  offset: 0, 0
+  index: -1
+us-m4-sherman-head
+  rotate: false
+  xy: 624, 75
+  size: 50, 115
+  orig: 50, 115
+  offset: 0, 0
+  index: -1
+us-m7-priest
+  rotate: false
+  xy: 183, 2
+  size: 179, 223
+  orig: 179, 223
+  offset: 0, 0
+  index: -1
+us-m7-priest-head
+  rotate: false
+  xy: 937, 359
+  size: 54, 91
+  orig: 54, 91
+  offset: 0, 0
+  index: -1
