@@ -20,6 +20,30 @@ import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
 {
+    public static final String TTF_FONT = "skin/veteran-typewriter.ttf";
+    public static final String ATLAS_UI = "data/ui.atlas";
+    public static final String ATLAS_MENU = "data/menu.atlas";
+    public static final String ATLAS_HUD = "data/hud.atlas";
+    public static final String ATLAS_UNITS = "data/units%d.atlas";
+    public static final String ATLAS_UNIT_OVERLAYS = "data/unit-overlays%d.atlas";
+    public static final String ATLAS_HEX_OVERLAYS = "data/hex-overlays.atlas";
+    public static final String PNG_SELECTED = "data/selected.png";
+    public static final String PNG_MAP_00= "data/map_00.png";
+    public static final String PNG_DICE = "data/dice.png";
+    public static final String PNG_INF_FIRE = "data/infantry_fire.png";
+    public static final String PNG_TANK_FIRE = "data/tank_fire.png";
+    public static final String PNG_EXPLOSIONS = "data/explosions.png";
+    public static final String SND_DICE = "sounds/dice.mp3";
+    public static final String SND_TANK_MOVE = "sounds/tank_move.mp3";
+    public static final String SND_INF_MOVE = "sounds/infantry_move.mp3";
+    public static final String SND_INF_FIRE = "sounds/infantry_fire.mp3";
+    public static final String SND_TANK_FIRE = "sounds/tank_fire.mp3";
+    public static final String SND_TANK_FIRE_SHORT = "sounds/tank_fire_short.mp3";
+    public static final String SND_EXPLOSION = "sounds/explosion.mp3";
+    public static final String SND_EXPLOSION_SHORT = "sounds/explosion_short.mp3";
+    public static final String SND_PROMOTE_US = "sounds/promote_us.mp3";
+    public static final String SND_PROMOTE_GE = "sounds/promote_ge.mp3";
+
     public AssetManager manager;
     public Factory factory;
     public Ctrl ctrl;
@@ -89,63 +113,63 @@ public class RustAndDust extends Game
     public void loadGameAssets()
     {
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
-            manager.load("data/map_00.png", Texture.class);
+            manager.load(PNG_MAP_00, Texture.class);
         int i = config.graphics.i;
-        manager.load(String.format("data/units%d.atlas",i), TextureAtlas.class);
-        manager.load(String.format("data/unit-overlays%d.atlas", i), TextureAtlas.class);
-        manager.load("data/selected.png", Texture.class);
-        manager.load("data/hud.atlas", TextureAtlas.class);
-        manager.load("data/hex-overlays.atlas", TextureAtlas.class);
-        manager.load("data/dice.png", Texture.class);
-        manager.load("data/infantry_fire.png", Texture.class);
-        manager.load("data/tank_fire.png", Texture.class);
-        manager.load("data/explosions.png", Texture.class);
-        manager.load("sounds/dice.mp3", Sound.class);
-        manager.load("sounds/tank_move.mp3", Sound.class);
-        manager.load("sounds/infantry_move.mp3", Sound.class);
-        manager.load("sounds/infantry_fire.mp3", Sound.class);
-        manager.load("sounds/tank_fire.mp3", Sound.class);
-        manager.load("sounds/tank_fire_short.mp3", Sound.class);
-        manager.load("sounds/explosion.mp3", Sound.class);
-        manager.load("sounds/explosion_short.mp3", Sound.class);
-        manager.load("sounds/promote_us.mp3", Sound.class);
-        manager.load("sounds/promote_ge.mp3", Sound.class);
+        manager.load(String.format(ATLAS_UNITS,i), TextureAtlas.class);
+        manager.load(String.format(ATLAS_UNIT_OVERLAYS, i), TextureAtlas.class);
+        manager.load(ATLAS_HUD, TextureAtlas.class);
+        manager.load(ATLAS_HEX_OVERLAYS, TextureAtlas.class);
+        manager.load(PNG_SELECTED, Texture.class);
+        manager.load(PNG_DICE, Texture.class);
+        manager.load(PNG_INF_FIRE, Texture.class);
+        manager.load(PNG_TANK_FIRE, Texture.class);
+        manager.load(PNG_EXPLOSIONS, Texture.class);
+        manager.load(SND_DICE, Sound.class);
+        manager.load(SND_TANK_MOVE, Sound.class);
+        manager.load(SND_INF_MOVE, Sound.class);
+        manager.load(SND_INF_FIRE, Sound.class);
+        manager.load(SND_TANK_FIRE, Sound.class);
+        manager.load(SND_TANK_FIRE_SHORT, Sound.class);
+        manager.load(SND_EXPLOSION, Sound.class);
+        manager.load(SND_EXPLOSION_SHORT, Sound.class);
+        manager.load(SND_PROMOTE_US, Sound.class);
+        manager.load(SND_PROMOTE_GE, Sound.class);
         debug("RustAndDust", "  assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void unloadGameAssets()
     {
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
-            manager.unload("data/map_00.png");
+            manager.unload(PNG_MAP_00);
         int i = config.graphics.i;
-        manager.unload(String.format("data/units%d.atlas",i));
-        manager.unload(String.format("data/unit-overlays%d.atlas", i));
-        manager.unload("data/selected.png");
-        manager.unload("data/hud.atlas");
-        manager.unload("data/hex-overlays.atlas");
-        manager.unload("data/dice.png");
-        manager.unload("data/infantry_fire.png");
-        manager.unload("data/tank_fire.png");
-        manager.unload("data/explosions.png");
-        manager.unload("sounds/dice.mp3");
-        manager.unload("sounds/tank_move.mp3");
-        manager.unload("sounds/infantry_move.mp3");
-        manager.unload("sounds/infantry_fire.mp3");
-        manager.unload("sounds/tank_fire.mp3");
-        manager.unload("sounds/tank_fire_short.mp3");
-        manager.unload("sounds/explosion.mp3");
-        manager.unload("sounds/explosion_short.mp3");
-        manager.unload("sounds/promote_us.mp3");
-        manager.unload("sounds/promote_ge.mp3");
+        manager.unload(String.format(ATLAS_UNITS,i));
+        manager.unload(String.format(ATLAS_UNIT_OVERLAYS));
+        manager.unload(ATLAS_HUD);
+        manager.unload(ATLAS_HEX_OVERLAYS);
+        manager.unload(PNG_SELECTED);
+        manager.unload(PNG_DICE);
+        manager.unload(PNG_INF_FIRE);
+        manager.unload(PNG_TANK_FIRE);
+        manager.unload(PNG_EXPLOSIONS);
+        manager.unload(SND_DICE);
+        manager.unload(SND_TANK_MOVE);
+        manager.unload(SND_INF_MOVE);
+        manager.unload(SND_INF_FIRE);
+        manager.unload(SND_TANK_FIRE);
+        manager.unload(SND_TANK_FIRE_SHORT);
+        manager.unload(SND_EXPLOSION);
+        manager.unload(SND_EXPLOSION_SHORT);
+        manager.unload(SND_PROMOTE_US);
+        manager.unload(SND_PROMOTE_GE);
         debug("RustAndDust", "  assets unloaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void loadUiAssets()
     {
-        manager.load("data/ui.atlas", TextureAtlas.class);
+        manager.load(ATLAS_UI, TextureAtlas.class);
         manager.finishLoading();
-        uiAtlas = manager.get("data/ui.atlas", TextureAtlas.class);
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("skin/veteran-typewriter.ttf"));
+        uiAtlas = manager.get(ATLAS_UI, TextureAtlas.class);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(TTF_FONT));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
         float h = Gdx.graphics.getHeight();
@@ -158,21 +182,21 @@ public class RustAndDust extends Game
     private void unloadUiAssets()
     {
         font.dispose();
-        manager.unload("data/ui.atlas");
+        manager.unload(ATLAS_UI);
     }
 
     private void loadMenuAssets()
     {
-        manager.load("data/map_00.png", Texture.class);
-        manager.load("data/menu.atlas", TextureAtlas.class);
+        manager.load(PNG_MAP_00, Texture.class);
+        manager.load(ATLAS_MENU, TextureAtlas.class);
         manager.finishLoading();
-        menuAtlas = manager.get("data/menu.atlas", TextureAtlas.class);
+        menuAtlas = manager.get(ATLAS_MENU, TextureAtlas.class);
     }
 
     private void unloadMenuAssets()
     {
-        manager.unload("data/map_00.png");
-        manager.unload("data/menu.atlas");
+        manager.unload(PNG_MAP_00);
+        manager.unload(ATLAS_MENU);
     }
 
     // @Override
