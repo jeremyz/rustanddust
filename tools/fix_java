@@ -1,0 +1,56 @@
+#! /bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "missing PATH argument"
+    exit 1
+fi
+
+TOPDIR=$1
+
+RESET="\033[0m"
+RED="\033[0;31m"
+BROWN="\033[0;33m"
+GREEN="\033[0;32m"
+
+cd $TOPDIR
+while read file; do
+
+    # package
+    FIX=0
+    CORRECT=$(echo $file | sed 's/\.\///; s/\/\+/\./g; s/\.\w\+.java//')
+
+    N=$(cat $file | sed -ne '/^\s*package/p' | wc -l)
+    if [ $N -eq 0 ]; then
+        echo -e "$file : $BROWN missing package directive.$RED fix!$RESET";
+        FIX=1
+    elif [ $N -gt 1 ]; then
+        echo -e "$file : $BROWN more then 1 package directive.$RED fix!$RESET";
+        FIX=1
+    else
+        PACKAGE=$(cat $file | sed -ne '/^\s*package/ { s/^\s*package\s*//; s/\s*;\s*$//; p; q }')
+        if [ "$PACKAGE" != "$CORRECT" ]; then
+            echo -e "$file : $BROWN wrong package directive.$RED fix!$RESET";
+            FIX=1
+        fi
+    fi
+
+    if [ $FIX -eq 1 ]; then
+        sed -i '/^\s*package/d' $file
+        sed -i "1ipackage $CORRECT;" $file
+    fi
+
+    # import
+    IMPORTS=$(cat $file | sed -ne '/^\s*import/ {s/.*\.//;s/;//p}')
+    for class in $IMPORTS; do
+        N=$(cat $file | sed -ne "/import/b; /[^a-zA-Z]$class/ { /$class[^a-zA-Z]/p; /$class\s*$/p}" | wc -l)
+        if [ $N -eq 0 ]; then
+            RET=1
+            echo -e "$file : $BROWN useless import $class $RED fix $RESET";
+            sed -i "/^\s*import.*\.$class;/d" $file
+        fi
+    done
+
+    # double empty lines
+    sed -i '/^$/N;/^\n$/D' $file
+
+done < <(find . -name "*.java")
