@@ -1,6 +1,6 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.LinkedList;
+import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
 
@@ -44,7 +44,7 @@ public class Hud implements Disposable, Animation
     private StatisticsPanel stats;
     private EngagementPanel engagement;
     private OkCancel okCancel;
-    private LinkedList<Widget> dialogs = new LinkedList<Widget>();
+    private Stack<Widget> dialogs = new Stack<Widget>();
 
     public enum OkCancelAction
     {
@@ -181,7 +181,7 @@ public class Hud implements Disposable, Animation
         hit = null;
 
         if (dialogs.size() > 0) {
-            Widget dialog = dialogs.getFirst();
+            Widget dialog = dialogs.peek();
             if (dialog.hit(x, y)) {
                 hit = dialog;
                 return true;
@@ -210,7 +210,7 @@ public class Hud implements Disposable, Animation
             return false;
 
         if (dialogs.size() > 0) {
-            Widget dialog = dialogs.getFirst();
+            Widget dialog = dialogs.peek();
             if (hit == dialog) {
                 if (dialog.hit(x, y))
                     closeDialog();
@@ -237,7 +237,7 @@ public class Hud implements Disposable, Animation
 
     private void closeDialog()
     {
-        Widget dialog = dialogs.removeFirst();
+        Widget dialog = dialogs.pop();
         dialog.visible = false;
 
         if (dialog == okCancel)
@@ -246,7 +246,7 @@ public class Hud implements Disposable, Animation
             ctrl.endGame();
 
         if (dialogs.size() > 0)
-            dialogs.getFirst().visible = true;
+            dialogs.peek().visible = true;
         else
             ctrl.blockMap = false;
     }
@@ -283,7 +283,7 @@ public class Hud implements Disposable, Animation
     private void delayOver()
     {
         delayOn = false;
-        Widget dialog = dialogs.getFirst();
+        Widget dialog = dialogs.peek();
         if (dialog == engagement)
             closeDialog();
     }
@@ -297,8 +297,8 @@ public class Hud implements Disposable, Animation
     {
         ctrl.blockMap = true;
         if (dialogs.size() != 0)
-            dialog.visible = false;
-        dialogs.addLast(dialog);
+            dialogs.peek().visible = false;
+        dialogs.push(dialog);
     }
 
     public void notifyDeploymentDone()
