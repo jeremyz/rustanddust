@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.ui.Position;
