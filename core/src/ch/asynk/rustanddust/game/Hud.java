@@ -20,6 +20,7 @@ import ch.asynk.rustanddust.game.hud.PlayerInfo;
 import ch.asynk.rustanddust.game.hud.ActionButtons;
 import ch.asynk.rustanddust.game.hud.StatisticsPanel;
 import ch.asynk.rustanddust.game.hud.EngagementPanel;
+import ch.asynk.rustanddust.game.hud.OptionsPanel;
 
 import ch.asynk.rustanddust.RustAndDust;
 
@@ -41,6 +42,7 @@ public class Hud implements Disposable, Animation
     private boolean delayOn;
     private Msg msg;
     private Bg optionsBtn;
+    private OptionsPanel optionsPanel;
     private StatisticsPanel stats;
     private EngagementPanel engagement;
     private OkCancel okCancel;
@@ -52,6 +54,7 @@ public class Hud implements Disposable, Animation
         ABORT_TURN,
         END_TURN,
         END_DEPLOYMENT,
+        QUIT_BATTLE,
     }
     private OkCancelAction okCancelAction;
 
@@ -68,6 +71,7 @@ public class Hud implements Disposable, Animation
         msg = new Msg(game.font, game.ninePatch, 20f);
         okCancel = new OkCancel(game.font, game.ninePatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
         optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
+        optionsPanel = new OptionsPanel(game);
         stats = new StatisticsPanel(game);
         engagement = new EngagementPanel(game);
     }
@@ -80,6 +84,7 @@ public class Hud implements Disposable, Animation
         msg.dispose();
         okCancel.dispose();
         optionsBtn.dispose();
+        optionsPanel.dispose();
         stats.dispose();
         engagement.dispose();
     }
@@ -92,6 +97,7 @@ public class Hud implements Disposable, Animation
         msg.updatePosition();
         okCancel.updatePosition();
         optionsBtn.setPosition(ctrl.battle.getHudPosition().verticalMirror().horizontalMirror());
+        optionsPanel.updatePosition();
         stats.updatePosition();
         engagement.updatePosition();
     }
@@ -134,6 +140,7 @@ public class Hud implements Disposable, Animation
         msg.draw(batch);
         okCancel.draw(batch);
         optionsBtn.draw(batch);
+        optionsPanel.draw(batch);
         stats.draw(batch);
         engagement.draw(batch);
     }
@@ -146,6 +153,7 @@ public class Hud implements Disposable, Animation
         msg.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
         optionsBtn.drawDebug(debugShapes);
+        optionsPanel.drawDebug(debugShapes);
         stats.drawDebug(debugShapes);
         engagement.drawDebug(debugShapes);
     }
@@ -180,6 +188,11 @@ public class Hud implements Disposable, Animation
     {
         hit = null;
 
+        if (optionsBtn.hit(x, y)) {
+            hit = optionsBtn;
+            return true;
+        }
+
         if (dialogs.size() > 0) {
             Widget dialog = dialogs.peek();
             if (dialog.hit(x, y)) {
@@ -197,8 +210,6 @@ public class Hud implements Disposable, Animation
                 hit = actionButtons;
             else if (playerInfo.touchDown(x, y))
                 hit = playerInfo;
-            else if (optionsBtn.hit(x, y))
-                hit = optionsBtn;
         }
 
         return (hit != null);
@@ -208,6 +219,12 @@ public class Hud implements Disposable, Animation
     {
         if (hit == null)
             return false;
+
+        if (hit == optionsBtn) {
+            if (optionsBtn.hit(x, y))
+                toggleOptionsPanel();
+            return true;
+        }
 
         if (dialogs.size() > 0) {
             Widget dialog = dialogs.peek();
@@ -222,11 +239,6 @@ public class Hud implements Disposable, Animation
             }
             else if (hit == playerInfo) {
                 playerInfo.touchUp(x, y);
-            }
-            else if (hit == optionsBtn) {
-                if (optionsBtn.hit(x, y)) {
-                    System.err.println("Options Not Implemented yet");
-                }
             }
 
             hit = null;
@@ -271,6 +283,13 @@ public class Hud implements Disposable, Animation
                 if (ok)
                     ctrl.endDeployment();
                 break;
+            case QUIT_BATTLE:
+                if (ok) {
+                    closeDialog();
+                    ctrl.endGame();
+                }
+                break;
+
         }
     }
 
@@ -299,6 +318,17 @@ public class Hud implements Disposable, Animation
         if (dialogs.size() != 0)
             dialogs.peek().visible = false;
         dialogs.push(dialog);
+    }
+
+    private void toggleOptionsPanel()
+    {
+        if (dialogs.size() > 0) {
+            if (dialogs.peek() == optionsPanel)
+                closeDialog();
+        } else {
+            optionsPanel.show();
+            pushDialog(optionsPanel);
+        }
     }
 
     public void notifyDeploymentDone()
@@ -335,6 +365,13 @@ public class Hud implements Disposable, Animation
     {
         this.okCancelAction = OkCancelAction.END_DEPLOYMENT;
         okCancel.show("Deployment unit count reached.\nEnd Deployment phase ?");
+        pushDialog(okCancel);
+    }
+
+    public void askQuitBattle()
+    {
+        this.okCancelAction = OkCancelAction.QUIT_BATTLE;
+        okCancel.show("Quit this battle ?");
         pushDialog(okCancel);
     }
 
