@@ -66,8 +66,8 @@ public class Hud implements Disposable, Animation
         actionButtons = new ActionButtons(game);
         actionButtons.hide();
         msg = new Msg(game.font, game.ninePatch, 20f);
-        optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         okCancel = new OkCancel(game.font, game.ninePatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
+        optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         stats = new StatisticsPanel(game);
         engagement = new EngagementPanel(game);
     }
@@ -78,10 +78,10 @@ public class Hud implements Disposable, Animation
         playerInfo.dispose();
         actionButtons.dispose();
         msg.dispose();
-        optionsBtn.dispose();
         okCancel.dispose();
-        engagement.dispose();
+        optionsBtn.dispose();
         stats.dispose();
+        engagement.dispose();
     }
 
     public void resize(int left, int bottom, int width, int height)
@@ -90,10 +90,10 @@ public class Hud implements Disposable, Animation
         playerInfo.updatePosition();
         actionButtons.updatePosition();
         msg.updatePosition();
+        okCancel.updatePosition();
         optionsBtn.setPosition(ctrl.battle.getHudPosition().verticalMirror().horizontalMirror());
         stats.updatePosition();
         engagement.updatePosition();
-        okCancel.updatePosition();
     }
 
     public void update()
@@ -132,10 +132,10 @@ public class Hud implements Disposable, Animation
         playerInfo.draw(batch);
         actionButtons.draw(batch);
         msg.draw(batch);
-        optionsBtn.draw(batch);
         okCancel.draw(batch);
-        engagement.draw(batch);
+        optionsBtn.draw(batch);
         stats.draw(batch);
+        engagement.draw(batch);
     }
 
     @Override
@@ -144,10 +144,10 @@ public class Hud implements Disposable, Animation
         playerInfo.drawDebug(debugShapes);
         actionButtons.drawDebug(debugShapes);
         msg.drawDebug(debugShapes);
-        optionsBtn.drawDebug(debugShapes);
         okCancel.drawDebug(debugShapes);
-        engagement.drawDebug(debugShapes);
+        optionsBtn.drawDebug(debugShapes);
         stats.drawDebug(debugShapes);
+        engagement.drawDebug(debugShapes);
     }
 
     public void pushNotify(String s)
