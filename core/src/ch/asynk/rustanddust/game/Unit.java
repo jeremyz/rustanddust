@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.HeadedPawn;
-import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Hex.Terrain;
 
 import ch.asynk.rustanddust.RustAndDust;

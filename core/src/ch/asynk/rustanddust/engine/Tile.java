@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayDeque;
 
@@ -9,9 +8,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 
-import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.engine.gfx.Drawable;
 import ch.asynk.rustanddust.engine.gfx.StackedImages;
 

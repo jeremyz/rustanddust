@@ -7,8 +7,6 @@ import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.UnitList;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
-import ch.asynk.rustanddust.RustAndDust;
-
 public class StateDeployment extends StateCommon
 {
     private boolean completed;

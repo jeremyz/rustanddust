@@ -8,11 +8,9 @@ import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.engine.gfx.Animation;
-import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Msg;

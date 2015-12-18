@@ -1,15 +1,10 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.List;
-import java.util.Iterator;
-
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.Orientation;
-import ch.asynk.rustanddust.game.Unit.UnitType;
 
 public class Hex extends Tile
 {

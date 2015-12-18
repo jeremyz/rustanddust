@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.ui;
 
 import java.util.ArrayDeque;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import ch.asynk.rustanddust.engine.gfx.Animation;

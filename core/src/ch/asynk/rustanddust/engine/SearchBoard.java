@@ -2,8 +2,6 @@ package ch.asynk.rustanddust.engine;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.ArrayDeque;
 import java.util.Iterator;

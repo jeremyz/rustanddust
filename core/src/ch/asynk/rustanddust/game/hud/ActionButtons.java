@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.game.hud;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -47,7 +46,6 @@ public class ActionButtons extends Widget
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
         this.idx = Buttons.NONE.i;
-
 
         this.buttons = new Bg[Buttons.LAST.i];
         this.buttons[Buttons.DONE.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_DONE));

@@ -3,13 +3,11 @@ package ch.asynk.rustanddust.menu;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.game.Battle;
 
 public class ScenariosMenu extends Patch
 {

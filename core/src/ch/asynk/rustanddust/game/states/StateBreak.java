@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust.game.states;
 
-import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;

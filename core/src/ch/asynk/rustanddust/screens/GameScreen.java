@@ -62,7 +62,6 @@ public class GameScreen implements Screen
         Gdx.input.setInputProcessor(getMultiplexer());
     }
 
-
     private InputMultiplexer getMultiplexer()
     {
         final InputMultiplexer multiplexer = new InputMultiplexer();
@@ -154,7 +153,6 @@ public class GameScreen implements Screen
         batch.begin();
         ctrl.map.draw(batch);
         batch.end();
-
 
         if (DEBUG) {
             Gdx.gl.glEnable(GL20.GL_BLEND);

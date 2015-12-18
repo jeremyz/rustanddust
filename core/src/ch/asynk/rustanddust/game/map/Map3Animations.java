@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.game.map;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.SelectedTile;
@@ -19,7 +18,6 @@ import ch.asynk.rustanddust.engine.gfx.animations.RunnableAnimation;
 import ch.asynk.rustanddust.engine.gfx.animations.MoveToAnimation.MoveToAnimationCb;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
 

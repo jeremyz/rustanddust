@@ -1,7 +1,5 @@
 package ch.asynk.rustanddust.game.states;
 
-import ch.asynk.rustanddust.game.Unit;
-
 public class StatePromote extends StateCommon
 {
     @Override

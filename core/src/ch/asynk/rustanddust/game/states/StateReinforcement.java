@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.game.states;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateReinforcement extends StateCommon
 {

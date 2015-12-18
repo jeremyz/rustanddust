@@ -97,7 +97,6 @@ public class Engagement implements Disposable, Pool.Poolable
         this.defenseSum = (unitDefense + terrainDefense + weatherDefense);
     }
 
-
     @Override
     public String toString()
     {

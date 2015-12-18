@@ -4,7 +4,6 @@ import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;

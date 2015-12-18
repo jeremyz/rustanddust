@@ -1,7 +1,5 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.List;
-
 import ch.asynk.rustanddust.RustAndDust;
 
 public class Player

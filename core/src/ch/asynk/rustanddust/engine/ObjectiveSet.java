@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 public class ObjectiveSet extends HashMap<Tile, Objective>
