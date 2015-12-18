@@ -39,7 +39,6 @@ public class OptionsMenu extends Patch
     private Label [] checkLabels;
     private int fxVolumeIdx;
     private boolean [] checkValues;
-    private OkCancel okCancel;
     protected Bg okBtn;
     protected Bg cancelBtn;
 
@@ -48,7 +47,6 @@ public class OptionsMenu extends Patch
         super(game.ninePatch);
         this.game = game;
         this.font = game.font;
-        this.okCancel = new OkCancel(font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.title = new Label(font);
@@ -140,12 +138,6 @@ public class OptionsMenu extends Patch
     @Override
     public boolean hit(float x, float y)
     {
-        if (okCancel.hit(x, y)) {
-            this.visible = true;
-            okCancel.visible = false;
-            return false;
-        }
-
         if (!visible) return false;
 
         if (okBtn.hit(x, y)) {
@@ -172,7 +164,6 @@ public class OptionsMenu extends Patch
         title.dispose();
         okBtn.dispose();
         cancelBtn.dispose();
-        okCancel.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
         for (int i = 0; i < checkLabels.length; i++)
@@ -182,8 +173,6 @@ public class OptionsMenu extends Patch
     @Override
     public void draw(Batch batch)
     {
-        okCancel.draw(batch);
-
         if (!visible) return;
         super.draw(batch);
         title.draw(batch);
