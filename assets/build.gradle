@@ -36,12 +36,6 @@ task packUi(type: JavaExec) {
     args = ['../assets/ui', '../android/assets/data', 'ui']
 }
 
-task packMenu(type: JavaExec) {
-    main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
-    classpath = configurations.texturePacker
-    args = ['../assets/menu', '../android/assets/data', 'menu']
-}
-
 task packHud(type: JavaExec) {
     main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
     classpath = configurations.texturePacker

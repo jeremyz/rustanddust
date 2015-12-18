@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -20,9 +21,9 @@ import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
 {
+    public static final String NINEPATCH = "typewriter";
     public static final String TTF_FONT = "skin/veteran-typewriter.ttf";
     public static final String ATLAS_UI = "data/ui.atlas";
-    public static final String ATLAS_MENU = "data/menu.atlas";
     public static final String ATLAS_HUD = "data/hud.atlas";
     public static final String ATLAS_UNITS = "data/units%d.atlas";
     public static final String ATLAS_UNIT_OVERLAYS = "data/unit-overlays%d.atlas";
@@ -44,6 +45,15 @@ public class RustAndDust extends Game
     public static final String SND_PROMOTE_US = "sounds/promote_us.mp3";
     public static final String SND_PROMOTE_GE = "sounds/promote_ge.mp3";
 
+    public static final String UI_OK = "ok";
+    public static final String UI_CANCEL = "cancel";
+    public static final String UI_FROM = "from";
+    public static final String UI_TO = "to";
+    public static final String UI_MOVE = "move";
+    public static final String UI_UNIT = "unit";
+    public static final String UI_US_FLAG = "us-flag";
+    public static final String UI_GE_FLAG = "ge-flag";
+
     public AssetManager manager;
     public Factory factory;
     public Ctrl ctrl;
@@ -51,8 +61,8 @@ public class RustAndDust extends Game
     public int hudCorrection;
 
     public TextureAtlas uiAtlas;
-    public TextureAtlas menuAtlas;
     public BitmapFont font;
+    public NinePatch ninePatch;
 
     public enum State
     {
@@ -70,6 +80,11 @@ public class RustAndDust extends Game
     public static void debug(String dom, String msg)
     {
         Gdx.app.debug(dom, msg);
+    }
+
+    public TextureAtlas.AtlasRegion getUiRegion(String s)
+    {
+        return uiAtlas.findRegion(s);
     }
 
     @Override
@@ -115,7 +130,7 @@ public class RustAndDust extends Game
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
             manager.load(PNG_MAP_00, Texture.class);
         int i = config.graphics.i;
-        manager.load(String.format(ATLAS_UNITS,i), TextureAtlas.class);
+        manager.load(String.format(ATLAS_UNITS, i), TextureAtlas.class);
         manager.load(String.format(ATLAS_UNIT_OVERLAYS, i), TextureAtlas.class);
         manager.load(ATLAS_HUD, TextureAtlas.class);
         manager.load(ATLAS_HEX_OVERLAYS, TextureAtlas.class);
@@ -142,8 +157,8 @@ public class RustAndDust extends Game
         if (config.battle.getMapType() == Factory.MapType.MAP_00)
             manager.unload(PNG_MAP_00);
         int i = config.graphics.i;
-        manager.unload(String.format(ATLAS_UNITS,i));
-        manager.unload(String.format(ATLAS_UNIT_OVERLAYS));
+        manager.unload(String.format(ATLAS_UNITS, i));
+        manager.unload(String.format(ATLAS_UNIT_OVERLAYS, i));
         manager.unload(ATLAS_HUD);
         manager.unload(ATLAS_HEX_OVERLAYS);
         manager.unload(PNG_SELECTED);
@@ -177,6 +192,7 @@ public class RustAndDust extends Game
         parameter.size = Math.max((int) (h * 0.04f), 16);
         parameter.color = Color.BLACK;
         font = generator.generateFont(parameter);
+        ninePatch = uiAtlas.createPatch(NINEPATCH);
     }
 
     private void unloadUiAssets()
@@ -188,15 +204,12 @@ public class RustAndDust extends Game
     private void loadMenuAssets()
     {
         manager.load(PNG_MAP_00, Texture.class);
-        manager.load(ATLAS_MENU, TextureAtlas.class);
         manager.finishLoading();
-        menuAtlas = manager.get(ATLAS_MENU, TextureAtlas.class);
     }
 
     private void unloadMenuAssets()
     {
         manager.unload(PNG_MAP_00);
-        manager.unload(ATLAS_MENU);
     }
 
     // @Override

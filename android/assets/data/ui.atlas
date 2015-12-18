@@ -1,36 +1,78 @@
 
 ui.png
-size: 256,128
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 cancel
   rotate: false
-  xy: 2, 52
+  xy: 386, 26
   size: 64, 63
   orig: 64, 63
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 2, 2
+  xy: 452, 41
   size: 48, 48
   orig: 48, 48
+  offset: 0, 0
+  index: -1
+from
+  rotate: false
+  xy: 2, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
+ge-flag
+  rotate: false
+  xy: 516, 118
+  size: 153, 101
+  orig: 153, 101
+  offset: 0, 0
+  index: -1
+move
+  rotate: false
+  xy: 826, 105
+  size: 100, 114
+  orig: 100, 114
   offset: 0, 0
   index: -1
 ok
   rotate: false
-  xy: 68, 52
+  xy: 928, 156
   size: 64, 63
   orig: 64, 63
   offset: 0, 0
   index: -1
+to
+  rotate: false
+  xy: 194, 2
+  size: 190, 217
+  orig: 190, 217
+  offset: 0, 0
+  index: -1
 typewriter
   rotate: false
-  xy: 134, 67
+  xy: 928, 106
   size: 48, 48
   split: 23, 23, 23, 23
   pad: 11, 11, 12, 12
   orig: 48, 48
+  offset: 0, 0
+  index: -1
+unit
+  rotate: false
+  xy: 386, 91
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+us-flag
+  rotate: false
+  xy: 671, 121
+  size: 153, 98
+  orig: 153, 98
   offset: 0, 0
   index: -1

@@ -31,13 +31,13 @@ public class ScenariosMenu extends Patch
 
     public boolean launch;
 
-    public ScenariosMenu(RustAndDust game, BitmapFont font, TextureAtlas atlas)
+    public ScenariosMenu(RustAndDust game)
     {
-        super(atlas.createPatch("typewriter"));
+        super(game.ninePatch);
         this.game = game;
-        this.font = font;
-        this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
+        this.font = game.font;
+        this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
+        this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.title = new Label(font);
         this.title.write("- Scenarios");
         this.battleLabels = new Label[game.factory.battles.length];

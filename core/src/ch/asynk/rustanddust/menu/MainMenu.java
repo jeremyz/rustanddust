@@ -1,9 +1,8 @@
 package ch.asynk.rustanddust.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Menu;
 
 public class MainMenu extends Menu
@@ -24,9 +23,9 @@ public class MainMenu extends Menu
         public int last() { return NONE.i; }
     };
 
-    public MainMenu(BitmapFont font, TextureAtlas atlas)
+    public MainMenu(RustAndDust game)
     {
-        super(Items.NONE, font, atlas.createPatch("typewriter"));
+        super(Items.NONE, game.font, game.ninePatch);
 
         label(Items.PLAY).write("Play");
         label(Items.TUTORIALS).write("Tutorials");

@@ -1,8 +1,9 @@
 package ch.asynk.rustanddust.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class OkCancel extends Patch
@@ -16,12 +17,12 @@ public class OkCancel extends Patch
     protected Bg okBtn;
     protected Bg cancelBtn;
 
-    public OkCancel(BitmapFont font, TextureAtlas atlas)
+    public OkCancel(BitmapFont font, NinePatch patch, AtlasRegion okRegion, AtlasRegion cancelRegion)
     {
-        super(atlas.createPatch("typewriter"));
+        super(patch);
         this.label = new Label(font);
-        this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
+        this.okBtn = new Bg(okRegion);
+        this.cancelBtn = new Bg(cancelRegion);
         this.visible = false;
     }
 

@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.menu;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
@@ -44,14 +43,14 @@ public class OptionsMenu extends Patch
     protected Bg okBtn;
     protected Bg cancelBtn;
 
-    public OptionsMenu(RustAndDust game, BitmapFont font, TextureAtlas atlas)
+    public OptionsMenu(RustAndDust game)
     {
-        super(atlas.createPatch("typewriter"));
+        super(game.ninePatch);
         this.game = game;
-        this.font = font;
-        this.okCancel = new OkCancel(font, atlas);
-        this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
+        this.font = game.font;
+        this.okCancel = new OkCancel(font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
+        this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
+        this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.title = new Label(font);
         this.title.write("- Options");
         this.fxVolume = new Label(font);

@@ -69,19 +69,19 @@ public class MenuScreen implements Screen
 
         this.gameAssetsLoading = false;
 
-        this.bg = game.manager.get("data/map_00.png", Texture.class);
+        this.bg = game.manager.get(game.PNG_MAP_00, Texture.class);
 
-        this.unit = new Sprite(game.menuAtlas.findRegion("unit"));
-        this.move = new Sprite(game.menuAtlas.findRegion("move"));
-        this.from = new Sprite(game.menuAtlas.findRegion("from"));
-        this.to = new Sprite(game.menuAtlas.findRegion("to"));
-        this.usFlag = new Sprite(game.menuAtlas.findRegion("us-flag"));
-        this.geFlag = new Sprite(game.menuAtlas.findRegion("ge-flag"));
+        this.unit = new Sprite(game.getUiRegion(game.UI_UNIT));
+        this.move = new Sprite(game.getUiRegion(game.UI_MOVE));
+        this.from = new Sprite(game.getUiRegion(game.UI_FROM));
+        this.to = new Sprite(game.getUiRegion(game.UI_TO));
+        this.usFlag = new Sprite(game.getUiRegion(game.UI_US_FLAG));
+        this.geFlag = new Sprite(game.getUiRegion(game.UI_GE_FLAG));
 
-        this.mainMenu = new MainMenu(game.font, game.uiAtlas);
-        this.playMenu = new PlayMenu(game, game.font, game.uiAtlas);
-        this.optionsMenu = new OptionsMenu(game, game.font, game.uiAtlas);
-        this.tutorialsMenu = new TutorialsMenu(game, game.font, game.uiAtlas);
+        this.mainMenu = new MainMenu(game);
+        this.playMenu = new PlayMenu(game);
+        this.optionsMenu = new OptionsMenu(game);
+        this.tutorialsMenu = new TutorialsMenu(game);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override

@@ -1,8 +1,6 @@
 package ch.asynk.rustanddust.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
@@ -17,7 +15,6 @@ public class PlayMenu extends Patch
     public static int VSPACING = 30;
 
     private final RustAndDust game;
-    private final BitmapFont font;
 
     private Label title;
     private Label gameMode;
@@ -32,22 +29,21 @@ public class PlayMenu extends Patch
 
     public boolean launch;
 
-    public PlayMenu(RustAndDust game, BitmapFont font, TextureAtlas atlas)
+    public PlayMenu(RustAndDust game)
     {
-        super(atlas.createPatch("typewriter"));
+        super(game.ninePatch);
         this.game = game;
-        this.font = font;
-        this.title = new Label(font);
+        this.title = new Label(game.font);
         this.title.write("- Play");
-        this.gameMode = new Label(font);
+        this.gameMode = new Label(game.font);
         this.gameMode.write("Game mode : ");
-        this.gameModeValue = new Label(font);
-        this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.cancelBtn = new Bg(atlas.findRegion("cancel"));
-        this.battle = new Label(font);
+        this.gameModeValue = new Label(game.font);
+        this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
+        this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
+        this.battle = new Label(game.font);
         this.battle.write("Scenario : ");
-        this.battleValue = new Label(font);
-        this.okCancel = new OkCancel(font, atlas);
+        this.battleValue = new Label(game.font);
+        this.okCancel = new OkCancel(game.font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         if (game.config.battle == null) {
             battleIdx = 0;

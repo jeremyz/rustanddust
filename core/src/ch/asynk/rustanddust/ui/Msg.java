@@ -2,17 +2,17 @@ package ch.asynk.rustanddust.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Msg extends Patch
 {
     private LabelStack label;
 
-    public Msg(BitmapFont font, TextureAtlas atlas)
+    public Msg(BitmapFont font, NinePatch patch, float fontSize)
     {
-        super(atlas.createPatch("typewriter"));
-        label = new LabelStack(font, 20f);
+        super(patch);
+        label = new LabelStack(font, fontSize);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package ch.asynk.rustanddust.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
@@ -15,21 +13,19 @@ public class TutorialsMenu extends Patch
     public static int TITLE_PADDING = 30;
 
     private final RustAndDust game;
-    private final BitmapFont font;
 
     private Label title;
     private Label msg;
     protected Bg okBtn;
 
-    public TutorialsMenu(RustAndDust game, BitmapFont font, TextureAtlas atlas)
+    public TutorialsMenu(RustAndDust game)
     {
-        super(atlas.createPatch("typewriter"));
+        super(game.ninePatch);
         this.game = game;
-        this.font = font;
-        this.okBtn = new Bg(atlas.findRegion("ok"));
-        this.title = new Label(font);
+        this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
+        this.title = new Label(game.font);
         this.title.write("- Tutorials");
-        this.msg = new Label(font);
+        this.msg = new Label(game.font);
         this.msg.write("Not implemented yet.");
 
         this.visible = false;
