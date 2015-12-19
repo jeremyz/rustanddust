@@ -35,7 +35,6 @@ public class ActionButtons extends Widget
     }
 
     private Sprite bg;
-    private int idx;
     private Bg buttons [];
     private StateType states [];
 
@@ -45,7 +44,6 @@ public class ActionButtons extends Widget
         this.ctrl = game.ctrl;
         this.visible = false;
         this.position = Position.BOTTOM_RIGHT;
-        this.idx = Buttons.NONE.i;
 
         this.buttons = new Bg[Buttons.LAST.i];
         this.buttons[Buttons.DONE.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_DONE));
@@ -130,38 +128,19 @@ public class ActionButtons extends Widget
         this.visible = true;
     }
 
-    public boolean touchDown(float x, float y)
+    public boolean hit(float x, float y)
     {
-        idx = Buttons.NONE.i;
-
         if (!super.hit(x,y))
             return false;
 
         for (int i = 0; i < Buttons.LAST.i; i++) {
             if (buttons[i].hit(x, y)) {
-                idx = i;
-                break;
+                ctrl.setState(states[i]);
+                return true;
             }
         }
 
-        return (idx != Buttons.NONE.i);
-    }
-
-    public boolean touchUp(float x, float y)
-    {
-        if (idx == Buttons.NONE.i)
-            return false;
-
-        boolean ret = false;
-
-        if (super.hit(x,y) && buttons[idx].hit(x, y)) {
-            ctrl.setState(states[idx]);
-            ret = true;
-        }
-
-        idx = Buttons.NONE.i;
-
-        return ret;
+        return false;
     }
 
     @Override

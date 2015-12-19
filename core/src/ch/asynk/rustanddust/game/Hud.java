@@ -33,8 +33,6 @@ public class Hud implements Disposable, Animation
     private final RustAndDust game;
     private final Ctrl ctrl;
 
-    private Object hit;
-
     public PlayerInfo playerInfo;
     public ActionButtons actionButtons;
 
@@ -184,19 +182,17 @@ public class Hud implements Disposable, Animation
         return playerInfo.drag(x, y, dx, dy);
     }
 
-    public boolean touchDown(float x, float y, boolean isInAnimation)
+    public boolean hit(float x, float y, boolean isInAnimation)
     {
-        hit = null;
-
         if (optionsBtn.hit(x, y)) {
-            hit = optionsBtn;
+            toggleOptionsPanel();
             return true;
         }
 
         if (dialogs.size() > 0) {
             Widget dialog = dialogs.peek();
             if (dialog.hit(x, y)) {
-                hit = dialog;
+                closeDialog();
                 return true;
             }
             return false;
@@ -205,46 +201,12 @@ public class Hud implements Disposable, Animation
         if (isInAnimation)
             return false;
 
-        if (hit == null) {
-            if (actionButtons.touchDown(x, y))
-                hit = actionButtons;
-            else if (playerInfo.touchDown(x, y))
-                hit = playerInfo;
-        }
-
-        return (hit != null);
-    }
-
-    public boolean touchUp(float x, float y)
-    {
-        if (hit == null)
-            return false;
-
-        if (hit == optionsBtn) {
-            if (optionsBtn.hit(x, y))
-                toggleOptionsPanel();
+        if (actionButtons.hit(x, y))
             return true;
-        }
+        else if (playerInfo.hit(x, y))
+            return true;
 
-        if (dialogs.size() > 0) {
-            Widget dialog = dialogs.peek();
-            if (hit == dialog) {
-                if (dialog.hit(x, y))
-                    closeDialog();
-                hit = null;
-            }
-        } else {
-            if (hit == actionButtons) {
-                actionButtons.touchUp(x, y);
-            }
-            else if (hit == playerInfo) {
-                playerInfo.touchUp(x, y);
-            }
-
-            hit = null;
-        }
-
-        return true;
+        return false;
     }
 
     private void closeDialog()

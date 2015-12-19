@@ -22,8 +22,6 @@ public class PlayerInfo implements Disposable, Drawable, Animation
 
     private final Ctrl ctrl;
 
-    private Object hit;
-
     private Bg flag;
     private Bg usFlag;
     private Bg geFlag;
@@ -136,43 +134,23 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         return true;
     }
 
-    public boolean touchDown(float x, float y)
+    public boolean hit(float x, float y)
     {
-        hit = null;
-
-        if (reinforcement.hit(x, y))
-            hit = reinforcement;
-        else if (unitDock.hit(x, y))
-            hit = unitDock;
-        else if (turns.hit(x,y))
-            hit = turns;
-
-        return (hit != null);
-    }
-
-    public boolean touchUp(float x, float y)
-    {
-        if (hit == null)
-            return false;
-
-        if (hit == turns) {
-            if (turns.hit(x, y))
-                ctrl.hud.askEndOfTurn();
+        if (turns.hit(x, y)) {
+            ctrl.hud.askEndOfTurn();
+            return true;
         }
-        else if (hit == reinforcement) {
-            if (reinforcement.hit(x, y))
-                ctrl.reinforcementHit();
+        else if (reinforcement.hit(x, y)) {
+            ctrl.reinforcementHit();
+            return true;
         }
-        else if (hit == unitDock) {
-            if (unitDock.hit(x, y)) {
-                ctrl.hud.notify(unitDock.select(x, y).toString(), Position.TOP_CENTER);
-                ctrl.showEntryZone();
-            }
+        else if (unitDock.hit(x, y)) {
+            ctrl.hud.notify(unitDock.select(x, y).toString(), Position.TOP_CENTER);
+            ctrl.showEntryZone();
+            return true;
         }
 
-        hit = null;
-
-        return true;
+        return false;
     }
 
     @Override

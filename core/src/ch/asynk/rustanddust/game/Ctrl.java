@@ -103,7 +103,7 @@ public class Ctrl implements Disposable
     {
         boolean inAnimation = (this.stateType == StateType.ANIMATION);
 
-        if (!blockHud && hud.touchDown(hudTouch.x, hudTouch.y, inAnimation))
+        if (!blockHud && hud.hit(hudTouch.x, hudTouch.y, inAnimation))
             return;
 
         if (!blockMap && state.downInMap(mapTouch.x, mapTouch.y))
@@ -112,9 +112,6 @@ public class Ctrl implements Disposable
 
     public void touchUp()
     {
-        if (!blockHud && hud.touchUp(hudTouch.x, hudTouch.y))
-            return;
-
         if (!blockMap && state.upInMap(mapTouch.x, mapTouch.y))
             state.touchUp();
     }
