@@ -1,6 +1,6 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
 
 import com.badlogic.gdx.Gdx;
 
@@ -44,7 +44,7 @@ public class Hud implements Disposable, Animation
     private StatisticsPanel stats;
     private EngagementPanel engagement;
     private OkCancel okCancel;
-    private Stack<Widget> dialogs = new Stack<Widget>();
+    private ArrayDeque<Widget> dialogs = new ArrayDeque<Widget>();
 
     public enum OkCancelAction
     {
