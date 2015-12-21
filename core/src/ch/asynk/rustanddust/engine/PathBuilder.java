@@ -70,6 +70,11 @@ public class PathBuilder implements Disposable
         this.to = null;
         this.distance = -1;
         this.orientation = Orientation.KEEP;
+        this.clearPaths();
+    }
+
+    private void clearPaths()
+    {
         for (Path path : this.paths) path.dispose();
         this.tiles.clear();
         this.stack.clear();
