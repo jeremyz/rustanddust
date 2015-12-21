@@ -47,10 +47,10 @@ public abstract class Board implements Disposable, Animation
     }
 
     private Config cfg;
-    private Tile[] tiles;
-    private SearchBoard searchBoard;
-    private Sprite board;
-    private Orientation sides[];
+    private final Tile[] tiles;
+    private final SearchBoard searchBoard;
+    private final Sprite board;
+    private final Orientation sides[];
 
     private boolean transform;
     private Matrix4 prevTransform;
@@ -72,19 +72,23 @@ public abstract class Board implements Disposable, Animation
         // add a frame of OFFMAP Tiles
         this.cols = (cols + 2);
         this.rows = (rows + 2);
-        searchBoard = new SearchBoard(this, cols, rows);
+        this.searchBoard = new SearchBoard(this, cols, rows);
+        this.sides = new Orientation[6];
         initSides();
+        this.tiles = null;
+        this.board = null;
     }
 
     public Board(TileBuilder tileBuilder, Texture boardTexture,  SelectedTile selectedTile)
     {
-        board = new Sprite(boardTexture);
         this.cfg = getConfig();
         // add a frame of OFFMAP Tiles
         this.cols = (cfg.cols + 2);
         this.rows = (cfg.rows + 2);
+        this.sides = new Orientation[6];
+        this.board = new Sprite(boardTexture);
         this.tiles = new Tile[this.cols * this.rows];
-        searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
+        this.searchBoard = new SearchBoard(this, cfg.cols, cfg.rows);
 
         int idx = 0;
         boolean evenRow = false;
@@ -107,9 +111,8 @@ public abstract class Board implements Disposable, Animation
         this.selectedTile = selectedTile;
     }
 
-    private void initSides()
+    private final void initSides()
     {
-        this.sides = new Orientation[6];
         sides[0] = Orientation.NORTH;
         sides[1] = Orientation.NORTH_EAST;
         sides[2] = Orientation.SOUTH_EAST;
