@@ -133,12 +133,12 @@ public class PathBuilder implements Disposable
                     f = path.fitness;
                 }
             }
-            ctrlTiles.clear();
-            for (Tile tile : good.tiles) {
-                toggleCtrlTile(tile);
-                if (paths.size() == 1)
-                    break;
-            }
+
+            paths.remove(good);
+            clearPaths();
+            paths.add(good);
+            for (Tile tile : good.tiles)
+                tiles.add(tile);
         }
 
         return 1;
