@@ -66,7 +66,7 @@ public abstract class Board implements Disposable, Animation
     protected SelectedTile selectedTile;
 
     abstract protected Config getConfig();
-    abstract protected boolean isObjective(Tile tile);
+    abstract protected boolean isObjectiveFor(Tile tile, Pawn pawn);
 
     protected Board(int cols, int rows)
     {

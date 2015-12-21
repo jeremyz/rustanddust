@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Tile;
+import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.engine.Faction;
 import ch.asynk.rustanddust.engine.SelectedTile;
@@ -76,9 +77,12 @@ public abstract class Map0Hex extends Board implements ObjectiveSet.ObjectiveCb
     public void hexExitHide(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, false); }
 
     @Override
-    public boolean isObjective(Tile tile)
+    public boolean isObjectiveFor(Tile tile, Pawn pawn)
     {
-        return objectives.containsKey(tile);
+        if (!objectives.containsKey(tile))
+            return false;
+
+        return (objectives.get(tile).faction() != pawn.getFaction());
     }
 
     @Override
