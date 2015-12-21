@@ -76,6 +76,12 @@ public abstract class Map0Hex extends Board implements ObjectiveSet.ObjectiveCb
     public void hexExitHide(Hex hex)        { enableOverlayOn(hex, Hex.EXIT, false); }
 
     @Override
+    public boolean isObjective(Tile tile)
+    {
+        return objectives.containsKey(tile);
+    }
+
+    @Override
     public void showObjective(Tile tile, Faction faction)
     {
         showObjective((Hex) tile, (Army) faction);
