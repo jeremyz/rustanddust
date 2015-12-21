@@ -224,6 +224,7 @@ public class PathBuilder implements Disposable
     {
         if (size() != 1) {
             System.err.println("ask for only move but they are many");
+            printToErr("paths", paths);
             return null;
         }
 
