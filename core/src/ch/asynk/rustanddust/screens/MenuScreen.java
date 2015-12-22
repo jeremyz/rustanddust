@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Interpolation;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.menu.MainMenu;
 import ch.asynk.rustanddust.menu.PlayMenu;
@@ -47,6 +48,7 @@ public class MenuScreen implements Screen
     private Sprite geFlag;
     private Sprite usFlag;
 
+    private Label versionLabel;
     private MainMenu mainMenu;
     private PlayMenu playMenu;
     private OptionsMenu optionsMenu;
@@ -77,6 +79,8 @@ public class MenuScreen implements Screen
         this.usFlag = new Sprite(game.getUiRegion(game.UI_US_FLAG));
         this.geFlag = new Sprite(game.getUiRegion(game.UI_GE_FLAG));
 
+        this.versionLabel = new Label(game.font);
+        this.versionLabel.write("v13");
         this.mainMenu = new MainMenu(game);
         this.playMenu = new PlayMenu(game);
         this.optionsMenu = new OptionsMenu(game);
@@ -184,6 +188,7 @@ public class MenuScreen implements Screen
         playMenu.draw(batch);
         optionsMenu.draw(batch);
         tutorialsMenu.draw(batch);
+        versionLabel.draw(batch);
         batch.end();
     }
 
@@ -207,6 +212,7 @@ public class MenuScreen implements Screen
         setCenteredPosition(usFlag, xPath[0], yPath[0]);
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
+        versionLabel.setPosition(20, 10);
         mainMenu.setPosition();
         playMenu.setPosition();
         optionsMenu.setPosition();
@@ -222,6 +228,7 @@ public class MenuScreen implements Screen
     @Override
     public void dispose()
     {
+        versionLabel.dispose();
         mainMenu.dispose();
         playMenu.dispose();
         optionsMenu.dispose();
