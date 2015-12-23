@@ -135,6 +135,8 @@ public class Helpers
 
         @Override public void animationsOver() {}
 
+        @Override public boolean isObjectiveFor(Tile tile, Pawn other)  { return false; }
+
         @Override
         public Tile getTile(int col, int row)
         {
