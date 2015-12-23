@@ -1,4 +1,4 @@
-package ch.asynk.rustanddust.game.battles;
+package ch.asynk.rustanddust.game;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -6,14 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Board;
-import ch.asynk.rustanddust.game.Player;
-import ch.asynk.rustanddust.game.Map;
-import ch.asynk.rustanddust.game.Hex;
-import ch.asynk.rustanddust.game.Army;
-import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.Unit.UnitType;
-import ch.asynk.rustanddust.game.Battle;
+import ch.asynk.rustanddust.game.battles.Map00;
 import ch.asynk.rustanddust.game.battles.BattleTest;
 
 public class Factory implements Board.TileBuilder, Disposable

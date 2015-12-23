@@ -1,7 +1,7 @@
 package ch.asynk.rustanddust.game;
 
 import ch.asynk.rustanddust.ui.Position;
-import ch.asynk.rustanddust.game.battles.Factory.MapType;
+import ch.asynk.rustanddust.game.Factory.MapType;
 
 public interface Battle
 {

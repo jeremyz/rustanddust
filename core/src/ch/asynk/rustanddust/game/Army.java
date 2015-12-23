@@ -1,7 +1,7 @@
 package ch.asynk.rustanddust.game;
 
 import ch.asynk.rustanddust.engine.Faction;
-import ch.asynk.rustanddust.game.battles.Factory;
+import ch.asynk.rustanddust.game.Factory;
 
 public enum Army implements Faction
 {

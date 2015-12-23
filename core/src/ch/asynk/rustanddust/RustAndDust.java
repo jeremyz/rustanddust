@@ -16,7 +16,7 @@ import ch.asynk.rustanddust.screens.MenuScreen;
 import ch.asynk.rustanddust.screens.GameScreen;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Config;
-import ch.asynk.rustanddust.game.battles.Factory;
+import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
