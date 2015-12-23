@@ -11,10 +11,12 @@ import ch.asynk.rustanddust.engine.Orientation;
 
 public class BattleTest extends BattleCommon
 {
+    private Zone usExit;
+
     public BattleTest(Factory factory)
     {
         super(factory);
-        name = "Beta Test";
+        name = "* Beta Test *";
         mapType = Factory.MapType.MAP_00;
     }
 
@@ -31,7 +33,7 @@ public class BattleTest extends BattleCommon
         map.turnDone();
         usPlayer.turnEnd();
         gePlayer.turnEnd();
-        currentPlayer = usPlayer;
+        currentPlayer = gePlayer;
     }
 
     @Override
@@ -45,23 +47,35 @@ public class BattleTest extends BattleCommon
         if (usPlayer.unitsLeft() == 0)
             return gePlayer;
 
-        if (gePlayer.getTurnDone() <= 8)
+        if (gePlayer.getTurnDone() <= 4)
             return null;
 
         usPlayer.objectivesWon = map.objectivesCount(Army.US);
         gePlayer.objectivesWon = map.objectivesCount(Army.GE);
 
-        if (usPlayer.objectivesWon >= gePlayer.objectivesWon) {
+        if (usPlayer.objectivesWon > gePlayer.objectivesWon)
             return usPlayer;
-        } else {
+        if (usPlayer.objectivesWon < gePlayer.objectivesWon)
             return gePlayer;
-        }
+
+        return null;
     }
 
     @Override
     public boolean hasReinforcement()
     {
-        return false;
+        if (currentPlayer.is(Army.GE))
+            return false;
+        if (currentPlayer.getCurrentTurn() != 2)
+            return false;
+
+        Zone usEntry = new Zone(map, 1);
+        usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
+        usEntry.add(map.getHex(12, 6));
+        addEntryZone(usEntry);
+        addReinforcement(usPlayer, usEntry, usExit, UnitId.US_WOLVERINE);
+
+        return true;
     }
 
     @Override
@@ -69,49 +83,43 @@ public class BattleTest extends BattleCommon
     {
         super.setup();
 
-        map.addHoldObjective(5, 2, Army.NONE);
-        map.addObjective(11, 7, Army.US);
+        map.addObjective(5, 2, Army.NONE);
+        map.addHoldObjective(5, 3, Army.NONE);
+        map.addObjective(3, 4, Army.NONE);
+        map.addHoldObjective(3, 3, Army.NONE);
 
-        Zone usEntry = new Zone(map, 10);
-        usEntry.orientation = Orientation.SOUTH;
-        usEntry.add(map.getHex(8, 0));
-        usEntry.add(map.getHex(9, 0));
-        usEntry.add(map.getHex(8, 1));
-        usEntry.add(map.getHex(9, 1));
-        usEntry.add(map.getHex(9, 2));
-        usEntry.add(map.getHex(10, 2));
-        usEntry.add(map.getHex(9, 3));
-        usEntry.add(map.getHex(10, 3));
-        usEntry.add(map.getHex(10, 4));
-        usEntry.add(map.getHex(11, 4));
-        addEntryZone(usEntry);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN, true, false);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE, true, false);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_PERSHING);
-        addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
+        currentPlayer = gePlayer;
+        setUnit(map, gePlayer, UnitId.GE_WESPE, 6, 8, Orientation.NORTH, null);
+        setUnit(map, gePlayer, UnitId.GE_TIGER, 5, 2, Orientation.NORTH, null);
+        setUnit(map, gePlayer, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
+        setUnit(map, gePlayer, UnitId.GE_INFANTRY, 1, 2, Orientation.NORTH_WEST, null);
+        setUnit(map, gePlayer, UnitId.GE_KINGTIGER, 1, 1, Orientation.NORTH_WEST, null);
 
-        Zone geEntry = new Zone(map, 8);
+        Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
-        geEntry.add(map.getHex(4, 8));
-        geEntry.add(map.getHex(5, 8));
-        geEntry.add(map.getHex(4, 7));
-        geEntry.add(map.getHex(5, 7));
-        geEntry.add(map.getHex(3, 6));
-        geEntry.add(map.getHex(4, 6));
-        geEntry.add(map.getHex(3, 5));
-        geEntry.add(map.getHex(4, 5));
+        geEntry.add(map.getHex(1, 2));
+        geEntry.add(map.getHex(1, 1));
+        geEntry.add(map.getHex(3, 3));
+        geEntry.add(map.getHex(3, 4));
         addEntryZone(geEntry);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV, true, false);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
+
+        currentPlayer = usPlayer;
+        usExit = new Zone(map, 9);
+        usExit.orientation = Orientation.NORTH;
+        usExit.add(map.getHex(11, 4));
+        usExit.add(map.getHex(11, 5));
+        usExit.add(map.getHex(12, 6));
+        addExitZone(usExit);
+
+        usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN, true, false));
+        setUnit(map, usPlayer, UnitId.US_PRIEST, 7, 6, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH, false, true, usExit);
+        setUnit(map, usPlayer, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, false, usExit);
+        setUnit(map, usPlayer, UnitId.US_WOLVERINE, 11, 7, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
+        setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
+        setUnit(map, usPlayer, UnitId.US_AT_GUN, 6, 1, Orientation.SOUTH, usExit);
 
         return this.map;
     }
