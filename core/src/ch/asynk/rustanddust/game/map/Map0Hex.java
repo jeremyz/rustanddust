@@ -79,10 +79,7 @@ public abstract class Map0Hex extends Board implements ObjectiveSet.ObjectiveCb
     @Override
     public boolean isObjectiveFor(Tile tile, Pawn pawn)
     {
-        if (!objectives.containsKey(tile))
-            return false;
-
-        return (objectives.get(tile).faction() != pawn.getFaction());
+        return objectives.isObjectiveFor(tile, pawn);
     }
 
     @Override

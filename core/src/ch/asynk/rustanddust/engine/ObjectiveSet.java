@@ -34,6 +34,18 @@ public class ObjectiveSet extends HashMap<Tile, Objective>
         return n;
     }
 
+    public boolean isObjectiveFor(Tile tile, Pawn pawn)
+    {
+        Objective objective = get(tile);
+        if (objective == null)
+            return false;
+
+        if (objective.faction() == pawn.getFaction())
+            return false;
+
+        return (objective.persistent());
+    }
+
     public Faction claim(Tile tile, Faction faction)
     {
         Objective objective = get(tile);

@@ -23,6 +23,11 @@ public class Objective
         return curFaction;
     }
 
+    public boolean persistent()
+    {
+        return persistent;
+    }
+
     public boolean set(Faction faction)
     {
         if (faction == curFaction)
