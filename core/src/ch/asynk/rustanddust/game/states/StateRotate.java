@@ -22,7 +22,7 @@ public class StateRotate extends StateCommon
             map.pathsBuild(to);
         }
 
-        if (map.pathsSize() != 1)
+        if (map.pathsSize() > 1)
             RustAndDust.debug("ERROR: pathsSize() == " + map.pathsSize());
 
         rotateOnly = (to == activeUnit.getHex());
@@ -64,6 +64,9 @@ public class StateRotate extends StateCommon
     @Override
     public StateType execute()
     {
+        if (!rotationSet)
+            return StateType.DONE;
+
         StateType whenDone = StateType.DONE;
 
         if (map.moveUnit(activeUnit) > 0)
