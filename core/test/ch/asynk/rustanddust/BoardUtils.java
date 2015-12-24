@@ -1,9 +1,5 @@
 package ch.asynk.rustanddust;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import org.junit.Test;
 import org.junit.Before;
 

@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust;
 
-import java.util.List;
 import java.util.Vector;
 
 import org.junit.Test;

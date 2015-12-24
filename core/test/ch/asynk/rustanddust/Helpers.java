@@ -1,9 +1,5 @@
 package ch.asynk.rustanddust;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.HeadedPawn;
 import ch.asynk.rustanddust.engine.Tile;
