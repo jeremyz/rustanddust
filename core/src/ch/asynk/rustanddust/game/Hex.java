@@ -73,10 +73,7 @@ public class Hex extends Tile
         if (isA(Terrain.DEPRESSION))
             return false;
 
-        if (isA(Terrain.CLEAR) && !hasUnits())
-            return false;
-
-        if (tile.isA(Terrain.HILLS) && isA(Terrain.CLEAR))
+        if (isA(Terrain.CLEAR) && (!hasUnits() || tile.isA(Terrain.HILLS)))
             return false;
 
         return true;
