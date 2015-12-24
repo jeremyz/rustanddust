@@ -1,7 +1,7 @@
 BUGS:
+    - might choose to go back and forth to reach an objective
 
 TODO:
-    - might choose to go back and forth to reach an objective
     - battle description
     - moving cloudy sky overlay
     - Rules
@@ -13,9 +13,6 @@ TODO:
         - HQ moves
         - objectives
         - engagement
-    - pause / resume
-    - jar Hextacy !?!
-    - Tank You !!
 
 NEXT:
     - support different board layout
