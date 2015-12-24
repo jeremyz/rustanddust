@@ -96,7 +96,7 @@ public class BoardUtils
     public void testPathSet()
     {
         int n = b.buildPathBuilder(2, 2, 3, 3);
-        assertTrue(n == 12);
+        assertTrue(n == 1);
 
         n = b.buildPathBuilder(2, 2, 4, 3);
         assertTrue(n == 8);
