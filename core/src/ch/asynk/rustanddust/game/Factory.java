@@ -9,6 +9,7 @@ import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.Unit.UnitType;
 import ch.asynk.rustanddust.game.battles.Map00;
+import ch.asynk.rustanddust.game.battles.Battle00;
 import ch.asynk.rustanddust.game.battles.BattleTest;
 
 public class Factory implements Board.TileBuilder, Disposable
@@ -51,6 +52,7 @@ public class Factory implements Board.TileBuilder, Disposable
         this.game = game;
         this.assetsLoaded = false;
         battles = new Battle[] {
+            new Battle00(this),
             new BattleTest(this),
         };
     }
