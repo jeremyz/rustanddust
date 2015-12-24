@@ -67,13 +67,13 @@ public class StateReinforcement extends StateCommon
         entryZone.enable(Hex.AREA, true);
     }
 
-    private void unitEnter(Unit unit)
+    private void unitEnter(Unit unit, Hex hex)
     {
         selectedUnit = unit;
-        selectedHex = upHex;
+        selectedHex = hex;
         map.hexSelect(selectedHex);
         entryZone.enable(Hex.AREA, false);
-        if (map.enterBoard(unit, upHex, entryZone.allowedMoves)) {
+        if (map.enterBoard(unit, hex, entryZone.allowedMoves)) {
             if (unit.getMovementPoints() > 0)
                 ctrl.setState(StateType.MOVE);
             else
