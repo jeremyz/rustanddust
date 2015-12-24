@@ -231,7 +231,7 @@ public class PathBuilder implements Disposable
     public Move getMove()
     {
         if (size() != 1) {
-            System.err.println("ask for only move but they are many");
+            System.err.println("ERROR not a sigle path found");
             printToErr("paths", paths);
             return null;
         }
