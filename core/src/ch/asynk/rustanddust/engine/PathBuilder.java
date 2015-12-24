@@ -157,7 +157,7 @@ public class PathBuilder implements Disposable
             int n = next.costFrom(pawn, o);
             boolean r = next.road(o);
             int f = (fitness + 1 + (r ? 0 : 1));
-            if (board.isObjectiveFor(next, pawn)) f -= 2;
+            if (board.isObjectiveFor(next, pawn)) f -= 4;
 
             int m = (mvtLeft - n);
             r &= roadMarch;
