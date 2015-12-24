@@ -401,6 +401,7 @@ public class SearchBoard
         los.clear();
         losBlocked = false;
         Tile from = board.getTile(x0, y0);
+        Tile to = board.getTile(x1, y1);
 
         // orthogonal axis
         int ox0 = x0 - ((y0 +1) / 2);
@@ -465,7 +466,7 @@ public class SearchBoard
                 }
             }
             los.add(getNode(x, y));
-            if (!losBlocked) losBlocked = board.getTile(x, y).blockLineOfSightFrom(from);
+            if (!losBlocked) losBlocked = board.getTile(x, y).blockLineOfSight(from, to);
             if(losBlocked && clearVisibility) return fixLineOfSight(false, x1, y1);
         }
 
@@ -475,6 +476,7 @@ public class SearchBoard
     private boolean verticalLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         Tile from = board.getTile(x0, y0);
+        Tile to = board.getTile(x1, y1);
 
         int d = ( (y1 > y0) ? 1 : -1);
         int x = x0;
@@ -488,12 +490,12 @@ public class SearchBoard
             y += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!losBlocked) blocked = t.blockLineOfSightFrom(from);
+            if (!losBlocked) blocked = t.blockLineOfSight(from, to);
 
             x += d;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (blocked && !t.blockLineOfSightFrom(from))
+            if (blocked && !t.blockLineOfSight(from, to))
                 blocked = false;
 
             if (blocked) losBlocked = true;
@@ -510,6 +512,7 @@ public class SearchBoard
     private boolean diagonalLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         Tile from = board.getTile(x0, y0);
+        Tile to = board.getTile(x1, y1);
 
         int dy = ( (y1 > y0) ? 1 : -1);
         int dx = ( (x1 > x0) ? 1 : -1);
@@ -526,14 +529,14 @@ public class SearchBoard
             x += dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (!losBlocked) blocked = t.blockLineOfSightFrom(from);
+            if (!losBlocked) blocked = t.blockLineOfSight(from, to);
 
             y += dy;
             if (!sig)
                 x -= dx;
             t = board.getTile(x, y);
             if (!t.isOffMap()) los.add(getNode(x, y));
-            if (blocked && !t.blockLineOfSightFrom(from))
+            if (blocked && !t.blockLineOfSight(from, to))
                 blocked = false;
 
             if (blocked) losBlocked = true;

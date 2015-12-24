@@ -33,7 +33,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public abstract boolean isA(TileTerrain terrain);
     public abstract boolean road(Orientation side);
     public abstract boolean atLeastOneMove(Pawn pawn);
-    public abstract boolean blockLineOfSightFrom(Tile tile);
+    public abstract boolean blockLineOfSight(Tile from, Tile to);
 
     protected Tile(int col, int row)
     {

@@ -68,12 +68,12 @@ public class Hex extends Tile
     }
 
     @Override
-    public boolean blockLineOfSightFrom(Tile tile)
+    public boolean blockLineOfSight(Tile from, Tile to)
     {
         if (isA(Terrain.DEPRESSION))
             return false;
 
-        if (isA(Terrain.CLEAR) && (!hasUnits() || tile.isA(Terrain.HILLS)))
+        if (isA(Terrain.CLEAR) && (!hasUnits() || from.isA(Terrain.HILLS) || to.isA(Terrain.HILLS)))
             return false;
 
         return true;

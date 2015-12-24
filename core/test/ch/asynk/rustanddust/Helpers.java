@@ -78,7 +78,7 @@ public class Helpers
         @Override public boolean isA(TileTerrain terrain)           { return true; }
         @Override public boolean road(Orientation side)             { return false; }
         @Override public boolean atLeastOneMove(Pawn pawn)          { return true; }
-        @Override public boolean blockLineOfSightFrom(Tile from)    { return blockLineOfSight; }
+        @Override public boolean blockLineOfSight(Tile from, Tile to) { return blockLineOfSight; }
 
         public void setBlockLineOfSight(boolean block)              { blockLineOfSight = block; }
     }
