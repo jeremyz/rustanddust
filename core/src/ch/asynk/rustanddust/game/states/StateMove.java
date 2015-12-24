@@ -30,8 +30,7 @@ public class StateMove extends StateCommon
             map.collectUpdate(activeUnit);
             if (to != null) {
                 // quick move -> replay touchUp
-                upHex = to;
-                touchUp();
+                touch(to);
             } else
                 checkExit(activeUnit, activeUnit.getHex());
         } else {
@@ -92,14 +91,9 @@ public class StateMove extends StateCommon
     }
 
     @Override
-    public void touchDown()
+    public void touch(Hex hex)
     {
-    }
-
-    @Override
-    public void touchUp()
-    {
-        if (upHex == activeUnit.getHex()) {
+        if (hex == activeUnit.getHex()) {
             if (to != null)
                 map.pathHide(to);
             to = null;
@@ -110,19 +104,19 @@ public class StateMove extends StateCommon
 
         int s = map.pathsSize();
 
-        Unit unit = upHex.getUnit();
+        Unit unit = hex.getUnit();
 
         if (map.unitsMoveableContains(unit)) {
             if(unit != activeUnit)
                 changeUnit(unit);
-        } else if ((s == 0) && map.movesContains(upHex)) {
-            s = collectPaths(upHex);
-        } else if (map.pathsContains(upHex)) {
-            s = togglePoint(downHex, s);
+        } else if ((s == 0) && map.movesContains(hex)) {
+            s = collectPaths(hex);
+        } else if (map.pathsContains(hex)) {
+            s = togglePoint(hex, s);
         }
 
         if (s == 1) {
-            if (!checkExit(activeUnit, upHex))
+            if (!checkExit(activeUnit, hex))
                 ctrl.setState(StateType.ROTATE);
         }
     }

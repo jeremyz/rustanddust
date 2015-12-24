@@ -43,23 +43,18 @@ public class StateSelect extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
+    public void touch(Hex hex)
     {
         if (!isEnemy) {
-            if (map.movesContains(upHex)) {
+            if (map.movesContains(hex)) {
                 // quick move
-                to = upHex;
+                to = hex;
                 ctrl.setState(StateType.MOVE);
                 return;
             }
-            if (map.unitsTargetContains(upHex.getUnit())) {
+            if (map.unitsTargetContains(hex.getUnit())) {
                 // quick fire
-                to = upHex;
+                to = hex;
                 ctrl.setState(StateType.ENGAGE);
                 return;
             }
@@ -69,12 +64,12 @@ public class StateSelect extends StateCommon
             map.hexUnselect(selectedHex);
 
         hidePossibilities();
-        if (upHex.isOffMap()) {
+        if (hex.isOffMap()) {
             selectedUnit = null;
             return;
         }
 
-        Unit unit = upHex.getUnit();
+        Unit unit = hex.getUnit();
 
         if (unit == null) {
             isEnemy = false;
@@ -88,15 +83,15 @@ public class StateSelect extends StateCommon
         if (!isEnemy && (unit == selectedUnit) && unit.canMove()) {
             if (unit.isHq() && (map.unitsMoveableSize() > 1)) {
                 ctrl.hud.notify("HQ activation");
-                select(upHex, unit, isEnemy);
+                select(hex, unit, isEnemy);
                 ctrl.setState(StateType.MOVE);
             } else {
                 // quick rotate
-                to = upHex;
+                to = hex;
                 ctrl.setState(StateType.ROTATE);
             }
         } else {
-            select(upHex, unit, isEnemy);
+            select(hex, unit, isEnemy);
             ctrl.hud.notify(selectedUnit.toString(), Position.TOP_CENTER);
         }
     }

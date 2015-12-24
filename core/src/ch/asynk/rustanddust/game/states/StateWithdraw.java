@@ -33,16 +33,6 @@ public class StateWithdraw extends StateCommon
         return StateType.ANIMATION;
     }
 
-    @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
-    {
-    }
-
     private StateType withdraw(Unit unit)
     {
         Zone exitZone = ctrl.battle.getExitZone(unit);

@@ -16,8 +16,6 @@ public abstract class StateCommon implements State
     protected static Map map;
 
     protected static Hex selectedHex = null;
-    protected static Hex downHex = null;
-    protected static Hex upHex = null;
     protected static Hex to = null;
 
     protected boolean isEnemy;
@@ -29,20 +27,6 @@ public abstract class StateCommon implements State
         ctrl = game.ctrl;
         cfg = game.config;
         map = game.ctrl.map;
-    }
-
-    @Override
-    public boolean downInMap(float x, float y)
-    {
-        downHex = map.getHexAt(x, y);
-        return (downHex != null);
-    }
-
-    @Override
-    public boolean upInMap(float x, float y)
-    {
-        upHex = map.getHexAt(x, y);
-        return (upHex != null);
     }
 
     protected boolean hasUnit()
@@ -64,4 +48,7 @@ public abstract class StateCommon implements State
         map.unitsTargetHide();
         map.unitsMoveableHide();
     }
+
+    @Override
+    public void touch(Hex hex) { }
 }

@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -20,8 +21,7 @@ public class StateEngage extends StateCommon
             map.unitsTargetShow();
             if (to != null) {
                 // quick fire -> replay touchUp
-                upHex = to;
-                touchUp();
+                touch(to);
             }
             selectedUnit.showAttack();
             map.hexSelect(selectedHex);
@@ -67,14 +67,9 @@ public class StateEngage extends StateCommon
     }
 
     @Override
-    public void touchDown()
+    public void touch(Hex hex)
     {
-    }
-
-    @Override
-    public void touchUp()
-    {
-        Unit unit = upHex.getUnit();
+        Unit unit = hex.getUnit();
 
         // activeUnit is the target, selectedTarget is the engagement leader
         if (unit == selectedUnit) {
@@ -82,7 +77,7 @@ public class StateEngage extends StateCommon
         } else if ((activeUnit == null) && map.unitsTargetContains(unit)) {
             // ctrl.hud.notify("Engage " + unit);
             map.unitsTargetHide();
-            to = upHex;
+            to = hex;
             activeUnit = unit;
             activeUnit.showTarget();
             map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);

@@ -26,11 +26,5 @@ public interface State
 
     public StateType execute();
 
-    public void touchDown();
-
-    public void touchUp();
-
-    public boolean downInMap(float x, float y);
-
-    public boolean upInMap(float x, float y);
+    public void touch(Hex hex);
 }

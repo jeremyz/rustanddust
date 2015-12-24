@@ -27,14 +27,4 @@ public class StatePromote extends StateCommon
     {
         return StateType.DONE;
     }
-
-    @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
-    {
-    }
 }

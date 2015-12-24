@@ -42,18 +42,13 @@ public class StateReinforcement extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
+    public void touch(Hex hex)
     {
         Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
-        if ((unit != null) && (unit != activeUnit))
+        if (hex == null)
             changeUnit(unit);
-        else if ((entryZone != null) && upHex.isEmpty() && entryZone.contains(upHex))
-            unitEnter(activeUnit);
+        else if ((entryZone != null) && hex.isEmpty() && entryZone.contains(hex))
+            unitEnter(activeUnit, hex);
         else
             ctrl.setState(StateType.SELECT);
     }

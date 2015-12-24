@@ -2,8 +2,6 @@ package ch.asynk.rustanddust.game;
 
 import com.badlogic.gdx.utils.Disposable;
 
-import com.badlogic.gdx.math.Vector3;
-
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.State.StateType;
@@ -28,9 +26,7 @@ public class Ctrl implements Disposable
     public Hud hud;
     public boolean blockMap;
     public boolean blockHud;
-
-    public Vector3 mapTouch = new Vector3();
-    public Vector3 hudTouch = new Vector3();
+    private Hex touchedHex;
 
     private State selectState;
     private State pathState;
@@ -71,6 +67,7 @@ public class Ctrl implements Disposable
 
         this.blockMap = false;
         this.blockHud = false;
+        this.touchedHex = null;
 
         this.map = battle.setup();
         this.hud = new Hud(game);
@@ -92,28 +89,27 @@ public class Ctrl implements Disposable
 
     // INPUTS
 
-    public boolean drag(int dx, int dy)
+    public boolean drag(float x, float y, int dx, int dy)
     {
-        if (!blockHud && hud.drag(hudTouch.x, hudTouch.y, dx, dy))
+        if (!blockHud && hud.drag(x, y, dx, dy))
             return true;
         return false;
     }
 
-    public void touchDown()
+    public void touchDown(float hudX, float hudY, float mapX, float mapY)
     {
         boolean inAnimation = (this.stateType == StateType.ANIMATION);
 
-        if (!blockHud && hud.hit(hudTouch.x, hudTouch.y, inAnimation))
+        if (!blockHud && hud.hit(hudX, hudY, inAnimation))
             return;
 
-        if (!blockMap && state.downInMap(mapTouch.x, mapTouch.y))
-            state.touchDown();
+        touchedHex = (blockMap ? null : map.getHexAt(mapX, mapY));
     }
 
-    public void touchUp()
+    public void touchUp(float hudX, float hudY, float mapX, float mapY)
     {
-        if (!blockMap && state.upInMap(mapTouch.x, mapTouch.y))
-            state.touchUp();
+        if (!blockMap && (touchedHex == map.getHexAt(mapX, mapY)))
+            state.touch(touchedHex);
     }
 
     // Map callbacks
@@ -153,11 +149,8 @@ public class Ctrl implements Disposable
 
     public void showEntryZone()
     {
-        if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT)) {
-            state.downInMap(-1, -1);
-            state.upInMap(-1, -1);
-            state.touchUp();
-        }
+        if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT))
+            state.touch(null);
     }
 
     public void endDeployment()

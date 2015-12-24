@@ -1,6 +1,7 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
@@ -41,25 +42,20 @@ public class StateBreak extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
+    public void touch(Hex hex)
     {
         // TODO : cancel preview move before showing rotation
         if (activeUnit == null) {
-            Unit unit = upHex.getUnit();
+            Unit unit = hex.getUnit();
             if (map.unitsBreakThroughContains(unit)) {
                 activeUnit = unit;
-                map.hexMoveShow(upHex);
+                map.hexMoveShow(hex);
                 map.hexMoveShow(to);
                 map.hexDirectionsShow(to);
                 map.unitsBreakThroughHide();
             }
         } else {
-            o = Orientation.fromAdj(to, upHex);
+            o = Orientation.fromAdj(to, hex);
 
             if (o == Orientation.KEEP) return;
 

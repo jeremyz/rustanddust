@@ -2,6 +2,8 @@ package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.engine.Orientation;
 
+import ch.asynk.rustanddust.game.Hex;
+
 import ch.asynk.rustanddust.RustAndDust;
 
 public class StateRotate extends StateCommon
@@ -77,16 +79,11 @@ public class StateRotate extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
+    public void touch(Hex hex)
     {
         if (rotationSet) return;
 
-        Orientation o = Orientation.fromAdj(to, upHex);
+        Orientation o = Orientation.fromAdj(to, hex);
         if (o == Orientation.KEEP) {
             ctrl.setState(StateType.ABORT);
             return;

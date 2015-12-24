@@ -53,26 +53,21 @@ public class StateDeployment extends StateCommon
     }
 
     @Override
-    public void touchDown()
-    {
-    }
-
-    @Override
-    public void touchUp()
+    public void touch(Hex hex)
     {
         Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
-        if (!completed && (unit != null) && (unit != activeUnit)) {
+        if (hex == null) {
             showEntryZone(unit);
         } else if (selectedUnit != null) {
-            deployUnit(Orientation.fromAdj(selectedHex, upHex));
-        } else if (!completed && (entryZone != null) && (upHex != null)) {
-            if (upHex.isEmpty() && entryZone.contains(upHex)) {
-                showUnit(activeUnit, upHex);
+            deployUnit(Orientation.fromAdj(selectedHex, hex));
+        } else if (!completed && (entryZone != null) && (hex != null)) {
+            if (hex.isEmpty() && entryZone.contains(hex)) {
+                showUnit(activeUnit, hex);
             }
         } else {
-            unit = upHex.getUnit();
+            unit = hex.getUnit();
             if (deployedUnits.contains(unit))
-                showRotation(unit, upHex);
+                showRotation(unit, hex);
         }
     }
 
