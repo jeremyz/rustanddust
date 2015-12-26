@@ -3,6 +3,7 @@ package ch.asynk.rustanddust.game.states;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
+import ch.asynk.rustanddust.RustAndDust;
 
 public class StateWithdraw extends StateCommon
 {
@@ -41,6 +42,9 @@ public class StateWithdraw extends StateCommon
         // rotation
         if (map.pathsTo() == null)
             map.pathsBuild(hex);
+
+        if (map.pathsSize() > 1)
+            RustAndDust.debug("ERROR: pathsSize() == " + map.pathsSize());
 
         Hex exitHex = (Hex) map.pathsTo();
         if (!exitZone.contains(exitHex))
