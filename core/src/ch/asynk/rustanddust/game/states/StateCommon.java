@@ -6,7 +6,6 @@ import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.State;
 import ch.asynk.rustanddust.game.Config;
-
 import ch.asynk.rustanddust.RustAndDust;
 
 public abstract class StateCommon implements State

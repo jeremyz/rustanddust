@@ -4,7 +4,6 @@ import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
-
 import ch.asynk.rustanddust.RustAndDust;
 
 public class StateBreak extends StateCommon

@@ -1,9 +1,7 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.engine.Orientation;
-
 import ch.asynk.rustanddust.game.Hex;
-
 import ch.asynk.rustanddust.RustAndDust;
 
 public class StateRotate extends StateCommon
