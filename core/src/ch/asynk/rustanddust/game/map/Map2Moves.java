@@ -3,24 +3,24 @@ package ch.asynk.rustanddust.game.map;
 import com.badlogic.gdx.graphics.Texture;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.engine.TileSet;
 import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.engine.PathBuilder;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Hex;
-import ch.asynk.rustanddust.game.HexSet;
 
 public abstract class Map2Moves extends Map1Units
 {
-    protected final HexSet moves;
+    protected final TileSet moves;
     protected final PathBuilder paths;
 
     public Map2Moves(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game, map, hex);
 
-        moves = new HexSet(this, 40);
+        moves = new TileSet(this, 40);
         paths = new PathBuilder(this, 10, 20, 5, 10);
     }
 
@@ -46,7 +46,7 @@ public abstract class Map2Moves extends Map1Units
     public int movesCollect(Unit unit)
     {
         if (unit.canMove())
-            return collectPossibleMoves(unit, moves.asTiles());
+            return collectPossibleMoves(unit, moves);
 
         moves.clear();
         return 0;
