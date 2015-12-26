@@ -14,6 +14,8 @@ public class StateRotate extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
+        if (!cfg.showMoveAssists) map.unitsMoveableHide();
+
         if (activeUnit == null)
             activeUnit = selectedUnit;
         if (to == null)
