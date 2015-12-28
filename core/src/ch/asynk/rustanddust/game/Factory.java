@@ -86,7 +86,7 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public AtlasRegion getFlag(Army army)
     {
-        return hudAtlas.findRegion(army.flag());
+        return hudAtlas.findRegion(army.flag);
     }
 
     public Map getMap(MapType t)

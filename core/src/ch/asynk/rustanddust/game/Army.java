@@ -1,27 +1,31 @@
 package ch.asynk.rustanddust.game;
 
 import ch.asynk.rustanddust.engine.Faction;
+import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Factory;
 
 public enum Army implements Faction
 {
-    NONE("None", null),
-    GE("German", Factory.FLAG_GE),
-    US("US", Factory.FLAG_US),
-    USSR("Soviet", null),
-    EN("English", null);
+    NONE("None", null, -1),
+    GE("German", Factory.FLAG_GE, Hex.OBJECTIVE_GE),
+    US("US", Factory.FLAG_US, Hex.OBJECTIVE_US),
+    USSR("Soviet", null, -1),
+    EN("English", null, -1);
 
-    private String s;
-    private String f;
+    public final String s;
+    public final String flag;
+    public final int overlay;
 
-    Army(String s, String f) {
+    Army(String s, String f, int o) {
         this.s = s;
-        this.f = f;
+        this.flag = f;
+        this.overlay = o;
     }
 
-    public String flag()
+    @Override
+    public int overlay()
     {
-        return f;
+        return overlay;
     }
 
     @Override
