@@ -11,7 +11,7 @@ import ch.asynk.rustanddust.engine.Move;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
 
-public  class Command extends Order
+public class Command extends Order
 {
     public enum CommandType implements Order.OrderType
     {
