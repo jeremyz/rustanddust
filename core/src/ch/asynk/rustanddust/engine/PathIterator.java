@@ -41,6 +41,9 @@ public class PathIterator implements Iterator<Vector3>
     @Override
     public Vector3 next()
     {
+        if (!hasNext())
+            throw new java.util.NoSuchElementException();
+
         if (tile == to) {
             v.z = orientation.r();
             o = orientation;
