@@ -7,6 +7,52 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Move extends Path implements Iterable<Vector3>
 {
+    public class TileIterator implements Iterator<Tile>
+    {
+        private int i;
+        private Tile tile;
+        private Move move;
+
+        public TileIterator(Move move)
+        {
+            this.i = -1;
+            this.tile = null;
+            this.move = move;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            if (tile == move.to)
+                return false;
+            return true;
+        }
+
+        @Override
+        public Tile next()
+        {
+            if (tile == move.to)
+                throw new java.util.NoSuchElementException();
+
+            if (tile != null) {
+                i += 1;
+                if (i < move.tiles.size())
+                    tile = move.tiles.get(i);
+                else
+                    tile = move.to;
+            } else
+                tile = move.from;
+
+            return tile;
+        }
+
+        @Override
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
     public enum MoveType
     {
         REGULAR,
@@ -139,6 +185,11 @@ public class Move extends Path implements Iterable<Vector3>
             steps +=1;
 
         return steps;
+    }
+
+    public Iterator<Tile> tileIterator()
+    {
+        return new TileIterator(this);
     }
 
     @Override
