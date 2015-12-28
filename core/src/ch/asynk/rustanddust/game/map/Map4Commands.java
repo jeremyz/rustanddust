@@ -78,18 +78,18 @@ public abstract class Map4Commands extends Map3Animations
     {
         for (Unit unit: activatedUnits) {
             RustAndDust.debug("    revertMove() " + unit);
-            revertLastPawnMove(unit);
+            revertLastPawnMove(unit, ((Command) commands.get(unit, Command.CommandType.MOVE)).move);
             commands.dispose(unit, Command.CommandType.MOVE);
         }
         activatedUnits.clear();
-        objectives.revert(this);
     }
 
     public void revertEnter(final Unit unit)
     {
         RustAndDust.debug("    revertEnter() "+ unit);
+
+        revertclaim(unit, unit.getHex());
         removePawn(unit);
-        objectives.revert(this);
         battle.getPlayer().revertUnitEntry(unit);
         commands.dispose(unit);
         unit.reset();
@@ -188,12 +188,12 @@ public abstract class Map4Commands extends Map3Animations
             case SET:
                 setPawnOnto(unit, move);
                 battle.getPlayer().unitEntry(unit);
-                claim((Hex) move.to, unit.getArmy());
+                claim(unit, move.to);
                 break;
             case ENTER:
                 enterPawn(unit, move);
                 battle.getPlayer().unitEntry(unit);
-                claim((Hex) move.to, unit.getArmy());
+                claim(unit, move.to);
                 break;
             default:
                 System.err.println(String.format("process wrong Move type %s", move.type));
@@ -222,7 +222,7 @@ public abstract class Map4Commands extends Map3Animations
         }
 
         if (e.success) {
-            unclaim(e.defender.getHex());
+            unclaim(e.defender, e.defender.getHex());
             removePawn(e.defender);
             addDestroyAnimation(e.defender);
         }

@@ -74,13 +74,13 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
     @Override
     public void moveToAnimationEnter(Moveable moveable, float x, float y, float r)
     {
-        claim(getHexAt(x, y), (Army) moveable.getFaction());
+        claim(moveable, getHexAt(x, y));
     }
 
     @Override
     public void moveToAnimationLeave(Moveable moveable, float x, float y, float r)
     {
-        unclaim(getHexAt(x, y));
+        unclaim(moveable, getHexAt(x, y));
     }
 
     @Override

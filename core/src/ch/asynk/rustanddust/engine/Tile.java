@@ -18,12 +18,24 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     {
     }
 
+    public enum Objective
+    {
+        NONE,
+        PERSISTENT,
+        VERSATILE,
+        FINAL
+    }
+
     protected int col;
     protected int row;
     protected float x;
     protected float y;
     private StackedImages overlays;
     protected ArrayDeque<Pawn> stack;
+
+    protected Faction curFaction;
+    protected Faction prevFaction;
+    protected Objective objective;
 
     public abstract int defense();
     public abstract int exitCost();
@@ -35,20 +47,21 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean blockLineOfSight(Tile from, Tile to);
 
-    protected Tile(int col, int row)
+    protected Tile(int col, int row, Faction defaultFaction)
     {
         this.col = col;
         this.row = row;
         this.stack = new ArrayDeque<Pawn>();
+        this.curFaction = defaultFaction;
+        this.prevFaction = defaultFaction;
+        this.objective = Objective.NONE;
     }
 
-    public Tile(float x, float y, int col, int row, TextureAtlas atlas)
+    public Tile(float x, float y, int col, int row, TextureAtlas atlas, Faction defaultFaction)
     {
-        this.stack = new ArrayDeque<Pawn>();
+        this(col, row, defaultFaction);
         this.x = x;
         this.y = y;
-        this.col = col;
-        this.row = row;
         this.overlays = new StackedImages(atlas);
         this.overlays.centerOn(x, y);
     }
@@ -75,6 +88,8 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         stack.clear();
         overlays.dispose();
     }
+
+    // STACK
 
     public boolean isEmpty()
     {
@@ -115,6 +130,86 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         }
         return false;
     }
+
+    // OBJECTIVE
+
+    public void setObjective(Faction faction, Objective objective)
+    {
+        this.curFaction = faction;
+        this.prevFaction = faction;
+        this.objective = objective;
+    }
+
+    public boolean isPersistent()
+    {
+        return ((objective == Objective.PERSISTENT) || (objective == Objective.FINAL));
+    }
+
+    public boolean isFinal()
+    {
+        return (objective == Objective.FINAL);
+    }
+
+    public Faction belongsTo()
+    {
+        return curFaction;
+    }
+
+    public boolean belongsTo(Faction faction)
+    {
+        return (faction == curFaction);
+    }
+
+    public boolean isObjective()
+    {
+        return (objective != Objective.NONE);
+    }
+
+    public boolean isOwnedObjective(Faction faction)
+    {
+        return (isObjective() && belongsTo(faction));
+    }
+
+    public boolean isObjectiveFor(Pawn pawn)
+    {
+        if (!isObjective())
+            return false;
+
+        if (belongsTo(pawn.getFaction()))
+            return false;
+
+        return isPersistent();
+    }
+
+
+    public boolean claim(Faction faction)
+    {
+        if (belongsTo(faction))
+            return false;
+
+        if (isFinal() && (curFaction != prevFaction))
+            return false;
+
+        prevFaction = curFaction;
+        curFaction = faction;
+        return true;
+    }
+
+    public boolean unclaim()
+    {
+        if (isPersistent())
+            return false;
+        revertClaim();
+        return true;
+    }
+
+    public Faction revertClaim()
+    {
+        curFaction = prevFaction;
+        return curFaction;
+    }
+
+    // OVERLAYS
 
     public boolean mustBeDrawn()
     {

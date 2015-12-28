@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Matrix4;
 
+import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
 import ch.asynk.rustanddust.engine.gfx.animations.RunnableAnimation;
@@ -66,7 +67,6 @@ public abstract class Board implements Disposable, Animation
     protected SelectedTile selectedTile;
 
     abstract protected Config getConfig();
-    abstract protected boolean isObjectiveFor(Tile tile, Pawn pawn);
 
     protected Board(int cols, int rows)
     {
@@ -392,6 +392,46 @@ public abstract class Board implements Disposable, Animation
         return entry.opposite();
     }
 
+    public int objectivesCount(Faction faction)
+    {
+        int n = 0;
+        for (Tile tile : tiles) {
+            if (tile.isOwnedObjective(faction))
+                n += 1;
+        }
+        return n;
+    }
+
+    public void claim(Moveable moveable, Tile tile)
+    {
+        int o = tile.belongsTo().overlay();
+        if (tile.claim(moveable.getFaction())) {
+            if (tile.isObjective()) {
+                tile.enableOverlay(o, false);
+                tile.enableOverlay(moveable.getFaction().overlay(), true);
+                tilesToDraw.add(tile);
+            }
+        }
+    }
+
+    public void unclaim(Moveable moveable, Tile tile)
+    {
+        if (tile.unclaim()) {
+            if (tile.isObjective()) {
+                tile.enableOverlay(moveable.getFaction().overlay(), false);
+                tile.enableOverlay(tile.belongsTo().overlay(), true);
+                tilesToDraw.add(tile);
+            }
+        }
+    }
+
+    public void revertclaim(Pawn pawn, Tile tile)
+    {
+        int o = pawn.getTile().revertClaim().overlay();
+        tile.enableOverlay(pawn.getFaction().overlay(), false);
+        enableOverlayOn(tile ,o, true);
+    }
+
     public void enableOverlayOn(Tile tile, int i, boolean enable)
     {
         if(tile.enableOverlay(i, enable))
@@ -467,9 +507,14 @@ public abstract class Board implements Disposable, Animation
         setPawnOnto(pawn, move.to, move.orientation);
     }
 
-    protected void revertLastPawnMove(final Pawn pawn)
+    protected void revertLastPawnMove(final Pawn pawn, final Move move)
     {
         removePawn(pawn);
+
+        revertclaim(pawn, move.to);
+        for (Tile tile : move.tiles)
+            revertclaim(pawn, tile);
+        claim(pawn, move.from);
 
         addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override

@@ -187,7 +187,7 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)
     {
-        Hex hex = new Hex(x, y, col, row, hexOverlaysAtlas);
+        Hex hex = new Hex(x, y, col, row, hexOverlaysAtlas, Army.NONE);
         if (offmap) hex.terrain = Hex.Terrain.OFFMAP;
         return hex;
     }

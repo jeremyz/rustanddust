@@ -32,15 +32,11 @@ public abstract class Map extends Map4Commands
 
     public void actionDone()
     {
-        objectives.forget();
     }
 
     public void turnDone()
     {
         RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commandsSize()));
-
-        if (objectives.modifiedCount() > 0)
-            throw new RuntimeException("objectives not cleared");
 
         // FIXME do something with these Commands
         commandsClear();
