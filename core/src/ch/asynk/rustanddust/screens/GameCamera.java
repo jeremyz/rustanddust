@@ -65,7 +65,6 @@ public class GameCamera extends OrthographicCamera
             hud.x = (hud.y * viewportWidth / viewportHeight);
         } else if (diff > ZEROF) {
             // taller than wide
-            // FIXME fix hud vertical position
             window.width = screenWidth;
             window.height = java.lang.Math.min((screenWidth * viewportAspect / zoom), screenHeight);
             window.x = 0f;

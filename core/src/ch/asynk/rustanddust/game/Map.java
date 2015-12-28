@@ -38,7 +38,7 @@ public abstract class Map extends Map4Commands
     {
         RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commandsSize()));
 
-        // FIXME do something with these Commands
+        // FIXME must emit the turn commands
         commandsClear();
     }
 
