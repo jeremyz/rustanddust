@@ -6,9 +6,9 @@ filter: Nearest,Nearest
 repeat: none
 aps
   rotate: false
-  xy: 130, 156
-  size: 48, 48
-  orig: 48, 48
+  xy: 180, 157
+  size: 48, 47
+  orig: 48, 47
   offset: 0, 0
   index: -1
 attack
@@ -34,7 +34,7 @@ defense
   index: -1
 disabled
   rotate: false
-  xy: 88, 78
+  xy: 130, 156
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -48,7 +48,7 @@ ge-flag
   index: -1
 ok
   rotate: false
-  xy: 188, 107
+  xy: 188, 108
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
@@ -62,14 +62,14 @@ options
   index: -1
 promote
   rotate: false
-  xy: 84, 28
+  xy: 88, 78
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 180, 156
+  xy: 84, 28
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
