@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 
 public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
@@ -15,6 +17,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
     private static final float SHOT_SPEED = 900f;
+    private static final float AIM_SPEED = 90f;
     private static final float EXPLOSION_FRAME_DURATION = 0.07f;
 
     private TextureRegion fireRegion;
@@ -34,9 +37,12 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private float explosion_df;
     private int explosion_frame;
 
+    private Moveable m;
+    private boolean aimed;
     private boolean fired;
     private boolean hit;
     private float elapsed;
+    private float aim_r;
     private float fire_time;
     private float hit_time;
     private float end_time;
@@ -50,10 +56,10 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         }
     };
 
-    public static TankFireAnimation get(float volume, float x0, float y0, float x1, float y1, float halfWidth)
+    public static TankFireAnimation get(float volume, Moveable m, float x0, float y0, float x1, float y1, float halfWidth)
     {
         TankFireAnimation a = fireAnimationPool.obtain();
-        a.set(volume, x0, y0, x1, y1, halfWidth);
+        a.set(volume, m, x0, y0, x1, y1, halfWidth);
         return a;
     }
 
@@ -62,11 +68,14 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.fireRegion = new TextureRegion(FireAnimation.tankFire.frames[0]);
     }
 
-    private void set(float volume, float x0, float y0, float x1, float y1, float halfWidth)
+    private void set(float volume, Moveable m, float x0, float y0, float x1, float y1, float halfWidth)
     {
+        this.m = m;
+        this.aimed = !m.canAim();
         this.fired = false;
         this.hit = false;
         this.volume = volume;
+        this.aim_r = (float) (Math.toDegrees(Math.atan2((y0 - y1), (x0 - x1))));
 
         // fire geometry
         y0 -= (FireAnimation.tankFire.height / 2.0f);
@@ -112,6 +121,12 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.explosion_y = (y1 - (FireAnimation.explosion.height / 2.0f));
         this.explosion_df = (FireAnimation.explosion.cols / explosion_duration);
         this.explosion_frame = (FireAnimation.random.nextInt(FireAnimation.explosion.rows) * FireAnimation.explosion.cols);
+
+        // aiming
+        this.aim_r += Orientation.SOUTH.r();
+        this.aim_r -= this.m.getRotation();
+        while (aim_r > 180) aim_r -= 360;
+        while(aim_r < -180) aim_r += 360;
     }
 
     @Override
@@ -128,6 +143,19 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     @Override
     public boolean animate(float delta)
     {
+        if (!aimed) {
+            float r = m.getTurretRotation();
+            float d = (aim_r - r);
+            float dr = delta * AIM_SPEED;
+            if (Math.abs(d) < dr) {
+                m.setTurretRotation(aim_r);
+                aimed = true;
+            } else {
+                m.setTurretRotation(r + ((d > 0) ? dr : -dr));
+            }
+            return false;
+        }
+
         elapsed += delta;
 
         if (!fired && (elapsed < fire_time))

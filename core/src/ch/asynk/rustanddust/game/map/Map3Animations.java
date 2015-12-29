@@ -115,7 +115,7 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
             if (u.isA(Unit.UnitType.INFANTRY))
                 addAnimation(InfantryFireAnimation.get(game.config.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
             else
-                addAnimation(TankFireAnimation.get(game.config.fxVolume, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
+                addAnimation(TankFireAnimation.get(game.config.fxVolume, u, from.getX(), from.getY(), to.getX(), to.getY(), halfWidth));
         }
     }
 
