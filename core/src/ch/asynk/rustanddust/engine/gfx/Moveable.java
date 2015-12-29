@@ -11,9 +11,9 @@ public interface Moveable extends Drawable
     public float getWidth();
     public float getHeight();
     public float getRotation();
-    public float getTurretRotation();
+    public float getAiming();
     public void setPosition(float x, float y);
     public void setPosition(float x, float y, float r);
-    public void setTurretRotation(float r);
+    public void aimAt(float r);
     public Faction getFaction();
 }

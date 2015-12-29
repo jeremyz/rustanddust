@@ -124,8 +124,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.explosion_frame = (FireAnimation.random.nextInt(FireAnimation.explosion.rows) * FireAnimation.explosion.cols);
 
         // aiming
-        this.aim_r += Orientation.SOUTH.r();
-        this.aim_r -= this.m.getRotation();
+        this.aim_r += (Orientation.SOUTH.r() - this.m.getRotation());
         while (aim_r > 180) aim_r -= 360;
         while(aim_r < -180) aim_r += 360;
     }
@@ -145,14 +144,14 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     public boolean animate(float delta)
     {
         if (!aimed) {
-            float r = m.getTurretRotation();
+            float r = m.getAiming();
             float d = (aim_r - r);
             float dr = delta * AIM_SPEED;
             if (Math.abs(d) < dr) {
-                m.setTurretRotation(aim_r);
+                m.aimAt(aim_r);
                 aimed = true;
             } else {
-                m.setTurretRotation(r + ((d > 0) ? dr : -dr));
+                m.aimAt(r + ((d > 0) ? dr : -dr));
             }
             return false;
         }

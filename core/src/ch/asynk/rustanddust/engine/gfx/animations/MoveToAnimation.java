@@ -89,7 +89,7 @@ public class MoveToAnimation extends TimedAnimation
                 rDelta = (toR + 360 - fromR);
         }
 
-        aimDelta = moveable.getTurretRotation();
+        aimDelta = moveable.getAiming();
         aimed = (Math.abs(aimDelta) < 1f);
     }
 
@@ -113,11 +113,11 @@ public class MoveToAnimation extends TimedAnimation
         }
         if (percent == 1f) {
             moveable.setPosition(toX, toY, (int) toR);
-            if (!aimed) moveable.setTurretRotation(0f);
+            if (!aimed) moveable.aimAt(0f);
         }
         else {
             moveable.setPosition(fromX + ((toX - fromX) * percent), fromY + ((toY - fromY) * percent), (fromR + (rDelta * percent)));
-            if (!aimed) moveable.setTurretRotation((aimDelta * (1f - percent)));
+            if (!aimed) moveable.aimAt((aimDelta * (1f - percent)));
         }
     }
 

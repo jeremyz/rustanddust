@@ -62,7 +62,7 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
-    public float getTurretRotation()
+    public float getAiming()
     {
         return turretR;
     }
@@ -87,7 +87,7 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
-    public void setTurretRotation(float r)
+    public void aimAt(float r)
     {
         if (canAim()) {
             turretR = r;
