@@ -79,7 +79,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.aim_r = (float) (Math.toDegrees(Math.atan2((y0 - y1), (x0 - x1))));
 
         // fire geometry
-        y0 -= (FireAnimation.tankFire.height / 2.0f);
+        y0 += (((Math.abs(aim_r) > 90) ? 1 : -1) * (FireAnimation.tankFire.height / 2.0f));
         x1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
         y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
 
