@@ -14,7 +14,7 @@ import ch.asynk.rustanddust.engine.gfx.Animation;
 public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 {
     private static final float HALF_WIDTH_P = 0.9f;
-    private static final float SHOT_SCATTERING = 60f;
+    private static final float SHOT_SCATTERING = 20f;
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
     private static final float SHOT_SPEED = 900f;
