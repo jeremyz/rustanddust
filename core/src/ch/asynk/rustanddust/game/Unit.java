@@ -76,6 +76,7 @@ public class Unit extends HeadedPawn
     {
         mpLeft = mp;
         enableOverlay(HQ, isHq());
+        enableOverlay(ACE, isAce());
         this.hasMoved = false;
         this.hasFired = false;
         updateDescr();
