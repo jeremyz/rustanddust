@@ -40,6 +40,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
     private Moveable m;
     private boolean aimed;
+    private boolean head_back;
     private boolean fired;
     private boolean hit;
     private float elapsed;
@@ -72,7 +73,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private void set(float volume, Moveable m, float x0, float y0, float x1, float y1, float halfWidth)
     {
         this.m = m;
-        this.aimed = !m.canAim();
+        this.aimed = false;
         this.fired = false;
         this.hit = false;
         this.volume = volume;
@@ -124,6 +125,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.explosion_frame = (FireAnimation.random.nextInt(FireAnimation.explosion.rows) * FireAnimation.explosion.cols);
 
         // aiming
+        this.head_back = !this.m.canAim();
         this.aim_r += (Orientation.SOUTH.r() - this.m.getRotation());
         while (aim_r > 180) aim_r -= 360;
         while(aim_r < -180) aim_r += 360;
@@ -164,6 +166,17 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         if (!fired) {
             fired = true;
             FireAnimation.tankFireSndPlay(volume);
+        }
+
+        if (head_back) {
+            float r = m.getAiming();
+            float dr = delta * AIM_SPEED;
+            if (Math.abs(r) < dr) {
+                m.aimAt(0f);
+                head_back = false;
+            } else {
+                m.aimAt(r + ((r > 0) ? -dr : dr));
+            }
         }
 
         if (!hit && (elapsed < hit_time)) {
