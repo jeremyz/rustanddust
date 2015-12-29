@@ -174,7 +174,7 @@ public class Factory implements Board.TileBuilder, Disposable
                 head = ((army == Army.US) ? "us-head" : "ge-head");
                 break;
             case TANKS:
-                head = chit + "-head";
+                head = chit + "-body";
                 break;
         }
         return getUnitRegion(head);
@@ -189,6 +189,20 @@ public class Factory implements Board.TileBuilder, Disposable
             case TANKS:
                 break;
         }
+        if (chit == "us-m4-sherman")
+            turret = chit + "-turret";
+        if (chit == "us-m10-wolverine")
+            turret = chit + "-turret";
+        if (chit == "us-m26-pershing")
+            turret = chit + "-turret";
+        if (chit == "ge-panzer-iv")
+            turret = chit + "-turret";
+        if (chit == "ge-wespe")
+            turret = chit + "-turret";
+        if (chit == "ge-tiger")
+            turret = chit + "-turret";
+        if (chit == "ge-kingtiger")
+            turret = chit + "-turret";
         return getUnitRegion(turret);
     }
 
