@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Tile;
-import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Board;
-import ch.asynk.rustanddust.engine.Faction;
 import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Army;
