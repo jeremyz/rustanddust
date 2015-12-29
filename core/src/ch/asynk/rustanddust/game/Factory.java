@@ -161,17 +161,12 @@ public class Factory implements Board.TileBuilder, Disposable
         return u;
     }
 
-    private Unit buildUnit(Army army, UnitId id, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String body)
+    private Unit buildUnit(Army army, UnitId id, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String chit)
     {
-        return new Unit(army, id, ut, hq, ace, a, d, cd, m, getUnitRegion(body), getHead(army, body), unitOverlaysAtlas);
+        return new Unit(army, id, ut, hq, ace, a, d, cd, m, getUnitRegion(chit), getBody(army, chit), getTurret(army, chit), unitOverlaysAtlas);
     }
 
-    private AtlasRegion getUnitRegion(String s)
-    {
-        return unitsAtlas.findRegion(s);
-    }
-
-    private AtlasRegion getHead(Army army, String body)
+    private AtlasRegion getBody(Army army, String chit)
     {
         String head = null;
         switch(game.config.graphics) {
@@ -179,10 +174,27 @@ public class Factory implements Board.TileBuilder, Disposable
                 head = ((army == Army.US) ? "us-head" : "ge-head");
                 break;
             case TANKS:
-                head = body + "-head";
+                head = chit + "-head";
                 break;
         }
         return getUnitRegion(head);
+    }
+
+    private AtlasRegion getTurret(Army army, String chit)
+    {
+        String turret = null;
+        switch(game.config.graphics) {
+            case CHITS:
+                break;
+            case TANKS:
+                break;
+        }
+        return getUnitRegion(turret);
+    }
+
+    private AtlasRegion getUnitRegion(String s)
+    {
+        return ((s == null) ? null : unitsAtlas.findRegion(s));
     }
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)

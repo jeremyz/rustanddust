@@ -64,9 +64,9 @@ public class Unit extends HeadedPawn
     private boolean hasMoved;
     private boolean hasFired;
 
-    protected Unit(Army army, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
+    protected Unit(Army army, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
-        super(army, body, head, overlays);
+        super(army, chit, body, turret, overlays);
         hq = false;
         ace = false;
 
@@ -90,9 +90,10 @@ public class Unit extends HeadedPawn
             this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
-    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
+    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints,
+            AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
-        this(army, body, head, overlays);
+        this(army, chit, body, turret, overlays);
         this.hq = hq;
         this.ace = ace;
         this.rng = range;

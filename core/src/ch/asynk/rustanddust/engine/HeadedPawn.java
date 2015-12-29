@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class HeadedPawn extends Pawn
 {
-    private Sprite head;
+    private Sprite turret;
+    private Sprite body;
+    private float turretR;
     protected Orientation orientation;
 
     protected HeadedPawn()
@@ -17,10 +19,12 @@ public abstract class HeadedPawn extends Pawn
         this.orientation = Orientation.KEEP;
     }
 
-    public HeadedPawn(Faction faction, AtlasRegion body, AtlasRegion head, TextureAtlas overlays)
+    public HeadedPawn(Faction faction, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
-        super(faction, body, overlays);
-        this.head = new Sprite(head);
+        super(faction, chit, overlays);
+        this.body = new Sprite(body);
+        this.turret = ((turret == null) ? null : new Sprite(turret));
+        this.turretR = 0f;
         this.orientation = Orientation.KEEP;
         this.descr += " " + orientation;
     }
@@ -32,10 +36,17 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
+    public boolean canAim()
+    {
+        return (turret != null);
+    }
+
+    @Override
     public void setAlpha(float alpha)
     {
         super.setAlpha(alpha);
-        head.setAlpha(alpha);
+        body.setAlpha(alpha);
+        if (canAim()) turret.setAlpha(alpha);
     }
 
     @Override
@@ -51,20 +62,37 @@ public abstract class HeadedPawn extends Pawn
     }
 
     @Override
+    public float getTurretRotation()
+    {
+        return turretR;
+    }
+
+    @Override
     public void setPosition(float x, float y)
     {
         super.setPosition(x, y);
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
-        head.setPosition((cx - (head.getWidth() / 2f)), (cy - (head.getHeight() / 2f)));
+        body.setPosition((cx - (body.getWidth() / 2f)), (cy - (body.getHeight() / 2f)));
+        if (canAim()) turret.setPosition((cx - (turret.getWidth() / 2f)), (cy - (turret.getHeight() / 2f)));
     }
 
     @Override
     public void setRotation(float z)
     {
         getPosition().z = z;
-        head.setRotation(z);
+        body.setRotation(z);
+        if (canAim()) turret.setRotation(z + turretR);
         this.orientation = Orientation.fromRotation(z);
+    }
+
+    @Override
+    public void setTurretRotation(float r)
+    {
+        if (canAim()) {
+            turretR = r;
+            turret.setRotation(body.getRotation() + turretR);
+        }
     }
 
     @Override
@@ -78,7 +106,8 @@ public abstract class HeadedPawn extends Pawn
     public void draw(Batch batch)
     {
         sprite.draw(batch);
-        head.draw(batch);
+        body.draw(batch);
+        if (canAim()) turret.draw(batch);
         overlays.draw(batch);
     }
 
@@ -88,9 +117,14 @@ public abstract class HeadedPawn extends Pawn
         float w = sprite.getWidth();
         float h = sprite.getHeight();
         debugShapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
-        w = head.getWidth();
-        h = head.getHeight();
-        debugShapes.rect(head.getX(), head.getY(), (w / 2f), (h / 2f), w, h, head.getScaleX(), head.getScaleY(), head.getRotation());
+        w = body.getWidth();
+        h = body.getHeight();
+        debugShapes.rect(body.getX(), body.getY(), (w / 2f), (h / 2f), w, h, body.getScaleX(), body.getScaleY(), body.getRotation());
+        if (canAim()) {
+            w = turret.getWidth();
+            h = turret.getHeight();
+            debugShapes.rect(turret.getX(), turret.getY(), (w / 2f), (h / 2f), w, h, turret.getScaleX(), turret.getScaleY(), turret.getRotation());
+        }
         overlays.drawDebug(debugShapes);
     }
 }
