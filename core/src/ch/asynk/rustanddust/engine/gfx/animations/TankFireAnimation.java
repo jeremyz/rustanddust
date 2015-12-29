@@ -13,6 +13,7 @@ import ch.asynk.rustanddust.engine.gfx.Animation;
 
 public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 {
+    private static final float HALF_WIDTH_P = 0.9f;
     private static final float SHOT_SCATTERING = 60f;
     private static final float TIME_SCATTERING = 0.6f;
     private static final float START_DELAY = 0.8f;
@@ -83,8 +84,8 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         y1 += ((SHOT_SCATTERING * FireAnimation.random.nextFloat()) - (SHOT_SCATTERING / 2f));
 
         double r = Math.atan2((y0 - y1), (x0 - x1));
-        float xadj = (float) (Math.cos(r) * halfWidth);
-        float yadj = (float) (Math.sin(r) * halfWidth);
+        float xadj = (float) (Math.cos(r) * halfWidth * HALF_WIDTH_P);
+        float yadj = (float) (Math.sin(r) * halfWidth * HALF_WIDTH_P);
         x0 -= xadj;
         y0 -= yadj;
 
