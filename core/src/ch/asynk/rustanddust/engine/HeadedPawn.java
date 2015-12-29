@@ -89,10 +89,13 @@ public abstract class HeadedPawn extends Pawn
     @Override
     public void aimAt(float r)
     {
-        if (canAim()) {
-            turretR = r;
-            turret.setRotation(body.getRotation() + turretR);
+        if (canAim())
+            turret.setRotation(body.getRotation() + r);
+        else {
+            float d = (r - turretR);
+            body.setRotation(body.getRotation() + d);
         }
+        turretR = r;
     }
 
     @Override
