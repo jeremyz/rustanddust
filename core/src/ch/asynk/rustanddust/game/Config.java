@@ -68,7 +68,7 @@ public class Config
         this.showTargets = true;
         this.showMoveAssists = true;
         this.showEnemyPossibilities = false;
-        this.graphics = Graphics.TANKS;
+        this.graphics = Graphics.CHITS;
         this.battle = null;
         this.fxVolume = 1f;
     }
