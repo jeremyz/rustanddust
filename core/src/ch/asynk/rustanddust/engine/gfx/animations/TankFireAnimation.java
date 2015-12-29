@@ -16,8 +16,8 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private static final float HALF_WIDTH_P = 0.9f;
     private static final float SHOT_SCATTERING = 20f;
     private static final float TIME_SCATTERING = 0.6f;
-    private static final float START_DELAY = 0.8f;
-    private static final float SHOT_SPEED = 900f;
+    private static final float START_DELAY = 0.1f;
+    private static final float SHOT_SPEED = 800f;
     private static final float AIM_SPEED = 90f;
     private static final float EXPLOSION_FRAME_DURATION = 0.07f;
 
@@ -96,7 +96,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
 
         // timing
         float delay = START_DELAY + (FireAnimation.random.nextFloat() * TIME_SCATTERING);
-        float fire_duration = ((FireAnimation.random.nextFloat() * TIME_SCATTERING) + (w / SHOT_SPEED));
+        float fire_duration = (w / SHOT_SPEED);
         float explosion_duration = (FireAnimation.explosion.cols * EXPLOSION_FRAME_DURATION);
 
         this.elapsed = 0f;
