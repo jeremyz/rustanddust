@@ -181,7 +181,6 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         return isPersistent();
     }
 
-
     public boolean claim(Faction faction)
     {
         if (belongsTo(faction))
