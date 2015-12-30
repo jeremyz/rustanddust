@@ -1,6 +1,8 @@
 package ch.asynk.rustanddust.game.hud;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -10,6 +12,10 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class OptionsPanel extends Patch
 {
+    private String [] checkStrings = {
+        "Automatic Path",
+    };
+
     private String [] fxStrings = { "OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON" };
 
     public static int PADDING = 30;
@@ -17,18 +23,24 @@ public class OptionsPanel extends Patch
     public static int TITLE_PADDING = 20;
     public static int VSPACING = 15;
     public static int HSPACING = 30;
+    public static String CHECK = "#";
 
+    private float checkDy;
+    private final BitmapFont font;
     private RustAndDust game;
     private Label title;
     private int fxVolumeIdx;
     private Label fxVolume;
     private Label fxVolumeValue;
     private Label quit;
+    private Label [] checkLabels;
+    private boolean [] checkValues;
 
     public OptionsPanel(RustAndDust game)
     {
         super(game.ninePatch);
         this.game = game;
+        this.font = game.font;
         this.title = new Label(game.font);
         this.title.write("- Options");
         this.fxVolume = new Label(game.font);
@@ -37,6 +49,16 @@ public class OptionsPanel extends Patch
         this.quit = new Label(game.font);
         this.quit.write("Quit battle");
         this.visible = false;
+        this.checkValues = new boolean[checkStrings.length];
+        this.checkLabels = new Label[checkStrings.length];
+        for (int i = 0; i < checkLabels.length; i++) {
+            Label l = new Label(game.font, 5f);
+            l.write(checkStrings[i]);
+            this.checkLabels[i] = l;
+        }
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, CHECK);
+        checkDy = layout.height + 5;
     }
 
     public void updatePosition()
@@ -56,9 +78,20 @@ public class OptionsPanel extends Patch
     {
 
         fxVolumeValue.write(fxStrings[0]);
-        float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight() + (2 * PADDING));
-        h += (quit.getHeight() + (2 * VSPACING));
-        float w = (fxVolume.getWidth() + fxVolumeValue.getWidth() + HSPACING + OPT_PADDING + (2 * PADDING));
+        float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight() + VSPACING);
+        h += ((checkLabels.length - 1) * VSPACING);
+        for (int i = 0; i < checkLabels.length; i++)
+            h += checkLabels[i].getHeight();
+        h += (quit.getHeight() + VSPACING);
+        h += (2 * PADDING);
+
+        float w = (fxVolume.getWidth() + fxVolumeValue.getWidth());
+        for (int i = 0; i < checkLabels.length; i++) {
+            float t = checkLabels[i].getWidth();
+            if (t > w)
+                w = t;
+        }
+        w += HSPACING + OPT_PADDING + (2 * PADDING);
 
         float x = position.getX(w);
         float y = position.getY(h);
@@ -71,7 +104,11 @@ public class OptionsPanel extends Patch
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
         y += (VSPACING + fxVolume.getHeight());
 
-        y += VSPACING;
+        for (int i = 0; i < checkLabels.length; i++) {
+            checkLabels[i].setPosition(x, y);
+            y += (VSPACING + checkLabels[i].getHeight());
+        }
+
         quit.setPosition(x,y);
         y += (VSPACING + quit.getHeight());
 
@@ -86,6 +123,7 @@ public class OptionsPanel extends Patch
 
     private void getValues()
     {
+        checkValues[0] = game.config.autoPath;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
@@ -107,9 +145,19 @@ public class OptionsPanel extends Patch
             cycleFxVolume();
         } else if (quit.hit(x, y)) {
             game.ctrl.hud.askQuitBattle();
+        } else {
+            for (int i = 0; i < checkLabels.length; i++) {
+                if (checkLabels[i].hit(x, y))
+                    checkValues[i] =! checkValues[i];
+            }
         }
 
         return false;
+    }
+
+    public void apply()
+    {
+        game.config.autoPath = checkValues[0];
     }
 
     @Override
@@ -119,6 +167,8 @@ public class OptionsPanel extends Patch
         fxVolume.dispose();
         fxVolumeValue.dispose();
         quit.dispose();
+        for (int i = 0; i < checkLabels.length; i++)
+            checkLabels[i].dispose();
     }
 
     @Override
@@ -130,6 +180,12 @@ public class OptionsPanel extends Patch
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
         quit.draw(batch);
+        for (int i = 0; i < checkLabels.length; i++) {
+            Label l = checkLabels[i];
+            l.draw(batch);
+            if (checkValues[i])
+                font.draw(batch, CHECK, (l.getX() - HSPACING) , l.getY() + checkDy);
+        }
     }
 
     @Override
