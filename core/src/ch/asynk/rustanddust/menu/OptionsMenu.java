@@ -52,14 +52,14 @@ public class OptionsMenu extends Patch
         this.font = game.font;
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
-        this.title = new Label(font);
+        this.title = new Label(font, 5f);
         this.title.write("- Options");
-        this.fxVolume = new Label(font);
+        this.fxVolume = new Label(font, 5f);
         this.fxVolume.write("Fx Volume");
-        this.fxVolumeValue = new Label(font);
-        this.graphics = new Label(font);
+        this.fxVolumeValue = new Label(font, 5f);
+        this.graphics = new Label(font, 5f);
         this.graphics.write("Graphics");
-        this.graphicsValue = new Label(font);
+        this.graphicsValue = new Label(font, 5f);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
