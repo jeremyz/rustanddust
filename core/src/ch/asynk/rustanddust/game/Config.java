@@ -55,6 +55,7 @@ public class Config
     public boolean showTargets;
     public boolean showMoveAssists;
     public boolean showEnemyPossibilities;
+    public boolean autoPath;
     public boolean debug;
     public Battle battle;
     public float fxVolume;
@@ -64,6 +65,7 @@ public class Config
     {
         this.gameMode = GameMode.SOLO;
         this.debug = false;
+        this.autoPath = true;
         this.showMoves = true;
         this.showTargets = true;
         this.showMoveAssists = true;

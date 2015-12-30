@@ -149,7 +149,7 @@ public class StateMove extends StateCommon
     {
         to = hex;
         int s = map.pathsBuild(to);
-        if (s > 1)
+        if (cfg.autoPath && (s > 1))
             s = map.pathsChooseOne();
         map.hexMoveShow(to);
         map.movesHide();
