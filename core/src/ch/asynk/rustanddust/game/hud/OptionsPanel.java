@@ -41,12 +41,12 @@ public class OptionsPanel extends Patch
         super(game.ninePatch);
         this.game = game;
         this.font = game.font;
-        this.title = new Label(game.font);
+        this.title = new Label(game.font, 5f);
         this.title.write("- Options");
-        this.fxVolume = new Label(game.font);
+        this.fxVolume = new Label(game.font, 5f);
         this.fxVolume.write("Fx Volume");
-        this.fxVolumeValue = new Label(game.font);
-        this.quit = new Label(game.font);
+        this.fxVolumeValue = new Label(game.font, 5f);
+        this.quit = new Label(game.font, 5f);
         this.quit.write("Quit battle");
         this.visible = false;
         this.checkValues = new boolean[checkStrings.length];
