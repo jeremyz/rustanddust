@@ -79,7 +79,7 @@ public abstract class Map2Moves extends Map1Units
     {
         boolean enable = !hex.isOverlayEnabled(Hex.MOVE);
         enableOverlayOn(hex, Hex.MOVE, enable);
-        return paths.toggleCtrlTile(hex);
+        return paths.toggleCtrlTile(hex, true);
     }
 
     public void movesShow()             { moves.enable(Hex.AREA, true); }

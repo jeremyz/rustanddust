@@ -184,16 +184,16 @@ public class PathBuilder implements Disposable
         }
     }
 
-    public int toggleCtrlTile(Tile tile)
+    public int toggleCtrlTile(Tile tile, boolean quick)
     {
         if (ctrlTiles.contains(tile))
             ctrlTiles.remove(tile);
         else
             ctrlTiles.add(tile);
-        return filterPaths();
+        return filterPaths(quick);
     }
 
-    private int filterPaths()
+    private int filterPaths(boolean quick)
     {
         int s = ctrlTiles.size();
 
@@ -206,7 +206,7 @@ public class PathBuilder implements Disposable
                     ok += 1;
             }
             if (ok == s) {
-                if (path.tiles.size() == (s + 0)) { // from and to are not part of the path
+                if (quick && path.tiles.size() == (s + 0)) { // from and to are not part of the path
                     filteredPaths.clear();
                     filteredPaths.add(path);
                     tiles.clear();
