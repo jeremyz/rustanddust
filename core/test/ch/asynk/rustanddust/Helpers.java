@@ -146,9 +146,9 @@ public class Helpers
             return pathBuilder.build(getTile(x1, y1));
         }
 
-        public int togglePoint(int x, int y)
+        public int togglePoint(int x, int y, boolean quick)
         {
-            return pathBuilder.toggleCtrlTile(getTile(x, y));
+            return pathBuilder.toggleCtrlTile(getTile(x, y), quick);
         }
     }
 }

@@ -97,24 +97,53 @@ public class BoardUtils
         n = b.buildPathBuilder(2, 2, 4, 3);
         assertTrue(n == 8);
 
-        n = b.togglePoint(3, 3);
+        n = b.togglePoint(3, 3, false);
+        assertTrue(n == 5);
+
+        n = b.togglePoint(3, 2, false);
+        assertTrue(n == 2);
+
+        n = b.togglePoint(3, 3, false);
+        assertTrue(n == 5);
+
+        n = b.togglePoint(3, 2, false);
+        assertTrue(n == 8);
+
+        n = b.togglePoint(3, 3, true);
         assertTrue(n == 1);
 
         n = b.buildPathBuilder(2, 2, 5, 3);
         assertTrue(n == 3);
 
-        n = b.togglePoint(3, 3);
+        n = b.togglePoint(3, 3, true);
         assertTrue(n == 1);
 
-        n = b.togglePoint(3, 3);
+        n = b.togglePoint(3, 3, true);
         assertTrue(n == 3);
 
-        n = b.togglePoint(3, 2);
-        assertTrue(n == 2);
-
-        n = b.togglePoint(4, 2);
+        n = b.togglePoint(3, 3, false);
         assertTrue(n == 1);
 
+        n = b.togglePoint(3, 3, false);
+        assertTrue(n == 3);
+
+        n = b.togglePoint(3, 2, true);
+        assertTrue(n == 2);
+
+        n = b.togglePoint(4, 2, true);
+        assertTrue(n == 1);
+
+        n = b.togglePoint(4, 2, true);
+        assertTrue(n == 2);
+
+        n = b.togglePoint(3, 2, true);
+        assertTrue(n == 3);
+
+        n = b.togglePoint(3, 2, false);
+        assertTrue(n == 2);
+
+        n = b.togglePoint(4, 2, false);
+        assertTrue(n == 1);
     }
 
     @Test
