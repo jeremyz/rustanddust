@@ -56,14 +56,14 @@ public class Helpers
 
         public FakeTile(int col, int row)
         {
-            super(col, row);
+            super(col, row, null);
             offMap = false;
             blockLineOfSight = false;
         }
 
         public FakeTile(int col, int row, boolean offMap)
         {
-            super(col, row);
+            super(col, row, null);
             this.offMap = offMap;
         }
 
@@ -130,8 +130,6 @@ public class Helpers
         @Override protected Board.Config getConfig() { return null; }
 
         @Override public void animationsOver() {}
-
-        @Override public boolean isObjectiveFor(Tile tile, Pawn other)  { return false; }
 
         @Override
         public Tile getTile(int col, int row)
