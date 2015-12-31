@@ -13,7 +13,6 @@ import ch.asynk.rustanddust.ui.Position;
 public class OptionsPanel extends Patch
 {
     private String [] checkStrings = {
-        "Automatic Path",
     };
 
     private String [] fxStrings = { "OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON" };
@@ -123,7 +122,6 @@ public class OptionsPanel extends Patch
 
     private void getValues()
     {
-        checkValues[0] = game.config.autoPath;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
@@ -157,7 +155,6 @@ public class OptionsPanel extends Patch
 
     public void apply()
     {
-        game.config.autoPath = checkValues[0];
     }
 
     @Override

@@ -24,7 +24,6 @@ public class OptionsMenu extends Patch
 
     private String [] checkStrings = {
         "Debug",
-        "Automatic Path",
         "Show Enemy Possibilities",
         "Show Moves Assists",
         "Show Targets",
@@ -77,11 +76,10 @@ public class OptionsMenu extends Patch
 
     private void getValues()
     {
-        checkValues[5] = game.config.showMoves;
-        checkValues[4] = game.config.showTargets;
-        checkValues[3] = game.config.showMoveAssists;
-        checkValues[2] = game.config.showEnemyPossibilities;
-        checkValues[1] = game.config.autoPath;
+        checkValues[4] = game.config.showMoves;
+        checkValues[3] = game.config.showTargets;
+        checkValues[2] = game.config.showMoveAssists;
+        checkValues[1] = game.config.showEnemyPossibilities;
         checkValues[0] = game.config.debug;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
         fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
@@ -91,11 +89,10 @@ public class OptionsMenu extends Patch
 
     private boolean apply()
     {
-        game.config.showMoves = checkValues[5];
-        game.config.showTargets = checkValues[4];
-        game.config.showMoveAssists = checkValues[3];
-        game.config.showEnemyPossibilities = checkValues[2];
-        game.config.autoPath = checkValues[1];
+        game.config.showMoves = checkValues[4];
+        game.config.showTargets = checkValues[3];
+        game.config.showMoveAssists = checkValues[2];
+        game.config.showEnemyPossibilities = checkValues[1];
         game.config.debug = checkValues[0];
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
         game.config.graphics = game.config.graphics.get(graphicsIdx);
