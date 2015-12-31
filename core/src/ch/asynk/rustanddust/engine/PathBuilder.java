@@ -117,12 +117,11 @@ public class PathBuilder implements Disposable
     public int choosePath()
     {
         if (paths.size() > 1) {
-            int f = Integer.MAX_VALUE;
-            Path good = null;
+            Path good = paths.get(0);
             for (Path path : paths) {
-                if (path.fitness < f) {
+                if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost))) {
                     good = path;
-                    f = path.fitness;
+                    good = path;
                 }
             }
 
@@ -148,8 +147,7 @@ public class PathBuilder implements Disposable
             Orientation o = board.getSide(i);
             int n = next.costFrom(pawn, o);
             boolean r = next.road(o);
-            int f = (fitness + 1 + (r ? 0 : 1));
-            if (next.isObjectiveFor(pawn)) f -= 4;
+            int f = (fitness + (next.isObjectiveFor(pawn) ? 1 : 0));
 
             int m = (mvtLeft - n);
             r &= roadMarch;
