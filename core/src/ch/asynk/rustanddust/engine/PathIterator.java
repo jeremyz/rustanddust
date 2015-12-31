@@ -33,7 +33,7 @@ public class PathIterator implements Iterator<Vector3>
     @Override
     public boolean hasNext()
     {
-        if ((tile == to) && (o == orientation))
+        if ((i > path.size()) && (o == orientation))
             return false;
         return true;
     }
@@ -44,7 +44,7 @@ public class PathIterator implements Iterator<Vector3>
         if (!hasNext())
             throw new java.util.NoSuchElementException();
 
-        if (tile == to) {
+        if (i > path.size()) {
             v.z = orientation.r();
             o = orientation;
             return v;
