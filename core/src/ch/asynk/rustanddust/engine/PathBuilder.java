@@ -107,15 +107,7 @@ public class PathBuilder implements Disposable
         this.to = to;
         // from and to are not part of the path
         this.distance = board.distance(from, to);
-        if (distance < 2) {
-            Orientation o = Orientation.fromMove(to.col, to.row, from.col, from.row);
-            Path path = Path.get(0);
-            path.roadMarch = to.road(o);
-            path.cost = to.costFrom(pawn, o);
-            paths.add(path);
-        } else {
-            findAllPaths(from, pawn.getMovementPoints(), 0, true);
-        }
+        findAllPaths(from, pawn.getMovementPoints(), 0, true);
 
         // printToErr("paths", paths);
         stack.clear();
