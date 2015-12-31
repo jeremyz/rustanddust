@@ -23,7 +23,7 @@ public class Move extends Path implements Iterable<Vector3>
         @Override
         public boolean hasNext()
         {
-            if (tile == move.to)
+            if (i == move.tiles.size())
                 return false;
             return true;
         }
@@ -31,7 +31,7 @@ public class Move extends Path implements Iterable<Vector3>
         @Override
         public Tile next()
         {
-            if (tile == move.to)
+            if (!hasNext())
                 throw new java.util.NoSuchElementException();
 
             if (tile != null) {
