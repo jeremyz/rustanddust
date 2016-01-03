@@ -6,217 +6,217 @@ filter: Nearest,Nearest
 repeat: none
 ge-at-gun
   rotate: false
-  xy: 183, 214
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-ge-at-gun-body
-  rotate: false
-  xy: 524, 597
-  size: 25, 195
-  orig: 25, 195
-  offset: 0, 0
-  index: -1
-ge-infantry-body
-  rotate: false
-  xy: 524, 597
-  size: 25, 195
-  orig: 25, 195
-  offset: 0, 0
-  index: -1
-ge-infantry
-  rotate: false
-  xy: 378, 397
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-ge-kingtiger
-  rotate: false
   xy: 2, 794
   size: 193, 223
   orig: 193, 223
   offset: 0, 0
   index: -1
-ge-kingtiger-body
+ge-at-gun-body
   rotate: false
-  xy: 378, 527
-  size: 71, 265
-  orig: 71, 265
+  xy: 2, 3
+  size: 70, 114
+  orig: 70, 114
   offset: 0, 0
   index: -1
-ge-kingtiger-turret
-  rotate: false
-  xy: 451, 527
-  size: 71, 265
-  orig: 71, 265
-  offset: 0, 0
-  index: -1
-ge-panzer-iv
+ge-infantry
   rotate: false
   xy: 2, 569
   size: 193, 223
   orig: 193, 223
   offset: 0, 0
   index: -1
-ge-panzer-iv-body
+ge-infantry-body
   rotate: false
-  xy: 106, 12
-  size: 54, 105
-  orig: 54, 105
+  xy: 633, 365
+  size: 50, 160
+  orig: 50, 160
   offset: 0, 0
   index: -1
-ge-panzer-iv-turret
+us-infantry-body
   rotate: false
-  xy: 183, 107
-  size: 54, 105
-  orig: 54, 105
+  xy: 633, 365
+  size: 50, 160
+  orig: 50, 160
   offset: 0, 0
   index: -1
-ge-tiger
+ge-kingtiger
   rotate: false
   xy: 197, 794
   size: 193, 223
   orig: 193, 223
   offset: 0, 0
   index: -1
-ge-tiger-body
+ge-kingtiger-body
   rotate: false
-  xy: 573, 787
-  size: 68, 230
-  orig: 68, 230
+  xy: 573, 527
+  size: 71, 265
+  orig: 71, 265
   offset: 0, 0
   index: -1
-ge-tiger-turret
+ge-kingtiger-turret
   rotate: false
-  xy: 643, 787
-  size: 68, 230
-  orig: 68, 230
+  xy: 646, 527
+  size: 71, 265
+  orig: 71, 265
   offset: 0, 0
   index: -1
-ge-wespe
+ge-panzer-iv
   rotate: false
   xy: 2, 344
   size: 193, 223
   orig: 193, 223
   offset: 0, 0
   index: -1
+ge-panzer-iv-body
+  rotate: false
+  xy: 198, 12
+  size: 54, 105
+  orig: 54, 105
+  offset: 0, 0
+  index: -1
+ge-panzer-iv-turret
+  rotate: false
+  xy: 254, 12
+  size: 54, 105
+  orig: 54, 105
+  offset: 0, 0
+  index: -1
+ge-tiger
+  rotate: false
+  xy: 197, 569
+  size: 193, 223
+  orig: 193, 223
+  offset: 0, 0
+  index: -1
+ge-tiger-body
+  rotate: false
+  xy: 768, 787
+  size: 68, 230
+  orig: 68, 230
+  offset: 0, 0
+  index: -1
+ge-tiger-turret
+  rotate: false
+  xy: 838, 787
+  size: 68, 230
+  orig: 68, 230
+  offset: 0, 0
+  index: -1
+ge-wespe
+  rotate: false
+  xy: 392, 794
+  size: 193, 223
+  orig: 193, 223
+  offset: 0, 0
+  index: -1
 ge-wespe-body
   rotate: false
-  xy: 973, 889
+  xy: 719, 664
   size: 43, 128
   orig: 43, 128
   offset: 0, 0
   index: -1
 ge-wespe-turret
   rotate: false
-  xy: 239, 84
+  xy: 977, 889
   size: 43, 128
   orig: 43, 128
   offset: 0, 0
   index: -1
 us-at-gun
   rotate: false
-  xy: 713, 889
-  size: 128, 128
-  orig: 128, 128
+  xy: 2, 119
+  size: 193, 223
+  orig: 193, 223
   offset: 0, 0
   index: -1
 us-at-gun-body
   rotate: false
-  xy: 689, 590
-  size: 25, 195
-  orig: 25, 195
-  offset: 0, 0
-  index: -1
-us-infantry-body
-  rotate: false
-  xy: 689, 590
-  size: 25, 195
-  orig: 25, 195
+  xy: 74, 3
+  size: 70, 114
+  orig: 70, 114
   offset: 0, 0
   index: -1
 us-infantry
   rotate: false
-  xy: 843, 889
-  size: 128, 128
-  orig: 128, 128
+  xy: 197, 344
+  size: 193, 223
+  orig: 193, 223
   offset: 0, 0
   index: -1
 us-m10-wolverine
   rotate: false
-  xy: 197, 569
+  xy: 392, 569
   size: 179, 223
   orig: 179, 223
   offset: 0, 0
   index: -1
 us-m10-wolverine-body
   rotate: false
-  xy: 313, 179
+  xy: 573, 362
   size: 58, 163
   orig: 58, 163
   offset: 0, 0
   index: -1
 us-m10-wolverine-turret
   rotate: false
-  xy: 373, 179
+  xy: 447, 179
   size: 58, 163
   orig: 58, 163
   offset: 0, 0
   index: -1
 us-m26-pershing
   rotate: false
-  xy: 392, 794
+  xy: 587, 794
   size: 179, 223
   orig: 179, 223
   offset: 0, 0
   index: -1
 us-m26-pershing-body
   rotate: false
-  xy: 551, 603
+  xy: 378, 160
   size: 67, 182
   orig: 67, 182
   offset: 0, 0
   index: -1
 us-m26-pershing-turret
   rotate: false
-  xy: 620, 603
+  xy: 908, 835
   size: 67, 182
   orig: 67, 182
   offset: 0, 0
   index: -1
 us-m4-sherman
   rotate: false
-  xy: 2, 119
+  xy: 197, 119
   size: 179, 223
   orig: 179, 223
   offset: 0, 0
   index: -1
 us-m4-sherman-body
   rotate: false
-  xy: 2, 2
+  xy: 507, 227
   size: 50, 115
   orig: 50, 115
   offset: 0, 0
   index: -1
 us-m4-sherman-turret
   rotate: false
-  xy: 54, 2
+  xy: 146, 2
   size: 50, 115
   orig: 50, 115
   offset: 0, 0
   index: -1
 us-m7-priest
   rotate: false
-  xy: 197, 344
+  xy: 392, 344
   size: 179, 223
   orig: 179, 223
   offset: 0, 0
   index: -1
 us-m7-priest-body
   rotate: false
-  xy: 713, 796
+  xy: 310, 26
   size: 54, 91
   orig: 54, 91
   offset: 0, 0
