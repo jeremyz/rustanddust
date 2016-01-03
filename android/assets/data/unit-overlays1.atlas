@@ -13,30 +13,30 @@ repeat: none
   index: -1
 01_target
   rotate: false
-  xy: 677, 152
+  xy: 707, 152
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 02_fire
   rotate: false
-  xy: 584, 143
+  xy: 614, 143
   size: 91, 99
   orig: 91, 99
   offset: 0, 0
   index: -1
 03_may_fire
   rotate: false
-  xy: 584, 42
+  xy: 614, 42
   size: 91, 99
   orig: 91, 99
   offset: 0, 0
   index: -1
 04_ace
   rotate: false
-  xy: 677, 69
-  size: 35, 81
-  orig: 35, 81
+  xy: 584, 42
+  size: 28, 200
+  orig: 28, 200
   offset: 0, 0
   index: -1
 05_hq
