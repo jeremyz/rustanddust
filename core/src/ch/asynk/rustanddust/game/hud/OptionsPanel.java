@@ -150,6 +150,11 @@ public class OptionsPanel extends Patch
             }
         }
 
+        if (!super.hit(x,y)) {
+            apply();
+            return true;
+        }
+
         return false;
     }
 
