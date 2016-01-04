@@ -143,6 +143,7 @@ public class OptionsPanel extends Patch
             cycleFxVolume();
         } else if (quit.hit(x, y)) {
             game.ctrl.hud.askQuitBattle();
+            return false;
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
                 if (checkLabels[i].hit(x, y))
