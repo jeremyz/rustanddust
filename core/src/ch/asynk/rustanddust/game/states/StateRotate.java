@@ -25,7 +25,7 @@ public class StateRotate extends StateCommon
         }
 
         if (map.pathsSize() > 1)
-            RustAndDust.debug("ERROR: pathsSize() == " + map.pathsSize());
+            RustAndDust.debug("ERROR: Rotate pathsSize() == " + map.pathsSize());
 
         rotateOnly = (to == activeUnit.getHex());
 

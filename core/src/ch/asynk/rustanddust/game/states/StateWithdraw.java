@@ -44,7 +44,7 @@ public class StateWithdraw extends StateCommon
             map.pathsBuild(hex);
 
         if (map.pathsSize() > 1)
-            RustAndDust.debug("ERROR: pathsSize() == " + map.pathsSize());
+            RustAndDust.debug("ERROR: Withdraw pathsSize() == " + map.pathsSize());
 
         Hex exitHex = (Hex) map.pathsTo();
         if (!exitZone.contains(exitHex))

@@ -223,7 +223,7 @@ public class PathBuilder implements Disposable
     public Move getMove()
     {
         if (size() != 1) {
-            System.err.println("ERROR not a sigle path found");
+            System.err.println("ERROR PathBuilder not a single path found");
             printToErr("paths", paths);
             return null;
         }
@@ -279,7 +279,7 @@ public class PathBuilder implements Disposable
 
     private void printToErr(String what, List<Path> paths)
     {
-        System.err.println(what + pawn + " ("+paths.size()+") " + from + " -> " + to);
+        System.err.println(what + " " + paths.size() + " - " + from + " -> " + to);
         for (Path path : paths) {
             System.err.println(String.format(" - path (l:%d c:%d r:%b f:%d)", path.tiles.size(), path.cost, path.roadMarch, path.fitness));
             for(Tile tile : path.tiles)
