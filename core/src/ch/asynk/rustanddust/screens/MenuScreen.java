@@ -180,6 +180,7 @@ public class MenuScreen implements Screen
         for (int i = 1; i < (n - 1); i++)
             drawCentered(batch, move, xPath[i], yPath[i]);
         drawCentered(batch, unit, (int) (x + dx), (int) (y + dy));
+        versionLabel.draw(batch);
         batch.end();
 
         batch.setProjectionMatrix(camera.uiCombined());
@@ -188,7 +189,6 @@ public class MenuScreen implements Screen
         playMenu.draw(batch);
         optionsMenu.draw(batch);
         tutorialsMenu.draw(batch);
-        versionLabel.draw(batch);
         batch.end();
     }
 
@@ -212,7 +212,7 @@ public class MenuScreen implements Screen
         setCenteredPosition(usFlag, xPath[0], yPath[0]);
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
-        versionLabel.setPosition(20, 10);
+        versionLabel.setPosition(xPath[0] - 190, yPath[0]);
         mainMenu.setPosition();
         playMenu.setPosition();
         optionsMenu.setPosition();
