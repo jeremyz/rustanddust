@@ -104,6 +104,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
         }
     }
 
+    private static final float HALF_WIDTH_P = 0.9f;
     private static final int SHOT_COUNT = 19;
     private static final float SHOT_DELAY = (1.6f / SHOT_COUNT);
     private static final float SHOT_SCATTERING = 40f;
@@ -148,8 +149,8 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
 
         y0 -= (FireAnimation.infantryFire.height / 2.0f);
         double r = Math.atan2((y0 - y1), (x0 - x1));
-        x0 -= ((float) (Math.cos(r) * halfWidth));
-        y0 -= ((float) (Math.sin(r) * halfWidth));
+        x0 -= ((float) (Math.cos(r) * halfWidth * HALF_WIDTH_P));
+        y0 -= ((float) (Math.sin(r) * halfWidth * HALF_WIDTH_P));
 
         float dx = (x1 - x0);
         float dy = (y1 - y0);
