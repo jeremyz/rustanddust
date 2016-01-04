@@ -121,7 +121,7 @@ public class PathBuilder implements Disposable
         return paths.size();
     }
 
-    public int choosePath()
+    public int chooseBest()
     {
         if (paths.size() > 1) {
             Path good = paths.get(0);

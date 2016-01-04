@@ -150,7 +150,7 @@ public class StateMove extends StateCommon
         to = hex;
         int s = map.pathsBuild(to);
         if (cfg.autoPath && (s > 1))
-            s = map.pathsChooseOne();
+            s = map.pathsChooseBest();
         map.hexMoveShow(to);
         map.movesHide();
         map.pathsShow();
