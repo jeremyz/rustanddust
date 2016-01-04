@@ -145,12 +145,9 @@ public class PathBuilder implements Disposable
             if ((next == null) || next.isOffMap()) continue;
 
             Orientation o = board.getSide(i);
-            int n = next.costFrom(pawn, o);
-            boolean r = next.road(o);
+            int m = (mvtLeft - next.costFrom(pawn, o));
             int f = (fitness + (next.isObjectiveFor(pawn) ? 1 : 0));
-
-            int m = (mvtLeft - n);
-            r &= roadMarch;
+            boolean r = (roadMarch && next.road(o));
 
             int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
 
