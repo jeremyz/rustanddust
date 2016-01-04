@@ -32,13 +32,6 @@ ge-infantry-body
   orig: 50, 160
   offset: 0, 0
   index: -1
-us-infantry-body
-  rotate: false
-  xy: 633, 365
-  size: 50, 160
-  orig: 50, 160
-  offset: 0, 0
-  index: -1
 ge-kingtiger
   rotate: false
   xy: 197, 794
@@ -69,14 +62,14 @@ ge-panzer-iv
   index: -1
 ge-panzer-iv-body
   rotate: false
-  xy: 198, 12
+  xy: 250, 12
   size: 54, 105
   orig: 54, 105
   offset: 0, 0
   index: -1
 ge-panzer-iv-turret
   rotate: false
-  xy: 254, 12
+  xy: 306, 12
   size: 54, 105
   orig: 54, 105
   offset: 0, 0
@@ -144,6 +137,13 @@ us-infantry
   orig: 193, 223
   offset: 0, 0
   index: -1
+us-infantry-body
+  rotate: false
+  xy: 507, 182
+  size: 50, 160
+  orig: 50, 160
+  offset: 0, 0
+  index: -1
 us-m10-wolverine
   rotate: false
   xy: 392, 569
@@ -195,14 +195,14 @@ us-m4-sherman
   index: -1
 us-m4-sherman-body
   rotate: false
-  xy: 507, 227
+  xy: 146, 2
   size: 50, 115
   orig: 50, 115
   offset: 0, 0
   index: -1
 us-m4-sherman-turret
   rotate: false
-  xy: 146, 2
+  xy: 198, 2
   size: 50, 115
   orig: 50, 115
   offset: 0, 0
@@ -216,7 +216,7 @@ us-m7-priest
   index: -1
 us-m7-priest-body
   rotate: false
-  xy: 310, 26
+  xy: 764, 694
   size: 54, 91
   orig: 54, 91
   offset: 0, 0
