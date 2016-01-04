@@ -106,13 +106,15 @@ public class PathBuilder implements Disposable
         clear();
         this.to = to;
         // from and to are not part of the path
-        this.distance = board.distance(from, to);
-        if (distance == 0) {
+        if (from == to) {
+            this.distance = 0;
             Path path = Path.get(0);
             path.cost = 0;
             paths.add(path);
-        } else
+        } else {
+            this.distance = board.distance(from, to);
             findAllPaths(from, pawn.getMovementPoints(), 0, true);
+        }
 
         // printToErr("paths", paths);
         stack.clear();
