@@ -16,8 +16,7 @@ public class StateMove extends StateCommon
                 );
 
         if (prevState == StateType.WITHDRAW) {
-            if (map.pathsSize() == 1)
-                ctrl.setState(StateType.ROTATE);
+            completePath(map.pathsSize());
             return;
         }
 
@@ -110,14 +109,9 @@ public class StateMove extends StateCommon
             if(unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.movesContains(hex)) {
-            s = collectPaths(hex);
+            collectPaths(hex);
         } else if (map.pathsContains(hex)) {
-            s = togglePoint(hex, s);
-        }
-
-        if (s == 1) {
-            if (!checkExit(activeUnit, hex))
-                ctrl.setState(StateType.ROTATE);
+            togglePoint(hex, s);
         }
     }
 
@@ -133,6 +127,7 @@ public class StateMove extends StateCommon
             if (activeUnit.canMove())
                 activeUnit.showActiveable();
         }
+        to = null;
         activeUnit = unit;
         activeUnit.hideActiveable();
         Hex hex = activeUnit.getHex();
@@ -145,19 +140,26 @@ public class StateMove extends StateCommon
         checkExit(activeUnit);
     }
 
-    private int collectPaths(Hex hex)
+    private void collectPaths(Hex hex)
     {
         to = hex;
-        int s = map.pathsBuild(to);
-        if (cfg.autoPath && (s > 1))
-            s = map.pathsChooseBest();
-        map.hexMoveShow(to);
         map.movesHide();
-        map.pathsShow();
-        return s;
+        map.hexMoveShow(to);
+        int s = map.pathsBuild(to);
+        if (!checkExit(activeUnit, hex))
+            completePath(s);
     }
 
-    private int togglePoint(Hex hex, int s)
+    private void completePath(int s)
+    {
+        if (cfg.autoPath && (s > 1))
+            s = map.pathsChooseBest();
+        map.pathsShow();
+        if (s == 1)
+            ctrl.setState(StateType.ROTATE);
+    }
+
+    private void togglePoint(Hex hex, int s)
     {
         if (hex == activeUnit.getHex()) {
             //
@@ -169,7 +171,10 @@ public class StateMove extends StateCommon
             map.pathsShow();
         }
 
-        return s;
+        if (s == 1) {
+            if (!checkExit(activeUnit, hex))
+                ctrl.setState(StateType.ROTATE);
+        }
     }
 
     private boolean checkExit(Unit unit)
