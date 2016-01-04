@@ -151,6 +151,44 @@ public class PathBuilder implements Disposable
         return 1;
     }
 
+    public int chooseExit(Orientation o)
+    {
+        List<Path> ps = getPaths();
+
+        Path good = ps.get(0);
+        int mvt = pawn.getMovementPoints();
+        int cost = to.exitCost();
+        int rBonus = (to.road(o) ? pawn.getRoadMarchBonus() : 0);
+
+        if (ps.size() > 1) {
+            good = null;
+            for (Path p : getPaths()) {
+                if (pathCanExit(p, mvt, cost, rBonus)) {
+                    if (good != null) {
+                        if ( (p.fitness > good.fitness) || ((p.fitness == good.fitness) && (p.cost < good.cost)))
+                            good = p;
+                    } else {
+                        good = p;
+                    }
+                }
+            }
+
+            keepOnly(good);
+        }
+
+        if (!pathCanExit(good, mvt, cost, rBonus))
+            throw new RuntimeException("chosen path can't exit");
+
+        orientation = o;
+        if (from != to) {
+            good.cost += 1;
+            good.tiles.add(to);
+        }
+        to = board.getAdjTileAt(to, o);
+
+        return 1;
+    }
+
     private void keepOnly(Path path)
     {
         getPaths().remove(path);
@@ -291,17 +329,6 @@ public class PathBuilder implements Disposable
         if (ctrlTiles.size() == 0)
             return paths.get(i);
         return filteredPaths.get(i);
-    }
-
-    public void setExit(Orientation o)
-    {
-        orientation = o;
-        Path path = getPath(0);
-        if (from != to) {
-            path.cost += 1;
-            path.tiles.add(to);
-        }
-        to = board.getAdjTileAt(to, o);
     }
 
     private void printToErr(String what, List<Path> paths)
