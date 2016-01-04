@@ -68,11 +68,10 @@ public class StateBreak extends StateCommon
         if (activeUnit == null) return;
 
         map.pathsInit(activeUnit);
-        if (map.pathsBuild(to) == 1) {
-            map.pathsSetOrientation(o);
-            map.moveUnit(activeUnit);
-            ctrl.setAfterAnimationState(StateType.DONE);
-        } else
-            RustAndDust.debug("That's very wrong there should be only one path");
+        map.pathsBuild(to);
+        map.pathsChooseShortest();
+        map.pathsSetOrientation(o);
+        map.moveUnit(activeUnit);
+        ctrl.setAfterAnimationState(StateType.DONE);
     }
 }

@@ -75,6 +75,7 @@ public abstract class Map2Moves extends Map1Units
     public void pathsSetExit(Orientation o)         { paths.setExit(o); }
     public boolean pathsContains(Hex hex)           { return paths.contains(hex); }
     public int pathsChooseBest()                    { return paths.chooseBest(); }
+    public int pathsChooseShortest()                { return paths.chooseShortest(); }
     public int pathsToggleHex(Hex hex)
     {
         boolean enable = !hex.isOverlayEnabled(Hex.MOVE);
