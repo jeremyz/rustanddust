@@ -17,6 +17,7 @@ public class PathIterator implements Iterator<Vector3>
     private Vector2 pos = new Vector2();
     private Vector3 v = new Vector3();
     private int i;
+    private int s;
     private List<Tile> path;
 
     public PathIterator(Pawn pawn, Tile from, Tile to, Orientation orientation, List<Tile> path)
@@ -30,12 +31,12 @@ public class PathIterator implements Iterator<Vector3>
         this.o = pawn.getOrientation();
         this.v.set(pawn.getPosition().x, pawn.getPosition().y, o.r());
         this.i = 0;
+        this.s = path.size();
     }
 
     @Override
     public boolean hasNext()
     {
-        int s = path.size();
         if ((rotation || (i > s)) && (o == orientation))
             return false;
         return true;
@@ -46,8 +47,6 @@ public class PathIterator implements Iterator<Vector3>
     {
         if (!hasNext())
             throw new java.util.NoSuchElementException();
-
-        int s = path.size();
 
         if (rotation || (i > s)) {
             v.z = orientation.r();
