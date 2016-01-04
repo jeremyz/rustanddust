@@ -26,8 +26,8 @@ public class Factory implements Board.TileBuilder, Disposable
     public static final String ACT_PROMOTE = "promote";
     public static final String ACT_OPTIONS = "options";
     public static final String DISABLED = "disabled";
+    public static final String ENABLED = "enabled";
     public static final String REINFORCEMENT = "reinforcement";
-    public static final String REINFORCEMENT_SELECTED = "reinforcement-selected";
 
     public enum MapType
     {

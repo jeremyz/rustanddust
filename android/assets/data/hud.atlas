@@ -1,103 +1,103 @@
 
 hud.png
-size: 256,256
+size: 1024,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 aps
   rotate: false
-  xy: 180, 157
+  xy: 452, 3
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
   index: -1
 attack
   rotate: false
-  xy: 68, 2
+  xy: 652, 9
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 cancel
   rotate: false
-  xy: 138, 107
+  xy: 502, 3
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
   index: -1
 defense
   rotate: false
-  xy: 94, 2
+  xy: 678, 9
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 disabled
   rotate: false
-  xy: 130, 156
+  xy: 252, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+enabled
+  rotate: false
+  xy: 302, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ge-flag
   rotate: false
-  xy: 130, 206
+  xy: 88, 2
   size: 80, 48
   orig: 80, 48
   offset: 0, 0
   index: -1
 ok
   rotate: false
-  xy: 188, 108
+  xy: 552, 3
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
   index: -1
 options
   rotate: false
-  xy: 138, 58
+  xy: 602, 3
   size: 48, 47
   orig: 48, 47
   offset: 0, 0
   index: -1
 promote
   rotate: false
-  xy: 88, 78
+  xy: 352, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 reinforcement
   rotate: false
-  xy: 84, 28
+  xy: 402, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-reinforcement-selected
-  rotate: false
-  xy: 2, 128
-  size: 126, 126
-  orig: 126, 126
-  offset: 0, 0
-  index: -1
 stars
   rotate: false
-  xy: 2, 11
+  xy: 652, 35
   size: 64, 15
   orig: 64, 15
   offset: 0, 0
   index: -1
 turns
   rotate: false
-  xy: 2, 78
+  xy: 2, 2
   size: 84, 48
   orig: 84, 48
   offset: 0, 0
   index: -1
 us-flag
   rotate: false
-  xy: 2, 28
+  xy: 170, 2
   size: 80, 48
   orig: 80, 48
   offset: 0, 0

@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.game.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
@@ -36,7 +35,7 @@ public class UnitDock extends Bg implements Animation
     private boolean show;
     private boolean mvtDone;
     public Unit selectedUnit;
-    private Sprite selected;
+    private Bg selected;
     private UnitList units;
     private Vector3 point;
     private Matrix4 saved;
@@ -55,7 +54,7 @@ public class UnitDock extends Bg implements Animation
         this.transform = new Matrix4();
         this.scaledRect = new Rectangle();
         this.scissors = new Rectangle();
-        this.selected = new Sprite(game.factory.getHudRegion(game.factory.REINFORCEMENT_SELECTED));
+        this.selected = new Bg(game.factory.getHudRegion(game.factory.ENABLED));
         this.visible = false;
         this.dx = 0f;
         this.dy = 0f;
@@ -122,7 +121,7 @@ public class UnitDock extends Bg implements Animation
     {
         int i = (int) ((scaledRect.y + scaledRect.height - y) / (scaledRect.height / units.size()));
         selectedUnit = units.get(i);
-        selected.setCenter((selectedUnit.getX() + (selectedUnit.getWidth() / 2)), (selectedUnit.getY() + (selectedUnit.getHeight() / 2)));
+        selected.setPosition(selectedUnit.getX() - padding, selectedUnit.getY() - padding, selectedUnit.getWidth() + (2 * padding), selectedUnit.getHeight() + (2 * padding));
         return selectedUnit;
     }
 
@@ -239,9 +238,8 @@ public class UnitDock extends Bg implements Animation
         Gdx.gl.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
 
         super.draw(batch);
-        for (Unit unit : units) unit.draw(batch);
-
         if (selectedUnit != null) selected.draw(batch);
+        for (Unit unit : units) unit.draw(batch);
 
         batch.setTransformMatrix(saved);
 
