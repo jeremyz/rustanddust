@@ -154,18 +154,19 @@ public class PathBuilder implements Disposable
 
             int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
 
-            if (board.distance(next, to) <= l) {
-                if (next == to) {
-                    Path path = Path.get(stack.size() + 1);
-                    for (Tile t: stack) {
-                        path.tiles.add(t);
-                        tiles.add(t);
-                    }
-                    path.roadMarch = r;
-                    path.fitness = f;
-                    path.cost = (pawn.getMovementPoints() - m);
-                    paths.add(path);
+            if ((next == to) && ((l >= 0) || ((stack.size() == 0) && next.atLeastOneMove(pawn)))) {
+                Path path = Path.get(stack.size() + 1);
+                for (Tile t: stack) {
+                    path.tiles.add(t);
+                    tiles.add(t);
                 }
+                path.roadMarch = r;
+                path.fitness = f;
+                path.cost = (pawn.getMovementPoints() - m);
+                paths.add(path);
+            }
+
+            if (l >= board.distance(next, to)) {
                 stack.add(next);
                 findAllPaths(next, m, f, r);
                 stack.remove(stack.size() - 1);
