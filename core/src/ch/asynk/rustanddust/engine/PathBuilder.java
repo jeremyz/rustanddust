@@ -85,9 +85,7 @@ public class PathBuilder implements Disposable
 
     public int size()
     {
-        if (ctrlTiles.size() == 0)
-            return paths.size();
-        return filteredPaths.size();
+        return getPaths().size();
     }
 
     public boolean contains(Tile tile)
@@ -123,14 +121,16 @@ public class PathBuilder implements Disposable
 
     public int chooseBest()
     {
-        if (paths.size() > 1) {
-            Path good = paths.get(0);
-            for (Path path : paths) {
+        List<Path> ps = getPaths();
+
+        if (ps.size() > 1) {
+            Path good = ps.get(0);
+            for (Path path : ps) {
                 if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost)))
                     good = path;
             }
 
-            paths.remove(good);
+            ps.remove(good);
             clearPaths();
             paths.add(good);
             for (Tile tile : good.tiles)
@@ -142,14 +142,16 @@ public class PathBuilder implements Disposable
 
     public int chooseShortest()
     {
-        if (paths.size() > 1) {
-            Path good = paths.get(0);
-            for (Path path : paths) {
+        List<Path> ps = getPaths();
+
+        if (ps.size() > 1) {
+            Path good = ps.get(0);
+            for (Path path : ps) {
                 if (path.tiles.size() < good.tiles.size())
                     good = path;
             }
 
-            paths.remove(good);
+            ps.remove(good);
             clearPaths();
             paths.add(good);
             for (Tile tile : good.tiles)
