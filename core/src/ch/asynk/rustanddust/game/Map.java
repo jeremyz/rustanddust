@@ -77,7 +77,7 @@ public abstract class Map extends Map4Commands
         }
 
         int cnt = activatedUnits.size();
-        int def = e.defender.getDefense(e.attacker.getTile());
+        int def = e.defender.getDefense(e.defender.getTile());
         int flk = (flankAttack ? Unit.FLANK_ATTACK_BONUS : 0);
         int tdf = (terrainBonus ? e.defender.getTile().defense() : 0);
         int wdf = 0;
