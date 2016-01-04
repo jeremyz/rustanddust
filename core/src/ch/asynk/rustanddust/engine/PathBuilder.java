@@ -126,10 +126,8 @@ public class PathBuilder implements Disposable
         if (paths.size() > 1) {
             Path good = paths.get(0);
             for (Path path : paths) {
-                if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost))) {
+                if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost)))
                     good = path;
-                    good = path;
-                }
             }
 
             paths.remove(good);
