@@ -140,6 +140,25 @@ public class PathBuilder implements Disposable
         return 1;
     }
 
+    public int chooseShortest()
+    {
+        if (paths.size() > 1) {
+            Path good = paths.get(0);
+            for (Path path : paths) {
+                if (path.tiles.size() < good.tiles.size())
+                    good = path;
+            }
+
+            paths.remove(good);
+            clearPaths();
+            paths.add(good);
+            for (Tile tile : good.tiles)
+                tiles.add(tile);
+        }
+
+        return 1;
+    }
+
     private void findAllPaths(Tile from, int mvtLeft, int fitness, boolean roadMarch)
     {
         Tile moves[] = new Tile[6];
