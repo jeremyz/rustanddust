@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 public class PathIterator implements Iterator<Vector3>
 {
     private Pawn pawn;
+    private boolean rotation;
     private Tile to;
     private Orientation o;
     private Orientation orientation;
@@ -23,6 +24,7 @@ public class PathIterator implements Iterator<Vector3>
         this.pawn = pawn;
         this.to = to;
         this.tile = from;
+        this.rotation = (from == to);
         this.orientation = orientation;
         this.path = path;
         this.o = pawn.getOrientation();
@@ -34,7 +36,7 @@ public class PathIterator implements Iterator<Vector3>
     public boolean hasNext()
     {
         int s = path.size();
-        if (((s == 0) || (i > s)) && (o == orientation))
+        if ((rotation || (i > s)) && (o == orientation))
             return false;
         return true;
     }
@@ -47,7 +49,7 @@ public class PathIterator implements Iterator<Vector3>
 
         int s = path.size();
 
-        if ((s == 0) || (i >s)) {
+        if (rotation || (i > s)) {
             v.z = orientation.r();
             o = orientation;
             return v;
