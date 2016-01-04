@@ -41,9 +41,9 @@ repeat: none
   index: -1
 05_exit
   rotate: false
-  xy: 544, 151
-  size: 100, 114
-  orig: 100, 114
+  xy: 544, 155
+  size: 96, 110
+  orig: 96, 110
   offset: 0, 0
   index: -1
 06_objective
