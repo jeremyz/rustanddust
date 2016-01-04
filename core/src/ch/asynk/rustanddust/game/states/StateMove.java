@@ -32,7 +32,7 @@ public class StateMove extends StateCommon
                 // quick move -> replay touchUp
                 touch(to);
             } else
-                checkExit(activeUnit, activeUnit.getHex());
+                checkExit(activeUnit);
         } else {
             // back from rotation -> chose next Pawn
             if (selectedUnit.canMove()) {
@@ -142,7 +142,7 @@ public class StateMove extends StateCommon
         map.movesShow();
         map.hexSelect(hex);
         ctrl.hud.notify(activeUnit.toString(), Position.TOP_CENTER);
-        checkExit(activeUnit, hex);
+        checkExit(activeUnit);
     }
 
     private int collectPaths(Hex hex)
@@ -172,14 +172,23 @@ public class StateMove extends StateCommon
         return s;
     }
 
+    private boolean checkExit(Unit unit)
+    {
+        if (unit.justEntered())
+            return false;
+        Zone exitZone = ctrl.battle.getExitZone(unit);
+        if ((exitZone == null) || !exitZone.contains(unit.getHex()))
+            return false;
+        ctrl.setState(StateType.WITHDRAW);
+        return true;
+    }
+
     private boolean checkExit(Unit unit, Hex hex)
     {
-        if ((hex == unit.getHex()) && (unit.justEntered()))
-            return false;
         Zone exitZone = ctrl.battle.getExitZone(unit);
         if ((exitZone == null) || !exitZone.contains(hex))
             return false;
-        if ((unit.getHex() != hex) && !map.pathsCanExit(exitZone.orientation))
+        if (!map.pathsCanExit(exitZone.orientation))
             return false;
         ctrl.setState(StateType.WITHDRAW);
         return true;
