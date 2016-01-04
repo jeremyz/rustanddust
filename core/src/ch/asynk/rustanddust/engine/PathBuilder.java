@@ -129,12 +129,7 @@ public class PathBuilder implements Disposable
                 if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost)))
                     good = path;
             }
-
-            ps.remove(good);
-            clearPaths();
-            paths.add(good);
-            for (Tile tile : good.tiles)
-                tiles.add(tile);
+            keepOnly(good);
         }
 
         return 1;
@@ -150,15 +145,19 @@ public class PathBuilder implements Disposable
                 if (path.tiles.size() < good.tiles.size())
                     good = path;
             }
-
-            ps.remove(good);
-            clearPaths();
-            paths.add(good);
-            for (Tile tile : good.tiles)
-                tiles.add(tile);
+            keepOnly(good);
         }
 
         return 1;
+    }
+
+    private void keepOnly(Path path)
+    {
+        getPaths().remove(path);
+        clearPaths();
+        paths.add(path);
+        for (Tile tile : path.tiles)
+            tiles.add(tile);
     }
 
     private void findAllPaths(Tile from, int mvtLeft, int fitness, boolean roadMarch)
