@@ -124,15 +124,13 @@ public class PathBuilder implements Disposable
         List<Path> ps = getPaths();
 
         if (ps.size() > 1) {
-            Path good = ps.get(0);
-            for (Path path : ps) {
-                if ( (path.fitness > good.fitness) || ((path.fitness == good.fitness) && (path.cost < good.cost)))
-                    good = path;
-            }
+            Path good = null;
+            for (Path p : ps)
+                good = best(good, p);
             keepOnly(good);
         }
 
-        return 1;
+        return ps.size();
     }
 
     public int chooseShortest()
@@ -148,7 +146,7 @@ public class PathBuilder implements Disposable
             keepOnly(good);
         }
 
-        return 1;
+        return ps.size();
     }
 
     public int chooseExit(Orientation o)
@@ -163,14 +161,8 @@ public class PathBuilder implements Disposable
         if (ps.size() > 1) {
             good = null;
             for (Path p : getPaths()) {
-                if (pathCanExit(p, mvt, cost, rBonus)) {
-                    if (good != null) {
-                        if ( (p.fitness > good.fitness) || ((p.fitness == good.fitness) && (p.cost < good.cost)))
-                            good = p;
-                    } else {
-                        good = p;
-                    }
-                }
+                if (pathCanExit(p, mvt, cost, rBonus))
+                    good = best(good, p);
             }
 
             keepOnly(good);
@@ -186,7 +178,16 @@ public class PathBuilder implements Disposable
         }
         to = board.getAdjTileAt(to, o);
 
-        return 1;
+        return ps.size();
+    }
+
+    private Path best(Path a, Path b)
+    {
+        if (a == null)
+            return b;
+        if ( (b.fitness > a.fitness) || ((b.fitness == a.fitness) && (b.cost < a.cost)))
+            return b;
+        return a;
     }
 
     private void keepOnly(Path path)
