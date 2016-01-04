@@ -266,15 +266,21 @@ public class PathBuilder implements Disposable
             ps = filteredPaths;
 
         int mvt = pawn.getMovementPoints();
-        int rBonus = pawn.getRoadMarchBonus();
-        boolean road =  to.road(o);
         int cost = to.exitCost();
+        int rBonus = (to.road(o) ? pawn.getRoadMarchBonus() : 0);
 
         for (Path p : ps) {
-            int c = (p.cost + cost);
-            if ((c <= mvt) || (p.roadMarch && road && (c <= (mvt + rBonus))))
+            if (pathCanExit(p, mvt, cost, rBonus))
                 return true;
         }
+        return false;
+    }
+
+    private boolean pathCanExit(Path p, int mvt, int cost, int rBonus)
+    {
+        int c = (p.cost + cost);
+        if ((c <= mvt) || (p.roadMarch && (c <= (mvt + rBonus))))
+            return true;
         return false;
     }
 
