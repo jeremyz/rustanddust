@@ -259,17 +259,11 @@ public class PathBuilder implements Disposable
 
     public boolean canExit(Orientation o)
     {
-        List<Path> ps;
-        if (ctrlTiles.size() == 0)
-            ps = paths;
-        else
-            ps = filteredPaths;
-
         int mvt = pawn.getMovementPoints();
         int cost = to.exitCost();
         int rBonus = (to.road(o) ? pawn.getRoadMarchBonus() : 0);
 
-        for (Path p : ps) {
+        for (Path p : getPaths()) {
             if (pathCanExit(p, mvt, cost, rBonus))
                 return true;
         }
@@ -282,6 +276,13 @@ public class PathBuilder implements Disposable
         if ((c <= mvt) || (p.roadMarch && (c <= (mvt + rBonus))))
             return true;
         return false;
+    }
+
+    private List<Path> getPaths()
+    {
+        if (ctrlTiles.size() == 0)
+            return paths;
+        return filteredPaths;
     }
 
     public Path getPath(int i)
