@@ -192,7 +192,11 @@ public class Ctrl implements Disposable
             if (battle.hasReinforcement())
                 hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
             hud.update();
-            setState(battle.getState());
+            if (!battle.getPlayer().canDoSomething()) {
+                hud.notify("No available Actions");
+                setState(StateType.TURN_OVER);
+            } else
+                setState(battle.getState());
         }
     }
 
@@ -255,6 +259,9 @@ public class Ctrl implements Disposable
             }
             if (battle.getPlayer().apExhausted()) {
                 hud.notify("No more Action Points");
+                nextState = StateType.TURN_OVER;
+            } else if (!battle.getPlayer().canDoSomething()) {
+                hud.notify("No available Actions");
                 nextState = StateType.TURN_OVER;
             } else
                 nextState = battle.getState();
