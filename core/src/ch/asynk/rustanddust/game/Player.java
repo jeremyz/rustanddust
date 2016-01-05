@@ -148,6 +148,17 @@ public class Player
         return (apSpent == actionPoints);
     }
 
+    public boolean canDoSomething()
+    {
+        if (reinforcement() > 0)
+            return true;
+        for (Unit unit : units) {
+            if (unit.canMove() || unit.canEngage() || canPromote(unit))
+                return true;
+        }
+        return false;
+    }
+
     public boolean isDeploymentDone()
     {
         return (deploymentDone || (reinforcement.size() == 0));
