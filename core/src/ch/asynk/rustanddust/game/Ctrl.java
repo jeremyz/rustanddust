@@ -108,7 +108,7 @@ public class Ctrl implements Disposable
 
     public void touchUp(float hudX, float hudY, float mapX, float mapY)
     {
-        if (!blockMap && (touchedHex == map.getHexAt(mapX, mapY)))
+        if (!blockMap && (touchedHex != null) && (touchedHex == map.getHexAt(mapX, mapY)))
             state.touch(touchedHex);
     }
 
