@@ -54,6 +54,8 @@ public class RustAndDust extends Game
     public static final String UI_US_FLAG = "us-flag";
     public static final String UI_GE_FLAG = "ge-flag";
 
+    public static final String DOM = "RustAndDust";
+
     public AssetManager manager;
     public Factory factory;
     public Ctrl ctrl;
@@ -74,12 +76,12 @@ public class RustAndDust extends Game
 
     public static void debug(String msg)
     {
-        debug("", msg);
+        Gdx.app.debug(DOM, msg);
     }
 
-    public static void debug(String dom, String msg)
+    public static void debug(String info, String msg)
     {
-        Gdx.app.debug(dom, msg);
+        Gdx.app.debug(DOM, String.format("%s : %s", info, msg));
     }
 
     public TextureAtlas.AtlasRegion getUiRegion(String s)
