@@ -19,8 +19,8 @@ public class OptionsPanel extends Patch
 
     public static int PADDING = 30;
     public static int OPT_PADDING = 10;
-    public static int TITLE_PADDING = 20;
-    public static int VSPACING = 15;
+    public static int TITLE_PADDING = 5;
+    public static int LABEL_PADDING = 10;
     public static int HSPACING = 30;
     public static String CHECK = "#";
 
@@ -40,18 +40,18 @@ public class OptionsPanel extends Patch
         super(game.ninePatch);
         this.game = game;
         this.font = game.font;
-        this.title = new Label(game.font, 5f);
+        this.title = new Label(game.font, LABEL_PADDING);
         this.title.write("- Options");
-        this.fxVolume = new Label(game.font, 5f);
+        this.fxVolume = new Label(game.font, LABEL_PADDING);
         this.fxVolume.write("Fx Volume");
-        this.fxVolumeValue = new Label(game.font, 5f);
-        this.quit = new Label(game.font, 5f);
+        this.fxVolumeValue = new Label(game.font, LABEL_PADDING);
+        this.quit = new Label(game.font, LABEL_PADDING);
         this.quit.write("Quit battle");
         this.visible = false;
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
-            Label l = new Label(game.font, 5f);
+            Label l = new Label(game.font, LABEL_PADDING);
             l.write(checkStrings[i]);
             this.checkLabels[i] = l;
         }
@@ -77,11 +77,10 @@ public class OptionsPanel extends Patch
     {
 
         fxVolumeValue.write(fxStrings[0]);
-        float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight() + VSPACING);
-        h += ((checkLabels.length - 1) * VSPACING);
+        float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight());
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
-        h += (quit.getHeight() + VSPACING);
+        h += quit.getHeight();
         h += (2 * PADDING);
 
         float w = (fxVolume.getWidth() + fxVolumeValue.getWidth());
@@ -101,17 +100,17 @@ public class OptionsPanel extends Patch
 
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
-        y += (VSPACING + fxVolume.getHeight());
+        y += fxVolume.getHeight();
 
         for (int i = 0; i < checkLabels.length; i++) {
             checkLabels[i].setPosition(x, y);
-            y += (VSPACING + checkLabels[i].getHeight());
+            y += checkLabels[i].getHeight();
         }
 
         quit.setPosition(x,y);
-        y += (VSPACING + quit.getHeight());
+        y += quit.getHeight();
 
-        y += (TITLE_PADDING - VSPACING);
+        y += TITLE_PADDING;
         x -= PADDING;
         title.setPosition(x, y);
 

@@ -14,8 +14,8 @@ public class OptionsMenu extends Patch
 {
     public static int PADDING = 30;
     public static int OPT_PADDING = 10;
-    public static int TITLE_PADDING = 20;
-    public static int VSPACING = 5;
+    public static int TITLE_PADDING = 10;
+    public static int LABEL_PADDING = 10;
     public static int HSPACING = 30;
     public static String CHECK = "#";
 
@@ -51,18 +51,18 @@ public class OptionsMenu extends Patch
         this.font = game.font;
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
-        this.title = new Label(font, 5f);
+        this.title = new Label(font, LABEL_PADDING);
         this.title.write("- Options");
-        this.fxVolume = new Label(font, 5f);
+        this.fxVolume = new Label(font, LABEL_PADDING);
         this.fxVolume.write("Fx Volume");
-        this.fxVolumeValue = new Label(font, 5f);
-        this.graphics = new Label(font, 5f);
+        this.fxVolumeValue = new Label(font, LABEL_PADDING);
+        this.graphics = new Label(font, LABEL_PADDING);
         this.graphics.write("Graphics");
-        this.graphicsValue = new Label(font, 5f);
+        this.graphicsValue = new Label(font, LABEL_PADDING);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
-            Label l = new Label(font, 5f);
+            Label l = new Label(font, LABEL_PADDING);
             l.write(checkStrings[i]);
             this.checkLabels[i] = l;
         }
@@ -114,11 +114,11 @@ public class OptionsMenu extends Patch
 
     public void setPosition()
     {
-        float h = (title.getHeight() + TITLE_PADDING + ((checkLabels.length - 1) * VSPACING) + (2 * PADDING));
+        float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
-        h += (graphics.getHeight() + VSPACING);
-        h += (fxVolume.getHeight() + VSPACING);
+        h += graphics.getHeight();
+        h += fxVolume.getHeight();
 
         float w = title.getWidth();
         for (int i = 0; i < checkLabels.length; i++) {
@@ -140,15 +140,15 @@ public class OptionsMenu extends Patch
 
         graphics.setPosition(x, y);
         graphicsValue.setPosition((x + graphics.getWidth() + OPT_PADDING), y);
-        y += (VSPACING + graphics.getHeight());
+        y += graphics.getHeight();
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
-        y += (VSPACING + fxVolume.getHeight());
+        y += fxVolume.getHeight();
         for (int i = 0; i < checkLabels.length; i++) {
             checkLabels[i].setPosition(x, y);
-            y += (VSPACING + checkLabels[i].getHeight());
+            y += checkLabels[i].getHeight();
         }
-        y += (TITLE_PADDING - VSPACING);
+        y += TITLE_PADDING;
         x -= PADDING;
         title.setPosition(x, y);
     }
