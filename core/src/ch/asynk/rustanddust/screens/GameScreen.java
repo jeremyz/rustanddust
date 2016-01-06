@@ -41,6 +41,7 @@ public class GameScreen implements Screen
     private final RustAndDust game;
     private Ctrl ctrl;
 
+    private boolean paused;
     private int dragged;
     private boolean blocked;
     private float inputDelay = 0f;
@@ -63,6 +64,8 @@ public class GameScreen implements Screen
         if (DEBUG) this.debugShapes = new ShapeRenderer();
 
         Gdx.input.setInputProcessor(getMultiplexer());
+
+        paused = false;
     }
 
     private InputMultiplexer getMultiplexer()
@@ -138,6 +141,8 @@ public class GameScreen implements Screen
     @Override
     public void render(float delta)
     {
+        if (paused) return;
+
         if (inputDelay > 0f) {
             inputDelay -= delta;
             if (inputDelay <= 0f)
@@ -186,6 +191,8 @@ public class GameScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
+        if (paused) return;
+
         // RustAndDust.debug("GameScreen", "resize (" + width + "," + height + ")");
         cam.updateViewport(width, height);
         ctrl.hud.resize(cam.getHudLeft(), cam.getHudBottom(), cam.getHudWidth(), cam.getHudHeight());
@@ -215,12 +222,14 @@ public class GameScreen implements Screen
     @Override
     public void pause()
     {
-        // RustAndDust.debug("GameScreen", "pause()");
+        paused = true;
+        RustAndDust.debug("RustAndDust", "pause() ");
     }
 
     @Override
     public void resume()
     {
-        // RustAndDust.debug("GameScreen", "resume()");
+        RustAndDust.debug("RustAndDust", "resume() ");
+        paused = false;
     }
 }

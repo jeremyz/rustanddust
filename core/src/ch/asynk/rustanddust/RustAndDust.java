@@ -255,11 +255,13 @@ public class RustAndDust extends Game
     public void pause()
     {
         debug("RustAndDust", "pause()");
+        getScreen().pause();
     }
 
     @Override
     public void resume()
     {
         debug("RustAndDust", "resume()");
+        getScreen().resume();
     }
 }
