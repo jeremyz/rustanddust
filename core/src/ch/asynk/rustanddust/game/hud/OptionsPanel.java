@@ -15,8 +15,6 @@ public class OptionsPanel extends Patch
     private String [] checkStrings = {
     };
 
-    private String [] fxStrings = { "OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON" };
-
     public static int PADDING = 30;
     public static int OPT_PADDING = 10;
     public static int TITLE_PADDING = 5;
@@ -76,7 +74,7 @@ public class OptionsPanel extends Patch
     public void show(Position position)
     {
 
-        fxVolumeValue.write(fxStrings[0]);
+        fxVolumeValue.write(game.config.fxStrings[0]);
         float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight());
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
@@ -122,14 +120,14 @@ public class OptionsPanel extends Patch
     private void getValues()
     {
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
-        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
+        fxVolumeValue.write(game.config.fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
 
     private void cycleFxVolume()
     {
         fxVolumeIdx += 1;
         if (fxVolumeIdx > 10) fxVolumeIdx = 0;
-        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
+        fxVolumeValue.write(game.config.fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
     }
 

@@ -61,6 +61,8 @@ public class Config
     public float fxVolume;
     public Graphics graphics;
 
+    public static String [] fxStrings = { "OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON" };
+
     public Config()
     {
         this.gameMode = GameMode.SOLO;

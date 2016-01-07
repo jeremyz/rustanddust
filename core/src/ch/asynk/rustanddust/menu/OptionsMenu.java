@@ -29,7 +29,6 @@ public class OptionsMenu extends Patch
         "Show Targets",
         "Show Moves",
     };
-    private String [] fxStrings = { "OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON" };
 
     private float checkDy;
     private Label title;
@@ -82,7 +81,7 @@ public class OptionsMenu extends Patch
         checkValues[1] = game.config.showEnemyPossibilities;
         checkValues[0] = game.config.debug;
         fxVolumeIdx = (int) (game.config.fxVolume * 10);
-        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
+        fxVolumeValue.write(game.config.fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
         graphicsIdx = game.config.graphics.i;
         graphicsValue.write(game.config.graphics.s, graphicsValue.getX(), graphicsValue.getY());
     }
@@ -103,7 +102,7 @@ public class OptionsMenu extends Patch
     {
         fxVolumeIdx += 1;
         if (fxVolumeIdx > 10) fxVolumeIdx = 0;
-        fxVolumeValue.write(fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
+        fxVolumeValue.write(game.config.fxStrings[fxVolumeIdx], fxVolumeValue.getX(), fxVolumeValue.getY());
     }
 
     private void cycleGraphics()
