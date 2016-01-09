@@ -3,9 +3,10 @@ package ch.asynk.rustanddust.engine;
 import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class Move extends Path implements Iterable<Vector3>
+public class Move extends Path implements Iterable<Vector3>, Iterator
 {
     public enum MoveType
     {
@@ -69,6 +70,14 @@ public class Move extends Path implements Iterable<Vector3>
     public Tile to;
     public Orientation orientation;
     public MoveType type;
+    // iterator
+    private int i;
+    private int s;
+    private Tile t;
+    private boolean r;
+    private Orientation o;
+    private Vector3 v = new Vector3();
+    private Vector2 pos = new Vector2();
 
     public Move()
     {
@@ -151,8 +160,59 @@ public class Move extends Path implements Iterable<Vector3>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<Vector3> iterator()
     {
-        return new PathIterator(pawn, from, to, orientation, tiles);
+        this.i = 0;
+        this.s = tiles.size();
+        this.t = from;
+        this.r = (from == to);
+        this.o = pawn.getOrientation();
+        this.v.set(pawn.getPosition().x, pawn.getPosition().y, o.r());
+        return (Iterator<Vector3>) this;
+    }
+
+    @Override
+    public boolean hasNext()
+    {
+        if ((r || (i > s)) && (o == orientation))
+            return false;
+        return true;
+    }
+
+    @Override
+    public Vector3 next()
+    {
+        if (!hasNext())
+            throw new java.util.NoSuchElementException();
+
+        if (r || (i > s)) {
+            v.z = orientation.r();
+            o = orientation;
+            return v;
+        }
+        Tile nextTile;
+        if (i < s)
+            nextTile = tiles.get(i);
+        else
+            nextTile = to;
+        Orientation nextO = Orientation.fromMove(t.col, t.row, nextTile.col, nextTile.row);
+        if (nextO != o) {
+            v.z = nextO.r();
+            o = nextO;
+            return v;
+        }
+        pawn.getPosAt(nextTile, pos);
+        v.x = pos.x;
+        v.y = pos.y;
+        t = nextTile;
+        i += 1;
+        return v;
+    }
+
+    @Override
+    public void remove()
+    {
+        throw new UnsupportedOperationException();
     }
 }
