@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.engine;
 
 import java.util.Iterator;
-import java.util.ArrayDeque;
 
 import com.badlogic.gdx.utils.Disposable;
 
@@ -9,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 import ch.asynk.rustanddust.engine.gfx.Drawable;
 import ch.asynk.rustanddust.engine.gfx.StackedImages;
 
@@ -31,7 +31,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     protected float x;
     protected float y;
     private StackedImages overlays;
-    protected ArrayDeque<Pawn> stack;
+    private ArrayListIt<Pawn> stack;
 
     protected Faction curFaction;
     protected Faction prevFaction;
@@ -51,7 +51,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     {
         this.col = col;
         this.row = row;
-        this.stack = new ArrayDeque<Pawn>();
+        this.stack = new ArrayListIt<Pawn>();
         this.curFaction = defaultFaction;
         this.prevFaction = defaultFaction;
         this.objective = Objective.NONE;
@@ -96,6 +96,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         return stack.isEmpty();
     }
 
+    @Override
     public Iterator<Pawn> iterator()
     {
         return stack.iterator();
@@ -104,7 +105,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public int push(Pawn pawn)
     {
         if (!stack.contains(pawn))
-            stack.push(pawn);
+            stack.add(pawn);
         return stack.size();
     }
 
@@ -114,18 +115,17 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
         return stack.size();
     }
 
-    private Pawn getTopPawn()
+    protected Pawn getTopPawn()
     {
         if (isEmpty()) return null;
-        return stack.getFirst();
+        return stack.get(stack.size() - 1);
     }
 
     public boolean hasUnits()
     {
         if (isEmpty()) return false;
-        Iterator<Pawn> itr = iterator();
-        while (itr.hasNext()) {
-            if (itr.next().isUnit())
+        for (Pawn p : this) {
+            if (p.isUnit())
                 return true;
         }
         return false;

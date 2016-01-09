@@ -52,7 +52,7 @@ public class Hex extends Tile
 
     public Unit getUnit()
     {
-        return (Unit) stack.peekFirst();
+        return (Unit) getTopPawn();
     }
 
     @Override
