@@ -60,7 +60,7 @@ public abstract class Board implements Disposable, Animation
     private int tileCount = 0;
     private int pawnCount = 0;
     private int animationCount = 0;
-    private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(2);
+    private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(10);
     private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
 
