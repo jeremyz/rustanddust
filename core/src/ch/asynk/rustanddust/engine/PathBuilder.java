@@ -1,12 +1,13 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.utils.Disposable;
+
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public class PathBuilder implements Disposable
 {
@@ -27,8 +28,8 @@ public class PathBuilder implements Disposable
     {
         this.board = board;
         this.tiles = new LinkedHashSet<Tile>(tSize);
-        this.stack = new ArrayList<Tile>(stSize);
-        this.ctrlTiles = new ArrayList<Tile>(ftSize);
+        this.stack = new ArrayListIt<Tile>(stSize);
+        this.ctrlTiles = new ArrayListIt<Tile>(ftSize);
         this.paths = new LinkedList<Path>();
         this.filteredPaths = new LinkedList<Path>();
         this.to = null;

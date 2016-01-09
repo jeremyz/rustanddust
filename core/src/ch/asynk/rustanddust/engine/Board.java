@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Matrix4;
 
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
@@ -61,7 +62,7 @@ public abstract class Board implements Disposable, Animation
     private int pawnCount = 0;
     private int animationCount = 0;
     private final ArrayList<Animation> animations = new ArrayList<Animation>(2);
-    private final ArrayList<Animation> nextAnimations = new ArrayList<Animation>(2);
+    private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
 
     protected SelectedTile selectedTile;
@@ -128,8 +129,8 @@ public abstract class Board implements Disposable, Animation
         for (int i = 0; i < (this.cols * this.rows); i++)
             tiles[i].dispose();
         tilesToDraw.clear();
-        for (int i = 0, n = nextAnimations.size(); i < n; i++)
-            nextAnimations.get(i).dispose();
+        for (Animation a : nextAnimations)
+            a.dispose();
         animations.clear();
         for (int i = 0, n = animations.size(); i < n; i++)
             animations.get(i).dispose();
@@ -263,8 +264,8 @@ public abstract class Board implements Disposable, Animation
         if (over && (animations.size() == 0))
             animationsOver();
 
-        for (int i = 0, n = nextAnimations.size(); i < n; i++)
-            animations.add(nextAnimations.get(i));
+        for (Animation a : nextAnimations)
+            animations.add(a);
         nextAnimations.clear();
 
         selectedTile.animate(delta);

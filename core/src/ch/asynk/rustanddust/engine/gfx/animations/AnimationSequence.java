@@ -1,16 +1,15 @@
 package ch.asynk.rustanddust.engine.gfx.animations;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.engine.gfx.Animation;
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public class AnimationSequence implements Animation, Pool.Poolable
 {
-    private ArrayList<Animation> animations;
+    private ArrayListIt<Animation> animations;
 
     private static final Pool<AnimationSequence> animationSequencePool = new Pool<AnimationSequence>() {
         @Override
@@ -23,7 +22,7 @@ public class AnimationSequence implements Animation, Pool.Poolable
     {
         AnimationSequence seq = animationSequencePool.obtain();
         if (seq.animations == null)
-            seq.animations = new ArrayList<Animation>(capacity);
+            seq.animations = new ArrayListIt<Animation>(capacity);
         else
             seq.animations.ensureCapacity(capacity);
 
@@ -33,8 +32,8 @@ public class AnimationSequence implements Animation, Pool.Poolable
     @Override
     public void reset()
     {
-        for (int i = 0, n = animations.size(); i < n; i++)
-            animations.get(i).dispose();
+        for (Animation a : animations)
+            a.dispose();
         animations.clear();
     }
 

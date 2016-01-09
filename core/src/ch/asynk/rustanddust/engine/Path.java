@@ -1,9 +1,9 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
+
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public class Path implements Disposable, Pool.Poolable
 {
@@ -29,7 +29,7 @@ public class Path implements Disposable, Pool.Poolable
     public int cost;
     public int fitness;
     public boolean roadMarch;
-    public ArrayList<Tile> tiles;
+    public ArrayListIt<Tile> tiles;
 
     public Path()
     {
@@ -42,7 +42,7 @@ public class Path implements Disposable, Pool.Poolable
     protected void init(int size)
     {
         if (tiles == null)
-            tiles = new ArrayList<Tile>(size);
+            tiles = new ArrayListIt<Tile>(size);
         else
             tiles. ensureCapacity(size);
         cost = -1;

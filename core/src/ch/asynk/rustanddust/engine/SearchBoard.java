@@ -1,11 +1,12 @@
 package ch.asynk.rustanddust.engine;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Collection;
+
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public class SearchBoard
 {
@@ -60,7 +61,7 @@ public class SearchBoard
         this.queue = new LinkedList<Node>();
         this.stack = new ArrayDeque<Node>(20);
         this.roadMarch = new ArrayDeque<Node>(5);
-        this.los = new ArrayList<Node>(10);
+        this.los = new ArrayListIt<Node>(10);
     }
 
     private boolean inMap(int col, int row)

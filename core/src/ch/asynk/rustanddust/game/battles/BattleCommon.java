@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.game.battles;
 
 import java.util.Random;
 import java.util.HashMap;
-import java.util.ArrayList;
 
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Battle;
@@ -15,6 +14,7 @@ import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public abstract class BattleCommon implements Battle
 {
@@ -28,8 +28,8 @@ public abstract class BattleCommon implements Battle
     protected Player currentPlayer;
     protected Player usPlayer;
     protected Player gePlayer;
-    protected ArrayList<Zone> entryZone = new ArrayList<Zone>();
-    protected ArrayList<Zone> exitZone = new ArrayList<Zone>();
+    protected ArrayListIt<Zone> entryZone = new ArrayListIt<Zone>();
+    protected ArrayListIt<Zone> exitZone = new ArrayListIt<Zone>();
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 
