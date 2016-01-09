@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.engine;
 
 import java.util.Iterator;
 import java.util.Collection;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.Gdx;
@@ -61,7 +60,7 @@ public abstract class Board implements Disposable, Animation
     private int tileCount = 0;
     private int pawnCount = 0;
     private int animationCount = 0;
-    private final ArrayList<Animation> animations = new ArrayList<Animation>(2);
+    private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(2);
     private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
     private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
 
@@ -132,8 +131,8 @@ public abstract class Board implements Disposable, Animation
         for (Animation a : nextAnimations)
             a.dispose();
         animations.clear();
-        for (int i = 0, n = animations.size(); i < n; i++)
-            animations.get(i).dispose();
+        for (Animation a : animations)
+            a.dispose();
         animations.clear();
         if (selectedTile != null)
             selectedTile.dispose();
@@ -286,9 +285,8 @@ public abstract class Board implements Disposable, Animation
         while (tileIter.hasNext())
             tileIter.next().draw(batch);
 
-        Iterator<Animation> animationIter = animations.iterator();
-        while (animationIter.hasNext())
-            animationIter.next().draw(batch);
+        for (Animation a : animations)
+            a.draw(batch);
 
         selectedTile.draw(batch);
 
@@ -308,9 +306,8 @@ public abstract class Board implements Disposable, Animation
         while (iter.hasNext())
             iter.next().drawDebug(debugShapes);
 
-        Iterator<Animation> animationIter = animations.iterator();
-        while (animationIter.hasNext())
-            animationIter.next().drawDebug(debugShapes);
+        for (Animation a : animations)
+            a.drawDebug(debugShapes);
 
         if (transform)
             debugShapes.setTransformMatrix(prevTransform);
