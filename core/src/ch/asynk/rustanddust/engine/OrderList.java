@@ -12,7 +12,7 @@ public class OrderList extends LinkedList<Order> implements Json.Serializable
     public Order get(Pawn pawn, Order.OrderType type)
     {
         Iterator<Order> it = iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Order order = it.next();
             if ((order.compareTo(pawn) == 0) && (order.isA(type)))
                 return order;
@@ -23,7 +23,7 @@ public class OrderList extends LinkedList<Order> implements Json.Serializable
     public void dispose(Pawn pawn)
     {
         Iterator<Order> it = iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Order order = it.next();
             if (order.compareTo(pawn) == 0) {
                 it.remove();
@@ -35,7 +35,7 @@ public class OrderList extends LinkedList<Order> implements Json.Serializable
     public void dispose(Pawn pawn, Order.OrderType type)
     {
         Iterator<Order> it = iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Order order = it.next();
             if ((order.compareTo(pawn) == 0) && (order.isA(type))) {
                 it.remove();

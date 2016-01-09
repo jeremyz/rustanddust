@@ -128,7 +128,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.head_back = !this.m.canAim();
         this.aim_r += (Orientation.SOUTH.r() - this.m.getRotation());
         while (aim_r > 180) aim_r -= 360;
-        while(aim_r < -180) aim_r += 360;
+        while (aim_r < -180) aim_r += 360;
     }
 
     @Override

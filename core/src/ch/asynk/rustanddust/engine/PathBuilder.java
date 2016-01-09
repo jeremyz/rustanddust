@@ -205,7 +205,7 @@ public class PathBuilder implements Disposable
         Tile moves[] = new Tile[6];
         board.setAdjacentTiles(from, moves);
 
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             Tile next = moves[i];
             if ((next == null) || next.isOffMap()) continue;
 
@@ -338,7 +338,7 @@ public class PathBuilder implements Disposable
         System.err.println(what + " " + paths.size() + " - " + from + " -> " + to);
         for (Path path : paths) {
             System.err.println(String.format(" - path (l:%d c:%d r:%b f:%d)", path.tiles.size(), path.cost, path.roadMarch, path.fitness));
-            for(Tile tile : path.tiles)
+            for (Tile tile : path.tiles)
                 System.err.println("   " + tile.toString());
         }
         System.err.println();

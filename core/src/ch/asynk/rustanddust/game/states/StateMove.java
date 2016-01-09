@@ -106,7 +106,7 @@ public class StateMove extends StateCommon
         Unit unit = hex.getUnit();
 
         if (map.unitsMoveableContains(unit)) {
-            if(unit != activeUnit)
+            if (unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.movesContains(hex)) {
             collectPaths(hex);

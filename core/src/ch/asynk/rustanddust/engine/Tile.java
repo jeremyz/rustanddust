@@ -124,7 +124,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     {
         if (isEmpty()) return false;
         Iterator<Pawn> itr = iterator();
-        while(itr.hasNext()) {
+        while (itr.hasNext()) {
             if (itr.next().isUnit())
                 return true;
         }

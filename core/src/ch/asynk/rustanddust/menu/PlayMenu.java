@@ -59,7 +59,7 @@ public class PlayMenu extends Patch
         battleValue.write(game.config.battle.getName());
 
         float w = 0;
-        for(int i = game.config.gameMode.i; ;) {
+        for (int i = game.config.gameMode.i; ;) {
             gameModeValue.write(game.config.gameMode.s);
             if (w < gameModeValue.getWidth())
                 w = gameModeValue.getWidth();

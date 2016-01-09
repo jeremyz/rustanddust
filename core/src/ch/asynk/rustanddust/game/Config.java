@@ -44,7 +44,7 @@ public class Config
         {
             if (this == SOLO)
                 return PVE;
-            if(this == PVE)
+            if (this == PVE)
                 return PVP;
             return SOLO;
         }

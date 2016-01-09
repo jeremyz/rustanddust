@@ -51,7 +51,7 @@ public class AnimationSequence implements Animation, Pool.Poolable
     @Override
     public boolean animate(float delta)
     {
-        if(animations.isEmpty()) return true;
+        if (animations.isEmpty()) return true;
 
         Animation animation = animations.get(0);
         if (animation.animate(delta)) {

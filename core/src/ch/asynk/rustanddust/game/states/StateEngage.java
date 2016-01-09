@@ -87,7 +87,7 @@ public class StateEngage extends StateCommon
         }
         else if ((activeUnit != null) && map.unitsAssistContains(unit)) {
             map.toggleAssist(unit);
-            // if(map.toggleAssist(unit))
+            // if (map.toggleAssist(unit))
             //     ctrl.hud.notify(unit + " will fire");
             // else
             //     ctrl.hud.notify(unit + " wont fire");

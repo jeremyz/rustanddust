@@ -145,7 +145,7 @@ public class SearchBoard
 
             adjacentMoves(src, adjacents);
 
-            for(int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
                 if (dst != null) {
 
@@ -182,12 +182,12 @@ public class SearchBoard
         }
 
         for (Node n : roadMarch) n.remaining = roadMarchBonus;
-        while(roadMarch.size() != 0) {
+        while (roadMarch.size() != 0) {
             Node src = roadMarch.pop();
 
             adjacentMoves(src, adjacents);
 
-            for(int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
                 if (dst != null) {
 
@@ -298,7 +298,7 @@ public class SearchBoard
 
             int rangeLeft = src.remaining - 1;
 
-            for(int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++) {
                 Node dst = adjacents[i];
                 if ((dst == null) || (dst.search == searchCount))
                     continue;
@@ -443,7 +443,7 @@ public class SearchBoard
         boolean diag = (dx == (3 * dy));
 
         los.add(getNode(x, y));
-        while((x != x1) || (y != y1)) {
+        while ((x != x1) || (y != y1)) {
             if (e > 0) {
                 e -= (dy3 + dx3);
                 y += ys;
@@ -468,7 +468,7 @@ public class SearchBoard
             }
             los.add(getNode(x, y));
             if (!losBlocked) losBlocked = board.getTile(x, y).blockLineOfSight(from, to);
-            if(losBlocked && clearVisibility) return fixLineOfSight(false, x1, y1);
+            if (losBlocked && clearVisibility) return fixLineOfSight(false, x1, y1);
         }
 
         return true;
@@ -485,7 +485,7 @@ public class SearchBoard
 
         Tile t = null;
         los.add(getNode(x, y));
-        while((x != x1) || (y != y1)) {
+        while ((x != x1) || (y != y1)) {
             boolean blocked = false;
 
             y += d;
@@ -500,7 +500,7 @@ public class SearchBoard
                 blocked = false;
 
             if (blocked) losBlocked = true;
-            if(losBlocked && clearVisibility) return false;
+            if (losBlocked && clearVisibility) return false;
 
             y += d;
             t = board.getTile(x, y);
@@ -524,7 +524,7 @@ public class SearchBoard
 
         Tile t = null;
         los.add(getNode(x, y));
-        while((x != x1) || (y != y1)) {
+        while ((x != x1) || (y != y1)) {
             boolean blocked = false;
 
             x += dx;
@@ -541,7 +541,7 @@ public class SearchBoard
                 blocked = false;
 
             if (blocked) losBlocked = true;
-            if(losBlocked && clearVisibility) return false;
+            if (losBlocked && clearVisibility) return false;
 
             x += dx;
             t = board.getTile(x, y);

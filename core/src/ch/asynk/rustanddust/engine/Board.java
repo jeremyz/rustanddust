@@ -344,7 +344,7 @@ public abstract class Board implements Disposable, Animation
             Tile tile = neighbours[i];
             if (tile != null) {
                 Iterator<Pawn> pawns = tile.iterator();
-                while(pawns.hasNext()) {
+                while (pawns.hasNext()) {
                     Pawn p = pawns.next();
                     if (!pawn.isEnemy(p) && p.canMove())
                         assists.add(p);
@@ -434,7 +434,7 @@ public abstract class Board implements Disposable, Animation
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
     {
-        if(tile.enableOverlay(i, enable))
+        if (tile.enableOverlay(i, enable))
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
@@ -442,7 +442,7 @@ public abstract class Board implements Disposable, Animation
 
     public void enableOverlayOn(Tile tile, int i, Orientation o, boolean enable)
     {
-        if(tile.enableOverlay(i, enable, o.r()))
+        if (tile.enableOverlay(i, enable, o.r()))
             tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
