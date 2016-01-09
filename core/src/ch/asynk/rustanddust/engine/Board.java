@@ -257,8 +257,10 @@ public abstract class Board implements Disposable, Animation
         Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
             Animation a = iter.next();
-            if (a.animate(delta))
+            if (a.animate(delta)) {
                 iter.remove();
+                a.dispose();
+            }
         }
         if (over && (animations.size() == 0))
             animationsOver();
