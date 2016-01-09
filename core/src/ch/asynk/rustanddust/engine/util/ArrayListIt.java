@@ -44,6 +44,8 @@ public class ArrayListIt<E> extends ArrayList<E> implements Iterator, Iterable<E
     @Override
     public void remove()
     {
-        throw new RuntimeException("Iterator.remove is not allowed in here bitch!");
+        i -=1;
+        s -= 1;
+        remove(i);
     }
 }
