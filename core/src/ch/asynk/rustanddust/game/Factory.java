@@ -29,6 +29,8 @@ public class Factory implements Board.TileBuilder, Disposable
     public static final String ENABLED = "enabled";
     public static final String REINFORCEMENT = "reinforcement";
 
+    public static final int HEX_CAPACITY = 1;
+
     public enum MapType
     {
         MAP_00,
@@ -213,7 +215,7 @@ public class Factory implements Board.TileBuilder, Disposable
 
     public Hex getNewTile(float x, float y, int col, int row, boolean offmap)
     {
-        Hex hex = new Hex(x, y, col, row, hexOverlaysAtlas, Army.NONE);
+        Hex hex = new Hex(x, y, col, row, HEX_CAPACITY, Army.NONE, hexOverlaysAtlas);
         if (offmap) hex.terrain = Hex.Terrain.OFFMAP;
         return hex;
     }

@@ -56,14 +56,14 @@ public class Helpers
 
         public FakeTile(int col, int row)
         {
-            super(col, row, null);
+            super(col, row, 1, null);
             offMap = false;
             blockLineOfSight = false;
         }
 
         public FakeTile(int col, int row, boolean offMap)
         {
-            super(col, row, null);
+            super(col, row, 1, null);
             this.offMap = offMap;
         }
 

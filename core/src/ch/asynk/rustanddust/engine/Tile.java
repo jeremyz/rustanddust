@@ -47,19 +47,19 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     public abstract boolean atLeastOneMove(Pawn pawn);
     public abstract boolean blockLineOfSight(Tile from, Tile to);
 
-    protected Tile(int col, int row, Faction defaultFaction)
+    protected Tile(int col, int row, int capacity, Faction defaultFaction)
     {
         this.col = col;
         this.row = row;
-        this.stack = new ArrayListIt<Pawn>();
+        this.stack = new ArrayListIt<Pawn>(capacity);
         this.curFaction = defaultFaction;
         this.prevFaction = defaultFaction;
         this.objective = Objective.NONE;
     }
 
-    public Tile(float x, float y, int col, int row, TextureAtlas atlas, Faction defaultFaction)
+    public Tile(float x, float y, int col, int row, int capacity, Faction defaultFaction, TextureAtlas atlas)
     {
-        this(col, row, defaultFaction);
+        this(col, row, capacity, defaultFaction);
         this.x = x;
         this.y = y;
         this.overlays = new StackedImages(atlas);

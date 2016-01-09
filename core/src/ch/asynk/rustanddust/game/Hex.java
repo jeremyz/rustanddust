@@ -43,9 +43,9 @@ public class Hex extends Tile
         return String.format("(%d;%d)", col, row);
     }
 
-    public Hex(float x, float y, int col, int row, TextureAtlas atlas, Army defaultArmy)
+    public Hex(float x, float y, int col, int row, int capacity, Army defaultArmy, TextureAtlas atlas)
     {
-        super(x, y, col, row, atlas, defaultArmy);
+        super(x, y, col, row, capacity, defaultArmy, atlas);
         this.terrain = Terrain.CLEAR;
         this.roads = 0;
     }
