@@ -1,11 +1,12 @@
 package ch.asynk.rustanddust.game;
 
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Random;
 
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
+
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
 
 public class Engagement implements Disposable, Pool.Poolable
 {
@@ -51,7 +52,7 @@ public class Engagement implements Disposable, Pool.Poolable
 
     public Engagement()
     {
-        assists = new LinkedList<Unit>();
+        assists = new ArrayListIt<Unit>(10);
         reset();
     }
 
