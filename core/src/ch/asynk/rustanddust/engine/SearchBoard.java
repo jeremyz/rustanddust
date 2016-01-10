@@ -1,9 +1,6 @@
 package ch.asynk.rustanddust.engine;
 
 import java.util.List;
-import java.util.LinkedList;
-import java.util.ArrayDeque;
-import java.util.Iterator;
 import java.util.Collection;
 
 import ch.asynk.rustanddust.engine.util.ArrayListIt;
@@ -38,10 +35,10 @@ public class SearchBoard
     private int searchCount;
     private Node nodes[];
 
-    private ArrayDeque<Node> stack;
-    private LinkedList<Node> queue;
-    private ArrayDeque<Node> roadMarch;
-    private List<Node> los;
+    private ArrayListIt<Node> stack;
+    private ArrayListIt<Node> queue;
+    private ArrayListIt<Node> roadMarch;
+    private ArrayListIt<Node> los;
     private boolean losBlocked;
 
     public SearchBoard(Board board, int cols, int rows)
@@ -58,9 +55,9 @@ public class SearchBoard
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
 
-        this.queue = new LinkedList<Node>();
-        this.stack = new ArrayDeque<Node>(20);
-        this.roadMarch = new ArrayDeque<Node>(5);
+        this.queue = new ArrayListIt<Node>(30);
+        this.stack = new ArrayListIt<Node>(20);
+        this.roadMarch = new ArrayListIt<Node>(5);
         this.los = new ArrayListIt<Node>(10);
     }
 
@@ -283,10 +280,10 @@ public class SearchBoard
         if (range <= 0)
             return targets.size();
 
-        queue.add(from);
+        queue.enqueue(from);
 
         while (queue.size() != 0) {
-            Node src = queue.remove();
+            Node src = queue.dequeue();
 
             if (src.remaining <= 0)
                 continue;
@@ -305,12 +302,10 @@ public class SearchBoard
 
                 dst.search = searchCount;
                 dst.remaining = rangeLeft;
-                queue.add(dst);
+                queue.enqueue(dst);
                 Tile t = getTile(dst);
                 if (!t.isEmpty() && hasClearLineOfSight(from, dst, angle)) {
-                    Iterator<Pawn> it = t.iterator();
-                    while (it.hasNext()) {
-                        Pawn target = it.next();
+                    for (Pawn target : t) {
                         if (shooter.canEngage(target))
                             targets.add(target);
                     }
