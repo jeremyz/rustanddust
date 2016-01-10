@@ -1,21 +1,25 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.LinkedList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
-public class OrderList extends LinkedList<Order> implements Json.Serializable
+import ch.asynk.rustanddust.engine.util.ArrayListIt;
+
+public class OrderList extends ArrayListIt<Order> implements Json.Serializable
 {
+    public OrderList(int capacity)
+    {
+        super(capacity);
+    }
+
     public Order get(Pawn pawn, Order.OrderType type)
     {
-        Iterator<Order> it = iterator();
-        while (it.hasNext()) {
-            Order order = it.next();
-            if ((order.compareTo(pawn) == 0) && (order.isA(type)))
-                return order;
+        for (Order o : this) {
+            if ((o.compareTo(pawn) == 0) && (o.isA(type)))
+                return o;
         }
         return null;
     }

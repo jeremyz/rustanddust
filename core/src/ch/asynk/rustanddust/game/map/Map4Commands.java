@@ -27,7 +27,7 @@ public abstract class Map4Commands extends Map3Animations
         super(game, map, hex);
 
         this.battle = game.ctrl.battle;
-        this.commands = new OrderList();
+        this.commands = new OrderList(10);
     }
 
     @Override
