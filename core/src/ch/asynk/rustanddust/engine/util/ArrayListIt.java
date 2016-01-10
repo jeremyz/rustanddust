@@ -18,6 +18,26 @@ public class ArrayListIt<E> extends ArrayList<E> implements Iterator, Iterable<E
         super(n);
     }
 
+    public void push(E e)
+    {
+        add(e);
+    }
+
+    public E pop()
+    {
+        return remove(size() - 1);
+    }
+
+    public void enqueue(E e)
+    {
+        add(e);
+    }
+
+    public E dequeue()
+    {
+        return remove(0);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<E> iterator()
