@@ -44,7 +44,7 @@ public class Path implements Disposable, Pool.Poolable
         if (tiles == null)
             tiles = new IterableArray<Tile>(size);
         else
-            tiles. ensureCapacity(size);
+            tiles.ensureCapacity(size);
         cost = -1;
         roadMarch = true;
         fitness = 0;
