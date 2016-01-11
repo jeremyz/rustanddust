@@ -1,11 +1,11 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class Engagement implements Disposable, Pool.Poolable
@@ -36,7 +36,7 @@ public class Engagement implements Disposable, Pool.Poolable
 
     public Unit attacker;
     public Unit defender;
-    public List<Unit> assists;
+    public Collection<Unit> assists;
     public boolean success;
     public int d1;
     public int d2;

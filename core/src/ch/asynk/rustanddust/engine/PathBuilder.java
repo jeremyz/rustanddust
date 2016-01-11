@@ -1,9 +1,8 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.List;
-
 import com.badlogic.gdx.utils.Disposable;
 
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.engine.util.IterableSet;
@@ -18,9 +17,9 @@ public class PathBuilder implements Disposable
     public int distance;
     public Orientation orientation;
     private IterableStack<Tile> stack;
-    private List<Tile> ctrlTiles;
-    private List<Path> paths;
-    private List<Path> filteredPaths;
+    private Collection<Tile> ctrlTiles;
+    private Collection<Path> paths;
+    private Collection<Path> filteredPaths;
     private IterableSet<Tile> tiles;
 
     public PathBuilder(Board board, int tSize, int stSize, int ftSize, int psSize)
@@ -121,7 +120,7 @@ public class PathBuilder implements Disposable
 
     public int chooseBest()
     {
-        List<Path> ps = getPaths();
+        Collection<Path> ps = getPaths();
 
         if (ps.size() > 1) {
             Path good = null;
@@ -135,7 +134,7 @@ public class PathBuilder implements Disposable
 
     public int chooseShortest()
     {
-        List<Path> ps = getPaths();
+        Collection<Path> ps = getPaths();
 
         if (ps.size() > 1) {
             Path good = ps.get(0);
@@ -151,7 +150,7 @@ public class PathBuilder implements Disposable
 
     public int chooseExit(Orientation o)
     {
-        List<Path> ps = getPaths();
+        Collection<Path> ps = getPaths();
 
         Path good = ps.get(0);
         int mvt = pawn.getMovementPoints();
@@ -318,7 +317,7 @@ public class PathBuilder implements Disposable
         return false;
     }
 
-    private List<Path> getPaths()
+    private Collection<Path> getPaths()
     {
         if (ctrlTiles.size() == 0)
             return paths;
@@ -332,7 +331,7 @@ public class PathBuilder implements Disposable
         return filteredPaths.get(i);
     }
 
-    private void printToErr(String what, List<Path> paths)
+    private void printToErr(String what, Collection<Path> paths)
     {
         System.err.println(what + " " + paths.size() + " - " + from + " -> " + to);
         for (Path path : paths) {

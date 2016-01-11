@@ -28,8 +28,8 @@ public abstract class BattleCommon implements Battle
     protected Player currentPlayer;
     protected Player usPlayer;
     protected Player gePlayer;
-    protected IterableArray<Zone> entryZone = new IterableArray<Zone>();
-    protected IterableArray<Zone> exitZone = new IterableArray<Zone>();
+    protected IterableArray<Zone> entryZones = new IterableArray<Zone>(10);
+    protected IterableArray<Zone> exitZones = new IterableArray<Zone>(10);
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 
@@ -172,12 +172,12 @@ public abstract class BattleCommon implements Battle
 
     protected void addEntryZone(Zone entry)
     {
-        entryZone.add(entry);
+        entryZones.add(entry);
     }
 
     protected void addExitZone(Zone exit)
     {
-        exitZone.add(exit);
+        exitZones.add(exit);
         exit.enable(Hex.EXIT, true);
     }
 

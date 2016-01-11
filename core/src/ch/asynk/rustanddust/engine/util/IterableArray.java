@@ -1,51 +1,138 @@
 package ch.asynk.rustanddust.engine.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
-public class IterableArray<E> extends ArrayList<E> implements Collection<E>
+public class IterableArray<E> implements Collection<E>
 {
-    private int i;
+    private int idx;
     private int s;
+    private int c;
+    transient E[] data;
 
-    public IterableArray()
+    @SuppressWarnings("unchecked")
+    public IterableArray(int capacity)
     {
-        super();
+        this.s = 0;
+        this.c = capacity;
+        this.data = (E[]) new Object[c];
     }
 
-    public IterableArray(int n)
+    @Override
+    public int size()
     {
-        super(n);
+        return s;
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return (s == 0);
+    }
+
+    @Override
+    public void clear()
+    {
+        for (int i = 0; i < s; i++)
+            data[i] = null;
+        s = 0;
+    }
+
+    @Override
+    public void ensureCapacity(int min)
+    {
+        if (c > min) return;
+        c += (c >> 1);
+        if (c < min)
+            c = min;
+        data = Arrays.copyOf(data, c);
+    }
+
+    @Override
+    public boolean contains(E e)
+    {
+        if (e == null) {
+            for (int i = 0; i < s; i++) {
+                if (data[i] == null)
+                    return true;
+            }
+        } else {
+            for (int i = 0; i < s; i++) {
+                if (e.equals(data[i]))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public E get(int i)
+    {
+        return data[i];
+    }
+
+    @Override
+    public boolean add(E e)
+    {
+        ensureCapacity(s + 1);
+        data[s] = e;
+        s += 1;
+        return true;
+    }
+
+    @Override
+    public E remove(int i)
+    {
+        E e = data[i];
+        int m = (s - i - 1);
+        if (m > 0)
+            System.arraycopy(data, i+1, data, i, m);
+        data[--s] = null;
+
+        return e;
+    }
+
+    @Override
+    public boolean remove(E e)
+    {
+        for (int i = 0; i < s; i++) {
+            if (e.equals(data[i])) {
+                int m = (s - i - 1);
+                if (m > 0)
+                    System.arraycopy(data, i+1, data, i, m);
+                data[--s] = null;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<E> iterator()
     {
-        this.i = 0;
-        this.s = size();
+        this.idx = 0;
         return (Iterator<E>) this;
     }
 
     @Override
     public boolean hasNext()
     {
-        return (i < s);
+        return (idx < s);
     }
 
     @Override
     public E next()
     {
-        E e = get(i);
-        i += 1;
+        E e = get(idx);
+        idx += 1;
         return e;
     }
 
     @Override
     public void remove()
     {
-        i -=1;
-        s -= 1;
-        remove(i);
+        idx -= 1;
+        remove(idx);
     }
 }

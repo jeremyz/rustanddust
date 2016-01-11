@@ -1,7 +1,5 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.List;
-
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -10,6 +8,7 @@ import ch.asynk.rustanddust.engine.Order;
 import ch.asynk.rustanddust.engine.Move;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
+import ch.asynk.rustanddust.engine.util.Collection;
 
 public class Command extends Order
 {
@@ -191,7 +190,7 @@ public class Command extends Order
         json.writeObjectEnd();
     }
 
-    private void writeUnits(Json json, String key, List<Unit> units)
+    private void writeUnits(Json json, String key, Collection<Unit> units)
     {
         json.writeArrayStart(key);
         for (Unit u : units)
@@ -209,7 +208,7 @@ public class Command extends Order
         json.writeObjectEnd();
     }
 
-    private void writeTiles(Json json, String key, List<Tile> tiles)
+    private void writeTiles(Json json, String key, Collection<Tile> tiles)
     {
         json.writeArrayStart(key);
         for (Tile t : tiles)

@@ -1,10 +1,9 @@
 package ch.asynk.rustanddust;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.Before;
 
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.SearchBoard.Node;
 
 import static org.junit.Assert.assertTrue;
@@ -28,21 +27,21 @@ public class LineOfSightTest
         ((Helpers.FakeTile) fakeBoard.getTile(i, j)).setBlockLineOfSight(block);
     }
 
-    private void checkNode(List<Node> l, int i, int col, int row)
+    private void checkNode(Collection<Node> l, int i, int col, int row)
     {
         Node n = l.get(i);
         assertTrue(n.col == col);
         assertTrue(n.row == row);
     }
 
-    private List<Node> lineOfSight(int x0, int y0, int x1, int y1)
+    private Collection<Node> lineOfSight(int x0, int y0, int x1, int y1)
     {
         return sb.buildLineOfSight(x0, y0, x1, y1, true);
     }
 
     // from bottom left
     @Test public void test_1() {
-        List<Node> s = lineOfSight(0, 0, 2, 1);
+        Collection<Node> s = lineOfSight(0, 0, 2, 1);
         assertTrue(s.size() == 4);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -51,7 +50,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_2() {
-        List<Node> s = lineOfSight(0, 0, 5, 1);
+        Collection<Node> s = lineOfSight(0, 0, 5, 1);
         assertTrue(s.size() == 6);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -62,7 +61,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_3() {
-        List<Node> s = lineOfSight(0, 0, 8, 1);
+        Collection<Node> s = lineOfSight(0, 0, 8, 1);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -77,7 +76,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_4() {
-        List<Node> s = lineOfSight(0, 0, 1, 2);
+        Collection<Node> s = lineOfSight(0, 0, 1, 2);
         assertTrue(s.size() == 3);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 1);
@@ -85,7 +84,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_5() {
-        List<Node> s = lineOfSight(0, 0, 4, 2);
+        Collection<Node> s = lineOfSight(0, 0, 4, 2);
         assertTrue(s.size() == 7);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -97,7 +96,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_6() {
-        List<Node> s = lineOfSight(0, 0, 7, 2);
+        Collection<Node> s = lineOfSight(0, 0, 7, 2);
         assertTrue(s.size() == 8);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -110,7 +109,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_7() {
-        List<Node> s = lineOfSight(0, 0, 10, 2);
+        Collection<Node> s = lineOfSight(0, 0, 10, 2);
         assertTrue(s.size() == 11);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -126,7 +125,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_8() {
-        List<Node> s = lineOfSight(0, 0, 6, 3);
+        Collection<Node> s = lineOfSight(0, 0, 6, 3);
         assertTrue(s.size() == 10);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -141,7 +140,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_9() {
-        List<Node> s = lineOfSight(0, 0, 2, 4);
+        Collection<Node> s = lineOfSight(0, 0, 2, 4);
         assertTrue(s.size() == 5);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 1);
@@ -151,7 +150,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_10() {
-        List<Node> s = lineOfSight(0, 0, 5, 4);
+        Collection<Node> s = lineOfSight(0, 0, 5, 4);
         assertTrue(s.size() == 6);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 1);
@@ -162,7 +161,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_11() {
-        List<Node> s = lineOfSight(0, 0, 8, 4);
+        Collection<Node> s = lineOfSight(0, 0, 8, 4);
         assertTrue(s.size() == 13);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
@@ -180,7 +179,7 @@ public class LineOfSightTest
     }
 
     @Test public void test_12() {
-        List<Node> s = lineOfSight(0, 0, 11, 4);
+        Collection<Node> s = lineOfSight(0, 0, 11, 4);
         assertTrue(s.size() == 12);
         checkNode(s, 0, 0, 0);
         checkNode(s, 1, 1, 0);
