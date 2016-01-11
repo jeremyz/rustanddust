@@ -18,33 +18,6 @@ public class IterableArray<E> extends ArrayList<E> implements Iterator, Iterable
         super(n);
     }
 
-    public void push(E e)
-    {
-        add(e);
-    }
-
-    public E pop()
-    {
-        return remove(size() - 1);
-    }
-
-    public void enqueue(E e)
-    {
-        add(e);
-    }
-
-    public E dequeue()
-    {
-        return remove(0);
-    }
-
-    public boolean addUnique(E e)
-    {
-        if (contains(e)) return false;
-        super.add(e);
-        return true;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<E> iterator()
