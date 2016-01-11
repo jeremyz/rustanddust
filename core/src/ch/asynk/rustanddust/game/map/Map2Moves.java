@@ -21,7 +21,7 @@ public abstract class Map2Moves extends Map1Units
         super(game, map, hex);
 
         moves = new TileSet(this, 40);
-        paths = new PathBuilder(this, 10, 20, 5, 10);
+        paths = new PathBuilder(this, 10, 20, 5, 20);
     }
 
     @Override

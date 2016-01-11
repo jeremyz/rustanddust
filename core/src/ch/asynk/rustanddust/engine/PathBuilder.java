@@ -1,9 +1,6 @@
 package ch.asynk.rustanddust.engine;
 
 import java.util.List;
-import java.util.LinkedList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.utils.Disposable;
 
@@ -22,16 +19,16 @@ public class PathBuilder implements Disposable
     private List<Tile> ctrlTiles;
     private List<Path> paths;
     private List<Path> filteredPaths;
-    private HashSet<Tile> tiles;
+    private ArrayListIt<Tile> tiles;
 
-    public PathBuilder(Board board, int tSize, int stSize, int ftSize, int vectSize)
+    public PathBuilder(Board board, int tSize, int stSize, int ftSize, int psSize)
     {
         this.board = board;
-        this.tiles = new LinkedHashSet<Tile>(tSize);
+        this.tiles = new ArrayListIt<Tile>(tSize);
         this.stack = new ArrayListIt<Tile>(stSize);
         this.ctrlTiles = new ArrayListIt<Tile>(ftSize);
-        this.paths = new LinkedList<Path>();
-        this.filteredPaths = new LinkedList<Path>();
+        this.paths = new ArrayListIt<Path>(psSize);
+        this.filteredPaths = new ArrayListIt<Path>(psSize);
         this.to = null;
         this.pawn = null;
         this.orientation = Orientation.KEEP;
@@ -197,7 +194,7 @@ public class PathBuilder implements Disposable
         clearPaths();
         paths.add(path);
         for (Tile tile : path.tiles)
-            tiles.add(tile);
+            tiles.addUnique(tile);
     }
 
     private void findAllPaths(Tile from, int mvtLeft, int fitness, boolean roadMarch)
@@ -220,7 +217,7 @@ public class PathBuilder implements Disposable
                 Path path = Path.get(stack.size() + 1);
                 for (Tile t: stack) {
                     path.tiles.add(t);
-                    tiles.add(t);
+                    tiles.addUnique(t);
                 }
                 path.roadMarch = r;
                 path.fitness = f;
@@ -262,11 +259,11 @@ public class PathBuilder implements Disposable
                     filteredPaths.clear();
                     filteredPaths.add(path);
                     tiles.clear();
-                    for (Tile tile : path.tiles) tiles.add(tile);
+                    for (Tile tile : path.tiles) tiles.addUnique(tile);
                     break;
                 } else {
                     filteredPaths.add(path);
-                    for (Tile tile : path.tiles) tiles.add(tile);
+                    for (Tile tile : path.tiles) tiles.addUnique(tile);
                 }
             }
         }
