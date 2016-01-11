@@ -2,7 +2,6 @@ package ch.asynk.rustanddust.engine;
 
 import java.util.Iterator;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 
 import com.badlogic.gdx.Gdx;
 
@@ -62,7 +61,7 @@ public abstract class Board implements Disposable, Animation
     private int animationCount = 0;
     private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(10);
     private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
-    private final LinkedHashSet<Tile> tilesToDraw = new LinkedHashSet<Tile>();
+    private final ArrayListIt<Tile> tilesToDraw = new ArrayListIt<Tile>();
 
     protected SelectedTile selectedTile;
 
@@ -283,9 +282,8 @@ public abstract class Board implements Disposable, Animation
             batch.setTransformMatrix(nextTransform);
         }
 
-        Iterator<Tile> tileIter = tilesToDraw.iterator();
-        while (tileIter.hasNext())
-            tileIter.next().draw(batch);
+        for (Tile tile : tilesToDraw)
+            tile.draw(batch);
 
         for (Animation a : animations)
             a.draw(batch);
@@ -304,9 +302,8 @@ public abstract class Board implements Disposable, Animation
             debugShapes.setTransformMatrix(nextTransform);
         }
 
-        Iterator<Tile> iter = tilesToDraw.iterator();
-        while (iter.hasNext())
-            iter.next().drawDebug(debugShapes);
+        for (Tile tile : tilesToDraw)
+            tile.drawDebug(debugShapes);
 
         for (Animation a : animations)
             a.drawDebug(debugShapes);
@@ -343,9 +340,7 @@ public abstract class Board implements Disposable, Animation
         for (int i = 0; i < 6; i++) {
             Tile tile = neighbours[i];
             if (tile != null) {
-                Iterator<Pawn> pawns = tile.iterator();
-                while (pawns.hasNext()) {
-                    Pawn p = pawns.next();
+                for (Pawn p : tile) {
                     if (!pawn.isEnemy(p) && p.canMove())
                         assists.add(p);
                 }
@@ -409,7 +404,7 @@ public abstract class Board implements Disposable, Animation
             if (tile.isObjective()) {
                 tile.enableOverlay(o, false);
                 tile.enableOverlay(moveable.getFaction().overlay(), true);
-                tilesToDraw.add(tile);
+                tilesToDraw.addUnique(tile);
             }
         }
     }
@@ -420,7 +415,7 @@ public abstract class Board implements Disposable, Animation
             if (tile.isObjective()) {
                 tile.enableOverlay(moveable.getFaction().overlay(), false);
                 tile.enableOverlay(tile.belongsTo().overlay(), true);
-                tilesToDraw.add(tile);
+                tilesToDraw.addUnique(tile);
             }
         }
     }
@@ -435,7 +430,7 @@ public abstract class Board implements Disposable, Animation
     public void enableOverlayOn(Tile tile, int i, boolean enable)
     {
         if (tile.enableOverlay(i, enable))
-            tilesToDraw.add(tile);
+            tilesToDraw.addUnique(tile);
         else
             tilesToDraw.remove(tile);
     }
@@ -443,7 +438,7 @@ public abstract class Board implements Disposable, Animation
     public void enableOverlayOn(Tile tile, int i, Orientation o, boolean enable)
     {
         if (tile.enableOverlay(i, enable, o.r()))
-            tilesToDraw.add(tile);
+            tilesToDraw.addUnique(tile);
         else
             tilesToDraw.remove(tile);
     }
@@ -451,7 +446,7 @@ public abstract class Board implements Disposable, Animation
     private int pushPawnOnto(Pawn pawn, Tile tile)
     {
         if (!tile.isOffMap())
-            tilesToDraw.add(tile);
+            tilesToDraw.addUnique(tile);
         return tile.push(pawn);
     }
 
