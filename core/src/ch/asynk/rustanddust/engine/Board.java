@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.engine;
 
 import java.util.Iterator;
-import java.util.Collection;
 
 import com.badlogic.gdx.Gdx;
 
@@ -16,6 +15,7 @@ import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.engine.util.IterableSet;
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;

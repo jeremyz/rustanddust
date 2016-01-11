@@ -1,6 +1,6 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.Collection;
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.util.IterableArray;
 
 import ch.asynk.rustanddust.engine.Pawn;

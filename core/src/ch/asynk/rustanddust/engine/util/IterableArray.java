@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.engine.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class IterableArray<E> extends ArrayList<E> implements Iterator, Iterable<E>
+public class IterableArray<E> extends ArrayList<E> implements Collection<E>
 {
     private int i;
     private int s;

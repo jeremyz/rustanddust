@@ -45,7 +45,7 @@ public abstract class Map1Units extends Map0Hex
     public int collectMoveable(Unit unit)
     {
         if (unit.canHQMove())
-                collectMoveAssists(unit, moveableUnits.asPawns());
+            collectMoveAssists(unit, moveableUnits.asPawns());
         else
             moveableUnits.clear();
 

@@ -1,8 +1,6 @@
 package ch.asynk.rustanddust.engine;
 
-import java.util.List;
-import java.util.Collection;
-
+import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.engine.util.IterableQueue;
@@ -258,7 +256,7 @@ public class SearchBoard
             a[5] = null;
     }
 
-    public List<Node> buildLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
+    public Collection<Node> buildLineOfSight(int x0, int y0, int x1, int y1, boolean clearVisibility)
     {
         lineOfSight(x0, y0, x1, y1, clearVisibility);
         return los;
@@ -347,7 +345,7 @@ public class SearchBoard
         return validateFireAngle(angleOfAttack, los);
     }
 
-    private boolean isFlankAttack(int angle, List<Node> los)
+    private boolean isFlankAttack(int angle, Collection<Node> los)
     {
         Node from = los.get(los.size() - 2);
         Node to = los.get(los.size() - 1);
@@ -364,7 +362,7 @@ public class SearchBoard
         return (o.isInSides(angle) && o2.isInSides(angle));
     }
 
-    private boolean validateFireAngle(int angle, List<Node> los)
+    private boolean validateFireAngle(int angle, Collection<Node> los)
     {
         Node from = los.get(0);
         Node p0 = los.get(1);
