@@ -1,10 +1,9 @@
 package ch.asynk.rustanddust;
 
-import java.util.Vector;
-
 import org.junit.Test;
 import org.junit.Before;
 
+import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.engine.SearchBoard.Node;
@@ -101,7 +100,7 @@ public class Attacks
     }
 
     @Test public void test_3() {
-        Vector<Pawn> targets = new Vector<Pawn>(5);
+        IterableArray<Pawn> targets = new IterableArray<Pawn>(5);
         sb.possibleTargetsFrom(shooter, targets);
 
         setPawn(target, sb.get(7, 6), Orientation.NORTH);
