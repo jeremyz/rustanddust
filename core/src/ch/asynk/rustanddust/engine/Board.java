@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.badlogic.gdx.math.Matrix4;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
@@ -59,9 +59,9 @@ public abstract class Board implements Disposable, Animation
     private int tileCount = 0;
     private int pawnCount = 0;
     private int animationCount = 0;
-    private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(10);
-    private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
-    private final ArrayListIt<Tile> tilesToDraw = new ArrayListIt<Tile>(20);
+    private final IterableArray<Animation> animations = new IterableArray<Animation>(10);
+    private final IterableArray<Animation> nextAnimations = new IterableArray<Animation>(10);
+    private final IterableArray<Tile> tilesToDraw = new IterableArray<Tile>(20);
 
     protected SelectedTile selectedTile;
 

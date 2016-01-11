@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.engine.gfx.Animation;
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class AnimationSequence implements Animation, Pool.Poolable
 {
-    private ArrayListIt<Animation> animations;
+    private IterableArray<Animation> animations;
 
     private static final Pool<AnimationSequence> animationSequencePool = new Pool<AnimationSequence>() {
         @Override
@@ -22,7 +22,7 @@ public class AnimationSequence implements Animation, Pool.Poolable
     {
         AnimationSequence seq = animationSequencePool.obtain();
         if (seq.animations == null)
-            seq.animations = new ArrayListIt<Animation>(capacity);
+            seq.animations = new IterableArray<Animation>(capacity);
         else
             seq.animations.ensureCapacity(capacity);
 

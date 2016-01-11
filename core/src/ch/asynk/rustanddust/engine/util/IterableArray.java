@@ -3,17 +3,17 @@ package ch.asynk.rustanddust.engine.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ArrayListIt<E> extends ArrayList<E> implements Iterator, Iterable<E>
+public class IterableArray<E> extends ArrayList<E> implements Iterator, Iterable<E>
 {
     private int i;
     private int s;
 
-    public ArrayListIt()
+    public IterableArray()
     {
         super();
     }
 
-    public ArrayListIt(int n)
+    public IterableArray(int n)
     {
         super(n);
     }

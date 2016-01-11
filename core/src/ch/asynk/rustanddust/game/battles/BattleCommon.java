@@ -14,7 +14,7 @@ import ch.asynk.rustanddust.game.Unit.UnitId;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.engine.Orientation;
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public abstract class BattleCommon implements Battle
 {
@@ -28,8 +28,8 @@ public abstract class BattleCommon implements Battle
     protected Player currentPlayer;
     protected Player usPlayer;
     protected Player gePlayer;
-    protected ArrayListIt<Zone> entryZone = new ArrayListIt<Zone>();
-    protected ArrayListIt<Zone> exitZone = new ArrayListIt<Zone>();
+    protected IterableArray<Zone> entryZone = new IterableArray<Zone>();
+    protected IterableArray<Zone> exitZone = new IterableArray<Zone>();
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 

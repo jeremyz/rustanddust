@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.engine;
 import java.util.List;
 import java.util.Collection;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class SearchBoard
 {
@@ -35,10 +35,10 @@ public class SearchBoard
     private int searchCount;
     private Node nodes[];
 
-    private ArrayListIt<Node> stack;
-    private ArrayListIt<Node> queue;
-    private ArrayListIt<Node> roadMarch;
-    private ArrayListIt<Node> los;
+    private IterableArray<Node> stack;
+    private IterableArray<Node> queue;
+    private IterableArray<Node> roadMarch;
+    private IterableArray<Node> los;
     private boolean losBlocked;
 
     public SearchBoard(Board board, int cols, int rows)
@@ -55,10 +55,10 @@ public class SearchBoard
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
 
-        this.queue = new ArrayListIt<Node>(30);
-        this.stack = new ArrayListIt<Node>(20);
-        this.roadMarch = new ArrayListIt<Node>(5);
-        this.los = new ArrayListIt<Node>(10);
+        this.queue = new IterableArray<Node>(30);
+        this.stack = new IterableArray<Node>(20);
+        this.roadMarch = new IterableArray<Node>(5);
+        this.los = new IterableArray<Node>(10);
     }
 
     private boolean inMap(int col, int row)

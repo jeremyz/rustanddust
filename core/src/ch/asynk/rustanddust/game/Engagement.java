@@ -6,7 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class Engagement implements Disposable, Pool.Poolable
 {
@@ -52,7 +52,7 @@ public class Engagement implements Disposable, Pool.Poolable
 
     public Engagement()
     {
-        assists = new ArrayListIt<Unit>(10);
+        assists = new IterableArray<Unit>(10);
         reset();
     }
 

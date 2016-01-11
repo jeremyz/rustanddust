@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
-public class OrderList extends ArrayListIt<Order> implements Json.Serializable
+public class OrderList extends IterableArray<Order> implements Json.Serializable
 {
     public OrderList(int capacity)
     {

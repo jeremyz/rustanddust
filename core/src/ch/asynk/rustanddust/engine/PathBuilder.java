@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class PathBuilder implements Disposable
 {
@@ -19,16 +19,16 @@ public class PathBuilder implements Disposable
     private List<Tile> ctrlTiles;
     private List<Path> paths;
     private List<Path> filteredPaths;
-    private ArrayListIt<Tile> tiles;
+    private IterableArray<Tile> tiles;
 
     public PathBuilder(Board board, int tSize, int stSize, int ftSize, int psSize)
     {
         this.board = board;
-        this.tiles = new ArrayListIt<Tile>(tSize);
-        this.stack = new ArrayListIt<Tile>(stSize);
-        this.ctrlTiles = new ArrayListIt<Tile>(ftSize);
-        this.paths = new ArrayListIt<Path>(psSize);
-        this.filteredPaths = new ArrayListIt<Path>(psSize);
+        this.tiles = new IterableArray<Tile>(tSize);
+        this.stack = new IterableArray<Tile>(stSize);
+        this.ctrlTiles = new IterableArray<Tile>(ftSize);
+        this.paths = new IterableArray<Path>(psSize);
+        this.filteredPaths = new IterableArray<Path>(psSize);
         this.to = null;
         this.pawn = null;
         this.orientation = Orientation.KEEP;

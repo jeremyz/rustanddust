@@ -1,8 +1,8 @@
 package ch.asynk.rustanddust.engine;
 
-import ch.asynk.rustanddust.engine.util.ArrayListIt;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 
-public class TileSet extends ArrayListIt<Tile>
+public class TileSet extends IterableArray<Tile>
 {
     private final Board board;
 
