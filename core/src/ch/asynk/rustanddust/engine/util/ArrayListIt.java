@@ -38,6 +38,13 @@ public class ArrayListIt<E> extends ArrayList<E> implements Iterator, Iterable<E
         return remove(0);
     }
 
+    public boolean addUnique(E e)
+    {
+        if (contains(e)) return false;
+        super.add(e);
+        return true;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<E> iterator()
