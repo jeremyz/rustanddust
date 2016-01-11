@@ -61,7 +61,7 @@ public abstract class Board implements Disposable, Animation
     private int animationCount = 0;
     private final ArrayListIt<Animation> animations = new ArrayListIt<Animation>(10);
     private final ArrayListIt<Animation> nextAnimations = new ArrayListIt<Animation>(10);
-    private final ArrayListIt<Tile> tilesToDraw = new ArrayListIt<Tile>();
+    private final ArrayListIt<Tile> tilesToDraw = new ArrayListIt<Tile>(20);
 
     protected SelectedTile selectedTile;
 
