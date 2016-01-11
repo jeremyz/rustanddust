@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 
 import ch.asynk.rustanddust.engine.util.IterableArray;
+import ch.asynk.rustanddust.engine.util.IterableSet;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
@@ -61,7 +62,7 @@ public abstract class Board implements Disposable, Animation
     private int animationCount = 0;
     private final IterableArray<Animation> animations = new IterableArray<Animation>(10);
     private final IterableArray<Animation> nextAnimations = new IterableArray<Animation>(10);
-    private final IterableArray<Tile> tilesToDraw = new IterableArray<Tile>(20);
+    private final IterableSet<Tile> tilesToDraw = new IterableSet<Tile>(20);
 
     protected SelectedTile selectedTile;
 
@@ -404,7 +405,7 @@ public abstract class Board implements Disposable, Animation
             if (tile.isObjective()) {
                 tile.enableOverlay(o, false);
                 tile.enableOverlay(moveable.getFaction().overlay(), true);
-                tilesToDraw.addUnique(tile);
+                tilesToDraw.add(tile);
             }
         }
     }
@@ -415,7 +416,7 @@ public abstract class Board implements Disposable, Animation
             if (tile.isObjective()) {
                 tile.enableOverlay(moveable.getFaction().overlay(), false);
                 tile.enableOverlay(tile.belongsTo().overlay(), true);
-                tilesToDraw.addUnique(tile);
+                tilesToDraw.add(tile);
             }
         }
     }
@@ -430,7 +431,7 @@ public abstract class Board implements Disposable, Animation
     public void enableOverlayOn(Tile tile, int i, boolean enable)
     {
         if (tile.enableOverlay(i, enable))
-            tilesToDraw.addUnique(tile);
+            tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
     }
@@ -438,7 +439,7 @@ public abstract class Board implements Disposable, Animation
     public void enableOverlayOn(Tile tile, int i, Orientation o, boolean enable)
     {
         if (tile.enableOverlay(i, enable, o.r()))
-            tilesToDraw.addUnique(tile);
+            tilesToDraw.add(tile);
         else
             tilesToDraw.remove(tile);
     }
@@ -446,7 +447,7 @@ public abstract class Board implements Disposable, Animation
     private int pushPawnOnto(Pawn pawn, Tile tile)
     {
         if (!tile.isOffMap())
-            tilesToDraw.addUnique(tile);
+            tilesToDraw.add(tile);
         return tile.push(pawn);
     }
 

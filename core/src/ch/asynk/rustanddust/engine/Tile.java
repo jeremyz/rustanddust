@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import ch.asynk.rustanddust.engine.util.IterableArray;
+import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.engine.gfx.Drawable;
 import ch.asynk.rustanddust.engine.gfx.StackedImages;
 
@@ -31,7 +31,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     protected float x;
     protected float y;
     private StackedImages overlays;
-    private IterableArray<Pawn> stack;
+    private IterableStack<Pawn> stack;
 
     protected Faction curFaction;
     protected Faction prevFaction;
@@ -51,7 +51,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
     {
         this.col = col;
         this.row = row;
-        this.stack = new IterableArray<Pawn>(capacity);
+        this.stack = new IterableStack<Pawn>(capacity);
         this.curFaction = defaultFaction;
         this.prevFaction = defaultFaction;
         this.objective = Objective.NONE;
@@ -117,8 +117,7 @@ public abstract class Tile implements Drawable, Disposable, Iterable<Pawn>
 
     protected Pawn getTopPawn()
     {
-        if (isEmpty()) return null;
-        return stack.get(stack.size() - 1);
+        return stack.getTop();
     }
 
     public boolean hasUnits()

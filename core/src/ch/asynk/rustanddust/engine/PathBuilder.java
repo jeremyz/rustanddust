@@ -5,6 +5,8 @@ import java.util.List;
 import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.rustanddust.engine.util.IterableArray;
+import ch.asynk.rustanddust.engine.util.IterableStack;
+import ch.asynk.rustanddust.engine.util.IterableSet;
 
 public class PathBuilder implements Disposable
 {
@@ -15,17 +17,17 @@ public class PathBuilder implements Disposable
     public Tile to;
     public int distance;
     public Orientation orientation;
-    private List<Tile> stack;
+    private IterableStack<Tile> stack;
     private List<Tile> ctrlTiles;
     private List<Path> paths;
     private List<Path> filteredPaths;
-    private IterableArray<Tile> tiles;
+    private IterableSet<Tile> tiles;
 
     public PathBuilder(Board board, int tSize, int stSize, int ftSize, int psSize)
     {
         this.board = board;
-        this.tiles = new IterableArray<Tile>(tSize);
-        this.stack = new IterableArray<Tile>(stSize);
+        this.tiles = new IterableSet<Tile>(tSize);
+        this.stack = new IterableStack<Tile>(stSize);
         this.ctrlTiles = new IterableArray<Tile>(ftSize);
         this.paths = new IterableArray<Path>(psSize);
         this.filteredPaths = new IterableArray<Path>(psSize);
@@ -194,7 +196,7 @@ public class PathBuilder implements Disposable
         clearPaths();
         paths.add(path);
         for (Tile tile : path.tiles)
-            tiles.addUnique(tile);
+            tiles.add(tile);
     }
 
     private void findAllPaths(Tile from, int mvtLeft, int fitness, boolean roadMarch)
@@ -217,7 +219,7 @@ public class PathBuilder implements Disposable
                 Path path = Path.get(stack.size() + 1);
                 for (Tile t: stack) {
                     path.tiles.add(t);
-                    tiles.addUnique(t);
+                    tiles.add(t);
                 }
                 path.roadMarch = r;
                 path.fitness = f;
@@ -226,9 +228,9 @@ public class PathBuilder implements Disposable
             }
 
             if (l >= board.distance(next, to)) {
-                stack.add(next);
+                stack.push(next);
                 findAllPaths(next, m, f, r);
-                stack.remove(stack.size() - 1);
+                stack.pop();
             }
         }
     }
@@ -259,11 +261,11 @@ public class PathBuilder implements Disposable
                     filteredPaths.clear();
                     filteredPaths.add(path);
                     tiles.clear();
-                    for (Tile tile : path.tiles) tiles.addUnique(tile);
+                    for (Tile tile : path.tiles) tiles.add(tile);
                     break;
                 } else {
                     filteredPaths.add(path);
-                    for (Tile tile : path.tiles) tiles.addUnique(tile);
+                    for (Tile tile : path.tiles) tiles.add(tile);
                 }
             }
         }

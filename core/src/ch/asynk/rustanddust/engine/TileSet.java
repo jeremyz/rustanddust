@@ -1,8 +1,8 @@
 package ch.asynk.rustanddust.engine;
 
-import ch.asynk.rustanddust.engine.util.IterableArray;
+import ch.asynk.rustanddust.engine.util.IterableSet;
 
-public class TileSet extends IterableArray<Tile>
+public class TileSet extends IterableSet<Tile>
 {
     private final Board board;
 
@@ -16,13 +16,5 @@ public class TileSet extends IterableArray<Tile>
     {
         for (Tile tile : this)
             board.enableOverlayOn(tile, i, enable);
-    }
-
-    @Override
-    public boolean add(Tile tile)
-    {
-        if (contains(tile)) return false;
-        super.add(tile);
-        return true;
     }
 }

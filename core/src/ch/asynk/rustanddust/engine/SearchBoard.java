@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Collection;
 
 import ch.asynk.rustanddust.engine.util.IterableArray;
+import ch.asynk.rustanddust.engine.util.IterableStack;
+import ch.asynk.rustanddust.engine.util.IterableQueue;
 
 public class SearchBoard
 {
@@ -35,9 +37,9 @@ public class SearchBoard
     private int searchCount;
     private Node nodes[];
 
-    private IterableArray<Node> stack;
-    private IterableArray<Node> queue;
-    private IterableArray<Node> roadMarch;
+    private IterableStack<Node> stack;
+    private IterableQueue<Node> queue;
+    private IterableStack<Node> roadMarch;
     private IterableArray<Node> los;
     private boolean losBlocked;
 
@@ -55,9 +57,9 @@ public class SearchBoard
                 nodes[i + (j * cols)] = new Node((i + dx), j);
         }
 
-        this.queue = new IterableArray<Node>(30);
-        this.stack = new IterableArray<Node>(20);
-        this.roadMarch = new IterableArray<Node>(5);
+        this.queue = new IterableQueue<Node>(30);
+        this.stack = new IterableStack<Node>(20);
+        this.roadMarch = new IterableStack<Node>(5);
         this.los = new IterableArray<Node>(10);
     }
 
