@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <title>Rust And Dust</title>
+    <meta name="Identifier-URL" content="http://rustanddust.asynk.ch/index.html" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Author" lang="en" content="Jérémy Zurcher" />
+    <meta name="Description" content="Rust And Dust, a tactical ground combat simulation for android" />
+    <meta name="Keywords" lang="en" content="RustAndDust,TankOnTank" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css"  type="text/css" media="screen" />
+    <link rel="stylesheet" href="jquery.fancybox.css" type="text/css" media="screen" />
+    <!-- <link rel="stylesheet" href="http://fancyapps.com/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" /> -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="jquery.fancybox.pack.js"></script>
+    <!-- <script type="text/javascript" src="http://fancyapps.com/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script> -->
+    <script type="text/javascript">$(document).ready(function() { $(".fancybox").fancybox(); });</script>
+  </head>
+  <body>
+    <div id="content">
+      <div class="center">
+        <h1>Rust And Dust</h1>
+        <img src=logo.png />
+      </div>
+
+      <div id="title" class="article center">
+        <b>Rust And Dust</b> a tactical ground combat simulation for android.
+      </div>
+
+      <div class="article">
+        <div class="center"><a href="game.png" class="fancybox"  rel="galler"><img src="game.png" width="600px" /></a></div>
+      </div>
+
+      <div class="article">
+        <p>It is still in beta mode, you can get it freely from <a href="https://play.google.com/apps/testing/ch.asynk.rustanddust.android" title="Tester Link">here</a>.</p>
+        <p>Coming soon : <b>Player vs Player</b> mode, under heavy development right now !</p>
+
+        <ul>
+          <li>Menus
+            <ol>
+              <li><a href="#mainoptions">Main Options</a></li>
+              <li><a href="#playoptions">Play Options</a></li>
+            </ol>
+          </li>
+          <li>Rules
+            <ol>
+              <li><a href="#actions">Action Points</a></li>
+              <li><a href="#move">Movement Points</a></li>
+              <li><a href="#combat">Combat</a></li>
+              <li><a href="#hq">HQ units</a></li>
+              <li><a href="#ace">Ace units</a></li>
+              <li><a href="#hexes">Special Hexes</a></li>
+              <li><a href="#deploy">Deployment / Reinforcement</a></li>
+            </ol>
+          </li>
+        </ul>
+      </div>
+
+      <div class="article">
+        <h2><a name="mainoptions">Main Options</a>:</h2>
+        <div class="center"><a href="main-menu.png" class="fancybox"  rel="galler"><img src="main-menu.png" width="600px" /></a></div>
+        <ul>
+          <li><b>Show Moves</b> : to show the hexes you can reach with the selected unit.</li>
+          <li><b>Show Targets</b> : to show the enemy units you can fire at with the selected unit.</li>
+          <li><b>Show Move Assists</b> : to show the friendly units you will be able to move if you activate the selected HQ.</li>
+          <li><b>Show Enemy Possibilities</b> : to show what a selected enemy unit can do, the above options determine what is shown.</li>
+          <li><b>Debug</b> : well, to turn on the debug mode.</li>
+          <li><b>Fx Volume</b> : to change the volume of the sounds effects.</li>
+          <li><b>Graphics</b> : to choose between regular wargame chits, and animated realistic sprites.</li>
+        </ul>
+        <h2><a name="playoptions">Play Options</a>:</h2>
+        <div class="center"><a href="play-menu.png" class="fancybox"  rel="galler"><img src="play-menu.png" width="600px" /></a></div>
+        <ul>
+          <li><b>Game Mode</b> : to choose, between <i>Solo</i>, <i>Player vs Player</i> or <i>Player vs AI</i> game mode.</li>
+          <li><b>Scenario</b> : to choose which battelfield you are going to play on.</li>
+        </ul>
+      </div>
+
+      <div class="article">
+        <span style="float:right;"><img src="ap.png" /></span>
+        <h2><a name="actions">Action Points (AP)</a>:</h2>
+        <p>Each player will have 2 to 4 AP to spend per turn.<br />
+        You won&#39;t know the amount of AP that you can spend until you have reached that number.</p>
+        <p>An action point allows you to do one of the following:
+        <ul>
+          <li><a href="#move">Move</a> a friendly unit.</li>
+          <li><a href="#combat">Attack</a> a enemy unit.</li>
+          <li><a href="#hq">Activate</a> an HQ unit.</li>
+          <li><a href="#promote">Promote</a> a regular unit into an HQ unit.</li>
+        </ul>
+        <!-- <div class="center"><a href="select.png" class="fancybox"  rel="galler"><img src="select.png" width="600px" /></a></div> -->
+      </div>
+
+      <div class="article">
+        <h2><a name="move">Movement Points (MP)</a>:</h2>
+        <p>Your units have an amount of <span style="color:#abac38">movement points</span>.<br />
+        Each hex costs 1 MP, except the woods and the town that costs 2 MP.<br />
+        If all your movement occures on a road, you gain 1 extra MP.</p>
+        <h3>To move your unit:</h3>
+        <ul>
+          <li>select it.</li>
+          <li>select the destination hex.</li>
+          <li>select the final orientation of your unit.</li>
+        </ul>
+        <p>Moving a unit costs you 1 <a href="#actions">AP</a>.</p>
+        <div class="center"><a href="move.png" class="fancybox"  rel="galler"><img src="move.png" width="600px" /></a></div>
+      </div>
+
+      <div class="article">
+        <h2><a name="combat">Combat</a>:</h2>
+        <p>Your units have a <span style="color:#9b2229">fire range</span> and a <span style="color:#1d7baa">defense value</span>.<br />
+        On a hill, your range is increased by 1 (except for the infantry).<br />
+        A target in woods or town has a defense increased by 1.<br />
+        You can target 1 unit within your range with a clear line of sight.<br />
+        Hills, cities, other units block the line of sight.<br />
+        Friendly units that can fire and have a clear line of sight to the selected target can assist you.<br />
+        Artillery units can assist even if they don&#39;t have a clear line of sight to the target.<br />
+        Infantry units nullify the defense bonus when attacking to a town.<br />
+        Soft targets have 2 defense values, the higher being used when the are in hills, woods or town hex.</p>
+        <p>You destroy the target if: <b>2d6 + #engaged units + bonuses &gt;= defense + bonuses</b>.</p>
+        <h3>To perform a combat:</h3>
+        <ul>
+          <li>select your unit.</li>
+          <li>select your target.</li>
+          <li>(un)toggle the assist unit(s).</li>
+          <li>select the target again.</li>
+        </ul>
+        <p>To cancel the action, select your combat leading unit again.</p>
+        <p>Leading a combat costs you 1 <a href="#actions">AP</a>.</p>
+        <div class="center"><a href="combat.png" class="fancybox"  rel="galler"><img src="combat.png" width="600px" /></a></div>
+      </div>
+
+      <div class="article">
+        <h2><a name="hq">HQ units</a>:</h2>
+        <p>Your HQ units have <img src="hq-stars.png" /> on them.<br />
+        When you activate an HQ, adjacents units can move freely.</p>
+        <h3>To perform an HQ activation:</h3>
+        <ul>
+          <li>select twice the HQ unit.</li>
+          <li>you can then move it and/or any other adjacent units in any order.</li>
+          <li>after each movement you can end your HQ activation with the <img src="check-btn.png" /> button.</li>
+        </ul>
+        <p>Activating an HQ costs you 1 <a href="#actions">AP</a>.</p>
+        <div class="center"><a href="hq-activation.png" class="fancybox"  rel="galler"><img src="hq-activation.png" width="600px" /></a></div>
+      </div>
+
+      <div class="article">
+        <h2><a name="promote">Promotion to HQ</a>:</h2>
+        <p>You can promote one of your regular unit into an <a href="#hq">HQ</a> if you have in your casualties an <a href="#hq">HQ</a> of the same kind of unit.</p>
+        <h3>To perform an promotion to HQ:</h3>
+        <ul>
+          <li>select the regular unit.</li>
+          <li>touch the <img src="promote-btn.png" /> button.</li>
+        </ul>
+        <p>Promoting a regular unit to an <a href="#hq">HQ</a> costs you 1 <a href="#actions">AP</a>.</p>
+        <div class="center"><a href="hq-promote.png" class="fancybox"  rel="galler"><img src="hq-promote.png" width="600px" /></a></div>
+      </div>
+
+      <div class="article">
+        <h2><a name="ace" />Ace units</a>:</h2>
+        <p>Your Ace units have an <img src="ace.png" /> on them.<br />
+        When taking part in an <a href="#combat">combat</a>, an ace unit allows you a second dice roll
+        if the first one is a failure.</p>
+      </div>
+
+      <div class="article">
+        <h2><a name="hexes" />Special Hexes</a>:</h2>
+        <p>The following hexes will have importance in the victory decision of some scenarios.</p>
+        <ul>
+          <li><img src="exit.png" /> Exit hexes will allow you to leave the battelfield if you have at least 1 <a href="#move">MP</a> left.</li>
+          <li><img src="objective.png" /> Objective will belong to the last army that passes over it.</li>
+          <li><img src="hold-objective.png" />Hold Objective belong to you as long as one of your units stands on it.</li>
+        </ul>
+      </div>
+
+      <div class="article">
+        <span style="float:right;"><img src="unit-dock.png" /></span>
+        <h2><a name="deploy" />Deployment / Reinforcement</a>:</h2>
+        <p>Some scenarios will require you to first place some or all your units on the battle field.<br />
+        Some others will require you to make some or all your units enter the battle field.<br />
+        You may also recieve some reinforcement units during the battle.<br />
+        </p>
+        <p>In any of the above situation, you will see the number of available units over the <i>unit dock</i> button.<br /></p>
+        <p>To make one unit enter the battle field from the <i>unit dock</i>:<br />
+        <ul>
+          <li>select the unit.</li>
+          <li>choose one of the available highlighted hexes.</li>
+          <li>choose the orientation of the unit or perform a regular <a href="#move">move</a>.</li>
+        </ul>
+        <div class="center"><a href="deployment.png" class="fancybox"  rel="galler"><img src="deployment.png" width="600px" /></a></div>
+      </div>
+
+    </content>
+  </body>
+</html>
