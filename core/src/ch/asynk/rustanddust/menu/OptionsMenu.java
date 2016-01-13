@@ -25,7 +25,7 @@ public class OptionsMenu extends Patch
     private String [] checkStrings = {
         "Debug",
         "Show Enemy Possibilities",
-        "Show Moves Assists",
+        "Show Move Assists",
         "Show Targets",
         "Show Moves",
     };
