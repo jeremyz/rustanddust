@@ -17,7 +17,7 @@ import ch.asynk.rustanddust.game.states.StateReinforcement;
 import ch.asynk.rustanddust.game.states.StateDeployment;
 import ch.asynk.rustanddust.game.states.StateWithdraw;
 
-public class Ctrl implements Disposable
+public abstract class Ctrl implements Disposable
 {
     public final RustAndDust game;
     public final Battle battle;
