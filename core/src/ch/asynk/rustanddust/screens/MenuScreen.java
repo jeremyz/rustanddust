@@ -80,7 +80,7 @@ public class MenuScreen implements Screen
         this.geFlag = new Sprite(game.getUiRegion(game.UI_GE_FLAG));
 
         this.versionLabel = new Label(game.font);
-        this.versionLabel.write("v18");
+        this.versionLabel.write("v19");
         this.mainMenu = new MainMenu(game);
         this.playMenu = new PlayMenu(game);
         this.optionsMenu = new OptionsMenu(game);
