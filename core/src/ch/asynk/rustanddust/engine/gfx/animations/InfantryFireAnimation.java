@@ -47,6 +47,9 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             float hit_duration = (FireAnimation.infantryFire.rows * HIT_FRAME_DURATION);
 
             this.fired = false;
+            this.hit = false;
+            this.completed = false;
+
             this.fire_time = delay;
             this.hit_time = (this.fire_time + fire_duration);
             this.end_time = (this.hit_time + hit_duration);
