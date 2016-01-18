@@ -1,9 +1,4 @@
-BUGS:
-    - check break moves
-    - check exit moves
-
 TODO:
-    - improve AP image
     - turret aiming sound
     - battle description
     - moving cloudy sky overlay
@@ -11,41 +6,11 @@ TODO:
         - 9.6 improved position as trait on Unit ??
         - 6.3 Russian mass activation
         - 8.6 Russian fire restrictions
-    - tutorial
-        - moves
-        - HQ moves
-        - objectives
-        - engagement
 
 NEXT:
+    - option rotate head/pawn
     - support different board layout
         - north orientation
         - hex orientation
         - inverted even/odd row scheme
     - automatic overlays to show unit stack depth
-    - option rotate head/pawn
-
-
-RESOURCES
-    - better to track installation:
-        - http://android-developers.blogspot.ch/2011/03/identifying-app-installations.html
-
-    - integrate native android stuff in libgdx:
-        - https://code.google.com/p/libgdx-users/wiki/IntegratingAndroidNativeUiElements
-
-    - crypt:
-        - https://code.google.com/p/gwt-crypto/
-
-    - font:
-        - http://kvazars.com/littera/
-
-    - device unique ID:
-        final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-
-        final String tmDevice, tmSerial, androidId;
-        tmDevice = "" + tm.getDeviceId();
-        tmSerial = "" + tm.getSimSerialNumber();
-        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-        String deviceId = deviceUuid.toString();
