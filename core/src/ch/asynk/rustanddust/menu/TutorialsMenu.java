@@ -26,7 +26,7 @@ public class TutorialsMenu extends Patch
         this.title = new Label(game.font);
         this.title.write("- Tutorials");
         this.msg = new Label(game.font);
-        this.msg.write("Not implemented yet.");
+        this.msg.write("Not implemented yet.\nPlease Visit:\nhttp://rustanddust.ch");
 
         this.visible = false;
     }
