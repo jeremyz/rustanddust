@@ -31,7 +31,6 @@ case "$1" in
         ARGS="android:assembleRelease$@"
         gradlew_do
         ;;
-
     "s")
         shift;
         ARGS="android:assembleRelease$@"
@@ -55,7 +54,6 @@ case "$1" in
         shift;
         ARGS="desktop:dist $@"
         gradlew_do
-        scp ./desktop/build/libs/desktop-1.0.jar erratic:/var/www/public/RustAndDust.jar
         ;;
     "f")
         # java -cp gdx.jar:gdx-natives.jar:gdx-backend-lwjgl.jar:gdx-backend-lwjgl-natives.jar:extensions/gdx-tools/gdx-tools.jar:hiero.jar com.badlogic.gdx.tools.hiero.Hiero
