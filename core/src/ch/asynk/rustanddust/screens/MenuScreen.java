@@ -37,6 +37,7 @@ public class MenuScreen implements Screen
 
     private int n = xPath.length;
 
+    private boolean paused;
     private boolean ready;
     private boolean gameAssetsLoading;
     private Texture bg;
@@ -68,6 +69,7 @@ public class MenuScreen implements Screen
 
         this.camera = new MenuCamera(V_CENTER_X, V_CENTER_Y, V_WIDTH, V_HEIGHT, game.hudCorrection);
 
+        this.paused = false;
         this.gameAssetsLoading = false;
 
         this.bg = game.manager.get(game.PNG_MAP_00, Texture.class);
@@ -150,6 +152,8 @@ public class MenuScreen implements Screen
     @Override
     public void render(float delta)
     {
+        if (paused) return;
+
         float x = xPath[0];
         float y = yPath[0];
         if (gameAssetsLoading) {
@@ -222,6 +226,8 @@ public class MenuScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
+        if (paused) return;
+
         update(width, height);
     }
 
@@ -252,12 +258,12 @@ public class MenuScreen implements Screen
     @Override
     public void pause()
     {
-        // RustAndDust.debug("MenuScreen", "pause()");
+        paused = true;
     }
 
     @Override
     public void resume()
     {
-        // RustAndDust.debug("MenuScreen", "resume()");
+        paused = false;
     }
 }
