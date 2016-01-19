@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.game.ctrl.Solo;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateCommon;
 import ch.asynk.rustanddust.game.states.StateSelect;
@@ -44,6 +45,17 @@ public abstract class Ctrl implements Disposable
     private State state;
     private StateType stateType;
     private StateType stateAfterAnimation;
+
+    public static Ctrl getCtrl(final RustAndDust game)
+    {
+        Ctrl ctrl = null;
+        switch(game.config.gameMode) {
+            case SOLO:
+                ctrl = new Solo(game, game.config.battle);
+                break;
+        }
+        return ctrl;
+    }
 
     public Ctrl(final RustAndDust game, final Battle battle)
     {

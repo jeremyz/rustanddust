@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Vector3;
 import ch.asynk.rustanddust.RustAndDust;
 
 import ch.asynk.rustanddust.game.Ctrl;
-import ch.asynk.rustanddust.game.ctrl.Solo;
 
 public class GameScreen implements Screen
 {
@@ -59,7 +58,7 @@ public class GameScreen implements Screen
         this.blocked = false;
 
         this.batch = new SpriteBatch();
-        this.ctrl = new Solo(game, game.config.battle);
+        this.ctrl = Ctrl.getCtrl(game);
         this.cam = new GameCamera(ctrl.map.getWidth(),  ctrl.map.getHeight(), ZOOM_OUT_MAX, ZOOM_IN_MAX, game.hudCorrection, FIXED_HUD);
 
         if (DEBUG) this.debugShapes = new ShapeRenderer();
