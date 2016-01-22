@@ -15,14 +15,12 @@ public class ObjectivesPanel extends Patch
     public static int TITLE_PADDING = 5;
     public static int LABEL_PADDING = 10;
 
-    private RustAndDust game;
     private Label title;
     private Label content;
 
     public ObjectivesPanel(RustAndDust game)
     {
         super(game.ninePatch);
-        this.game = game;
         this.title = new Label(game.font, LABEL_PADDING);
         this.content = new Label(game.font, LABEL_PADDING);
         this.visible = false;
