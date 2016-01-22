@@ -29,6 +29,8 @@ public class OptionsPanel extends Patch
     private int fxVolumeIdx;
     private Label fxVolume;
     private Label fxVolumeValue;
+    private Label objectives;
+    private ObjectivesPanel objectivesPanel;
     private Label quit;
     private Label [] checkLabels;
     private boolean [] checkValues;
@@ -43,6 +45,9 @@ public class OptionsPanel extends Patch
         this.fxVolume = new Label(game.font, LABEL_PADDING);
         this.fxVolume.write("Fx Volume");
         this.fxVolumeValue = new Label(game.font, LABEL_PADDING);
+        this.objectives = new Label(game.font, LABEL_PADDING);
+        this.objectives.write("Battle Objectives");
+        this.objectivesPanel = new ObjectivesPanel(game);
         this.quit = new Label(game.font, LABEL_PADDING);
         this.quit.write("Quit battle");
         this.visible = false;
@@ -64,6 +69,7 @@ public class OptionsPanel extends Patch
         float dx = (position.getX(rect.width) - rect.x);
         float dy = (position.getY(rect.height) - rect.y);
         translate(dx, dy);
+        objectivesPanel.updatePosition();
     }
 
     public void show()
@@ -78,10 +84,11 @@ public class OptionsPanel extends Patch
         float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight());
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
+        h += objectives.getHeight();
         h += quit.getHeight();
         h += (2 * PADDING);
 
-        float w = (fxVolume.getWidth() + fxVolumeValue.getWidth());
+        float w = (objectives.getWidth());
         for (int i = 0; i < checkLabels.length; i++) {
             float t = checkLabels[i].getWidth();
             if (t > w)
@@ -95,6 +102,9 @@ public class OptionsPanel extends Patch
 
         y += PADDING;
         x += PADDING + HSPACING;
+
+        objectives.setPosition(x, y);
+        y += fxVolume.getHeight();
 
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
@@ -134,12 +144,22 @@ public class OptionsPanel extends Patch
     @Override
     public boolean hit(float x, float y)
     {
+        if (objectivesPanel.hit(x, y)) {
+            objectivesPanel.visible = false;
+            this.visible = true;
+            return false;
+        }
+
         if (!visible) return false;
 
         if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
         } else if (quit.hit(x, y)) {
             game.ctrl.hud.askQuitBattle();
+            return false;
+        } else if (objectives.hit(x, y)) {
+            this.visible = false;
+            objectivesPanel.show(game.config.battle);
             return false;
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
@@ -165,6 +185,7 @@ public class OptionsPanel extends Patch
     {
         super.dispose();
         title.dispose();
+        objectives.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
         quit.dispose();
@@ -175,9 +196,11 @@ public class OptionsPanel extends Patch
     @Override
     public void draw(Batch batch)
     {
+        objectivesPanel.draw(batch);
         if (!visible) return;
         super.draw(batch);
         title.draw(batch);
+        objectives.draw(batch);
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
         quit.draw(batch);
@@ -192,9 +215,11 @@ public class OptionsPanel extends Patch
     @Override
     public void drawDebug(ShapeRenderer shapes)
     {
+        objectivesPanel.drawDebug(shapes);
         if (!visible) return;
         super.drawDebug(shapes);
         title.drawDebug(shapes);
+        objectives.drawDebug(shapes);
         fxVolume.drawDebug(shapes);
         fxVolumeValue.drawDebug(shapes);
         quit.drawDebug(shapes);
