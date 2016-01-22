@@ -164,6 +164,7 @@ public class OptionsPanel extends Patch
     public void dispose()
     {
         super.dispose();
+        title.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
         quit.dispose();
