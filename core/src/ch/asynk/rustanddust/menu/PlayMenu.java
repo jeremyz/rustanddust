@@ -7,6 +7,7 @@ import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.ui.OkCancel;
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.game.hud.ObjectivesPanel;
 
 public class PlayMenu extends Patch
 {
@@ -23,6 +24,8 @@ public class PlayMenu extends Patch
     private int battleIdx;
     private Label battle;
     private Label battleValue;
+    private Label objectives;
+    private ObjectivesPanel objectivesPanel;
     protected Bg okBtn;
     protected Bg cancelBtn;
     private OkCancel okCancel;
@@ -43,6 +46,9 @@ public class PlayMenu extends Patch
         this.battle = new Label(game.font);
         this.battle.write("Scenario : ");
         this.battleValue = new Label(game.font);
+        this.objectives = new Label(game.font);
+        this.objectives.write("Battle Objectives");
+        this.objectivesPanel = new ObjectivesPanel(game);
         this.okCancel = new OkCancel(game.font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         if (game.config.battle == null) {
@@ -78,6 +84,7 @@ public class PlayMenu extends Patch
         float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
         h += (gameMode.getHeight() + VSPACING);
         h += (battle.getHeight());
+        h += (objectives.getHeight());
 
         float w = gameModeWidth + (2 * PADDING);
 
@@ -92,6 +99,8 @@ public class PlayMenu extends Patch
         x += PADDING;
         float dy = (VSPACING + battle.getHeight());
 
+        objectives.setPosition(x, y);
+        y += dy;
         battle.setPosition(x, y);
         battleValue.setPosition((x + battle.getWidth() + 10), y);
         y += dy;
@@ -110,6 +119,10 @@ public class PlayMenu extends Patch
             this.visible = true;
             okCancel.visible = false;
             return false;
+        } else if (objectivesPanel.hit(x, y)) {
+            this.visible = true;
+            objectivesPanel.visible = false;
+            return false;
         }
 
         if (!visible) return false;
@@ -122,6 +135,9 @@ public class PlayMenu extends Patch
             cycleGameMode();
         } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
             cycleBattle();
+        } else if (objectives.hit(x, y)) {
+            this.visible = false;
+            objectivesPanel.show(game.config.battle);
         }
 
         return false;
@@ -166,6 +182,8 @@ public class PlayMenu extends Patch
         title.dispose();
         gameMode.dispose();
         gameModeValue.dispose();
+        objectives.dispose();
+        objectivesPanel.dispose();
         battle.dispose();
         battleValue.dispose();
         okBtn.dispose();
@@ -177,12 +195,14 @@ public class PlayMenu extends Patch
     public void draw(Batch batch)
     {
         okCancel.draw(batch);
+        objectivesPanel.draw(batch);
 
         if (!visible) return;
         super.draw(batch);
         title.draw(batch);
         gameMode.draw(batch);
         gameModeValue.draw(batch);
+        objectives.draw(batch);
         battle.draw(batch);
         battleValue.draw(batch);
         okBtn.draw(batch);
