@@ -20,6 +20,7 @@ public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
 
+    protected int _id;
     protected Factory.MapType mapType;
     protected String name;
     protected String description;
@@ -54,6 +55,12 @@ public abstract class BattleCommon implements Battle
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
+    }
+
+    @Override
+    public int getId()
+    {
+        return _id;
     }
 
     @Override

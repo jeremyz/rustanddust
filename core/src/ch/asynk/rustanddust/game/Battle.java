@@ -5,6 +5,8 @@ import ch.asynk.rustanddust.game.Factory.MapType;
 
 public interface Battle
 {
+    public int getId();
+
     public String getName();
 
     public String getDescription();
