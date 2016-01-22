@@ -16,7 +16,9 @@ public class BattleTest extends BattleCommon
     public BattleTest(Factory factory)
     {
         super(factory);
+        _id = 0;
         name = "* Alpha Test *";
+        description = "This is a fast test purpose only battlefield.";
         mapType = Factory.MapType.MAP_00;
     }
 

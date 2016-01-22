@@ -14,7 +14,14 @@ public class Battle00 extends BattleCommon
     public Battle00(Factory factory)
     {
         super(factory);
+        _id = 1;
         name = "Les Fleurs du mal";
+        description = "This is a test battle."
+            + "\nDon't expect it to be neither interesting,\nnor well ballanced."
+            + "\n\nThe victory conditions are:"
+            + "\n * at any point, destroy all enemy units."
+            + "\n * after 8 turns,\n   hold more objectives than your opponent."
+            + "";
         mapType = Factory.MapType.MAP_00;
     }
 
