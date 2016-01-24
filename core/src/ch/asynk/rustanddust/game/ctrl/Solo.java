@@ -10,4 +10,10 @@ public class Solo extends Ctrl
     {
         super(game, battle);
     }
+
+    @Override
+    public void init() { }
+
+    @Override
+    protected void processTurn() { }
 }

@@ -36,9 +36,8 @@ public abstract class Map extends Map4Orders
 
     public void turnDone()
     {
-        RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commandsSize()));
-
-        // FIXME must emit the turn commands
+        RustAndDust.debug("TurnDone", String.format(" Processed Orders : %d", ordersSize()));
+        game.ctrl.processTurn();
         ordersClear();
     }
 

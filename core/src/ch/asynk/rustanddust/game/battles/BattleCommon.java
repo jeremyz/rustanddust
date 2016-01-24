@@ -101,6 +101,7 @@ public abstract class BattleCommon implements Battle
         this.gePlayer = factory.getPlayer(Army.GE);
 
         ctrl.hud.update();
+        ctrl.init();
         setupMap();
 
         this.currentPlayer = this.usPlayer;
