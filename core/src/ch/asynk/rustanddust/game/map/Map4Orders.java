@@ -8,7 +8,6 @@ import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Order;
 import ch.asynk.rustanddust.game.OrderList;
 import ch.asynk.rustanddust.game.Engagement;
