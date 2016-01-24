@@ -34,7 +34,11 @@ public abstract class BattleCommon implements Battle
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
     protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 
-    public abstract Player getWinner();
+    protected abstract Player getWinner();
+    protected abstract void setupMap();
+    protected abstract void setupUS();
+    protected abstract void setupGE();
+    protected abstract Player getFirstPlayer();
 
     private int d6()
     {
@@ -91,8 +95,21 @@ public abstract class BattleCommon implements Battle
     public Map setup()
     {
         this.map = factory.getMap(mapType);
-        this.usPlayer = factory.getPlayer(Army.US);
-        this.gePlayer = factory.getPlayer(Army.GE);
+        setupMap();
+
+        this.currentPlayer = this.usPlayer = factory.getPlayer(Army.US);
+        setupUS();
+        map.actionDone();
+        currentPlayer.turnEnd();
+        map.turnDone();
+
+        this.currentPlayer = this.gePlayer = factory.getPlayer(Army.GE);
+        setupGE();
+        map.actionDone();
+        currentPlayer.turnEnd();
+        map.turnDone();
+
+        this.currentPlayer = getFirstPlayer();
 
         return this.map;
     }

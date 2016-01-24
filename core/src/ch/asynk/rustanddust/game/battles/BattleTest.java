@@ -29,19 +29,15 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public void start()
-    {
-        map.actionDone();
-        map.turnDone();
-        usPlayer.turnEnd();
-        gePlayer.turnEnd();
-        currentPlayer = gePlayer;
-    }
-
-    @Override
     public Player getWinner()
     {
         return getWinner(4);
+    }
+
+    @Override
+    protected Player getFirstPlayer()
+    {
+        return gePlayer;
     }
 
     @Override
@@ -62,16 +58,17 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public Map setup()
+    protected void setupMap()
     {
-        super.setup();
-
         map.addObjective(5, 2, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
         map.addObjective(3, 4, Army.NONE);
         map.addHoldObjective(3, 3, Army.NONE);
+    }
 
-        currentPlayer = gePlayer;
+    @Override
+    protected void setupGE()
+    {
         setUnit(map, gePlayer, UnitId.GE_WESPE, 6, 8, Orientation.NORTH, null);
         setUnit(map, gePlayer, UnitId.GE_TIGER, 5, 2, Orientation.NORTH, null);
         setUnit(map, gePlayer, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
@@ -86,8 +83,11 @@ public class BattleTest extends BattleCommon
         geEntry.add(3, 4);
         addEntryZone(geEntry);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
+    }
 
-        currentPlayer = usPlayer;
+    @Override
+    protected void setupUS()
+    {
         usExit = new Zone(map, 9);
         usExit.orientation = Orientation.NORTH;
         usExit.add(11, 4);
@@ -103,7 +103,5 @@ public class BattleTest extends BattleCommon
         setUnit(map, usPlayer, UnitId.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
         setUnit(map, usPlayer, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
         setUnit(map, usPlayer, UnitId.US_AT_GUN, 6, 1, Orientation.SOUTH, usExit);
-
-        return this.map;
     }
 }

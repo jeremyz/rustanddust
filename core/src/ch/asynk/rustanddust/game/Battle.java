@@ -21,8 +21,6 @@ public interface Battle
 
     public Map setup();
 
-    public void start();
-
     public boolean actionDone();
 
     public boolean turnDone();

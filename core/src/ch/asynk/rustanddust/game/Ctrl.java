@@ -85,7 +85,6 @@ public abstract class Ctrl implements Disposable
         this.hud = new Hud(game);
         StateCommon.set(game);
 
-        battle.start();
         hud.update();
         setState(battle.getState());
 

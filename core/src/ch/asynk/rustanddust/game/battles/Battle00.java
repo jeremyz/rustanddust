@@ -32,16 +32,6 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    public void start()
-    {
-        map.actionDone();
-        map.turnDone();
-        usPlayer.turnEnd();
-        gePlayer.turnEnd();
-        currentPlayer = usPlayer;
-    }
-
-    @Override
     public Player getWinner()
     {
         return getWinner(8);
@@ -54,14 +44,21 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    public Map setup()
+    protected Player getFirstPlayer()
     {
-        super.setup();
+        return usPlayer;
+    }
 
+    @Override
+    protected void setupMap()
+    {
         map.addHoldObjective(5, 2, Army.NONE);
         map.addObjective(11, 7, Army.US);
+    }
 
-        currentPlayer = usPlayer;
+    @Override
+    protected void setupUS()
+    {
         setUnit(map, usPlayer, UnitId.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
 
         Zone usEntry = new Zone(map, 10);
@@ -85,7 +82,11 @@ public class Battle00 extends BattleCommon
         addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
         addReinforcement(usPlayer, usEntry, UnitId.US_PERSHING);
         addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
+    }
 
+    @Override
+    protected void setupGE()
+    {
         Zone geEntry = new Zone(map, 8);
         geEntry.orientation = Orientation.NORTH;
         geEntry.add(4, 8);
@@ -104,7 +105,5 @@ public class Battle00 extends BattleCommon
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
         addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
-
-        return this.map;
     }
 }
