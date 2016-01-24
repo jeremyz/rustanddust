@@ -12,4 +12,9 @@ public class Zone extends TileSet
     {
         super(map, n);
     }
+
+    public void add(int col, int row)
+    {
+        add(((Map) board).getHex(col, row));
+    }
 }

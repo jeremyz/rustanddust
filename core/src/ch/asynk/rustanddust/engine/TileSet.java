@@ -4,7 +4,7 @@ import ch.asynk.rustanddust.engine.util.IterableSet;
 
 public class TileSet extends IterableSet<Tile>
 {
-    private final Board board;
+    protected final Board board;
 
     public TileSet(Board board, int n)
     {
