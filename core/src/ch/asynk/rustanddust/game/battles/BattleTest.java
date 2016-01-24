@@ -80,19 +80,19 @@ public class BattleTest extends BattleCommon
 
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
-        geEntry.add(map.getHex(1, 2));
-        geEntry.add(map.getHex(1, 1));
-        geEntry.add(map.getHex(3, 3));
-        geEntry.add(map.getHex(3, 4));
+        geEntry.add(1, 2);
+        geEntry.add(1, 1);
+        geEntry.add(3, 3);
+        geEntry.add(3, 4);
         addEntryZone(geEntry);
         addReinforcement(gePlayer, geEntry, UnitId.GE_AT_GUN);
 
         currentPlayer = usPlayer;
         usExit = new Zone(map, 9);
         usExit.orientation = Orientation.NORTH;
-        usExit.add(map.getHex(11, 4));
-        usExit.add(map.getHex(11, 5));
-        usExit.add(map.getHex(12, 6));
+        usExit.add(11, 4);
+        usExit.add(11, 5);
+        usExit.add(12, 6);
         addExitZone(usExit);
 
         usPlayer.casualty(factory.getUnit(UnitId.US_SHERMAN, true, false));
