@@ -3,9 +3,11 @@ package ch.asynk.rustanddust.game.battles;
 import java.util.Random;
 import java.util.HashMap;
 
+import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
+import ch.asynk.rustanddust.game.State;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Hex;
@@ -92,18 +94,22 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public Map setup()
+    public State.StateType setup(Ctrl ctrl)
     {
-        this.map = factory.getMap(mapType);
+        this.map = ctrl.map;
+        this.usPlayer = factory.getPlayer(Army.US);
+        this.gePlayer = factory.getPlayer(Army.GE);
+
+        ctrl.hud.update();
         setupMap();
 
-        this.currentPlayer = this.usPlayer = factory.getPlayer(Army.US);
+        this.currentPlayer = this.usPlayer;
         setupUS();
         map.actionDone();
         currentPlayer.turnEnd();
         map.turnDone();
 
-        this.currentPlayer = this.gePlayer = factory.getPlayer(Army.GE);
+        this.currentPlayer = this.gePlayer;
         setupGE();
         map.actionDone();
         currentPlayer.turnEnd();
@@ -111,7 +117,7 @@ public abstract class BattleCommon implements Battle
 
         this.currentPlayer = getFirstPlayer();
 
-        return this.map;
+        return getState();
     }
 
     @Override

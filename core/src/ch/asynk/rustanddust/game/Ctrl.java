@@ -62,6 +62,12 @@ public abstract class Ctrl implements Disposable
         game.ctrl = this;
         this.game = game;
         this.battle = battle;
+        this.map = game.factory.getMap(battle.getMapType());
+        this.hud = new Hud(game);
+
+        this.blockMap = false;
+        this.blockHud = false;
+        this.touchedHex = null;
 
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
@@ -76,17 +82,9 @@ public abstract class Ctrl implements Disposable
 
         this.state = selectState;
         this.stateType = StateType.DONE;
-
-        this.blockMap = false;
-        this.blockHud = false;
-        this.touchedHex = null;
-
-        this.map = battle.setup();
-        this.hud = new Hud(game);
         StateCommon.set(game);
 
-        hud.update();
-        setState(battle.getState());
+        setState(battle.setup(this));
 
         this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
     }
