@@ -41,26 +41,7 @@ public class BattleTest extends BattleCommon
     @Override
     public Player getWinner()
     {
-        if (!abTurnDone())
-            return null;
-
-        if (gePlayer.unitsLeft() == 0)
-            return usPlayer;
-        if (usPlayer.unitsLeft() == 0)
-            return gePlayer;
-
-        if (gePlayer.getTurnDone() <= 4)
-            return null;
-
-        usPlayer.objectivesWon = map.objectivesCount(Army.US);
-        gePlayer.objectivesWon = map.objectivesCount(Army.GE);
-
-        if (usPlayer.objectivesWon > gePlayer.objectivesWon)
-            return usPlayer;
-        if (usPlayer.objectivesWon < gePlayer.objectivesWon)
-            return gePlayer;
-
-        return null;
+        return getWinner(4);
     }
 
     @Override

@@ -107,9 +107,33 @@ public abstract class BattleCommon implements Battle
         return burn;
     }
 
-    protected boolean abTurnDone()
+    protected boolean turnDoneForBoth()
     {
         return ((currentPlayer.getTurnDone() > 0) && (currentPlayer.getTurnDone() == getOpponent().getTurnDone()));
+    }
+
+    protected Player getWinner(int minTurns)
+    {
+        if (!turnDoneForBoth())
+            return null;
+
+        if (gePlayer.unitsLeft() == 0)
+            return usPlayer;
+        if (usPlayer.unitsLeft() == 0)
+            return gePlayer;
+
+        if (gePlayer.getTurnDone() <= minTurns)
+            return null;
+
+        usPlayer.objectivesWon = map.objectivesCount(Army.US);
+        gePlayer.objectivesWon = map.objectivesCount(Army.GE);
+
+        if (usPlayer.objectivesWon > gePlayer.objectivesWon)
+            return usPlayer;
+        else if (usPlayer.objectivesWon < gePlayer.objectivesWon)
+            return gePlayer;
+
+        return null;
     }
 
     @Override
