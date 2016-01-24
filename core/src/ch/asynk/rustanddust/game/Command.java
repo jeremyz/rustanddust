@@ -141,6 +141,7 @@ public class Command extends Order
         json.writeObjectStart("unit");
         json.writeValue("id", unitId);
         json.writeValue("type", unitType);
+        json.writeValue("hq", unit.hq);
         json.writeValue("ace", unit.ace);
         writeTile(json, "tile", unitTile);
         json.writeObjectEnd();
