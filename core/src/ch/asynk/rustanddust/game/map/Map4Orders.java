@@ -99,14 +99,14 @@ public abstract class Map4Orders extends Map3Animations
     {
         attack(unit, target, true);
 
-        Order cmd = Order.get(battle.getPlayer());
+        Order cmd = Order.get();
         cmd.setEngage(unit, target);
         return (process(cmd) == 1);
     }
 
     public void promoteUnit(final Unit unit)
     {
-        Order cmd = Order.get(battle.getPlayer());
+        Order cmd = Order.get();
         cmd.setPromote(unit);
         process(cmd);
     }
@@ -115,7 +115,7 @@ public abstract class Map4Orders extends Map3Animations
 
     private Order getMoveOrder(Unit unit, Move move)
     {
-        Order cmd = Order.get(battle.getPlayer());
+        Order cmd = Order.get();
         cmd.setMove(unit, move);
         return cmd;
     }
@@ -127,13 +127,13 @@ public abstract class Map4Orders extends Map3Animations
         playMoveSound(unit);
     }
 
-    private int promoteUnit(final Unit unit, final Player player)
+    private int doPromoteUnit(final Unit unit)
     {
         activatedUnits.add(unit);
-        addPromoteAnimation(unit, player, new Runnable() {
+        addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
             @Override
             public void run() {
-                player.promote(unit);
+                battle.getPlayer().promote(unit);
             }
         });
         return 1;
@@ -150,7 +150,7 @@ public abstract class Map4Orders extends Map3Animations
                 r = process(cmd.unit, cmd.move);
                 break;
             case PROMOTE:
-                r = promoteUnit(cmd.unit, cmd.player);
+                r = doPromoteUnit(cmd.unit);
                 break;
             case ENGAGE:
                 r = doEngagement(cmd.engagement);

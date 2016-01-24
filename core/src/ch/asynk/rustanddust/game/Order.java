@@ -33,15 +33,13 @@ public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comp
         orderPool.clear();
     }
 
-    public static Order get(Player player)
+    public static Order get()
     {
         Order c = orderPool.obtain();
-        c.player = player;
         return c;
     }
 
     public OrderType type;
-    public Player player;
     public Unit unit;
     public Unit.UnitId unitId;
     public Unit.UnitType unitType;
@@ -64,7 +62,6 @@ public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comp
     public void reset()
     {
         this.type = OrderType.NONE;
-        this.player = null;
         this.unit = null;
         if (this.move != null) {
             this.move.dispose();
@@ -127,11 +124,6 @@ public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comp
     public void write(Json json)
     {
         json.writeValue("type", type);
-        json.writeObjectStart("player");
-        json.writeValue("army", player.getName());
-        json.writeValue("turn", player.getCurrentTurn());
-        json.writeValue("aps", player.getAp());
-        json.writeObjectEnd();
         json.writeObjectStart("unit");
         json.writeValue("id", unitId);
         json.writeValue("type", unitType);

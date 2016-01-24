@@ -10,6 +10,8 @@ import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class OrderList extends IterableArray<Order> implements Json.Serializable
 {
+    private Player player;
+
     public OrderList(int capacity)
     {
         super(capacity);
@@ -55,8 +57,9 @@ public class OrderList extends IterableArray<Order> implements Json.Serializable
         clear();
     }
 
-    public String toJson()
+    public String toJson(final Player player)
     {
+        this.player = player;
         Json json = new Json();
         json.setOutputType(OutputType.json);
         return json.toJson(this);
@@ -65,6 +68,11 @@ public class OrderList extends IterableArray<Order> implements Json.Serializable
     @Override
     public void write(Json json)
     {
+        json.writeObjectStart("player");
+        json.writeValue("army", player.getName());
+        json.writeValue("turn", player.getCurrentTurn());
+        json.writeValue("aps", player.getAp());
+        json.writeObjectEnd();
         json.writeArrayStart("commands");
         for (Order o : this)
             json.writeValue(o);
