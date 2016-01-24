@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.ctrl.Solo;
+import ch.asynk.rustanddust.game.ctrl.PvP;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateCommon;
 import ch.asynk.rustanddust.game.states.StateSelect;
@@ -55,6 +56,9 @@ public abstract class Ctrl implements Disposable
         switch(game.config.gameMode) {
             case SOLO:
                 ctrl = new Solo(game, game.config.battle);
+                break;
+            case PVP:
+                ctrl = new PvP(game, game.config.battle);
                 break;
         }
         return ctrl;

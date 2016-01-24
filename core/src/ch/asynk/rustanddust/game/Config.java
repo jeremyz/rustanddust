@@ -79,6 +79,6 @@ public class Config
 
     public boolean gameModeImplemented()
     {
-        return (gameMode == GameMode.SOLO);
+        return (gameMode != GameMode.PVE);
     }
 }
