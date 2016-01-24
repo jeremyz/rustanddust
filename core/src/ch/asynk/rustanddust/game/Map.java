@@ -8,9 +8,9 @@ import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.Meteorology;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Engagement;
-import ch.asynk.rustanddust.game.map.Map4Commands;
+import ch.asynk.rustanddust.game.map.Map4Orders;
 
-public abstract class Map extends Map4Commands
+public abstract class Map extends Map4Orders
 {
     protected final Meteorology meteorology;
 
@@ -39,7 +39,7 @@ public abstract class Map extends Map4Commands
         RustAndDust.debug("TurnDone", String.format(" Processed Commands : %d", commandsSize()));
 
         // FIXME must emit the turn commands
-        commandsClear();
+        ordersClear();
     }
 
     @Override

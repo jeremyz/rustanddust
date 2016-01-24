@@ -1,4 +1,4 @@
-package ch.asynk.rustanddust.engine;
+package ch.asynk.rustanddust.game;
 
 import java.util.Iterator;
 
@@ -15,33 +15,33 @@ public class OrderList extends IterableArray<Order> implements Json.Serializable
         super(capacity);
     }
 
-    public Order get(Pawn pawn, Order.OrderType type)
+    public Order get(Unit unit, Order.OrderType type)
     {
         for (Order o : this) {
-            if ((o.compareTo(pawn) == 0) && (o.isA(type)))
+            if ((o.compareTo(unit) == 0) && (o.isA(type)))
                 return o;
         }
         return null;
     }
 
-    public void dispose(Pawn pawn)
+    public void dispose(Unit unit)
     {
         Iterator<Order> it = iterator();
         while (it.hasNext()) {
             Order order = it.next();
-            if (order.compareTo(pawn) == 0) {
+            if (order.compareTo(unit) == 0) {
                 it.remove();
                 order.dispose();
             }
         }
     }
 
-    public void dispose(Pawn pawn, Order.OrderType type)
+    public void dispose(Unit unit, Order.OrderType type)
     {
         Iterator<Order> it = iterator();
         while (it.hasNext()) {
             Order order = it.next();
-            if ((order.compareTo(pawn) == 0) && (order.isA(type))) {
+            if ((order.compareTo(unit) == 0) && (order.isA(type))) {
                 it.remove();
                 order.dispose();
             }

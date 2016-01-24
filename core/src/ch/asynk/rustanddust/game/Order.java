@@ -1,18 +1,17 @@
 package ch.asynk.rustanddust.game;
 
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
-import ch.asynk.rustanddust.engine.Order;
 import ch.asynk.rustanddust.engine.Move;
-import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.util.Collection;
 
-public class Command extends Order
+public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comparable<Unit>
 {
-    public enum CommandType implements Order.OrderType
+    public enum OrderType
     {
         NONE,
         MOVE,
@@ -21,40 +20,36 @@ public class Command extends Order
         END_OF_TURN;
     }
 
-    private static final Pool<Command> commandPool = new Pool<Command>()
+    private static final Pool<Order> orderPool = new Pool<Order>()
     {
         @Override
-        protected Command newObject() {
-            return new Command();
+        protected Order newObject() {
+            return new Order();
         }
     };
 
     public static void clearPool()
     {
-        commandPool.clear();
+        orderPool.clear();
     }
 
-    public static Command get(Player player)
+    public static Order get(Player player)
     {
-        Command c = commandPool.obtain();
+        Order c = orderPool.obtain();
         c.player = player;
-        c.ap = player.getAp();
-        c.turn = player.getCurrentTurn();
         return c;
     }
 
-    public CommandType type;
+    public OrderType type;
     public Player player;
-    public int ap;
-    public int turn;
     public Unit unit;
     public Unit.UnitId unitId;
     public Unit.UnitType unitType;
-    public Tile unitTile;
+    public Hex unitHex;
     public Move move;
     public Engagement engagement;
 
-    private Command()
+    private Order()
     {
         reset();
     }
@@ -62,13 +57,13 @@ public class Command extends Order
     @Override
     public void dispose()
     {
-        commandPool.free(this);
+        orderPool.free(this);
     }
 
     @Override
     public void reset()
     {
-        this.type = CommandType.NONE;
+        this.type = OrderType.NONE;
         this.player = null;
         this.unit = null;
         if (this.move != null) {
@@ -82,14 +77,13 @@ public class Command extends Order
     }
 
     @Override
-    public int compareTo(Pawn pawn)
+    public int compareTo(Unit other)
     {
-        if (pawn == unit)
+        if (unit == other)
             return 0;
         return 1;
     }
 
-    @Override
     public boolean isA(OrderType type)
     {
         return (type == this.type);
@@ -103,20 +97,20 @@ public class Command extends Order
 
     public void setMove(Unit unit, Move move)
     {
-        this.type = CommandType.MOVE;
+        this.type = OrderType.MOVE;
         this.move = move;
         setUnit(unit);
     }
 
     public void setPromote(Unit unit)
     {
-        this.type = CommandType.PROMOTE;
+        this.type = OrderType.PROMOTE;
         setUnit(unit);
     }
 
     public void setEngage(Unit unit, Unit target)
     {
-        this.type = CommandType.ENGAGE;
+        this.type = OrderType.ENGAGE;
         this.engagement = Engagement.get(unit, target);
         setUnit(unit);
     }
@@ -126,7 +120,7 @@ public class Command extends Order
         this.unit = unit;
         this.unitId = unit.id;
         this.unitType = unit.type;
-        this.unitTile = unit.getTile();
+        this.unitHex = unit.getHex();
     }
 
     @Override
@@ -135,15 +129,15 @@ public class Command extends Order
         json.writeValue("type", type);
         json.writeObjectStart("player");
         json.writeValue("army", player.getName());
-        json.writeValue("turn", turn);
-        json.writeValue("aps", ap);
+        json.writeValue("turn", player.getCurrentTurn());
+        json.writeValue("aps", player.getAp());
         json.writeObjectEnd();
         json.writeObjectStart("unit");
         json.writeValue("id", unitId);
         json.writeValue("type", unitType);
         json.writeValue("hq", unit.hq);
         json.writeValue("ace", unit.ace);
-        writeTile(json, "tile", unitTile);
+        writeHex(json, "tile", unitHex);
         json.writeObjectEnd();
         if (move != null) writeMove(json, "move", move);
         if (engagement != null) writeEngagement(json, "engagement", engagement);
@@ -153,8 +147,8 @@ public class Command extends Order
     {
         json.writeObjectStart(key);
         json.writeValue("type", move.type);
-        writeTile(json, "from", move.from);
-        writeTile(json, "to", move.to);
+        writeHex(json, "from", (Hex) move.from);
+        writeHex(json, "to", (Hex) move.to);
         json.writeValue("orientation", move.orientation.r());
         writeTiles(json, "path", move.tiles);
         json.writeObjectEnd();
@@ -187,7 +181,7 @@ public class Command extends Order
         json.writeValue("id", u.id);
         json.writeValue("ace", u.ace);
         json.writeValue("army", u.getArmy());
-        writeTile(json, "tile", u.getTile());
+        writeHex(json, "tile", u.getHex());
         json.writeObjectEnd();
     }
 
@@ -199,7 +193,7 @@ public class Command extends Order
         json.writeArrayEnd();
     }
 
-    private void writeTile(Json json, String key, Tile t)
+    private void writeHex(Json json, String key, Hex t)
     {
         if (t == null) return;
         if (key != null) json.writeObjectStart(key);
@@ -213,13 +207,13 @@ public class Command extends Order
     {
         json.writeArrayStart(key);
         for (Tile t : tiles)
-            writeTile(json, null, t);
+            writeHex(json, null, (Hex) t);
         json.writeArrayEnd();
     }
 
     @Override
     public void read(Json json, JsonValue jsonMap)
     {
-        // FIXME Command.read(Json, JsonValue);
+        // FIXME Order.read(Json, JsonValue);
     }
 }
