@@ -17,7 +17,7 @@ allprojects {
     version = '1.0.1'
     ext {
         appName = 'RustAndDust'
-        gdxVersion = '1.6.1'
+        gdxVersion = '1.9.0'
         roboVMVersion = '0.0.14'
     }
 
