@@ -57,7 +57,7 @@ public class StatisticsPanel extends Patch
     public void show(Player winner, Player loser, Position position)
     {
         flag = ((winner.army == Army.US) ? usFlag : geFlag);
-        title.write("is triumphant in " + winner.getTurnDone() + " turns.");
+        title.write("is triumphant in " + winner.getTurn() + " turns.");
         stats1.write(winner.getStats());
         stats2.write(loser.getStats());
 

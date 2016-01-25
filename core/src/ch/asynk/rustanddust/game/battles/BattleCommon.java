@@ -133,7 +133,7 @@ public abstract class BattleCommon implements Battle
 
     protected boolean turnDoneForBoth()
     {
-        return ((currentPlayer.getTurnDone() > 0) && (currentPlayer.getTurnDone() == getOpponent().getTurnDone()));
+        return ((currentPlayer.getTurn() > 0) && (currentPlayer.getTurn() == getOpponent().getTurn()));
     }
 
     protected Player getWinner(int minTurns)
@@ -146,7 +146,7 @@ public abstract class BattleCommon implements Battle
         if (usPlayer.unitsLeft() == 0)
             return gePlayer;
 
-        if (gePlayer.getTurnDone() <= minTurns)
+        if (gePlayer.getTurn() <= minTurns)
             return null;
 
         usPlayer.objectivesWon = map.objectivesCount(Army.US);

@@ -70,7 +70,7 @@ public class OrderList extends IterableArray<Order> implements Json.Serializable
     {
         json.writeObjectStart("player");
         json.writeValue("army", player.getName());
-        json.writeValue("turn", player.getCurrentTurn());
+        json.writeValue("turn", player.getTurn());
         json.writeValue("aps", player.getAp());
         json.writeObjectEnd();
         json.writeArrayStart("commands");

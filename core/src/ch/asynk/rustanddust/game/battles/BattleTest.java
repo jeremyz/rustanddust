@@ -44,7 +44,7 @@ public class BattleTest extends BattleCommon
     {
         if (currentPlayer.is(Army.GE))
             return false;
-        if (currentPlayer.getCurrentTurn() != 2)
+        if (currentPlayer.getTurn() != 2)
             return false;
 
         Zone usEntry = new Zone(map, 1);

@@ -133,14 +133,9 @@ public class Player
         return ((apSpent < actionPoints) ? (apSpent + 1) : apSpent);
     }
 
-    public int getTurnDone()
+    public int getTurn()
     {
         return turn;
-    }
-
-    public int getCurrentTurn()
-    {
-        return (turn + 1);
     }
 
     public boolean apExhausted()
@@ -174,10 +169,7 @@ public class Player
 
     public void turnEnd()
     {
-        if (deploymentDone)
-            turn += 1;
-        else
-            deploymentDone = (reinforcement.size() == 0);
+        deploymentDone = (reinforcement.size() == 0);
         for (Unit unit : units)
             unit.reset();
     }
@@ -187,6 +179,7 @@ public class Player
         if (isDeploymentDone()) {
             actionPoints = aps;
             apSpent = 0;
+            turn += 1;
         }
     }
 
