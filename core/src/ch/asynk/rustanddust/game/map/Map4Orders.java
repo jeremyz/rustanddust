@@ -41,6 +41,11 @@ public abstract class Map4Orders extends Map3Animations
     protected int ordersSize() { return orders.size(); }
     protected void ordersClear() { orders.dispose(); }
 
+    public String toJson()
+    {
+        return orders.toJson(battle.getPlayer());
+    }
+
     // STATES ENTRY ->
 
     public void showOnBoard(final Unit unit, Hex to, Orientation o)
