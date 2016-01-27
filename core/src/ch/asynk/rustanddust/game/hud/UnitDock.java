@@ -234,6 +234,7 @@ public class UnitDock extends Bg implements Animation
         batch.setTransformMatrix(transform);
 
         // batch.flush();
+        // FIXME please use HdpiUtils instead release 1.8 https://libgdx.badlogicgames.com/news.html
         Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
         Gdx.gl.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
 
