@@ -13,6 +13,6 @@ public class DesktopLauncher {
         config.height = 768;
         // config.fullscreen = true;
         config.addIcon("data/icon.png", Files.FileType.Internal);
-        new LwjglApplication(new RustAndDust(), config);
+        new LwjglApplication(new RustAndDust(new DesktopBackend()), config);
     }
 }

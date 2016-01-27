@@ -61,6 +61,7 @@ public class RustAndDust extends Game
     public Ctrl ctrl;
     public Config config;
     public int hudCorrection;
+    public Backend backend;
 
     public TextureAtlas uiAtlas;
     public BitmapFont font;
@@ -73,6 +74,11 @@ public class RustAndDust extends Game
         NONE
     }
     private State state;
+
+    public RustAndDust(Backend backend)
+    {
+        this.backend = backend;
+    }
 
     public static void debug(String msg)
     {
