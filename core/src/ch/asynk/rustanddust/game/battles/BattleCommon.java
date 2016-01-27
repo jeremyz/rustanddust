@@ -171,7 +171,7 @@ public abstract class BattleCommon implements Battle
         }
     }
 
-    public Player getNextPlayer()
+    protected Player getNextPlayer()
     {
         return getOpponent();
     }
