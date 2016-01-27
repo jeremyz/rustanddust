@@ -6,6 +6,7 @@ public class Player
 {
     private static final float MOVE_TIME = 0.4f;
 
+    public int _id;
     private int turn;
     private int apSpent;
     private int actionPoints;
