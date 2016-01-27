@@ -13,6 +13,8 @@ public interface Battle
 
     public MapType getMapType();
 
+    public void setPlayerIds(int a, int b);
+
     public Player getPlayer();
 
     public Player getOpponent();

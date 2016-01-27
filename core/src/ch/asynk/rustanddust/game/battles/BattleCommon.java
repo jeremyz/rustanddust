@@ -176,6 +176,12 @@ public abstract class BattleCommon implements Battle
         return getOpponent();
     }
 
+    public void setPlayerIds(int a, int b)
+    {
+        usPlayer._id = a;
+        gePlayer._id = b;
+    }
+
     @Override
     public Player getPlayer()
     {
