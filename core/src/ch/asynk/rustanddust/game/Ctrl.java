@@ -91,9 +91,13 @@ public abstract class Ctrl implements Disposable
         this.stateType = StateType.DONE;
         StateCommon.set(game);
 
-        setState(battle.setup(this));
+        battle.init();
+        init();
 
+        hud.update();
         this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+
+        setState(battle.getState());
     }
 
     @Override

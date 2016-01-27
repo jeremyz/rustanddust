@@ -19,7 +19,7 @@ public interface Battle
 
     public Position getHudPosition();
 
-    public State.StateType setup(Ctrl ctrl);
+    public void init();
 
     public boolean actionDone();
 
