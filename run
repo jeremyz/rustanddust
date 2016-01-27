@@ -7,6 +7,7 @@ KEYSTORE="/home/jeyzu/etc/sync/jeyzu-key.keystore"
 APK="./android/build/apk/android-release-unsigned.apk"
 ZIPALIGN="/opt/android-sdk/build-tools/23.0.2/zipalign"
 APK_OUT="./RustAndDust-signed-aligned.apk"
+DB_FILES="./android/assets/data/*.sqlite"
 
 function gradlew_do()
 {
@@ -29,6 +30,12 @@ case "$1" in
     "r")
         shift;
         ARGS="android:assembleRelease$@"
+        gradlew_do
+        ;;
+    "q")
+        shift;
+        ARGS="$ARGS $@"
+        rm $DB_FILES 2>/dev/null
         gradlew_do
         ;;
     "s")
