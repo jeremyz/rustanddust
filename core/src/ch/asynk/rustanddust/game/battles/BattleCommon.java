@@ -3,6 +3,7 @@ package ch.asynk.rustanddust.game.battles;
 import java.util.Random;
 import java.util.HashMap;
 
+import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
@@ -93,9 +94,9 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void init()
+    public void init(Ctrl ctrl)
     {
-        this.map = ctrl.map;
+        ctrl.map = this.map = factory.getMap(getMapType());
         this.usPlayer = factory.getPlayer(Army.US);
         this.gePlayer = factory.getPlayer(Army.GE);
 

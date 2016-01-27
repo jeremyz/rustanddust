@@ -21,7 +21,7 @@ public interface Battle
 
     public Position getHudPosition();
 
-    public void init();
+    public void init(Ctrl ctrl);
 
     public boolean actionDone();
 
