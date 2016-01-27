@@ -6,47 +6,9 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "test/" ]
 
-
-// sourceSets {
-//    engine {
-//       java {
-//          srcDirs = [ "src/" ]
-//          include '**/engine/**'
-//       }
-//    }
-//    game {
-//       java {
-//          srcDirs = [ "src/" ]
-//          include '**/game/**'
-//       }
-//    }
-// }
-
-// task engineDocs(type: Javadoc) {
-//   title = "RustAndDust - Engine"
-//   source = sourceSets.engine.allJava
-//   classpath = sourceSets.main.compileClasspath
-//   destinationDir = file("../javadoc/engine")
-//}
-
-//task gameDocs(type: Javadoc) {
-//   title = "RustAndDust - Game"
-//   source = sourceSets.game.allJava
-//   classpath = sourceSets.main.compileClasspath
-//   destinationDir = file("../javadoc/game")
-//}
-
-//task allDocs {
-//   dependsOn engineDocs, gameDocs
-//}
-
 task javadocs(type: Javadoc, dependsOn: compileJava) {
    title = "RustAndDust"
    source = sourceSets.main.allJava
    classpath = sourceSets.main.compileClasspath
    destinationDir = file("../javadoc/")
-}
-
-eclipse.project {
-    name = appName + "-core"
 }
