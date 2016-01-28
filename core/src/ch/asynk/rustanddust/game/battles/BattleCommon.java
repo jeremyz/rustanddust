@@ -22,11 +22,12 @@ public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
 
+    protected final Factory factory;
+
     protected int _id;
     protected Factory.MapType mapType;
     protected String name;
     protected String description;
-    protected Factory factory;
     protected Map map;
     protected Player currentPlayer;
     protected Player usPlayer;
