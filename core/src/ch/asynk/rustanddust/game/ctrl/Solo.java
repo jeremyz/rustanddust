@@ -12,7 +12,10 @@ public class Solo extends Ctrl
     }
 
     @Override
-    public void init() { }
+    public void init()
+    {
+        battle.init(this);
+    }
 
     @Override
     protected void processTurn() { }

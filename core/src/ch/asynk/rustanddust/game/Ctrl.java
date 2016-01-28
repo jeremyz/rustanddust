@@ -70,8 +70,6 @@ public abstract class Ctrl implements Disposable
         this.game = game;
         this.battle = battle;
         this.hud = new Hud(game);
-        battle.init(this);
-        init();
 
         this.blockMap = false;
         this.blockHud = false;
@@ -90,8 +88,9 @@ public abstract class Ctrl implements Disposable
 
         this.state = selectState;
         this.stateType = StateType.DONE;
-        StateCommon.set(game);
 
+        init();
+        StateCommon.set(game);
         hud.update();
         this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
 
