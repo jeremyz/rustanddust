@@ -13,13 +13,13 @@ public interface Battle
 
     public MapType getMapType();
 
+    public Position getHudPosition();
+
     public void setPlayerIds(int a, int b);
 
     public Player getPlayer();
 
     public Player getOpponent();
-
-    public Position getHudPosition();
 
     public void init(Ctrl ctrl);
 

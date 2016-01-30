@@ -106,14 +106,14 @@ public abstract class BattleCommon implements Battle
         this.currentPlayer = this.usPlayer;
         setupUS();
         map.actionDone();
-        currentPlayer.turnEnd();
         map.turnDone();
+        currentPlayer.turnEnd();
 
         this.currentPlayer = this.gePlayer;
         setupGE();
         map.actionDone();
-        currentPlayer.turnEnd();
         map.turnDone();
+        currentPlayer.turnEnd();
 
         this.currentPlayer = getFirstPlayer();
     }
@@ -126,6 +126,22 @@ public abstract class BattleCommon implements Battle
             currentPlayer.burnDownOneAp();
         map.actionDone();
         return burn;
+    }
+
+    @Override
+    public boolean turnDone()
+    {
+        map.turnDone();
+        currentPlayer.turnEnd();
+        Player winner = getWinner();
+        if (winner != null) {
+            currentPlayer = winner;
+            return true;
+        } else {
+            currentPlayer = getOpponent();
+            currentPlayer.turnStart(getActionPoints());
+            return false;
+        }
     }
 
     protected boolean turnDoneForBoth()
@@ -157,26 +173,6 @@ public abstract class BattleCommon implements Battle
         return null;
     }
 
-    @Override
-    public boolean turnDone()
-    {
-        map.turnDone();
-        currentPlayer.turnEnd();
-        Player winner = getWinner();
-        if (winner != null) {
-            currentPlayer = winner;
-            return true;
-        } else {
-            currentPlayer = getNextPlayer();
-            currentPlayer.turnStart(getActionPoints());
-            return false;
-        }
-    }
-
-    protected Player getNextPlayer()
-    {
-        return getOpponent();
-    }
 
     public void setPlayerIds(int a, int b)
     {
@@ -203,17 +199,17 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public boolean hasReinforcement()
+    {
+        return false;
+    }
+
+    @Override
     public StateType getState()
     {
         if (!currentPlayer.isDeploymentDone())
             return StateType.DEPLOYMENT;
         return StateType.SELECT;
-    }
-
-    @Override
-    public boolean hasReinforcement()
-    {
-        return false;
     }
 
     @Override
