@@ -6,7 +6,7 @@ public class Player
 {
     private static final float MOVE_TIME = 0.4f;
 
-    public int _id;
+    private int id;
     private int turn;
     private int apSpent;
     private int actionPoints;
@@ -23,8 +23,9 @@ public class Player
     public int engagementWon;
     public int engagementLost;
 
-    public Player(final RustAndDust game, Army army, int n)
+    public Player(final RustAndDust game, int id, Army army, int n)
     {
+        this.id = id;
         this.army = army;
         this.units = new UnitList(n);
         this.casualties = new UnitList(n);
@@ -38,6 +39,11 @@ public class Player
         this.objectivesWon = 0;
         this.engagementWon = 0;
         this.engagementLost = 0;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
     public String getName()

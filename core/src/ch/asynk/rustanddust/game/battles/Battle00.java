@@ -25,6 +25,13 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
+    protected void setPlayers(int idA, int idB)
+    {
+        a = factory.getPlayer(idA, Army.US);
+        b = factory.getPlayer(idB, Army.GE);
+    }
+
+    @Override
     public Position getHudPosition()
     {
         return (currentPlayer.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
@@ -43,12 +50,6 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    protected Player getFirstPlayer()
-    {
-        return usPlayer;
-    }
-
-    @Override
     protected void setupMap()
     {
         map.addHoldObjective(5, 2, Army.NONE);
@@ -56,9 +57,17 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    protected void setupUS()
+    protected void setupPlayer()
     {
-        setUnit(map, usPlayer, UnitId.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
+        if (currentPlayer.army == Army.US)
+            setupUS(currentPlayer);
+        else
+            setupGE(currentPlayer);
+    }
+
+    private void setupUS(final Player p)
+    {
+        setUnit(map, p, UnitId.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
 
         Zone usEntry = new Zone(map, 10);
         usEntry.orientation = Orientation.SOUTH;
@@ -73,18 +82,17 @@ public class Battle00 extends BattleCommon
         usEntry.add(10, 4);
         usEntry.add(11, 4);
         addEntryZone(usEntry);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN, true, false);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE, true, false);
-        addReinforcement(usPlayer, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(usPlayer, usEntry, UnitId.US_PERSHING);
-        addReinforcement(usPlayer, usEntry, UnitId.US_PRIEST);
+        addReinforcement(p, usEntry, UnitId.US_SHERMAN, true, false);
+        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitId.US_WOLVERINE, true, false);
+        addReinforcement(p, usEntry, UnitId.US_WOLVERINE);
+        addReinforcement(p, usEntry, UnitId.US_PERSHING);
+        addReinforcement(p, usEntry, UnitId.US_PRIEST);
     }
 
-    @Override
-    protected void setupGE()
+    private void setupGE(final Player p)
     {
         Zone geEntry = new Zone(map, 8);
         geEntry.orientation = Orientation.NORTH;
@@ -97,12 +105,12 @@ public class Battle00 extends BattleCommon
         geEntry.add(3, 5);
         geEntry.add(4, 5);
         addEntryZone(geEntry);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV, true, false);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_PANZER_IV, true, false);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_TIGER);
-        addReinforcement(gePlayer, geEntry, UnitId.GE_WESPE);
+        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV, true, false);
+        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV);
+        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV, true, false);
+        addReinforcement(p, geEntry, UnitId.GE_TIGER);
+        addReinforcement(p, geEntry, UnitId.GE_TIGER);
+        addReinforcement(p, geEntry, UnitId.GE_WESPE);
     }
 }

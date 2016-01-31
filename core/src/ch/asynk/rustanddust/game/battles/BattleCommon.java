@@ -30,8 +30,8 @@ public abstract class BattleCommon implements Battle
     protected String description;
     protected Map map;
     protected Player currentPlayer;
-    protected Player usPlayer;
-    protected Player gePlayer;
+    protected Player a;
+    protected Player b;
     protected IterableArray<Zone> entryZones = new IterableArray<Zone>(10);
     protected IterableArray<Zone> exitZones = new IterableArray<Zone>(10);
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
@@ -39,9 +39,8 @@ public abstract class BattleCommon implements Battle
 
     protected abstract Player getWinner();
     protected abstract void setupMap();
-    protected abstract void setupUS();
-    protected abstract void setupGE();
-    protected abstract Player getFirstPlayer();
+    protected abstract void setupPlayer();
+    protected abstract void setPlayers(int idA, int idB);
 
     private int d6()
     {
@@ -95,27 +94,26 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void init(Ctrl ctrl)
+    public void init(Ctrl ctrl, int idA, int idB)
     {
         ctrl.map = this.map = factory.getMap(getMapType());
-        this.usPlayer = factory.getPlayer(Army.US);
-        this.gePlayer = factory.getPlayer(Army.GE);
+        setPlayers(idA, idB);
 
         setupMap();
 
-        this.currentPlayer = this.usPlayer;
-        setupUS();
+        this.currentPlayer = this.a;
+        setupPlayer();
         map.actionDone();
         map.turnDone();
         currentPlayer.turnEnd();
 
-        this.currentPlayer = this.gePlayer;
-        setupGE();
+        this.currentPlayer = this.b;
+        setupPlayer();
         map.actionDone();
         map.turnDone();
         currentPlayer.turnEnd();
 
-        this.currentPlayer = getFirstPlayer();
+        this.currentPlayer = this.a;
     }
 
     @Override
@@ -154,31 +152,25 @@ public abstract class BattleCommon implements Battle
         if (!turnDoneForBoth())
             return null;
 
-        if (gePlayer.unitsLeft() == 0)
-            return usPlayer;
-        if (usPlayer.unitsLeft() == 0)
-            return gePlayer;
+        if (a.unitsLeft() == 0)
+            return b;
+        if (b.unitsLeft() == 0)
+            return a;
 
-        if (gePlayer.getTurn() <= minTurns)
+        if (a.getTurn() <= minTurns)
             return null;
 
-        usPlayer.objectivesWon = map.objectivesCount(Army.US);
-        gePlayer.objectivesWon = map.objectivesCount(Army.GE);
+        a.objectivesWon = map.objectivesCount(a.army);
+        b.objectivesWon = map.objectivesCount(b.army);
 
-        if (usPlayer.objectivesWon > gePlayer.objectivesWon)
-            return usPlayer;
-        else if (usPlayer.objectivesWon < gePlayer.objectivesWon)
-            return gePlayer;
+        if (a.objectivesWon > b.objectivesWon)
+            return a;
+        else if (a.objectivesWon < b.objectivesWon)
+            return b;
 
         return null;
     }
 
-
-    public void setPlayerIds(int a, int b)
-    {
-        usPlayer._id = a;
-        gePlayer._id = b;
-    }
 
     @Override
     public Player getPlayer()
@@ -189,7 +181,7 @@ public abstract class BattleCommon implements Battle
     @Override
     public Player getOpponent()
     {
-        return ((currentPlayer == usPlayer) ? gePlayer : usPlayer);
+        return ((currentPlayer == a) ? b : a);
     }
 
     @Override

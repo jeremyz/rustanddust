@@ -15,13 +15,11 @@ public interface Battle
 
     public Position getHudPosition();
 
-    public void setPlayerIds(int a, int b);
-
     public Player getPlayer();
 
     public Player getOpponent();
 
-    public void init(Ctrl ctrl);
+    public void init(Ctrl ctrl, int idA, int idB);
 
     public boolean actionDone();
 

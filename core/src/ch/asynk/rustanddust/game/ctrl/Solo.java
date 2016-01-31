@@ -14,7 +14,7 @@ public class Solo extends Ctrl
     @Override
     public void init()
     {
-        battle.init(this);
+        battle.init(this, 0, 1);
     }
 
     @Override

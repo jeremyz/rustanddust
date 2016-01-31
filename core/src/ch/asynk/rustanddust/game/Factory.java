@@ -103,12 +103,12 @@ public class Factory implements Board.TileBuilder, Disposable
         return m;
     }
 
-    public Player getPlayer(Army army)
+    public Player getPlayer(int id, Army army)
     {
         if (army == Army.US)
-            return new Player(game, Army.US, 10);
+            return new Player(game, id, Army.US, 10);
         else
-            return new Player(game, Army.GE, 10);
+            return new Player(game, id, Army.GE, 10);
     }
 
     public Unit getUnit(UnitId id, boolean hq, boolean ace)
