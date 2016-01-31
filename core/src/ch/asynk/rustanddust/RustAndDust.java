@@ -56,12 +56,15 @@ public class RustAndDust extends Game
 
     public static final String DOM = "RustAndDust";
 
+    public static final String DB_FILE = "data/rustanddust.sqlite";
+
     public AssetManager manager;
     public Factory factory;
     public Ctrl ctrl;
     public Config config;
     public int hudCorrection;
     public Backend backend;
+    public DB db;
 
     public TextureAtlas uiAtlas;
     public BitmapFont font;
@@ -101,6 +104,9 @@ public class RustAndDust extends Game
         Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
         this.hudCorrection = ((int) (125 * Gdx.graphics.getDensity()) - 75);
         debug("RustAndDust", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
+
+        db = new DB(Gdx.files.internal(DB_FILE).path());
+        db.setup();
 
         manager = new AssetManager();
         factory = new Factory(this);
