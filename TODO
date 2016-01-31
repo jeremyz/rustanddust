@@ -1,4 +1,26 @@
+GUI:
+    Play ->
+        Mode | Battle Name | Opponent | Status
+        Mode | Battle Name | Opponent | Status
+        Mode | Battle Name | Opponent | Status
+        Mode | Battle Name | Opponent | Status
+
+        New     |   Replay      | Continue
+
+
+
+    New ->
+        Mode : choice       Solo PvP PvE
+        Battle: choice
+        Description
+
+
+    Replay -> Replay Ctrl
+    Continue -> PvP | PvE reload ... play
+
+
 TODO:
+    - Replay Ctrl
     - turret aiming sound
     - moving cloudy sky overlay
     - Rules
@@ -7,7 +29,6 @@ TODO:
         - 8.6 Russian fire restrictions
 
 NEXT:
-    - option rotate head/pawn
     - support different board layout
         - north orientation
         - hex orientation
