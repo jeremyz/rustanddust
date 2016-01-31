@@ -10,7 +10,6 @@ public class Player
     private int turn;
     private int apSpent;
     private int actionPoints;
-    private boolean deploymentDone;
 
     public Army army;
     public UnitList units;
@@ -34,7 +33,6 @@ public class Player
         this.turn = 0;
         this.apSpent = 0;
         this.actionPoints = 0;
-        this.deploymentDone = false;
         this.actionCount = 0;
         this.objectivesWon = 0;
         this.engagementWon = 0;
@@ -74,6 +72,11 @@ public class Player
     public boolean isEnemy(Army other)
     {
         return army.isEnemy(other);
+    }
+
+    public boolean hasReinforcement()
+    {
+        return (reinforcement() > 0);
     }
 
     public int unitsLeft()
@@ -163,7 +166,7 @@ public class Player
 
     public boolean isDeploymentDone()
     {
-        return (deploymentDone || (reinforcement.size() == 0));
+        return ((turn > 0) || !hasReinforcement());
     }
 
     public void burnDownOneAp()
@@ -176,7 +179,6 @@ public class Player
 
     public void turnEnd()
     {
-        deploymentDone = (reinforcement.size() == 0);
         for (Unit unit : units)
             unit.reset();
     }
