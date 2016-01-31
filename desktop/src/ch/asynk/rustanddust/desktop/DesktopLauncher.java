@@ -3,6 +3,7 @@ package ch.asynk.rustanddust.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.Files;
+
 import ch.asynk.rustanddust.RustAndDust;
 
 public class DesktopLauncher {

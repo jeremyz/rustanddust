@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.HashMap;
 
 import ch.asynk.rustanddust.game.Ctrl;
-import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.State;
