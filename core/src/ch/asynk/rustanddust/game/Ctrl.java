@@ -47,6 +47,7 @@ public abstract class Ctrl implements Disposable
     private StateType stateAfterAnimation;
 
     public abstract void init();
+    protected abstract void processAction();
     protected abstract void processTurn();
 
     public static Ctrl getCtrl(final RustAndDust game)

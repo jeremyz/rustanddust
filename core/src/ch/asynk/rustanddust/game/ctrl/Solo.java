@@ -18,5 +18,8 @@ public class Solo extends Ctrl
     }
 
     @Override
+    protected void processAction() { }
+
+    @Override
     protected void processTurn() { }
 }

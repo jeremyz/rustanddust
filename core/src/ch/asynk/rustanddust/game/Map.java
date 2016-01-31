@@ -32,6 +32,7 @@ public abstract class Map extends Map4Orders
 
     public void actionDone()
     {
+        game.ctrl.processAction();
     }
 
     public void turnDone()
