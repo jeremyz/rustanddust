@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.Backend;
 
 public class AndroidLauncher extends AndroidApplication
 {
