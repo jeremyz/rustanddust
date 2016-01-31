@@ -179,6 +179,7 @@ public class Player
 
     public void turnEnd()
     {
+        apSpent = actionPoints;
         for (Unit unit : units)
             unit.reset();
     }
