@@ -146,14 +146,6 @@ public abstract class Ctrl implements Disposable
         stateAfterAnimation = after;
     }
 
-    public boolean checkDeploymentDone()
-    {
-        boolean done = battle.isDeploymentDone();
-        if (done)
-            hud.askEndDeployment();
-        return done;
-    }
-
     // Hud callbacks
 
     public void endGame()

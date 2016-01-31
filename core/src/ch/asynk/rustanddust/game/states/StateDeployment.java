@@ -9,7 +9,6 @@ import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateDeployment extends StateCommon
 {
-    private boolean completed;
     private Zone entryZone;
     private UnitList deployedUnits = new UnitList(10);
 
@@ -18,7 +17,6 @@ public class StateDeployment extends StateCommon
     {
         if (selectedHex != null)
             map.hexUnselect(selectedHex);
-        completed = false;
         entryZone = null;
         selectedHex = null;
         selectedUnit = null;
@@ -60,7 +58,7 @@ public class StateDeployment extends StateCommon
             showEntryZone(unit);
         } else if (selectedUnit != null) {
             deployUnit(Orientation.fromAdj(selectedHex, hex));
-        } else if (!completed && (entryZone != null) && (hex != null)) {
+        } else if (!ctrl.battle.isDeploymentDone() && (entryZone != null) && (hex != null)) {
             if (hex.isEmpty() && entryZone.contains(hex)) {
                 showUnit(activeUnit, hex);
             }
@@ -125,7 +123,7 @@ public class StateDeployment extends StateCommon
         map.hexDirectionsHide(selectedHex);
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
-        if (ctrl.checkDeploymentDone())
-            completed = true;
+        if (ctrl.battle.isDeploymentDone())
+            ctrl.hud.askEndDeployment();
     }
 }
