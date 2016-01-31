@@ -111,6 +111,7 @@ public class RustAndDust extends Game
         manager = new AssetManager();
         factory = new Factory(this);
         config = new Config();
+        backend.init(this);
 
         state = State.NONE;
         loadUiAssets();
