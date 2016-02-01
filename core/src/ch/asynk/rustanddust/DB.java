@@ -8,6 +8,8 @@ import com.badlogic.gdx.sql.DatabaseCursor;
 import com.badlogic.gdx.sql.DatabaseFactory;
 import com.badlogic.gdx.sql.SQLiteGdxException;
 
+import ch.asynk.rustanddust.RustAndDust;
+
 public class DB
 {
     private static final int DB_SCHEMA_VERSION = 1;
@@ -74,10 +76,10 @@ public class DB
     {
         try {
             md = MessageDigest.getInstance(DIGEST);
-        } catch (java.security.NoSuchAlgorithmException e) { }
+        } catch (java.security.NoSuchAlgorithmException e) { RustAndDust.error("NoSuchAlgorithm"); }
         try {
             db.openOrCreateDatabase();
-        } catch (SQLiteGdxException e) { }
+        } catch (SQLiteGdxException e) { RustAndDust.error("openOrCreateDatabase"); }
     }
 
     private String getDigest(String str)
@@ -85,7 +87,7 @@ public class DB
         String hash = null;
         try {
             hash = new BigInteger(1, md.digest(str.getBytes("UTF-8"))).toString(16);
-        } catch (java.io.UnsupportedEncodingException e) { }
+        } catch (java.io.UnsupportedEncodingException e) { RustAndDast.error("getDigest"); }
 
         return hash;
     }
@@ -98,7 +100,10 @@ public class DB
             if (getPlayerId(hash) == NO_RECORDS) {
                 db.execSQL(String.format(INSERT_PLAYER, hash, gmail, firstname, lastname));
             }
-        } catch (SQLiteGdxException e) { return null; }
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("storePlayer");
+            return null;
+        }
         return hash;
     }
 
@@ -111,7 +116,7 @@ public class DB
                 cursor.next();
                 ret = cursor.getInt(0);
             }
-        } catch (SQLiteGdxException e) { }
+        } catch (SQLiteGdxException e) { RustAndDust.error("getPlayerId"); }
         return ret;
     }
 
@@ -126,7 +131,7 @@ public class DB
     {
         try {
             db.execSQL(String.format(UPDATE_BATTLE, id, name));
-        } catch (SQLiteGdxException e) { }
+        } catch (SQLiteGdxException e) { RustAndDust.error("storeBattle"); }
     }
 
     public void storeGame(int you, int opponent, int battle, int mode)
@@ -134,7 +139,7 @@ public class DB
         try {
             if (getGameId(you, opponent, battle, mode) == NO_RECORDS)
                 db.execSQL(String.format(INSERT_GAME, you, opponent, battle, mode));
-        } catch (SQLiteGdxException e) { }
+        } catch (SQLiteGdxException e) { RustAndDust.error("storeGame"); }
     }
 
     public int getGameId(int you, int opponent, int battle, int mode)
@@ -146,7 +151,7 @@ public class DB
                 cursor.next();
                 ret = cursor.getInt(0);
             }
-        } catch (SQLiteGdxException e) { }
+        } catch (SQLiteGdxException e) { RustAndDust.error("getGameId"); }
         return ret;
     }
 
@@ -163,6 +168,7 @@ public class DB
             if (hash == null) return false;
             db.execSQL(String.format(INSERT_TURN, game, player, hash, payload, game));
         } catch (SQLiteGdxException e) {
+            RustAndDust.error("storeTurn");
             return false;
         }
         return true;
@@ -175,6 +181,7 @@ public class DB
             if (hash == null) return false;
             db.execSQL(String.format(INSERT_STATE, game, hash, payload, game));
         } catch (SQLiteGdxException e) {
+            RustAndDust.error("storeState");
             return false;
         }
         return true;
