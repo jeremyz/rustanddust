@@ -1,4 +1,4 @@
-package ch.asynk.rustanddust;
+package ch.asynk.rustanddust.util;
 
 import java.security.MessageDigest;
 import java.math.BigInteger;
