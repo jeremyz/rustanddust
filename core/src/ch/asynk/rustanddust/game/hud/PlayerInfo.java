@@ -104,7 +104,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
     {
         unitDock.hide();
         turns.write(String.format("%d", player.getTurn()));
-        aps.write(String.format("%d", player.getAp()));
+        aps.write(String.format("%d", player.getCurrentAp()));
         int r = player.reinforcement();
         if (r == 0) {
             reinforcement.visible = false;
