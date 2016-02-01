@@ -141,6 +141,16 @@ public class Player
 
     public int getAp()
     {
+        return ap;
+    }
+
+    public int getApSpent()
+    {
+        return apSpent;
+    }
+
+    public int getCurrentAp()
+    {
         return ((apSpent < ap) ? (apSpent + 1) : apSpent);
     }
 
