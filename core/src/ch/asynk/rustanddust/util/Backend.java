@@ -1,4 +1,6 @@
-package ch.asynk.rustanddust;
+package ch.asynk.rustanddust.util;
+
+import ch.asynk.rustanddust.RustAndDust;
 
 public interface Backend
 {

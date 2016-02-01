@@ -1,7 +1,7 @@
 package ch.asynk.rustanddust.desktop;
 
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.Backend;
+import ch.asynk.rustanddust.util.Backend;
 
 public class DesktopBackend implements Backend
 {

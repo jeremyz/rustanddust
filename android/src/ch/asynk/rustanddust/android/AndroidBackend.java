@@ -2,8 +2,8 @@ package ch.asynk.rustanddust.android;
 
 import android.app.Application;
 
-import ch.asynk.rustanddust.Backend;
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.util.Backend;
 
 public class AndroidBackend implements Backend
 {
