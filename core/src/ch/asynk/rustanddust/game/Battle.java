@@ -11,6 +11,8 @@ public interface Battle
 
     public String getDescription();
 
+    public Map getMap();
+
     public MapType getMapType();
 
     public Position getHudPosition();

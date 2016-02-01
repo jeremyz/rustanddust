@@ -87,6 +87,12 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public Map getMap()
+    {
+        return map;
+    }
+
+    @Override
     public Factory.MapType getMapType()
     {
         return mapType;
