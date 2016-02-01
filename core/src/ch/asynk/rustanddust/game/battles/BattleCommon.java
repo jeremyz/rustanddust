@@ -176,7 +176,6 @@ public abstract class BattleCommon implements Battle
         return null;
     }
 
-
     @Override
     public Player getPlayer()
     {
