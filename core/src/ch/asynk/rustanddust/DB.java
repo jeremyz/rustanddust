@@ -88,7 +88,7 @@ public class DB
         String hash = null;
         try {
             hash = new BigInteger(1, md.digest(str.getBytes("UTF-8"))).toString(16);
-        } catch (java.io.UnsupportedEncodingException e) { RustAndDast.error("getDigest"); }
+        } catch (java.io.UnsupportedEncodingException e) { RustAndDust.error("getDigest"); }
 
         return hash;
     }
