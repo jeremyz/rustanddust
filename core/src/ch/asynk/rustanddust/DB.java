@@ -36,7 +36,7 @@ public class DB
     private static final String TBL_GAMES_CRT = "create table if not exists"
             + " games ( _id integer primary key autoincrement,"
             + " _p1 integer not null, _p2 integer not null, _b integer not null,"
-            + " int mode not null, ts datetime default current_timestamp,"
+            + " m integer not null, ts datetime default current_timestamp,"
             + " foreign key (_p1) references players(_id),"
             + " foreign key (_p2) references players(_id),"
             + " foreign key (_b) references battles(_id),"
@@ -56,10 +56,10 @@ public class DB
             + " foreign key (_g) references games(_id)"
             + ");";
 
-    private static final String INSERT_PLAYER = "insert into players(hash,gmail,firstname,lastname) values ('%s','%s','%s','%s');";
+    private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,firstname,lastname) values ('%s','%s','%s','%s');";
     private static final String GET_PLAYER_ID = "select _id from players where hash='%s';";
     private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
-    private static final String INSERT_GAME = "insert into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
+    private static final String INSERT_GAME = "insert or ignore into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d;";
     private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
@@ -97,9 +97,7 @@ public class DB
         String hash = getDigest(gmail + firstname + lastname);
         if (hash == null) return null;
         try {
-            if (getPlayerId(hash) == NO_RECORDS) {
-                db.execSQL(String.format(INSERT_PLAYER, hash, gmail, firstname, lastname));
-            }
+            db.execSQL(String.format(INSERT_PLAYER, hash, gmail, firstname, lastname));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storePlayer");
             return null;
@@ -137,8 +135,7 @@ public class DB
     public void storeGame(int you, int opponent, int battle, int mode)
     {
         try {
-            if (getGameId(you, opponent, battle, mode) == NO_RECORDS)
-                db.execSQL(String.format(INSERT_GAME, you, opponent, battle, mode));
+            db.execSQL(String.format(INSERT_GAME, you, opponent, battle, mode));
         } catch (SQLiteGdxException e) { RustAndDust.error("storeGame"); }
     }
 
