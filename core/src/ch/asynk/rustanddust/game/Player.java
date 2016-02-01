@@ -5,11 +5,12 @@ import ch.asynk.rustanddust.RustAndDust;
 public class Player
 {
     private static final float MOVE_TIME = 0.4f;
+    private static final int N = 10;
 
     private int id;
     private int turn;
     private int apSpent;
-    private int actionPoints;
+    private int ap;
 
     public Army army;
     public UnitList units;
@@ -22,17 +23,17 @@ public class Player
     public int engagementWon;
     public int engagementLost;
 
-    public Player(final RustAndDust game, int id, Army army, int n)
+    public Player(int id, Army army)
     {
         this.id = id;
         this.army = army;
-        this.units = new UnitList(n);
-        this.casualties = new UnitList(n);
-        this.reinforcement = new UnitList(n);
-        this.withdrawed = new UnitList(n);
+        this.units = new UnitList(N);
+        this.casualties = new UnitList(N);
+        this.reinforcement = new UnitList(N);
+        this.withdrawed = new UnitList(N);
         this.turn = 0;
         this.apSpent = 0;
-        this.actionPoints = 0;
+        this.ap = 0;
         this.actionCount = 0;
         this.objectivesWon = 0;
         this.engagementWon = 0;
@@ -51,7 +52,7 @@ public class Player
 
     public String toString()
     {
-        return String.format("%s Turn:%d AP:%d units:%d casualties:%d", army, turn, actionPoints, units.size(), casualties.size());
+        return String.format("%s Turn:%d AP:%d/%d units:%d casualties:%d", army, turn, apSpent, ap, units.size(), casualties.size());
     }
 
     public String getStats()
@@ -140,7 +141,7 @@ public class Player
 
     public int getAp()
     {
-        return ((apSpent < actionPoints) ? (apSpent + 1) : apSpent);
+        return ((apSpent < ap) ? (apSpent + 1) : apSpent);
     }
 
     public int getTurn()
@@ -150,7 +151,7 @@ public class Player
 
     public boolean apExhausted()
     {
-        return (apSpent == actionPoints);
+        return (apSpent == ap);
     }
 
     public boolean canDoSomething()
@@ -173,13 +174,13 @@ public class Player
     {
         apSpent += 1;
         actionCount += 1;
-        RustAndDust.debug("Player", String.format("%d/%d - %d", apSpent, actionPoints, actionCount));
-        if (apSpent > actionPoints) RustAndDust.debug("ERROR: spent too much AP, please report");
+        RustAndDust.debug("Player", String.format("%d/%d - %d", apSpent, ap, actionCount));
+        if (apSpent > ap) RustAndDust.debug("ERROR: spent too much AP, please report");
     }
 
     public void turnEnd()
     {
-        apSpent = actionPoints;
+        apSpent = ap;
         for (Unit unit : units)
             unit.reset();
     }
@@ -187,7 +188,7 @@ public class Player
     public void turnStart(int aps)
     {
         if (isDeploymentDone()) {
-            actionPoints = aps;
+            ap = aps;
             apSpent = 0;
             turn += 1;
         }
