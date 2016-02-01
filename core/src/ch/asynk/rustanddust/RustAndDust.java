@@ -83,6 +83,11 @@ public class RustAndDust extends Game
         this.backend = backend;
     }
 
+    public static void error(String msg)
+    {
+        Gdx.app.error(DOM, msg);
+    }
+
     public static void debug(String msg)
     {
         Gdx.app.debug(DOM, msg);
