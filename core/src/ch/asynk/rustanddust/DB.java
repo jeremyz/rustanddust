@@ -63,6 +63,7 @@ public class DB
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d;";
     private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
+    private static final String GET_STATE = "select payload from states where _g=%d;";
 
     private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
@@ -182,5 +183,18 @@ public class DB
             return false;
         }
         return true;
+    }
+
+    public String loadState(int game)
+    {
+        String ret = null;
+        try {
+            DatabaseCursor cursor = db.rawQuery(String.format(GET_STATE, game));
+            if (cursor.getCount() > 0) {
+                cursor.next();
+                ret = cursor.getString(0);
+            }
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadState"); }
+        return ret;
     }
 }
