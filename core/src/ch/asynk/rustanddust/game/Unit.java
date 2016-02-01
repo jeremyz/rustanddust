@@ -61,8 +61,8 @@ public class Unit extends HeadedPawn
     public UnitId id;
     public boolean hq;
     public boolean ace;
-    private boolean hasMoved;
-    private boolean hasFired;
+    public boolean hasMoved;
+    public boolean hasFired;
 
     protected Unit(Army army, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
