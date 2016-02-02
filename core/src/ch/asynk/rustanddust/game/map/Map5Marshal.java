@@ -49,7 +49,6 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeObjectEnd();
 
         buffer.flush();
-        System.err.println(buffer.toString());
         return buffer.toString();
     }
 
