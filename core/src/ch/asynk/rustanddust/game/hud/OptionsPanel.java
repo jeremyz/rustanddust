@@ -180,6 +180,13 @@ public class OptionsPanel extends Patch
     {
     }
 
+    public void close()
+    {
+        apply();
+        objectivesPanel.visible = false;
+        this.visible = false;
+    }
+
     @Override
     public void dispose()
     {

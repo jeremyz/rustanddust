@@ -285,8 +285,8 @@ public class Hud implements Disposable, Animation
     private void toggleOptionsPanel()
     {
         if (dialogs.size() > 0) {
-            if (optionsPanel.visible && (dialogs.peek() == optionsPanel)) {
-                optionsPanel.apply();
+            if (dialogs.peek() == optionsPanel) {
+                optionsPanel.close();
                 closeDialog();
             }
         } else {
