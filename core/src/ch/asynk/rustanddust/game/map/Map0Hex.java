@@ -6,18 +6,28 @@ import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.Board;
 import ch.asynk.rustanddust.engine.SelectedTile;
+import ch.asynk.rustanddust.engine.util.IterableArray;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Army;
 
 public abstract class Map0Hex extends Board
 {
     protected final RustAndDust game;
+    protected final IterableArray<Hex> objectives;
 
     public Map0Hex(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game.factory, map, hex);
 
         this.game = game;
+        this.objectives = new IterableArray<Hex>(10);
+    }
+
+    @Override
+    public void dispose()
+    {
+        objectives.clear();
+        super.dispose();
     }
 
     public Hex getHexAt(float x, float y)
@@ -45,6 +55,9 @@ public abstract class Map0Hex extends Board
         Hex hex = getHex(col, row);
         hex.setObjective(army, (persistent ? Tile.Objective.PERSISTENT : Tile.Objective.VERSATILE));
         showObjective(hex, army, !persistent);
+        if (!objectives.contains(hex))
+            objectives.add(hex);
+    }
     }
 
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
