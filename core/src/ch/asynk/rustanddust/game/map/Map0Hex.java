@@ -58,6 +58,15 @@ public abstract class Map0Hex extends Board
         if (!objectives.contains(hex))
             objectives.add(hex);
     }
+
+    public int objectivesCount(Army army)
+    {
+        int n = 0;
+        for (Hex hex : objectives) {
+            if (hex.belongsTo(army))
+                n += 1;
+        }
+        return n;
     }
 
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
