@@ -24,8 +24,8 @@ public class BattleTest extends BattleCommon
     @Override
     protected void setPlayers(int idA, int idB)
     {
-        a = factory.getPlayer(idA, Army.GE);
-        b = factory.getPlayer(idB, Army.US);
+        players[0] = factory.getPlayer(idA, Army.GE);
+        players[1] = factory.getPlayer(idB, Army.US);
     }
 
     @Override

@@ -29,8 +29,7 @@ public abstract class BattleCommon implements Battle
     protected String description;
     protected Map map;
     protected Player currentPlayer;
-    protected Player a;
-    protected Player b;
+    protected Player[] players;
     protected IterableArray<Zone> entryZones = new IterableArray<Zone>(10);
     protected IterableArray<Zone> exitZones = new IterableArray<Zone>(10);
     protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
@@ -60,6 +59,7 @@ public abstract class BattleCommon implements Battle
     public BattleCommon(Factory factory)
     {
         this.factory = factory;
+        this.players = new Player[2];
     }
 
     @Override
@@ -112,19 +112,19 @@ public abstract class BattleCommon implements Battle
 
         setupMap();
 
-        this.currentPlayer = this.a;
+        this.currentPlayer = players[0];
         setupPlayer();
         map.actionDone();
         map.turnDone();
         currentPlayer.turnEnd();
 
-        this.currentPlayer = this.b;
+        this.currentPlayer = players[1];
         setupPlayer();
         map.actionDone();
         map.turnDone();
         currentPlayer.turnEnd();
 
-        this.currentPlayer = this.a;
+        this.currentPlayer = players[0];
     }
 
     @Override
@@ -163,6 +163,9 @@ public abstract class BattleCommon implements Battle
         if (!turnDoneForBoth())
             return null;
 
+        Player a = players[0];
+        Player b = players[1];
+
         if (a.unitsLeft() == 0)
             return b;
         if (b.unitsLeft() == 0)
@@ -191,7 +194,7 @@ public abstract class BattleCommon implements Battle
     @Override
     public Player getOpponent()
     {
-        return ((currentPlayer == a) ? b : a);
+        return ((currentPlayer == players[0]) ? players[1] : players[0]);
     }
 
     @Override
