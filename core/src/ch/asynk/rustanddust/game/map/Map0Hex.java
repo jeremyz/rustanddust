@@ -87,7 +87,7 @@ public abstract class Map0Hex extends Board
         showObjective(hex, army);
     }
 
-    private void showObjective(Hex hex, Army army)
+    protected void showObjective(Hex hex, Army army)
     {
         if (army == null)
             army = Army.NONE;
