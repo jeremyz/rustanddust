@@ -63,6 +63,12 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public String unload()
+    {
+        return map.unload(getPlayer(), getOpponent());
+    }
+
+    @Override
     public int getId()
     {
         return _id;

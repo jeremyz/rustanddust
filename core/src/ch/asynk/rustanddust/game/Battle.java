@@ -36,4 +36,6 @@ public interface Battle
     public Zone getEntryZone(Unit unit);
 
     public Zone getExitZone(Unit unit);
+
+    public String unload();
 }
