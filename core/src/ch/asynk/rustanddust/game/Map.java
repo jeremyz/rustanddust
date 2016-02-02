@@ -8,9 +8,9 @@ import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.Meteorology;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Engagement;
-import ch.asynk.rustanddust.game.map.Map4Orders;
+import ch.asynk.rustanddust.game.map.Map5Marshal;
 
-public abstract class Map extends Map4Orders
+public abstract class Map extends Map5Marshal
 {
     protected final Meteorology meteorology;
 

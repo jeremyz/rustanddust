@@ -15,8 +15,8 @@ import ch.asynk.rustanddust.game.Battle;
 
 public abstract class Map4Orders extends Map3Animations
 {
-    private final Battle battle;
-    private final OrderList orders;
+    protected final Battle battle;
+    protected final OrderList orders;
 
     protected abstract int engagementCost(Engagement e);
     protected abstract void resolveEngagement(Engagement e);
@@ -40,11 +40,6 @@ public abstract class Map4Orders extends Map3Animations
 
     protected int ordersSize() { return orders.size(); }
     protected void ordersClear() { orders.dispose(); }
-
-    public String toJson()
-    {
-        return orders.toJson(battle.getPlayer());
-    }
 
     // STATES ENTRY ->
 
