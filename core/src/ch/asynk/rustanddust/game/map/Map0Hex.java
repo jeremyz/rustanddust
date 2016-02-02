@@ -69,6 +69,11 @@ public abstract class Map0Hex extends Board
         return n;
     }
 
+    public IterableArray<Hex> objectives()
+    {
+        return objectives;
+    }
+
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
     public void hexUnselect(Hex hex)        { selectedTile.hide(); }
     public void hexMoveShow(Hex hex)        { enableOverlayOn(hex, Hex.MOVE, true); }
