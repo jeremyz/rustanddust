@@ -3,12 +3,10 @@ package ch.asynk.rustanddust.game;
 import java.util.Iterator;
 
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import ch.asynk.rustanddust.engine.util.IterableArray;
 
-public class OrderList extends IterableArray<Order> implements Json.Serializable
+public class OrderList extends IterableArray<Order>
 {
     private Player player;
 
@@ -55,33 +53,5 @@ public class OrderList extends IterableArray<Order> implements Json.Serializable
         for (Order o : this)
             o.dispose();
         clear();
-    }
-
-    public String toJson(final Player player)
-    {
-        this.player = player;
-        Json json = new Json();
-        json.setOutputType(OutputType.json);
-        return json.toJson(this);
-    }
-
-    @Override
-    public void write(Json json)
-    {
-        json.writeObjectStart("player");
-        json.writeValue("army", player.getName());
-        json.writeValue("turn", player.getTurn());
-        json.writeValue("aps", player.getAp());
-        json.writeObjectEnd();
-        json.writeArrayStart("commands");
-        for (Order o : this)
-            json.writeValue(o);
-        json.writeArrayEnd();
-    }
-
-    @Override
-    public void read(Json json, JsonValue jsonMap)
-    {
-        // TODO read(Json json, JsonValue jsonMap)
     }
 }

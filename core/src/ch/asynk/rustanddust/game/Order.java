@@ -2,14 +2,12 @@ package ch.asynk.rustanddust.game;
 
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 
 import ch.asynk.rustanddust.engine.Move;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.util.Collection;
 
-public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comparable<Unit>
+public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 {
     public enum OrderType
     {
@@ -118,94 +116,5 @@ public class Order implements Disposable, Pool.Poolable, Json.Serializable, Comp
         this.unitId = unit.id;
         this.unitType = unit.type;
         this.unitHex = unit.getHex();
-    }
-
-    @Override
-    public void write(Json json)
-    {
-        json.writeValue("type", type);
-        json.writeObjectStart("unit");
-        json.writeValue("id", unitId);
-        json.writeValue("type", unitType);
-        json.writeValue("hq", unit.hq);
-        json.writeValue("ace", unit.ace);
-        writeHex(json, "tile", unitHex);
-        json.writeObjectEnd();
-        if (move != null) writeMove(json, "move", move);
-        if (engagement != null) writeEngagement(json, "engagement", engagement);
-    }
-
-    private void writeMove(Json json, String key, Move m)
-    {
-        json.writeObjectStart(key);
-        json.writeValue("type", move.type);
-        writeHex(json, "from", (Hex) move.from);
-        writeHex(json, "to", (Hex) move.to);
-        json.writeValue("orientation", move.orientation.r());
-        writeTiles(json, "path", move.tiles);
-        json.writeObjectEnd();
-    }
-
-    private void writeEngagement(Json json, String key, Engagement e)
-    {
-        json.writeObjectStart(key);
-        writeUnit(json, "attacker", e.attacker);
-        writeUnit(json, "defender", e.defender);
-        writeUnits(json, "assists", e.assists);
-        json.writeObjectStart("dice");
-        json.writeValue("d1", e.d1);
-        json.writeValue("d2", e.d2);
-        json.writeValue("d3", e.d3);
-        json.writeValue("d4", e.d4);
-        json.writeObjectEnd();
-        json.writeObjectStart("results");
-        json.writeValue("success", e.success);
-        json.writeValue("attackSum", e.attackSum);
-        json.writeValue("defenseSum", e.defenseSum);
-        json.writeObjectEnd();
-        json.writeObjectEnd();
-    }
-
-    private void writeUnit(Json json, String key, Unit u)
-    {
-        if (key != null) json.writeObjectStart(key);
-        else json.writeObjectStart();
-        json.writeValue("id", u.id);
-        json.writeValue("ace", u.ace);
-        json.writeValue("army", u.getArmy());
-        writeHex(json, "tile", u.getHex());
-        json.writeObjectEnd();
-    }
-
-    private void writeUnits(Json json, String key, Collection<Unit> units)
-    {
-        json.writeArrayStart(key);
-        for (Unit u : units)
-            writeUnit(json, null, u);
-        json.writeArrayEnd();
-    }
-
-    private void writeHex(Json json, String key, Hex t)
-    {
-        if (t == null) return;
-        if (key != null) json.writeObjectStart(key);
-        else json.writeObjectStart();
-        json.writeValue("col", t.getCol());
-        json.writeValue("row", t.getRow());
-        json.writeObjectEnd();
-    }
-
-    private void writeTiles(Json json, String key, Collection<Tile> tiles)
-    {
-        json.writeArrayStart(key);
-        for (Tile t : tiles)
-            writeHex(json, null, (Hex) t);
-        json.writeArrayEnd();
-    }
-
-    @Override
-    public void read(Json json, JsonValue jsonMap)
-    {
-        // FIXME Order.read(Json, JsonValue);
     }
 }
