@@ -5,7 +5,6 @@ import java.util.Random;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class Engagement implements Disposable, Pool.Poolable
@@ -36,7 +35,7 @@ public class Engagement implements Disposable, Pool.Poolable
 
     public Unit attacker;
     public Unit defender;
-    public Collection<Unit> assists;
+    public UnitList assists;
     public boolean success;
     public int d1;
     public int d2;
@@ -52,7 +51,7 @@ public class Engagement implements Disposable, Pool.Poolable
 
     public Engagement()
     {
-        assists = new IterableArray<Unit>(10);
+        assists = new UnitList(10);
         reset();
     }
 
