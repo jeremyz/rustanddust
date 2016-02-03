@@ -23,6 +23,8 @@ public class Unit extends HeadedPawn
 
     public static final int FLANK_ATTACK_BONUS = 1;
 
+    public static int unit_id = 1;
+
     public enum UnitType implements Pawn.PawnType
     {
         HARD_TARGET,
@@ -57,6 +59,7 @@ public class Unit extends HeadedPawn
     public int cdef;
     public int mp;
     public int mpLeft;
+    public int id;
     public UnitCode code;
     public UnitType type;
     public boolean hq;
@@ -69,7 +72,8 @@ public class Unit extends HeadedPawn
         super(army, chit, body, turret, overlays);
         hq = false;
         ace = false;
-
+        this. id = unit_id;
+        unit_id += 1;
     }
 
     private void commonSetup()
