@@ -40,9 +40,9 @@ public abstract class Map5Marshal extends Map4Orders
         unload(json, player);
         unload(json, opponent);
         json.writeArrayEnd();
-        json.writeArrayStart("map");
+        json.writeObjectStart("map");
         unload(json);
-        json.writeArrayEnd();
+        json.writeObjectEnd();
         json.writeArrayStart("orders");
         unload(json, orders);
         json.writeArrayEnd();
@@ -83,7 +83,8 @@ public abstract class Map5Marshal extends Map4Orders
     private void unload(Json json, Unit unit, boolean pos)
     {
         json.writeObjectStart();
-        json.writeValue("id", unit.code);
+        json.writeValue("id", unit.id);
+        json.writeValue("code", unit.code);
         json.writeArrayStart("v");
         json.writeValue(unit.hq);
         json.writeValue(unit.ace);
@@ -103,7 +104,6 @@ public abstract class Map5Marshal extends Map4Orders
 
     private void unload(Json json)
     {
-        json.writeObjectStart();
         json.writeArrayStart("o");
         for (Hex h : objectives) {
             json.writeObjectStart();
@@ -115,7 +115,6 @@ public abstract class Map5Marshal extends Map4Orders
             json.writeObjectEnd();
         }
         json.writeArrayEnd();
-        json.writeObjectEnd();
     }
 
     private void unload(Json json, OrderList orders)
@@ -131,7 +130,8 @@ public abstract class Map5Marshal extends Map4Orders
                     unload(json, o.engagement);
                     break;
                 case PROMOTE:
-                    json.writeValue("id", o.unit.code);
+                    json.writeValue("id", o.unit.id);
+                    json.writeValue("code", o.unit.code);
                     json.writeArrayStart("p");
                     json.writeValue(o.unitHex.getCol());
                     json.writeValue(o.unitHex.getRow());
@@ -145,7 +145,8 @@ public abstract class Map5Marshal extends Map4Orders
     private void unload(Json json, Move m)
     {
         json.writeValue("type", m.type);
-        json.writeValue("id", ((Unit) m.pawn).code);
+        json.writeValue("id", ((Unit) m.pawn).id);
+        json.writeValue("code", ((Unit) m.pawn).code);
         if (m.from != null) {
             json.writeArrayStart("from");
             json.writeValue(m.from.getCol());
@@ -196,7 +197,8 @@ public abstract class Map5Marshal extends Map4Orders
     {
         if (key != null) json.writeObjectStart(key);
         else json.writeObjectStart();
-        json.writeValue("id", u.code);
+        json.writeValue("id", u.id);
+        json.writeValue("code", u.code);
         Hex h = u.getHex();
         json.writeArrayStart("p");
         json.writeValue(h.getCol());
