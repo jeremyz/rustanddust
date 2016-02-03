@@ -272,8 +272,8 @@ public abstract class Map5Marshal extends Map4Orders
         Unit.UnitCode code = Unit.UnitCode.valueOf(v.getString("code"));
         JsonValue a = v.get("v");
         Unit u = game.factory.getUnit(code, a.getBoolean(0), a.getBoolean(1));
-        u.hasMoved = a.getBoolean(2);
-        u.hasFired = a.getBoolean(3);
+        if (a.getBoolean(2)) u.setMoved();
+        if (a.getBoolean(3)) u.setFired();
         u.id = unitId;
         if (pos) {
             a = v.get("p");
