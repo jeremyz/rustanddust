@@ -128,6 +128,15 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
+    public void init(Ctrl ctrl, String payload)
+    {
+        ctrl.map = this.map = factory.getMap(getMapType());
+        setupMap();
+        map.load(payload, players);
+        currentPlayer = players[0];
+    }
+
+    @Override
     public boolean actionDone()
     {
         boolean burn = (map.unitsActivatedSize() > 0);

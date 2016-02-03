@@ -23,6 +23,8 @@ public interface Battle
 
     public void init(Ctrl ctrl, int idA, int idB);
 
+    public void init(Ctrl ctrl, String payload);
+
     public boolean actionDone();
 
     public boolean turnDone();
