@@ -24,6 +24,8 @@ import ch.asynk.rustanddust.game.Engagement;
 
 public abstract class Map5Marshal extends Map4Orders
 {
+    private static StringWriter writer = new StringWriter(2048);
+
     public Map5Marshal(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game, map, hex);
@@ -32,8 +34,8 @@ public abstract class Map5Marshal extends Map4Orders
     public String unload(Player player, Player opponent)
     {
         Json json = new Json(OutputType.json);
-        StringWriter buffer = new StringWriter(2048);
-        json.setWriter(buffer);
+        writer.getBuffer().setLength(0);
+        json.setWriter(writer);
 
         json.writeObjectStart();
         json.writeArrayStart("players");
@@ -48,8 +50,8 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeArrayEnd();
         json.writeObjectEnd();
 
-        buffer.flush();
-        return buffer.toString();
+        writer.flush();
+        return writer.toString();
     }
 
     private void unload(Json json, Player player)
