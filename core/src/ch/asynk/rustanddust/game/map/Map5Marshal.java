@@ -195,10 +195,15 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeValue(e.d3);
         json.writeValue(e.d4);
         json.writeArrayEnd();
-        json.writeArrayStart("res");
+        json.writeArrayStart("vals");
         json.writeValue(e.success);
         json.writeValue(e.attackSum);
         json.writeValue(e.defenseSum);
+        json.writeValue(e.unitCount);
+        json.writeValue(e.flankBonus);
+        json.writeValue(e.unitDefense);
+        json.writeValue(e.terrainDefense);
+        json.writeValue(e.weatherDefense);
         json.writeArrayEnd();
     }
 
@@ -349,10 +354,15 @@ public abstract class Map5Marshal extends Map4Orders
         o.engagement.d3 = a.getInt(2);
         o.engagement.d4 = a.getInt(3);
 
-        a = v.get("res");
+        a = v.get("vals");
         o.engagement.success = a.getBoolean(0);
         o.engagement.attackSum = a.getInt(1);
         o.engagement.defenseSum = a.getInt(2);
+        o.engagement.unitCount = a.getInt(3);
+        o.engagement.flankBonus = a.getInt(4);
+        o.engagement.unitDefense = a.getInt(5);
+        o.engagement.terrainDefense = a.getInt(6);
+        o.engagement.weatherDefense = a.getInt(7);
 
         a = v.get("assists");
         for (int i = 0; i < a.size; i++)
