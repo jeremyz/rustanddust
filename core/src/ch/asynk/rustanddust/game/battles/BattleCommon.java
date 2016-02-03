@@ -140,17 +140,18 @@ public abstract class BattleCommon implements Battle
     @Override
     public boolean turnDone()
     {
-        map.turnDone();
+        boolean ret = false;
         currentPlayer.turnEnd();
         Player winner = getWinner();
         if (winner != null) {
             currentPlayer = winner;
-            return true;
+            ret = true;
         } else {
             currentPlayer = getOpponent();
             currentPlayer.turnStart(getActionPoints());
-            return false;
         }
+        map.turnDone();
+        return ret;
     }
 
     protected boolean turnDoneForBoth()
