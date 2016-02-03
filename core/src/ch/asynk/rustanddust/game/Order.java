@@ -39,7 +39,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 
     public OrderType type;
     public Unit unit;
-    public Unit.UnitId unitId;
+    public Unit.UnitCode unitCode;
     public Unit.UnitType unitType;
     public Hex unitHex;
     public Move move;
@@ -87,7 +87,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public String toString()
     {
-        return String.format("%s : %s", type, unit.id);
+        return String.format("%s : %s", type, unit.code);
     }
 
     public void setMove(Unit unit, Move move)
@@ -113,7 +113,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     private void setUnit(Unit unit)
     {
         this.unit = unit;
-        this.unitId = unit.id;
+        this.unitCode = unit.code;
         this.unitType = unit.type;
         this.unitHex = unit.getHex();
     }

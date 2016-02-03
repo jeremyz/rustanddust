@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.Board;
-import ch.asynk.rustanddust.game.Unit.UnitId;
+import ch.asynk.rustanddust.game.Unit.UnitCode;
 import ch.asynk.rustanddust.game.Unit.UnitType;
 import ch.asynk.rustanddust.game.battles.Map00;
 import ch.asynk.rustanddust.game.battles.Battle00;
@@ -113,61 +113,61 @@ public class Factory implements Board.TileBuilder, Disposable
             return new Player(id, Army.GE);
     }
 
-    public Unit getUnit(UnitId id, boolean hq, boolean ace)
+    public Unit getUnit(UnitCode code, boolean hq, boolean ace)
     {
         Unit u = null;
         UnitType ut = UnitType.HARD_TARGET;
-        switch(id) {
+        switch(code) {
             case GE_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 3, 8, 9, 1, "ge-at-gun");
                 break;
             case GE_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = buildUnit(Army.GE, id, ut, hq, ace, 1, 7, 10, 1, "ge-infantry");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 1, 7, 10, 1, "ge-infantry");
                 break;
             case GE_KINGTIGER:
-                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 3, 12, -1, 1, "ge-kingtiger");
                 break;
             case GE_PANZER_IV:
-                u = buildUnit(Army.GE, id, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 2, 9, -1, 2, "ge-panzer-iv");
                 break;
             case GE_TIGER:
-                u = buildUnit(Army.GE, id, ut, hq, ace, 3, 11, -1, 1, "ge-tiger");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 3, 11, -1, 1, "ge-tiger");
                 break;
             case GE_WESPE:
                 ut = UnitType.ARTILLERY;
-                u = buildUnit(Army.GE, id, ut, hq, ace, 5, 8, -1, 1, "ge-wespe");
+                u = buildUnit(Army.GE, code, ut, hq, ace, 5, 8, -1, 1, "ge-wespe");
                 break;
             case US_AT_GUN:
                 ut = UnitType.AT_GUN;
-                u = buildUnit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-at-gun");
+                u = buildUnit(Army.US, code, ut, hq, ace, 1, 7, 10, 1, "us-at-gun");
                 break;
             case US_INFANTRY:
                 ut = UnitType.INFANTRY;
-                u = buildUnit(Army.US, id, ut, hq, ace, 1, 7, 10, 1, "us-infantry");
+                u = buildUnit(Army.US, code, ut, hq, ace, 1, 7, 10, 1, "us-infantry");
                 break;
             case US_PERSHING:
-                u = buildUnit(Army.US, id, ut, hq, ace, 3, 10, -1, 3, "us-m26-pershing");
+                u = buildUnit(Army.US, code, ut, hq, ace, 3, 10, -1, 3, "us-m26-pershing");
                 break;
             case US_PRIEST:
                 ut = UnitType.ARTILLERY;
-                u = buildUnit(Army.US, id, ut, hq, ace, 5, 8, -1, 1, "us-m7-priest");
+                u = buildUnit(Army.US, code, ut, hq, ace, 5, 8, -1, 1, "us-m7-priest");
                 break;
             case US_SHERMAN:
-                u = buildUnit(Army.US, id, ut, hq, ace, 2, 9, -1, 2, "us-m4-sherman");
+                u = buildUnit(Army.US, code, ut, hq, ace, 2, 9, -1, 2, "us-m4-sherman");
                 break;
             case US_WOLVERINE:
-                u = buildUnit(Army.US, id, ut, hq, ace, 3, 8, -1, 3, "us-m10-wolverine");
+                u = buildUnit(Army.US, code, ut, hq, ace, 3, 8, -1, 3, "us-m10-wolverine");
                 break;
         }
 
         return u;
     }
 
-    private Unit buildUnit(Army army, UnitId id, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String chit)
+    private Unit buildUnit(Army army, UnitCode code, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String chit)
     {
-        return new Unit(army, id, ut, hq, ace, a, d, cd, m, getUnitRegion(chit), getBody(army, chit), getTurret(army, chit), unitOverlaysAtlas);
+        return new Unit(army, code, ut, hq, ace, a, d, cd, m, getUnitRegion(chit), getBody(army, chit), getTurret(army, chit), unitOverlaysAtlas);
     }
 
     private AtlasRegion getBody(Army army, String chit)

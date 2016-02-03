@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.game.battles;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Unit.UnitId;
+import ch.asynk.rustanddust.game.Unit.UnitCode;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;
@@ -67,7 +67,7 @@ public class Battle00 extends BattleCommon
 
     private void setupUS(final Player p)
     {
-        setUnit(map, p, UnitId.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
+        setUnit(map, p, UnitCode.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
 
         Zone usEntry = new Zone(map, 10);
         usEntry.orientation = Orientation.SOUTH;
@@ -82,14 +82,14 @@ public class Battle00 extends BattleCommon
         usEntry.add(10, 4);
         usEntry.add(11, 4);
         addEntryZone(usEntry);
-        addReinforcement(p, usEntry, UnitId.US_SHERMAN, true, false);
-        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(p, usEntry, UnitId.US_SHERMAN);
-        addReinforcement(p, usEntry, UnitId.US_WOLVERINE, true, false);
-        addReinforcement(p, usEntry, UnitId.US_WOLVERINE);
-        addReinforcement(p, usEntry, UnitId.US_PERSHING);
-        addReinforcement(p, usEntry, UnitId.US_PRIEST);
+        addReinforcement(p, usEntry, UnitCode.US_SHERMAN, true, false);
+        addReinforcement(p, usEntry, UnitCode.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitCode.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitCode.US_SHERMAN);
+        addReinforcement(p, usEntry, UnitCode.US_WOLVERINE, true, false);
+        addReinforcement(p, usEntry, UnitCode.US_WOLVERINE);
+        addReinforcement(p, usEntry, UnitCode.US_PERSHING);
+        addReinforcement(p, usEntry, UnitCode.US_PRIEST);
     }
 
     private void setupGE(final Player p)
@@ -105,12 +105,12 @@ public class Battle00 extends BattleCommon
         geEntry.add(3, 5);
         geEntry.add(4, 5);
         addEntryZone(geEntry);
-        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV, true, false);
-        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV);
-        addReinforcement(p, geEntry, UnitId.GE_PANZER_IV, true, false);
-        addReinforcement(p, geEntry, UnitId.GE_TIGER);
-        addReinforcement(p, geEntry, UnitId.GE_TIGER);
-        addReinforcement(p, geEntry, UnitId.GE_WESPE);
+        addReinforcement(p, geEntry, UnitCode.GE_PANZER_IV, true, false);
+        addReinforcement(p, geEntry, UnitCode.GE_PANZER_IV);
+        addReinforcement(p, geEntry, UnitCode.GE_PANZER_IV);
+        addReinforcement(p, geEntry, UnitCode.GE_PANZER_IV, true, false);
+        addReinforcement(p, geEntry, UnitCode.GE_TIGER);
+        addReinforcement(p, geEntry, UnitCode.GE_TIGER);
+        addReinforcement(p, geEntry, UnitCode.GE_WESPE);
     }
 }

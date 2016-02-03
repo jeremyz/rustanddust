@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.game.battles;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Unit.UnitId;
+import ch.asynk.rustanddust.game.Unit.UnitCode;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;
@@ -52,7 +52,7 @@ public class BattleTest extends BattleCommon
         usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
         usEntry.add(map.getHex(12, 6));
         addEntryZone(usEntry);
-        addReinforcement(currentPlayer, usEntry, usExit, UnitId.US_WOLVERINE);
+        addReinforcement(currentPlayer, usEntry, usExit, UnitCode.US_WOLVERINE);
 
         return true;
     }
@@ -77,11 +77,11 @@ public class BattleTest extends BattleCommon
 
     private void setupGE(final Player p)
     {
-        setUnit(map, p, UnitId.GE_WESPE, 6, 8, Orientation.NORTH, null);
-        setUnit(map, p, UnitId.GE_TIGER, 5, 2, Orientation.NORTH, null);
-        setUnit(map, p, UnitId.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
-        setUnit(map, p, UnitId.GE_INFANTRY, 1, 2, Orientation.NORTH_WEST, null);
-        setUnit(map, p, UnitId.GE_KINGTIGER, 1, 1, Orientation.NORTH_WEST, null);
+        setUnit(map, p, UnitCode.GE_WESPE, 6, 8, Orientation.NORTH, null);
+        setUnit(map, p, UnitCode.GE_TIGER, 5, 2, Orientation.NORTH, null);
+        setUnit(map, p, UnitCode.GE_PANZER_IV, 4, 5, Orientation.NORTH_WEST, null);
+        setUnit(map, p, UnitCode.GE_INFANTRY, 1, 2, Orientation.NORTH_WEST, null);
+        setUnit(map, p, UnitCode.GE_KINGTIGER, 1, 1, Orientation.NORTH_WEST, null);
 
         Zone geEntry = new Zone(map, 6);
         geEntry.orientation = Orientation.NORTH;
@@ -90,7 +90,7 @@ public class BattleTest extends BattleCommon
         geEntry.add(3, 3);
         geEntry.add(3, 4);
         addEntryZone(geEntry);
-        addReinforcement(p, geEntry, UnitId.GE_AT_GUN);
+        addReinforcement(p, geEntry, UnitCode.GE_AT_GUN);
     }
 
     private void setupUS(final Player p)
@@ -102,13 +102,13 @@ public class BattleTest extends BattleCommon
         usExit.add(12, 6);
         addExitZone(usExit);
 
-        p.casualty(factory.getUnit(UnitId.US_SHERMAN, true, false));
-        setUnit(map, p, UnitId.US_PRIEST, 7, 6, Orientation.SOUTH_EAST, usExit);
-        setUnit(map, p, UnitId.US_SHERMAN, 8, 4, Orientation.SOUTH, false, true, usExit);
-        setUnit(map, p, UnitId.US_SHERMAN, 7, 3, Orientation.SOUTH, true, false, usExit);
-        setUnit(map, p, UnitId.US_WOLVERINE, 11, 7, Orientation.SOUTH_EAST, usExit);
-        setUnit(map, p, UnitId.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
-        setUnit(map, p, UnitId.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
-        setUnit(map, p, UnitId.US_AT_GUN, 6, 1, Orientation.SOUTH, usExit);
+        p.casualty(factory.getUnit(UnitCode.US_SHERMAN, true, false));
+        setUnit(map, p, UnitCode.US_PRIEST, 7, 6, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, p, UnitCode.US_SHERMAN, 8, 4, Orientation.SOUTH, false, true, usExit);
+        setUnit(map, p, UnitCode.US_SHERMAN, 7, 3, Orientation.SOUTH, true, false, usExit);
+        setUnit(map, p, UnitCode.US_WOLVERINE, 11, 7, Orientation.SOUTH_EAST, usExit);
+        setUnit(map, p, UnitCode.US_PERSHING, 6, 5, Orientation.SOUTH, usExit);
+        setUnit(map, p, UnitCode.US_INFANTRY, 5, 3, Orientation.NORTH_EAST, usExit);
+        setUnit(map, p, UnitCode.US_AT_GUN, 6, 1, Orientation.SOUTH, usExit);
     }
 }

@@ -25,7 +25,7 @@ public abstract class Pawn implements Moveable, Disposable
     {
     }
 
-    public interface PawnId
+    public interface PawnCode
     {
     }
 
@@ -51,7 +51,7 @@ public abstract class Pawn implements Moveable, Disposable
     public abstract boolean preventDefenseOn(Tile tile);
 
     public abstract boolean isUnit();
-    public abstract boolean isA(PawnId id);
+    public abstract boolean isA(PawnCode code);
     public abstract boolean isA(PawnType type);
     public abstract boolean isHq();
     public abstract boolean isHqOf(Pawn other);

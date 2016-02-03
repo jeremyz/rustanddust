@@ -31,7 +31,7 @@ public class Unit extends HeadedPawn
         ARTILLERY
     }
 
-    public enum UnitId implements Pawn.PawnId
+    public enum UnitCode implements Pawn.PawnCode
     {
         GE_AT_GUN("German Anti-Tank Gun"),
         GE_INFANTRY("German Infantry"),
@@ -48,7 +48,7 @@ public class Unit extends HeadedPawn
         US_WOLVERINE("US Wolverine");
 
         private String s;
-        UnitId(String s) { this.s = s; }
+        UnitCode(String s) { this.s = s; }
         public String toString() { return s; }
     }
 
@@ -57,8 +57,8 @@ public class Unit extends HeadedPawn
     public int cdef;
     public int mp;
     public int mpLeft;
+    public UnitCode code;
     public UnitType type;
-    public UnitId id;
     public boolean hq;
     public boolean ace;
     public boolean hasMoved;
@@ -85,12 +85,12 @@ public class Unit extends HeadedPawn
     private void updateDescr()
     {
         if (cdef == -1)
-            this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
+            this.descr = code.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
         else
-            this.descr = id.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
+            this.descr = code.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
     }
 
-    public Unit(Army army, UnitId id, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints,
+    public Unit(Army army, UnitCode code, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints,
             AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
         this(army, chit, body, turret, overlays);
@@ -100,7 +100,7 @@ public class Unit extends HeadedPawn
         this.def = defense;
         this.cdef = concealedDefense;
         this.mp = movementPoints;
-        this.id = id;
+        this.code = code;
         this.type = type;
         commonSetup();
     }
@@ -179,9 +179,9 @@ public class Unit extends HeadedPawn
     }
 
     @Override
-    public boolean isA(PawnId i)
+    public boolean isA(PawnCode c)
     {
-        return (id == i);
+        return (code == c);
     }
 
     @Override
@@ -205,7 +205,7 @@ public class Unit extends HeadedPawn
     @Override
     public boolean isHqOf(Pawn other)
     {
-        return (isHq() && other.isA(id));
+        return (isHq() && other.isA(code));
     }
 
     public void promote()
