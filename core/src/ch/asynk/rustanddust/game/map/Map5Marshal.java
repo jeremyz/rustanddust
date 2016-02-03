@@ -54,6 +54,7 @@ public abstract class Map5Marshal extends Map4Orders
         return writer.toString();
     }
 
+    // player
     private void unload(Json json, Player player)
     {
         json.writeObjectStart();
@@ -75,6 +76,7 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeObjectEnd();
     }
 
+    // units
     private void unload(Json json, String name, UnitList units, boolean pos)
     {
         json.writeArrayStart(name);
@@ -82,6 +84,7 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeArrayEnd();
     }
 
+    // unit
     private void unload(Json json, Unit unit, boolean pos)
     {
         json.writeObjectStart();
@@ -104,6 +107,7 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeObjectEnd();
     }
 
+    // map
     private void unload(Json json)
     {
         json.writeArrayStart("o");
@@ -119,6 +123,7 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeArrayEnd();
     }
 
+    // orders
     private void unload(Json json, OrderList orders)
     {
         for (Order o : orders) {
@@ -133,22 +138,17 @@ public abstract class Map5Marshal extends Map4Orders
                     break;
                 case PROMOTE:
                     json.writeValue("id", o.unit.id);
-                    json.writeValue("code", o.unit.code);
-                    json.writeArrayStart("p");
-                    json.writeValue(o.unitHex.getCol());
-                    json.writeValue(o.unitHex.getRow());
-                    json.writeArrayEnd();
                     break;
             }
             json.writeObjectEnd();
         }
     }
 
+    // move
     private void unload(Json json, Move m)
     {
         json.writeValue("type", m.type);
         json.writeValue("id", ((Unit) m.pawn).id);
-        json.writeValue("code", ((Unit) m.pawn).code);
         if (m.from != null) {
             json.writeArrayStart("from");
             json.writeValue(m.from.getCol());
@@ -174,13 +174,16 @@ public abstract class Map5Marshal extends Map4Orders
         }
     }
 
+    // engagement
     private void unload(Json json, Engagement e)
     {
-        unload(json, "atk", e.attacker);
-        unload(json, "def", e.defender);
+        json.writeArrayStart("units");
+        json.writeValue(e.attacker.id);
+        json.writeValue(e.defender.id);
+        json.writeArrayEnd();
         json.writeArrayStart("assists");
         for (Unit u : e.assists)
-            unload(json, null, u);
+            json.writeValue(u.id);
         json.writeArrayEnd();
         json.writeArrayStart("dice");
         json.writeValue(e.d1);
@@ -197,15 +200,22 @@ public abstract class Map5Marshal extends Map4Orders
 
     private void unload(Json json, String key, Unit u)
     {
+        unload(json, key, u, true);
+    }
+
+    // unit
+    private void unload(Json json, String key, Unit u, boolean pos)
+    {
         if (key != null) json.writeObjectStart(key);
         else json.writeObjectStart();
         json.writeValue("id", u.id);
-        json.writeValue("code", u.code);
         Hex h = u.getHex();
-        json.writeArrayStart("p");
-        json.writeValue(h.getCol());
-        json.writeValue(h.getRow());
-        json.writeArrayEnd();
+        if (pos && (h != null)) {
+            json.writeArrayStart("p");
+            json.writeValue(h.getCol());
+            json.writeValue(h.getRow());
+            json.writeArrayEnd();
+        }
         json.writeObjectEnd();
     }
 }
