@@ -278,6 +278,12 @@ public class Unit extends HeadedPawn
         updateOverlays();
     }
 
+    public void setFired()
+    {
+        hasFired = true;
+        updateOverlays();
+    }
+
     @Override
     public void move()
     {
@@ -298,8 +304,7 @@ public class Unit extends HeadedPawn
     @Override
     public void engage()
     {
-        hasFired = true;
-        updateOverlays();
+        setFired();
     }
 
     @Override
