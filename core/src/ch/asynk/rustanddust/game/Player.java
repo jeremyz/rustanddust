@@ -40,6 +40,13 @@ public class Player
         this.engagementLost = 0;
     }
 
+    public void setTurn(int turn, int ap, int apSpent)
+    {
+        this.turn = turn;
+        this.ap = ap;
+        this.apSpent = apSpent;
+    }
+
     public int getId()
     {
         return id;
