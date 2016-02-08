@@ -15,6 +15,8 @@ public class Menu extends Patch
     {
         public int last();
         public int i();
+        public String s();
+        public MenuItem get(int i);
     };
 
     protected MenuItem menuItem;
@@ -24,8 +26,10 @@ public class Menu extends Patch
         super(ninePatch);
         this.menuItem = menuItem;
         this.labels = new Label[menuItem.last()];
-        for (int i = 0; i< menuItem.last(); i ++)
+        for (int i = 0; i< menuItem.last(); i ++) {
             labels[i] = new Label(font, 10);
+            labels[i].write(menuItem.get(i).s());
+        }
     }
 
     protected Label label(MenuItem m)
