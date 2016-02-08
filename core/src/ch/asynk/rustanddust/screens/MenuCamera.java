@@ -1,6 +1,7 @@
 package ch.asynk.rustanddust.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Matrix4;
@@ -55,7 +56,7 @@ public class MenuCamera extends OrthographicCamera
         hudLeft = hudCorrection;
         hudBottom = (int) (hudLeft / aspect);
 
-        Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
+        HdpiUtils.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
 
         update(true);
 

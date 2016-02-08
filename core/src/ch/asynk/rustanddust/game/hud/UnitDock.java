@@ -2,6 +2,7 @@ package ch.asynk.rustanddust.game.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -234,9 +235,8 @@ public class UnitDock extends Bg implements Animation
         batch.setTransformMatrix(transform);
 
         // batch.flush();
-        // FIXME please use HdpiUtils instead release 1.8 https://libgdx.badlogicgames.com/news.html
         Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
+        HdpiUtils.glScissor((int)scissors.x, (int)scissors.y, (int)scissors.width, (int)scissors.height);
 
         super.draw(batch);
         if (selectedUnit != null) selected.draw(batch);

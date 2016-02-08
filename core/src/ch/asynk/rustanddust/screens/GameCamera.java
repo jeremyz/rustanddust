@@ -2,6 +2,7 @@ package ch.asynk.rustanddust.screens;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -96,13 +97,13 @@ public class GameCamera extends OrthographicCamera
 
     public void applyMapViewport()
     {
-        Gdx.gl.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
+        HdpiUtils.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
     }
 
     public void applyHudViewport()
     {
         if (fixedHud)
-            Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+            HdpiUtils.glViewport(0, 0, screenWidth, screenHeight);
     }
 
     public Matrix4 getHudMatrix()
