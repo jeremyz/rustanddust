@@ -2,8 +2,6 @@ package ch.asynk.rustanddust.game;
 
 import java.util.Iterator;
 
-import com.badlogic.gdx.utils.Json;
-
 import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class OrderList extends IterableArray<Order>

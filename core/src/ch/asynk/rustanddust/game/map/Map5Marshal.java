@@ -16,7 +16,6 @@ import ch.asynk.rustanddust.engine.SelectedTile;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Hex;
-import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Unit;

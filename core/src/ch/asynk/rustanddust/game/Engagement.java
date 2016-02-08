@@ -5,8 +5,6 @@ import java.util.Random;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
-import ch.asynk.rustanddust.engine.util.IterableArray;
-
 public class Engagement implements Disposable, Pool.Poolable
 {
     private static Random rand = new Random();

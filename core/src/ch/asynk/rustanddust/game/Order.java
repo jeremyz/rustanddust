@@ -4,8 +4,6 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Disposable;
 
 import ch.asynk.rustanddust.engine.Move;
-import ch.asynk.rustanddust.engine.Tile;
-import ch.asynk.rustanddust.engine.util.Collection;
 
 public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 {
