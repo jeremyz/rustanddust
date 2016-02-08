@@ -87,6 +87,18 @@ public class Menu extends Patch
     }
 
     @Override
+    public boolean hit(float x, float y)
+    {
+        for (int i = 0; i< menuItem.last(); i ++) {
+            if (labels[i].hit(x, y)) {
+                menuItem = menuItem.get(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void draw(Batch batch)
     {
         if (!visible) return;
