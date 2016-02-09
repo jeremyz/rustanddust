@@ -56,6 +56,8 @@ public class DB
             + " foreign key (_g) references games(_id)"
             + ");";
 
+    private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('options','%s');";
+    private static final String GET_CONFIG = "select value from config where key='options';";
     private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,firstname,lastname) values ('%s','%s','%s','%s');";
     private static final String GET_PLAYER_ID = "select _id from players where hash='%s';";
     private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
@@ -91,6 +93,30 @@ public class DB
         } catch (java.io.UnsupportedEncodingException e) { RustAndDust.error("getDigest"); }
 
         return hash;
+    }
+
+    public boolean storeConfig(String config)
+    {
+        try {
+            db.execSQL(String.format(INSERT_CONFIG, config));
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("storeConfig");
+            return false;
+        }
+        return true;
+    }
+
+    public String loadConfig()
+    {
+        String ret = null;
+        try {
+            DatabaseCursor cursor = db.rawQuery(GET_CONFIG);
+            if (cursor.getCount() > 0) {
+                cursor.next();
+                ret = cursor.getString(0);
+            }
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadConfig"); }
+        return ret;
     }
 
     public String storePlayer(String gmail, String firstname, String lastname)
