@@ -95,6 +95,7 @@ public class OptionsMenu extends Patch
         game.config.debug = checkValues[0];
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
         game.config.graphics = game.config.graphics.get(graphicsIdx);
+        game.db.storeConfig(game.config.unload());
         return true;
     }
 
