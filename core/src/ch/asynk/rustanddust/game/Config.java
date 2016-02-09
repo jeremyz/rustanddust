@@ -116,6 +116,7 @@ public class Config
 
     public void load(String payload)
     {
+        if (payload == null) return;
         JsonValue root = new JsonReader().parse(payload);
         this.gameMode = GameMode.valueOf(root.getString("mode"));
         this.debug = root.getBoolean("debug");
