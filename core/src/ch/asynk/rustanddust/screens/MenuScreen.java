@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Interpolation;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.ui.Widget;
 import ch.asynk.rustanddust.menu.MainMenu;
 import ch.asynk.rustanddust.menu.PlayMenu;
 import ch.asynk.rustanddust.menu.OptionsMenu;
@@ -54,6 +55,7 @@ public class MenuScreen implements Screen
     private PlayMenu playMenu;
     private OptionsMenu optionsMenu;
     private TutorialsMenu tutorialsMenu;
+    private Widget currentMenu;
 
     private final MenuCamera camera;
     private final SpriteBatch batch;
@@ -87,36 +89,46 @@ public class MenuScreen implements Screen
         this.playMenu = new PlayMenu(game);
         this.optionsMenu = new OptionsMenu(game);
         this.tutorialsMenu = new TutorialsMenu(game);
+        this.gamesMenu = new GamesMenu(game);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
+            public boolean touchDragged(int x, int y, int pointer)
+            {
+                int dx = (int) (dragPos.x - x);
+                int dy = (int) (dragPos.y - y);
+                dragPos.set(x, y);
+                camera.uiUnproject(x, y, touch);
+                // return drag(touch.x, touch.y, -dx, dy);
+                return false;
+            }
+            @Override
             public boolean touchDown(int x, int y, int pointer, int button)
             {
+                dragPos.set(x, y);
                 camera.uiUnproject(x, y, touch);
                 return hit(touch.x, touch.y);
             }
         });
+
+        currentMenu = mainMenu;
+        currentMenu.visible = true;
     }
 
     private boolean hit(float x, float y)
     {
-        if (mainMenu.hit(x, y)) {
-            mainMenu.visible = false;
-            showNextMenu();
-            return true;
-        } else if (playMenu.hit(x, y)) {
-            mainMenu.visible = true;
-            playMenu.visible = false;
-            if (playMenu.launch)
-                startLoading();
-            return true;
-        } else if (optionsMenu.hit(x, y)) {
-            mainMenu.visible = true;
-            optionsMenu.visible = false;
-            return true;
-        } else if (tutorialsMenu.hit(x, y)) {
-            mainMenu.visible = true;
-            tutorialsMenu.visible = false;
+        if (currentMenu.hit(x, y)) {
+            currentMenu.visible = false;
+            if (currentMenu == mainMenu) {
+                showNextMenu();
+            } else if (currentMenu == playMenu) {
+                currentMenu = mainMenu;
+                if (playMenu.launch)
+                    startLoading();
+            } else {
+                currentMenu = mainMenu;
+            }
+            currentMenu.visible = true;
             return true;
         }
 
@@ -125,14 +137,11 @@ public class MenuScreen implements Screen
 
     private void showNextMenu()
     {
-        MainMenu.Items item = mainMenu.getMenu();
-
-        if (item == MainMenu.Items.PLAY)
-            playMenu.visible = true;
-        else if (item == MainMenu.Items.OPTIONS)
-            optionsMenu.visible = true;
-        else if (item == MainMenu.Items.TUTORIALS)
-            tutorialsMenu.visible = true;
+        switch(mainMenu.getMenu()) {
+            case PLAY: currentMenu = playMenu; break;
+            case OPTIONS: currentMenu = optionsMenu; break;
+            case TUTORIALS: currentMenu = tutorialsMenu; break;
+        }
     }
 
     private void startLoading()
