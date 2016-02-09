@@ -37,7 +37,7 @@ public class MainMenu extends Menu
     public MainMenu(RustAndDust game)
     {
         super(Items.NONE, game.font, game.bgPatch);
-        this.visible = true;
+        this.visible = false;
     }
 
     public Items getMenu()
