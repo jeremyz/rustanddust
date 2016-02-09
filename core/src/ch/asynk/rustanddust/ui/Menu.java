@@ -21,9 +21,9 @@ public class Menu extends Patch
 
     protected MenuItem menuItem;
 
-    public Menu(MenuItem menuItem, BitmapFont font, NinePatch ninePatch)
+    public Menu(MenuItem menuItem, BitmapFont font, NinePatch bgPatch)
     {
-        super(ninePatch);
+        super(bgPatch);
         this.menuItem = menuItem;
         this.labels = new Label[menuItem.last()];
         for (int i = 0; i< menuItem.last(); i ++) {

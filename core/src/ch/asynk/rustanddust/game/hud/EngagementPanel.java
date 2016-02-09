@@ -44,7 +44,7 @@ public class EngagementPanel extends Patch implements Animation
 
     public EngagementPanel(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.usFlag = new Bg(game.factory.getFlag(Army.US));
         this.geFlag = new Bg(game.factory.getFlag(Army.GE));
         this.attackImg = new Bg(game.factory.getHudRegion(game.factory.PNG_ATTACK));

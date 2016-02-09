@@ -37,7 +37,7 @@ public class OptionsPanel extends Patch
 
     public OptionsPanel(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.game = game;
         this.font = game.font;
         this.title = new Label(game.font, LABEL_PADDING);

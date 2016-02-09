@@ -66,8 +66,8 @@ public class Hud implements Disposable, Animation
         playerInfo = new PlayerInfo(game);
         actionButtons = new ActionButtons(game);
         actionButtons.hide();
-        msg = new Msg(game.font, game.ninePatch, 20f);
-        okCancel = new OkCancel(game.font, game.ninePatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
+        msg = new Msg(game.font, game.bgPatch, 20f);
+        okCancel = new OkCancel(game.font, game.bgPatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
         optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         optionsPanel = new OptionsPanel(game);
         stats = new StatisticsPanel(game);

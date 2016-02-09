@@ -4,6 +4,15 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+bg
+  rotate: false
+  xy: 452, 41
+  size: 48, 48
+  split: 23, 23, 23, 23
+  pad: 11, 11, 12, 12
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 cancel
   rotate: false
   xy: 386, 26
@@ -44,15 +53,6 @@ to
   xy: 194, 2
   size: 190, 217
   orig: 190, 217
-  offset: 0, 0
-  index: -1
-typewriter
-  rotate: false
-  xy: 452, 41
-  size: 48, 48
-  split: 23, 23, 23, 23
-  pad: 11, 11, 12, 12
-  orig: 48, 48
   offset: 0, 0
   index: -1
 unit

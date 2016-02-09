@@ -23,7 +23,7 @@ import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
 {
-    public static final String NINEPATCH = "typewriter";
+    public static final String BG_PATCH = "bg";
     public static final String TTF_FONT = "skin/veteran-typewriter.ttf";
     public static final String ATLAS_UI = "data/ui.atlas";
     public static final String ATLAS_HUD = "data/hud.atlas";
@@ -70,7 +70,7 @@ public class RustAndDust extends Game
 
     public TextureAtlas uiAtlas;
     public BitmapFont font;
-    public NinePatch ninePatch;
+    public NinePatch bgPatch;
 
     public enum State
     {
@@ -214,7 +214,7 @@ public class RustAndDust extends Game
         parameter.size = Math.max((int) (h * 0.04f), 16);
         parameter.color = Color.BLACK;
         font = generator.generateFont(parameter);
-        ninePatch = uiAtlas.createPatch(NINEPATCH);
+        bgPatch = uiAtlas.createPatch(BG_PATCH);
     }
 
     private void unloadUiAssets()

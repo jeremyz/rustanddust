@@ -28,7 +28,7 @@ public class StatisticsPanel extends Patch
 
     public StatisticsPanel(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.title = new Label(game.font);
         this.header = new Label(game.font);
         this.stats1 = new Label(game.font);

@@ -20,7 +20,7 @@ public class ObjectivesPanel extends Patch
 
     public ObjectivesPanel(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.title = new Label(game.font, LABEL_PADDING);
         this.content = new Label(game.font, LABEL_PADDING);
         this.visible = false;

@@ -31,7 +31,7 @@ public class ScenariosMenu extends Patch
 
     public ScenariosMenu(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.game = game;
         this.font = game.font;
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));

@@ -34,7 +34,7 @@ public class PlayMenu extends Patch
 
     public PlayMenu(RustAndDust game)
     {
-        super(game.ninePatch);
+        super(game.bgPatch);
         this.game = game;
         this.title = new Label(game.font);
         this.title.write("- Play");
@@ -49,7 +49,7 @@ public class PlayMenu extends Patch
         this.objectives = new Label(game.font);
         this.objectives.write("Battle Objectives");
         this.objectivesPanel = new ObjectivesPanel(game);
-        this.okCancel = new OkCancel(game.font, game.ninePatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
+        this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         if (game.config.battle == null) {
             battleIdx = 0;
