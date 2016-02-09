@@ -110,7 +110,6 @@ public class Config
         json.writeObjectEnd();
 
         writer.flush();
-        System.err.println(writer.toString().length());
         return writer.toString();
     }
 
