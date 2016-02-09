@@ -24,6 +24,7 @@ import ch.asynk.rustanddust.ui.Bg;
 public class RustAndDust extends Game
 {
     public static final String BG_PATCH = "bg";
+    public static final String FRAME_PATCH = "frame";
     public static final String TTF_FONT = "skin/veteran-typewriter.ttf";
     public static final String ATLAS_UI = "data/ui.atlas";
     public static final String ATLAS_HUD = "data/hud.atlas";
@@ -71,6 +72,7 @@ public class RustAndDust extends Game
     public TextureAtlas uiAtlas;
     public BitmapFont font;
     public NinePatch bgPatch;
+    public NinePatch framePatch;
 
     public enum State
     {
@@ -215,6 +217,7 @@ public class RustAndDust extends Game
         parameter.color = Color.BLACK;
         font = generator.generateFont(parameter);
         bgPatch = uiAtlas.createPatch(BG_PATCH);
+        framePatch = uiAtlas.createPatch(FRAME_PATCH);
     }
 
     private void unloadUiAssets()
