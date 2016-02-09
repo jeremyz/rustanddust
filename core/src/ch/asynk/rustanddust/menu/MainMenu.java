@@ -48,24 +48,14 @@ public class MainMenu extends Menu
     @Override
     public boolean hit(float x, float y)
     {
-        boolean ret = false;
         menuItem = Items.NONE;
 
-        if (!visible) return ret;
+        if (!visible) return false;
 
-        if (label(Items.PLAY).hit(x, y)) {
-            menuItem = Items.PLAY;
-            ret = true;
-        } else if (label(Items.TUTORIALS).hit(x, y)) {
-            menuItem = Items.TUTORIALS;
-            ret = true;
-        } else if (label(Items.OPTIONS).hit(x, y)) {
-            menuItem = Items.OPTIONS;
-            ret = true;
-        } else if (label(Items.EXIT).hit(x, y)) {
-            Gdx.app.exit();
-        }
+        if (!super.hit(x, y)) return false;
 
-        return ret;
+        if (menuItem == Items.EXIT)
+                Gdx.app.exit();
+        return true;
     }
 }
