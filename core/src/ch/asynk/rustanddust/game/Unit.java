@@ -66,6 +66,8 @@ public class Unit extends HeadedPawn
     public boolean ace;
     public boolean hasMoved;
     public boolean hasFired;
+    public Zone entryZone;
+    public Zone exitZone;
 
     protected Unit(Army army, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
     {
@@ -74,6 +76,8 @@ public class Unit extends HeadedPawn
         ace = false;
         this. id = unit_id;
         unit_id += 1;
+        this.entryZone = null;
+        this.exitZone = null;
     }
 
     private void commonSetup()
