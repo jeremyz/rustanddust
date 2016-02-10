@@ -43,13 +43,13 @@ public abstract class Map5Marshal extends Map4Orders
         json.setWriter(writer);
 
         json.writeObjectStart();
+        json.writeObjectStart("map");
+        unload(json);
+        json.writeObjectEnd();
         json.writeArrayStart("players");
         unload(json, player);
         unload(json, opponent);
         json.writeArrayEnd();
-        json.writeObjectStart("map");
-        unload(json);
-        json.writeObjectEnd();
         json.writeArrayStart("orders");
         unload(json, orders);
         json.writeArrayEnd();
@@ -100,6 +100,8 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeValue(unit.ace);
         json.writeValue(unit.hasMoved);
         json.writeValue(unit.hasFired);
+        json.writeValue(entryZones.indexOf(unit.entryZone));
+        json.writeValue(exitZones.indexOf(unit.exitZone));
         json.writeArrayEnd();
         if (pos) {
             Hex h = unit.getHex();
@@ -266,9 +268,9 @@ public abstract class Map5Marshal extends Map4Orders
     {
         units.clear();
         JsonValue root = new JsonReader().parse(payload);
+        loadMap(root.get("map"));
         players[0] = loadPlayer(root.get("players").get(0));
         players[1] = loadPlayer(root.get("players").get(1));
-        loadMap(root.get("map"));
         loadOrders(root.get("orders"));
         units.clear();
     }
@@ -307,6 +309,10 @@ public abstract class Map5Marshal extends Map4Orders
         Unit u = game.factory.getUnit(code, a.getBoolean(0), a.getBoolean(1));
         if (a.getBoolean(2)) u.setMoved();
         if (a.getBoolean(3)) u.setFired();
+        int i = a.getInt(4);
+        if (i != -1) u.entryZone = entryZones.get(i);
+        i = a.getInt(5);
+        if (i != -1) u.exitZone = exitZones.get(i);
         u.id = unitId;
         if (pos) {
             a = v.get("p");
