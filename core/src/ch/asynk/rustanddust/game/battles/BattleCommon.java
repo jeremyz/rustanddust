@@ -108,17 +108,14 @@ public abstract class BattleCommon implements Battle
 
         this.currentPlayer = players[0];
         setupPlayer();
-        map.actionDone();
-        map.turnDone();
         currentPlayer.turnEnd();
 
         this.currentPlayer = players[1];
         setupPlayer();
-        map.actionDone();
-        map.turnDone();
         currentPlayer.turnEnd();
 
         this.currentPlayer = players[0];
+        map.turnDone();
     }
 
     @Override
