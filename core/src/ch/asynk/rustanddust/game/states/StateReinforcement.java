@@ -58,7 +58,7 @@ public class StateReinforcement extends StateCommon
         activeUnit = unit;
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
-        entryZone = ctrl.battle.getEntryZone(activeUnit);
+        entryZone = activeUnit.entryZone;
         entryZone.enable(Hex.AREA, true);
     }
 

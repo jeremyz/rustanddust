@@ -1,6 +1,5 @@
 package ch.asynk.rustanddust.game.states;
 
-import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.RustAndDust;
@@ -36,7 +35,6 @@ public class StateWithdraw extends StateCommon
 
     private StateType withdraw(Unit unit)
     {
-        Zone exitZone = ctrl.battle.getExitZone(unit);
         Hex hex = unit.getHex();
 
         // rotation
@@ -44,10 +42,10 @@ public class StateWithdraw extends StateCommon
             map.pathsBuild(hex);
 
         Hex exitHex = (Hex) map.pathsTo();
-        if (!exitZone.contains(exitHex))
+        if (!unit.exitZone.contains(exitHex))
             throw new RuntimeException(String.format("%s not in exitZone", exitHex));
 
-        if (map.pathsChooseExit(exitZone.orientation) > 1)
+        if (map.pathsChooseExit(unit.exitZone.orientation) > 1)
             RustAndDust.debug("ERROR: Withdraw pathsSize() == " + map.pathsSize());
 
         unit.hideActiveable();

@@ -1,7 +1,6 @@
 package ch.asynk.rustanddust.game.battles;
 
 import java.util.Random;
-import java.util.HashMap;
 
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Battle;
@@ -15,7 +14,6 @@ import ch.asynk.rustanddust.game.Unit.UnitCode;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.engine.Orientation;
-import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public abstract class BattleCommon implements Battle
 {
@@ -30,10 +28,6 @@ public abstract class BattleCommon implements Battle
     protected Map map;
     protected Player currentPlayer;
     protected Player[] players;
-    protected IterableArray<Zone> entryZones = new IterableArray<Zone>(10);
-    protected IterableArray<Zone> exitZones = new IterableArray<Zone>(10);
-    protected HashMap<Unit, Zone> unitEntry = new HashMap<Unit, Zone>();
-    protected HashMap<Unit, Zone> unitExit = new HashMap<Unit, Zone>();
 
     protected abstract Player getWinner();
     protected abstract void setupMap();
@@ -227,26 +221,14 @@ public abstract class BattleCommon implements Battle
         return StateType.SELECT;
     }
 
-    @Override
-    public Zone getEntryZone(Unit unit)
-    {
-        return unitEntry.get(unit);
-    }
-
-    @Override
-    public Zone getExitZone(Unit unit)
-    {
-        return unitExit.get(unit);
-    }
-
     protected void addEntryZone(Zone entry)
     {
-        entryZones.add(entry);
+        map.addEntryZone(entry);
     }
 
     protected void addExitZone(Zone exit)
     {
-        exitZones.add(exit);
+        map.addExitZone(exit);
         exit.enable(Hex.EXIT, true);
     }
 
@@ -269,9 +251,8 @@ public abstract class BattleCommon implements Battle
     {
         Unit unit = factory.getUnit(unitCode, hq, ace);
         player.addReinforcement(unit);
-        unitEntry.put(unit, entryZone);
-        if (exitZone != null)
-            unitExit.put(unit, exitZone);
+        unit.entryZone = entryZone;
+        if (exitZone != null) unit.exitZone = exitZone;
     }
 
     protected Unit setUnit(Map map, Player player, UnitCode unitCode, int col, int row, Orientation orientation, Zone exitZone)
@@ -281,10 +262,9 @@ public abstract class BattleCommon implements Battle
 
     protected Unit setUnit(Map map, Player player, UnitCode unitCode, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
     {
-        Unit u = factory.getUnit(unitCode, hq, ace);
-        if (exitZone != null)
-            unitExit.put(u, exitZone);
-        map.setOnBoard(u, map.getHex(col, row), orientation);
-        return u;
+        Unit unit = factory.getUnit(unitCode, hq, ace);
+        if (exitZone != null) unit.exitZone = exitZone;
+        map.setOnBoard(unit, map.getHex(col, row), orientation);
+        return unit;
     }
 }

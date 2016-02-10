@@ -3,7 +3,6 @@ package ch.asynk.rustanddust.game.states;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
-import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateMove extends StateCommon
@@ -181,8 +180,7 @@ public class StateMove extends StateCommon
     {
         if (unit.justEntered())
             return false;
-        Zone exitZone = ctrl.battle.getExitZone(unit);
-        if ((exitZone == null) || !exitZone.contains(unit.getHex()))
+        if ((unit.exitZone == null) || !unit.exitZone.contains(unit.getHex()))
             return false;
         ctrl.setState(StateType.WITHDRAW);
         return true;
@@ -190,10 +188,9 @@ public class StateMove extends StateCommon
 
     private boolean checkExit(Unit unit, Hex hex)
     {
-        Zone exitZone = ctrl.battle.getExitZone(unit);
-        if ((exitZone == null) || !exitZone.contains(hex))
+        if ((unit.exitZone == null) || !unit.exitZone.contains(hex))
             return false;
-        if (!map.pathsCanExit(exitZone.orientation))
+        if (!map.pathsCanExit(unit.exitZone.orientation))
             return false;
         ctrl.setState(StateType.WITHDRAW);
         return true;

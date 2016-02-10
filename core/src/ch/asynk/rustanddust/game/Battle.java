@@ -35,9 +35,5 @@ public interface Battle
 
     public State.StateType getState();
 
-    public Zone getEntryZone(Unit unit);
-
-    public Zone getExitZone(Unit unit);
-
     public String unload();
 }
