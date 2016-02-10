@@ -15,7 +15,9 @@ import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.engine.SelectedTile;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Hex;
+import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Unit;
@@ -120,6 +122,38 @@ public abstract class Map5Marshal extends Map4Orders
             json.writeArrayStart("p");
             json.writeValue(h.getCol());
             json.writeValue(h.getRow());
+            json.writeArrayEnd();
+            json.writeObjectEnd();
+        }
+        json.writeArrayEnd();
+        json.writeArrayStart("e");
+        for (Zone z: entryZones) {
+            json.writeObjectStart();
+            json.writeValue("a", z.allowedMoves);
+            json.writeValue("o", z.orientation.r());
+            json.writeArrayStart("t");
+            for (Tile t : z) {
+                json.writeArrayStart();
+                json.writeValue(t.getCol());
+                json.writeValue(t.getRow());
+                json.writeArrayEnd();
+            }
+            json.writeArrayEnd();
+            json.writeObjectEnd();
+        }
+        json.writeArrayEnd();
+        json.writeArrayStart("x");
+        for (Zone z: exitZones) {
+            json.writeObjectStart();
+            json.writeValue("a", z.allowedMoves);
+            json.writeValue("o", z.orientation.r());
+            json.writeArrayStart("t");
+            for (Tile t : z) {
+                json.writeArrayStart();
+                json.writeValue(t.getCol());
+                json.writeValue(t.getRow());
+                json.writeArrayEnd();
+            }
             json.writeArrayEnd();
             json.writeObjectEnd();
         }
@@ -294,6 +328,25 @@ public abstract class Map5Marshal extends Map4Orders
             h.claim(army);
             showObjective(h, army);
         }
+        a = v.get("e");
+        for (int i = 0; i < a.size; i++)
+            entryZones.add(loadZone(a.get(i)));
+        a = v.get("x");
+        for (int i = 0; i < a.size; i++)
+            exitZones.add(loadZone(a.get(i)));
+    }
+
+    private Zone loadZone(JsonValue v)
+    {
+        JsonValue t = v.get("t");
+        Zone z = new Zone((Map) this, t.size);
+        z.allowedMoves = v.getInt("a");
+        z.orientation = Orientation.fromRotation(v.getInt("o"));
+        for (int j = 0; j < t.size; j++) {
+            JsonValue h = t.get(j);
+            z.add(getHex(h.getInt(0), h.getInt(1)));
+        }
+        return z;
     }
 
     private void loadOrders(JsonValue v)
