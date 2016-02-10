@@ -16,6 +16,8 @@ public interface Collection<E> extends Iterator, Iterable<E>
 
     public E get(int idx);
 
+    public int indexOf(E e);
+
     public boolean add(E e);
 
     public E remove(int idx);

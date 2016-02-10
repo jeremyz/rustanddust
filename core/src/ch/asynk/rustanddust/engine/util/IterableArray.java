@@ -72,6 +72,16 @@ public class IterableArray<E> implements Collection<E>
     }
 
     @Override
+    public int indexOf(E e)
+    {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != null && data[i].equals(e))
+                return i;
+        }
+        return -1;
+    }
+
+    @Override
     public boolean add(E e)
     {
         ensureCapacity(s + 1);
