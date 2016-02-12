@@ -65,16 +65,16 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setParent(Widget parent)
     {
+        float x, y;
         this.parent = parent;
         if (parent == null) {
-            rect.x = position.getX(rect.width);
-            rect.y = position.getY(rect.height);
+            x = position.getX(rect.width);
+            y = position.getY(rect.height);
         } else {
-            rect.x = position.getX(parent, rect.width);
-            rect.y = position.getY(parent, rect.height);
+            x = position.getX(parent, rect.width);
+            y = position.getY(parent, rect.height);
         }
-        // might trigger something if overriden
-        setPosition(rect.x, rect.y, rect.width, rect.height);
+        setPosition(x, y);
     }
 
     public boolean hit(float x, float y)
