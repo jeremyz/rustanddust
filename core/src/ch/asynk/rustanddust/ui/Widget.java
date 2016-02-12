@@ -38,15 +38,15 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setPosition(Rectangle r)
     {
-        rect.set(r);
+        rect.set(r.x, r.x, r.width, r.height);
     }
 
     public void setPosition(float x, float y)
     {
-        rect.x = x;
-        rect.y = y;
+        rect.set(x, y, rect.width, rect.height);
     }
 
+    // override this if needed
     public void setPosition(float x, float y, float w, float h)
     {
         rect.set(x, y, w, h);
@@ -54,8 +54,7 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setPosition(Position position)
     {
-        this.position = position;
-        setParent(this.parent);
+        setPosition(position, this.parent);
     }
 
     public void setPosition(Position position, Widget parent)
@@ -75,7 +74,7 @@ public abstract class Widget implements Disposable, Drawable
             rect.y = position.getY(parent, rect.height);
         }
         // might trigger something if overriden
-        setPosition(rect.x, rect.y);
+        setPosition(rect.x, rect.y, rect.width, rect.height);
     }
 
     public boolean hit(float x, float y)
