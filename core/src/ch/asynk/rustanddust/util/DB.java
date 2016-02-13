@@ -200,6 +200,7 @@ public class DB
 
     public boolean storeState(int game, String payload)
     {
+        RustAndDust.debug("storeState");
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
@@ -213,6 +214,7 @@ public class DB
 
     public String loadState(int game)
     {
+        RustAndDust.debug("loadState");
         String ret = null;
         try {
             DatabaseCursor cursor = db.rawQuery(String.format(GET_STATE, game));
