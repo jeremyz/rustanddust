@@ -112,7 +112,7 @@ public class RustAndDust extends Game
     {
         Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
         this.hudCorrection = ((int) (125 * Gdx.graphics.getDensity()) - 75);
-        debug("RustAndDust", "create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
+        debug("create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
 
         db = new DB(Gdx.files.internal(DB_FILE).path());
         db.setup();
@@ -174,7 +174,7 @@ public class RustAndDust extends Game
         manager.load(SND_EXPLOSION_SHORT, Sound.class);
         manager.load(SND_PROMOTE_US, Sound.class);
         manager.load(SND_PROMOTE_GE, Sound.class);
-        debug("RustAndDust", "  assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        debug("  assets loaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void unloadGameAssets()
@@ -201,7 +201,7 @@ public class RustAndDust extends Game
         manager.unload(SND_EXPLOSION_SHORT);
         manager.unload(SND_PROMOTE_US);
         manager.unload(SND_PROMOTE_GE);
-        debug("RustAndDust", "  assets unloaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
+        debug("  assets unloaded : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
     }
 
     private void loadUiAssets()
@@ -256,8 +256,8 @@ public class RustAndDust extends Game
     @Override
     public void dispose()
     {
-        debug("RustAndDust", "dispose()");
-        debug("RustAndDust", "diagnostics:\n" + manager.getDiagnostics() );
+        debug("dispose()");
+        debug("diagnostics:\n" + manager.getDiagnostics() );
         getScreen().dispose();
         unloadUiAssets();
         switch(state) {
@@ -270,7 +270,7 @@ public class RustAndDust extends Game
                 ctrl.dispose();
                 break;
         }
-        debug("RustAndDust", "diagnostics:\n" + manager.getDiagnostics() );
+        debug("diagnostics:\n" + manager.getDiagnostics() );
         manager.clear();
         manager.dispose();
     }
@@ -278,14 +278,14 @@ public class RustAndDust extends Game
     @Override
     public void pause()
     {
-        debug("RustAndDust", "pause()");
+        debug("pause()");
         getScreen().pause();
     }
 
     @Override
     public void resume()
     {
-        debug("RustAndDust", "resume()");
+        debug("resume()");
         getScreen().resume();
     }
 }
