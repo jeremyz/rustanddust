@@ -231,5 +231,6 @@ public class GameScreen implements Screen
     {
         RustAndDust.debug("RustAndDust", "resume() ");
         paused = false;
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }

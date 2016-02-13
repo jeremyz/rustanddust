@@ -274,5 +274,6 @@ public class MenuScreen implements Screen
     public void resume()
     {
         paused = false;
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }
