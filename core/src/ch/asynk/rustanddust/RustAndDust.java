@@ -50,6 +50,7 @@ public class RustAndDust extends Game
 
     public static final String UI_OK = "ok";
     public static final String UI_CANCEL = "cancel";
+    public static final String UI_SELECT = "select";
     public static final String UI_FROM = "from";
     public static final String UI_TO = "to";
     public static final String UI_MOVE = "move";
