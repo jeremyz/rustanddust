@@ -29,6 +29,7 @@ public abstract class Widget implements Disposable, Drawable
     public float getY() { return rect.y; }
     public float getWidth() { return rect.width; }
     public float getHeight() { return rect.height; }
+    public float getTop() { return rect.y + rect.height; }
 
     public void translate(float dx, float dy)
     {
