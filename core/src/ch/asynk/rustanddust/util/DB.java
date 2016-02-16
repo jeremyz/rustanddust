@@ -66,6 +66,7 @@ public class DB
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d;";
     private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
+    private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
     private static final String GET_STATE = "select payload from states where _g=%d;";
 
     private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
@@ -202,13 +203,14 @@ public class DB
         return true;
     }
 
-    public boolean storeState(int game, String payload)
+    public boolean storeState(int game, int p1, int p2, String payload)
     {
         RustAndDust.debug("storeState");
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
             db.execSQL(String.format(INSERT_STATE, game, hash, payload, game));
+            db.execSQL(String.format(UPDATE_GAME, p1, p2, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeState");
             return false;
