@@ -21,7 +21,7 @@ public class AndroidBackend implements Backend
 
     public void init(RustAndDust game)
     {
-        me = game.db.storePlayerGetId("me", "myself", "I");
-        opponent = game.db.storePlayerGetId("opponent", "other", "you");
+        me = game.db.storePlayerGetId("me", "myself");
+        opponent = game.db.storePlayerGetId("opponent", "other");
     }
 }

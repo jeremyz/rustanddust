@@ -26,7 +26,7 @@ public class DB
 
     private static final String TBL_PLAYERS_CRT = "create table if not exists"
             + " players ( _id integer primary key autoincrement,"
-            + " hash text unique not null, gmail text unique not null, firstname text, lastname text"
+            + " hash text unique not null, gmail text unique not null, name text not null"
             + ");";
 
     private static final String TBL_BATTLES_CRT = "create table if not exists"
@@ -58,8 +58,9 @@ public class DB
 
     private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('options','%s');";
     private static final String GET_CONFIG = "select value from config where key='options';";
-    private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,firstname,lastname) values ('%s','%s','%s','%s');";
-    private static final String GET_PLAYER_ID = "select _id from players where hash='%s';";
+    private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,name) values ('%s','%s','%s');";
+    private static final String GET_PLAYER_ID_FROM_HASH = "select _id from players where hash='%s';";
+    private static final String GET_PLAYER_ID_FROM_GMAIL = "select _id from players where gmail='%s';";
     private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
     private static final String INSERT_GAME = "insert or ignore into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d;";
@@ -119,24 +120,28 @@ public class DB
         return ret;
     }
 
-    public String storePlayer(String gmail, String firstname, String lastname)
+    public void storePlayer(String gmail, String name)
     {
-        String hash = getDigest(gmail + firstname + lastname);
-        if (hash == null) return null;
-        try {
-            db.execSQL(String.format(INSERT_PLAYER, hash, gmail, firstname, lastname));
-        } catch (SQLiteGdxException e) {
-            RustAndDust.error("storePlayer");
-            return null;
-        }
-        return hash;
+        String hash = getDigest(String.format("#%s@%s*", gmail, df.format(new Date())));
+        if (hash != null)
+            storePlayer(gmail, name, hash);
     }
 
-    public int getPlayerId(String hash)
+    public void storePlayer(String gmail, String name, String hash)
+    {
+        try {
+            db.execSQL(String.format(INSERT_PLAYER, hash, gmail, name));
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("storePlayer");
+        }
+    }
+
+    public int getPlayerId(boolean hash, String s)
     {
         int ret = NO_RECORDS;
+        String sql = (hash ? GET_PLAYER_ID_FROM_HASH : GET_PLAYER_ID_FROM_GMAIL);
         try {
-            DatabaseCursor cursor = db.rawQuery(String.format(GET_PLAYER_ID, hash));
+            DatabaseCursor cursor = db.rawQuery(String.format(sql, s));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getInt(0);
@@ -145,11 +150,10 @@ public class DB
         return ret;
     }
 
-    public int storePlayerGetId(String gmail, String firstname, String lastname)
+    public int storePlayerGetId(String gmail, String name)
     {
-        String hash = storePlayer(gmail, firstname, lastname);
-        if (hash == null) return NO_RECORDS;
-        return getPlayerId(hash);
+        storePlayer(gmail, name);
+        return getPlayerId(false, gmail);
     }
 
     public void storeBattle(int id, String name)
