@@ -55,6 +55,15 @@ public class Config
                 return PVP;
             return SOLO;
         }
+        public static GameMode from(int i)
+        {
+            GameMode r = SOLO;
+            switch(i) {
+                case 1: r = PVE; break;
+                case 2: r = PVP; break;
+            }
+            return r;
+        }
     };
 
     public GameMode gameMode;
