@@ -17,6 +17,7 @@ public class DB
     public static final int NO_RECORDS = -1;
     private static final String DIGEST = "SHA-256";
 
+    private boolean debug;
     private Database db;
     private MessageDigest md;
 
@@ -71,10 +72,11 @@ public class DB
 
     private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
-    public DB(String dbPath)
+    public DB(String dbPath, boolean debug)
     {
-        db = DatabaseFactory.getNewDatabase(dbPath, DB_SCHEMA_VERSION, DB_CRT, null);
-        db.setupDatabase();
+        this.db = DatabaseFactory.getNewDatabase(dbPath, DB_SCHEMA_VERSION, DB_CRT, null);
+        this.db.setupDatabase();
+        this.debug = debug;
     }
 
     public void setup()
@@ -100,7 +102,7 @@ public class DB
     public boolean storeConfig(String config)
     {
         try {
-            db.execSQL(String.format(INSERT_CONFIG, config));
+            exec(String.format(INSERT_CONFIG, config));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeConfig");
             return false;
@@ -112,7 +114,7 @@ public class DB
     {
         String ret = null;
         try {
-            DatabaseCursor cursor = db.rawQuery(GET_CONFIG);
+            DatabaseCursor cursor = query(GET_CONFIG);
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getString(0);
@@ -131,7 +133,7 @@ public class DB
     public void storePlayer(String gmail, String name, String hash)
     {
         try {
-            db.execSQL(String.format(INSERT_PLAYER, hash, gmail, name));
+            exec(String.format(INSERT_PLAYER, hash, gmail, name));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storePlayer");
         }
@@ -142,7 +144,7 @@ public class DB
         int ret = NO_RECORDS;
         String sql = (hash ? GET_PLAYER_ID_FROM_HASH : GET_PLAYER_ID_FROM_GMAIL);
         try {
-            DatabaseCursor cursor = db.rawQuery(String.format(sql, s));
+            DatabaseCursor cursor = query(String.format(sql, s));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getInt(0);
@@ -160,14 +162,14 @@ public class DB
     public void storeBattle(int id, String name)
     {
         try {
-            db.execSQL(String.format(UPDATE_BATTLE, id, name));
+            exec(String.format(UPDATE_BATTLE, id, name));
         } catch (SQLiteGdxException e) { RustAndDust.error("storeBattle"); }
     }
 
     public void storeGame(int you, int opponent, int battle, int mode)
     {
         try {
-            db.execSQL(String.format(INSERT_GAME, you, opponent, battle, mode));
+            exec(String.format(INSERT_GAME, you, opponent, battle, mode));
         } catch (SQLiteGdxException e) { RustAndDust.error("storeGame"); }
     }
 
@@ -175,7 +177,7 @@ public class DB
     {
         int ret = NO_RECORDS;
         try {
-            DatabaseCursor cursor = db.rawQuery(String.format(GET_GAME_ID, you, opponent, battle, mode));
+            DatabaseCursor cursor = query(String.format(GET_GAME_ID, you, opponent, battle, mode));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getInt(0);
@@ -195,7 +197,7 @@ public class DB
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            db.execSQL(String.format(INSERT_TURN, game, player, hash, payload, game));
+            exec(String.format(INSERT_TURN, game, player, hash, payload, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeTurn");
             return false;
@@ -209,8 +211,8 @@ public class DB
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            db.execSQL(String.format(INSERT_STATE, game, hash, payload, game));
-            db.execSQL(String.format(UPDATE_GAME, p1, p2, game));
+            exec(String.format(INSERT_STATE, game, hash, payload, game));
+            exec(String.format(UPDATE_GAME, p1, p2, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeState");
             return false;
@@ -223,12 +225,26 @@ public class DB
         RustAndDust.debug("loadState");
         String ret = null;
         try {
-            DatabaseCursor cursor = db.rawQuery(String.format(GET_STATE, game));
+            DatabaseCursor cursor = query(String.format(GET_STATE, game));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getString(0);
             }
         } catch (SQLiteGdxException e) { RustAndDust.error("loadState"); }
         return ret;
+    }
+
+    private void exec(String sql) throws SQLiteGdxException
+    {
+        if (debug) RustAndDust.debug(" SQL " + sql);
+        db.execSQL(sql);
+    }
+
+    private DatabaseCursor query(String sql) throws SQLiteGdxException
+    {
+        if (debug) RustAndDust.debug(" SQL " + sql);
+        DatabaseCursor c = db.rawQuery(sql);
+        if (debug) RustAndDust.debug(String.format(" SQL  -> %d", c.getCount()));
+        return c;
     }
 }
