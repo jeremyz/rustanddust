@@ -1,5 +1,7 @@
 package ch.asynk.rustanddust.util;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.security.MessageDigest;
 import java.math.BigInteger;
 
@@ -9,6 +11,7 @@ import com.badlogic.gdx.sql.DatabaseFactory;
 import com.badlogic.gdx.sql.SQLiteGdxException;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.game.Config.GameMode;
 
 public class DB
 {
@@ -16,6 +19,7 @@ public class DB
 
     public static final int NO_RECORDS = -1;
     private static final String DIGEST = "SHA-256";
+    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 
     private boolean debug;
     private Database db;
@@ -69,6 +73,7 @@ public class DB
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
     private static final String GET_STATE = "select payload from states where _g=%d;";
+    private static final String GET_GAMES = "select g.*, p1.name, p2.name, b.name from games g inner join players p1 on (g._p1=p1._id) inner join players p2 on (g._p2=p2._id) inner join battles b on (g._b=b._id);";
 
     private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
@@ -232,6 +237,33 @@ public class DB
             }
         } catch (SQLiteGdxException e) { RustAndDust.error("loadState"); }
         return ret;
+    }
+
+    public void loadGames()
+    {
+        RustAndDust.debug("loadGames");
+        GameRecord.clearList();
+        GameRecord r = null;
+        try {
+            DatabaseCursor cursor = query(GET_GAMES);
+            if (cursor.getCount() > 0) {
+                while(cursor.next()) {
+                    // cursor.next();
+                    r = GameRecord.get();
+                    r.g = cursor.getInt(0);
+                    r.p1 = cursor.getInt(1);
+                    r.p2 = cursor.getInt(2);
+                    r.b = cursor.getInt(3);
+                    r.m = GameMode.from(cursor.getInt(4));
+                    try { r.ts = df.parse(cursor.getString(5)); }
+                    catch (java.text.ParseException e) { r.ts = null; RustAndDust.error(String.format("can't parse", cursor.getString(5))); }
+                    r.p1Name = cursor.getString(6);
+                    r.p2Name = cursor.getString(7);
+                    r.bName = cursor.getString(8);
+                    GameRecord.list.add(r);
+                }
+            }
+        } catch (SQLiteGdxException e) { r.dispose(); RustAndDust.error("loadGames"); }
     }
 
     private void exec(String sql) throws SQLiteGdxException
