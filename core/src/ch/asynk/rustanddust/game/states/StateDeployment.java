@@ -125,5 +125,7 @@ public class StateDeployment extends StateCommon
         ctrl.hud.playerInfo.unitDock.show();
         if (ctrl.battle.isDeploymentDone())
             ctrl.hud.askEndDeployment();
+        else
+            ctrl.unitDeployed();
     }
 }

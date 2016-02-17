@@ -146,6 +146,11 @@ public abstract class Ctrl implements Disposable
         stateAfterAnimation = after;
     }
 
+    public void unitDeployed()
+    {
+        battle.actionDone();
+    }
+
     // Hud callbacks
 
     public void endGame()
