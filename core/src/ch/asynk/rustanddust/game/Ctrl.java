@@ -146,11 +146,6 @@ public abstract class Ctrl implements Disposable
         stateAfterAnimation = after;
     }
 
-    public void unitDeployed()
-    {
-        battle.actionDone();
-    }
-
     // Hud callbacks
 
     public void endGame()
@@ -166,7 +161,7 @@ public abstract class Ctrl implements Disposable
 
     public void endDeployment()
     {
-        setState(StateType.DONE);
+        this.state.execute();
         turnDone();
     }
 
@@ -244,8 +239,10 @@ public abstract class Ctrl implements Disposable
 
     private StateType completeDeployment()
     {
+        if (battle.isDeploymentDone())
+            hud.askEndDeployment();
         battle.actionDone();
-        return this.state.execute();
+        return StateType.DEPLOYMENT;
     }
 
     private StateType abortAction()

@@ -123,9 +123,6 @@ public class StateDeployment extends StateCommon
         map.hexDirectionsHide(selectedHex);
         ctrl.hud.actionButtons.hide();
         ctrl.hud.playerInfo.unitDock.show();
-        if (ctrl.battle.isDeploymentDone())
-            ctrl.hud.askEndDeployment();
-        else
-            ctrl.unitDeployed();
+        ctrl.setState(StateType.DONE);
     }
 }
