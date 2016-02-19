@@ -69,7 +69,7 @@ public class StatisticsPanel extends Patch
         float y = position.getY(height);
         setPosition(x, y, width, height);
 
-        setBtnRight(okBtn);
+        setBottomRight(okBtn);
 
         y += PADDING;
         x += PADDING;

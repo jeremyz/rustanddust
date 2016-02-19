@@ -80,6 +80,26 @@ public abstract class Widget implements Disposable, Drawable
         setPosition(x, y);
     }
 
+    public void setTopRight(Widget btn)
+    {
+        btn.setPosition((getX() + getWidth() - (btn.getWidth() * 0.666f)), (getTop() -  (btn.getHeight() * 0.666f)));
+    }
+
+    public void setTopLeft(Widget btn)
+    {
+        btn.setPosition((getX() - (btn.getWidth() * 0.333f)), (getTop() -  (btn.getHeight() * 0.666f)));
+    }
+
+    public void setBottomRight(Widget btn)
+    {
+        btn.setPosition((getX() + getWidth() - (btn.getWidth() * 0.666f)), (getY() -  (btn.getHeight() * 0.333f)));
+    }
+
+    public void setBottomLeft(Widget btn)
+    {
+        btn.setPosition((getX() - (btn.getWidth() * 0.333f)), (getY() -  (btn.getHeight() * 0.333f)));
+    }
+
     public boolean hit(float x, float y)
     {
         if (blocked || !visible) return false;

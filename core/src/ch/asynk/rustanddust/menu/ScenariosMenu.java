@@ -70,8 +70,8 @@ public class ScenariosMenu extends Patch
         float y = position.getY(h);
         setPosition(x, y, w, h);
 
-        setBtnRight(okBtn);
-        setBtnLeft(cancelBtn);
+        setBottomRight(okBtn);
+        setBottomLeft(cancelBtn);
 
         y += PADDING;
         x += PADDING + HSPACING;
