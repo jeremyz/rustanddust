@@ -15,10 +15,7 @@ import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.ui.Widget;
-import ch.asynk.rustanddust.menu.MainMenu;
-import ch.asynk.rustanddust.menu.PlayMenu;
-import ch.asynk.rustanddust.menu.OptionsMenu;
-import ch.asynk.rustanddust.menu.TutorialsMenu;
+import ch.asynk.rustanddust.menu.MenuCtrl;
 
 public class MenuScreen implements Screen
 {
@@ -51,11 +48,7 @@ public class MenuScreen implements Screen
     private Sprite usFlag;
 
     private Label versionLabel;
-    private MainMenu mainMenu;
-    private PlayMenu playMenu;
-    private OptionsMenu optionsMenu;
-    private TutorialsMenu tutorialsMenu;
-    private Widget currentMenu;
+    private MenuCtrl ctrl;
 
     private final MenuCamera camera;
     private final SpriteBatch batch;
@@ -85,68 +78,23 @@ public class MenuScreen implements Screen
 
         this.versionLabel = new Label(game.font);
         this.versionLabel.write("v21");
-        this.mainMenu = new MainMenu(game);
-        this.playMenu = new PlayMenu(game);
-        this.optionsMenu = new OptionsMenu(game);
-        this.tutorialsMenu = new TutorialsMenu(game);
-        this.gamesMenu = new GamesMenu(game);
+        this.ctrl = new MenuCtrl(game);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDragged(int x, int y, int pointer)
-            {
-                int dx = (int) (dragPos.x - x);
-                int dy = (int) (dragPos.y - y);
-                dragPos.set(x, y);
-                camera.uiUnproject(x, y, touch);
-                // return drag(touch.x, touch.y, -dx, dy);
-                return false;
-            }
-            @Override
             public boolean touchDown(int x, int y, int pointer, int button)
             {
-                dragPos.set(x, y);
                 camera.uiUnproject(x, y, touch);
-                return hit(touch.x, touch.y);
+                if (ctrl.hit(touch.x, touch.y))
+                    startLoading();
+                return true;
             }
         });
-
-        currentMenu = mainMenu;
-        currentMenu.visible = true;
-    }
-
-    private boolean hit(float x, float y)
-    {
-        if (currentMenu.hit(x, y)) {
-            currentMenu.visible = false;
-            if (currentMenu == mainMenu) {
-                showNextMenu();
-            } else if (currentMenu == playMenu) {
-                currentMenu = mainMenu;
-                if (playMenu.launch)
-                    startLoading();
-            } else {
-                currentMenu = mainMenu;
-            }
-            currentMenu.visible = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    private void showNextMenu()
-    {
-        switch(mainMenu.getMenu()) {
-            case PLAY: currentMenu = playMenu; break;
-            case OPTIONS: currentMenu = optionsMenu; break;
-            case TUTORIALS: currentMenu = tutorialsMenu; break;
-        }
     }
 
     private void startLoading()
     {
-        mainMenu.visible = false;
+        ctrl.visible = false;
         game.loadGameAssets();
         gameAssetsLoading = true;
     }
@@ -198,10 +146,7 @@ public class MenuScreen implements Screen
 
         batch.setProjectionMatrix(camera.uiCombined());
         batch.begin();
-        mainMenu.draw(batch);
-        playMenu.draw(batch);
-        optionsMenu.draw(batch);
-        tutorialsMenu.draw(batch);
+        ctrl.draw(batch);
         batch.end();
     }
 
@@ -226,10 +171,7 @@ public class MenuScreen implements Screen
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
         versionLabel.setPosition(xPath[0] - 190, yPath[0]);
-        mainMenu.setPosition();
-        playMenu.setPosition();
-        optionsMenu.setPosition();
-        tutorialsMenu.setPosition();
+        ctrl.setPosition();
     }
 
     @Override
@@ -244,10 +186,7 @@ public class MenuScreen implements Screen
     public void dispose()
     {
         versionLabel.dispose();
-        mainMenu.dispose();
-        playMenu.dispose();
-        optionsMenu.dispose();
-        tutorialsMenu.dispose();
+        ctrl.dispose();
     }
 
     @Override
