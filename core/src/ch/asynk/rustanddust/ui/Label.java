@@ -17,9 +17,21 @@ public class Label extends Widget
         this(font, 0f);
     }
 
+    public Label(String text, BitmapFont font)
+    {
+        this(font, 0f);
+        write(text);
+    }
+
     public Label(BitmapFont font, float padding)
     {
         this(font, padding, Position.MIDDLE_CENTER);
+    }
+
+    public Label(String text, BitmapFont font, float padding)
+    {
+        this(font, padding, Position.MIDDLE_CENTER);
+        write(text);
     }
 
     public Label(BitmapFont font, float padding, Position position)
