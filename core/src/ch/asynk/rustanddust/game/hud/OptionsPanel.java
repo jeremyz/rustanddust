@@ -40,22 +40,17 @@ public class OptionsPanel extends Patch
         super(game.bgPatch);
         this.game = game;
         this.font = game.font;
-        this.title = new Label(game.font, LABEL_PADDING);
-        this.title.write("- Options");
-        this.fxVolume = new Label(game.font, LABEL_PADDING);
-        this.fxVolume.write("Fx Volume");
+        this.title = new Label("- Options", game.font, LABEL_PADDING);
+        this.fxVolume = new Label("Fx Volume", game.font, LABEL_PADDING);
         this.fxVolumeValue = new Label(game.font, LABEL_PADDING);
-        this.objectives = new Label(game.font, LABEL_PADDING);
-        this.objectives.write("Battle Objectives");
+        this.objectives = new Label("Battle Objectives", game.font, LABEL_PADDING);
         this.objectivesPanel = new ObjectivesPanel(game);
-        this.quit = new Label(game.font, LABEL_PADDING);
-        this.quit.write("Quit battle");
+        this.quit = new Label("Quit Battle", game.font, LABEL_PADDING);
         this.visible = false;
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
-            Label l = new Label(game.font, LABEL_PADDING);
-            l.write(checkStrings[i]);
+            Label l = new Label(checkStrings[i], game.font, LABEL_PADDING);
             this.checkLabels[i] = l;
         }
         GlyphLayout layout = new GlyphLayout();
@@ -79,7 +74,6 @@ public class OptionsPanel extends Patch
 
     public void show(Position position)
     {
-
         fxVolumeValue.write(game.config.fxStrings[0]);
         float h = (title.getHeight() + TITLE_PADDING + fxVolumeValue.getHeight());
         for (int i = 0; i < checkLabels.length; i++)
