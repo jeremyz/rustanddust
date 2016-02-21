@@ -25,7 +25,7 @@ public class MenuCtrl implements Disposable, Drawable
 
     interface Panel extends Disposable, Drawable
     {
-        public boolean prepare();
+        public MenuType prepare();
         public void computePosition();
         public MenuType touch(float x, float y);
     }
@@ -60,8 +60,10 @@ public class MenuCtrl implements Disposable, Drawable
         }
 
         if (next != MenuType.NONE) {
-            if (panels[next.i].prepare())
+            while(current != next) {
                 current = next;
+                next = panels[next.i].prepare();
+            }
         }
 
         return false;

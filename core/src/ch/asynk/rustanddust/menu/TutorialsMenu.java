@@ -25,7 +25,7 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public boolean prepare() { return true; }
+    public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.TUTORIALS; }
 
     @Override
     public void computePosition()

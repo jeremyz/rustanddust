@@ -149,7 +149,7 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public boolean prepare() { return true; }
+    public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.OPTIONS; }
 
     @Override
     public MenuCtrl.MenuType touch(float x, float y)
