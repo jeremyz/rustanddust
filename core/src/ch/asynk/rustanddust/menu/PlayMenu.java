@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
-import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.ui.OkCancel;
+import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.hud.ObjectivesPanel;
 
-public class PlayMenu extends Patch
+public class PlayMenu extends Patch implements MenuCtrl.Panel
 {
     public static int PADDING = 50;
     public static int TITLE_PADDING = 35;
@@ -29,8 +29,6 @@ public class PlayMenu extends Patch
     protected Bg okBtn;
     protected Bg cancelBtn;
     private OkCancel okCancel;
-
-    public boolean launch;
 
     public PlayMenu(RustAndDust game)
     {
@@ -74,12 +72,10 @@ public class PlayMenu extends Patch
         }
         this.gameModeValue.write(game.config.gameMode.s);
         this.gameModeWidth = w + 10 + gameMode.getWidth();
-
-        this.visible = false;
-        this.launch = false;
     }
 
-    public void setPosition()
+    @Override
+    public void computePosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
         h += (gameMode.getHeight() + VSPACING);
@@ -113,24 +109,24 @@ public class PlayMenu extends Patch
     }
 
     @Override
-    public boolean hit(float x, float y)
+    public MenuCtrl.MenuType touch(float x, float y)
     {
         if (okCancel.hit(x, y)) {
             this.visible = true;
             okCancel.visible = false;
-            return false;
+            return MenuCtrl.MenuType.NONE;
         } else if (objectivesPanel.hit(x, y)) {
             this.visible = true;
             objectivesPanel.visible = false;
-            return false;
+            return MenuCtrl.MenuType.NONE;
         }
 
-        if (!visible) return false;
+        if (!visible) return MenuCtrl.MenuType.NONE;
 
         if (okBtn.hit(x, y)) {
             return apply();
         } else if (cancelBtn.hit(x, y)) {
-            return true;
+            return MenuCtrl.MenuType.MAIN;
         } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
             cycleGameMode();
         } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
@@ -140,18 +136,18 @@ public class PlayMenu extends Patch
             objectivesPanel.show(game.config.battle);
         }
 
-        return false;
+        return MenuCtrl.MenuType.NONE;
     }
 
-    private boolean apply() {
+    private MenuCtrl.MenuType apply() {
         if (!game.config.gameModeImplemented()) {
             this.visible = false;
             okCancel.show(String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s));
             okCancel.noCancel();
-            return false;
-        } else
-            this.launch = true;
-        return true;
+            return MenuCtrl.MenuType.NONE;
+        }
+
+        return MenuCtrl.MenuType.BEGIN;
     }
 
     private void cycleGameMode()
@@ -174,6 +170,9 @@ public class PlayMenu extends Patch
         battleValue.write(game.config.battle.getName());
         battleValue.setPosition(fx, fy);
     }
+
+    @Override
+    public boolean prepare() { return true; }
 
     @Override
     public void dispose()

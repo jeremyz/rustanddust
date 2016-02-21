@@ -10,7 +10,7 @@ import ch.asynk.rustanddust.ui.Patch;
 
 import ch.asynk.rustanddust.RustAndDust;
 
-public class OptionsMenu extends Patch
+public class OptionsMenu extends Patch implements MenuCtrl.Panel
 {
     public static int PADDING = 30;
     public static int OPT_PADDING = 10;
@@ -30,47 +30,42 @@ public class OptionsMenu extends Patch
         "Show Moves",
     };
 
-    private float checkDy;
     private Label title;
+    private Bg okBtn;
+    private Bg cancelBtn;
     private Label fxVolume;
     private Label fxVolumeValue;
     private Label graphics;
     private Label graphicsValue;
     private Label [] checkLabels;
+
+    private float checkDy;
     private int fxVolumeIdx;
     private int graphicsIdx;
     private boolean [] checkValues;
-    protected Bg okBtn;
-    protected Bg cancelBtn;
 
     public OptionsMenu(RustAndDust game)
     {
         super(game.bgPatch);
         this.game = game;
         this.font = game.font;
+        this.title = new Label("- Options", font, LABEL_PADDING);
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
-        this.title = new Label(font, LABEL_PADDING);
-        this.title.write("- Options");
-        this.fxVolume = new Label(font, LABEL_PADDING);
-        this.fxVolume.write("Fx Volume");
+        this.fxVolume = new Label("Fx Volume", font, LABEL_PADDING);
         this.fxVolumeValue = new Label(font, LABEL_PADDING);
-        this.graphics = new Label(font, LABEL_PADDING);
-        this.graphics.write("Graphics");
+        this.graphics = new Label("Graphics", font, LABEL_PADDING);
         this.graphicsValue = new Label(font, LABEL_PADDING);
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
         for (int i = 0; i < checkLabels.length; i++) {
-            Label l = new Label(font, LABEL_PADDING);
-            l.write(checkStrings[i]);
+            Label l = new Label(checkStrings[i], font, LABEL_PADDING);
             this.checkLabels[i] = l;
         }
         getValues();
         GlyphLayout layout = new GlyphLayout();
         layout.setText(font, CHECK);
         checkDy = layout.height + 5;
-
-        this.visible = false;
     }
 
     private void getValues()
@@ -86,7 +81,7 @@ public class OptionsMenu extends Patch
         graphicsValue.write(game.config.graphics.s, graphicsValue.getX(), graphicsValue.getY());
     }
 
-    private boolean apply()
+    private void apply()
     {
         game.config.showMoves = checkValues[4];
         game.config.showTargets = checkValues[3];
@@ -96,7 +91,6 @@ public class OptionsMenu extends Patch
         game.config.fxVolume = (fxVolumeIdx / 10.0f);
         game.config.graphics = game.config.graphics.get(graphicsIdx);
         game.db.storeConfig(game.config.unload());
-        return true;
     }
 
     private void cycleFxVolume()
@@ -112,7 +106,8 @@ public class OptionsMenu extends Patch
         graphicsValue.write(game.config.graphics.get(graphicsIdx).s, graphicsValue.getX(), graphicsValue.getY());
     }
 
-    public void setPosition()
+    @Override
+    public void computePosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
         for (int i = 0; i < checkLabels.length; i++)
@@ -154,15 +149,17 @@ public class OptionsMenu extends Patch
     }
 
     @Override
-    public boolean hit(float x, float y)
-    {
-        if (!visible) return false;
+    public boolean prepare() { return true; }
 
+    @Override
+    public MenuCtrl.MenuType touch(float x, float y)
+    {
         if (okBtn.hit(x, y)) {
-            return apply();
+            apply();
+            return MenuCtrl.MenuType.MAIN;
         } else if (cancelBtn.hit(x, y)) {
             getValues();
-            return true;
+            return MenuCtrl.MenuType.MAIN;
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
         } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
@@ -174,7 +171,7 @@ public class OptionsMenu extends Patch
             }
         }
 
-        return false;
+        return MenuCtrl.MenuType.NONE;
     }
 
     @Override
@@ -195,7 +192,6 @@ public class OptionsMenu extends Patch
     @Override
     public void draw(Batch batch)
     {
-        if (!visible) return;
         super.draw(batch);
         title.draw(batch);
         okBtn.draw(batch);

@@ -2,17 +2,15 @@ package ch.asynk.rustanddust.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
+import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.RustAndDust;
 
-public class TutorialsMenu extends Patch
+public class TutorialsMenu extends Patch implements MenuCtrl.Panel
 {
     public static int PADDING = 40;
     public static int TITLE_PADDING = 30;
-
-    private final RustAndDust game;
 
     private Label title;
     private Label msg;
@@ -21,17 +19,16 @@ public class TutorialsMenu extends Patch
     public TutorialsMenu(RustAndDust game)
     {
         super(game.bgPatch);
-        this.game = game;
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
-        this.title = new Label(game.font);
-        this.title.write("- Tutorials");
-        this.msg = new Label(game.font);
-        this.msg.write("Not implemented yet.\nPlease Visit:\nhttp://rustanddust.ch");
-
-        this.visible = false;
+        this.title = new Label("- Tutorials", game.font);
+        this.msg = new Label("Not implemented yet.\nPlease Visit:\nhttp://rustanddust.ch", game.font);
     }
 
-    public void setPosition()
+    @Override
+    public boolean prepare() { return true; }
+
+    @Override
+    public void computePosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
         h += msg.getHeight();
@@ -57,14 +54,12 @@ public class TutorialsMenu extends Patch
     }
 
     @Override
-    public boolean hit(float x, float y)
+    public MenuCtrl.MenuType touch(float x, float y)
     {
-        if (!visible) return false;
-
         if (rect.contains(x, y) || okBtn.hit(x, y))
-            return true;
+            return MenuCtrl.MenuType.MAIN;
 
-        return false;
+        return MenuCtrl.MenuType.NONE;
     }
 
     @Override
@@ -79,7 +74,6 @@ public class TutorialsMenu extends Patch
     @Override
     public void draw(Batch batch)
     {
-        if (!visible) return;
         super.draw(batch);
         title.draw(batch);
         msg.draw(batch);

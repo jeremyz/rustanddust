@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Interpolation;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Position;
-import ch.asynk.rustanddust.ui.Widget;
 import ch.asynk.rustanddust.menu.MenuCtrl;
 
 public class MenuScreen implements Screen
@@ -85,7 +84,7 @@ public class MenuScreen implements Screen
             public boolean touchDown(int x, int y, int pointer, int button)
             {
                 camera.uiUnproject(x, y, touch);
-                if (ctrl.hit(touch.x, touch.y))
+                if (ctrl.touch(touch.x, touch.y))
                     startLoading();
                 return true;
             }
@@ -171,7 +170,7 @@ public class MenuScreen implements Screen
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
         versionLabel.setPosition(xPath[0] - 190, yPath[0]);
-        ctrl.setPosition();
+        ctrl.computePosition();
     }
 
     @Override

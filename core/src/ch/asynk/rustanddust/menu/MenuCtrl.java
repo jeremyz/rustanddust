@@ -1,83 +1,96 @@
 package ch.asynk.rustanddust.menu;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.ui.Widget;
+import ch.asynk.rustanddust.engine.gfx.Drawable;
 
-public class MenuCtrl implements Disposable
+public class MenuCtrl implements Disposable, Drawable
 {
-    private MainMenu mainMenu;
-    private PlayMenu playMenu;
-    private OptionsMenu optionsMenu;
-    private TutorialsMenu tutorialsMenu;
-    private Widget currentMenu;
+    enum MenuType
+    {
+        MAIN(0),
+        OPTIONS(1),
+        TUTORIALS(2),
+        PLAY(3),
+        NONE(4),
+        BEGIN(66),
+        EXIT(666);
+        public int i;
+        MenuType(int i) { this.i = i; }
+    }
+
+    interface Panel extends Disposable, Drawable
+    {
+        public boolean prepare();
+        public void computePosition();
+        public MenuType touch(float x, float y);
+    }
 
     public boolean visible;
+    private Panel []panels;
+    private MenuType current;
 
     public MenuCtrl(final RustAndDust game)
     {
-        this.mainMenu = new MainMenu(game);
-        this.playMenu = new PlayMenu(game);
-        this.optionsMenu = new OptionsMenu(game);
-        this.tutorialsMenu = new TutorialsMenu(game);
+        this.panels = new Panel[MenuType.NONE.i];
+        this.panels[MenuType.MAIN.i] = new MainMenu(game);
+        this.panels[MenuType.OPTIONS.i] = new OptionsMenu(game);
+        this.panels[MenuType.TUTORIALS.i] = new TutorialsMenu(game);
+        this.panels[MenuType.PLAY.i] = new PlayMenu(game);
 
-        this.currentMenu = mainMenu;
-        this.currentMenu.visible = true;
+        this.current = MenuType.MAIN;
+
         this.visible = true;
     }
 
-    public boolean hit(float x, float y)
+    public boolean touch(float x, float y)
     {
-        boolean ret = false;
+        MenuType next = panels[current.i].touch(x, y);
 
-        if (currentMenu.hit(x, y)) {
-            currentMenu.visible = false;
-            if (currentMenu == mainMenu) {
-                showNextMenu();
-            } else if (currentMenu == playMenu) {
-                currentMenu = mainMenu;
-                if (playMenu.launch)
-                    ret = true;
-            } else {
-                currentMenu = mainMenu;
-            }
-            currentMenu.visible = true;
+        if (next == MenuType.BEGIN) return true;
+
+        if (next == MenuType.EXIT) {
+            // TODO clean shutdown
+            Gdx.app.exit();
+            return false;
         }
 
-        return ret;
-    }
-
-    private void showNextMenu()
-    {
-        switch(mainMenu.getMenu()) {
-            case PLAY: currentMenu = playMenu; break;
-            case OPTIONS: currentMenu = optionsMenu; break;
-            case TUTORIALS: currentMenu = tutorialsMenu; break;
+        if (next != MenuType.NONE) {
+            if (panels[next.i].prepare())
+                current = next;
         }
+
+        return false;
     }
 
-    public void draw(SpriteBatch batch)
+    public void computePosition()
     {
-        if (visible)
-            currentMenu.draw(batch);
-    }
-
-    public void setPosition()
-    {
-        mainMenu.setPosition();
-        playMenu.setPosition();
-        optionsMenu.setPosition();
-        tutorialsMenu.setPosition();
+        for (int i = 0; i < MenuType.NONE.i; i++)
+            this.panels[i].computePosition();
     }
 
     @Override
     public void dispose()
     {
-        mainMenu.dispose();
-        playMenu.dispose();
-        optionsMenu.dispose();
-        tutorialsMenu.dispose();
+        for (int i = 0; i < MenuType.NONE.i; i++)
+            panels[i].dispose();
+    }
+
+    @Override
+    public void draw(Batch batch)
+    {
+        if (visible)
+            panels[current.i].draw(batch);
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer debugShapes)
+    {
+        if (visible)
+            panels[current.i].drawDebug(debugShapes);
     }
 }
