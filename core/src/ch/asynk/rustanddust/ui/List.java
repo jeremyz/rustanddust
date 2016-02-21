@@ -36,14 +36,19 @@ public class List extends Widget
         this.selected = new Bg(game.getUiRegion(game.UI_SELECT));
     }
 
+    public Integer getIdx() { return idx; }
+
     @Override
     public boolean hit(float x, float y)
     {
         float t = (getTop() - (int) padding);
         idx = (int) Math.floor((t - y) / itemHeight);
-        if ((idx >= 0) && (idx < items.size()))
+        if ((idx >= 0) && (idx < items.size())) {
             selected.setPosition(rect.x, (t - itemHeight - (idx * itemHeight)), rect.width, (itemHeight + padding));
-        return true;
+            return true;
+        }
+        idx = null;
+        return false;
     }
 
     public void setItems(int clipN, Collection<ListElement> items)
