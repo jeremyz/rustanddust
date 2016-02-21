@@ -48,6 +48,7 @@ public class List extends Widget
 
     public void setItems(int clipN, Collection<ListElement> items)
     {
+        this.idx = null;
         this.items = items;
         compute();
     }
