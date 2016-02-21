@@ -31,8 +31,6 @@ public abstract class Widget implements Disposable, Drawable
     public float getHeight() { return rect.height; }
     public float getTop() { return rect.y + rect.height; }
 
-    public void update() { }
-
     public void translate(float dx, float dy)
     {
         rect.x += dx;
@@ -46,7 +44,7 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setPosition(float x, float y)
     {
-        rect.set(x, y, rect.width, rect.height);
+        setPosition(x, y, rect.width, rect.height);
     }
 
     // override this if needed
