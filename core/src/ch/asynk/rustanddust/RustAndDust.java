@@ -47,6 +47,8 @@ public class RustAndDust extends Game
     public static final String SND_EXPLOSION_SHORT = "sounds/explosion_short.mp3";
     public static final String SND_PROMOTE_US = "sounds/promote_us.mp3";
     public static final String SND_PROMOTE_GE = "sounds/promote_ge.mp3";
+    public static final String SND_TYPE = "sounds/type.mp3";
+    public static final String SND_ENTER = "sounds/enter.mp3";
 
     public static final String UI_OK = "ok";
     public static final String UI_CANCEL = "cancel";
@@ -74,6 +76,8 @@ public class RustAndDust extends Game
     public BitmapFont font;
     public NinePatch bgPatch;
     public NinePatch framePatch;
+    public Sound typeSnd;
+    public Sound enterSnd;
 
     public enum State
     {
@@ -126,6 +130,8 @@ public class RustAndDust extends Game
 
         state = State.NONE;
         loadUiAssets();
+        typeSnd = manager.get(SND_TYPE, Sound.class);
+        enterSnd = manager.get(SND_ENTER, Sound.class);
         switchToMenu();
     }
 
@@ -207,6 +213,8 @@ public class RustAndDust extends Game
 
     private void loadUiAssets()
     {
+        manager.load(SND_TYPE, Sound.class);
+        manager.load(SND_ENTER, Sound.class);
         manager.load(ATLAS_UI, TextureAtlas.class);
         manager.finishLoading();
         uiAtlas = manager.get(ATLAS_UI, TextureAtlas.class);
@@ -226,6 +234,8 @@ public class RustAndDust extends Game
     {
         font.dispose();
         manager.unload(ATLAS_UI);
+        manager.unload(SND_TYPE);
+        manager.unload(SND_ENTER);
     }
 
     private void loadMenuAssets()
