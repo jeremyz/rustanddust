@@ -14,11 +14,13 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
+def sqliteFiles = ["data/rustanddust.sqlite"]
+
 task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
-    from files(project.assetsDir);
+    from fileTree(dir: project.assetsDir, excludes : sqliteFiles)
 
     manifest {
         attributes 'Main-Class': project.mainClassName
