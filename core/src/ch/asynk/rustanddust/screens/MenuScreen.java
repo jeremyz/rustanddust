@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Interpolation;
 
@@ -51,6 +52,7 @@ public class MenuScreen implements Screen
 
     private final MenuCamera camera;
     private final SpriteBatch batch;
+    private Vector2 dragPos = new Vector2();
     private Vector3 touch = new Vector3();
 
     public MenuScreen(final RustAndDust game)
@@ -81,8 +83,20 @@ public class MenuScreen implements Screen
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
+            public boolean touchDragged(int x, int y, int pointer)
+            {
+                int dx = (int) (dragPos.x - x);
+                int dy = (int) (dragPos.y - y);
+                dragPos.set(x, y);
+                camera.uiUnproject(x, y, touch);
+                ctrl.drag(touch.x, touch.y, -dx, dy);
+                return true;
+            }
+
+            @Override
             public boolean touchDown(int x, int y, int pointer, int button)
             {
+                dragPos.set(x, y);
                 camera.uiUnproject(x, y, touch);
                 if (ctrl.touch(touch.x, touch.y))
                     startLoading();
