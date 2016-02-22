@@ -1,0 +1,15 @@
+#! /bin/bash
+
+APK="./RustAndDust-signed-aligned.apk"
+DIR=apk
+
+[ -d $DIR ] && rm -fr $DIR
+mkdir $DIR
+cd $DIR
+
+unzip -x ../$APK
+dex2jar classes.dex
+
+mkdir classes
+cd classes
+unzip -x ../classes-dex2jar.jar
