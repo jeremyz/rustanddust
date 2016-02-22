@@ -6,6 +6,8 @@ import ch.asynk.rustanddust.game.Battle;
 
 public class Solo extends Ctrl
 {
+    private int gameId;
+
     public Solo(final RustAndDust game, final Battle battle)
     {
         super(game, battle);
@@ -14,12 +16,32 @@ public class Solo extends Ctrl
     @Override
     public void init()
     {
-        battle.init(this, 0, 1);
+        gameId = game.config.gameId;
+        if (gameId == game.db.NO_RECORDS) {
+            int me = game.backend.getMyId();
+            int other = game.backend.getOpponentId();
+            gameId = game.db.storeGameGetId(me, other, battle.getId(), game.config.gameMode.i);
+            battle.init(this, me, other);
+        } else {
+            battle.init(this, game.db.loadState(gameId));
+        }
     }
 
     @Override
-    protected void processAction() { }
+    protected void processAction()
+    {
+        storeState();
+    }
 
     @Override
-    protected void processTurn() { }
+    protected void processTurn()
+    {
+        // TODO must store Orders in turns table
+        storeState();
+    }
+
+    private void storeState()
+    {
+        game.db.storeState(gameId, battle.getPlayer().getId(), battle.getOpponent().getId(), battle.unload());
+    }
 }
