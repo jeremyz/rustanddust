@@ -118,6 +118,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (objectivesPanel.hit(x, y)) {
+            game.typeSnd.play();
             this.visible = true;
             objectivesPanel.visible = false;
             return MenuCtrl.MenuType.NONE;
@@ -126,14 +127,19 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         if (!visible) return MenuCtrl.MenuType.NONE;
 
         if (okBtn.hit(x, y)) {
+            game.enterSnd.play();
             return apply();
         } else if (cancelBtn.hit(x, y)) {
+            game.typeSnd.play();
             return MenuCtrl.MenuType.MAIN;
         } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
+            game.typeSnd.play();
             cycleGameMode();
         } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
+            game.typeSnd.play();
             cycleBattle();
         } else if (objectives.hit(x, y)) {
+            game.typeSnd.play();
             this.visible = false;
             objectivesPanel.show(game.config.battle);
         }

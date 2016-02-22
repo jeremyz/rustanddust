@@ -67,7 +67,7 @@ public class Hud implements Disposable, Animation
         actionButtons = new ActionButtons(game);
         actionButtons.hide();
         msg = new Msg(game.font, game.bgPatch, 20f);
-        okCancel = new OkCancel(game.font, game.bgPatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
+        okCancel = new OkCancel(game.font, game.bgPatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT), game.typeSnd);
         optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         optionsPanel = new OptionsPanel(game);
         stats = new StatisticsPanel(game);
@@ -185,6 +185,7 @@ public class Hud implements Disposable, Animation
     public boolean hit(float x, float y, boolean isInAnimation)
     {
         if (optionsBtn.hit(x, y)) {
+            game.typeSnd.play();
             toggleOptionsPanel();
             return true;
         }

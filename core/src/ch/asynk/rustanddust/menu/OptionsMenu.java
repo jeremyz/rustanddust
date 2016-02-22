@@ -161,19 +161,25 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (okBtn.hit(x, y)) {
+            game.enterSnd.play();
             apply();
             return MenuCtrl.MenuType.MAIN;
         } else if (cancelBtn.hit(x, y)) {
+            game.typeSnd.play();
             getValues();
             return MenuCtrl.MenuType.MAIN;
         } else if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
+            game.typeSnd.play();
             cycleFxVolume();
         } else if (graphics.hit(x, y) || graphicsValue.hit(x, y)) {
+            game.typeSnd.play();
             cycleGraphics();
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
-                if (checkLabels[i].hit(x, y))
+                if (checkLabels[i].hit(x, y)) {
+                    game.typeSnd.play();
                     checkValues[i] =! checkValues[i];
+                }
             }
         }
 

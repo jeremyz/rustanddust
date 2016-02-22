@@ -12,6 +12,8 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     public static int PADDING = 40;
     public static int TITLE_PADDING = 30;
 
+    private final RustAndDust game;
+
     private Label title;
     private Label msg;
     protected Bg okBtn;
@@ -19,6 +21,7 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     public TutorialsMenu(RustAndDust game)
     {
         super(game.bgPatch);
+        this.game = game;
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.title = new Label("- Tutorials", game.font);
         this.msg = new Label("Not implemented yet.\nPlease Visit:\nhttp://rustanddust.ch", game.font);
@@ -62,8 +65,10 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
-        if (rect.contains(x, y) || okBtn.hit(x, y))
+        if (rect.contains(x, y) || okBtn.hit(x, y)) {
+            game.enterSnd.play();
             return MenuCtrl.MenuType.MAIN;
+        }
 
         return MenuCtrl.MenuType.NONE;
     }

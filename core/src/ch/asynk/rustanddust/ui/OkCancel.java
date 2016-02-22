@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.ui;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,13 +17,15 @@ public class OkCancel extends Patch
     protected Label label;
     protected Bg okBtn;
     protected Bg cancelBtn;
+    protected Sound snd;
 
-    public OkCancel(BitmapFont font, NinePatch patch, AtlasRegion okRegion, AtlasRegion cancelRegion)
+    public OkCancel(BitmapFont font, NinePatch patch, AtlasRegion okRegion, AtlasRegion cancelRegion, Sound snd)
     {
         super(patch);
         this.label = new Label(font);
         this.okBtn = new Bg(okRegion);
         this.cancelBtn = new Bg(cancelRegion);
+        this.snd = snd;
         this.visible = false;
     }
 
@@ -72,13 +75,16 @@ public class OkCancel extends Patch
     public boolean hit(float x, float y)
     {
         if (!cancelBtn.visible && super.hit(x, y)) {
+            snd.play();
             ok = true;
             return true;
         }
         if (okBtn.hit(x, y)) {
+            snd.play();
             ok = true;
             return true;
         } else if (cancelBtn.hit(x, y)) {
+            snd.play();
             ok = false;
             return true;
         }

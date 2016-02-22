@@ -42,10 +42,12 @@ public class MainMenu extends Patch implements MenuCtrl.Panel
     };
 
     protected Label []labels;
+    private final RustAndDust game;
 
     public MainMenu(RustAndDust game)
     {
         super(game.bgPatch);
+        this.game = game;
         this.labels = new Label[Item.NONE.i];
         for (int i = 0; i < Item.NONE.i; i++)
             labels[i] = new Label(game.font, 10);
@@ -96,8 +98,10 @@ public class MainMenu extends Patch implements MenuCtrl.Panel
     {
         int idx = -1;
         for (int i = 0; i< Item.NONE.i; i ++) {
-            if (labels[i].hit(x, y))
+            if (labels[i].hit(x, y)) {
+                game.typeSnd.play();
                 return Item.get(i).t;
+            }
         }
 
         return MenuCtrl.MenuType.NONE;
