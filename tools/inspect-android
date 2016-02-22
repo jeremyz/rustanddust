@@ -1,0 +1,30 @@
+#! /bin/bash
+
+for I in cache databases files lib; do
+    echo " *** $I"
+    adb shell run-as ch.asynk.rustanddust.android ls /data/data/ch.asynk.rustanddust.android/$I
+    echo
+done
+
+adb shell run-as ch.asynk.rustanddust.android "cat /data/data/ch.asynk.rustanddust.android/databases/rustanddust.sqlite > '/sdcard/db.sqlite'"
+adb pull '/sdcard/db.sqlite'
+adb shell "rm '/sdcard/db.sqlite'"
+
+echo " *** SCHEMA ***"
+sqlite3 db.sqlite '.schema'
+echo
+echo " *** CONFIG ***"
+sqlite3 db.sqlite 'select * from config;'
+echo
+echo " *** PLAYERS ***"
+sqlite3 db.sqlite 'select * from players;'
+echo
+echo " *** BATTLES ***"
+sqlite3 db.sqlite 'select * from battles;'
+echo
+echo " *** GAMES ***"
+sqlite3 db.sqlite 'select * from games;'
+echo
+echo " *** STATES ***"
+sqlite3 db.sqlite 'select * from states;'
+echo
