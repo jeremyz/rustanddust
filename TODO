@@ -1,26 +1,8 @@
-GUI:
-    Play ->
-        Mode | Battle Name | Opponent | Status
-        Mode | Battle Name | Opponent | Status
-        Mode | Battle Name | Opponent | Status
-        Mode | Battle Name | Opponent | Status
-
-        New     |   Replay      | Continue
-
-
-
-    New ->
-        Mode : choice       Solo PvP PvE
-        Battle: choice
-        Description
-
-
-    Replay -> Replay Ctrl
-    Continue -> PvP | PvE reload ... play
-
+FIX:
+    android : remove libs/android-4.2.jar
 
 TODO:
-    - Replay Ctrl
+    - store turns -> Replay Ctrl
     - turret aiming sound
     - moving cloudy sky overlay
     - Rules
