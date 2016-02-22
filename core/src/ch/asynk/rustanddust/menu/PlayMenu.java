@@ -107,6 +107,13 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
+    public boolean drag(float x, float y, int dx, int dy)
+    {
+        if (!list.hit(x, y)) return false;
+        return list.drag(x, y, dx, dy);
+    }
+
+    @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
         Integer i = getList().getIdx();
@@ -141,12 +148,6 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         }
 
         return MenuCtrl.MenuType.NONE;
-    }
-
-    public boolean drag(float x, float y, int dx, int dy)
-    {
-        if (!list.hit(x, y)) return false;
-        return list.drag(x, y, dx, dy);
     }
 
     @Override

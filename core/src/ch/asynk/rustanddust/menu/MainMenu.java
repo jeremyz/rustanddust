@@ -94,6 +94,9 @@ public class MainMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.MAIN; }
 
     @Override
+    public boolean drag(float x, float y, int dx, int dy) { return true; }
+
+    @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
         int idx = -1;

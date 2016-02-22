@@ -63,6 +63,9 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
+    public boolean drag(float x, float y, int dx, int dy) { return true; }
+
+    @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (rect.contains(x, y) || okBtn.hit(x, y)) {

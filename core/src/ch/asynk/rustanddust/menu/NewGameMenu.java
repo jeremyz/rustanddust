@@ -115,6 +115,9 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
+    public boolean drag(float x, float y, int dx, int dy) { return true; }
+
+    @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (objectivesPanel.hit(x, y)) {

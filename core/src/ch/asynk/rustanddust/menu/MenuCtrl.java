@@ -34,6 +34,7 @@ public class MenuCtrl implements Disposable, Drawable
         public MenuType touch(float x, float y);
         public String getAsk();
         public void postAnswer(boolean ok);
+        public boolean drag(float x, float y, int dx, int dy);
     }
 
     public boolean visible;
@@ -55,6 +56,13 @@ public class MenuCtrl implements Disposable, Drawable
 
         this.okCancel.visible = false;
         this.visible = true;
+    }
+
+    public boolean drag(float x, float y, int dx, int dy)
+    {
+        if (current == MenuType.PLAY)
+            panels[current.i].drag(x, y, dx, dy);
+        return true;
     }
 
     public boolean touch(float x, float y)
