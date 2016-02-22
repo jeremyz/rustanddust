@@ -62,7 +62,7 @@ public class RustAndDust extends Game
 
     public static final String DOM = "RustAndDust";
 
-    public static final String DB_FILE = "data/rustanddust.sqlite";
+    public static final String DB_FILE = "rustanddust.sqlite";
 
     public AssetManager manager;
     public Factory factory;
@@ -112,6 +112,15 @@ public class RustAndDust extends Game
         return uiAtlas.findRegion(s);
     }
 
+    private String dbFile()
+    {
+        switch (Gdx.app.getType()) {
+            case Desktop:
+                return String.format("data/%s", DB_FILE);
+        }
+        return DB_FILE;
+    }
+
     @Override
     public void create ()
     {
@@ -119,7 +128,7 @@ public class RustAndDust extends Game
         this.hudCorrection = ((int) (125 * Gdx.graphics.getDensity()) - 75);
         debug("create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
 
-        db = new DB(Gdx.files.internal(DB_FILE).path(), true);
+        db = new DB(Gdx.files.internal(dbFile()).path(), true);
         db.setup();
 
         manager = new AssetManager();
