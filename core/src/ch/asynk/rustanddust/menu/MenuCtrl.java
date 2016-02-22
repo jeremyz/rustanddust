@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.gfx.Drawable;
+import ch.asynk.rustanddust.ui.OkCancel;
 
 public class MenuCtrl implements Disposable, Drawable
 {
@@ -17,6 +18,8 @@ public class MenuCtrl implements Disposable, Drawable
         TUTORIALS(2),
         PLAY(3),
         NONE(4),
+        OK(64),
+        OKKO(65),
         BEGIN(66),
         EXIT(666);
         public int i;
@@ -28,11 +31,14 @@ public class MenuCtrl implements Disposable, Drawable
         public MenuType prepare();
         public void computePosition();
         public MenuType touch(float x, float y);
+        public String getAsk();
+        public void postAnswer(boolean ok);
     }
 
     public boolean visible;
     private Panel []panels;
     private MenuType current;
+    private OkCancel okCancel;
 
     public MenuCtrl(final RustAndDust game)
     {
@@ -41,14 +47,23 @@ public class MenuCtrl implements Disposable, Drawable
         this.panels[MenuType.OPTIONS.i] = new OptionsMenu(game);
         this.panels[MenuType.TUTORIALS.i] = new TutorialsMenu(game);
         this.panels[MenuType.PLAY.i] = new PlayMenu(game);
+        this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         this.current = MenuType.MAIN;
 
+        this.okCancel.visible = false;
         this.visible = true;
     }
 
     public boolean touch(float x, float y)
     {
+        if (okCancel.hit(x, y)) {
+            visible = true;
+            okCancel.visible = false;
+            panels[current.i].postAnswer(okCancel.ok);
+            return false;
+        }
+
         MenuType next = panels[current.i].touch(x, y);
 
         if (next == MenuType.BEGIN) return true;
@@ -56,6 +71,15 @@ public class MenuCtrl implements Disposable, Drawable
         if (next == MenuType.EXIT) {
             // TODO clean shutdown
             Gdx.app.exit();
+            return false;
+        }
+
+        if ((next == MenuType.OK) || (next == MenuType.OKKO)) {
+            okCancel.visible = true;
+            okCancel.show(panels[current.i].getAsk());
+            if (next == MenuType.OK)
+                okCancel.noCancel();
+            visible = false;
             return false;
         }
 
@@ -80,11 +104,13 @@ public class MenuCtrl implements Disposable, Drawable
     {
         for (int i = 0; i < MenuType.NONE.i; i++)
             panels[i].dispose();
+        okCancel.dispose();
     }
 
     @Override
     public void draw(Batch batch)
     {
+        okCancel.draw(batch);
         if (visible)
             panels[current.i].draw(batch);
     }
@@ -92,6 +118,7 @@ public class MenuCtrl implements Disposable, Drawable
     @Override
     public void drawDebug(ShapeRenderer debugShapes)
     {
+        okCancel.drawDebug(debugShapes);
         if (visible)
             panels[current.i].drawDebug(debugShapes);
     }

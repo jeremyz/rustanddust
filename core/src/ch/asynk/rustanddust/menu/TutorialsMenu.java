@@ -25,6 +25,12 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
+    public void postAnswer(boolean ok) { }
+
+    @Override
+    public String getAsk() { return null; }
+
+    @Override
     public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.TUTORIALS; }
 
     @Override

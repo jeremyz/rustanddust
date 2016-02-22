@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
-import ch.asynk.rustanddust.ui.OkCancel;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.hud.ObjectivesPanel;
@@ -28,7 +27,6 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     private ObjectivesPanel objectivesPanel;
     protected Bg okBtn;
     protected Bg cancelBtn;
-    private OkCancel okCancel;
 
     public PlayMenu(RustAndDust game)
     {
@@ -47,7 +45,6 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         this.objectives = new Label(game.font);
         this.objectives.write("Battle Objectives");
         this.objectivesPanel = new ObjectivesPanel(game);
-        this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         if (game.config.battle == null) {
             battleIdx = 0;
@@ -72,6 +69,15 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         }
         this.gameModeValue.write(game.config.gameMode.s);
         this.gameModeWidth = w + 10 + gameMode.getWidth();
+    }
+
+    @Override
+    public void postAnswer(boolean ok) { }
+
+    @Override
+    public String getAsk()
+    {
+        return String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s);
     }
 
     @Override
@@ -111,11 +117,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
-        if (okCancel.hit(x, y)) {
-            this.visible = true;
-            okCancel.visible = false;
-            return MenuCtrl.MenuType.NONE;
-        } else if (objectivesPanel.hit(x, y)) {
+        if (objectivesPanel.hit(x, y)) {
             this.visible = true;
             objectivesPanel.visible = false;
             return MenuCtrl.MenuType.NONE;
@@ -140,12 +142,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     }
 
     private MenuCtrl.MenuType apply() {
-        if (!game.config.gameModeImplemented()) {
-            this.visible = false;
-            okCancel.show(String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s));
-            okCancel.noCancel();
-            return MenuCtrl.MenuType.NONE;
-        }
+        if (!game.config.gameModeImplemented())
+            return MenuCtrl.MenuType.OK;
 
         return MenuCtrl.MenuType.BEGIN;
     }
@@ -187,13 +185,11 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         battleValue.dispose();
         okBtn.dispose();
         cancelBtn.dispose();
-        okCancel.dispose();
     }
 
     @Override
     public void draw(Batch batch)
     {
-        okCancel.draw(batch);
         objectivesPanel.draw(batch);
 
         if (!visible) return;
