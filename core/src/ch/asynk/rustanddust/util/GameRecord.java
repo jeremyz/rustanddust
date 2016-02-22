@@ -45,6 +45,11 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
         return r;
     }
 
+    public static GameRecord get(int idx)
+    {
+        return (GameRecord) list.get(idx);
+    }
+
     public static GameRecord remove(int idx)
     {
         return (GameRecord) list.remove(idx);
