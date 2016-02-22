@@ -62,10 +62,11 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType prepare()
     {
         game.db.loadGames();
+        game.config.gameId = game.db.NO_RECORDS;
+
         if (GameRecord.list.size() <= 0)
             return MenuCtrl.MenuType.NEW_GAME;
 
-        game.config.gameId = game.db.NO_RECORDS;
         getList().setItems(4, GameRecord.list);
         computePosition();
         return MenuCtrl.MenuType.PLAY;
