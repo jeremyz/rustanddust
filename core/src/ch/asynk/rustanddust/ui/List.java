@@ -36,6 +36,7 @@ public class List extends Widget
         this.selected = new Bg(game.getUiRegion(game.UI_SELECT));
     }
 
+    public void unselect() { idx = null; }
     public Integer getIdx() { return idx; }
 
     @Override
@@ -53,7 +54,7 @@ public class List extends Widget
 
     public void setItems(int clipN, Collection<ListElement> items)
     {
-        this.idx = null;
+        unselect();
         this.items = items;
         compute();
     }
