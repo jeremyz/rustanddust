@@ -74,6 +74,7 @@ public class DB
     private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
     private static final String GET_STATE = "select payload from states where _g=%d;";
     private static final String GET_GAMES = "select g.*, p1.name, p2.name, b.name from games g inner join players p1 on (g._p1=p1._id) inner join players p2 on (g._p2=p2._id) inner join battles b on (g._b=b._id);";
+    private static final String DELETE_GAME = "delete from turns where _g=%d; delete from states where _g=%d; delete from games where _id=%d;";
 
     private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
@@ -237,6 +238,19 @@ public class DB
             }
         } catch (SQLiteGdxException e) { RustAndDust.error("loadState"); }
         return ret;
+    }
+
+    public boolean deleteGame(GameRecord game)
+    {
+        RustAndDust.debug("deleteGame");
+        try {
+            exec(String.format(DELETE_GAME, game.g, game.g, game.g));
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("deleteGame");
+            return false;
+        }
+        return true;
+
     }
 
     public void loadGames()
