@@ -74,6 +74,7 @@ public class Config
     public boolean autoPath;
     public boolean debug;
     public Battle battle;
+    public int gameId;
     public float fxVolume;
     public Graphics graphics;
 
