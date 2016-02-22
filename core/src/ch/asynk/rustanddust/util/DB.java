@@ -26,8 +26,7 @@ public class DB
     private MessageDigest md;
 
     private static final String TBL_CFG_CRT = "create table if not exists"
-            + " config ( key text primary key, value text not null);"
-            + " insert or ignore into config values(\"version\", " + DB_SCHEMA_VERSION + ");";
+            + " config ( key text primary key, value text not null);";
 
     private static final String TBL_PLAYERS_CRT = "create table if not exists"
             + " players ( _id integer primary key autoincrement,"
@@ -61,6 +60,7 @@ public class DB
             + " foreign key (_g) references games(_id)"
             + ");";
 
+    private static final String FEED_CONFIG = " insert or ignore into config values(\"version\", " + DB_SCHEMA_VERSION + ");";
     private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('options','%s');";
     private static final String GET_CONFIG = "select value from config where key='options';";
     private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,name) values ('%s','%s','%s');";
@@ -76,11 +76,11 @@ public class DB
     private static final String GET_GAMES = "select g.*, p1.name, p2.name, b.name from games g inner join players p1 on (g._p1=p1._id) inner join players p2 on (g._p2=p2._id) inner join battles b on (g._b=b._id);";
     private static final String DELETE_GAME = "delete from turns where _g=%d; delete from states where _g=%d; delete from games where _id=%d;";
 
-    private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
+    // private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
     public DB(String dbPath, boolean debug)
     {
-        this.db = DatabaseFactory.getNewDatabase(dbPath, DB_SCHEMA_VERSION, DB_CRT, null);
+        this.db = DatabaseFactory.getNewDatabase(dbPath, DB_SCHEMA_VERSION, null, null);
         this.db.setupDatabase();
         this.debug = debug;
     }
@@ -90,9 +90,22 @@ public class DB
         try {
             md = MessageDigest.getInstance(DIGEST);
         } catch (java.security.NoSuchAlgorithmException e) { RustAndDust.error("NoSuchAlgorithm"); }
+
         try {
             db.openOrCreateDatabase();
         } catch (SQLiteGdxException e) { RustAndDust.error("openOrCreateDatabase"); }
+
+        try {
+            exec(TBL_CFG_CRT);
+            exec(TBL_PLAYERS_CRT);
+            exec(TBL_BATTLES_CRT);
+            exec(TBL_GAMES_CRT);
+            exec(TBL_TURNS_CRT);
+            exec(TBL_STATES_CRT);
+            exec(FEED_CONFIG);
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("table creation error " + e.getMessage());
+        }
     }
 
     private String getDigest(String str)
