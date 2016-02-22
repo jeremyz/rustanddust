@@ -37,6 +37,8 @@ public class MenuCtrl implements Disposable, Drawable
         public boolean drag(float x, float y, int dx, int dy);
     }
 
+    private final RustAndDust game;
+
     public boolean visible;
     private Panel []panels;
     private MenuType current;
@@ -44,13 +46,14 @@ public class MenuCtrl implements Disposable, Drawable
 
     public MenuCtrl(final RustAndDust game)
     {
+        this.game = game;
         this.panels = new Panel[MenuType.NONE.i];
         this.panels[MenuType.MAIN.i] = new MainMenu(game);
         this.panels[MenuType.OPTIONS.i] = new OptionsMenu(game);
         this.panels[MenuType.TUTORIALS.i] = new TutorialsMenu(game);
         this.panels[MenuType.PLAY.i] = new PlayMenu(game);
         this.panels[MenuType.NEW_GAME.i] = new NewGameMenu(game);
-        this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL), game.typeSnd);
+        this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL));
 
         this.current = MenuType.MAIN;
 
@@ -68,6 +71,10 @@ public class MenuCtrl implements Disposable, Drawable
     public boolean touch(float x, float y)
     {
         if (okCancel.hit(x, y)) {
+            if (okCancel.ok)
+                game.playEnter();
+            else
+                game.playType();
             visible = true;
             okCancel.visible = false;
             panels[current.i].postAnswer(okCancel.ok);

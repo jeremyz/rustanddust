@@ -121,7 +121,7 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (objectivesPanel.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             this.visible = true;
             objectivesPanel.visible = false;
             return MenuCtrl.MenuType.NONE;
@@ -130,19 +130,19 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         if (!visible) return MenuCtrl.MenuType.NONE;
 
         if (okBtn.hit(x, y)) {
-            game.enterSnd.play();
+            game.playEnter();
             return apply();
         } else if (cancelBtn.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             return MenuCtrl.MenuType.MAIN;
         } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             cycleGameMode();
         } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             cycleBattle();
         } else if (objectives.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             this.visible = false;
             objectivesPanel.show(game.config.battle);
         }

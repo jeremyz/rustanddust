@@ -119,24 +119,24 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         Integer i = getList().getIdx();
 
         if (newBtn.hit(x, y)) {
-            game.enterSnd.play();
+            game.playEnter();
             return MenuCtrl.MenuType.NEW_GAME;
         } else if (cancelBtn.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             return MenuCtrl.MenuType.MAIN;
         } else if (newBtn.hit(x, y)) {
-            game.enterSnd.play();
+            game.playEnter();
             return MenuCtrl.MenuType.NEW_GAME;
         } else if (deleteBtn.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             return MenuCtrl.MenuType.OKKO;
         } else if (joinBtn.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             game.config.gameId = GameRecord.get(getList().getIdx()).g;
             return MenuCtrl.MenuType.BEGIN;
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
-                game.typeSnd.play();
+                game.playType();
             if(getList().getIdx() == null) {
                 deleteBtn.visible = false;
                 joinBtn.visible = false;

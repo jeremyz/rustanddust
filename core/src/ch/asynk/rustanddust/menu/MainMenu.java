@@ -102,7 +102,7 @@ public class MainMenu extends Patch implements MenuCtrl.Panel
         int idx = -1;
         for (int i = 0; i< Item.NONE.i; i ++) {
             if (labels[i].hit(x, y)) {
-                game.typeSnd.play();
+                game.playType();
                 return Item.get(i).t;
             }
         }

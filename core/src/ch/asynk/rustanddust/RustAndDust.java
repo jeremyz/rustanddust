@@ -76,8 +76,12 @@ public class RustAndDust extends Game
     public BitmapFont font;
     public NinePatch bgPatch;
     public NinePatch framePatch;
-    public Sound typeSnd;
-    public Sound enterSnd;
+    private Sound typeSnd;
+    private Sound enterSnd;
+
+    public void playType()          { typeSnd.play(config.fxVolume);  }
+    public void playType(float v)   { typeSnd.play(v);  }
+    public void playEnter()         { enterSnd.play(config.fxVolume); }
 
     public enum State
     {

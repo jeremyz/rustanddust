@@ -139,7 +139,7 @@ public class OptionsPanel extends Patch
     public boolean hit(float x, float y)
     {
         if (objectivesPanel.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             objectivesPanel.visible = false;
             this.visible = true;
             return false;
@@ -148,21 +148,21 @@ public class OptionsPanel extends Patch
         if (!visible) return false;
 
         if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
-            game.typeSnd.play();
             cycleFxVolume();
+            game.playType((fxVolumeIdx / 10.0f));
         } else if (quit.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             game.ctrl.hud.askQuitBattle();
             return false;
         } else if (objectives.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             this.visible = false;
             objectivesPanel.show(game.config.battle);
             return false;
         } else {
             for (int i = 0; i < checkLabels.length; i++) {
                 if (checkLabels[i].hit(x, y)) {
-                    game.typeSnd.play();
+                    game.playType();
                     checkValues[i] =! checkValues[i];
                 }
             }

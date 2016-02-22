@@ -67,7 +67,7 @@ public class Hud implements Disposable, Animation
         actionButtons = new ActionButtons(game);
         actionButtons.hide();
         msg = new Msg(game.font, game.bgPatch, 20f);
-        okCancel = new OkCancel(game.font, game.bgPatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT), game.typeSnd);
+        okCancel = new OkCancel(game.font, game.bgPatch, game.factory.getHudRegion(game.factory.ACT_DONE), game.factory.getHudRegion(game.factory.ACT_ABORT));
         optionsBtn = new Bg(game.factory.getHudRegion(game.factory.ACT_OPTIONS));
         optionsPanel = new OptionsPanel(game);
         stats = new StatisticsPanel(game);
@@ -185,7 +185,7 @@ public class Hud implements Disposable, Animation
     public boolean hit(float x, float y, boolean isInAnimation)
     {
         if (optionsBtn.hit(x, y)) {
-            game.typeSnd.play();
+            game.playType();
             toggleOptionsPanel();
             return true;
         }
@@ -202,10 +202,13 @@ public class Hud implements Disposable, Animation
         if (isInAnimation)
             return false;
 
-        if (actionButtons.hit(x, y))
+        if (actionButtons.hit(x, y)) {
+            game.playType();
             return true;
-        else if (playerInfo.hit(x, y))
+        } else if (playerInfo.hit(x, y)) {
+            game.playType();
             return true;
+        }
 
         return false;
     }
@@ -217,7 +220,10 @@ public class Hud implements Disposable, Animation
 
         if (dialog == okCancel)
             closeOkCancel();
-        else if (dialog == stats)
+        else
+            game.playType();
+
+        if (dialog == stats)
             ctrl.endGame();
 
         if (dialogs.size() > 0)
@@ -229,6 +235,10 @@ public class Hud implements Disposable, Animation
     private void closeOkCancel()
     {
         boolean ok = okCancel.ok;
+        if (ok)
+            game.playEnter();
+        else
+            game.playType();
 
         switch(okCancelAction) {
             case EXIT_BOARD:

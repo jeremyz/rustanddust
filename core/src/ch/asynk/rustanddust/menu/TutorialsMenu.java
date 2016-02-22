@@ -69,7 +69,7 @@ public class TutorialsMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (rect.contains(x, y) || okBtn.hit(x, y)) {
-            game.enterSnd.play();
+            game.playEnter();
             return MenuCtrl.MenuType.MAIN;
         }
 
