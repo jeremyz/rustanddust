@@ -2,211 +2,173 @@ package ch.asynk.rustanddust.menu;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import ch.asynk.rustanddust.ui.Label;
 import ch.asynk.rustanddust.ui.Bg;
+import ch.asynk.rustanddust.ui.Label;
+import ch.asynk.rustanddust.ui.Button;
+import ch.asynk.rustanddust.ui.List;
 import ch.asynk.rustanddust.ui.Patch;
+import ch.asynk.rustanddust.ui.Scrollable;
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.game.hud.ObjectivesPanel;
+import ch.asynk.rustanddust.util.GameRecord;
 
 public class PlayMenu extends Patch implements MenuCtrl.Panel
 {
-    public static int PADDING = 50;
-    public static int TITLE_PADDING = 35;
-    public static int VSPACING = 30;
+    public static int PADDING = 40;
+    public static int TITLE_PADDING = 30;
 
     private final RustAndDust game;
 
     private Label title;
-    private Label gameMode;
-    private Label gameModeValue;
-    private float gameModeWidth;
-    private int battleIdx;
-    private Label battle;
-    private Label battleValue;
-    private Label objectives;
-    private ObjectivesPanel objectivesPanel;
-    protected Bg okBtn;
+    private Scrollable list;
     protected Bg cancelBtn;
+    protected Button newBtn;
+    protected Button joinBtn;
+    protected Button deleteBtn;
 
     public PlayMenu(RustAndDust game)
     {
         super(game.bgPatch);
         this.game = game;
+        this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
+        this.newBtn = new Button("New", game.font, game.bgPatch, 20f);
+        this.joinBtn = new Button("Join", game.font, game.bgPatch, 20f);
+        this.deleteBtn = new Button("Delete", game.font, game.bgPatch, 20f);
         this.title = new Label(game.font);
         this.title.write("- Play");
-        this.gameMode = new Label(game.font);
-        this.gameMode.write("Game mode : ");
-        this.gameModeValue = new Label(game.font);
-        this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
-        this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
-        this.battle = new Label(game.font);
-        this.battle.write("Scenario : ");
-        this.battleValue = new Label(game.font);
-        this.objectives = new Label(game.font);
-        this.objectives.write("Battle Objectives");
-        this.objectivesPanel = new ObjectivesPanel(game);
+        this.list = new Scrollable(new List(game, 10f), game.framePatch);
+    }
 
-        if (game.config.battle == null) {
-            battleIdx = 0;
-            game.config.battle = game.factory.battles[0];
-        } else {
-            for (int i = 0; i < game.factory.battles.length; i++) {
-                if (game.config.battle == game.factory.battles[i]) {
-                    battleIdx = i;
-                    break;
-                }
-            }
-        }
-        battleValue.write(game.config.battle.getName());
-
-        float w = 0;
-        for (int i = game.config.gameMode.i; ;) {
-            gameModeValue.write(game.config.gameMode.s);
-            if (w < gameModeValue.getWidth())
-                w = gameModeValue.getWidth();
-            game.config.gameMode = game.config.gameMode.next();
-            if (i == game.config.gameMode.i) break;
-        }
-        this.gameModeValue.write(game.config.gameMode.s);
-        this.gameModeWidth = w + 10 + gameMode.getWidth();
+    private List getList()
+    {
+        return (List) this.list.getChild();
     }
 
     @Override
-    public void postAnswer(boolean ok) { }
+    public void postAnswer(boolean ok)
+    {
+        if (ok) {
+            game.db.deleteGame(GameRecord.remove(getList().getIdx()));
+            getList().unselect();
+        }
+    }
 
     @Override
     public String getAsk()
     {
-        return String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s);
+        return "Permanently delete this game ?";
+    }
+
+    @Override
+    public MenuCtrl.MenuType prepare()
+    {
+        game.db.loadGames();
+        if (GameRecord.list.size() <= 0)
+            return MenuCtrl.MenuType.NEW_GAME;
+
+        game.config.gameId = game.db.NO_RECORDS;
+        getList().setItems(4, GameRecord.list);
+        computePosition();
+        return MenuCtrl.MenuType.PLAY;
     }
 
     @Override
     public void computePosition()
     {
-        float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
-        h += (gameMode.getHeight() + VSPACING);
-        h += (battle.getHeight());
-        h += (objectives.getHeight());
+        float h = (title.getHeight() + TITLE_PADDING);
+        h += list.getHeight();
+        h += (2 * PADDING);
 
-        float w = gameModeWidth + (2 * PADDING);
+        float w = title.getWidth();
+        if (list.getWidth() > w) w = list.getWidth();
+        if (list.getBestWidth() > w) w = list.getBestWidth();
+        w += (2 * PADDING);
 
         float x = position.getX(w);
         float y = position.getY(h);
+
         setPosition(x, y, w, h);
 
-        setBottomRight(okBtn);
         setBottomLeft(cancelBtn);
+        setBottomRight(newBtn);
+        joinBtn.setPosition(newBtn.getX() - joinBtn.getWidth() - 5, newBtn.getY());
+        deleteBtn.setPosition(joinBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
+        deleteBtn.visible = false;
+        joinBtn.visible = false;
 
         y += PADDING;
         x += PADDING;
-        float dy = (VSPACING + battle.getHeight());
 
-        objectives.setPosition(x, y);
-        y += dy;
-        battle.setPosition(x, y);
-        battleValue.setPosition((x + battle.getWidth() + 10), y);
-        y += dy;
-        gameMode.setPosition(x, y);
-        gameModeValue.setPosition((x + gameMode.getWidth() + 10), y);
-        y += dy;
+        // FIXME 200 should be relative to screen dimensions
+        list.setPosition(x, y, Math.max(200, list.getBestWidth()), 200);
 
-        y += (TITLE_PADDING - VSPACING);
+        y += list.getHeight() + TITLE_PADDING;
         title.setPosition(x, y);
     }
 
     @Override
     public MenuCtrl.MenuType touch(float x, float y)
     {
-        if (objectivesPanel.hit(x, y)) {
-            game.typeSnd.play();
-            this.visible = true;
-            objectivesPanel.visible = false;
-            return MenuCtrl.MenuType.NONE;
-        }
+        Integer i = getList().getIdx();
 
-        if (!visible) return MenuCtrl.MenuType.NONE;
-
-        if (okBtn.hit(x, y)) {
+        if (newBtn.hit(x, y)) {
             game.enterSnd.play();
-            return apply();
+            return MenuCtrl.MenuType.NEW_GAME;
         } else if (cancelBtn.hit(x, y)) {
             game.typeSnd.play();
             return MenuCtrl.MenuType.MAIN;
-        } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
+        } else if (newBtn.hit(x, y)) {
+            game.enterSnd.play();
+            return MenuCtrl.MenuType.NEW_GAME;
+        } else if (deleteBtn.hit(x, y)) {
             game.typeSnd.play();
-            cycleGameMode();
-        } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
+            return MenuCtrl.MenuType.OKKO;
+        } else if (joinBtn.hit(x, y)) {
             game.typeSnd.play();
-            cycleBattle();
-        } else if (objectives.hit(x, y)) {
-            game.typeSnd.play();
-            this.visible = false;
-            objectivesPanel.show(game.config.battle);
+            game.config.gameId = GameRecord.get(getList().getIdx()).g;
+            return MenuCtrl.MenuType.BEGIN;
+        } else if (list.hit(x, y)) {
+            if (i != getList().getIdx())
+                game.typeSnd.play();
+            if(getList().getIdx() == null) {
+                deleteBtn.visible = false;
+                joinBtn.visible = false;
+            } else {
+                deleteBtn.visible = true;
+                joinBtn.visible = true;
+            }
+            return MenuCtrl.MenuType.NONE;
         }
 
         return MenuCtrl.MenuType.NONE;
     }
 
-    private MenuCtrl.MenuType apply() {
-        if (!game.config.gameModeImplemented())
-            return MenuCtrl.MenuType.OK;
-
-        return MenuCtrl.MenuType.BEGIN;
-    }
-
-    private void cycleGameMode()
+    public boolean drag(float x, float y, int dx, int dy)
     {
-        game.config.gameMode = game.config.gameMode.next();
-        float fx = gameModeValue.getX();
-        float fy = gameModeValue.getY();
-        gameModeValue.write(game.config.gameMode.s);
-        gameModeValue.setPosition(fx, fy);
+        if (!list.hit(x, y)) return false;
+        return list.drag(x, y, dx, dy);
     }
-
-    private void cycleBattle()
-    {
-        battleIdx += 1;
-        if (battleIdx >= game.factory.battles.length)
-            battleIdx = 0;
-        game.config.battle = game.factory.battles[battleIdx];
-        float fx = battleValue.getX();
-        float fy = battleValue.getY();
-        battleValue.write(game.config.battle.getName());
-        battleValue.setPosition(fx, fy);
-    }
-
-    @Override
-    public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.PLAY; }
 
     @Override
     public void dispose()
     {
         super.dispose();
+        list.dispose();
         title.dispose();
-        gameMode.dispose();
-        gameModeValue.dispose();
-        objectives.dispose();
-        objectivesPanel.dispose();
-        battle.dispose();
-        battleValue.dispose();
-        okBtn.dispose();
+        newBtn.dispose();
+        joinBtn.dispose();
+        deleteBtn.dispose();
         cancelBtn.dispose();
     }
 
     @Override
     public void draw(Batch batch)
     {
-        objectivesPanel.draw(batch);
-
-        if (!visible) return;
         super.draw(batch);
+        list.draw(batch);
         title.draw(batch);
-        gameMode.draw(batch);
-        gameModeValue.draw(batch);
-        objectives.draw(batch);
-        battle.draw(batch);
-        battleValue.draw(batch);
-        okBtn.draw(batch);
+        newBtn.draw(batch);
+        joinBtn.draw(batch);
+        deleteBtn.draw(batch);
         cancelBtn.draw(batch);
     }
 }

@@ -17,7 +17,8 @@ public class MenuCtrl implements Disposable, Drawable
         OPTIONS(1),
         TUTORIALS(2),
         PLAY(3),
-        NONE(4),
+        NEW_GAME(4),
+        NONE(5),
         OK(64),
         OKKO(65),
         BEGIN(66),
@@ -47,6 +48,7 @@ public class MenuCtrl implements Disposable, Drawable
         this.panels[MenuType.OPTIONS.i] = new OptionsMenu(game);
         this.panels[MenuType.TUTORIALS.i] = new TutorialsMenu(game);
         this.panels[MenuType.PLAY.i] = new PlayMenu(game);
+        this.panels[MenuType.NEW_GAME.i] = new NewGameMenu(game);
         this.okCancel = new OkCancel(game.font, game.bgPatch, game.getUiRegion(game.UI_OK), game.getUiRegion(game.UI_CANCEL), game.typeSnd);
 
         this.current = MenuType.MAIN;
