@@ -33,7 +33,7 @@ public class MenuCtrl implements Disposable, Drawable
         public void computePosition();
         public MenuType touch(float x, float y);
         public String getAsk();
-        public void postAnswer(boolean ok);
+        public MenuType postAnswer(boolean ok);
         public boolean drag(float x, float y, int dx, int dy);
     }
 

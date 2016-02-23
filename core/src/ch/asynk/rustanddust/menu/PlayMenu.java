@@ -44,12 +44,13 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public void postAnswer(boolean ok)
+    public MenuCtrl.MenuType postAnswer(boolean ok)
     {
         if (ok) {
             game.db.deleteGame(GameRecord.remove(getList().getIdx()));
             getList().unselect();
         }
+        return MenuCtrl.MenuType.NONE;
     }
 
     @Override

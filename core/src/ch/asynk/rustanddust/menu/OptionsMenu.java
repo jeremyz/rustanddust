@@ -149,7 +149,7 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public void postAnswer(boolean ok) { }
+    public MenuCtrl.MenuType postAnswer(boolean ok) { return MenuCtrl.MenuType.NONE; }
 
     @Override
     public String getAsk() { return null; }
