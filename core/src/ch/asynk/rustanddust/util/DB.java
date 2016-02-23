@@ -68,7 +68,8 @@ public class DB
     private static final String GET_PLAYER_ID_FROM_GMAIL = "select _id from players where gmail='%s';";
     private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
     private static final String INSERT_GAME = "insert or ignore into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
-    private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d;";
+    private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d and m=%d;";
+    private static final String GET_GAME_ID2 = "select _id from games where _b=%d and m=%d;";
     private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
     private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
@@ -291,6 +292,19 @@ public class DB
                 }
             }
         } catch (SQLiteGdxException e) { r.dispose(); RustAndDust.error("loadGames"); }
+    }
+
+    public int gameExists(int battle, int mode)
+    {
+        int ret = NO_RECORD;
+        try {
+            DatabaseCursor cursor = query(String.format(GET_GAME_ID2, battle, mode));
+            if (cursor.getCount() > 0) {
+                cursor.next();
+                ret = cursor.getInt(0);
+            }
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadConfig"); }
+        return ret;
     }
 
     private void exec(String sql) throws SQLiteGdxException
