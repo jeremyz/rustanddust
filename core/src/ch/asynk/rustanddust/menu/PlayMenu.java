@@ -22,7 +22,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     private Scrollable list;
     protected Bg cancelBtn;
     protected Button newBtn;
-    protected Button joinBtn;
+    protected Button resumeBtn;
     protected Button deleteBtn;
 
     public PlayMenu(RustAndDust game)
@@ -31,7 +31,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         this.game = game;
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.newBtn = new Button("New", game.font, game.bgPatch, 20f);
-        this.joinBtn = new Button("Join", game.font, game.bgPatch, 20f);
+        this.resumeBtn = new Button("Resume", game.font, game.bgPatch, 20f);
         this.deleteBtn = new Button("Delete", game.font, game.bgPatch, 20f);
         this.title = new Label(game.font);
         this.title.write("- Play");
@@ -92,10 +92,10 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
 
         setBottomLeft(cancelBtn);
         setBottomRight(newBtn);
-        joinBtn.setPosition(newBtn.getX() - joinBtn.getWidth() - 5, newBtn.getY());
-        deleteBtn.setPosition(joinBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
+        resumeBtn.setPosition(newBtn.getX() - resumeBtn.getWidth() - 5, newBtn.getY());
+        deleteBtn.setPosition(resumeBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
         deleteBtn.visible = false;
-        joinBtn.visible = false;
+        resumeBtn.visible = false;
 
         y += PADDING;
         x += PADDING;
@@ -131,7 +131,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         } else if (deleteBtn.hit(x, y)) {
             game.playType();
             return MenuCtrl.MenuType.OKKO;
-        } else if (joinBtn.hit(x, y)) {
+        } else if (resumeBtn.hit(x, y)) {
             game.playType();
             game.config.gameId = GameRecord.get(getList().getIdx()).g;
             return MenuCtrl.MenuType.BEGIN;
@@ -140,10 +140,10 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
                 game.playType();
             if(getList().getIdx() == null) {
                 deleteBtn.visible = false;
-                joinBtn.visible = false;
+                resumeBtn.visible = false;
             } else {
                 deleteBtn.visible = true;
-                joinBtn.visible = true;
+                resumeBtn.visible = true;
             }
             return MenuCtrl.MenuType.NONE;
         }
@@ -158,7 +158,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         list.dispose();
         title.dispose();
         newBtn.dispose();
-        joinBtn.dispose();
+        resumeBtn.dispose();
         deleteBtn.dispose();
         cancelBtn.dispose();
     }
@@ -170,7 +170,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         list.draw(batch);
         title.draw(batch);
         newBtn.draw(batch);
-        joinBtn.draw(batch);
+        resumeBtn.draw(batch);
         deleteBtn.draw(batch);
         cancelBtn.draw(batch);
     }
