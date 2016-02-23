@@ -70,6 +70,8 @@ public class MenuCtrl implements Disposable, Drawable
 
     public boolean touch(float x, float y)
     {
+        MenuType next = MenuType.NONE;
+
         if (okCancel.hit(x, y)) {
             if (okCancel.ok)
                 game.playEnter();
@@ -77,11 +79,10 @@ public class MenuCtrl implements Disposable, Drawable
                 game.playType();
             visible = true;
             okCancel.visible = false;
-            panels[current.i].postAnswer(okCancel.ok);
-            return false;
+            return changePanel(panels[current.i].postAnswer(okCancel.ok));
         }
 
-        MenuType next = panels[current.i].touch(x, y);
+        next = panels[current.i].touch(x, y);
 
         if (next == MenuType.BEGIN) return true;
 
@@ -100,10 +101,18 @@ public class MenuCtrl implements Disposable, Drawable
             return false;
         }
 
+        return changePanel(next);
+    }
+
+    private boolean changePanel(MenuType next)
+    {
+        if (next == MenuType.BEGIN) return true;
+
         if (next != MenuType.NONE) {
             while(current != next) {
                 current = next;
                 next = panels[next.i].prepare();
+                if (next == MenuType.BEGIN) return true;
             }
         }
 
