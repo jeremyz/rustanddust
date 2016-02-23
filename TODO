@@ -1,6 +1,4 @@
 FIX:
-    android : remove libs/android-4.2.jar
-    new should not override existing game
 
 TODO:
     - store turns -> Replay Ctrl
