@@ -70,8 +70,8 @@ public class DB
     private static final String INSERT_GAME = "insert or ignore into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d and m=%d;";
     private static final String GET_GAME_ID2 = "select _id from games where _b=%d and m=%d;";
-    private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
-    private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s'); update games set ts=current_timestamp where _id=%d;";
+    private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s');";
+    private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s');";
     private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
     private static final String GET_STATE = "select payload from states where _g=%d;";
     private static final String GET_GAMES = "select g.*, p1.name, p2.name, b.name from games g inner join players p1 on (g._p1=p1._id) inner join players p2 on (g._p2=p2._id) inner join battles b on (g._b=b._id);";
@@ -212,12 +212,13 @@ public class DB
         return getGameId(you, opponent, battle, mode);
     }
 
-    public boolean storeTurn(int game, int player, String payload)
+    public boolean storeTurn(int game, int p1, int p2, String payload)
     {
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            exec(String.format(INSERT_TURN, game, player, hash, payload, game));
+            exec(String.format(INSERT_TURN, game, p1, hash, payload, game));
+            exec(String.format(UPDATE_GAME, p1, p2, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeTurn");
             return false;
