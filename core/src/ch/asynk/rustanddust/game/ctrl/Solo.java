@@ -17,7 +17,7 @@ public class Solo extends Ctrl
     public void init()
     {
         gameId = game.config.gameId;
-        if (gameId == game.db.NO_RECORDS) {
+        if (gameId == game.db.NO_RECORD) {
             int me = game.backend.getMyId();
             int other = game.backend.getOpponentId();
             gameId = game.db.storeGameGetId(me, other, battle.getId(), game.config.gameMode.i);

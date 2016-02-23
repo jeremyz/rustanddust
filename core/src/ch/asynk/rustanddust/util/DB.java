@@ -17,7 +17,7 @@ public class DB
 {
     private static final int DB_SCHEMA_VERSION = 1;
 
-    public static final int NO_RECORDS = -1;
+    public static final int NO_RECORD = -1;
     private static final String DIGEST = "SHA-256";
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 
@@ -160,7 +160,7 @@ public class DB
 
     public int getPlayerId(boolean hash, String s)
     {
-        int ret = NO_RECORDS;
+        int ret = NO_RECORD;
         String sql = (hash ? GET_PLAYER_ID_FROM_HASH : GET_PLAYER_ID_FROM_GMAIL);
         try {
             DatabaseCursor cursor = query(String.format(sql, s));
@@ -194,7 +194,7 @@ public class DB
 
     public int getGameId(int you, int opponent, int battle, int mode)
     {
-        int ret = NO_RECORDS;
+        int ret = NO_RECORD;
         try {
             DatabaseCursor cursor = query(String.format(GET_GAME_ID, you, opponent, battle, mode));
             if (cursor.getCount() > 0) {
