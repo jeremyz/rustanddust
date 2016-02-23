@@ -27,6 +27,7 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     private ObjectivesPanel objectivesPanel;
     protected Bg okBtn;
     protected Bg cancelBtn;
+    private boolean notImplemented;
 
     public NewGameMenu(RustAndDust game)
     {
@@ -72,12 +73,19 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public MenuCtrl.MenuType postAnswer(boolean ok) { return MenuCtrl.MenuType.NONE; }
+    public MenuCtrl.MenuType postAnswer(boolean ok)
+    {
+        if (ok) return MenuCtrl.MenuType.BEGIN;
+        return MenuCtrl.MenuType.NONE;
+    }
 
     @Override
     public String getAsk()
     {
-        return String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s);
+        if (notImplemented)
+            return String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s);
+        else
+            return String.format("Resume '%s' ?", game.config.battle.toString());
     }
 
     @Override
@@ -131,7 +139,7 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
 
         if (okBtn.hit(x, y)) {
             game.playEnter();
-            return apply();
+            return tryLaunch();
         } else if (cancelBtn.hit(x, y)) {
             game.playType();
             return MenuCtrl.MenuType.MAIN;
@@ -150,9 +158,19 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         return MenuCtrl.MenuType.NONE;
     }
 
-    private MenuCtrl.MenuType apply() {
-        if (!game.config.gameModeImplemented())
+    private MenuCtrl.MenuType tryLaunch()
+    {
+        if (!game.config.gameModeImplemented()) {
+            notImplemented = true;
             return MenuCtrl.MenuType.OK;
+        }
+
+        game.config.gameId = game.db.gameExists(game.config.battle.getId(), game.config.gameMode.i);
+        System.err.println(game.config.gameId);
+        if (game.config.gameId != game.db.NO_RECORD) {
+            notImplemented = false;
+            return MenuCtrl.MenuType.OKKO;
+        }
 
         return MenuCtrl.MenuType.BEGIN;
     }
