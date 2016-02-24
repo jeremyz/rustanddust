@@ -46,6 +46,11 @@ public class Scrollable extends Widget
         return (child.getWidth() + (2 * padding));
     }
 
+    public float getBestHeight()
+    {
+        return (child.getHeight() + (2 * padding));
+    }
+
     public boolean drag(float x, float y, int dx, int dy)
     {
         child.translate(0, dy);
@@ -66,8 +71,8 @@ public class Scrollable extends Widget
     public void setPosition(float x, float y, float w, float h)
     {
         rect.set(x, y, w, h);
-        child.setPosition((x + padding), (getTop() - padding - child.getHeight()));
-        clip.set((getX() + padding), (getY() + padding), (getWidth() - (2 * padding)), (getHeight() - (2 * padding)));
+        child.setPosition((x + padding), (y + padding), (w - 2 * padding), (h - 2 * padding));
+        clip.set((x + padding), (y + padding), (w - 2 * padding), (h - 2 * padding));
     }
 
     @Override
