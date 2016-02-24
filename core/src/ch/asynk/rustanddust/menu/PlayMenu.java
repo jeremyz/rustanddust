@@ -1,5 +1,6 @@
 package ch.asynk.rustanddust.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import ch.asynk.rustanddust.ui.Bg;
@@ -36,6 +37,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         this.title = new Label(game.font);
         this.title.write("- Play");
         this.list = new Scrollable(new List(game, 10f), game.framePatch);
+        this.padding = PADDING;
     }
 
     private List getList()
@@ -79,13 +81,15 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     public void computePosition()
     {
         float h = (title.getHeight() + TITLE_PADDING);
-        h += list.getHeight();
-        h += (2 * PADDING);
+        h += list.getBestHeight();
+        h += (2 * padding);
+        h = Math.min(h, Gdx.graphics.getHeight() - 60);
 
         float w = title.getWidth();
         if (list.getWidth() > w) w = list.getWidth();
         if (list.getBestWidth() > w) w = list.getBestWidth();
-        w += (2 * PADDING);
+        w += (2 * padding);
+        w = Math.min(w, Gdx.graphics.getWidth() - 60);
 
         float x = position.getX(w);
         float y = position.getY(h);
@@ -99,11 +103,10 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         deleteBtn.visible = false;
         resumeBtn.visible = false;
 
-        y += PADDING;
-        x += PADDING;
+        y += padding;
+        x += padding;
 
-        // FIXME 200 should be relative to screen dimensions
-        list.setPosition(x, y, Math.max(200, list.getBestWidth()), 200);
+        list.setPosition(x, y, (getWidth() - 2 * padding), (getHeight() - 2 * padding - TITLE_PADDING - title.getHeight()));
 
         y += list.getHeight() + TITLE_PADDING;
         title.setPosition(x, y);
