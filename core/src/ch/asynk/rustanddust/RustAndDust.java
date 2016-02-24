@@ -132,7 +132,7 @@ public class RustAndDust extends Game
         this.hudCorrection = ((int) (125 * Gdx.graphics.getDensity()) - 75);
         debug("create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
 
-        db = new DB(Gdx.files.internal(dbFile()).path(), true);
+        db = new DB(Gdx.files.internal(dbFile()).path(), false);
         db.setup();
 
         manager = new AssetManager();
