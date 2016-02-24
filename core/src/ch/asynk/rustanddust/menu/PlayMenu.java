@@ -49,6 +49,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         if (ok) {
             game.db.deleteGame(GameRecord.remove(getList().getIdx()));
             getList().unselect();
+            deleteBtn.visible = false;
+            resumeBtn.visible = false;
         }
         return MenuCtrl.MenuType.NONE;
     }
