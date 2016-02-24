@@ -53,7 +53,8 @@ public class MenuCamera extends OrthographicCamera
 
         window.width = screenWidth;
         window.height = screenHeight;
-        hudLeft = hudCorrection;
+        // hudLeft = hudCorrection;
+        hudLeft = 0;
         hudBottom = (int) (hudLeft / aspect);
 
         HdpiUtils.glViewport((int)window.x, (int)window.y, (int)window.width, (int)window.height);
