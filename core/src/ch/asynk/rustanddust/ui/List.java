@@ -52,14 +52,14 @@ public class List extends Widget
         return false;
     }
 
-    public void setItems(int clipN, Collection<ListElement> items)
+    public void setItems(int viewN, Collection<ListElement> items)
     {
         unselect();
         this.items = items;
-        compute();
+        compute(viewN);
     }
 
-    private void compute()
+    private void compute(int viewN)
     {
         float w = 0f;
         for (ListElement e: items) {
@@ -69,7 +69,7 @@ public class List extends Widget
         itemHeight = (layout.height + padding);
 
         rect.width = w + (2 * padding);
-        rect.height = padding + (itemHeight * items.size());
+        rect.height = padding + (itemHeight * viewN);
     }
 
     @Override
