@@ -214,13 +214,12 @@ public class DB
         return getGameId(you, opponent, battle, mode);
     }
 
-    public boolean storeTurn(int game, int p1, int p2, String payload)
+    public boolean storeTurn(int game, int p, String payload)
     {
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            exec(String.format(INSERT_TURN, game, p1, hash, payload, game));
-            exec(String.format(UPDATE_GAME, p1, p2, game));
+            exec(String.format(INSERT_TURN, game, p, hash, payload));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeTurn");
             return false;
