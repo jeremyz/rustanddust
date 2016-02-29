@@ -36,12 +36,17 @@ public class Solo extends Ctrl
     @Override
     protected void processTurn()
     {
-        // TODO must store Orders in turns table
+        storeOrders();
         storeState();
     }
 
     private void storeState()
     {
         game.db.storeState(gameId, battle.getPlayer().getId(), battle.getOpponent().getId(), battle.unload(true));
+    }
+
+    private void storeOrders()
+    {
+        game.db.storeTurn(gameId, battle.getPlayer().getId(), battle.unload(false));
     }
 }
