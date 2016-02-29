@@ -36,20 +36,22 @@ public abstract class Map5Marshal extends Map4Orders
         super(game, map, hex);
     }
 
-    public String unload(Player player, Player opponent)
+    public String unload(boolean full, Player player, Player opponent)
     {
         Json json = new Json(OutputType.json);
         writer.getBuffer().setLength(0);
         json.setWriter(writer);
 
         json.writeObjectStart();
-        json.writeObjectStart("map");
-        unload(json);
-        json.writeObjectEnd();
-        json.writeArrayStart("players");
-        unload(json, player);
-        unload(json, opponent);
-        json.writeArrayEnd();
+        if (full) {
+            json.writeObjectStart("map");
+            unload(json);
+            json.writeObjectEnd();
+            json.writeArrayStart("players");
+            unload(json, player);
+            unload(json, opponent);
+            json.writeArrayEnd();
+        }
         json.writeArrayStart("orders");
         unload(json, orders);
         json.writeArrayEnd();

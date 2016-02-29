@@ -35,5 +35,5 @@ public interface Battle
 
     public State.StateType getState();
 
-    public String unload();
+    public String unload(boolean full);
 }

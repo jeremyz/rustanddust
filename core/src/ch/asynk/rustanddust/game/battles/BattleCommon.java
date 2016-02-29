@@ -57,9 +57,9 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public String unload()
+    public String unload(boolean full)
     {
-        return map.unload(getPlayer(), getOpponent());
+        return map.unload(full, getPlayer(), getOpponent());
     }
 
     @Override

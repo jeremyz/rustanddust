@@ -42,6 +42,6 @@ public class Solo extends Ctrl
 
     private void storeState()
     {
-        game.db.storeState(gameId, battle.getPlayer().getId(), battle.getOpponent().getId(), battle.unload());
+        game.db.storeState(gameId, battle.getPlayer().getId(), battle.getOpponent().getId(), battle.unload(true));
     }
 }
