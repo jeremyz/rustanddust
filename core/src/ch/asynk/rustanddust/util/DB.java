@@ -72,6 +72,7 @@ public class DB
     private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d and m=%d;";
     private static final String GET_GAME_ID2 = "select _id from games where _b=%d and m=%d;";
     private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s');";
+    private static final String GET_TURNS = "select payload from turns where _g=%d order by _id;";
     private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s');";
     private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
     private static final String GET_STATE = "select payload from states where _g=%d;";
@@ -251,6 +252,27 @@ public class DB
             return false;
         }
         return true;
+    }
+
+    public String getTurns(int game)
+    {
+        String ret = null;
+        try {
+            DatabaseCursor cursor = query(String.format(GET_TURNS, game));
+            int n = cursor.getCount();
+            if (n <= 0)
+                return null;
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("[");
+            while(cursor.next()) {
+                builder.append(cursor.getString(0));
+                builder.append(",");
+            }
+            builder.setCharAt((builder.length() - 1), ']');
+            ret = builder.toString();
+        } catch (SQLiteGdxException e) { RustAndDust.error("getGameId"); }
+        return ret;
     }
 
     public boolean storeState(int game, int p1, int p2, String payload)
