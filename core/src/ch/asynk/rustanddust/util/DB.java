@@ -61,6 +61,7 @@ public class DB
             + ");";
 
     private static final String FEED_CONFIG = " insert or ignore into config values(\"version\", " + DB_SCHEMA_VERSION + ");";
+    private static final String CHECK_VERSION = "select (value=%d) from config where key='version';";
     private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('options','%s');";
     private static final String GET_CONFIG = "select value from config where key='options';";
     private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,name) values ('%s','%s','%s');";
@@ -98,6 +99,15 @@ public class DB
             db.openOrCreateDatabase();
         } catch (SQLiteGdxException e) { RustAndDust.error("openOrCreateDatabase"); }
 
+        Boolean version = checkVersion();
+        if(version == null)
+            createTables();
+        else if (version == false)
+            System.err.println("TODO update schema");
+    }
+
+    private void createTables()
+    {
         try {
             exec(TBL_CFG_CRT);
             exec(TBL_PLAYERS_CRT);
@@ -119,6 +129,22 @@ public class DB
         } catch (java.io.UnsupportedEncodingException e) { RustAndDust.error("getDigest"); }
 
         return hash;
+    }
+
+    public Boolean checkVersion()
+    {
+        Boolean ret = false;
+        try {
+            DatabaseCursor cursor = query(String.format(CHECK_VERSION, DB_SCHEMA_VERSION ));
+            if (cursor.getCount() > 0) {
+                cursor.next();
+                ret = (cursor.getInt(0) == 1);
+            }
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("checkVersion");
+            return null;
+        }
+        return ret;
     }
 
     public boolean storeConfig(String config)
