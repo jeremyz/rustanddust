@@ -11,6 +11,8 @@ public class Zone extends TileSet
     public Zone(Map map, int n)
     {
         super(map, n);
+        this.allowedMoves = Orientation.KEEP.s;
+        this.orientation = Orientation.KEEP;
     }
 
     public void add(int col, int row)
