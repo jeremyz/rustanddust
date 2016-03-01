@@ -51,8 +51,9 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         if (ok) {
             game.db.deleteGame(GameRecord.remove(getList().getIdx()));
             getList().unselect();
-            deleteBtn.visible = false;
-            resumeBtn.visible = false;
+            showBtns(false);
+            if (GameRecord.list.size() <= 0)
+                return MenuCtrl.MenuType.NEW_GAME;
         }
         return MenuCtrl.MenuType.NONE;
     }
@@ -100,8 +101,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         setBottomRight(newBtn);
         resumeBtn.setPosition(newBtn.getX() - resumeBtn.getWidth() - 5, newBtn.getY());
         deleteBtn.setPosition(resumeBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
-        deleteBtn.visible = false;
-        resumeBtn.visible = false;
+        showBtns(false);
 
         y += padding;
         x += padding;
@@ -143,17 +143,17 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
                 game.playType();
-            if(getList().getIdx() == null) {
-                deleteBtn.visible = false;
-                resumeBtn.visible = false;
-            } else {
-                deleteBtn.visible = true;
-                resumeBtn.visible = true;
-            }
+            showBtns(getList().getIdx() != null);
             return MenuCtrl.MenuType.NONE;
         }
 
         return MenuCtrl.MenuType.NONE;
+    }
+
+    private void showBtns(boolean show)
+    {
+        deleteBtn.visible = show;
+        resumeBtn.visible = show;
     }
 
     @Override
