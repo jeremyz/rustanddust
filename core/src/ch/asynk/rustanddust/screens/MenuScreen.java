@@ -36,7 +36,6 @@ public class MenuScreen implements Screen
     private int n = xPath.length;
 
     private boolean paused;
-    private boolean ready;
     private boolean gameAssetsLoading;
     private Texture bg;
 
