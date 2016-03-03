@@ -178,6 +178,7 @@ public class OptionsPanel extends Patch
 
     public void apply()
     {
+        game.db.storeConfig(game.config.unload());
     }
 
     public void close()
