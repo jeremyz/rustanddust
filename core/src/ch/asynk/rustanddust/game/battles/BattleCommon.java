@@ -62,41 +62,12 @@ public abstract class BattleCommon implements Battle
         return map.unload(full, getPlayer(), getOpponent());
     }
 
-    @Override
-    public int getId()
-    {
-        return _id;
-    }
-
-    @Override
-    public String toString()
-    {
-        return getName();
-    }
-
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public String getDescription()
-    {
-        return description;
-    }
-
-    @Override
-    public Map getMap()
-    {
-        return map;
-    }
-
-    @Override
-    public Factory.MapType getMapType()
-    {
-        return mapType;
-    }
+    @Override public int getId()                    { return _id; }
+    @Override public String toString()              { return getName(); }
+    @Override public String getName()               { return name; }
+    @Override public String getDescription()        { return description; }
+    @Override public Map getMap()                   { return map; }
+    @Override public Factory.MapType getMapType()   { return mapType; }
 
     @Override
     public void init(Ctrl ctrl, int idA, int idB)
