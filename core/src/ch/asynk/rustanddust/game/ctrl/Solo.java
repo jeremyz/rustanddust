@@ -21,9 +21,11 @@ public class Solo extends Ctrl
             int me = game.backend.getMyId();
             int other = game.backend.getOpponentId();
             gameId = game.db.storeGameGetId(me, other, battle.getId(), game.config.gameMode.i);
-            battle.init(this, me, other);
+            battle.getPlayer().id = me;
+            battle.getOpponent().id = other;
+            battle.initialDeployment();
         } else {
-            battle.init(this, game.db.loadState(gameId));
+            battle.load(game.db.loadState(gameId));
         }
     }
 

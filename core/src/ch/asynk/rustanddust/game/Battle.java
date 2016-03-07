@@ -21,9 +21,11 @@ public interface Battle
 
     public Player getOpponent();
 
-    public void init(Ctrl ctrl, int idA, int idB);
+    public void init();
 
-    public void init(Ctrl ctrl, String payload);
+    public void desinit();
+
+    public void initialDeployment();
 
     public boolean actionDone();
 
@@ -34,6 +36,8 @@ public interface Battle
     public boolean hasReinforcement();
 
     public State.StateType getState();
+
+    public void load(String payload);
 
     public String unload(boolean full);
 }

@@ -22,13 +22,6 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    protected void setPlayers()
-    {
-        players[0] = factory.getPlayer(Army.GE);
-        players[1] = factory.getPlayer(Army.US);
-    }
-
-    @Override
     public Position getHudPosition()
     {
         return (currentPlayer.is(Army.US) ? Position.TOP_RIGHT: Position.TOP_LEFT);
@@ -57,9 +50,14 @@ public class BattleTest extends BattleCommon
         return true;
     }
 
+    // SETUP
+
     @Override
-    protected void setupMap()
+    protected void setup()
     {
+        players[0] = factory.getPlayer(Army.GE);
+        players[1] = factory.getPlayer(Army.US);
+
         map.addObjective(5, 2, Army.NONE);
         map.addHoldObjective(5, 3, Army.NONE);
         map.addObjective(3, 4, Army.NONE);
@@ -67,7 +65,7 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    protected void setupPlayer()
+    protected void deployPlayer()
     {
         if (currentPlayer.army == Army.US)
             setupUS(currentPlayer);

@@ -86,6 +86,8 @@ public abstract class Ctrl implements Disposable
         this.state = selectState;
         this.stateType = StateType.DONE;
 
+        battle.init();
+        this.map = battle.getMap();
         init();
         StateCommon.set(game);
         hud.update();
@@ -99,6 +101,7 @@ public abstract class Ctrl implements Disposable
     {
         hud.dispose();
         map.dispose();
+        battle.desinit();
     }
 
     // INPUTS

@@ -30,9 +30,8 @@ public abstract class BattleCommon implements Battle
     protected Player[] players;
 
     protected abstract Player getWinner();
-    protected abstract void setupMap();
-    protected abstract void setupPlayer();
-    protected abstract void setPlayers();
+    protected abstract void setup();
+    protected abstract void deployPlayer();
 
     private int d6()
     {
@@ -56,12 +55,6 @@ public abstract class BattleCommon implements Battle
         this.players = new Player[2];
     }
 
-    @Override
-    public String unload(boolean full)
-    {
-        return map.unload(full, getPlayer(), getOpponent());
-    }
-
     @Override public int getId()                    { return _id; }
     @Override public String toString()              { return getName(); }
     @Override public String getName()               { return name; }
@@ -70,21 +63,31 @@ public abstract class BattleCommon implements Battle
     @Override public Factory.MapType getMapType()   { return mapType; }
 
     @Override
-    public void init(Ctrl ctrl, int idA, int idB)
+    public void init()
     {
-        ctrl.map = this.map = factory.getMap(getMapType());
-        setPlayers();
-        players[0].id = idA;
-        players[1].id = idB;
-
-        setupMap();
-
+        this.map = factory.getMap(getMapType());
+        setup();
         this.currentPlayer = players[0];
-        setupPlayer();
+    }
+
+    @Override
+    public void desinit()
+    {
+        this.map = null;
+        this.players[0] = null;
+        this.players[1] = null;
+        this.currentPlayer = null;
+    }
+
+    @Override
+    public void initialDeployment()
+    {
+        this.currentPlayer = players[0];
+        deployPlayer();
         currentPlayer.turnEnd();
 
         this.currentPlayer = players[1];
-        setupPlayer();
+        deployPlayer();
         currentPlayer.turnEnd();
 
         this.currentPlayer = players[0];
@@ -92,12 +95,15 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void init(Ctrl ctrl, String payload)
+    public void load(String payload)
     {
-        ctrl.map = this.map = factory.getMap(getMapType());
-        setupMap();
         map.load(payload, players);
-        currentPlayer = players[0];
+    }
+
+    @Override
+    public String unload(boolean full)
+    {
+        return map.unload(full, getPlayer(), getOpponent());
     }
 
     @Override
