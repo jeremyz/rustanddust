@@ -7,7 +7,7 @@ public class Player
     private static final float MOVE_TIME = 0.4f;
     private static final int N = 10;
 
-    private int id;
+    public int id;
     private int turn;
     private int apSpent;
     private int ap;
@@ -23,9 +23,9 @@ public class Player
     public int engagementWon;
     public int engagementLost;
 
-    public Player(int id, Army army)
+    public Player(Army army)
     {
-        this.id = id;
+        this.id = -1;
         this.army = army;
         this.units = new UnitList(N);
         this.casualties = new UnitList(N);
@@ -45,11 +45,6 @@ public class Player
         this.turn = turn;
         this.ap = ap;
         this.apSpent = apSpent;
-    }
-
-    public int getId()
-    {
-        return id;
     }
 
     public String getName()

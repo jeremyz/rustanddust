@@ -32,7 +32,7 @@ public abstract class BattleCommon implements Battle
     protected abstract Player getWinner();
     protected abstract void setupMap();
     protected abstract void setupPlayer();
-    protected abstract void setPlayers(int idA, int idB);
+    protected abstract void setPlayers();
 
     private int d6()
     {
@@ -73,7 +73,9 @@ public abstract class BattleCommon implements Battle
     public void init(Ctrl ctrl, int idA, int idB)
     {
         ctrl.map = this.map = factory.getMap(getMapType());
-        setPlayers(idA, idB);
+        setPlayers();
+        players[0].id = idA;
+        players[1].id = idB;
 
         setupMap();
 

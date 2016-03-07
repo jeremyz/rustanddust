@@ -25,10 +25,10 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    protected void setPlayers(int idA, int idB)
+    protected void setPlayers()
     {
-        players[0] = factory.getPlayer(idA, Army.US);
-        players[1] = factory.getPlayer(idB, Army.GE);
+        players[0] = factory.getPlayer(Army.US);
+        players[1] = factory.getPlayer(Army.GE);
     }
 
     @Override

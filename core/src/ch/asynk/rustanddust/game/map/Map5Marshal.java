@@ -65,7 +65,7 @@ public abstract class Map5Marshal extends Map4Orders
     private void unload(Json json, Player player)
     {
         json.writeObjectStart();
-        json.writeValue("id", player.getId());
+        json.writeValue("id", player.id);
         json.writeValue("a", player.army);
         json.writeArrayStart("v");
         json.writeValue(player.getTurn());
@@ -279,7 +279,8 @@ public abstract class Map5Marshal extends Map4Orders
 
     private Player loadPlayer(JsonValue v)
     {
-        Player p = new Player(v.getInt("id"), Army.valueOf(v.getString("a")));
+        Player p = new Player(Army.valueOf(v.getString("a")));
+        p.id = v.getInt("id");
         JsonValue a = v.get("v");
         p.setTurn(a.getInt(0), a.getInt(1), a.getInt(2));
         p.actionCount = a.getInt(3);
