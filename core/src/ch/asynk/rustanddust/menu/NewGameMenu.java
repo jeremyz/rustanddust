@@ -166,7 +166,6 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         }
 
         game.config.gameId = game.db.gameExists(game.config.battle.getId(), game.config.gameMode.i);
-        System.err.println(game.config.gameId);
         if (game.config.gameId != game.db.NO_RECORD) {
             notImplemented = false;
             return MenuCtrl.MenuType.OKKO;
