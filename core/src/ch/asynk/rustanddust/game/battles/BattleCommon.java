@@ -161,9 +161,6 @@ public abstract class BattleCommon implements Battle
 
     protected Player getWinner(int minTurns)
     {
-        if (!turnDoneForBoth())
-            return null;
-
         Player a = players[0];
         Player b = players[1];
 
@@ -173,6 +170,9 @@ public abstract class BattleCommon implements Battle
             return a;
 
         if (a.getTurn() <= minTurns)
+            return null;
+
+        if (!turnDoneForBoth())
             return null;
 
         a.objectivesWon = map.objectivesCount(a.army);
