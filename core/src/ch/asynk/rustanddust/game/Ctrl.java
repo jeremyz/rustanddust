@@ -55,17 +55,17 @@ public abstract class Ctrl implements Disposable
         Ctrl ctrl = null;
         switch(game.config.gameMode) {
             case SOLO:
-                ctrl = new Solo(game, game.config.battle);
+                ctrl = new Solo(game);
                 break;
         }
         return ctrl;
     }
 
-    public Ctrl(final RustAndDust game, final Battle battle)
+    public Ctrl(final RustAndDust game)
     {
         game.ctrl = this;
         this.game = game;
-        this.battle = battle;
+        this.battle = game.config.battle;
         this.hud = new Hud(game);
 
         this.blockMap = false;

@@ -8,9 +8,9 @@ public class Solo extends Ctrl
 {
     private int gameId;
 
-    public Solo(final RustAndDust game, final Battle battle)
+    public Solo(final RustAndDust game)
     {
-        super(game, battle);
+        super(game);
     }
 
     @Override
