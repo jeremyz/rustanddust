@@ -29,16 +29,16 @@ public abstract class Ctrl implements Disposable
     public boolean blockHud;
     private Hex touchedHex;
 
-    private State selectState;
-    private State pathState;
-    private State rotateState;
-    private State promoteState;
-    private State engageState;
-    private State breakState;
-    private State animationState;
-    private State reinforcementState;
-    private State deploymentState;
-    private State withdrawState;
+    private final State selectState;
+    private final State pathState;
+    private final State rotateState;
+    private final State promoteState;
+    private final State engageState;
+    private final State breakState;
+    private final State animationState;
+    private final State reinforcementState;
+    private final State deploymentState;
+    private final State withdrawState;
 
     private int animationCount = 0;
 
