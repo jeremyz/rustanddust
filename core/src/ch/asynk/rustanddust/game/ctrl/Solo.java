@@ -20,34 +20,34 @@ public class Solo extends Ctrl
         if (gameId == game.db.NO_RECORD) {
             int me = game.backend.getMyId();
             int other = game.backend.getOpponentId();
-            gameId = game.db.storeGameGetId(me, other, battle.getId(), game.config.gameMode.i);
+            gameId = game.db.storeGameGetId(other, battle.getId(), game.config.gameMode.i);
             battle.getPlayer().id = me;
             battle.getOpponent().id = other;
             battle.initialDeployment();
         } else {
-            battle.load(game.db.loadState(gameId));
+            battle.load(game.db.loadGame(gameId));
         }
     }
 
     @Override
     protected void processAction()
     {
-        storeState();
+        storeGame();
     }
 
     @Override
     protected void processTurn()
     {
-        storeOrders();
-        storeState();
+        storeTurn();
+        storeGame();
     }
 
-    private void storeState()
+    private void storeGame()
     {
-        game.db.storeState(gameId, battle.getPlayer().id, battle.getOpponent().id, battle.unload(true));
+        game.db.storeGame(gameId, battle.getPlayer().id, battle.unload(true));
     }
 
-    private void storeOrders()
+    private void storeTurn()
     {
         game.db.storeTurn(gameId, battle.getPlayer().id, battle.unload(false));
     }

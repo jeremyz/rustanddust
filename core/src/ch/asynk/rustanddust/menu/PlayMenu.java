@@ -138,7 +138,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
             return MenuCtrl.MenuType.OKKO;
         } else if (resumeBtn.hit(x, y)) {
             game.playType();
-            game.config.gameId = GameRecord.get(getList().getIdx()).g;
+            game.config.gameId = GameRecord.get(getList().getIdx()).id;
             return MenuCtrl.MenuType.BEGIN;
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())

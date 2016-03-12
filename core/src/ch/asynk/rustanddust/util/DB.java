@@ -26,62 +26,37 @@ public class DB
     private MessageDigest md;
 
     private static final String TBL_CFG_CRT = "create table if not exists"
-            + " config ( key text primary key, value text not null);";
+        + " config ( key text primary key, value text not null);";
 
     private static final String TBL_PLAYERS_CRT = "create table if not exists"
-            + " players ( _id integer primary key autoincrement,"
-            + " hash text unique not null, gmail text unique not null, name text not null"
-            + ");";
+        + " players ( _id integer primary key autoincrement"
+        + " ,hash text unique not null, gmail text unique not null, name text not null"
+        + ");";
 
     private static final String TBL_BATTLES_CRT = "create table if not exists"
-            + " battles ( _id integer primary key, name text"
-            + ");";
+        + " battles ( _id integer primary key, name text"
+        + ");";
 
     private static final String TBL_GAMES_CRT = "create table if not exists"
-            + " games ( _id integer primary key autoincrement,"
-            + " _p1 integer not null, _p2 integer not null, _b integer not null,"
-            + " m integer not null, ts datetime default current_timestamp,"
-            + " foreign key (_p1) references players(_id),"
-            + " foreign key (_p2) references players(_id),"
-            + " foreign key (_b) references battles(_id),"
-            + " unique (_p1, _p2, _b)"
-            + ");";
+        + " games ( _id integer primary key autoincrement"
+        + " ,opponent integer not null, battle integer not null, mode integer not null"
+        + " ,ts datetime default current_timestamp"
+        + " ,player integer default null, hash text default null, payload text default null"
+        + " ,foreign key (opponent) references players(_id)"
+        + " ,foreign key (battle) references battles(_id)"
+        + " ,foreign key (player) references players(_id)"
+        + " unique (opponent, battle, mode)"
+        + ");";
 
     private static final String TBL_TURNS_CRT = "create table if not exists"
-            + " turns ( _id integer primary key autoincrement, _g integer not null,"
-            + " _p integer not null, hash text not null, payload text not null,"
-            + " foreign key (_g) references games(_id),"
-            + " foreign key (_p) references players(_id)"
-            + ");";
-
-    private static final String TBL_STATES_CRT = "create table if not exists"
-            + " states ( _g integer unique not null,"
-            + " hash text not null, payload text not null,"
-            + " foreign key (_g) references games(_id)"
-            + ");";
+        + " turns ( _id integer primary key autoincrement"
+        + " ,game integer not null, player integer not null"
+        + " ,hash text not null, payload text not null"
+        + " ,foreign key (game) references games(_id)"
+        + " ,foreign key (player) references players(_id)"
+        + ");";
 
     private static final String FEED_CONFIG = " insert or ignore into config values(\"version\", " + DB_SCHEMA_VERSION + ");";
-    private static final String CHECK_VERSION = "select (value=%d) from config where key='version';";
-    private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('options','%s');";
-    private static final String GET_CONFIG = "select value from config where key='options';";
-    private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,name) values ('%s','%s','%s');";
-    private static final String GET_PLAYER_ID_FROM_HASH = "select _id from players where hash='%s';";
-    private static final String GET_PLAYER_ID_FROM_GMAIL = "select _id from players where gmail='%s';";
-    private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
-    private static final String INSERT_GAME = "insert or ignore into games(_p1,_p2,_b,m) values (%d,%d,%d,%d);";
-    private static final String GET_GAME_ID = "select _id from games where _p1=%d and _p2=%d and _b=%d and m=%d;";
-    private static final String GET_GAME_ID2 = "select _id from games where _b=%d and m=%d;";
-    private static final String INSERT_TURN = "insert into turns(_g,_p,hash,payload) values (%d,%d,'%s','%s');";
-    private static final String GET_TURNS = "select payload from turns where _g=%d order by _id;";
-    private static final String INSERT_STATE = "insert or replace into states(_g,hash,payload) values (%d,'%s','%s');";
-    private static final String UPDATE_GAME = "update games set _p1=%d, _p2=%d, ts=current_timestamp where _id=%d;";
-    private static final String GET_STATE = "select payload from states where _g=%d;";
-    private static final String GET_GAMES = "select g.*, p1.name, p2.name, b.name from games g inner join players p1 on (g._p1=p1._id) inner join players p2 on (g._p2=p2._id) inner join battles b on (g._b=b._id);";
-    private static final String DELETE_GAME = "delete from games where _id=%d;";
-    private static final String DELETE_STATE = "delete from states where _g=%d;";
-    private static final String DELETE_TURNS = "delete from turns where _g=%d;";
-
-    // private static final String DB_CRT = TBL_CFG_CRT + TBL_PLAYERS_CRT + TBL_BATTLES_CRT + TBL_GAMES_CRT + TBL_TURNS_CRT + TBL_STATES_CRT;
 
     public DB(String dbPath, boolean debug)
     {
@@ -115,7 +90,6 @@ public class DB
             exec(TBL_BATTLES_CRT);
             exec(TBL_GAMES_CRT);
             exec(TBL_TURNS_CRT);
-            exec(TBL_STATES_CRT);
             exec(FEED_CONFIG);
         } catch (SQLiteGdxException e) {
             RustAndDust.error("table creation error " + e.getMessage());
@@ -131,6 +105,8 @@ public class DB
 
         return hash;
     }
+
+    private static final String CHECK_VERSION = "select (value=%d) from config where key='version';";
 
     public Boolean checkVersion()
     {
@@ -148,6 +124,8 @@ public class DB
         return ret;
     }
 
+    private static final String INSERT_CONFIG = "insert or replace into config(key, value) values ('config','%s');";
+
     public boolean storeConfig(String config)
     {
         try {
@@ -158,6 +136,8 @@ public class DB
         }
         return true;
     }
+
+    private static final String GET_CONFIG = "select value from config where key='config';";
 
     public String loadConfig()
     {
@@ -179,6 +159,8 @@ public class DB
             storePlayer(gmail, name, hash);
     }
 
+    private static final String INSERT_PLAYER = "insert or ignore into players(hash,gmail,name) values ('%s','%s','%s');";
+
     public void storePlayer(String gmail, String name, String hash)
     {
         try {
@@ -187,6 +169,9 @@ public class DB
             RustAndDust.error("storePlayer");
         }
     }
+
+    private static final String GET_PLAYER_ID_FROM_HASH = "select _id from players where hash='%s';";
+    private static final String GET_PLAYER_ID_FROM_GMAIL = "select _id from players where gmail='%s';";
 
     public int getPlayerId(boolean hash, String s)
     {
@@ -208,6 +193,8 @@ public class DB
         return getPlayerId(false, gmail);
     }
 
+    private static final String UPDATE_BATTLE = "insert or replace into battles values (%d,'%s');";
+
     public void storeBattle(int id, String name)
     {
         try {
@@ -215,18 +202,22 @@ public class DB
         } catch (SQLiteGdxException e) { RustAndDust.error("storeBattle"); }
     }
 
-    public void storeGame(int you, int opponent, int battle, int mode)
+    private static final String INSERT_GAME = "insert or ignore into games(opponent,battle,mode) values (%d,%d,%d);";
+
+    public void storeGame(int opponent, int battle, int mode)
     {
         try {
-            exec(String.format(INSERT_GAME, you, opponent, battle, mode));
+            exec(String.format(INSERT_GAME, opponent, battle, mode));
         } catch (SQLiteGdxException e) { RustAndDust.error("storeGame"); }
     }
 
-    public int getGameId(int you, int opponent, int battle, int mode)
+    private static final String GET_GAME_ID = "select _id from games where opponent=%d and battle=%d and mode=%d;";
+
+    public int getGameId(int opponent, int battle, int mode)
     {
         int ret = NO_RECORD;
         try {
-            DatabaseCursor cursor = query(String.format(GET_GAME_ID, you, opponent, battle, mode));
+            DatabaseCursor cursor = query(String.format(GET_GAME_ID, opponent, battle, mode));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 ret = cursor.getInt(0);
@@ -235,24 +226,28 @@ public class DB
         return ret;
     }
 
-    public int storeGameGetId(int you, int opponent, int battle, int mode)
+    public int storeGameGetId(int opponent, int battle, int mode)
     {
-        storeGame(you, opponent, battle, mode);
-        return getGameId(you, opponent, battle, mode);
+        storeGame(opponent, battle, mode);
+        return getGameId(opponent, battle, mode);
     }
 
-    public boolean storeTurn(int game, int p, String payload)
+    private static final String INSERT_TURN = "insert into turns(game,player,hash,payload) values (%d,%d,'%s','%s');";
+
+    public boolean storeTurn(int game, int player, String payload)
     {
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            exec(String.format(INSERT_TURN, game, p, hash, payload));
+            exec(String.format(INSERT_TURN, game, player, hash, payload));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeTurn");
             return false;
         }
         return true;
     }
+
+    private static final String GET_TURNS = "select payload from turns where game=%d order by _id;";
 
     public String getTurns(int game)
     {
@@ -271,46 +266,51 @@ public class DB
             }
             builder.setCharAt((builder.length() - 1), ']');
             ret = builder.toString();
-        } catch (SQLiteGdxException e) { RustAndDust.error("getGameId"); }
+        } catch (SQLiteGdxException e) { RustAndDust.error("getTurns"); }
         return ret;
     }
 
-    public boolean storeState(int game, int p1, int p2, String payload)
+    private static final String UPDATE_GAME = "update games set ts=current_timestamp, player=%d, hash='%s', payload='%s' where _id=%d;";
+
+    public boolean storeGame(int game, int player, String payload)
     {
-        RustAndDust.debug("storeState");
+        RustAndDust.debug("storeGame");
         try {
             String hash = getDigest(payload);
             if (hash == null) return false;
-            exec(String.format(INSERT_STATE, game, hash, payload, game));
-            exec(String.format(UPDATE_GAME, p1, p2, game));
+            exec(String.format(UPDATE_GAME, player, hash, payload, game));
         } catch (SQLiteGdxException e) {
-            RustAndDust.error("storeState");
+            RustAndDust.error("storeGame");
             return false;
         }
         return true;
     }
 
-    public String loadState(int game)
+    private static final String LOAD_GAME = "select g.payload from games g players g(where g._id=%d;";
+
+    public String loadGame(int game)
     {
-        RustAndDust.debug("loadState");
-        String ret = null;
+        RustAndDust.debug("loadGame");
+        String r = null;
         try {
-            DatabaseCursor cursor = query(String.format(GET_STATE, game));
+            DatabaseCursor cursor = query(String.format(LOAD_GAME, game));
             if (cursor.getCount() > 0) {
                 cursor.next();
-                ret = cursor.getString(0);
+                r = cursor.getString(0);
             }
-        } catch (SQLiteGdxException e) { RustAndDust.error("loadState"); }
-        return ret;
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadGame"); }
+        return r;
     }
+
+    private static final String DELETE_GAME = "delete from games where _id=%d;";
+    private static final String DELETE_TURNS = "delete from turns where game=%d;";
 
     public boolean deleteGame(GameRecord game)
     {
         RustAndDust.debug("deleteGame");
         try {
-            exec(String.format(DELETE_TURNS, game.g));
-            exec(String.format(DELETE_STATE, game.g));
-            exec(String.format(DELETE_GAME, game.g));
+            exec(String.format(DELETE_TURNS, game.id));
+            exec(String.format(DELETE_GAME, game.id));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("deleteGame");
             return false;
@@ -319,44 +319,49 @@ public class DB
 
     }
 
+    private static final String GET_GAMES = "select g._id, g.opponent, g.battle, g.mode, g.ts, g.player, p.name, b.name, null, null"
+        + " from games g inner join players p on (p._id=g.opponent) inner join battles b on (b._id=g.battle);";
+
     public void loadGames()
     {
         RustAndDust.debug("loadGames");
         GameRecord.clearList();
-        GameRecord r = null;
         try {
             DatabaseCursor cursor = query(GET_GAMES);
             if (cursor.getCount() > 0) {
                 while(cursor.next()) {
-                    // cursor.next();
-                    r = GameRecord.get();
-                    r.g = cursor.getInt(0);
-                    r.p1 = cursor.getInt(1);
-                    r.p2 = cursor.getInt(2);
-                    r.b = cursor.getInt(3);
-                    r.m = GameMode.from(cursor.getInt(4));
-                    try { r.ts = df.parse(cursor.getString(5)); }
-                    catch (java.text.ParseException e) { r.ts = null; RustAndDust.error(String.format("can't parse", cursor.getString(5))); }
-                    r.p1Name = cursor.getString(6);
-                    r.p2Name = cursor.getString(7);
-                    r.bName = cursor.getString(8);
-                    GameRecord.list.add(r);
+                    GameRecord r = from(cursor);
+                    if (r != null)
+                        GameRecord.list.add(r);
                 }
             }
-        } catch (SQLiteGdxException e) { r.dispose(); RustAndDust.error("loadGames"); }
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadGames"); }
     }
 
-    public int gameExists(int battle, int mode)
+    private GameRecord from(DatabaseCursor cursor)
     {
-        int ret = NO_RECORD;
+        GameRecord r = GameRecord.get();
+
         try {
-            DatabaseCursor cursor = query(String.format(GET_GAME_ID2, battle, mode));
-            if (cursor.getCount() > 0) {
-                cursor.next();
-                ret = cursor.getInt(0);
+            r.id = cursor.getInt(0);
+            r.opponent = cursor.getInt(1);
+            r.battle = cursor.getInt(2);
+            r.mode = GameMode.from(cursor.getInt(3));
+            try { r.ts = df.parse(cursor.getString(4)); }
+            catch (java.text.ParseException e) {
+                r.ts = null;
+                RustAndDust.error(String.format("can't parse", cursor.getString(4)));
             }
-        } catch (SQLiteGdxException e) { RustAndDust.error("loadConfig"); }
-        return ret;
+            r.currentPlayer = cursor.getInt(5);
+            r.oName = cursor.getString(6);
+            r.bName = cursor.getString(7);
+            r.hash = cursor.getString(8);
+            r.payload = cursor.getString(9);
+        } catch (Exception e) {
+            r.dispose(); RustAndDust.error("GameRecord from cursor");
+        }
+
+        return r;
     }
 
     private void exec(String sql) throws SQLiteGdxException

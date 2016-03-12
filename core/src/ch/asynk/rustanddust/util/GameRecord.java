@@ -13,16 +13,17 @@ import ch.asynk.rustanddust.engine.util.IterableArray;
 
 public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
 {
-    public int g;
-    public int p1;
-    public int p2;
-    public int b;
-    public GameMode m;
+    public int id;
+    public int opponent;
+    public int battle;
+    public GameMode mode;
     public Date ts;
-    public String p1Name;
-    public String p2Name;
+    public int currentPlayer;
+    public String oName;
     public String bName;
     public String s;
+    public String hash;
+    public String payload;
 
     public static Collection<List.ListElement> list = new IterableArray<List.ListElement>(10);
 
@@ -82,21 +83,17 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
     public String s()
     {
         if (s == null) {
-            if (m == GameMode.SOLO)
-                s = String.format("# - %s - %s - %s - %s", m.s, bName, p1Name, DateFormat.getDateInstance().format(ts));
+            if ((mode == GameMode.SOLO) || canPlay())
+                s = String.format("# %s - %s - %s - %s", mode.s, bName, oName, DateFormat.getDateInstance().format(ts));
             else {
-                if (p1 == 1)
-                    s = String.format("# - %s - %s - %s - %s", m.s, bName, p2Name, DateFormat.getDateInstance().format(ts));
-                else
-                    s = String.format("  - %s - %s - %s - %s", m.s, bName, p1Name, DateFormat.getDateInstance().format(ts));
+                    s = String.format("  %s - %s - %s - %s", mode.s, bName, oName, DateFormat.getDateInstance().format(ts));
             }
         }
         return s;
     }
 
-    @Override
-    public String toString()
+    public boolean canPlay()
     {
-        return String.format("%d %d(%s) %d(%s) %d(%s) %s %s", g, p1, p1Name, p2, p2Name, b, bName, m.s, DateFormat.getDateInstance().format(ts));
+        return (opponent != currentPlayer);
     }
 }
