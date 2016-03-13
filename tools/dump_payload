@@ -1,7 +1,7 @@
 #! /bin/bash
 
-sqlite3  android/assets/data/rustanddust.sqlite 'select payload from states where _g=(select _id from games order by ts desc limit 1)' > state.json
+sqlite3  android/assets/data/rustanddust.sqlite 'select payload from games order by ts desc limit 1' > game.json
 sqlite3  android/assets/data/rustanddust.sqlite 'select payload from turns where _id=(select max(_id) from turns)' > turn.json
 echo "[" > turns.json
-sqlite3  android/assets/data/rustanddust.sqlite 'select payload from turns where _g=(select _id from games order by ts desc limit 1) order by _id' | while read rec; do echo "$rec,"; done >> turns.json
+sqlite3  android/assets/data/rustanddust.sqlite 'select payload from turns where game=(select _id from games order by ts desc limit 1) order by _id' | while read rec; do echo "$rec,"; done >> turns.json
 sed -i '$s/,$/]/' turns.json

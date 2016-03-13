@@ -25,6 +25,6 @@ echo
 echo " *** GAMES ***"
 sqlite3 db.sqlite 'select * from games;'
 echo
-echo " *** STATES ***"
-sqlite3 db.sqlite 'select * from states;'
+echo " *** TURNS ***"
+sqlite3 db.sqlite 'select * from turns;'
 echo
