@@ -298,7 +298,7 @@ public class DB
             DatabaseCursor cursor = query(String.format(LOAD_GAME, game));
             if (cursor.getCount() > 0) {
                 cursor.next();
-                r = from(cursor);
+                r = gameFrom(cursor);
                 if (!r.hash.equals(getDigest(r.payload))) {
                     RustAndDust.error(String.format("corrupted game %d", game));
                     r = null;
@@ -338,7 +338,7 @@ public class DB
             DatabaseCursor cursor = query(GET_GAMES);
             if (cursor.getCount() > 0) {
                 while(cursor.next()) {
-                    GameRecord r = from(cursor);
+                    GameRecord r = gameFrom(cursor);
                     if (r != null)
                         GameRecord.list.add(r);
                 }
@@ -346,7 +346,7 @@ public class DB
         } catch (SQLiteGdxException e) { RustAndDust.error("loadGames"); }
     }
 
-    private GameRecord from(DatabaseCursor cursor)
+    private GameRecord gameFrom(DatabaseCursor cursor)
     {
         GameRecord r = GameRecord.get();
 
