@@ -98,6 +98,7 @@ public abstract class BattleCommon implements Battle
     public void load(String payload)
     {
         map.load(payload, players);
+        this.currentPlayer = players[0];
     }
 
     @Override
