@@ -16,6 +16,7 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
     public int id;
     public int opponent;
     public int battle;
+    public int turn;
     public GameMode mode;
     public Date ts;
     public int currentPlayer;

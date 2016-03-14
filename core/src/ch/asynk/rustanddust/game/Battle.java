@@ -17,6 +17,8 @@ public interface Battle
 
     public Position getHudPosition();
 
+    public int getTurnCount();
+
     public Player getPlayer();
 
     public Player getOpponent();
@@ -37,7 +39,7 @@ public interface Battle
 
     public State.StateType getState();
 
-    public void load(String payload);
+    public void load(int turn, String payload);
 
     public String unload(boolean full);
 }

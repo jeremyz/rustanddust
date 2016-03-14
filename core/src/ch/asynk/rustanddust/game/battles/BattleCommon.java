@@ -22,6 +22,7 @@ public abstract class BattleCommon implements Battle
     protected final Factory factory;
 
     protected int _id;
+    protected int turnCount;
     protected Factory.MapType mapType;
     protected String name;
     protected String description;
@@ -67,6 +68,7 @@ public abstract class BattleCommon implements Battle
     {
         this.map = factory.getMap(getMapType());
         setup();
+        this.turnCount = 0;
         this.currentPlayer = players[0];
     }
 
@@ -74,6 +76,7 @@ public abstract class BattleCommon implements Battle
     public void desinit()
     {
         this.map = null;
+        this.turnCount = 0;
         this.players[0] = null;
         this.players[1] = null;
         this.currentPlayer = null;
@@ -95,8 +98,9 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void load(String payload)
+    public void load(int turn, String payload)
     {
+        this.turnCount = turn;
         map.load(payload, players);
         this.currentPlayer = players[0];
     }
@@ -130,13 +134,14 @@ public abstract class BattleCommon implements Battle
             currentPlayer = getOpponent();
             currentPlayer.turnStart(getActionPoints());
         }
+        turnCount += 1;
         map.turnDone();
         return ret;
     }
 
     protected boolean turnDoneForBoth()
     {
-        return ((currentPlayer.getTurn() > 0) && (currentPlayer.getTurn() == getOpponent().getTurn()));
+        return ((turnCount > 0) && ((turnCount % 2) == 0));
     }
 
     protected Player getWinner(int minTurns)
@@ -164,6 +169,12 @@ public abstract class BattleCommon implements Battle
             return b;
 
         return null;
+    }
+
+    @Override
+    public int getTurnCount()
+    {
+        return turnCount;
     }
 
     @Override

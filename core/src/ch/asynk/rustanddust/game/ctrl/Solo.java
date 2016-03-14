@@ -1,6 +1,7 @@
 package ch.asynk.rustanddust.game.ctrl;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.util.GameRecord;
 import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Battle;
 
@@ -25,7 +26,9 @@ public class Solo extends Ctrl
             battle.getOpponent().id = other;
             battle.initialDeployment();
         } else {
-            battle.load(game.db.loadGame(gameId));
+            GameRecord r = game.db.loadGame(gameId);
+            battle.load(r.turn, r.payload);
+            r.dispose();
         }
     }
 
@@ -44,11 +47,11 @@ public class Solo extends Ctrl
 
     private void storeGame()
     {
-        game.db.storeGame(gameId, battle.getPlayer().id, battle.unload(true));
+        game.db.storeGame(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(true));
     }
 
     private void storeTurn()
     {
-        game.db.storeTurn(gameId, battle.getPlayer().id, battle.unload(false));
+        game.db.storeTurn(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(false));
     }
 }
