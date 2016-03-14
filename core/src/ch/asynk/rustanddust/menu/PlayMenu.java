@@ -166,6 +166,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         resumeBtn.dispose();
         deleteBtn.dispose();
         cancelBtn.dispose();
+        GameRecord.clearList();
     }
 
     @Override
