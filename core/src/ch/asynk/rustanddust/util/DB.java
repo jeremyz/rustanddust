@@ -250,25 +250,20 @@ public class DB
 
     private static final String GET_TURNS = "select payload from turns where game=%d order by _id;";
 
-    public String getTurns(int game)
+    public void loadTurns(int game)
     {
-        String ret = null;
+        RustAndDust.debug("loadTurns");
+        TurnRecord.clearList();
         try {
-            DatabaseCursor cursor = query(String.format(GET_TURNS, game));
-            int n = cursor.getCount();
-            if (n <= 0)
-                return null;
-
-            StringBuilder builder = new StringBuilder();
-            builder.append("[");
-            while(cursor.next()) {
-                builder.append(cursor.getString(0));
-                builder.append(",");
+            DatabaseCursor cursor = query(GET_GAMES);
+            if (cursor.getCount() > 0) {
+                while(cursor.next()) {
+                    TurnRecord r = turnFrom(cursor);
+                    if (r != null)
+                        TurnRecord.list.add(r);
+                }
             }
-            builder.setCharAt((builder.length() - 1), ']');
-            ret = builder.toString();
-        } catch (SQLiteGdxException e) { RustAndDust.error("getTurns"); }
-        return ret;
+        } catch (SQLiteGdxException e) { RustAndDust.error("loadTurns"); }
     }
 
     private static final String UPDATE_GAME = "update games set ts=current_timestamp, turn=%d, player=%d, hash='%s', payload='%s' where _id=%d;";
@@ -368,6 +363,24 @@ public class DB
             r.payload = cursor.getString(10);
         } catch (Exception e) {
             r.dispose(); RustAndDust.error("GameRecord from cursor");
+        }
+
+        return r;
+    }
+
+    private TurnRecord turnFrom(DatabaseCursor cursor)
+    {
+        TurnRecord r = TurnRecord.get();
+
+        try {
+            r.id = cursor.getInt(0);
+            r.game = cursor.getInt(1);
+            r.turn = cursor.getInt(2);
+            r.player = cursor.getInt(3);
+            r.hash = cursor.getString(4);
+            r.payload = cursor.getString(5);
+        } catch (Exception e) {
+            r.dispose(); RustAndDust.error("TurnRecord from cursor");
         }
 
         return r;
