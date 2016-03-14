@@ -115,7 +115,6 @@ public class MenuScreen implements Screen
     {
         RustAndDust.debug("LoadScreen", "assets ready : " + (Gdx.app.getJavaHeap()/1024.0f) + "KB");
         game.switchToGame();
-        dispose();
     }
 
     @Override
