@@ -49,7 +49,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType postAnswer(boolean ok)
     {
         if (ok) {
-            game.db.deleteGame(GameRecord.remove(getList().getIdx()));
+            game.db.deleteGame(GameRecord.remove(getList().getIdx()).id);
             getList().unselect();
             showBtns(false);
             if (GameRecord.list.size() <= 0)

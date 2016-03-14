@@ -300,24 +300,25 @@ public class DB
                 cursor.next();
                 r = from(cursor);
                 if (!r.hash.equals(getDigest(r.payload))) {
-                    // TODO recover from that big shit
                     RustAndDust.error(String.format("corrupted game %d", game));
                     r = null;
                 }
             }
         } catch (SQLiteGdxException e) { RustAndDust.error("loadGame"); }
+        if (r == null)
+            deleteGame(game);
         return r;
     }
 
     private static final String DELETE_GAME = "delete from games where _id=%d;";
     private static final String DELETE_TURNS = "delete from turns where game=%d;";
 
-    public boolean deleteGame(GameRecord game)
+    public boolean deleteGame(int game)
     {
         RustAndDust.debug("deleteGame");
         try {
-            exec(String.format(DELETE_TURNS, game.id));
-            exec(String.format(DELETE_GAME, game.id));
+            exec(String.format(DELETE_TURNS, game));
+            exec(String.format(DELETE_GAME, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("deleteGame");
             return false;
