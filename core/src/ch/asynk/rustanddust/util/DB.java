@@ -79,8 +79,10 @@ public class DB
         Boolean version = checkVersion();
         if(version == null)
             createTables();
-        else if (version == false)
-            System.err.println("TODO update schema");
+        else if (version == false) {
+            dropTables();
+            createTables();
+        }
     }
 
     private void createTables()
@@ -92,6 +94,18 @@ public class DB
             exec(TBL_GAMES_CRT);
             exec(TBL_TURNS_CRT);
             exec(FEED_CONFIG);
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("table creation error " + e.getMessage());
+        }
+    }
+
+    private void dropTables()
+    {
+        try {
+            exec("drop table if exists turns");
+            exec("drop table if exists states");
+            exec("drop table if exists games");
+            exec(String.format("update config set value=%d where key='version';", DB_SCHEMA_VERSION));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("table creation error " + e.getMessage());
         }
