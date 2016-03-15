@@ -247,6 +247,19 @@ public class DB
         return getGameId(opponent, battle, mode);
     }
 
+    private static final String COPY_TURN = "insert into turns(game,turn,player,hash,payload) select _id, turn, player, hash, payload from games where _id=%d;";
+
+    public boolean storeTurn(int game)
+    {
+        try {
+            exec(String.format(COPY_TURN, game));
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("storeTurn");
+            return false;
+        }
+        return true;
+    }
+
     private static final String INSERT_TURN = "insert into turns(game,turn,player,hash,payload) values (%d,%d,%d,'%s','%s');";
 
     public boolean storeTurn(int game, int turn, int player, String payload)
