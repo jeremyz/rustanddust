@@ -41,8 +41,8 @@ public class Solo extends Ctrl
     @Override
     protected void processTurn()
     {
-        storeTurn();
         storeGame();
+        storeTurn();
     }
 
     private void storeGame()
@@ -52,6 +52,6 @@ public class Solo extends Ctrl
 
     private void storeTurn()
     {
-        game.db.storeTurn(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(false));
+        game.db.storeTurn(gameId);
     }
 }
