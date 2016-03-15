@@ -19,7 +19,7 @@ public class DB
 
     public static final int NO_RECORD = -1;
     private static final String DIGEST = "SHA-256";
-    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private boolean debug;
     private Database db;
