@@ -160,8 +160,10 @@ public abstract class Map4Orders extends Map3Animations
                 break;
         }
 
-        if (r != -1)
+        if (r != -1) {
             orders.add(cmd);
+            game.ctrl.orderProcessedCb();
+        }
 
         return r;
     }

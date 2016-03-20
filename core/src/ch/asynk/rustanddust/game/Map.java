@@ -32,13 +32,13 @@ public abstract class Map extends Map5Marshal
 
     public void actionDone()
     {
-        game.ctrl.processAction();
+        game.ctrl.actionDoneCb();
     }
 
     public void turnDone()
     {
         RustAndDust.debug("TurnDone", String.format(" Processed Orders : %d", ordersSize()));
-        game.ctrl.processTurn();
+        game.ctrl.turnDoneCb();
         ordersClear();
     }
 

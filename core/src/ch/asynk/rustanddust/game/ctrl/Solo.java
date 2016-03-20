@@ -33,13 +33,19 @@ public class Solo extends Ctrl
     }
 
     @Override
-    protected void processAction()
+    public void orderProcessedCb()
+    {
+        // TODO
+    }
+
+    @Override
+    protected void actionDoneCb()
     {
         storeGame();
     }
 
     @Override
-    protected void processTurn()
+    protected void turnDoneCb()
     {
         storeGame();
         storeTurn();
