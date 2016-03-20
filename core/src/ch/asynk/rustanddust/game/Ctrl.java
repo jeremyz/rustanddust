@@ -84,8 +84,7 @@ public abstract class Ctrl implements Disposable
         this.deploymentState = new StateDeployment();
         this.withdrawState = new StateWithdraw();
 
-        this.state = selectState;
-        this.stateType = StateType.DONE;
+        this.stateType = StateType.LOADING;
 
         battle.init();
         this.map = battle.getMap();
@@ -93,6 +92,9 @@ public abstract class Ctrl implements Disposable
         StateCommon.set(game);
         hud.update();
         this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+
+        this.state = selectState;
+        this.stateType = StateType.DONE;
 
         setState(battle.getState());
     }
@@ -103,6 +105,11 @@ public abstract class Ctrl implements Disposable
         hud.dispose();
         map.dispose();
         battle.desinit();
+    }
+
+    public boolean isLoading()
+    {
+        return (stateType == StateType.LOADING);
     }
 
     // INPUTS

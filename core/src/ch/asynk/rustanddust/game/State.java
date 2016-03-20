@@ -3,6 +3,7 @@ package ch.asynk.rustanddust.game;
 public interface State
 {
     enum StateType {
+        LOADING,
         SELECT,
         MOVE,
         ROTATE,
