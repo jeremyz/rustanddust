@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
+import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.State;
@@ -105,23 +106,41 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void load(int turn, String payload)
+    public void load(Marshal.Mode mode, int turn, String payload)
     {
         this.turnCount = turn;
         JsonValue root = new JsonReader().parse(payload);
-        map.load(root, players);
+        load(mode, root);
         this.currentPlayer = players[0];
     }
 
     @Override
-    public String unload(boolean full)
+    public void load(Marshal.Mode mode, JsonValue value)
+    {
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+            map.loadPlayers(value, players);
+        map.load(mode, value);
+    }
+
+    @Override
+    public String unload(Marshal.Mode mode)
     {
         Json json = new Json(OutputType.json);
         writer.getBuffer().setLength(0);
         json.setWriter(writer);
-        map.unload(json, full, getPlayer(), getOpponent());
+        unload(mode, json);
         writer.flush();
         return writer.toString();
+    }
+
+    @Override
+    public void unload(Marshal.Mode mode, Json json)
+    {
+        json.writeObjectStart();
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+            map.unloadPlayers(json, getPlayer(), getOpponent());
+        map.unload(mode, json);
+        json.writeObjectEnd();
     }
 
     @Override

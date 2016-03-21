@@ -11,6 +11,7 @@ import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.engine.SelectedTile;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Zone;
@@ -22,7 +23,7 @@ import ch.asynk.rustanddust.game.Order;
 import ch.asynk.rustanddust.game.OrderList;
 import ch.asynk.rustanddust.game.Engagement;
 
-public abstract class Map5Marshal extends Map4Orders
+public abstract class Map5Marshal extends Map4Orders implements Marshal
 {
     private static UnitList units = new UnitList(30);
 
@@ -31,26 +32,24 @@ public abstract class Map5Marshal extends Map4Orders
         super(game, map, hex);
     }
 
-    public void unload(Json json, boolean full, Player player, Player opponent)
+    @Override
+    public void unload(Marshal.Mode mode, Json json)
     {
-        json.writeObjectStart();
-        if (full) {
-            json.writeObjectStart("map");
-            unload(json);
-            json.writeObjectEnd();
-            json.writeArrayStart("players");
-            unload(json, player);
-            unload(json, opponent);
-            json.writeArrayEnd();
-        }
-        json.writeArrayStart("orders");
-        unload(json, orders);
-        json.writeArrayEnd();
-        json.writeObjectEnd();
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+            unloadMap(json);
+        else if(mode == Marshal.Mode.ORDERS)
+            unloadOrders(json, orders);
     }
 
-    // player
-    private void unload(Json json, Player player)
+    public void unloadPlayers(Json json, Player a, Player b)
+    {
+        json.writeArrayStart("players");
+        unloadPlayer(json, a);
+        unloadPlayer(json, b);
+        json.writeArrayEnd();
+    }
+
+    private void unloadPlayer(Json json, Player player)
     {
         json.writeObjectStart();
         json.writeValue("id", player.id);
@@ -64,23 +63,21 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeValue(player.engagementWon);
         json.writeValue(player.engagementLost);
         json.writeArrayEnd();
-        unload(json, "Us", player.units, true);
-        unload(json, "Cs", player.casualties, false);
-        unload(json, "Rs", player.reinforcement, false);
-        unload(json, "Ws", player.withdrawed, false);
+        unloadUnits(json, "Us", player.units, true);
+        unloadUnits(json, "Cs", player.casualties, false);
+        unloadUnits(json, "Rs", player.reinforcement, false);
+        unloadUnits(json, "Ws", player.withdrawed, false);
         json.writeObjectEnd();
     }
 
-    // units
-    private void unload(Json json, String name, UnitList units, boolean pos)
+    private void unloadUnits(Json json, String name, UnitList units, boolean pos)
     {
         json.writeArrayStart(name);
-        for (Unit u : units) unload(json, u, pos);
+        for (Unit u : units) unloadUnit(json, u, pos);
         json.writeArrayEnd();
     }
 
-    // unit
-    private void unload(Json json, Unit unit, boolean pos)
+    private void unloadUnit(Json json, Unit unit, boolean pos)
     {
         json.writeObjectStart();
         json.writeValue("id", unit.id);
@@ -104,9 +101,9 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeObjectEnd();
     }
 
-    // map
-    private void unload(Json json)
+    private void unloadMap(Json json)
     {
+        json.writeObjectStart("map");
         json.writeArrayStart("o");
         for (Hex h : objectives) {
             json.writeObjectStart();
@@ -150,31 +147,32 @@ public abstract class Map5Marshal extends Map4Orders
             json.writeObjectEnd();
         }
         json.writeArrayEnd();
+        json.writeObjectEnd();
     }
 
-    // orders
-    private void unload(Json json, OrderList orders)
+    private void unloadOrders(Json json, OrderList orders)
     {
+        json.writeArrayStart("orders");
         for (Order o : orders) {
             json.writeObjectStart();
             json.writeValue("type", o.type);
             switch(o.type) {
                 case MOVE:
-                    unload(json, o.move);
+                    unloadMoveOrder(json, o.move);
                     break;
                 case ENGAGE:
-                    unload(json, o.engagement);
+                    unloadEngageOrder(json, o.engagement);
                     break;
                 case PROMOTE:
-                    json.writeValue("id", o.unit.id);
+                    unloadPromoteOrder(json, o.unit);
                     break;
             }
             json.writeObjectEnd();
         }
+        json.writeArrayEnd();
     }
 
-    // move
-    private void unload(Json json, Move m)
+    private void unloadMoveOrder(Json json, Move m)
     {
         json.writeValue("type", m.type);
         json.writeValue("id", ((Unit) m.pawn).id);
@@ -203,8 +201,7 @@ public abstract class Map5Marshal extends Map4Orders
         }
     }
 
-    // engagement
-    private void unload(Json json, Engagement e)
+    private void unloadEngageOrder(Json json, Engagement e)
     {
         json.writeArrayStart("units");
         json.writeValue(e.attacker.id);
@@ -232,13 +229,17 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeArrayEnd();
     }
 
-    private void unload(Json json, String key, Unit u)
+    private void  unloadPromoteOrder(Json json, Unit u)
     {
-        unload(json, key, u, true);
+        json.writeValue("id", u.id);
     }
 
-    // unit
-    private void unload(Json json, String key, Unit u, boolean pos)
+    private void unloadUnit(Json json, String key, Unit u)
+    {
+        unloadUnit(json, key, u, true);
+    }
+
+    private void unloadUnit(Json json, String key, Unit u, boolean pos)
     {
         if (key != null) json.writeObjectStart(key);
         else json.writeObjectStart();
@@ -253,15 +254,21 @@ public abstract class Map5Marshal extends Map4Orders
         json.writeObjectEnd();
     }
 
-    // LOAD
-    public void load(JsonValue v, Player[] players)
+    @Override
+    public void load(Marshal.Mode mode, JsonValue v)
+    {
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+            loadMap(v.get("map"));
+        else if(mode == Marshal.Mode.ORDERS)
+            loadOrders(v.get("orders"));
+        units.clear();
+    }
+
+    public void loadPlayers(JsonValue v, Player[] players)
     {
         units.clear();
-        loadMap(v.get("map"));
         players[0] = loadPlayer(v.get("players").get(0));
         players[1] = loadPlayer(v.get("players").get(1));
-        loadOrders(v.get("orders"));
-        units.clear();
     }
 
     private Player loadPlayer(JsonValue v)

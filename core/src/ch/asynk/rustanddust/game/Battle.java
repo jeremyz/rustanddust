@@ -1,9 +1,10 @@
 package ch.asynk.rustanddust.game;
 
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.Factory.MapType;
 
-public interface Battle
+public interface Battle extends Marshal
 {
     public int getId();
 
@@ -39,7 +40,7 @@ public interface Battle
 
     public State.StateType getState();
 
-    public void load(int turn, String payload);
+    public String unload(Marshal.Mode mode);
 
-    public String unload(boolean full);
+    public void load(Marshal.Mode mode, int turn, String payload);
 }
