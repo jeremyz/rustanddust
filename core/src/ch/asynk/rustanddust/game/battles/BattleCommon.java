@@ -1,8 +1,13 @@
 package ch.asynk.rustanddust.game.battles;
 
 import java.util.Random;
+import java.io.StringWriter;
 
-import ch.asynk.rustanddust.game.Ctrl;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.State;
@@ -18,6 +23,8 @@ import ch.asynk.rustanddust.engine.Orientation;
 public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
+
+    private final static StringWriter writer = new StringWriter(2048);
 
     protected final Factory factory;
 
@@ -101,14 +108,20 @@ public abstract class BattleCommon implements Battle
     public void load(int turn, String payload)
     {
         this.turnCount = turn;
-        map.load(payload, players);
+        JsonValue root = new JsonReader().parse(payload);
+        map.load(root, players);
         this.currentPlayer = players[0];
     }
 
     @Override
     public String unload(boolean full)
     {
-        return map.unload(full, getPlayer(), getOpponent());
+        Json json = new Json(OutputType.json);
+        writer.getBuffer().setLength(0);
+        json.setWriter(writer);
+        map.unload(json, full, getPlayer(), getOpponent());
+        writer.flush();
+        return writer.toString();
     }
 
     @Override

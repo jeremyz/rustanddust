@@ -1,12 +1,8 @@
 package ch.asynk.rustanddust.game.map;
 
-import java.io.StringWriter;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.Path;
@@ -28,7 +24,6 @@ import ch.asynk.rustanddust.game.Engagement;
 
 public abstract class Map5Marshal extends Map4Orders
 {
-    private static StringWriter writer = new StringWriter(2048);
     private static UnitList units = new UnitList(30);
 
     public Map5Marshal(final RustAndDust game, Texture map, SelectedTile hex)
@@ -36,12 +31,8 @@ public abstract class Map5Marshal extends Map4Orders
         super(game, map, hex);
     }
 
-    public String unload(boolean full, Player player, Player opponent)
+    public void unload(Json json, boolean full, Player player, Player opponent)
     {
-        Json json = new Json(OutputType.json);
-        writer.getBuffer().setLength(0);
-        json.setWriter(writer);
-
         json.writeObjectStart();
         if (full) {
             json.writeObjectStart("map");
@@ -56,9 +47,6 @@ public abstract class Map5Marshal extends Map4Orders
         unload(json, orders);
         json.writeArrayEnd();
         json.writeObjectEnd();
-
-        writer.flush();
-        return writer.toString();
     }
 
     // player
@@ -266,14 +254,13 @@ public abstract class Map5Marshal extends Map4Orders
     }
 
     // LOAD
-    public void load(String payload, Player[] players)
+    public void load(JsonValue v, Player[] players)
     {
         units.clear();
-        JsonValue root = new JsonReader().parse(payload);
-        loadMap(root.get("map"));
-        players[0] = loadPlayer(root.get("players").get(0));
-        players[1] = loadPlayer(root.get("players").get(1));
-        loadOrders(root.get("orders"));
+        loadMap(v.get("map"));
+        players[0] = loadPlayer(v.get("players").get(0));
+        players[1] = loadPlayer(v.get("players").get(1));
+        loadOrders(v.get("orders"));
         units.clear();
     }
 
