@@ -15,7 +15,7 @@ import ch.asynk.rustanddust.game.Config.GameMode;
 
 public class DB
 {
-    private static final int DB_SCHEMA_VERSION = 1;
+    private static final int DB_SCHEMA_VERSION = 2;
 
     public static final int NO_RECORD = -1;
     private static final String DIGEST = "SHA-256";
