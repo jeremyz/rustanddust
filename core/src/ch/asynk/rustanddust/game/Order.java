@@ -12,8 +12,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
         NONE,
         MOVE,
         ENGAGE,
-        PROMOTE,
-        END_OF_TURN;
+        PROMOTE;
     }
 
     private static final Pool<Order> orderPool = new Pool<Order>()
