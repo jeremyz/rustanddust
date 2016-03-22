@@ -121,6 +121,14 @@ public class DB
         return hash;
     }
 
+    private boolean checkDigest(String what, int id, String payload, String digest)
+    {
+        if (digest.equals(getDigest(payload)))
+            return true;
+        RustAndDust.error(String.format("corrupted %s(%d)", what, id));
+        return false;
+    }
+
     private static final String CHECK_VERSION = "select (value=%d) from config where key='version';";
 
     public Boolean checkVersion()
