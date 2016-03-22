@@ -1,12 +1,9 @@
 package ch.asynk.rustanddust.game.battles;
 
 import java.util.Random;
-import java.io.StringWriter;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.Battle;
@@ -24,8 +21,6 @@ import ch.asynk.rustanddust.engine.Orientation;
 public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
-
-    private final static StringWriter writer = new StringWriter(2048);
 
     protected final Factory factory;
 
@@ -105,15 +100,6 @@ public abstract class BattleCommon implements Battle
         map.turnDone();
     }
 
-    @Override
-    public void load(Marshal.Mode mode, String payload)
-    {
-        JsonValue root = new JsonReader().parse(payload);
-        load(mode, root);
-        this.currentPlayer = players[0];
-    }
-
-    @Override
     public void load(Marshal.Mode mode, JsonValue value)
     {
         if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
@@ -122,17 +108,7 @@ public abstract class BattleCommon implements Battle
             map.loadPlayers(value, players);
         }
         map.load(mode, value);
-    }
-
-    @Override
-    public String unload(Marshal.Mode mode)
-    {
-        Json json = new Json(OutputType.json);
-        writer.getBuffer().setLength(0);
-        json.setWriter(writer);
-        unload(mode, json);
-        writer.flush();
-        return writer.toString();
+        this.currentPlayer = players[0];
     }
 
     @Override

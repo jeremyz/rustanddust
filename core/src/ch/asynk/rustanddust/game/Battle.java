@@ -39,8 +39,4 @@ public interface Battle extends Marshal
     public boolean hasReinforcement();
 
     public State.StateType getState();
-
-    public String unload(Marshal.Mode mode);
-
-    public void load(Marshal.Mode mode, String payload);
 }

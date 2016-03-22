@@ -28,8 +28,8 @@ public class Solo extends Ctrl
         } else {
             GameRecord r = game.db.loadGame(gameId);
             if (r != null) {
-                battle.load(Marshal.Mode.STATE, r.state);
-                battle.load(Marshal.Mode.ORDERS, r.orders);
+                load(Marshal.Mode.STATE, r.state);
+                load(Marshal.Mode.ORDERS, r.orders);
                 battle.getMap().clearMarshalUnits();
                 r.dispose();
             } else
@@ -61,12 +61,12 @@ public class Solo extends Ctrl
 
     private void storeState()
     {
-        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(Marshal.Mode.STATE));
+        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.STATE));
     }
 
     private void storeOrders()
     {
-        game.db.storeGameOrders(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(Marshal.Mode.ORDERS));
+        game.db.storeGameOrders(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.ORDERS));
     }
 
     private void storeTurn()

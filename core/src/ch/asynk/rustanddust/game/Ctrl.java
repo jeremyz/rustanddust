@@ -1,9 +1,16 @@
 package ch.asynk.rustanddust.game;
 
+import java.io.StringWriter;
+
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.ctrl.Solo;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateCommon;
@@ -22,6 +29,8 @@ public abstract class Ctrl implements Disposable
 {
     public final RustAndDust game;
     public final Battle battle;
+
+    private final static StringWriter writer = new StringWriter(2048);
 
     public Map map;
     public Hud hud;
@@ -107,9 +116,27 @@ public abstract class Ctrl implements Disposable
         battle.desinit();
     }
 
+    // JSON
+
     public boolean isLoading()
     {
         return (stateType == StateType.LOADING);
+    }
+
+    public void load(Marshal.Mode mode, String payload)
+    {
+        JsonValue root = new JsonReader().parse(payload);
+        battle.load(mode, root);
+    }
+
+    public String unload(Marshal.Mode mode)
+    {
+        Json json = new Json(OutputType.json);
+        writer.getBuffer().setLength(0);
+        json.setWriter(writer);
+        battle.unload(mode, json);
+        writer.flush();
+        return writer.toString();
     }
 
     // INPUTS
