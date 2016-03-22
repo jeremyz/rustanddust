@@ -1,7 +1,10 @@
 FIX:
+    - fix shoot animations, quit -> resume
 
 TODO:
-    - store turns -> Replay Ctrl
+    - multiple orders actions (HQ activation)
+      must replay the actions and restore the state
+    - Replay Ctrl
     - turret aiming sound
     - moving cloudy sky overlay
     - Rules
