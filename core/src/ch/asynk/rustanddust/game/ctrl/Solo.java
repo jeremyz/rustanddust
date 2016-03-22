@@ -28,8 +28,8 @@ public class Solo extends Ctrl
         } else {
             GameRecord r = game.db.loadGame(gameId);
             if (r != null) {
-                battle.load(Marshal.Mode.STATE, r.turn, r.state);
-                battle.load(Marshal.Mode.ORDERS, r.turn, r.orders);
+                battle.load(Marshal.Mode.STATE, r.state);
+                battle.load(Marshal.Mode.ORDERS, r.orders);
                 battle.getMap().clearMarshalUnits();
                 r.dispose();
             } else

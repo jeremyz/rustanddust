@@ -42,5 +42,5 @@ public interface Battle extends Marshal
 
     public String unload(Marshal.Mode mode);
 
-    public void load(Marshal.Mode mode, int turn, String payload);
+    public void load(Marshal.Mode mode, String payload);
 }

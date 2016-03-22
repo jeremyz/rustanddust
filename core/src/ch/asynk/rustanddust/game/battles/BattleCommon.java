@@ -106,9 +106,8 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void load(Marshal.Mode mode, int turn, String payload)
+    public void load(Marshal.Mode mode, String payload)
     {
-        this.turnCount = turn;
         JsonValue root = new JsonReader().parse(payload);
         load(mode, root);
         this.currentPlayer = players[0];
@@ -117,8 +116,11 @@ public abstract class BattleCommon implements Battle
     @Override
     public void load(Marshal.Mode mode, JsonValue value)
     {
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
+            JsonValue v = value.get("battle");
+            this.turnCount = v.getInt("turnCount");
             map.loadPlayers(value, players);
+        }
         map.load(mode, value);
     }
 
@@ -137,8 +139,12 @@ public abstract class BattleCommon implements Battle
     public void unload(Marshal.Mode mode, Json json)
     {
         json.writeObjectStart();
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
+        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
+            json.writeObjectStart("battle");
+            json.writeValue("turnCount", turnCount);
+            json.writeObjectEnd();
             map.unloadPlayers(json, getPlayer(), getOpponent());
+        }
         map.unload(mode, json);
         json.writeObjectEnd();
     }
