@@ -14,17 +14,21 @@ import ch.asynk.rustanddust.engine.util.IterableArray;
 public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
 {
     public int id;
-    public int opponent;
-    public int battle;
-    public int turn;
     public GameMode mode;
-    public Date ts;
+    public int battle;
+    public int opponent;
+    public int turn;
     public int currentPlayer;
+    public Date ts;
+    public boolean synched;
+    public String state;
+    public String stateH;
+    public String orders;
+    public String ordersH;
+    //
     public String oName;
     public String bName;
     public String s;
-    public String hash;
-    public String payload;
 
     public static Collection<List.ListElement> list = new IterableArray<List.ListElement>(10);
 

@@ -27,37 +27,50 @@ public class Solo extends Ctrl
             battle.initialDeployment();
         } else {
             GameRecord r = game.db.loadGame(gameId);
-            battle.load(Marshal.Mode.FULL, r.turn, r.payload);
-            r.dispose();
+            if (r != null) {
+                battle.load(Marshal.Mode.STATE, r.turn, r.state);
+                battle.load(Marshal.Mode.ORDERS, r.turn, r.orders);
+                battle.getMap().clearMarshalUnits();
+                r.dispose();
+            } else
+                System.err.println("TODO : null GameRecord");
         }
     }
 
     @Override
     public void orderProcessedCb()
     {
-        // TODO
+        // FIXME what about multible orders actions, HQ actiovations
+        if (!isLoading())
+            storeOrders();
     }
 
     @Override
     protected void actionDoneCb()
     {
-        storeGame();
+        storeState();
     }
 
     @Override
     protected void turnDoneCb()
     {
-        storeGame();
+        storeState();
+        storeOrders();
         storeTurn();
     }
 
-    private void storeGame()
+    private void storeState()
     {
-        game.db.storeGame(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(Marshal.Mode.FULL));
+        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(Marshal.Mode.STATE));
+    }
+
+    private void storeOrders()
+    {
+        game.db.storeGameOrders(gameId, battle.getTurnCount(), battle.getPlayer().id, battle.unload(Marshal.Mode.ORDERS));
     }
 
     private void storeTurn()
     {
-        game.db.storeTurn(gameId);
+        game.db.storeLastTurn(gameId);
     }
 }
