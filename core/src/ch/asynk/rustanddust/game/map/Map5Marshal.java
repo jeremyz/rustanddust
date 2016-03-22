@@ -27,6 +27,8 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 {
     private static UnitList units = new UnitList(30);
 
+    public void clearMarshalUnits() { units.clear(); }
+
     public Map5Marshal(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game, map, hex);
@@ -261,12 +263,11 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             loadMap(v.get("map"));
         else if(mode == Marshal.Mode.ORDERS)
             loadOrders(v.get("orders"));
-        units.clear();
     }
 
     public void loadPlayers(JsonValue v, Player[] players)
     {
-        units.clear();
+        clearMarshalUnits();
         players[0] = loadPlayer(v.get("players").get(0));
         players[1] = loadPlayer(v.get("players").get(1));
     }
