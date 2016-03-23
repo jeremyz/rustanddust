@@ -98,25 +98,25 @@ public abstract class Map4Orders extends Map3Animations
     {
         attack(unit, target, true);
 
-        Order cmd = Order.get();
-        cmd.setEngage(unit, target);
-        return (process(cmd) == 1);
+        Order order = Order.get();
+        order.setEngage(unit, target);
+        return (process(order) == 1);
     }
 
     public void promoteUnit(final Unit unit)
     {
-        Order cmd = Order.get();
-        cmd.setPromote(unit);
-        process(cmd);
+        Order order = Order.get();
+        order.setPromote(unit);
+        process(order);
     }
 
     // STATES ENTRY <-
 
     private Order getMoveOrder(Unit unit, Move move)
     {
-        Order cmd = Order.get();
-        cmd.setMove(unit, move);
-        return cmd;
+        Order order = Order.get();
+        order.setMove(unit, move);
+        return order;
     }
 
     private void initMove(Unit unit)
@@ -138,30 +138,30 @@ public abstract class Map4Orders extends Map3Animations
         return 1;
     }
 
-    private int process(Order cmd)
+    private int process(Order order)
     {
-        RustAndDust.debug("Order", cmd.toString());
+        RustAndDust.debug("Order", order.toString());
 
         int r = 1;
 
-        switch(cmd.type) {
+        switch(order.type) {
             case MOVE:
-                r = process(cmd.unit, cmd.move);
+                r = process(order.unit, order.move);
                 break;
             case PROMOTE:
-                r = doPromoteUnit(cmd.unit);
+                r = doPromoteUnit(order.unit);
                 break;
             case ENGAGE:
-                r = doEngagement(cmd.engagement);
+                r = doEngagement(order.engagement);
                 break;
             default:
-                System.err.println(String.format("process wrong Order type %s", cmd.type));
+                System.err.println(String.format("process wrong Order type %s", order.type));
                 r = -1;
                 break;
         }
 
         if (r != -1) {
-            orders.add(cmd);
+            orders.add(order);
             game.ctrl.orderProcessedCb();
         }
 
