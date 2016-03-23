@@ -104,7 +104,7 @@ public class StateMove extends StateCommon
 
         Unit unit = hex.getUnit();
 
-        if (map.unitsMoveableContains(unit)) {
+        if (map.unitsActivableContains(unit)) {
             if (unit != activeUnit)
                 changeUnit(unit);
         } else if ((s == 0) && map.movesContains(hex)) {
@@ -116,7 +116,7 @@ public class StateMove extends StateCommon
 
     private void hideAssists()
     {
-        map.unitsMoveableHide();
+        map.unitsActivableHide();
     }
 
     private void changeUnit(Unit unit)

@@ -49,11 +49,12 @@ public class StateEngage extends StateCommon
     @Override
     public StateType execute()
     {
+        map.unitsAssistHide();
         StateType nextState = StateType.DONE;
         if (map.engageUnit(selectedUnit, activeUnit)) {
             ctrl.battle.getPlayer().engagementWon += 1;
             ctrl.battle.getOpponent().casualty(activeUnit);
-            if (map.unitsBreakThroughSize() > 0) {
+            if (map.unitsActivableSize() > 0) {
                 nextState = StateType.BREAK;
             }
         } else {
@@ -85,7 +86,7 @@ public class StateEngage extends StateCommon
         else if (unit == activeUnit) {
             ctrl.setState(StateType.DONE);
         }
-        else if ((activeUnit != null) && map.unitsAssistContains(unit)) {
+        else if ((activeUnit != null) && map.unitsActivableContains(unit)) {
             map.toggleAssist(unit);
             // if (map.toggleAssist(unit))
             //     ctrl.hud.notify(unit + " will fire");

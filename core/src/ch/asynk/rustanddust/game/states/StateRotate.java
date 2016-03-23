@@ -12,7 +12,7 @@ public class StateRotate extends StateCommon
     @Override
     public void enter(StateType prevState)
     {
-        if (!cfg.showMoveAssists) map.unitsMoveableHide();
+        if (!cfg.showMoveAssists) map.unitsActivableHide();
 
         if (activeUnit == null)
             activeUnit = selectedUnit;
@@ -56,7 +56,7 @@ public class StateRotate extends StateCommon
             map.revertEnter(activeUnit);
             nextState = StateType.ABORT;
         } else if (map.unitsActivatedSize() == 0) {
-            map.unitsMoveableHide();
+            map.unitsActivableHide();
         } else {
             nextState = StateType.MOVE;
         }

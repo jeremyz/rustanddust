@@ -37,7 +37,7 @@ public abstract class StateCommon implements State
     {
         if (cfg.showMoves && unit.canMove()) map.movesShow();
         if (cfg.showTargets && unit.canEngage()) map.unitsTargetShow();
-        if (cfg.showMoveAssists && unit.canMove()) map.unitsMoveableShow();
+        if (cfg.showMoveAssists && unit.canMove()) map.unitsActivableShow();
         unit.hideActiveable();
     }
 
@@ -45,7 +45,7 @@ public abstract class StateCommon implements State
     {
         map.movesHide();
         map.unitsTargetHide();
-        map.unitsMoveableHide();
+        map.unitsActivableHide();
     }
 
     @Override

@@ -80,7 +80,7 @@ public class StateSelect extends StateCommon
 
         isEnemy = ctrl.battle.getPlayer().isEnemy(unit);
         if (!isEnemy && (unit == selectedUnit) && unit.canMove()) {
-            if (unit.isHq() && (map.unitsMoveableSize() > 1)) {
+            if (unit.isHq() && (map.unitsActivableSize() > 1)) {
                 ctrl.hud.notify("HQ activation");
                 select(hex, unit, isEnemy);
                 ctrl.setState(StateType.MOVE);

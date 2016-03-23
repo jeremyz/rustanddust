@@ -55,11 +55,11 @@ public abstract class Map2Moves extends Map1Units
     public void collectUpdate(Unit unit)
     {
         movesHide();
-        unitsMoveableHide();
+        unitsActivableHide();
         movesCollect(unit);
         collectMoveable(unit);
         movesShow();
-        unitsMoveableShow();
+        unitsActivableShow();
         activatedUnits.clear();
     }
 

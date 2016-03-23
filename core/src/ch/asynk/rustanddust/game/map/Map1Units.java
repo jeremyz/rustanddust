@@ -9,20 +9,16 @@ import ch.asynk.rustanddust.game.UnitList;
 
 public abstract class Map1Units extends Map0Hex
 {
-    protected final UnitList moveableUnits;
     protected final UnitList targetUnits;
-    protected final UnitList assistUnits;
-    protected final UnitList breakthroughUnits;
+    protected final UnitList activableUnits;
     protected final UnitList activatedUnits;
 
     public Map1Units(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game, map, hex);
 
-        moveableUnits = new UnitList(6);
         targetUnits = new UnitList(10);
-        assistUnits = new UnitList(6);
-        breakthroughUnits = new UnitList(4);
+        activableUnits = new UnitList(6);
         activatedUnits = new UnitList(7);
     }
 
@@ -35,24 +31,22 @@ public abstract class Map1Units extends Map0Hex
 
     public void clearUnits()
     {
-        moveableUnits.clear();
         targetUnits.clear();
-        assistUnits.clear();
-        breakthroughUnits.clear();
+        activableUnits.clear();
         activatedUnits.clear();
     }
 
     public int collectMoveable(Unit unit)
     {
         if (unit.canHQMove())
-            collectMoveAssists(unit, moveableUnits.asPawns());
+            collectMoveAssists(unit, activableUnits.asPawns());
         else
-            moveableUnits.clear();
+            activableUnits.clear();
 
         if (unit.canMove())
-            moveableUnits.add(unit);
+            activableUnits.add(unit);
 
-        return moveableUnits.size();
+        return activableUnits.size();
     }
 
     public int collectTargets(Unit unit, UnitList foes)
@@ -66,7 +60,7 @@ public abstract class Map1Units extends Map0Hex
 
     public int collectAssists(Unit unit, Unit target, UnitList units)
     {
-        int s = collectAttackAssists(unit, target, units.asPawns(), assistUnits.asPawns());
+        int s = collectAttackAssists(unit, target, units.asPawns(), activableUnits.asPawns());
         activatedUnits.add(unit);
         return s;
     }
@@ -86,28 +80,23 @@ public abstract class Map1Units extends Map0Hex
         }
     }
 
-    public Unit unitsMoveableGet(int i) { return moveableUnits.get(i); }
+    public Unit unitsMoveableGet(int i) { return activableUnits.get(i); }
 
     public void unitsTargetClear()      { targetUnits.clear(); }
     public void unitsActivatedClear()   { activatedUnits.clear(); }
 
     public int unitsActivatedSize()     { return activatedUnits.size(); }
-    public int unitsMoveableSize()      { return moveableUnits.size(); }
-    public int unitsBreakThroughSize()  { return breakthroughUnits.size(); }
+    public int unitsActivableSize()      { return activableUnits.size(); }
 
     public boolean unitsTargetContains(Unit unit)       { return targetUnits.contains(unit); }
-    public boolean unitsAssistContains(Unit unit)       { return assistUnits.contains(unit); }
-    public boolean unitsMoveableContains(Unit unit)     { return moveableUnits.contains(unit); }
-    public boolean unitsBreakThroughContains(Unit unit) { return breakthroughUnits.contains(unit); }
+    public boolean unitsActivableContains(Unit unit)    { return activableUnits.contains(unit); }
 
     public void unitsTargetShow()       { unitsShowOverlay(targetUnits, Unit.TARGET, true); }
     public void unitsTargetHide()       { unitsShowOverlay(targetUnits, Unit.TARGET, false); }
-    public void unitsAssistShow()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, true); }
-    public void unitsAssistHide()       { unitsShowOverlay(assistUnits, Unit.MAY_FIRE, false); unitsShowOverlay(assistUnits, Unit.FIRE, false); }
-    public void unitsMoveableShow()     { unitsShowOverlay(moveableUnits, Unit.ACTIVEABLE, true); }
-    public void unitsMoveableHide()     { unitsShowOverlay(moveableUnits, Unit.ACTIVEABLE, false); }
-    public void unitsBreakThroughShow() { unitsShowOverlay(breakthroughUnits, Unit.ACTIVEABLE, true); }
-    public void unitsBreakThroughHide() { unitsShowOverlay(breakthroughUnits, Unit.ACTIVEABLE, false); }
+    public void unitsAssistShow()       { unitsShowOverlay(activableUnits, Unit.MAY_FIRE, true); }
+    public void unitsAssistHide()       { unitsShowOverlay(activableUnits, Unit.MAY_FIRE, false); unitsShowOverlay(activableUnits, Unit.FIRE, false); }
+    public void unitsActivableShow()     { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, true); }
+    public void unitsActivableHide()     { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, false); }
 
     private void unitsShowOverlay(UnitList units, int overlay, boolean on)
     {

@@ -121,7 +121,7 @@ public abstract class Map4Orders extends Map3Animations
 
     private void initMove(Unit unit)
     {
-        moveableUnits.remove(unit);
+        activableUnits.remove(unit);
         activatedUnits.add(unit);
         playMoveSound(unit);
     }
@@ -178,13 +178,13 @@ public abstract class Map4Orders extends Map3Animations
             case REGULAR:
                 initMove(unit);
                 movePawn(unit, move, this);
-                r = moveableUnits.size();
+                r = activableUnits.size();
                 break;
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, this);
                 battle.getPlayer().unitWithdraw(unit);
-                r = moveableUnits.size();
+                r = activableUnits.size();
                 break;
             case SET:
                 setPawnOnto(unit, move);
@@ -209,7 +209,7 @@ public abstract class Map4Orders extends Map3Animations
     {
         resolveEngagement(e);
 
-        breakthroughUnits.clear();
+        activableUnits.clear();
         activatedUnits.clear();
 
         activatedUnits.add(e.attacker);
@@ -219,7 +219,7 @@ public abstract class Map4Orders extends Map3Animations
         for (Unit u : activatedUnits) {
             u.engage();
             if (u.canBreak())
-                breakthroughUnits.add(u);
+                activableUnits.add(u);
         }
 
         if (e.success) {

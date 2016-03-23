@@ -15,13 +15,13 @@ public class StateBreak extends StateCommon
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
         ctrl.hud.notify("Break Through possible");
-        map.unitsBreakThroughShow();
+        map.unitsActivableShow();
     }
 
     @Override
     public void leave(StateType nextState)
     {
-        map.unitsBreakThroughHide();
+        map.unitsActivableHide();
         map.hexMoveHide(to);
         map.hexDirectionsHide(to);
         if (activeUnit != null) map.hexMoveHide(activeUnit.getHex());
@@ -45,12 +45,12 @@ public class StateBreak extends StateCommon
         // TODO : cancel preview move before showing rotation
         if (activeUnit == null) {
             Unit unit = hex.getUnit();
-            if (map.unitsBreakThroughContains(unit)) {
+            if (map.unitsActivableContains(unit)) {
                 activeUnit = unit;
                 map.hexMoveShow(hex);
                 map.hexMoveShow(to);
                 map.hexDirectionsShow(to);
-                map.unitsBreakThroughHide();
+                map.unitsActivableHide();
             }
         } else {
             o = Orientation.fromAdj(to, hex);
