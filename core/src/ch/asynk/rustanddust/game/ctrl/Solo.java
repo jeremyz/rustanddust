@@ -54,8 +54,8 @@ public class Solo extends Ctrl
     @Override
     protected void turnDoneCb()
     {
-        storeState();
         storeOrders();
+        storeState();
         storeTurn();
     }
 
