@@ -210,12 +210,6 @@ public abstract class Map4Orders extends Map3Animations
         resolveEngagement(e);
 
         activableUnits.clear();
-        activatedUnits.clear();
-
-        activatedUnits.add(e.attacker);
-        for (Unit u : e.assists)
-            activatedUnits.add(u);
-
         for (Unit u : activatedUnits) {
             u.engage();
             if (u.canBreak())
