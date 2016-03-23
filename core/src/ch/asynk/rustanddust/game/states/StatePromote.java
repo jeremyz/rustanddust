@@ -3,7 +3,7 @@ package ch.asynk.rustanddust.game.states;
 public class StatePromote extends StateCommon
 {
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         ctrl.setAfterAnimationState(StateType.DONE);
         ctrl.setState(StateType.ANIMATION);
@@ -11,7 +11,7 @@ public class StatePromote extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         map.hexUnselect(selectedHex);
     }

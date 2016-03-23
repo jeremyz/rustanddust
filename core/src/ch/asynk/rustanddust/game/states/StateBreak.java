@@ -10,7 +10,7 @@ public class StateBreak extends StateCommon
     private Orientation o = Orientation.KEEP;
 
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         activeUnit = null;
         ctrl.hud.actionButtons.show(Buttons.DONE.b);
@@ -19,7 +19,7 @@ public class StateBreak extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         map.unitsActivableHide();
         map.hexMoveHide(to);

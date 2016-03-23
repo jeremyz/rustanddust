@@ -10,7 +10,7 @@ public class StateRotate extends StateCommon
     private boolean rotationSet;
 
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         if (!cfg.showMoveAssists) map.unitsActivableHide();
 
@@ -38,7 +38,7 @@ public class StateRotate extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         map.hexUnselect(activeUnit.getHex());
         map.pathHide(to);

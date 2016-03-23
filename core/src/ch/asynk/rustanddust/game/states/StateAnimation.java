@@ -3,13 +3,13 @@ package ch.asynk.rustanddust.game.states;
 public class StateAnimation extends StateCommon
 {
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         ctrl.hud.actionButtons.hide();
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
     }
 

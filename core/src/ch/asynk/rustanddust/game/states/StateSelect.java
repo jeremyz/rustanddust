@@ -9,7 +9,7 @@ import ch.asynk.rustanddust.RustAndDust;
 public class StateSelect extends StateCommon
 {
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         to = null;
         selectedHex = null;
@@ -20,7 +20,7 @@ public class StateSelect extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         hidePossibilities();
     }

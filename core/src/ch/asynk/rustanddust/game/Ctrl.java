@@ -262,14 +262,14 @@ public abstract class Ctrl implements Disposable
 
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
-        this.state.leave(nextState);
+        this.state.leaveFor(nextState);
 
         this.state = getNextState(nextState);
 
         StateType tmp = stateType;
         stateType = nextState;
 
-        this.state.enter(tmp);
+        this.state.enterFrom(tmp);
 
         if (nextState == StateType.TURN_OVER)
             turnDone();

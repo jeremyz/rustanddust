@@ -8,7 +8,7 @@ import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 public class StateMove extends StateCommon
 {
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         ctrl.hud.actionButtons.show(
                 ((map.unitsActivatedSize() > 0) ? Buttons.DONE.b : 0)
@@ -44,7 +44,7 @@ public class StateMove extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         if (nextState == StateType.WITHDRAW)
             return;

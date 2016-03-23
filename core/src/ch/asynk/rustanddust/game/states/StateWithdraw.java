@@ -7,13 +7,13 @@ import ch.asynk.rustanddust.RustAndDust;
 public class StateWithdraw extends StateCommon
 {
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         ctrl.hud.askExitBoard();
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
     }
 

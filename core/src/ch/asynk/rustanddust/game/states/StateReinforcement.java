@@ -9,7 +9,7 @@ public class StateReinforcement extends StateCommon
     private Zone entryZone;
 
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         map.clearAll();
         if (selectedHex != null)
@@ -20,7 +20,7 @@ public class StateReinforcement extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         if (selectedHex != null)
             map.hexUnselect(selectedHex);

@@ -19,9 +19,9 @@ public interface State
         TURN_OVER
     };
 
-    public void enter(StateType prevState);
+    public void enterFrom(StateType prevState);
 
-    public void leave(StateType nextState);
+    public void leaveFor(StateType nextState);
 
     public StateType abort();
 

@@ -13,7 +13,7 @@ public class StateDeployment extends StateCommon
     private UnitList deployedUnits = new UnitList(10);
 
     @Override
-    public void enter(StateType prevState)
+    public void enterFrom(StateType prevState)
     {
         if (selectedHex != null)
             map.hexUnselect(selectedHex);
@@ -25,7 +25,7 @@ public class StateDeployment extends StateCommon
     }
 
     @Override
-    public void leave(StateType nextState)
+    public void leaveFor(StateType nextState)
     {
         selectedUnit = null;
         if (selectedHex != null)
