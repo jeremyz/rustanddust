@@ -118,18 +118,18 @@ public abstract class Ctrl implements Disposable
 
     // JSON
 
-    public boolean isLoading()
+    protected boolean isLoading()
     {
         return (stateType == StateType.LOADING);
     }
 
-    public void load(Marshal.Mode mode, String payload)
+    protected void load(Marshal.Mode mode, String payload)
     {
         JsonValue root = new JsonReader().parse(payload);
         battle.load(mode, root);
     }
 
-    public String unload(Marshal.Mode mode)
+    protected String unload(Marshal.Mode mode)
     {
         Json json = new Json(OutputType.json);
         writer.getBuffer().setLength(0);
