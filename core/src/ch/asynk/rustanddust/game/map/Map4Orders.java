@@ -126,7 +126,7 @@ public abstract class Map4Orders extends Map3Animations
         playMoveSound(unit);
     }
 
-    private int doPromoteUnit(final Unit unit)
+    private int doPromote(final Unit unit)
     {
         activatedUnits.add(unit);
         addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
@@ -146,10 +146,10 @@ public abstract class Map4Orders extends Map3Animations
 
         switch(order.type) {
             case MOVE:
-                r = process(order.unit, order.move);
+                r = doMove(order.unit, order.move);
                 break;
             case PROMOTE:
-                r = doPromoteUnit(order.unit);
+                r = doPromote(order.unit);
                 break;
             case ENGAGE:
                 r = doEngagement(order.engagement);
@@ -168,7 +168,7 @@ public abstract class Map4Orders extends Map3Animations
         return r;
     }
 
-    private int process(Unit unit, Move move)
+    private int doMove(Unit unit, Move move)
     {
         RustAndDust.debug("  Move", String.format("%s %s", move.type, move.toString()));
 
