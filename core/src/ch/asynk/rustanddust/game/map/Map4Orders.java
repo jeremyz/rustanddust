@@ -119,25 +119,6 @@ public abstract class Map4Orders extends Map3Animations
         return order;
     }
 
-    private void initMove(Unit unit)
-    {
-        activableUnits.remove(unit);
-        activatedUnits.add(unit);
-        playMoveSound(unit);
-    }
-
-    private int doPromote(final Unit unit)
-    {
-        activatedUnits.add(unit);
-        addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
-            @Override
-            public void run() {
-                battle.getPlayer().promote(unit);
-            }
-        });
-        return 1;
-    }
-
     private int process(Order order)
     {
         RustAndDust.debug("Order", order.toString());
@@ -203,6 +184,25 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         return r;
+    }
+
+    private void initMove(Unit unit)
+    {
+        activableUnits.remove(unit);
+        activatedUnits.add(unit);
+        playMoveSound(unit);
+    }
+
+    private int doPromote(final Unit unit)
+    {
+        activatedUnits.add(unit);
+        addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
+            @Override
+            public void run() {
+                battle.getPlayer().promote(unit);
+            }
+        });
+        return 1;
     }
 
     private int doEngagement(Engagement e)
