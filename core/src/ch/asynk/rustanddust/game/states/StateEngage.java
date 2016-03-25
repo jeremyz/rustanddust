@@ -24,8 +24,7 @@ public class StateEngage extends StateCommon
             }
             selectedUnit.showAttack();
             map.hexSelect(selectedHex);
-        } else
-            RustAndDust.debug("should not happen");
+        }
     }
 
     @Override
