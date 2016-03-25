@@ -51,7 +51,7 @@ public abstract class Map4Orders extends Map3Animations
     public boolean setOnBoard(final Unit unit, Hex to, Orientation entry)
     {
         orders.dispose(unit);
-        return (process(getMoveOrder(unit, Move.getSet(unit, to, entry))) == 1);
+        return process(getMoveOrder(unit, Move.getSet(unit, to, entry)));
     }
 
     public boolean enterBoard(final Unit unit, Hex to, int allowedMoves)
@@ -60,15 +60,15 @@ public abstract class Map4Orders extends Map3Animations
         if (entry == Orientation.KEEP)
             return false;
 
-        return (process(getMoveOrder(unit, Move.getEnter(unit, to, entry))) == 1);
+        return process(getMoveOrder(unit, Move.getEnter(unit, to, entry)));
     }
 
-    public int exitBoard(final Unit unit)
+    public boolean exitBoard(final Unit unit)
     {
         return process(getMoveOrder(unit, paths.getExitMove()));
     }
 
-    public int moveUnit(final Unit unit)
+    public boolean moveUnit(final Unit unit)
     {
         return process(getMoveOrder(unit, paths.getMove()));
     }
@@ -100,14 +100,14 @@ public abstract class Map4Orders extends Map3Animations
 
         Order order = Order.get();
         order.setEngage(unit, target);
-        return (process(order) == 1);
+        return process(order);
     }
 
-    public void promoteUnit(final Unit unit)
+    public boolean promoteUnit(final Unit unit)
     {
         Order order = Order.get();
         order.setPromote(unit);
-        process(order);
+        return process(order);
     }
 
     // STATES ENTRY <-
@@ -119,11 +119,11 @@ public abstract class Map4Orders extends Map3Animations
         return order;
     }
 
-    private int process(Order order)
+    private boolean process(Order order)
     {
         RustAndDust.debug("Order", order.toString());
 
-        int r = 1;
+        boolean r = false;
 
         switch(order.type) {
             case MOVE:
@@ -137,11 +137,10 @@ public abstract class Map4Orders extends Map3Animations
                 break;
             default:
                 System.err.println(String.format("process wrong Order type %s", order.type));
-                r = -1;
                 break;
         }
 
-        if (r != -1) {
+        if (r) {
             orders.add(order);
             game.ctrl.orderProcessedCb();
         }
@@ -149,23 +148,19 @@ public abstract class Map4Orders extends Map3Animations
         return r;
     }
 
-    private int doMove(Unit unit, Move move)
+    private boolean doMove(Unit unit, Move move)
     {
         RustAndDust.debug("  Move", String.format("%s %s", move.type, move.toString()));
-
-        int r = 1;
 
         switch(move.type) {
             case REGULAR:
                 initMove(unit);
                 movePawn(unit, move, this);
-                r = activableUnits.size();
                 break;
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, this);
                 battle.getPlayer().unitWithdraw(unit);
-                r = activableUnits.size();
                 break;
             case SET:
                 setPawnOnto(unit, move);
@@ -179,11 +174,10 @@ public abstract class Map4Orders extends Map3Animations
                 break;
             default:
                 System.err.println(String.format("process wrong Move type %s", move.type));
-                r = -1;
-                break;
+                return false;
         }
 
-        return r;
+        return true;
     }
 
     private void initMove(Unit unit)
@@ -193,7 +187,7 @@ public abstract class Map4Orders extends Map3Animations
         playMoveSound(unit);
     }
 
-    private int doPromote(final Unit unit)
+    private boolean doPromote(final Unit unit)
     {
         activatedUnits.add(unit);
         addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
@@ -202,10 +196,10 @@ public abstract class Map4Orders extends Map3Animations
                 battle.getPlayer().promote(unit);
             }
         });
-        return 1;
+        return true;
     }
 
-    private int doEngagement(Engagement e)
+    private boolean doEngagement(Engagement e)
     {
         resolveEngagement(e);
 
@@ -228,7 +222,7 @@ public abstract class Map4Orders extends Map3Animations
         if (engagementCost(e) == 0)
             activatedUnits.clear();
 
-        return (e.success ? 1 : 0);
+        return e.success;
     }
 
 }

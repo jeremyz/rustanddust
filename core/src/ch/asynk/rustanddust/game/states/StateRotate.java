@@ -71,8 +71,11 @@ public class StateRotate extends StateCommon
 
         StateType whenDone = StateType.DONE;
 
-        if (map.moveUnit(activeUnit) > 0)
-            whenDone = StateType.MOVE;
+        if (map.moveUnit(activeUnit)) {
+            if (map.unitsActivableSize() > 0)
+                whenDone = StateType.MOVE;
+        } else
+            RustAndDust.debug("rotate failed");
 
         ctrl.setAfterAnimationState(whenDone);
         return StateType.ANIMATION;

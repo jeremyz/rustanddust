@@ -54,8 +54,11 @@ public class StateWithdraw extends StateCommon
         map.movesHide();
         map.hexUnselect(hex);
 
-        if (map.exitBoard(unit) > 0)
-            return StateType.MOVE;
+        if (map.exitBoard(unit)) {
+            if (map.unitsActivableSize() > 0)
+                return StateType.MOVE;
+        } else
+            RustAndDust.debug("exit failed");
         return StateType.DONE;
     }
 }
