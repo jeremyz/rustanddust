@@ -65,7 +65,7 @@ public class StateMove extends StateCommon
     @Override
     public StateType abort()
     {
-        hideAssists();
+        hideActivable();
         if (activeUnit.justEntered()) {
             map.revertEnter(activeUnit);
             return StateType.ABORT;
@@ -80,7 +80,7 @@ public class StateMove extends StateCommon
     @Override
     public StateType execute()
     {
-        hideAssists();
+        hideActivable();
         // be sure that the hq is activated
         if (selectedUnit.canMove() && (map.unitsActivatedSize() > 0))
             selectedUnit.setMoved();
@@ -114,7 +114,7 @@ public class StateMove extends StateCommon
         }
     }
 
-    private void hideAssists()
+    private void hideActivable()
     {
         map.unitsActivableHide();
     }
