@@ -189,6 +189,7 @@ public abstract class Map4Orders extends Map3Animations
 
     private boolean doPromote(final Unit unit)
     {
+        activableUnits.remove(unit);
         activatedUnits.add(unit);
         addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
             @Override
