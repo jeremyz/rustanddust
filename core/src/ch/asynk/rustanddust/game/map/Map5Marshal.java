@@ -169,6 +169,12 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
                     unloadPromoteOrder(json, o.unit);
                     break;
             }
+            if (o.activable.size() > 0) {
+                json.writeArrayStart("a");
+                for(Unit u : o.activable)
+                    json.writeValue(u.id);
+                json.writeArrayEnd();
+            }
             json.writeObjectEnd();
         }
         json.writeArrayEnd();
@@ -368,6 +374,12 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
                 case PROMOTE:
                     order = loadPromoteOrder(o);
                     break;
+            }
+            JsonValue a = o.get("a");
+            if (a != null) {
+                for (int j = 0; j < a.size; j++) {
+                    order.activable.add(findById(a.getInt(j)));
+                }
             }
             orders.add(order);
         }
