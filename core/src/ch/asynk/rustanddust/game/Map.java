@@ -32,6 +32,7 @@ public abstract class Map extends Map5Marshal
 
     public void actionDone()
     {
+        incActionId();
         game.ctrl.actionDoneCb();
     }
 

@@ -18,6 +18,7 @@ public abstract class Map4Orders extends Map3Animations
     protected final Battle battle;
     protected final OrderList orders;
 
+    protected int actionId;
     protected abstract int engagementCost(Engagement e);
     protected abstract void resolveEngagement(Engagement e);
 
@@ -25,6 +26,7 @@ public abstract class Map4Orders extends Map3Animations
     {
         super(game, map, hex);
 
+        this.actionId = 0;
         this.battle = game.ctrl.battle;
         this.orders = new OrderList(10);
     }
@@ -38,6 +40,7 @@ public abstract class Map4Orders extends Map3Animations
         Engagement.clearPool();
     }
 
+    protected void incActionId() { actionId += 1; }
     protected int ordersSize() { return orders.size(); }
     protected void ordersClear() { orders.dispose(); }
 
@@ -141,6 +144,7 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         if (r) {
+            order.actionId = actionId;
             order.setActivable(activableUnits);
             orders.add(order);
             game.ctrl.orderProcessedCb();

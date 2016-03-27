@@ -158,6 +158,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         for (Order o : orders) {
             json.writeObjectStart();
             json.writeValue("type", o.type);
+            json.writeValue("aId", o.actionId);
             switch(o.type) {
                 case MOVE:
                     unloadMoveOrder(json, o.move);
@@ -375,6 +376,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
                     order = loadPromoteOrder(o);
                     break;
             }
+            order.actionId = o.getInt("aId");
             JsonValue a = o.get("a");
             if (a != null) {
                 for (int j = 0; j < a.size; j++) {
