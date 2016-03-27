@@ -38,6 +38,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     public Unit unit;
     public Move move;
     public Engagement engagement;
+    public UnitList activable = new UnitList(4);
 
     private Order()
     {
@@ -55,6 +56,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     {
         this.type = OrderType.NONE;
         this.unit = null;
+        this.activable.clear();
         if (this.move != null) {
             this.move.dispose();
             this.move = null;
@@ -102,5 +104,11 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
         this.type = OrderType.ENGAGE;
         this.engagement = Engagement.get(unit, target);
         this.unit = unit;
+    }
+
+    public void setActivable(UnitList l)
+    {
+        for(Unit u : l)
+            activable.add(u);
     }
 }
