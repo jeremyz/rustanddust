@@ -36,9 +36,6 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 
     public OrderType type;
     public Unit unit;
-    public Unit.UnitCode unitCode;
-    public Unit.UnitType unitType;
-    public Hex unitHex;
     public Move move;
     public Engagement engagement;
 
@@ -91,27 +88,19 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     {
         this.type = OrderType.MOVE;
         this.move = move;
-        setUnit(unit);
+        this.unit = unit;
     }
 
     public void setPromote(Unit unit)
     {
         this.type = OrderType.PROMOTE;
-        setUnit(unit);
+        this.unit = unit;
     }
 
     public void setEngage(Unit unit, Unit target)
     {
         this.type = OrderType.ENGAGE;
         this.engagement = Engagement.get(unit, target);
-        setUnit(unit);
-    }
-
-    private void setUnit(Unit unit)
-    {
         this.unit = unit;
-        this.unitCode = unit.code;
-        this.unitType = unit.type;
-        this.unitHex = unit.getHex();
     }
 }

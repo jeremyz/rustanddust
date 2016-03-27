@@ -394,7 +394,6 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         Move move = Move.get(unit, from, to, orientation, path);
         Order o = Order.get();
         o.setMove(unit, move);
-        o.unitHex = from;
         return o;
     }
 
