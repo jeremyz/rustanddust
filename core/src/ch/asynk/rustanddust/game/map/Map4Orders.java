@@ -141,6 +141,7 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         if (r) {
+            order.setActivable(activableUnits);
             orders.add(order);
             game.ctrl.orderProcessedCb();
         }
