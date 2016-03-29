@@ -23,9 +23,11 @@ public class StateReplay extends StateCommon
 
     private void setup()
     {
+        int s = order.activable.size();
+
         switch (order.type) {
             case MOVE:
-                selectedUnit = order.activable.get(order.activable.size() - 1);
+                selectedUnit = ((s > 0) ? order.activable.get(s - 1) : order.unit);
                 break;
             case ENGAGE:
                 to = order.engagement.defender.getHex();
