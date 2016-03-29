@@ -4,7 +4,7 @@ import ch.asynk.rustanddust.game.Order;
 
 public class StateReplay extends StateCommon
 {
-    Order order;
+    private Order order;
 
     @Override
     public void enterFrom(StateType prevState)
