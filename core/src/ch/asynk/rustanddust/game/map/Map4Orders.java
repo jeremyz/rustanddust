@@ -285,7 +285,8 @@ public abstract class Map4Orders extends Map3Animations
             addDestroyAnimation(e.defender);
         }
 
-        game.ctrl.hud.engagementSummary(e);
+        if (!replay)
+            game.ctrl.hud.engagementSummary(e);
         addEngagementAnimation(e.defender);
 
         if (engagementCost(e) == 0)
