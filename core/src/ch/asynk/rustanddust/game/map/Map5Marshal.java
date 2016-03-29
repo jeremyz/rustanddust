@@ -212,21 +212,21 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private void unloadEngageOrder(Json json, Engagement e)
     {
-        json.writeArrayStart("units");
+        json.writeArrayStart("u");
         json.writeValue(e.attacker.id);
         json.writeValue(e.defender.id);
         json.writeArrayEnd();
-        json.writeArrayStart("assists");
+        json.writeArrayStart("a");
         for (Unit u : e.assists)
             json.writeValue(u.id);
         json.writeArrayEnd();
-        json.writeArrayStart("dice");
+        json.writeArrayStart("d");
         json.writeValue(e.d1);
         json.writeValue(e.d2);
         json.writeValue(e.d3);
         json.writeValue(e.d4);
         json.writeArrayEnd();
-        json.writeArrayStart("vals");
+        json.writeArrayStart("v");
         json.writeValue(e.success);
         json.writeValue(e.attackSum);
         json.writeValue(e.defenseSum);
@@ -414,16 +414,20 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private Order loadEngageOrder(JsonValue v)
     {
         Order o = Order.get();
-        JsonValue a = v.get("units");
+        JsonValue a = v.get("u");
         o.setEngage(findById(a.getInt(0)), findById(a.getInt(1)));
 
-        a = v.get("dice");
+        a = v.get("a");
+        for (int i = 0; i < a.size; i++)
+            o.engagement.assists.add(findById(a.getInt(i)));
+
+        a = v.get("d");
         o.engagement.d1 = a.getInt(0);
         o.engagement.d2 = a.getInt(1);
         o.engagement.d3 = a.getInt(2);
         o.engagement.d4 = a.getInt(3);
 
-        a = v.get("vals");
+        a = v.get("v");
         o.engagement.success = a.getBoolean(0);
         o.engagement.attackSum = a.getInt(1);
         o.engagement.defenseSum = a.getInt(2);
@@ -432,10 +436,6 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         o.engagement.unitDefense = a.getInt(5);
         o.engagement.terrainDefense = a.getInt(6);
         o.engagement.weatherDefense = a.getInt(7);
-
-        a = v.get("assists");
-        for (int i = 0; i < a.size; i++)
-            o.engagement.assists.add(findById(a.getInt(i)));
 
         return o;
     }
