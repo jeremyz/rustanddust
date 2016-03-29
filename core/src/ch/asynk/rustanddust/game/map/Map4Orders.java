@@ -202,6 +202,7 @@ public abstract class Map4Orders extends Map3Animations
             activableUnits.clear();
             for (Unit u : order.activable)
                 activableUnits.add(u);
+            actionId = order.actionId;
         }
 
         return r;
