@@ -40,6 +40,7 @@ public class StateMove extends StateCommon
             }
         }
 
+        map.unitsActivableShow();
         activeUnit.hideActiveable();
     }
 
