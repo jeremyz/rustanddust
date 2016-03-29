@@ -81,6 +81,7 @@ public class StateReplay extends StateCommon
     @Override
     public StateType execute()
     {
-        return StateType.DONE;
+        // called at the end of animation DONE -> burn 1 AP
+        return ((order.cost == 0) ? StateType.REPLAY : StateType.DONE);
     }
 }
