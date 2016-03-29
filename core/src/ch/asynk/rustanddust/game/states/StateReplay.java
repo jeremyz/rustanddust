@@ -47,10 +47,10 @@ public class StateReplay extends StateCommon
 
     private StateType nextState()
     {
-        StateType next = StateType.DONE;
-
         if (map.unitsActivableSize() <= 0)
-            return next;
+            return StateType.DONE;
+
+        StateType next = null;
 
         switch (order.type) {
             case MOVE:
@@ -60,6 +60,7 @@ public class StateReplay extends StateCommon
                 next = StateType.BREAK;
                 break;
             default:
+                next = StateType.DONE;
                 break;
         }
 
