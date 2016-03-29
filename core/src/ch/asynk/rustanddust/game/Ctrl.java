@@ -112,12 +112,24 @@ public abstract class Ctrl implements Disposable
 
         setState(battle.getState());
 
-        if (!synched) {
-            map.prepareReplayLastAction();
-            setState(StateType.REPLAY);
-        } else {
-            this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+        switch(game.config.loadMode) {
+            case REPLAY_ALL:
+                // TODO REPLAY_ALL
+                break;
+            case REPLAY_LAST:
+                map.prepareReplayLastTurn();
+                setState(StateType.REPLAY);
+                break;
+            case LOAD:
+                if (synched) {
+                    this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+                } else {
+                    map.prepareReplayLastAction();
+                    setState(StateType.REPLAY);
+                }
+                break;
         }
+
     }
 
     @Override
@@ -269,8 +281,11 @@ public abstract class Ctrl implements Disposable
                 nextState = completeAction();
         }
 
-        if (stateType == StateType.ANIMATION)
+        if (stateType == StateType.ANIMATION) {
             this.blockMap = hud.dialogActive();
+            if (nextState == StateType.REPLAY)
+                completeReplay();
+        }
 
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
@@ -326,6 +341,16 @@ public abstract class Ctrl implements Disposable
         }
 
         return nextState;
+    }
+
+    private void completeReplay()
+    {
+        StateType nextState = replayState.execute();
+
+        if (nextState == StateType.DONE) {
+            battle.getPlayer().burnDownOneAp();
+            hud.update();
+        }
     }
 
     private State getNextState(StateType nextState)
