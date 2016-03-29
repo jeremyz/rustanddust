@@ -41,7 +41,6 @@ public class Solo extends Ctrl
     @Override
     public void orderProcessedCb()
     {
-        // FIXME what about multible orders actions, HQ actiovations
         if (!isLoading())
             storeOrders();
     }
