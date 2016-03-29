@@ -38,6 +38,7 @@ public abstract class Ctrl implements Disposable
     public boolean blockMap;
     public boolean blockHud;
     private Hex touchedHex;
+    protected boolean replayLastOrder;
 
     private final State selectState;
     private final State pathState;
@@ -83,6 +84,7 @@ public abstract class Ctrl implements Disposable
         this.blockMap = false;
         this.blockHud = false;
         this.touchedHex = null;
+        this.replayLastOrder = false;
 
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
@@ -103,12 +105,18 @@ public abstract class Ctrl implements Disposable
         init();
         StateCommon.set(game);
         hud.update();
-        this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
 
         this.state = selectState;
         this.stateType = StateType.DONE;
 
         setState(battle.getState());
+
+        if (replayLastOrder) {
+            map.prepareReplayLastAction();
+            setState(StateType.REPLAY);
+        } else {
+            this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+        }
     }
 
     @Override

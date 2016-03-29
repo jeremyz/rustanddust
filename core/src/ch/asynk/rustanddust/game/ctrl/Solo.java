@@ -31,6 +31,7 @@ public class Solo extends Ctrl
                 load(Marshal.Mode.STATE, r.state);
                 load(Marshal.Mode.ORDERS, r.orders);
                 battle.getMap().clearMarshalUnits();
+                replayLastOrder = !r.synched;
                 r.dispose();
             } else
                 System.err.println("TODO : null GameRecord");
