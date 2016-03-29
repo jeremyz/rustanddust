@@ -35,6 +35,20 @@ public class Config
         }
     };
 
+    public enum LoadMode
+    {
+        LOAD("Load", 0),
+        REPLAY_LAST("Replay Last Turn", 1),
+        REPLAY_ALL("Full Replay", 2);
+        public String s;
+        public int i;
+        LoadMode(String s, int i)
+        {
+            this.s = s;
+            this.i = i;
+        }
+    }
+
     public enum GameMode
     {
         SOLO("Solo", 0),
@@ -67,6 +81,7 @@ public class Config
     };
 
     public GameMode gameMode;
+    public LoadMode loadMode;
     public boolean showMoves;
     public boolean showTargets;
     public boolean showMoveAssists;
@@ -85,6 +100,7 @@ public class Config
     public Config()
     {
         this.gameMode = GameMode.SOLO;
+        this.loadMode = LoadMode.LOAD;
         this.debug = false;
         this.autoPath = true;
         this.showMoves = true;
