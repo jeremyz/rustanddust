@@ -17,6 +17,7 @@ public abstract class Map4Orders extends Map3Animations
 {
     protected final Battle battle;
     protected final OrderList orders;
+    protected final OrderList replayOrders;
 
     protected int actionId;
     protected abstract int engagementCost(Engagement e);
@@ -29,6 +30,7 @@ public abstract class Map4Orders extends Map3Animations
         this.actionId = 0;
         this.battle = game.ctrl.battle;
         this.orders = new OrderList(10);
+        this.replayOrders = new OrderList(10);
     }
 
     @Override
@@ -103,7 +105,8 @@ public abstract class Map4Orders extends Map3Animations
 
         Order order = Order.get();
         order.setEngage(unit, target);
-        return process(order);
+        process(order);
+        return order.engagement.success;
     }
 
     public boolean promoteUnit(final Unit unit)
@@ -115,6 +118,36 @@ public abstract class Map4Orders extends Map3Animations
 
     // STATES ENTRY <-
 
+    // REPLAY ->
+
+    public void prepareReplayLastAction()
+    {
+        int s = orders.size();
+        int a = orders.get(s - 1).actionId;
+        while (s > 0) {
+            s -= 1;
+            Order o = orders.get(s);
+            if (o.actionId != a)
+                break;
+            replayOrders.add(o);
+        }
+    }
+
+    public Order stepReplay()
+    {
+        int s = replayOrders.size();
+        if (s <= 0)
+            return null;
+        return replayOrders.remove(s - 1);
+    }
+
+    public boolean replay(Order order)
+    {
+        return process(order, true);
+    }
+
+    // REPLAY <-
+
     private Order getMoveOrder(Unit unit, Move move)
     {
         Order order = Order.get();
@@ -124,36 +157,47 @@ public abstract class Map4Orders extends Map3Animations
 
     private boolean process(Order order)
     {
+        return process(order, false);
+    }
+
+    private boolean process(Order order, boolean replay)
+    {
         RustAndDust.debug("Order", order.toString());
 
         boolean r = false;
 
         switch(order.type) {
             case MOVE:
-                r = doMove(order.unit, order.move);
+                r = doMove(order.unit, order.move, replay);
                 break;
             case PROMOTE:
-                r = doPromote(order.unit);
+                r = doPromote(order.unit, replay);
                 break;
             case ENGAGE:
-                r = doEngagement(order.engagement);
+                r = doEngagement(order.engagement, replay);
                 break;
             default:
                 System.err.println(String.format("process wrong Order type %s", order.type));
                 break;
         }
 
-        if (r) {
+        if (r && !replay) {
             order.actionId = actionId;
             order.setActivable(activableUnits);
             orders.add(order);
             game.ctrl.orderProcessedCb();
         }
 
+        if (replay) {
+            activableUnits.clear();
+            for (Unit u : order.activable)
+                activableUnits.add(u);
+        }
+
         return r;
     }
 
-    private boolean doMove(Unit unit, Move move)
+    private boolean doMove(Unit unit, Move move, boolean replay)
     {
         RustAndDust.debug("  Move", String.format("%s %s", move.type, move.toString()));
 
@@ -192,7 +236,7 @@ public abstract class Map4Orders extends Map3Animations
         playMoveSound(unit);
     }
 
-    private boolean doPromote(final Unit unit)
+    private boolean doPromote(final Unit unit, boolean replay)
     {
         activableUnits.remove(unit);
         activatedUnits.add(unit);
@@ -205,15 +249,24 @@ public abstract class Map4Orders extends Map3Animations
         return true;
     }
 
-    private boolean doEngagement(Engagement e)
+    private boolean doEngagement(Engagement e, boolean replay)
     {
-        resolveEngagement(e);
-
-        activableUnits.clear();
-        for (Unit u : activatedUnits) {
-            u.engage();
-            if (u.canBreak())
-                activableUnits.add(u);
+        if (replay) {
+            activatedUnits.clear();
+            for (Unit u : e.assists) {
+                u.engage();
+                activatedUnits.add(u);
+            }
+            e.attacker.engage();
+            activatedUnits.add(e.attacker);
+        } else {
+            resolveEngagement(e);
+            activableUnits.clear();
+            for (Unit u : activatedUnits) {
+                u.engage();
+                if (u.canBreak())
+                    activableUnits.add(u);
+            }
         }
 
         if (e.success) {
@@ -228,7 +281,7 @@ public abstract class Map4Orders extends Map3Animations
         if (engagementCost(e) == 0)
             activatedUnits.clear();
 
-        return e.success;
+        return true;
     }
 
 }
