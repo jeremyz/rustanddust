@@ -10,6 +10,7 @@ import ch.asynk.rustanddust.ui.List;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.ui.Scrollable;
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.game.Config;
 import ch.asynk.rustanddust.util.GameRecord;
 
 public class PlayMenu extends Patch implements MenuCtrl.Panel
@@ -25,6 +26,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     protected Button newBtn;
     protected Button resumeBtn;
     protected Button deleteBtn;
+    protected Button replayBtn;
 
     public PlayMenu(RustAndDust game)
     {
@@ -34,6 +36,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         this.newBtn = new Button("New", game.font, game.bgPatch, 20f);
         this.resumeBtn = new Button("Resume", game.font, game.bgPatch, 20f);
         this.deleteBtn = new Button("Delete", game.font, game.bgPatch, 20f);
+        this.replayBtn = new Button("Replay", game.font, game.bgPatch, 20f);
         this.title = new Label(game.font);
         this.title.write("- Play");
         this.list = new Scrollable(new List(game, 10f), game.framePatch);
@@ -100,7 +103,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         setBottomLeft(cancelBtn);
         setBottomRight(newBtn);
         resumeBtn.setPosition(newBtn.getX() - resumeBtn.getWidth() - 5, newBtn.getY());
-        deleteBtn.setPosition(resumeBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
+        replayBtn.setPosition(resumeBtn.getX() - replayBtn.getWidth() - 5, newBtn.getY());
+        deleteBtn.setPosition(replayBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
         showBtns(false);
 
         y += padding;
@@ -139,6 +143,13 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         } else if (resumeBtn.hit(x, y)) {
             game.playType();
             game.config.gameId = GameRecord.get(getList().getIdx()).id;
+            game.config.loadMode = Config.LoadMode.LOAD;
+            return MenuCtrl.MenuType.BEGIN;
+        } else if (replayBtn.hit(x, y)) {
+            game.playType();
+            game.config.gameId = GameRecord.get(getList().getIdx()).id;
+            // TODO chose between : REPLAY_LAST / REPLAY_ALL
+            game.config.loadMode = Config.LoadMode.REPLAY_LAST;
             return MenuCtrl.MenuType.BEGIN;
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
@@ -154,6 +165,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     {
         deleteBtn.visible = show;
         resumeBtn.visible = show;
+        replayBtn.visible = show;
     }
 
     @Override
@@ -166,6 +178,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         resumeBtn.dispose();
         deleteBtn.dispose();
         cancelBtn.dispose();
+        replayBtn.dispose();
         GameRecord.clearList();
     }
 
@@ -179,5 +192,6 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         resumeBtn.draw(batch);
         deleteBtn.draw(batch);
         cancelBtn.draw(batch);
+        replayBtn.draw(batch);
     }
 }
