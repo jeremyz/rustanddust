@@ -262,13 +262,13 @@ public class DB
 
     public boolean storeGameState(int game, int turn, int player, String state)
     {
-        RustAndDust.debug("storeStateGame");
+        RustAndDust.debug("storeGameState");
         try {
             String hash = getDigest(state);
             if (hash == null) return false;
             exec(String.format(STORE_GAME_STATE, turn, player, state, hash, game));
         } catch (SQLiteGdxException e) {
-            RustAndDust.error("storeStateGame");
+            RustAndDust.error("storeGameState");
             return false;
         }
         return true;
