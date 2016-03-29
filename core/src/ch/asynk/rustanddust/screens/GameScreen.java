@@ -223,13 +223,13 @@ public class GameScreen implements Screen
     public void pause()
     {
         paused = true;
-        RustAndDust.debug("pause() ");
+        // RustAndDust.debug("pause() ");
     }
 
     @Override
     public void resume()
     {
-        RustAndDust.debug("resume() ");
+        // RustAndDust.debug("resume() ");
         paused = false;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
