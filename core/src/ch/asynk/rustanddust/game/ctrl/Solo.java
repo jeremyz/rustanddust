@@ -25,14 +25,14 @@ public class Solo extends Ctrl
             battle.getPlayer().id = me;
             battle.getOpponent().id = other;
             battle.initialDeployment();
-            replayLastOrder = false;
+            synched = true;
         } else {
             GameRecord r = game.db.loadGame(gameId);
             if (r != null) {
                 load(Marshal.Mode.STATE, r.state);
                 load(Marshal.Mode.ORDERS, r.orders);
                 battle.getMap().clearMarshalUnits();
-                replayLastOrder = !r.synched;
+                synched = r.synched;
                 r.dispose();
             } else
                 System.err.println("TODO : null GameRecord");
