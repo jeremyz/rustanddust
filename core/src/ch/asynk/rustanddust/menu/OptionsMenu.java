@@ -164,8 +164,8 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
     public MenuCtrl.MenuType touch(float x, float y)
     {
         if (okBtn.hit(x, y)) {
-            game.playEnter();
             apply();
+            game.playEnter();
             return MenuCtrl.MenuType.MAIN;
         } else if (cancelBtn.hit(x, y)) {
             game.playType();
