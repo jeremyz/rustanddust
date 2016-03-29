@@ -27,7 +27,7 @@ public class Solo extends Ctrl
             battle.initialDeployment();
             synched = true;
         } else {
-            GameRecord r = game.db.loadGame(gameId);
+            GameRecord r = loadState();
             if (r != null) {
                 load(Marshal.Mode.STATE, r.state);
                 load(Marshal.Mode.ORDERS, r.orders);
@@ -37,6 +37,23 @@ public class Solo extends Ctrl
             } else
                 System.err.println("TODO : null GameRecord");
         }
+    }
+
+    private GameRecord loadState()
+    {
+        GameRecord r = null;
+        switch (game.config.loadMode) {
+            case LOAD:
+                r = game.db.loadGame(gameId);
+                break;
+            case REPLAY_LAST:
+                r = game.db.loadLastTurn(gameId);
+                break;
+            case REPLAY_ALL:
+                // TODO REPLAY_ALL
+                break;
+        }
+        return r;
     }
 
     @Override
