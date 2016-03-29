@@ -25,6 +25,7 @@ public class Solo extends Ctrl
             battle.getPlayer().id = me;
             battle.getOpponent().id = other;
             battle.initialDeployment();
+            replayLastOrder = false;
         } else {
             GameRecord r = game.db.loadGame(gameId);
             if (r != null) {
