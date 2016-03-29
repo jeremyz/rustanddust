@@ -34,6 +34,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
         return c;
     }
 
+    public int cost;
     public int actionId;
     public OrderType type;
     public Unit unit;
