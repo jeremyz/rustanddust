@@ -9,15 +9,9 @@ public class StateEngage extends StateCommon
     @Override
     public void enterFrom(StateType prevState)
     {
-        map.unitsTargetClear();
-
-        // activeUnit is the target
         if (prevState == StateType.SELECT) {
+            // activeUnit will be target
             activeUnit = null;
-            // use selectedHex and selectedUnit
-            map.unitsTargetHide();
-            map.collectTargets(selectedUnit, ctrl.battle.getOpponent().units);
-            map.unitsTargetShow();
             if (to != null) {
                 // quick fire -> replay touchUp
                 touch(to);
