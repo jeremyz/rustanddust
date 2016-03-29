@@ -108,6 +108,7 @@ public abstract class Ctrl implements Disposable
 
         this.state = selectState;
         this.stateType = StateType.DONE;
+        this.stateAfterAnimation = StateType.DONE;
 
         setState(battle.getState());
 
