@@ -4,6 +4,7 @@ public interface State
 {
     enum StateType {
         LOADING,
+        REPLAY,
         SELECT,
         MOVE,
         ROTATE,

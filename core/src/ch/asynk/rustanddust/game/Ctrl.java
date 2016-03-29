@@ -24,6 +24,7 @@ import ch.asynk.rustanddust.game.states.StateAnimation;
 import ch.asynk.rustanddust.game.states.StateReinforcement;
 import ch.asynk.rustanddust.game.states.StateDeployment;
 import ch.asynk.rustanddust.game.states.StateWithdraw;
+import ch.asynk.rustanddust.game.states.StateReplay;
 
 public abstract class Ctrl implements Disposable
 {
@@ -48,6 +49,7 @@ public abstract class Ctrl implements Disposable
     private final State reinforcementState;
     private final State deploymentState;
     private final State withdrawState;
+    private final State replayState;
 
     private int animationCount = 0;
 
@@ -92,6 +94,7 @@ public abstract class Ctrl implements Disposable
         this.reinforcementState = new StateReinforcement();
         this.deploymentState = new StateDeployment();
         this.withdrawState = new StateWithdraw();
+        this.replayState = new StateReplay();
 
         this.stateType = StateType.LOADING;
 
@@ -353,6 +356,9 @@ public abstract class Ctrl implements Disposable
                 break;
             case DEPLOYMENT:
                 state = deploymentState;
+                break;
+            case REPLAY:
+                state = replayState;
                 break;
             default:
                 break;
