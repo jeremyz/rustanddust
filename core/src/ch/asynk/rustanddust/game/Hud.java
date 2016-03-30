@@ -50,7 +50,6 @@ public class Hud implements Disposable, Animation
     {
         EXIT_BOARD,
         ABORT_TURN,
-        END_TURN,
         END_DEPLOYMENT,
         QUIT_BATTLE,
     }
@@ -244,10 +243,6 @@ public class Hud implements Disposable, Animation
             case EXIT_BOARD:
                 ctrl.exitBoard(ok);
                 break;
-            case END_TURN:
-                if (ok)
-                    ctrl.endPlayerTurn(false);
-                break;
             case ABORT_TURN:
                 if (ok)
                     ctrl.endPlayerTurn(true);
@@ -304,22 +299,6 @@ public class Hud implements Disposable, Animation
             optionsPanel.show();
             pushDialog(optionsPanel);
         }
-    }
-
-    public void notifyDeploymentDone()
-    {
-        this.okCancelAction = OkCancelAction.END_TURN;
-        okCancel.show("Deployment Phase completed.");
-        okCancel.noCancel();
-        pushDialog(okCancel);
-    }
-
-    public void notifyNoMoreAP()
-    {
-        this.okCancelAction = OkCancelAction.END_TURN;
-        okCancel.show("No more Action Point left.");
-        okCancel.noCancel();
-        pushDialog(okCancel);
     }
 
     public void askExitBoard()
