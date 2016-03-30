@@ -40,8 +40,6 @@ public class StateReplay extends StateCommon
                     ctrl.battle.getPlayer().engagementLost += 1;
                 }
                 break;
-            case PROMOTE:
-                break;
             default:
                 break;
         }
