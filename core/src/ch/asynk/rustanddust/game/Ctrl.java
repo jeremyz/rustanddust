@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.engine.util.IterableQueue;
+import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.util.Marshal;
 import ch.asynk.rustanddust.game.ctrl.Solo;
@@ -26,11 +28,25 @@ import ch.asynk.rustanddust.game.states.StateDeployment;
 import ch.asynk.rustanddust.game.states.StateWithdraw;
 import ch.asynk.rustanddust.game.states.StateReplay;
 
+class Event
+{
+    public enum Type
+    {
+        STATE_CHANGE,
+        TURN_END;
+    }
+
+    public Type type;
+    public Object data;
+}
+
 public abstract class Ctrl implements Disposable
 {
     public final RustAndDust game;
     public final Battle battle;
 
+    private final IterableQueue<Event> events = new IterableQueue<Event>(4);
+    private final IterableStack<Event> freeEvents = new IterableStack<Event>(4);
     private final StringWriter writer = new StringWriter(2048);
 
     public Map map;
@@ -142,6 +158,36 @@ public abstract class Ctrl implements Disposable
         hud.dispose();
         map.dispose();
         battle.desinit();
+        events.clear();
+        freeEvents.clear();
+    }
+
+    // EVENTS
+
+    public void post(StateType stateType)
+    {
+        Event evt = freeEvents.pop();
+        if (evt == null)
+            evt = new Event();
+        evt.type = Event.Type.STATE_CHANGE;
+        evt.data = stateType;
+        events.enqueue(evt);
+    }
+
+    public void processEvent()
+    {
+        if (events.size() <= 0)
+            return;
+
+        Event evt = events.dequeue();
+        switch(evt.type) {
+            case STATE_CHANGE:
+                setState((StateType) evt.data);
+                break;
+            default:
+                RustAndDust.error(String.format("Unhandled Event Type : %s", evt.type));
+        }
+        freeEvents.push(evt);
     }
 
     // JSON
