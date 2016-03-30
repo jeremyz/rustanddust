@@ -33,11 +33,12 @@ class Event
     public enum Type
     {
         STATE_CHANGE,
-        TURN_END;
+        HUD_ANSWER;
     }
 
     public Type type;
     public Object data;
+    public boolean status;
 }
 
 public abstract class Ctrl implements Disposable
@@ -177,6 +178,17 @@ public abstract class Ctrl implements Disposable
         events.enqueue(evt);
     }
 
+    public void postAnswer(Hud.OkCancelAction what, boolean status)
+    {
+        Event evt = freeEvents.pop();
+        if (evt == null)
+            evt = new Event();
+        evt.type = Event.Type.HUD_ANSWER;
+        evt.data = what;
+        evt.status = status;
+        events.enqueue(evt);
+    }
+
     public void processEvent()
     {
         if (events.size() <= 0)
@@ -187,8 +199,11 @@ public abstract class Ctrl implements Disposable
             case STATE_CHANGE:
                 setState((StateType) evt.data);
                 break;
+            case HUD_ANSWER:
+                handleHudAnswer(evt);
+                break;
             default:
-                RustAndDust.error(String.format("Unhandled Event Type : %s", evt.type));
+                RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
         }
         freeEvents.push(evt);
     }
@@ -263,36 +278,37 @@ public abstract class Ctrl implements Disposable
 
     // Hud callbacks
 
-    public void endGame()
+    private void handleHudAnswer(Event evt)
     {
-        game.switchToMenu();
+        switch((Hud.OkCancelAction) evt.data) {
+            case EXIT_BOARD:
+                if (evt.status) setState(StateType.DONE);
+                else setState(StateType.ABORT);
+                break;
+            case ABORT_TURN:
+                if (evt.status) {
+                    this.state.abort();
+                    turnDone();
+                }
+                break;
+            case END_DEPLOYMENT:
+                if (evt.status) {
+                    this.state.execute();
+                    turnDone();
+                }
+                break;
+            case QUIT_BATTLE:
+                if (evt.status)
+                    game.switchToMenu();
+                break;
+
+        }
     }
 
     public void showEntryZone()
     {
         if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT))
             state.touch(null);
-    }
-
-    public void endDeployment()
-    {
-        this.state.execute();
-        turnDone();
-    }
-
-    public void endPlayerTurn(boolean abort)
-    {
-        if (abort)
-            state.abort();
-        turnDone();
-    }
-
-    public void exitBoard(boolean doit)
-    {
-        if (doit)
-            setState(StateType.DONE);
-        else
-            setState(StateType.ABORT);
     }
 
     public void reinforcementHit()

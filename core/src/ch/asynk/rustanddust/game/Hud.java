@@ -217,48 +217,20 @@ public class Hud implements Disposable, Animation
         Widget dialog = dialogs.pop();
         dialog.visible = false;
 
-        if (dialog == okCancel)
-            closeOkCancel();
-        else
+        if (dialog == okCancel) {
+            if (okCancel.ok) game.playEnter();
+            else game.playType();
+            ctrl.postAnswer(okCancelAction, okCancel.ok);
+        } else if (dialog == stats) {
+            game.playEnter();
+            ctrl.postAnswer(OkCancelAction.QUIT_BATTLE, true);
+        } else
             game.playType();
-
-        if (dialog == stats)
-            ctrl.endGame();
 
         if (dialogs.size() > 0)
             dialogs.peek().visible = true;
         else
             ctrl.blockMap = false;
-    }
-
-    private void closeOkCancel()
-    {
-        boolean ok = okCancel.ok;
-        if (ok)
-            game.playEnter();
-        else
-            game.playType();
-
-        switch(okCancelAction) {
-            case EXIT_BOARD:
-                ctrl.exitBoard(ok);
-                break;
-            case ABORT_TURN:
-                if (ok)
-                    ctrl.endPlayerTurn(true);
-                break;
-            case END_DEPLOYMENT:
-                if (ok)
-                    ctrl.endDeployment();
-                break;
-            case QUIT_BATTLE:
-                if (ok) {
-                    closeDialog();
-                    ctrl.endGame();
-                }
-                break;
-
-        }
     }
 
     public void notifyAnimationsEnd()
