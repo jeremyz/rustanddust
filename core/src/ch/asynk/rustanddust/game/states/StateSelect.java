@@ -48,13 +48,13 @@ public class StateSelect extends StateCommon
             if (map.movesContains(hex)) {
                 // quick move
                 to = hex;
-                ctrl.setState(StateType.MOVE);
+                ctrl.post(StateType.MOVE);
                 return;
             }
             if (map.unitsTargetContains(hex.getUnit())) {
                 // quick fire
                 to = hex;
-                ctrl.setState(StateType.ENGAGE);
+                ctrl.post(StateType.ENGAGE);
                 return;
             }
         }
@@ -83,11 +83,11 @@ public class StateSelect extends StateCommon
             if (unit.isHq() && (map.unitsActivableSize() > 1)) {
                 ctrl.hud.notify("HQ activation");
                 select(hex, unit, isEnemy);
-                ctrl.setState(StateType.MOVE);
+                ctrl.post(StateType.MOVE);
             } else {
                 // quick rotate
                 to = hex;
-                ctrl.setState(StateType.ROTATE);
+                ctrl.post(StateType.ROTATE);
             }
         } else {
             select(hex, unit, isEnemy);

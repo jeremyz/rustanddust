@@ -66,7 +66,7 @@ public class StateEngage extends StateCommon
 
         // activeUnit is the target, selectedTarget is the engagement leader
         if (unit == selectedUnit) {
-            ctrl.setState(StateType.ABORT);
+            ctrl.post(StateType.ABORT);
         } else if ((activeUnit == null) && map.unitsTargetContains(unit)) {
             // ctrl.hud.notify("Engage " + unit);
             map.unitsTargetHide();
@@ -77,7 +77,7 @@ public class StateEngage extends StateCommon
             map.unitsAssistShow();
         }
         else if (unit == activeUnit) {
-            ctrl.setState(StateType.DONE);
+            ctrl.post(StateType.DONE);
         }
         else if ((activeUnit != null) && map.unitsActivableContains(unit)) {
             map.toggleAssist(unit);

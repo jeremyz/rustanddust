@@ -88,7 +88,7 @@ public class StateRotate extends StateCommon
 
         Orientation o = Orientation.fromAdj(to, hex);
         if (o == Orientation.KEEP) {
-            ctrl.setState(StateType.ABORT);
+            ctrl.post(StateType.ABORT);
             return;
         }
 
@@ -98,6 +98,6 @@ public class StateRotate extends StateCommon
         map.pathsSetOrientation(o);
         rotationSet = true;
         execute();
-        ctrl.setState(StateType.ANIMATION);
+        ctrl.post(StateType.ANIMATION);
     }
 }

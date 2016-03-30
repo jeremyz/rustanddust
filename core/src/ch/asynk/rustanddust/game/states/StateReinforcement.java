@@ -50,7 +50,7 @@ public class StateReinforcement extends StateCommon
         else if ((entryZone != null) && hex.isEmpty() && entryZone.contains(hex))
             unitEnter(activeUnit, hex);
         else
-            ctrl.setState(StateType.SELECT);
+            ctrl.post(StateType.SELECT);
     }
 
     private void changeUnit(Unit unit)
@@ -70,9 +70,9 @@ public class StateReinforcement extends StateCommon
         entryZone.enable(Hex.AREA, false);
         if (map.enterBoard(unit, hex, entryZone.allowedMoves)) {
             if (unit.getMovementPoints() > 0)
-                ctrl.setState(StateType.MOVE);
+                ctrl.post(StateType.MOVE);
             else
-                ctrl.setState(StateType.ROTATE);
+                ctrl.post(StateType.ROTATE);
         } else {
             ctrl.hud.notify("Can not enter the map at that position");
         }

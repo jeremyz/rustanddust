@@ -58,7 +58,7 @@ public class StateBreak extends StateCommon
             if (o == Orientation.KEEP) return;
 
             doRotation(o);
-            ctrl.setState(StateType.ANIMATION);
+            ctrl.post(StateType.ANIMATION);
         }
     }
 

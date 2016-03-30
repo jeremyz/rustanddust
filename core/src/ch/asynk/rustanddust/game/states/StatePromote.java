@@ -6,7 +6,7 @@ public class StatePromote extends StateCommon
     public void enterFrom(StateType prevState)
     {
         ctrl.setAfterAnimationState(StateType.DONE);
-        ctrl.setState(StateType.ANIMATION);
+        ctrl.post(StateType.ANIMATION);
         map.promoteUnit(selectedUnit);
     }
 

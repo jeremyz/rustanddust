@@ -13,13 +13,13 @@ public class StateReplay extends StateCommon
         if (o == null) {
             StateType nextState = nextState();
             order = null;
-            ctrl.setState(nextState);
+            ctrl.post(nextState);
         } else {
             this.order = o;
             setup();
             map.replay(order);
             ctrl.setAfterAnimationState(StateType.REPLAY);
-            ctrl.setState(StateType.ANIMATION);
+            ctrl.post(StateType.ANIMATION);
         }
     }
 

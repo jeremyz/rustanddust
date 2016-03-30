@@ -97,7 +97,7 @@ public class StateMove extends StateCommon
                 map.pathHide(to);
             to = null;
             map.pathsClear();
-            ctrl.setState(StateType.ROTATE);
+            ctrl.post(StateType.ROTATE);
             return;
         }
 
@@ -156,7 +156,7 @@ public class StateMove extends StateCommon
             s = map.pathsChooseBest();
         map.pathsShow();
         if (s == 1)
-            ctrl.setState(StateType.ROTATE);
+            ctrl.post(StateType.ROTATE);
     }
 
     private void togglePoint(Hex hex, int s)
@@ -173,7 +173,7 @@ public class StateMove extends StateCommon
 
         if (s == 1) {
             if (!checkExit(activeUnit, hex))
-                ctrl.setState(StateType.ROTATE);
+                ctrl.post(StateType.ROTATE);
         }
     }
 
@@ -183,7 +183,7 @@ public class StateMove extends StateCommon
             return false;
         if ((unit.exitZone == null) || !unit.exitZone.contains(unit.getHex()))
             return false;
-        ctrl.setState(StateType.WITHDRAW);
+        ctrl.post(StateType.WITHDRAW);
         return true;
     }
 
@@ -193,7 +193,7 @@ public class StateMove extends StateCommon
             return false;
         if (!map.pathsCanExit(unit.exitZone.orientation))
             return false;
-        ctrl.setState(StateType.WITHDRAW);
+        ctrl.post(StateType.WITHDRAW);
         return true;
     }
 }
