@@ -347,7 +347,7 @@ public class DB
         return r;
     }
 
-    private static final String LOAD_LAST_TURN = "select g._id, g.mode, g.battle, g.opponent, t.turn, t.currentPlayer, g.ts, 0"
+    private static final String LOAD_LAST_TURN = "select g._id, g.mode, g.battle, g.opponent, t.turn, t.currentPlayer, g.ts, g.synched"
         + ", t.state, t.stateH, g.orders, g.ordersH, null, null from games g inner join turns t on (g._id = t.game) where g._id=%d order by t.turn desc limit 1;";
 
     public GameRecord loadLastTurn(int game)

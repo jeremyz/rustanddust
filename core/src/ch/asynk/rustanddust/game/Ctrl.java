@@ -117,8 +117,12 @@ public abstract class Ctrl implements Disposable
                 // TODO REPLAY_ALL
                 break;
             case REPLAY_LAST:
-                map.prepareReplayLastTurn();
-                setState(StateType.REPLAY);
+                if (synched) {
+                    this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+                } else {
+                    map.prepareReplayLastTurn();
+                    setState(StateType.REPLAY);
+                }
                 break;
             case LOAD:
                 if (synched) {
