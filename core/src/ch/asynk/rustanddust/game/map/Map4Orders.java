@@ -186,7 +186,7 @@ public abstract class Map4Orders extends Map3Animations
                 r = doEngagement(order.engagement, replay);
                 break;
             default:
-                System.err.println(String.format("process wrong Order type %s", order.type));
+                RustAndDust.error(String.format("Unhandled Order Type %s", order.type));
                 break;
         }
 
@@ -233,7 +233,7 @@ public abstract class Map4Orders extends Map3Animations
                 claim(unit, move.to);
                 break;
             default:
-                System.err.println(String.format("process wrong Move type %s", move.type));
+                RustAndDust.error(String.format("Unhandled Move Type %s", move.type));
                 return false;
         }
 
