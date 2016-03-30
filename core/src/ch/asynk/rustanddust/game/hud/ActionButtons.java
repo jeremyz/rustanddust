@@ -135,7 +135,7 @@ public class ActionButtons extends Widget
 
         for (int i = 0; i < Buttons.LAST.i; i++) {
             if (buttons[i].hit(x, y)) {
-                ctrl.setState(states[i]);
+                ctrl.post(states[i]);
                 return true;
             }
         }
