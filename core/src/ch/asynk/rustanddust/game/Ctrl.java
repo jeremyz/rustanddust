@@ -164,6 +164,9 @@ public abstract class Ctrl implements Disposable
 
     // EVENTS
 
+    public void postDone() { post(StateType.DONE); }
+    public void postAbort() { post(StateType.ABORT); }
+
     public void post(StateType stateType)
     {
         Event evt = freeEvents.pop();
