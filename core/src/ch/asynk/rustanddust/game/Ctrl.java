@@ -31,7 +31,7 @@ public abstract class Ctrl implements Disposable
     public final RustAndDust game;
     public final Battle battle;
 
-    private final static StringWriter writer = new StringWriter(2048);
+    private final StringWriter writer = new StringWriter(2048);
 
     public Map map;
     public Hud hud;
