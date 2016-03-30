@@ -281,7 +281,7 @@ public abstract class Ctrl implements Disposable
         if (stateType == StateType.ANIMATION) {
             this.blockMap = hud.dialogActive();
             if (nextState == StateType.REPLAY)
-                completeReplay();
+                completeReplayStep();
         }
 
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
@@ -305,7 +305,7 @@ public abstract class Ctrl implements Disposable
             case DEPLOYMENT:
                 return completeDeployment();
             case REPLAY:
-                return battle.getState();
+                return completeReplay();
             default:
                 return completeAction();
         }
@@ -352,7 +352,17 @@ public abstract class Ctrl implements Disposable
         return nextState;
     }
 
-    private void completeReplay()
+    private StateType completeReplay()
+    {
+        if (battle.getPlayer().apExhausted()) {
+            return StateType.TURN_OVER;
+        } else if (!battle.getPlayer().canDoSomething()) {
+            return StateType.TURN_OVER;
+        } else
+            return battle.getState();
+    }
+
+    private void completeReplayStep()
     {
         StateType nextState = replayState.execute();
 
