@@ -56,6 +56,7 @@ public abstract class Ctrl implements Disposable
     public boolean blockHud;
     private Hex touchedHex;
     protected boolean synched;
+    private int depth;
 
     private final State selectState;
     private final State pathState;
@@ -102,6 +103,7 @@ public abstract class Ctrl implements Disposable
         this.blockHud = false;
         this.touchedHex = null;
         this.synched = false;
+        this.depth = 0;
 
         this.selectState = new StateSelect();
         this.pathState = new StateMove();
@@ -341,6 +343,10 @@ public abstract class Ctrl implements Disposable
 
     public void setState(StateType nextState)
     {
+        depth += 1;
+        if (depth > 1)
+            RustAndDust.debug(String.format("***!!!*** STATE DEPTH : %d", depth));
+
         if (nextState == StateType.ABORT)
             nextState = abortAction();
         else if (nextState == StateType.DONE) {
@@ -355,6 +361,9 @@ public abstract class Ctrl implements Disposable
 
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
+        if (nextState == stateType)
+            RustAndDust.debug(String.format("***!!!*** STATE LOOP : %s", stateType));
+
         this.state.leaveFor(nextState);
 
         this.state = getNextState(nextState);
@@ -366,6 +375,7 @@ public abstract class Ctrl implements Disposable
 
         if (nextState == StateType.TURN_OVER)
             turnDone();
+        depth -= 1;
     }
 
     private StateType complete()
