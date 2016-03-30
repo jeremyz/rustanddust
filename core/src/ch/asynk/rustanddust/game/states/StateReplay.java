@@ -11,7 +11,9 @@ public class StateReplay extends StateCommon
     {
         Order o = map.stepReplay();
         if (o == null) {
-            ctrl.setState(nextState());
+            StateType nextState = nextState();
+            order = null;
+            ctrl.setState(nextState);
         } else {
             this.order = o;
             setup();
