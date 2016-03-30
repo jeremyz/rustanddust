@@ -275,10 +275,7 @@ public abstract class Ctrl implements Disposable
         if (nextState == StateType.ABORT)
             nextState = abortAction();
         else if (nextState == StateType.DONE) {
-            if (stateType == StateType.DEPLOYMENT)
-                nextState = completeDeployment();
-            else
-                nextState = completeAction();
+            nextState = complete();
         }
 
         if (stateType == StateType.ANIMATION) {
@@ -300,6 +297,18 @@ public abstract class Ctrl implements Disposable
 
         if (nextState == StateType.TURN_OVER)
             turnDone();
+    }
+
+    private StateType complete()
+    {
+        switch(stateType) {
+            case DEPLOYMENT:
+                return completeDeployment();
+            case REPLAY:
+                return battle.getState();
+            default:
+                return completeAction();
+        }
     }
 
     private StateType completeDeployment()
