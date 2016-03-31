@@ -61,6 +61,15 @@ public class Factory implements Board.TileBuilder, Disposable
             game.db.storeBattle(battles[i].getId(), battles[i].getName());
     }
 
+    public Battle getBattle(int id)
+    {
+        for (int i = 0; i < battles.length; i++) {
+            if (battles[i].getId() == id)
+                return battles[i];
+        }
+        return null;
+    }
+
     public void assetsLoaded()
     {
         if (assetsLoaded) return;
