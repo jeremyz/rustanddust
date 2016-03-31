@@ -34,7 +34,8 @@ public abstract class Ctrl implements Disposable
     {
         STATE_CHANGE,
         HUD_ANSWER,
-        ANIMATIONS_DONE;
+        ANIMATIONS_DONE,
+        TOGGLE_REINFORCEMENT;
     }
 
     class Event
@@ -216,6 +217,9 @@ public abstract class Ctrl implements Disposable
             case ANIMATIONS_DONE:
                 animationsDone();
                 break;
+            case TOGGLE_REINFORCEMENT:
+                toggleReinforcement();
+                break;
             default:
                 RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
         }
@@ -323,7 +327,7 @@ public abstract class Ctrl implements Disposable
             state.touch(null);
     }
 
-    public void reinforcementHit()
+    private void toggleReinforcement()
     {
         if (this.stateType == StateType.SELECT)
             setState(StateType.REINFORCEMENT);
