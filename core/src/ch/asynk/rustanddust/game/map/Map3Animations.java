@@ -7,6 +7,7 @@ import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
+import ch.asynk.rustanddust.engine.gfx.animations.BounceAnimation;
 import ch.asynk.rustanddust.engine.gfx.animations.DiceAnimation;
 import ch.asynk.rustanddust.engine.gfx.animations.FireAnimation;
 import ch.asynk.rustanddust.engine.gfx.animations.TankFireAnimation;
@@ -89,6 +90,11 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
     }
 
     // <- implement MoveToAnimationCb
+
+    protected void addBounceAnimation(final Unit unit, float duration)
+    {
+        addAnimation(BounceAnimation.get(unit, duration));
+    }
 
     protected void addPromoteAnimation(final Unit unit, final Player player, final Runnable after)
     {
