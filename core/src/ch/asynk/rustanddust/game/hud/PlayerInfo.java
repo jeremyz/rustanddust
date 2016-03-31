@@ -145,7 +145,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             return true;
         }
         else if (unitDock.hit(x, y)) {
-            ctrl.hud.notify(unitDock.select(x, y).toString(), Position.TOP_CENTER);
+            ctrl.hud.notify(unitDock.selectedUnit.toString(), Position.TOP_CENTER);
             ctrl.showEntryZone();
             return true;
         }
