@@ -196,8 +196,14 @@ public abstract class Ctrl implements Disposable
 
     public void postEvent(EventType type)
     {
+        postEvent(type, null);
+    }
+
+    public void postEvent(EventType type, Object data)
+    {
         Event evt = getEvent();
         evt.type = type;
+        evt.data = data;
         events.enqueue(evt);
     }
 
