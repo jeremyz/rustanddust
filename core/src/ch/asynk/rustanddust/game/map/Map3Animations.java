@@ -140,8 +140,7 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
         if (soundId >= 0) {
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, game.config.fxVolume, 0.5f));
             soundId = -1;
-            return;
-        }
-        game.ctrl.animationsOver();
+        } else
+            game.ctrl.postAnimationsDone();
     }
 }

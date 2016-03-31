@@ -33,7 +33,8 @@ class Event
     public enum Type
     {
         STATE_CHANGE,
-        HUD_ANSWER;
+        HUD_ANSWER,
+        ANIMATIONS_DONE;
     }
 
     public Type type;
@@ -192,6 +193,13 @@ public abstract class Ctrl implements Disposable
         events.enqueue(evt);
     }
 
+    public void postAnimationsDone()
+    {
+        Event evt = getEvent();
+        evt.type = Event.Type.ANIMATIONS_DONE;
+        events.enqueue(evt);
+    }
+
     public void processEvent()
     {
         if (events.size() <= 0)
@@ -204,6 +212,9 @@ public abstract class Ctrl implements Disposable
                 break;
             case HUD_ANSWER:
                 handleHudAnswer(evt);
+                break;
+            case ANIMATIONS_DONE:
+                animationsDone();
                 break;
             default:
                 RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
@@ -259,19 +270,6 @@ public abstract class Ctrl implements Disposable
             state.touch(touchedHex);
     }
 
-    // Map callbacks
-
-    public void animationsOver()
-    {
-        if (hud.dialogActive())
-            hud.notifyAnimationsEnd();
-        if (stateType == StateType.ANIMATION) {
-            StateType tmp = stateAfterAnimation;
-            stateAfterAnimation = StateType.DONE;
-            setState(tmp);
-        }
-    }
-
     // State callbacks
 
     public void setAfterAnimationState(StateType after)
@@ -279,7 +277,7 @@ public abstract class Ctrl implements Disposable
         stateAfterAnimation = after;
     }
 
-    // Hud callbacks
+    // Event handlers
 
     private void handleHudAnswer(Event evt)
     {
@@ -305,6 +303,17 @@ public abstract class Ctrl implements Disposable
                     game.switchToMenu();
                 break;
 
+        }
+    }
+
+    private void animationsDone()
+    {
+        if (hud.dialogActive())
+            hud.notifyAnimationsDone();
+        if (stateType == StateType.ANIMATION) {
+            StateType tmp = stateAfterAnimation;
+            stateAfterAnimation = StateType.DONE;
+            setState(tmp);
         }
     }
 

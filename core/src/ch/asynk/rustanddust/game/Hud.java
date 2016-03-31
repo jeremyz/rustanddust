@@ -233,7 +233,7 @@ public class Hud implements Disposable, Animation
             ctrl.blockMap = false;
     }
 
-    public void notifyAnimationsEnd()
+    public void notifyAnimationsDone()
     {
         delay = CLOSE_DELAY;
         delayOn = true;
