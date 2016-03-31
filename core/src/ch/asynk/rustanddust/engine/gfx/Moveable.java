@@ -4,6 +4,7 @@ import ch.asynk.rustanddust.engine.Faction;
 
 public interface Moveable extends Drawable
 {
+    public void setScale(float x);
     public void setAlpha(float alpha);
     public boolean canAim();
     public float getX();

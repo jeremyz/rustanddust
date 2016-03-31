@@ -238,6 +238,13 @@ public abstract class Pawn implements Moveable, Disposable
     }
 
     @Override
+    public void setScale(float scale)
+    {
+        sprite.setScale(scale);
+        overlays.setScale(scale);
+    }
+
+    @Override
     public void setAlpha(float alpha)
     {
         sprite.setAlpha(alpha);
