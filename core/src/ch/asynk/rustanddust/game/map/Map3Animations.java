@@ -135,7 +135,7 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
     }
 
     @Override
-    protected void animationsOver()
+    protected void animationsDone()
     {
         if (soundId >= 0) {
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, game.config.fxVolume, 0.5f));

@@ -221,7 +221,7 @@ public abstract class Board implements Disposable, Animation
         return t;
     }
 
-    protected abstract void animationsOver();
+    protected abstract void animationsDone();
 
     protected void addAnimation(Animation a)
     {
@@ -263,7 +263,7 @@ public abstract class Board implements Disposable, Animation
             }
         }
         if (over && (animations.size() == 0))
-            animationsOver();
+            animationsDone();
 
         for (Animation a : nextAnimations)
             animations.add(a);
