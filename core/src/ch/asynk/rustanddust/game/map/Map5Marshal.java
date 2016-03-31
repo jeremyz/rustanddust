@@ -184,7 +184,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private void unloadMoveOrder(Json json, Move m)
     {
-        json.writeValue("type", m.type);
+        json.writeValue("mType", m.type);
         json.writeValue("id", ((Unit) m.pawn).id);
         if (m.from != null) {
             json.writeArrayStart("from");
@@ -392,10 +392,10 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private Order loadMoveOrder(JsonValue v)
     {
         Unit unit = findById(v.getInt("id"));
+        if (unit == null) return null;
         Hex from = loadHex(v, "from");
         Hex to = loadHex(v, "to");
         Orientation orientation = Orientation.fromRotation(v.get("to").getInt(2));
-        if (unit == null) return null;
 
         Path path = null;
         JsonValue p = v.get("path");
@@ -407,9 +407,25 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             }
         }
 
-        Move move = Move.get(unit, from, to, orientation, path);
+        Move m = null;
+        switch(Move.MoveType.valueOf(v.getString("mType"))) {
+            case REGULAR:
+                m = Move.get(unit, from, to, orientation, path);
+                break;
+            case ENTER:
+                m = Move.getEnter(unit, to, orientation);
+                break;
+            case SET:
+                m = Move.getSet(unit, to, orientation);
+                break;
+            case EXIT:
+                m = Move.get(unit, from, to, orientation, path);
+                m.type = Move.MoveType.EXIT;
+                break;
+        }
+
         Order o = Order.get();
-        o.setMove(unit, move);
+        o.setMove(unit, m);
         return o;
     }
 
