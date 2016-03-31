@@ -141,7 +141,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             return true;
         }
         else if (reinforcement.hit(x, y)) {
-            ctrl.postEvent(Ctrl.EventType.TOGGLE_REINFORCEMENT);
+            ctrl.postEvent(Ctrl.EventType.UNIT_DOCK_TOGGLE);
             return true;
         }
         else if (unitDock.hit(x, y)) {
