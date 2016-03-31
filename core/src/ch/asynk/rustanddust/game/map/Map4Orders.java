@@ -15,7 +15,6 @@ import ch.asynk.rustanddust.game.Battle;
 
 public abstract class Map4Orders extends Map3Animations
 {
-    protected final Battle battle;
     protected final OrderList orders;
     protected final OrderList replayOrders;
 
@@ -28,7 +27,6 @@ public abstract class Map4Orders extends Map3Animations
         super(game, map, hex);
 
         this.actionId = 0;
-        this.battle = game.ctrl.battle;
         this.orders = new OrderList(10);
         this.replayOrders = new OrderList(10);
     }
@@ -94,7 +92,7 @@ public abstract class Map4Orders extends Map3Animations
 
         revertclaim(unit, unit.getHex());
         removePawn(unit);
-        battle.getPlayer().revertUnitEntry(unit);
+        game.ctrl.battle.getPlayer().revertUnitEntry(unit);
         orders.dispose(unit);
         unit.reset();
     }
@@ -220,16 +218,16 @@ public abstract class Map4Orders extends Map3Animations
             case EXIT:
                 initMove(unit);
                 movePawn(unit, move, this);
-                battle.getPlayer().unitWithdraw(unit);
+                game.ctrl.battle.getPlayer().unitWithdraw(unit);
                 break;
             case SET:
                 setPawnOnto(unit, move);
-                battle.getPlayer().unitEntry(unit);
+                game.ctrl.battle.getPlayer().unitEntry(unit);
                 claim(unit, move.to);
                 break;
             case ENTER:
                 enterPawn(unit, move);
-                battle.getPlayer().unitEntry(unit);
+                game.ctrl.battle.getPlayer().unitEntry(unit);
                 claim(unit, move.to);
                 break;
             default:
@@ -251,10 +249,10 @@ public abstract class Map4Orders extends Map3Animations
     {
         activableUnits.remove(unit);
         activatedUnits.add(unit);
-        addPromoteAnimation(unit, battle.getPlayer(), new Runnable() {
+        addPromoteAnimation(unit, game.ctrl.battle.getPlayer(), new Runnable() {
             @Override
             public void run() {
-                battle.getPlayer().promote(unit);
+                game.ctrl.battle.getPlayer().promote(unit);
             }
         });
         return true;
