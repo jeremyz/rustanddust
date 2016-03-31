@@ -35,7 +35,8 @@ public abstract class Ctrl implements Disposable
         STATE_CHANGE,
         HUD_ANSWER,
         ANIMATIONS_DONE,
-        UNIT_DOCK_TOGGLE;
+        UNIT_DOCK_TOGGLE,
+        UNIT_DOCK_SELECT;
     }
 
     class Event
@@ -226,6 +227,9 @@ public abstract class Ctrl implements Disposable
             case UNIT_DOCK_TOGGLE:
                 unitDockToggle();
                 break;
+            case UNIT_DOCK_SELECT:
+                unitDockSelect((Unit) evt.data);
+                break;
             default:
                 RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
         }
@@ -327,7 +331,7 @@ public abstract class Ctrl implements Disposable
         }
     }
 
-    public void showEntryZone()
+    private void unitDockSelect(Unit unit)
     {
         if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT))
             state.touch(null);
