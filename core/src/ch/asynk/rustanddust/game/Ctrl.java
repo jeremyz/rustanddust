@@ -193,10 +193,10 @@ public abstract class Ctrl implements Disposable
         events.enqueue(evt);
     }
 
-    public void postAnimationsDone()
+    public void postEvent(EventType type)
     {
         Event evt = getEvent();
-        evt.type = EventType.ANIMATIONS_DONE;
+        evt.type = type;
         events.enqueue(evt);
     }
 

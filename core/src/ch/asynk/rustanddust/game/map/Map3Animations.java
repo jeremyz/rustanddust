@@ -21,6 +21,7 @@ import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
+import ch.asynk.rustanddust.game.Ctrl.EventType;
 
 public abstract class Map3Animations extends Map2Moves implements MoveToAnimationCb
 {
@@ -141,6 +142,6 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, game.config.fxVolume, 0.5f));
             soundId = -1;
         } else
-            game.ctrl.postAnimationsDone();
+            game.ctrl.postEvent(EventType.ANIMATIONS_DONE);
     }
 }
