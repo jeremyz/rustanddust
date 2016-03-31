@@ -165,6 +165,54 @@ public abstract class Ctrl implements Disposable
         freeEvents.clear();
     }
 
+    // JSON
+
+    protected boolean isLoading()
+    {
+        return (stateType == StateType.LOADING);
+    }
+
+    protected void load(Marshal.Mode mode, String payload)
+    {
+        JsonValue root = new JsonReader().parse(payload);
+        battle.load(mode, root);
+    }
+
+    protected String unload(Marshal.Mode mode)
+    {
+        Json json = new Json(OutputType.json);
+        writer.getBuffer().setLength(0);
+        json.setWriter(writer);
+        battle.unload(mode, json);
+        writer.flush();
+        return writer.toString();
+    }
+
+    // INPUTS
+
+    public boolean drag(float x, float y, int dx, int dy)
+    {
+        if (!blockHud && hud.drag(x, y, dx, dy))
+            return true;
+        return false;
+    }
+
+    public void touchDown(float hudX, float hudY, float mapX, float mapY)
+    {
+        boolean inAnimation = (this.stateType == StateType.ANIMATION);
+
+        if (!blockHud && hud.hit(hudX, hudY, inAnimation))
+            return;
+
+        touchedHex = (blockMap ? null : map.getHexAt(mapX, mapY));
+    }
+
+    public void touchUp(float hudX, float hudY, float mapX, float mapY)
+    {
+        if (!blockMap && (touchedHex != null) && (touchedHex == map.getHexAt(mapX, mapY)))
+            state.touch(touchedHex);
+    }
+
     // EVENTS
 
     private Event getEvent()
@@ -234,54 +282,6 @@ public abstract class Ctrl implements Disposable
                 RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
         }
         freeEvents.push(evt);
-    }
-
-    // JSON
-
-    protected boolean isLoading()
-    {
-        return (stateType == StateType.LOADING);
-    }
-
-    protected void load(Marshal.Mode mode, String payload)
-    {
-        JsonValue root = new JsonReader().parse(payload);
-        battle.load(mode, root);
-    }
-
-    protected String unload(Marshal.Mode mode)
-    {
-        Json json = new Json(OutputType.json);
-        writer.getBuffer().setLength(0);
-        json.setWriter(writer);
-        battle.unload(mode, json);
-        writer.flush();
-        return writer.toString();
-    }
-
-    // INPUTS
-
-    public boolean drag(float x, float y, int dx, int dy)
-    {
-        if (!blockHud && hud.drag(x, y, dx, dy))
-            return true;
-        return false;
-    }
-
-    public void touchDown(float hudX, float hudY, float mapX, float mapY)
-    {
-        boolean inAnimation = (this.stateType == StateType.ANIMATION);
-
-        if (!blockHud && hud.hit(hudX, hudY, inAnimation))
-            return;
-
-        touchedHex = (blockMap ? null : map.getHexAt(mapX, mapY));
-    }
-
-    public void touchUp(float hudX, float hudY, float mapX, float mapY)
-    {
-        if (!blockMap && (touchedHex != null) && (touchedHex == map.getHexAt(mapX, mapY)))
-            state.touch(touchedHex);
     }
 
     // State callbacks
