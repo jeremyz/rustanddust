@@ -142,15 +142,11 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
             return MenuCtrl.MenuType.OKKO;
         } else if (resumeBtn.hit(x, y)) {
             game.playType();
-            game.config.gameId = GameRecord.get(getList().getIdx()).id;
-            game.config.loadMode = Config.LoadMode.LOAD;
-            return MenuCtrl.MenuType.BEGIN;
+            return setConfig(Config.LoadMode.LOAD);
         } else if (replayBtn.hit(x, y)) {
             game.playType();
-            game.config.gameId = GameRecord.get(getList().getIdx()).id;
             // TODO chose between : REPLAY_LAST / REPLAY_ALL
-            game.config.loadMode = Config.LoadMode.REPLAY_LAST;
-            return MenuCtrl.MenuType.BEGIN;
+            return setConfig(Config.LoadMode.REPLAY_LAST);
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
                 game.playType();
@@ -159,6 +155,15 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         }
 
         return MenuCtrl.MenuType.NONE;
+    }
+
+    private MenuCtrl.MenuType setConfig(Config.LoadMode loadMode)
+    {
+        GameRecord g = GameRecord.get(getList().getIdx());
+        game.config.gameId = g.id;
+        game.config.battle = game.factory.getBattle(g.battle);
+        game.config.loadMode = loadMode;
+        return MenuCtrl.MenuType.BEGIN;
     }
 
     private void showBtns(boolean show)
