@@ -369,7 +369,7 @@ public abstract class Ctrl implements Disposable
     {
         depth += 1;
         if (depth > 1)
-            RustAndDust.debug(String.format("***!!!*** STATE DEPTH : %d", depth));
+            RustAndDust.error(String.format("***!!!*** STATE DEPTH : %d", depth));
 
         if (nextState == StateType.ABORT)
             nextState = abortAction();
