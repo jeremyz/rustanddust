@@ -46,9 +46,9 @@ public abstract class Ctrl implements Disposable
     public final RustAndDust game;
     public final Battle battle;
 
+    private final StringWriter writer = new StringWriter(2048);
     private final IterableQueue<Event> events = new IterableQueue<Event>(4);
     private final IterableStack<Event> freeEvents = new IterableStack<Event>(4);
-    private final StringWriter writer = new StringWriter(2048);
 
     public Map map;
     public Hud hud;
@@ -131,25 +131,22 @@ public abstract class Ctrl implements Disposable
 
         setState(battle.getState());
 
+        if (synched) {
+            this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+            return;
+        }
+
         switch(game.config.loadMode) {
             case REPLAY_ALL:
                 // TODO REPLAY_ALL
                 break;
             case REPLAY_LAST:
-                if (synched) {
-                    this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
-                } else {
-                    map.prepareReplayLastTurn();
-                    setState(StateType.REPLAY);
-                }
+                map.prepareReplayLastTurn();
+                setState(StateType.REPLAY);
                 break;
             case LOAD:
-                if (synched) {
-                    this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
-                } else {
-                    map.prepareReplayLastAction();
-                    setState(StateType.REPLAY);
-                }
+                map.prepareReplayLastAction();
+                setState(StateType.REPLAY);
                 break;
         }
 
