@@ -164,14 +164,20 @@ public abstract class Ctrl implements Disposable
 
     // EVENTS
 
+    private Event getEvent()
+    {
+        Event evt = freeEvents.pop();
+        if (evt == null)
+            evt = new Event();
+        return evt;
+    }
+
     public void postDone() { post(StateType.DONE); }
     public void postAbort() { post(StateType.ABORT); }
 
     public void post(StateType stateType)
     {
-        Event evt = freeEvents.pop();
-        if (evt == null)
-            evt = new Event();
+        Event evt = getEvent();
         evt.type = Event.Type.STATE_CHANGE;
         evt.data = stateType;
         events.enqueue(evt);
@@ -179,9 +185,7 @@ public abstract class Ctrl implements Disposable
 
     public void postAnswer(Hud.OkCancelAction what, boolean status)
     {
-        Event evt = freeEvents.pop();
-        if (evt == null)
-            evt = new Event();
+        Event evt = getEvent();
         evt.type = Event.Type.HUD_ANSWER;
         evt.data = what;
         evt.status = status;
