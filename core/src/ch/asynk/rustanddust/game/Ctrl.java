@@ -351,7 +351,7 @@ public abstract class Ctrl implements Disposable
 
     //
 
-    public void setState(StateType nextState)
+    private void setState(StateType nextState)
     {
         depth += 1;
         if (depth > 1)
