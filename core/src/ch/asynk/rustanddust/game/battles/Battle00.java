@@ -37,10 +37,7 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    public boolean hasReinforcement()
-    {
-        return false;
-    }
+    public void setNextTurn() { }
 
     // SETUP
 

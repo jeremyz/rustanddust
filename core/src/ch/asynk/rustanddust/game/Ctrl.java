@@ -328,7 +328,7 @@ public abstract class Ctrl implements Disposable
         if (battle.turnDone())
             hud.victory(battle.getPlayer(), battle.getOpponent());
         else {
-            if (battle.hasReinforcement())
+            if (battle.getPlayer().hasReinforcement())
                 hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
             hud.update();
             if (!battle.getPlayer().canDoSomething()) {

@@ -36,6 +36,7 @@ public abstract class BattleCommon implements Battle
     protected abstract Player getWinner();
     protected abstract void setup();
     protected abstract void deployPlayer();
+    protected abstract void setNextTurn();
 
     private int d6()
     {
@@ -149,6 +150,7 @@ public abstract class BattleCommon implements Battle
             currentPlayer.turnStart(getActionPoints());
         }
         turnCount += 1;
+        setNextTurn();
         map.turnDone();
         return ret;
     }
@@ -207,12 +209,6 @@ public abstract class BattleCommon implements Battle
     public boolean isDeploymentDone()
     {
         return currentPlayer.isDeploymentDone();
-    }
-
-    @Override
-    public boolean hasReinforcement()
-    {
-        return false;
     }
 
     @Override

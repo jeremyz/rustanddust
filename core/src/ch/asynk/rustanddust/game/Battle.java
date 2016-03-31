@@ -36,7 +36,5 @@ public interface Battle extends Marshal
 
     public boolean isDeploymentDone();
 
-    public boolean hasReinforcement();
-
     public State.StateType getState();
 }

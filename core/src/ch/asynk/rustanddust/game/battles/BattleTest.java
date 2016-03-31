@@ -34,20 +34,15 @@ public class BattleTest extends BattleCommon
     }
 
     @Override
-    public boolean hasReinforcement()
+    public void setNextTurn()
     {
-        if (currentPlayer.is(Army.GE))
-            return false;
-        if (currentPlayer.getTurn() != 2)
-            return false;
-
-        Zone usEntry = new Zone(map, 1);
-        usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
-        usEntry.add(map.getHex(12, 6));
-        addEntryZone(usEntry);
-        addReinforcement(currentPlayer, usEntry, usExit, UnitCode.US_WOLVERINE);
-
-        return true;
+        if (turnCount == 3) {
+            Zone usEntry = new Zone(map, 1);
+            usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
+            usEntry.add(map.getHex(12, 6));
+            addEntryZone(usEntry);
+            addReinforcement(currentPlayer, usEntry, usExit, UnitCode.US_WOLVERINE);
+        }
     }
 
     // SETUP
