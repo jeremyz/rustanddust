@@ -28,22 +28,22 @@ import ch.asynk.rustanddust.game.states.StateDeployment;
 import ch.asynk.rustanddust.game.states.StateWithdraw;
 import ch.asynk.rustanddust.game.states.StateReplay;
 
-class Event
+public abstract class Ctrl implements Disposable
 {
-    public enum Type
+    public enum EventType
     {
         STATE_CHANGE,
         HUD_ANSWER,
         ANIMATIONS_DONE;
     }
 
-    public Type type;
-    public Object data;
-    public boolean status;
-}
+    class Event
+    {
+        public EventType type;
+        public Object data;
+        public boolean status;
+    }
 
-public abstract class Ctrl implements Disposable
-{
     public final RustAndDust game;
     public final Battle battle;
 
@@ -179,7 +179,7 @@ public abstract class Ctrl implements Disposable
     public void post(StateType stateType)
     {
         Event evt = getEvent();
-        evt.type = Event.Type.STATE_CHANGE;
+        evt.type = EventType.STATE_CHANGE;
         evt.data = stateType;
         events.enqueue(evt);
     }
@@ -187,7 +187,7 @@ public abstract class Ctrl implements Disposable
     public void postAnswer(Hud.OkCancelAction what, boolean status)
     {
         Event evt = getEvent();
-        evt.type = Event.Type.HUD_ANSWER;
+        evt.type = EventType.HUD_ANSWER;
         evt.data = what;
         evt.status = status;
         events.enqueue(evt);
@@ -196,7 +196,7 @@ public abstract class Ctrl implements Disposable
     public void postAnimationsDone()
     {
         Event evt = getEvent();
-        evt.type = Event.Type.ANIMATIONS_DONE;
+        evt.type = EventType.ANIMATIONS_DONE;
         events.enqueue(evt);
     }
 
