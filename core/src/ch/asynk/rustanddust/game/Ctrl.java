@@ -517,6 +517,7 @@ public abstract class Ctrl implements Disposable
                 state = replayState;
                 break;
             default:
+                RustAndDust.error(String.format("Unhandled State : %s", nextState));
                 break;
         }
 
