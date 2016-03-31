@@ -224,11 +224,13 @@ public abstract class Map4Orders extends Map3Animations
                 setPawnOnto(unit, move);
                 game.ctrl.battle.getPlayer().unitEntry(unit);
                 claim(unit, move.to);
+                addBounceAnimation(unit, 0.3f);
                 break;
             case ENTER:
                 enterPawn(unit, move);
                 game.ctrl.battle.getPlayer().unitEntry(unit);
                 claim(unit, move.to);
+                addBounceAnimation(unit, 0.3f);
                 break;
             default:
                 RustAndDust.error(String.format("Unhandled Move Type %s", move.type));
