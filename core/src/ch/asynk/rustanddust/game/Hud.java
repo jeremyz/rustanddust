@@ -184,8 +184,8 @@ public class Hud implements Disposable, Animation
     public boolean hit(float x, float y, boolean isInAnimation)
     {
         if (optionsBtn.hit(x, y)) {
-            game.playType();
-            toggleOptionsPanel();
+            if (toggleOptionsPanel())
+                game.playType();
             return true;
         }
 
@@ -260,17 +260,18 @@ public class Hud implements Disposable, Animation
         dialogs.push(dialog);
     }
 
-    private void toggleOptionsPanel()
+    private boolean toggleOptionsPanel()
     {
         if (dialogs.size() > 0) {
-            if (dialogs.peek() == optionsPanel) {
-                optionsPanel.close();
-                closeDialog();
-            }
+            if (dialogs.peek() != optionsPanel)
+                return false;
+            optionsPanel.close();
+            closeDialog();
         } else {
             optionsPanel.show();
             pushDialog(optionsPanel);
         }
+        return true;
     }
 
     public void askExitBoard()
