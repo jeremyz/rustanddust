@@ -325,7 +325,6 @@ public abstract class Board implements Disposable, Animation
 
     protected int collectPossibleTargets(Pawn pawn, Collection<Pawn> units, Collection<Pawn> targets)
     {
-        targets.clear();
         for (Pawn target : units) {
             if (pawn.canEngage(target) && searchBoard.canAttack(pawn, target, true))
                 targets.add(target);
@@ -336,7 +335,6 @@ public abstract class Board implements Disposable, Animation
 
     protected int collectMoveAssists(Pawn pawn, Collection<Pawn> assists)
     {
-        assists.clear();
         setAdjacentTiles(pawn.getTile(), neighbours);
         for (int i = 0; i < 6; i++) {
             Tile tile = neighbours[i];
@@ -352,7 +350,6 @@ public abstract class Board implements Disposable, Animation
 
     protected int collectAttackAssists(Pawn pawn, Pawn target, Collection<Pawn> units, Collection<Pawn> assists)
     {
-        assists.clear();
         for (Pawn p : units) {
             if ((p != pawn) && p.canEngage(target) && searchBoard.canAttack(p, target, !p.canAssistEngagementWithoutLos()))
                 assists.add(p);

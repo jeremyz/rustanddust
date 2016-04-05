@@ -110,7 +110,6 @@ public class SearchBoard
 
     public int possibleMovesFrom(Pawn pawn, Collection<Tile> moves)
     {
-        moves.clear();
         searchCount += 1;
 
         Node adjacents[] = new Node[6];
@@ -264,7 +263,6 @@ public class SearchBoard
 
     public int possibleTargetsFrom(Pawn shooter, Collection<Pawn> targets)
     {
-        targets.clear();
         searchCount += 1;
 
         Node adjacents[] = new Node[6];

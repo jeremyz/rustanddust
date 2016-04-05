@@ -38,10 +38,9 @@ public abstract class Map1Units extends Map0Hex
 
     public int collectMoveable(Unit unit)
     {
+        activableUnits.clear();
         if (unit.canHQMove())
             collectMoveAssists(unit, activableUnits.asPawns());
-        else
-            activableUnits.clear();
 
         if (unit.canMove())
             activableUnits.add(unit);
@@ -51,15 +50,15 @@ public abstract class Map1Units extends Map0Hex
 
     public int collectTargets(Unit unit, UnitList foes)
     {
+        targetUnits.clear();
         if (unit.canEngage())
             return collectPossibleTargets(unit, foes.asPawns(), targetUnits.asPawns());
-
-        targetUnits.clear();
         return 0;
     }
 
     public int collectAssists(Unit unit, Unit target, UnitList units)
     {
+        activableUnits.clear();
         int s = collectAttackAssists(unit, target, units.asPawns(), activableUnits.asPawns());
         activatedUnits.add(unit);
         return s;

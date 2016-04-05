@@ -45,10 +45,9 @@ public abstract class Map2Moves extends Map1Units
 
     public int movesCollect(Unit unit)
     {
+        moves.clear();
         if (unit.canMove())
             return collectPossibleMoves(unit, moves);
-
-        moves.clear();
         return 0;
     }
 
