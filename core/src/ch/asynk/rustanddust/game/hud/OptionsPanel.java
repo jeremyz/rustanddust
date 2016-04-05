@@ -31,7 +31,7 @@ public class OptionsPanel extends Patch
     private Label fxVolumeValue;
     private Label objectives;
     private ObjectivesPanel objectivesPanel;
-    private Label quit;
+    private Label exit;
     private Label [] checkLabels;
     private boolean [] checkValues;
 
@@ -45,7 +45,7 @@ public class OptionsPanel extends Patch
         this.fxVolumeValue = new Label(game.font, LABEL_PADDING);
         this.objectives = new Label("Battle Objectives", game.font, LABEL_PADDING);
         this.objectivesPanel = new ObjectivesPanel(game);
-        this.quit = new Label("Quit Battle", game.font, LABEL_PADDING);
+        this.exit = new Label("Exit Battle", game.font, LABEL_PADDING);
         this.visible = false;
         this.checkValues = new boolean[checkStrings.length];
         this.checkLabels = new Label[checkStrings.length];
@@ -79,7 +79,7 @@ public class OptionsPanel extends Patch
         for (int i = 0; i < checkLabels.length; i++)
             h += checkLabels[i].getHeight();
         h += objectives.getHeight();
-        h += quit.getHeight();
+        h += exit.getHeight();
         h += (2 * PADDING);
 
         float w = (objectives.getWidth());
@@ -109,8 +109,8 @@ public class OptionsPanel extends Patch
             y += checkLabels[i].getHeight();
         }
 
-        quit.setPosition(x,y);
-        y += quit.getHeight();
+        exit.setPosition(x,y);
+        y += exit.getHeight();
 
         y += TITLE_PADDING;
         x -= PADDING;
@@ -150,9 +150,9 @@ public class OptionsPanel extends Patch
         if (fxVolume.hit(x, y) || fxVolumeValue.hit(x, y)) {
             cycleFxVolume();
             game.playType((fxVolumeIdx / 10.0f));
-        } else if (quit.hit(x, y)) {
+        } else if (exit.hit(x, y)) {
             game.playType();
-            game.ctrl.hud.askQuitBattle();
+            game.ctrl.hud.askExitBattle();
             return false;
         } else if (objectives.hit(x, y)) {
             game.playType();
@@ -196,7 +196,7 @@ public class OptionsPanel extends Patch
         objectives.dispose();
         fxVolume.dispose();
         fxVolumeValue.dispose();
-        quit.dispose();
+        exit.dispose();
         for (int i = 0; i < checkLabels.length; i++)
             checkLabels[i].dispose();
     }
@@ -211,7 +211,7 @@ public class OptionsPanel extends Patch
         objectives.draw(batch);
         fxVolume.draw(batch);
         fxVolumeValue.draw(batch);
-        quit.draw(batch);
+        exit.draw(batch);
         for (int i = 0; i < checkLabels.length; i++) {
             Label l = checkLabels[i];
             l.draw(batch);
@@ -230,6 +230,6 @@ public class OptionsPanel extends Patch
         objectives.drawDebug(shapes);
         fxVolume.drawDebug(shapes);
         fxVolumeValue.drawDebug(shapes);
-        quit.drawDebug(shapes);
+        exit.drawDebug(shapes);
     }
 }

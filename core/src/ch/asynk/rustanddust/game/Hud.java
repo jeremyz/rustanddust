@@ -51,7 +51,7 @@ public class Hud implements Disposable, Animation
         EXIT_BOARD,
         ABORT_TURN,
         END_DEPLOYMENT,
-        QUIT_BATTLE,
+        EXIT_BATTLE,
     }
     private OkCancelAction okCancelAction;
 
@@ -223,7 +223,7 @@ public class Hud implements Disposable, Animation
             ctrl.postAnswer(okCancelAction, okCancel.ok);
         } else if (dialog == stats) {
             game.playEnter();
-            ctrl.postAnswer(OkCancelAction.QUIT_BATTLE, true);
+            ctrl.postAnswer(OkCancelAction.EXIT_BATTLE, true);
         } else
             game.playType();
 
@@ -295,10 +295,10 @@ public class Hud implements Disposable, Animation
         pushDialog(okCancel);
     }
 
-    public void askQuitBattle()
+    public void askExitBattle()
     {
-        this.okCancelAction = OkCancelAction.QUIT_BATTLE;
-        okCancel.show("Quit this battle ?");
+        this.okCancelAction = OkCancelAction.EXIT_BATTLE;
+        okCancel.show("Exit this battle ?");
         pushDialog(okCancel);
     }
 
