@@ -87,6 +87,7 @@ public class Config
     public boolean showMoveAssists;
     public boolean showEnemyPossibilities;
     public boolean autoPath;
+    public boolean revertAllMoves;
     public boolean debug;
     public Battle battle;
     public int gameId;
@@ -103,6 +104,7 @@ public class Config
         this.loadMode = LoadMode.LOAD;
         this.debug = false;
         this.autoPath = true;
+        this.revertAllMoves = false;
         this.showMoves = true;
         this.showTargets = true;
         this.showMoveAssists = true;
@@ -127,6 +129,7 @@ public class Config
         json.writeValue("mode", gameMode);
         json.writeValue("debug", debug);
         json.writeValue("autoPath", autoPath);
+        json.writeValue("revertAllMoves", revertAllMoves);
         json.writeValue("showMoves", showMoves);
         json.writeValue("showTargets", showTargets);
         json.writeValue("showMoveAssists", showMoveAssists);
@@ -146,6 +149,7 @@ public class Config
         this.gameMode = GameMode.valueOf(root.getString("mode"));
         this.debug = root.getBoolean("debug");
         this.autoPath = root.getBoolean("autoPath");
+        this.revertAllMoves = root.getBoolean("revertAllMoves");
         this.showMoves = root.getBoolean("showMoves");
         this.showTargets = root.getBoolean("showTargets");
         this.showMoveAssists = root.getBoolean("showMoveAssists");
