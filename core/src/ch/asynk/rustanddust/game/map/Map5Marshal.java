@@ -342,10 +342,10 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         }
         a = v.get("e");
         for (int i = 0; i < a.size; i++)
-            entryZones.add(loadZone(a.get(i)));
+            addEntryZone(loadZone(a.get(i)));
         a = v.get("x");
         for (int i = 0; i < a.size; i++)
-            exitZones.add(loadZone(a.get(i)));
+            addExitZone(loadZone(a.get(i)));
     }
 
     private Zone loadZone(JsonValue v)

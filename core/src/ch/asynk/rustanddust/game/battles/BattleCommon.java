@@ -227,7 +227,6 @@ public abstract class BattleCommon implements Battle
     protected void addExitZone(Zone exit)
     {
         map.addExitZone(exit);
-        exit.enable(Hex.EXIT, true);
     }
 
     protected void addReinforcement(Player player, Zone entryZone, UnitCode unitCode)

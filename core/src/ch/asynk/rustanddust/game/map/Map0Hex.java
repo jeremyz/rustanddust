@@ -79,6 +79,7 @@ public abstract class Map0Hex extends Board
     public void addExitZone(Zone zone)
     {
         exitZones.add(zone);
+        zone.enable(Hex.EXIT, true);
     }
 
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
