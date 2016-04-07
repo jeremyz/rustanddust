@@ -509,13 +509,14 @@ public abstract class Board implements Disposable, Animation
             revertclaim(pawn, tile);
         claim(pawn, move.from);
 
-        addAnimation(RunnableAnimation.get(pawn, new Runnable() {
+        AnimationSequence seq = pawn.getRevertLastMoveAnimation(1);
+        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
             @Override
             public void run() {
                 pushPawnOnto(pawn, pawn.getTile());
             }
         }));
-
+        addAnimation(seq);
         pawn.revertLastMove();
     }
 
