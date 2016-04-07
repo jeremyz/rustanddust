@@ -129,7 +129,7 @@ public class PathBuilder implements Disposable
             keepOnly(good);
         }
 
-        return ps.size();
+        return size();
     }
 
     public int chooseShortest()
@@ -145,7 +145,7 @@ public class PathBuilder implements Disposable
             keepOnly(good);
         }
 
-        return ps.size();
+        return size();
     }
 
     public int chooseExit(Orientation o)
@@ -177,7 +177,7 @@ public class PathBuilder implements Disposable
         }
         to = board.getAdjTileAt(to, o);
 
-        return ps.size();
+        return size();
     }
 
     private Path best(Path a, Path b)
