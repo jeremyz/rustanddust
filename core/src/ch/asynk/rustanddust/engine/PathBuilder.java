@@ -195,7 +195,7 @@ public class PathBuilder implements Disposable
 
     private void keepOnly(Path path)
     {
-        getPaths().remove(path);
+        paths.remove(path);
         clearPaths();
         paths.add(path);
         for (Tile tile : path.tiles)
