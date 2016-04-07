@@ -64,4 +64,13 @@ public class Path implements Disposable, Pool.Poolable
         tiles.clear();
         pathPool.free(this);
     }
+
+    @Override
+    public String toString()
+    {
+        String s = String.format("path(c:%d - r:%b - f:%d)\n", cost, roadMarch, fitness);
+        for (Tile t : tiles)
+            s += String.format("  %s\n", t.toString());
+        return s;
+    }
 }
