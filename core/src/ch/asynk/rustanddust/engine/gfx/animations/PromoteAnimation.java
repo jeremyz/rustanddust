@@ -15,7 +15,7 @@ public class PromoteAnimation implements Animation, Drawable
 {
     private static PromoteAnimation instance = new PromoteAnimation();
 
-    private static final float DURATION = 0.3f;
+    private static final float DURATION = 0.5f;
     private static final float MAX_SCALE = 2f;
 
     private static Sound usSound;
@@ -29,7 +29,6 @@ public class PromoteAnimation implements Animation, Drawable
     private float y;
     private float scale;
     private float step;
-    private float volume;
     private float elapsed;
 
     public static void init(AtlasRegion r, Sound usSnd, Sound geSnd)
@@ -52,12 +51,11 @@ public class PromoteAnimation implements Animation, Drawable
         x = (x - (region.getRegionWidth() / 2.0f));
         y = (y - (region.getRegionHeight() / 2.0f));
 
-        instance.volume = v;
         instance.x0 = x;
         instance.y0 = y;
         instance.scale = 0f;
         instance.elapsed = 0f;
-        snd = (us ? usSound : geSound);
+        (us ? usSound : geSound).play(v);
 
         return instance;
     }
@@ -71,10 +69,8 @@ public class PromoteAnimation implements Animation, Drawable
     public boolean animate(float delta)
     {
         elapsed += delta;
-        if (elapsed >= DURATION) {
-            snd.play(volume);
+        if (elapsed >= DURATION)
             return true;
-        }
 
         float s = MAX_SCALE * (float) Math.sin(Math.PI / DURATION * elapsed);
         scale = 1f + s;
