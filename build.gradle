@@ -79,5 +79,5 @@ project(":core") {
 
 task ctags(type: Exec) {
     executable "ctags"
-    args "-R", "--language-force=java", "-f.tags", "core/src/"
+    args "-R", "--language-force=java", "--exclude=*~", "-f.tags", "core/src/"
 }
