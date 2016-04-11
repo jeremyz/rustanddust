@@ -217,7 +217,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         json.writeValue(e.attacker.id);
         json.writeValue(e.defender.id);
         json.writeArrayEnd();
-        json.writeArrayStart("a");
+        json.writeArrayStart("us");
         for (Unit u : e.assists)
             json.writeValue(u.id);
         json.writeArrayEnd();
@@ -435,7 +435,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         JsonValue a = v.get("u");
         o.setEngage(findById(a.getInt(0)), findById(a.getInt(1)));
 
-        a = v.get("a");
+        a = v.get("us");
         for (int i = 0; i < a.size; i++)
             o.engagement.assists.add(findById(a.getInt(i)));
 
