@@ -11,7 +11,6 @@ import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.State;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Zone;
-import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitCode;
 import ch.asynk.rustanddust.game.Factory;
