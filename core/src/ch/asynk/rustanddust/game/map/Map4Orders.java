@@ -188,9 +188,9 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         if (r && !replay) {
-            order.cost = ((activatedUnits.size() > 0) ? ((activableUnits.size() > 0) ? 0 : 1) : 0);
             order.actionId = actionId;
             order.setActivable(activableUnits);
+            order.cost = ((activatedUnits.size() > 0) ? ((activableUnits.size() > 0) ? 0 : 1) : 0);
             orders.add(order);
             game.ctrl.orderProcessedCb();
         }
