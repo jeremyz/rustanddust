@@ -11,7 +11,6 @@ import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Order;
 import ch.asynk.rustanddust.game.OrderList;
 import ch.asynk.rustanddust.game.Engagement;
-import ch.asynk.rustanddust.game.Battle;
 
 public abstract class Map4Orders extends Map3Animations
 {
