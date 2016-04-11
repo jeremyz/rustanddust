@@ -103,12 +103,12 @@ public abstract class BattleCommon implements Battle
 
     public void load(Marshal.Mode mode, JsonValue value)
     {
+        map.load(mode, value);
         if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
             JsonValue v = value.get("battle");
             this.turnCount = v.getInt("turnCount");
             map.loadPlayers(value, players);
         }
-        map.load(mode, value);
         this.currentPlayer = players[0];
     }
 
