@@ -74,7 +74,7 @@ public class Unit extends HeadedPawn
         super(army, chit, body, turret, overlays);
         hq = false;
         ace = false;
-        this. id = unit_id;
+        this.id = unit_id;
         unit_id += 1;
         this.entryZone = null;
         this.exitZone = null;
@@ -92,10 +92,11 @@ public class Unit extends HeadedPawn
 
     private void updateDescr()
     {
+        this.descr = String.format("[%d] %s%s%s (%d - %d", id, code.toString(), (hq ? " HQ" : ""), (ace ? " Ace" : ""), rng, def);
         if (cdef == -1)
-            this.descr = code.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "-" + mp + ")";
+            this.descr += "-" + mp + ")";
         else
-            this.descr = code.toString() + (hq ? " HQ " : "") + (ace ? " Ace " : "") + " (" + rng + "-" + def + "/" + cdef + "-" + mp + ")";
+            this.descr += "/" + cdef + "-" + mp + ")";
     }
 
     public Unit(Army army, UnitCode code, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints,
