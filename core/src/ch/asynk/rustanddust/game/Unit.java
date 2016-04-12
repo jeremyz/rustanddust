@@ -23,7 +23,7 @@ public class Unit extends HeadedPawn
 
     public static final int FLANK_ATTACK_BONUS = 1;
 
-    public static int unit_id = 1;
+    public static int unitId = 1;
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -54,12 +54,12 @@ public class Unit extends HeadedPawn
         public String toString() { return s; }
     }
 
+    private int id;
     public int rng;
     public int def;
     public int cdef;
     public int mp;
     public int mpLeft;
-    public int id;
     public UnitCode code;
     public UnitType type;
     public boolean hq;
@@ -74,8 +74,8 @@ public class Unit extends HeadedPawn
         super(army, chit, body, turret, overlays);
         hq = false;
         ace = false;
-        this.id = unit_id;
-        unit_id += 1;
+        this.id = unitId;
+        unitId += 1;
         this.entryZone = null;
         this.exitZone = null;
     }
@@ -113,6 +113,9 @@ public class Unit extends HeadedPawn
         this.type = type;
         commonSetup();
     }
+
+    public int id() { return id; }
+    public void id(int i) { id = i; updateDescr(); }
 
     public Army getArmy()
     {

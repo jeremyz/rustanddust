@@ -82,7 +82,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private void unloadUnit(Json json, Unit unit, boolean pos)
     {
         json.writeObjectStart();
-        json.writeValue("id", unit.id);
+        json.writeValue("id", unit.id());
         json.writeValue("code", unit.code);
         json.writeArrayStart("v");
         json.writeValue(unit.hq);
@@ -174,7 +174,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             if (o.activable.size() > 0) {
                 json.writeArrayStart("a");
                 for(Unit u : o.activable)
-                    json.writeValue(u.id);
+                    json.writeValue(u.id());
                 json.writeArrayEnd();
             }
             json.writeObjectEnd();
@@ -185,7 +185,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private void unloadMoveOrder(Json json, Move m)
     {
         json.writeValue("mType", m.type);
-        json.writeValue("id", ((Unit) m.pawn).id);
+        json.writeValue("id", ((Unit) m.pawn).id());
         if (m.from != null) {
             json.writeArrayStart("from");
             json.writeValue(m.from.getCol());
@@ -214,12 +214,12 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private void unloadEngageOrder(Json json, Engagement e)
     {
         json.writeArrayStart("u");
-        json.writeValue(e.attacker.id);
-        json.writeValue(e.defender.id);
+        json.writeValue(e.attacker.id());
+        json.writeValue(e.defender.id());
         json.writeArrayEnd();
         json.writeArrayStart("us");
         for (Unit u : e.assists)
-            json.writeValue(u.id);
+            json.writeValue(u.id());
         json.writeArrayEnd();
         json.writeArrayStart("d");
         json.writeValue(e.d1);
@@ -241,7 +241,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private void  unloadPromoteOrder(Json json, Unit u)
     {
-        json.writeValue("id", u.id);
+        json.writeValue("id", u.id());
     }
 
     private void unloadUnit(Json json, String key, Unit u)
@@ -253,7 +253,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     {
         if (key != null) json.writeObjectStart(key);
         else json.writeObjectStart();
-        json.writeValue("id", u.id);
+        json.writeValue("id", u.id());
         Hex h = u.getHex();
         if (pos && (h != null)) {
             json.writeArrayStart("p");
@@ -319,7 +319,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         if (i != -1) u.entryZone = entryZones.get(i);
         i = a.getInt(5);
         if (i != -1) u.exitZone = exitZones.get(i);
-        u.id = unitId;
+        u.id(unitId);
         if (pos) {
             a = v.get("p");
             Hex h = getHex(a.getInt(0), a.getInt(1));
@@ -478,7 +478,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private static Unit findById(int id)
     {
         for (Unit u : units) {
-            if (u.id == id)
+            if (u.id() == id)
                 return u;
         }
         RustAndDust.error(String.format("loadPromoteOrder: unable to find unit %d", id));
