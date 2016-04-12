@@ -35,7 +35,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     }
 
     public int cost;
-    public int actionId;
+    public int orderId;
     public OrderType type;
     public Unit unit;
     public Move move;
@@ -85,7 +85,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public String toString()
     {
-        return String.format("%s : %s", type, unit.code);
+        return String.format("[%d] %s : %s", orderId, type, unit.code);
     }
 
     public void setMove(Unit unit, Move move)

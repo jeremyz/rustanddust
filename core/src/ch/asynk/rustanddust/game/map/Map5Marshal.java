@@ -158,7 +158,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         for (Order o : orders) {
             json.writeObjectStart();
             json.writeValue("type", o.type);
-            json.writeValue("aId", o.actionId);
+            json.writeValue("oId", o.orderId);
             json.writeValue("cost", o.cost);
             switch(o.type) {
                 case MOVE:
@@ -378,7 +378,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
                     break;
             }
             order.cost = o.getInt("cost");
-            order.actionId = o.getInt("aId");
+            order.orderId = o.getInt("oId");
             JsonValue a = o.get("a");
             if (a != null) {
                 for (int j = 0; j < a.size; j++) {

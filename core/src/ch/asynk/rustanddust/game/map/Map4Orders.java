@@ -17,7 +17,7 @@ public abstract class Map4Orders extends Map3Animations
     protected final OrderList orders;
     protected final OrderList replayOrders;
 
-    protected int actionId;
+    protected int orderId;
     protected abstract int engagementCost(Engagement e);
     protected abstract void resolveEngagement(Engagement e);
 
@@ -25,7 +25,7 @@ public abstract class Map4Orders extends Map3Animations
     {
         super(game, map, hex);
 
-        this.actionId = 0;
+        this.orderId = 0;
         this.orders = new OrderList(10);
         this.replayOrders = new OrderList(10);
     }
@@ -39,7 +39,7 @@ public abstract class Map4Orders extends Map3Animations
         Engagement.clearPool();
     }
 
-    protected void incActionId() { actionId += 1; }
+    protected void incOrderId() { orderId += 1; }
     protected int ordersSize() { return orders.size(); }
     protected void ordersClear() { orders.dispose(); }
 
@@ -120,11 +120,11 @@ public abstract class Map4Orders extends Map3Animations
     public void prepareReplayLastAction()
     {
         int s = orders.size();
-        int a = orders.get(s - 1).actionId;
+        int a = orders.get(s - 1).orderId;
         while (s > 0) {
             s -= 1;
             Order o = orders.get(s);
-            if (o.actionId != a)
+            if (o.orderId != a)
                 break;
             replayOrders.add(o);
         }
@@ -188,7 +188,7 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         if (r && !replay) {
-            order.actionId = actionId;
+            order.orderId = orderId;
             order.setActivable(activableUnits);
             order.cost = ((activatedUnits.size() > 0) ? ((activableUnits.size() > 0) ? 0 : 1) : 0);
             orders.add(order);
@@ -199,7 +199,7 @@ public abstract class Map4Orders extends Map3Animations
             activableUnits.clear();
             for (Unit u : order.activable)
                 activableUnits.add(u);
-            actionId = order.actionId;
+            orderId = order.orderId;
         }
 
         return r;
