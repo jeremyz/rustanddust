@@ -157,7 +157,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         json.writeArrayStart("orders");
         for (Order o : orders) {
             json.writeObjectStart();
-            json.writeValue("oId", o.orderId);
+            json.writeValue("id", o.id);
             json.writeValue("type", o.type);
             json.writeValue("cost", o.cost);
             switch(o.type) {
@@ -185,7 +185,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     private void unloadMoveOrder(Json json, Move m)
     {
         json.writeValue("mType", m.type);
-        json.writeValue("id", ((Unit) m.pawn).id());
+        json.writeValue("u", ((Unit) m.pawn).id());
         if (m.from != null) {
             json.writeArrayStart("from");
             json.writeValue(m.from.getCol());
@@ -241,7 +241,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private void  unloadPromoteOrder(Json json, Unit u)
     {
-        json.writeValue("id", u.id());
+        json.writeValue("u", u.id());
     }
 
     private void unloadUnit(Json json, String key, Unit u)
@@ -366,7 +366,6 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         for (int i = 0; i < v.size; i++) {
             JsonValue o = v.get(i);
             Order order = null;
-            order.orderId = o.getInt("oId");
             switch(Order.OrderType.valueOf(o.getString("type"))) {
                 case MOVE:
                     order = loadMoveOrder(o);
@@ -378,6 +377,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
                     order = loadPromoteOrder(o);
                     break;
             }
+            order.id = o.getInt("id");
             order.cost = o.getInt("cost");
             JsonValue a = o.get("a");
             if (a != null) {
@@ -391,7 +391,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private Order loadMoveOrder(JsonValue v)
     {
-        Unit unit = findById(v.getInt("id"));
+        Unit unit = findById(v.getInt("u"));
         if (unit == null) return null;
         Hex from = loadHex(v, "from");
         Hex to = loadHex(v, "to");
@@ -460,7 +460,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private Order loadPromoteOrder(JsonValue v)
     {
-        Unit unit = findById(v.getInt("id"));
+        Unit unit = findById(v.getInt("u"));
         if (unit == null) return null;
 
         Order o = Order.get();

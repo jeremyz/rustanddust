@@ -120,11 +120,11 @@ public abstract class Map4Orders extends Map3Animations
     public void prepareReplayLastAction()
     {
         int s = orders.size();
-        int a = orders.get(s - 1).orderId;
+        int a = orders.get(s - 1).id;
         while (s > 0) {
             s -= 1;
             Order o = orders.get(s);
-            if (o.orderId != a)
+            if (o.id != a)
                 break;
             replayOrders.add(o);
         }
@@ -188,7 +188,7 @@ public abstract class Map4Orders extends Map3Animations
         }
 
         if (r && !replay) {
-            order.orderId = orderId;
+            order.id = orderId;
             order.setActivable(activableUnits);
             order.cost = ((activatedUnits.size() > 0) ? ((activableUnits.size() > 0) ? 0 : 1) : 0);
             orders.add(order);
@@ -199,7 +199,7 @@ public abstract class Map4Orders extends Map3Animations
             activableUnits.clear();
             for (Unit u : order.activable)
                 activableUnits.add(u);
-            orderId = order.orderId;
+            orderId = order.id;
         }
 
         return r;

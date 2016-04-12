@@ -34,10 +34,10 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
         return c;
     }
 
+    public int id;
     public int cost;
-    public int orderId;
-    public OrderType type;
     public Unit unit;
+    public OrderType type;
     public Move move;
     public Engagement engagement;
     public UnitList activable = new UnitList(4);
@@ -85,7 +85,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public String toString()
     {
-        return String.format("[%d] %s : %s", orderId, type, unit.code);
+        return String.format("[%d] %s : %s", id, type, unit.code);
     }
 
     public void setMove(Unit unit, Move move)
