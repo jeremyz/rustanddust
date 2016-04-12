@@ -54,7 +54,7 @@ public class Player
 
     public String toString()
     {
-        return String.format("%s Turn:%d AP:%d/%d units:%d casualties:%d", army, turn, apSpent, ap, units.size(), casualties.size());
+        return String.format("[%d] %s Turn:%d AP:%d/%d units:%d casualties:%d", id, army, turn, apSpent, ap, units.size(), casualties.size());
     }
 
     public String getStats()
