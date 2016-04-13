@@ -92,7 +92,7 @@ public class Unit extends HeadedPawn
 
     private void updateDescr()
     {
-        this.descr = String.format("[%d] %s%s%s (%d - %d", id, code.toString(), (hq ? " HQ" : ""), (ace ? " Ace" : ""), rng, def);
+        this.descr = String.format("[%d] %s%s%s (%d - %d ", id, code.toString(), (hq ? " HQ" : ""), (ace ? " Ace" : ""), rng, def);
         if (cdef == -1)
             this.descr += "-" + mp + ")";
         else
