@@ -24,6 +24,7 @@ import ch.asynk.rustanddust.engine.gfx.animations.MoveToAnimation.MoveToAnimatio
 
 public abstract class Board implements Disposable, Animation
 {
+    private float block;
     private int cols;
     private int rows;
     private final Tile neighbours[] = new Tile[6];
@@ -70,6 +71,7 @@ public abstract class Board implements Disposable, Animation
 
     protected Board(int cols, int rows)
     {
+        this.block = 0f;
         // add a frame of OFFMAP Tiles
         this.cols = (cols + 2);
         this.rows = (rows + 2);
@@ -251,8 +253,18 @@ public abstract class Board implements Disposable, Animation
             Gdx.app.debug("Board", " tiles:" + tileCount + " pawns:" + pawnCount + " animations:" + animationCount);
     }
 
+    public void setBlock(float dt)
+    {
+        block = dt;
+    }
+
     public boolean animate(float delta)
     {
+        if (block > 0f) {
+            block -= delta;
+            if (block > 0f)
+                return true;
+        }
         boolean over = (animations.size() > 0);
         Iterator<Animation> iter = animations.iterator();
         while (iter.hasNext()) {
