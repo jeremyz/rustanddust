@@ -7,12 +7,17 @@ import ch.asynk.rustanddust.engine.Move;
 
 public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 {
+    public static int orderId = 1;
+
+    public static final Order END = new Order(OrderType.END);
+
     public enum OrderType
     {
         NONE,
         MOVE,
         ENGAGE,
-        PROMOTE;
+        PROMOTE,
+        END,
     }
 
     private static final Pool<Order> orderPool = new Pool<Order>()
@@ -30,21 +35,30 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
 
     public static Order get()
     {
-        Order c = orderPool.obtain();
-        return c;
+        Order o = orderPool.obtain();
+        o.id = orderId;
+        orderId += 1;
+        return o;
     }
 
     public int id;
     public int cost;
-    public Unit unit;
+    public boolean replay;
+    public Unit leader;
     public OrderType type;
     public Move move;
     public Engagement engagement;
-    public UnitList activable = new UnitList(4);
+    public UnitList activables = new UnitList(4);
 
     private Order()
     {
         reset();
+    }
+
+    private Order(OrderType type)
+    {
+        this();
+        this.type = type;
     }
 
     @Override
@@ -56,9 +70,12 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public void reset()
     {
+        this.id = -1;
+        this.cost = 1;
+        this.replay = false;
+        this.leader = null;
         this.type = OrderType.NONE;
-        this.unit = null;
-        this.activable.clear();
+        this.activables.clear();
         if (this.move != null) {
             this.move.dispose();
             this.move = null;
@@ -72,7 +89,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public int compareTo(Unit other)
     {
-        if (unit == other)
+        if (leader == other)
             return 0;
         return 1;
     }
@@ -85,32 +102,35 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public String toString()
     {
-        return String.format("[%d] %s : %s", id, type, unit.code);
+        if (type == OrderType.END)
+            return String.format("[00] END");
+        else
+            return String.format("[%d] %s(%d) : %s", id, type, cost, leader.code);
     }
 
     public void setMove(Unit unit, Move move)
     {
+        this.leader = unit;
         this.type = OrderType.MOVE;
         this.move = move;
-        this.unit = unit;
     }
 
     public void setPromote(Unit unit)
     {
+        this.leader = unit;
         this.type = OrderType.PROMOTE;
-        this.unit = unit;
     }
 
     public void setEngage(Unit unit, Unit target)
     {
+        this.leader = unit;
         this.type = OrderType.ENGAGE;
         this.engagement = Engagement.get(unit, target);
-        this.unit = unit;
     }
 
-    public void setActivable(UnitList l)
+    public void setActivables(UnitList l)
     {
         for(Unit u : l)
-            activable.add(u);
+            activables.add(u);
     }
 }
