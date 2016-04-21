@@ -296,9 +296,10 @@ public class Unit extends HeadedPawn
     public void move()
     {
         int cost = move.cost;
-
-        if (move.roadMarch && (cost > mpLeft))
+        if (move.roadMarch) {
             cost -= getRoadMarchBonus();
+            if (cost < 1) cost = 1;
+        }
 
         if (cost > mpLeft)
             RustAndDust.debug("ERROR: Movement point exceeded: " + cost + "/" + mpLeft + " please report");
