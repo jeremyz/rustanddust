@@ -106,7 +106,8 @@ public class PathBuilder implements Disposable
         if (from == to) {
             this.distance = 0;
             Path path = Path.get(0);
-            path.cost = 0;
+            path.cost = 1;
+            path.roadMarch = false;
             paths.add(path);
         } else {
             this.distance = board.distance(from, to);
