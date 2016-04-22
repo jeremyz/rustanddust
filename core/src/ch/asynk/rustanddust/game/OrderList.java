@@ -22,6 +22,15 @@ public class OrderList extends IterableArray<Order>
         return null;
     }
 
+    public Order getId(int id)
+    {
+        for (Order o : this) {
+            if (o.id == id)
+                return o;
+        }
+        return null;
+    }
+
     public void dispose(Unit unit)
     {
         Iterator<Order> it = iterator();
