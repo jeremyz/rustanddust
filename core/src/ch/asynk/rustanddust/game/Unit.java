@@ -296,7 +296,7 @@ public class Unit extends HeadedPawn
     public void move()
     {
         int cost = move.cost;
-        if (move.roadMarch) {
+        if ((cost > 0) && move.roadMarch) {
             cost -= getRoadMarchBonus();
             if (cost < 1) cost = 1;
         }
