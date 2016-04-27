@@ -21,7 +21,7 @@ public class Helpers
         @Override public int getEngagementRangeFrom(Tile tile)      { return 3; }
         @Override public boolean preventDefenseOn(Tile tile)        { return true; }
 
-        @Override public boolean isA(PawnId id)                     { return true; }
+        @Override public boolean isA(PawnCode id)                   { return true; }
         @Override public boolean isA(PawnType type)                 { return true; }
         @Override public boolean isHq()                             { return true; }
         @Override public boolean isHqOf(Pawn other)                 { return true; }
@@ -129,7 +129,7 @@ public class Helpers
 
         @Override protected Board.Config getConfig() { return null; }
 
-        @Override public void animationsOver() {}
+        @Override public void animationsDone() {}
 
         @Override
         public Tile getTile(int col, int row)
