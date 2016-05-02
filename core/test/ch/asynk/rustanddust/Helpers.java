@@ -76,7 +76,7 @@ public class Helpers
         @Override public int defense()                              { return 0; }
 
         @Override public boolean isA(TileTerrain terrain)           { return true; }
-        @Override public boolean road(Orientation side)             { return false; }
+        @Override public boolean roadFrom(Orientation side)         { return false; }
         @Override public boolean atLeastOneMove(Pawn pawn)          { return true; }
         @Override public boolean blockLineOfSight(Tile from, Tile to) { return blockLineOfSight; }
 

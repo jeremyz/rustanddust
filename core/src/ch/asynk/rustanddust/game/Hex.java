@@ -88,7 +88,7 @@ public class Hex extends Tile
     }
 
     @Override
-    public boolean road(Orientation side)
+    public boolean roadFrom(Orientation side)
     {
         return (side.s == (roads & side.s));
     }
@@ -104,7 +104,7 @@ public class Hex extends Tile
     {
         if (side == Orientation.KEEP) return 0;
         if (hasUnits()) return (Integer.MAX_VALUE / 2);
-        if (road(side)) return 1;
+        if (roadFrom(side)) return 1;
 
         int c = 0;
         switch(terrain) {

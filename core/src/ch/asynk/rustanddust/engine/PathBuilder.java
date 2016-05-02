@@ -156,7 +156,7 @@ public class PathBuilder implements Disposable
         Path good = ps.get(0);
         int mvt = pawn.getMovementPoints();
         int cost = to.exitCost();
-        int rBonus = (to.road(o) ? pawn.getRoadMarchBonus() : 0);
+        int rBonus = (to.roadFrom(o) ? pawn.getRoadMarchBonus() : 0);
 
         if (ps.size() > 1) {
             good = null;
@@ -215,7 +215,7 @@ public class PathBuilder implements Disposable
             Orientation o = board.getSide(i);
             int m = (mvtLeft - next.costFrom(pawn, o));
             int f = (fitness + (next.isObjectiveFor(pawn) ? 1 : 0));
-            boolean r = (roadMarch && next.road(o));
+            boolean r = (roadMarch && next.roadFrom(o));
 
             int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
 
@@ -305,7 +305,7 @@ public class PathBuilder implements Disposable
     {
         int mvt = pawn.getMovementPoints();
         int cost = to.exitCost();
-        int rBonus = (to.road(o) ? pawn.getRoadMarchBonus() : 0);
+        int rBonus = (to.roadFrom(o) ? pawn.getRoadMarchBonus() : 0);
 
         for (Path p : getPaths()) {
             if (pathCanExit(p, mvt, cost, rBonus))

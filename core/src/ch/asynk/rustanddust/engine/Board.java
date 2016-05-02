@@ -383,7 +383,7 @@ public abstract class Board implements Disposable, Animation
                 Orientation o = Orientation.fromAdj(t.col, t.row, to.col, to.row);
                 if (o.isInSides(allowedMoves)) {
                     o = o.opposite();
-                    boolean r = to.road(o);
+                    boolean r = to.roadFrom(o);
                     int c = to.costFrom(pawn, o);
                     if ((c < cost) || (r && (c == cost))) {
                         entry = o;
