@@ -440,11 +440,19 @@ public abstract class Board implements Disposable, Animation
         }
     }
 
-    public void revertclaim(Pawn pawn, Tile tile)
+    public void revertClaim(Pawn pawn, Tile tile)
     {
         int o = pawn.getTile().revertClaim().overlay();
         tile.enableOverlay(pawn.getFaction().overlay(), false);
         enableOverlayOn(tile ,o, true);
+    }
+
+    public void revertClaim(Pawn pawn, Move move)
+    {
+        revertClaim(pawn, move.to);
+        for (Tile tile : move.tiles)
+            revertClaim(pawn, tile);
+        claim(pawn, move.from);
     }
 
     public void enableOverlayOn(Tile tile, int i, boolean enable)
