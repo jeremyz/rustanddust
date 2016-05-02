@@ -385,7 +385,17 @@ public abstract class Board implements Disposable, Animation
                     o = o.opposite();
                     boolean r = to.roadFrom(o);
                     int c = to.costFrom(pawn, o);
-                    if ((c < cost) || (r && (c == cost))) {
+                    if (
+                         // cheaper or same cost and ...
+                         (c < cost) || ((c == cost) && (
+                           // now road or same and ...
+                           (!road && r) || ((road == r) && (
+                             // nicer looking move
+                             (o == Orientation.SOUTH || o == Orientation.NORTH)
+                           ))
+                         ))
+                       )
+                    {
                         entry = o;
                         cost = c;
                         road = r;
