@@ -186,8 +186,8 @@ public class Player
     {
         apSpent += 1;
         actionCount += 1;
-        RustAndDust.debug("Player", String.format("%d/%d - %d", apSpent, ap, actionCount));
-        if (apSpent > ap) RustAndDust.debug("ERROR: spent too much AP, please report");
+        RustAndDust.debug("    burn 1 AP : " + this.toString());
+        if (apSpent > ap) RustAndDust.error("ERROR: spent too much AP, please report");
     }
 
     public void turnEnd()
