@@ -91,6 +91,16 @@ public class IterableArray<E> implements Collection<E>
     }
 
     @Override
+    public boolean insert(E e, int idx)
+    {
+        ensureCapacity(s + 1);
+        System.arraycopy(data, idx, data, idx+1, (s - idx));
+        data[idx] = e;
+        s += 1;
+        return true;
+    }
+
+    @Override
     public E remove(int i)
     {
         E e = data[i];

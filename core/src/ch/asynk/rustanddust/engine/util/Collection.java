@@ -20,6 +20,8 @@ public interface Collection<E> extends Iterator, Iterable<E>
 
     public boolean add(E e);
 
+    public boolean insert(E e, int idx);
+
     public E remove(int idx);
 
     public boolean remove(E e);
