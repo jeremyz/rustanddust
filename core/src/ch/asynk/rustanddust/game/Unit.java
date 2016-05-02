@@ -132,6 +132,17 @@ public class Unit extends HeadedPawn
         return ace;
     }
 
+    public void spendMovementPoints(int n)
+    {
+        mpLeft -= n;
+    }
+
+    @Override
+    public int getSpentMovementPoints()
+    {
+        return (mp - mpLeft);
+    }
+
     @Override
     public int getMovementPoints()
     {
@@ -307,7 +318,7 @@ public class Unit extends HeadedPawn
         if ((cost > 0) && move.isFinal())
             setMoved();
 
-        mpLeft -= cost;
+        spendMovementPoints(cost);
     }
 
     @Override

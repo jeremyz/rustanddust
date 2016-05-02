@@ -12,6 +12,7 @@ public class Helpers
 {
     public static class FakePawn extends HeadedPawn
     {
+        @Override public int getSpentMovementPoints()               { return 0; }
         @Override public int getMovementPoints()                    { return 3; }
         @Override public int getRoadMarchBonus()                    { return 1; }
         @Override public int getFlankSides()                        { return orientation.getBackSides(); }

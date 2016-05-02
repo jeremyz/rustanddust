@@ -42,6 +42,7 @@ public abstract class Pawn implements Moveable, Disposable
     protected Attack attack;
     protected Move move;
 
+    public abstract int getSpentMovementPoints();
     public abstract int getMovementPoints();
     public abstract int getRoadMarchBonus();
     public abstract int getAngleOfAttack();
