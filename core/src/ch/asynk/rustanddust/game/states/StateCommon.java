@@ -1,12 +1,13 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Ctrl;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 import ch.asynk.rustanddust.game.State;
 import ch.asynk.rustanddust.game.Config;
-import ch.asynk.rustanddust.RustAndDust;
 
 public abstract class StateCommon implements State
 {
@@ -17,7 +18,6 @@ public abstract class StateCommon implements State
     protected static Hex selectedHex = null;
     protected static Hex to = null;
 
-    protected boolean isEnemy;
     protected static Unit activeUnit;
     protected static Unit selectedUnit;
 
@@ -28,26 +28,12 @@ public abstract class StateCommon implements State
         map = game.ctrl.map;
     }
 
-    protected boolean hasUnit()
-    {
-        return (selectedUnit != null);
-    }
-
-    protected void showPossibilities(Unit unit)
-    {
-        if (cfg.showMoves && unit.canMove()) map.movesShow();
-        if (cfg.showTargets && unit.canEngage()) map.unitsTargetShow();
-        if (cfg.showMoveAssists && unit.canMove()) map.unitsActivableShow();
-        unit.hideActiveable();
-    }
-
-    protected void hidePossibilities()
-    {
-        map.movesHide();
-        map.unitsTargetHide();
-        map.unitsActivableHide();
-    }
-
     @Override
     public void touch(Hex hex) { }
+
+    @Override
+    public boolean processMsg(MsgType state, Object data)
+    {
+        return false;
+    }
 }

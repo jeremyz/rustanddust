@@ -1,32 +1,25 @@
 package ch.asynk.rustanddust.game;
 
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
+
 public interface State
 {
-    enum StateType {
-        LOADING,
+    enum StateType
+    {
         REPLAY,
+        WAIT_EVENT,
         SELECT,
         MOVE,
-        ROTATE,
         ENGAGE,
-        BREAK,
         PROMOTE,
         ANIMATION,
         REINFORCEMENT,
         DEPLOYMENT,
-        WITHDRAW,
-        ABORT,
-        DONE,
-        TURN_OVER
     };
+
+    public void touch(Hex hex);
 
     public void enterFrom(StateType prevState);
 
-    public void leaveFor(StateType nextState);
-
-    public StateType abort();
-
-    public StateType execute();
-
-    public void touch(Hex hex);
+    public boolean processMsg(MsgType msg, Object data);
 }

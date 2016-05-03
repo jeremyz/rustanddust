@@ -103,10 +103,10 @@ public class Hex extends Tile
     public int costFrom(Pawn pawn, Orientation side)
     {
         if (side == Orientation.KEEP) return 0;
-        if (hasUnits()) return (Integer.MAX_VALUE / 2);
+        if (hasUnits()) return Integer.MAX_VALUE;
         if (roadFrom(side)) return 1;
 
-        int c = 0;
+        int c = Integer.MAX_VALUE;
         switch(terrain) {
             case CLEAR:
             case HILLS:
@@ -118,7 +118,6 @@ public class Hex extends Tile
                 break;
             case OFFMAP:
             case BLOCKED:
-                c = (Integer.MAX_VALUE / 2);
                 break;
         }
 

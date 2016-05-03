@@ -3,6 +3,7 @@ package ch.asynk.rustanddust.game.states;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 
 public class StateReinforcement extends StateCommon
 {
@@ -11,70 +12,53 @@ public class StateReinforcement extends StateCommon
     @Override
     public void enterFrom(StateType prevState)
     {
-        map.clearAll();
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
+        map.clear();
         entryZone = null;
+        activeUnit = null;
         selectedHex = null;
+        selectedUnit = null;
         ctrl.hud.playerInfo.unitDock.show();
     }
 
     @Override
-    public void leaveFor(StateType nextState)
+    public boolean processMsg(MsgType msg, Object data)
     {
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
-        if (entryZone != null)
-            entryZone.enable(Hex.AREA, false);
-        ctrl.hud.playerInfo.unitDock.hide();
-    }
+        switch(msg)
+        {
+            case UNIT_DOCK_SELECT:
+                showEntryZone((Unit) data);
+                return true;
+        }
 
-    @Override
-    public StateType abort()
-    {
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType execute()
-    {
-        return StateType.DONE;
+        return false;
     }
 
     @Override
     public void touch(Hex hex)
     {
-        Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
-        if (hex == null)
-            changeUnit(unit);
-        else if ((entryZone != null) && hex.isEmpty() && entryZone.contains(hex))
-            unitEnter(activeUnit, hex);
-        else
-            ctrl.post(StateType.SELECT);
+        if ((entryZone != null) && hex.isEmpty() && entryZone.contains(hex))
+            unitEnter(selectedUnit, hex);
     }
 
-    private void changeUnit(Unit unit)
+    private void showEntryZone(Unit unit)
     {
-        activeUnit = unit;
+        selectedUnit = unit;
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
-        entryZone = activeUnit.entryZone;
+        entryZone = unit.entryZone;
         entryZone.enable(Hex.AREA, true);
     }
 
     private void unitEnter(Unit unit, Hex hex)
     {
-        selectedUnit = unit;
+        activeUnit = unit;
         selectedHex = hex;
-        map.hexSelect(selectedHex);
+        map.enterBoard(unit, hex, entryZone);
         entryZone.enable(Hex.AREA, false);
-        if (map.enterBoard(unit, hex, entryZone.allowedMoves)) {
-            if (unit.getMovementPoints() > 0)
-                ctrl.post(StateType.MOVE);
-            else
-                ctrl.post(StateType.ROTATE);
-        } else {
-            ctrl.hud.notify("Can not enter the map at that position");
-        }
+        ctrl.battle.getPlayer().reinforcement.remove(unit);
+        ctrl.hud.playerInfo.unitDock.hide();
+        ctrl.hud.update();
+        ctrl.post(StateType.MOVE);
+        entryZone = null;
     }
 }

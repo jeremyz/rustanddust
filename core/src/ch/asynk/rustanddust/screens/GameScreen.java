@@ -149,7 +149,7 @@ public class GameScreen implements Screen
                 blocked = false;
         }
 
-        ctrl.processEvent();
+        ctrl.processEvent(delta);
         ctrl.hud.animate(delta);
         ctrl.map.animate(delta);
 

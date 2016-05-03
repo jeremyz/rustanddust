@@ -1,87 +1,111 @@
 package ch.asynk.rustanddust.game.states;
 
 import ch.asynk.rustanddust.game.Order;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 
 public class StateReplay extends StateCommon
 {
-    private Order order;
+    private Order order = null;
 
     @Override
     public void enterFrom(StateType prevState)
     {
+        if (this.order != null)
+            replayStep();
+
         Order o = map.stepReplay();
         if (o == null) {
-            StateType nextState = nextState();
+            ctrl.postReplayDone(replayDone());
             order = null;
-            ctrl.post(nextState);
         } else {
             this.order = o;
             setup();
-            map.replay(order);
-            ctrl.setAfterAnimationState(StateType.REPLAY);
-            ctrl.post(StateType.ANIMATION);
+            ctrl.postOrder(o, StateType.REPLAY);
         }
     }
 
     private void setup()
     {
-        int s = order.activable.size();
+        int s = order.activables.size();
 
-        switch (order.type) {
+        switch (order.type)
+        {
             case MOVE:
-                selectedUnit = ((s > 0) ? order.activable.get(s - 1) : order.unit);
+                selectedUnit = order.leader;
                 break;
             case ENGAGE:
                 to = order.engagement.defender.getHex();
-                if (order.engagement.success) {
-                    ctrl.battle.getPlayer().engagementWon += 1;
-                    ctrl.battle.getOpponent().casualty(order.engagement.defender);
-                } else {
-                    ctrl.battle.getPlayer().engagementLost += 1;
-                }
                 break;
+            case PROMOTE:
             default:
                 break;
         }
     }
 
-    private StateType nextState()
+    private void replayStep()
     {
-        if (map.unitsActivableSize() <= 0)
-            return StateType.DONE;
-
-        StateType next = null;
-
-        switch (order.type) {
+        switch (order.type)
+        {
             case MOVE:
-                next = StateType.MOVE;
+                moveReplayStep();
                 break;
             case ENGAGE:
-                next = StateType.BREAK;
-                break;
+            case PROMOTE:
             default:
-                next = StateType.DONE;
                 break;
         }
-
-        return next;
     }
 
-    @Override
-    public void leaveFor(StateType nextState)
+    private void moveReplayStep()
     {
+        switch(order.move.type)
+        {
+            case SET:
+                ctrl.sendMsg(MsgType.UNIT_DEPLOYED, order.move.pawn);
+                break;
+            case REGULAR:
+            case EXIT:
+            case ENTER:
+                break;
+        }
     }
 
-    @Override
-    public StateType abort()
+    private StateType replayDone()
     {
-        return StateType.ABORT;
+        if (order == null) return null;
+
+        boolean more = (order.activables.size() > 0);
+        StateType nextState = null;
+        switch (order.type)
+        {
+            case MOVE:
+                nextState = moveReplayDone(more);
+                break;
+            case ENGAGE:
+                if (more) nextState = StateType.ENGAGE;
+                break;
+            case PROMOTE:
+            default:
+                break;
+        }
+        return nextState;
     }
 
-    @Override
-    public StateType execute()
+    private StateType moveReplayDone(boolean more)
     {
-        // called at the end of animation DONE -> burn 1 AP
-        return ((order.cost == 0) ? StateType.REPLAY : StateType.DONE);
+        StateType nextState = null;
+        switch(order.move.type)
+        {
+            case REGULAR:
+            case EXIT:
+                if (more) nextState = StateType.MOVE;
+                break;
+            case SET:
+                nextState = StateType.DEPLOYMENT;
+                break;
+            case ENTER:
+                break;
+        }
+        return nextState;
     }
 }

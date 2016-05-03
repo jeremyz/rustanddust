@@ -18,32 +18,54 @@ import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateCommon;
 import ch.asynk.rustanddust.game.states.StateSelect;
 import ch.asynk.rustanddust.game.states.StateMove;
-import ch.asynk.rustanddust.game.states.StateRotate;
 import ch.asynk.rustanddust.game.states.StatePromote;
 import ch.asynk.rustanddust.game.states.StateEngage;
-import ch.asynk.rustanddust.game.states.StateBreak;
 import ch.asynk.rustanddust.game.states.StateAnimation;
-import ch.asynk.rustanddust.game.states.StateReinforcement;
 import ch.asynk.rustanddust.game.states.StateDeployment;
-import ch.asynk.rustanddust.game.states.StateWithdraw;
+import ch.asynk.rustanddust.game.states.StateReinforcement;
 import ch.asynk.rustanddust.game.states.StateReplay;
 
 public abstract class Ctrl implements Disposable
 {
+    enum Mode
+    {
+        LOADING,
+        REPLAY,
+        PLAY,
+    }
+
+    private static final boolean debugCtrl = false;
+
+    public enum MsgType
+    {
+        OK,
+        CANCEL,
+        PROMOTE,
+        ANIMATIONS_DONE,
+        UNIT_DOCK_SELECT,
+        UNIT_DOCK_TOGGLE,
+        UNIT_DEPLOYED,
+        UNIT_UNDEPLOYED,
+    }
+
     public enum EventType
     {
+        ORDER,
+        ORDER_DONE,
         STATE_CHANGE,
-        HUD_ANSWER,
-        ANIMATIONS_DONE,
-        UNIT_DOCK_TOGGLE,
-        UNIT_DOCK_SELECT;
+        ANIMATION,
+        REPLAY_DONE,
+        TURN_DONE,
+        ACTION_ABORTED,
+        EXIT_BATTLE,
     }
 
     class Event
     {
         public EventType type;
         public Object data;
-        public boolean status;
+        @Override
+        public String toString() { return String.format("Event : %s - %s", type, (data == null) ? "" : data); }
     }
 
     public final RustAndDust game;
@@ -55,39 +77,37 @@ public abstract class Ctrl implements Disposable
 
     public Map map;
     public Hud hud;
+    private float blockEvents;
     public boolean blockMap;
     public boolean blockHud;
     private Hex touchedHex;
+    protected int gameId;
     protected boolean synched;
     private int depth;
 
+    private Order lastOrder;
+
     private final State selectState;
-    private final State pathState;
-    private final State rotateState;
+    private final State moveState;
     private final State promoteState;
     private final State engageState;
-    private final State breakState;
     private final State animationState;
-    private final State reinforcementState;
     private final State deploymentState;
-    private final State withdrawState;
+    private final State reinforcementState;
     private final State replayState;
 
-    private int animationCount = 0;
-
+    private Mode mode;
     private State state;
     private StateType stateType;
     private StateType stateAfterAnimation;
 
     public abstract void init();
-    protected abstract void actionDoneCb();
-    protected abstract void turnDoneCb();
-    public abstract void orderProcessedCb();
 
     public static Ctrl getCtrl(final RustAndDust game)
     {
         Ctrl ctrl = null;
-        switch(game.config.gameMode) {
+        switch(game.config.gameMode)
+        {
             case SOLO:
                 ctrl = new Solo(game);
                 break;
@@ -102,57 +122,57 @@ public abstract class Ctrl implements Disposable
         this.battle = game.config.battle;
         this.hud = new Hud(game);
 
-        this.blockMap = false;
+        this.blockEvents = 0.5f;
+        this.blockMap = true;
         this.blockHud = false;
         this.touchedHex = null;
+        this.gameId = -1;
         this.synched = false;
         this.depth = 0;
 
+        this.lastOrder = null;
+
         this.selectState = new StateSelect();
-        this.pathState = new StateMove();
-        this.rotateState = new StateRotate();
+        this.moveState = new StateMove();
         this.promoteState = new StatePromote();
         this.engageState = new StateEngage();
-        this.breakState = new StateBreak();
         this.animationState = new StateAnimation();
-        this.reinforcementState = new StateReinforcement();
         this.deploymentState = new StateDeployment();
-        this.withdrawState = new StateWithdraw();
+        this.reinforcementState = new StateReinforcement();
         this.replayState = new StateReplay();
 
-        this.stateType = StateType.LOADING;
+        this.mode = Mode.LOADING;
 
-        battle.init();
-        this.map = battle.getMap();
+        this.map = battle.init(this);
         init();
         StateCommon.set(game);
         hud.update();
 
-        this.state = selectState;
-        this.stateType = StateType.DONE;
-        this.stateAfterAnimation = StateType.DONE;
+        this.stateType = StateType.WAIT_EVENT;
+        this.stateAfterAnimation = battle.getState();
 
-        setState(battle.getState());
+        setState(StateType.ANIMATION);
 
-        if (synched) {
-            this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
-            return;
-        }
-
-        switch(game.config.loadMode) {
+        switch(game.config.loadMode)
+        {
+            case NEW:
+                this.hud.notify(battle.toString(), 2, Position.MIDDLE_CENTER, false);
+                break;
+            case RESUME:
+                if (!synched) {
+                    map.prepareReplayLastAction();
+                    this.stateAfterAnimation = StateType.REPLAY;
+                }
+                break;
+            case REPLAY_CURRENT:
+                map.prepareReplayCurrentTurn();
+                this.stateAfterAnimation = StateType.REPLAY;
+                break;
             case REPLAY_ALL:
-                // TODO REPLAY_ALL
-                break;
-            case REPLAY_LAST:
-                map.prepareReplayLastTurn();
-                setState(StateType.REPLAY);
-                break;
-            case LOAD:
-                map.prepareReplayLastAction();
-                setState(StateType.REPLAY);
+                // TODO REPLAY ALL
+                this.stateAfterAnimation = StateType.REPLAY;
                 break;
         }
-
     }
 
     @Override
@@ -167,13 +187,9 @@ public abstract class Ctrl implements Disposable
 
     // JSON
 
-    protected boolean isLoading()
-    {
-        return (stateType == StateType.LOADING);
-    }
-
     protected void load(Marshal.Mode mode, String payload)
     {
+        if (payload == null) return;
         JsonValue root = new JsonReader().parse(payload);
         battle.load(mode, root);
     }
@@ -188,6 +204,27 @@ public abstract class Ctrl implements Disposable
         return writer.toString();
     }
 
+    // DB
+    private void storeState()
+    {
+        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.PLAYERS), unload(Marshal.Mode.MAP));
+    }
+
+    private void storeOrders()
+    {
+        game.db.storeGameOrders(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.ORDERS));
+    }
+
+    private void clearOrders()
+    {
+        game.db.clearGameOrders(gameId);
+    }
+
+    private void storeTurn()
+    {
+        game.db.storeCurrentTurn(gameId);
+    }
+
     // INPUTS
 
     public boolean drag(float x, float y, int dx, int dy)
@@ -199,9 +236,7 @@ public abstract class Ctrl implements Disposable
 
     public void touchDown(float hudX, float hudY, float mapX, float mapY)
     {
-        boolean inAnimation = (this.stateType == StateType.ANIMATION);
-
-        if (!blockHud && hud.hit(hudX, hudY, inAnimation))
+        if (!blockHud && hud.hit(hudX, hudY, inAnimation()))
             return;
 
         touchedHex = (blockMap ? null : map.getHexAt(mapX, mapY));
@@ -213,34 +248,64 @@ public abstract class Ctrl implements Disposable
             state.touch(touchedHex);
     }
 
-    // EVENTS
+    // MESSAGES
 
-    private Event getEvent()
+    public void sendMsg(MsgType msgType)
     {
-        Event evt = freeEvents.pop();
-        if (evt == null)
-            evt = new Event();
-        return evt;
+        sendMsg(msgType, null);
     }
 
-    public void postDone() { post(StateType.DONE); }
-    public void postAbort() { post(StateType.ABORT); }
+    public void sendMsg(MsgType msgType, Object data)
+    {
+        RustAndDust.debug(String.format("Msg : %s %s", msgType, data));
+        switch(msgType)
+        {
+            case ANIMATIONS_DONE:   animationsDone(); break;
+            case UNIT_DOCK_TOGGLE:  unitDockToggle(); break;
+            case UNIT_DEPLOYED:     deploymentState.processMsg(msgType, data); break;
+            default:
+                if (!this.state.processMsg(msgType, data))
+                    RustAndDust.error(String.format("%s does not handle msg : %s %s", this.state, msgType, data));
+                break;
+        }
+    }
+
+    // EVENTS
+
+    public void postTurnDone() { postEvent(EventType.TURN_DONE); }
+    public void postActionAborted() { postEvent(EventType.ACTION_ABORTED); }
+    public void postReplayDone(StateType stateType) { postEvent(EventType.REPLAY_DONE, stateType); }
 
     public void post(StateType stateType)
     {
-        Event evt = getEvent();
-        evt.type = EventType.STATE_CHANGE;
-        evt.data = stateType;
-        events.enqueue(evt);
+        postEvent(EventType.STATE_CHANGE, stateType);
     }
 
-    public void postAnswer(Hud.OkCancelAction what, boolean status)
+    public void postOrder(Order order)
     {
-        Event evt = getEvent();
-        evt.type = EventType.HUD_ANSWER;
-        evt.data = what;
-        evt.status = status;
-        events.enqueue(evt);
+        postOrder(order, null);
+    }
+
+    public void postInitOrder(Order order)
+    {
+        // postEvent(EventType.ORDER, order);
+        // postEvent(EventType.ORDER_DONE, stateType);
+        executeOrder(order);
+        orderDone(null);
+    }
+
+    public void postOrder(Order order, StateType stateType)
+    {
+        postEvent(EventType.ORDER, order);
+        switch(order.type)
+        {
+            case END:
+            case REVERT:
+                break;
+            default:
+                postEvent(EventType.ANIMATION, StateType.WAIT_EVENT);
+        }
+        postEvent(EventType.ORDER_DONE, stateType);
     }
 
     public void postEvent(EventType type)
@@ -250,33 +315,39 @@ public abstract class Ctrl implements Disposable
 
     public void postEvent(EventType type, Object data)
     {
-        Event evt = getEvent();
+        Event evt = freeEvents.pop();
+        if (evt == null)
+            evt = new Event();
         evt.type = type;
         evt.data = data;
         events.enqueue(evt);
     }
 
-    public void processEvent()
+    public void processEvent(float delta)
     {
-        if (events.size() <= 0)
+        if (blockEvents > 0f) {
+            blockEvents -= delta;
+            if (blockEvents > 0f)
+                return;
+        }
+        if ((events.size() <= 0) || inAnimation())
             return;
 
         Event evt = events.dequeue();
-        switch(evt.type) {
-            case STATE_CHANGE:
-                setState((StateType) evt.data);
-                break;
-            case HUD_ANSWER:
-                handleHudAnswer(evt);
-                break;
-            case ANIMATIONS_DONE:
-                animationsDone();
-                break;
-            case UNIT_DOCK_TOGGLE:
-                unitDockToggle();
-                break;
-            case UNIT_DOCK_SELECT:
-                unitDockSelect((Unit) evt.data);
+        RustAndDust.debug(evt.toString());
+
+        switch(evt.type)
+        {
+            case ORDER:             executeOrder((Order) evt.data); break;
+            case ORDER_DONE:        orderDone((StateType) evt.data); break;
+            case STATE_CHANGE:      setState((StateType) evt.data); break;
+            case REPLAY_DONE:       replayDone((StateType) evt.data); break;
+            case TURN_DONE:         turnDone(); break;
+            case ACTION_ABORTED:    abortAction(); break;
+            case EXIT_BATTLE:       exitBattle(); break;
+            case ANIMATION:
+                stateAfterAnimation = (StateType) evt.data;
+                setState(StateType.ANIMATION);
                 break;
             default:
                 RustAndDust.error(String.format("Unhandled Event Type : %s %s", evt.type, evt.data));
@@ -284,82 +355,191 @@ public abstract class Ctrl implements Disposable
         freeEvents.push(evt);
     }
 
-    // State callbacks
-
-    public void setAfterAnimationState(StateType after)
+    private boolean inAnimation()
     {
-        stateAfterAnimation = after;
-    }
-
-    // Event handlers
-
-    private void handleHudAnswer(Event evt)
-    {
-        switch((Hud.OkCancelAction) evt.data) {
-            case EXIT_BOARD:
-                if (evt.status) setState(StateType.DONE);
-                else setState(StateType.ABORT);
-                break;
-            case ABORT_TURN:
-                if (evt.status) {
-                    this.state.abort();
-                    turnDone();
-                }
-                break;
-            case END_DEPLOYMENT:
-                if (evt.status) {
-                    this.state.execute();
-                    turnDone();
-                }
-                break;
-            case QUIT_BATTLE:
-                if (evt.status)
-                    game.switchToMenu();
-                break;
-
-        }
+        return (this.stateType == StateType.ANIMATION);
     }
 
     private void animationsDone()
     {
+        if (debugCtrl) RustAndDust.debug("    ANIMATIONS DONE");
+
         if (hud.dialogActive())
             hud.notifyAnimationsDone();
-        if (stateType == StateType.ANIMATION) {
-            StateType tmp = stateAfterAnimation;
-            stateAfterAnimation = StateType.DONE;
-            setState(tmp);
+
+        if (mode == Mode.LOADING) {
+            this.mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
+            if (game.config.loadMode == Config.LoadMode.NEW) {
+                storeState();
+                storeTurn();
+            }
+            if (mode == Mode.PLAY)
+                map.clear(true);
+        }
+        this.blockMap = false;
+        StateType tmp = stateAfterAnimation;
+        stateAfterAnimation = StateType.WAIT_EVENT;
+        setState(tmp);
+    }
+
+    private void replayDone(StateType nextState)
+    {
+        if (debugCtrl) RustAndDust.debug("    REPLAY DONE");
+        hud.notify("Replay Done", Position.MIDDLE_CENTER);
+        this.mode = Mode.PLAY;
+        if (nextState != null) {
+            setState(nextState);
+        } else {
+            if (!synched) {
+                storeState();
+                synched = true;
+            }
+            if (battle.getPlayer().apExhausted())
+                postTurnDone();
+            else if (!battle.getPlayer().canDoSomething())
+                postTurnDone();
+            else
+                setState(battle.getState());
         }
     }
 
-    private void unitDockSelect(Unit unit)
+    private void executeOrder(Order order)
     {
-        if ((stateType == StateType.DEPLOYMENT) || (stateType == StateType.REINFORCEMENT))
-            state.touch(null);
+        if (debugCtrl) RustAndDust.debug("    EXECUTE ORDER");
+        lastOrder = order;
+        map.execute(order);
+        if ((order.type == Order.OrderType.ENGAGE) && !order.replay) {
+            game.ctrl.hud.engagementSummary(order.engagement);
+        }
+        if (this.mode == Mode.PLAY)
+            storeOrders();
+        hud.update();
+    }
+
+    private void orderDone(StateType nextState)
+    {
+        if (debugCtrl) RustAndDust.debug("    ORDER DONE -> " + nextState);
+        Order order = this.lastOrder;
+        this.lastOrder = null;
+        if (nextState == null)
+            nextState = battle.getState();
+
+        completeOrder(order);
+
+        if (mode == Mode.LOADING)
+            return;
+
+        if (mode == Mode.REPLAY) {
+            if (order.cost > 0)
+                battle.getPlayer().burnDownOneAp();
+            hud.update();
+            blockEvents = 0.2f;
+            post(nextState);
+            return;
+        }
+
+        if (order.cost == 0) {
+            post(nextState);
+            return;
+        }
+
+        battle.getPlayer().burnDownOneAp();
+        hud.notify("1 Action Point burnt");
+        hud.update();
+
+        if (battle.getPlayer().apExhausted()) {
+            hud.notify("No more Action Points");
+            postTurnDone();
+        } else if (!battle.getPlayer().canDoSomething()) {
+            hud.notify("No available Actions");
+            postTurnDone();
+        } else {
+            post(nextState);
+        }
+
+        storeState();
+    }
+
+    private void completeOrder(Order order)
+    {
+        switch(order.type)
+        {
+            case MOVE:      completeMoveOrder(order, (Unit) order.move.pawn); break;
+            case ENGAGE:    completeEngagementOrder(order, order.engagement.defender); break;
+            case PROMOTE:   battle.getPlayer().promote(order.leader); break;
+            case REVERT:    break;
+            case END:       break;
+            default:        break;
+        }
+    }
+
+    private void completeEngagementOrder(Order order, Unit unit)
+    {
+        if (order.engagement.success) {
+            battle.getPlayer().engagementWon += 1;
+            battle.getOpponent().casualty(unit);
+        } else {
+            battle.getPlayer().engagementLost += 1;
+        }
+    }
+
+    private void completeMoveOrder(Order order, Unit unit)
+    {
+        switch(order.move.type)
+        {
+            case EXIT:      battle.getPlayer().unitWithdraw(unit); break;
+            case SET:       battle.getPlayer().unitEntry(unit); break;
+            case ENTER:     battle.getPlayer().unitEntry(unit); break;
+            case REGULAR:   break;
+            default:        break;
+        }
+    }
+
+    private void turnDone()
+    {
+        if (debugCtrl) RustAndDust.debug("    TURN DONE");
+
+        setState(StateType.WAIT_EVENT);
+
+        if (battle.turnDone())
+            hud.victory(battle.getPlayer(), battle.getOpponent());
+        else {
+            hud.update();
+            if (battle.getPlayer().hasReinforcement())
+                hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
+            if (!battle.getPlayer().canDoSomething()) {
+                hud.notify("No available Actions");
+                postTurnDone();
+            } else {
+                post(battle.getState());
+            }
+        }
+
+        storeState();
+        storeTurn();
+        map.clear(true);
+        clearOrders();
+    }
+
+    private void abortAction()
+    {
+        if (debugCtrl) RustAndDust.debug("    ABORT ACTION");
+        post(battle.getState());
+    }
+
+    private void exitBattle()
+    {
+        if (debugCtrl) RustAndDust.debug("    EXIT BATTLE");
+        game.switchToMenu();
     }
 
     private void unitDockToggle()
     {
         if (this.stateType == StateType.SELECT)
-            setState(StateType.REINFORCEMENT);
-        else if (this.stateType == StateType.REINFORCEMENT)
-            setState(StateType.SELECT);
-    }
-
-    //
-
-    private void turnDone()
-    {
-        if (battle.turnDone())
-            hud.victory(battle.getPlayer(), battle.getOpponent());
-        else {
-            if (battle.getPlayer().hasReinforcement())
-                hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
-            hud.update();
-            if (!battle.getPlayer().canDoSomething()) {
-                hud.notify("No available Actions");
-                setState(StateType.TURN_OVER);
-            } else
-                setState(battle.getState());
+            post(StateType.REINFORCEMENT);
+        else if (this.stateType == StateType.REINFORCEMENT) {
+            sendMsg(MsgType.OK);
+            post(StateType.SELECT);
         }
     }
 
@@ -367,160 +547,52 @@ public abstract class Ctrl implements Disposable
 
     private void setState(StateType nextState)
     {
+        if (stateType == nextState)
+            RustAndDust.error("***!!!*** STATE LOOP ********************************************************************** " + stateType);
+
+        if (nextState == StateType.WAIT_EVENT) {
+            stateType = nextState;
+            if (debugCtrl) RustAndDust.debug("    WAIT_EVENT");
+            return;
+        }
+
         depth += 1;
         if (depth > 1)
             RustAndDust.error(String.format("***!!!*** STATE DEPTH : %d", depth));
 
-        if (nextState == StateType.ABORT)
-            nextState = abortAction();
-        else if (nextState == StateType.DONE) {
-            nextState = complete();
-        }
-
-        if (stateType == StateType.ANIMATION) {
-            this.blockMap = hud.dialogActive();
-            if (nextState == StateType.REPLAY)
-                completeReplayStep();
+        if (nextState == StateType.DEPLOYMENT) {
+            if (battle.isDeploymentDone())
+                hud.askEndDeployment();
         }
 
         hud.playerInfo.blockEndOfTurn(nextState != StateType.SELECT);
 
-        if (nextState == stateType)
-            RustAndDust.debug(String.format("***!!!*** STATE LOOP : %s", stateType));
-
-        this.state.leaveFor(nextState);
-
         this.state = getNextState(nextState);
-
         StateType tmp = stateType;
         stateType = nextState;
-
         this.state.enterFrom(tmp);
 
-        if (nextState == StateType.TURN_OVER)
-            turnDone();
         depth -= 1;
-    }
-
-    private StateType complete()
-    {
-        switch(stateType) {
-            case DEPLOYMENT:
-                return completeDeployment();
-            case REPLAY:
-                return completeReplay();
-            default:
-                return completeAction();
-        }
-    }
-
-    private StateType completeDeployment()
-    {
-        if (battle.isDeploymentDone())
-            hud.askEndDeployment();
-        battle.actionDone();
-        return StateType.DEPLOYMENT;
-    }
-
-    private StateType abortAction()
-    {
-        hud.notify("Action canceled");
-        StateType nextState = this.state.abort();
-
-        if (nextState == StateType.ABORT)
-            nextState = battle.getState();
-
-        return nextState;
-    }
-
-    private StateType completeAction()
-    {
-        StateType nextState = this.state.execute();
-
-        if (nextState == StateType.DONE) {
-            if (battle.actionDone()) {
-                hud.notify("1 Action Point burnt");
-                hud.update();
-            }
-            if (battle.getPlayer().apExhausted()) {
-                hud.notify("No more Action Points");
-                nextState = StateType.TURN_OVER;
-            } else if (!battle.getPlayer().canDoSomething()) {
-                hud.notify("No available Actions");
-                nextState = StateType.TURN_OVER;
-            } else
-                nextState = battle.getState();
-        }
-
-        return nextState;
-    }
-
-    private StateType completeReplay()
-    {
-        if (battle.getPlayer().apExhausted()) {
-            return StateType.TURN_OVER;
-        } else if (!battle.getPlayer().canDoSomething()) {
-            return StateType.TURN_OVER;
-        } else
-            return battle.getState();
-    }
-
-    private void completeReplayStep()
-    {
-        StateType nextState = replayState.execute();
-
-        if (nextState == StateType.DONE) {
-            battle.getPlayer().burnDownOneAp();
-            hud.update();
-        }
     }
 
     private State getNextState(StateType nextState)
     {
-        RustAndDust.debug("Ctrl", String.format("  %s -> %s : %s", stateType, nextState, battle.getPlayer()));
+        RustAndDust.debug("  State Change", String.format("%s -> %s", stateType, nextState));
 
-        State state = this.state;
-
-        switch(nextState) {
-            case SELECT:
-                state = selectState;
-                break;
-            case MOVE:
-                state = pathState;
-                break;
-            case ROTATE:
-                state = rotateState;
-                break;
-            case PROMOTE:
-                state = promoteState;
-                break;
-            case ENGAGE:
-                state = engageState;
-                break;
-            case BREAK:
-                state = breakState;
-                break;
-            case WITHDRAW:
-                state = withdrawState;
-                break;
-            case ANIMATION:
-                state = animationState;
-                this.blockMap = true;
-                break;
-            case REINFORCEMENT:
-                state = reinforcementState;
-                break;
-            case DEPLOYMENT:
-                state = deploymentState;
-                break;
-            case REPLAY:
-                state = replayState;
-                break;
+        switch(nextState)
+        {
+            case SELECT:        return selectState;
+            case MOVE:          return moveState;
+            case PROMOTE:       return promoteState;
+            case ENGAGE:        return engageState;
+            case ANIMATION:     return animationState;
+            case DEPLOYMENT:    return deploymentState;
+            case REINFORCEMENT: return reinforcementState;
+            case REPLAY:        return replayState;
             default:
                 RustAndDust.error(String.format("Unhandled State : %s", nextState));
-                break;
         }
 
-        return state;
+        return this.state;
     }
 }

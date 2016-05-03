@@ -218,12 +218,22 @@ public class Hud implements Disposable, Animation
         dialog.visible = false;
 
         if (dialog == okCancel) {
-            if (okCancel.ok) game.playEnter();
-            else game.playType();
-            ctrl.postAnswer(okCancelAction, okCancel.ok);
+            boolean ok = false;
+            if (okCancel.ok) {
+                ok = true;
+                game.playEnter();
+            } else
+                game.playType();
+            if (ok) {
+                if (this.okCancelAction == OkCancelAction.EXIT_BATTLE)
+                    ctrl.postEvent(Ctrl.EventType.EXIT_BATTLE);
+                else
+                    ctrl.sendMsg(Ctrl.MsgType.OK);
+            } else
+                ctrl.sendMsg(Ctrl.MsgType.CANCEL);
         } else if (dialog == stats) {
             game.playEnter();
-            ctrl.postAnswer(OkCancelAction.EXIT_BATTLE, true);
+            ctrl.postEvent(Ctrl.EventType.EXIT_BATTLE);
         } else
             game.playType();
 

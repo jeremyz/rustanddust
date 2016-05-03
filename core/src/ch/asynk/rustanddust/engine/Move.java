@@ -49,11 +49,10 @@ public class Move extends Path implements Iterable<Vector3>, Iterator
         movePool.clear();
     }
 
-    public static Move getEnter(Pawn pawn, Tile to, Orientation orientation)
+    public static Move getEnter(Pawn pawn, Tile from, Tile to, Orientation orientation, Path path)
     {
-        Move m = get(pawn, null, to, orientation, null);
+        Move m = get(pawn, from, to, orientation, path);
         m.type = MoveType.ENTER;
-        m.cost = to.costFrom(pawn, orientation);
         return m;
     }
 
@@ -120,11 +119,6 @@ public class Move extends Path implements Iterable<Vector3>, Iterator
     public boolean isRegular()
     {
         return (type == MoveType.REGULAR);
-    }
-
-    public boolean isFinal()
-    {
-        return (type != MoveType.ENTER);
     }
 
     public int steps()

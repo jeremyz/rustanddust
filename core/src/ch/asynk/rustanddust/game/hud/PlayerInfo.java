@@ -141,12 +141,12 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             return true;
         }
         else if (reinforcement.hit(x, y)) {
-            ctrl.postEvent(Ctrl.EventType.UNIT_DOCK_TOGGLE);
+            ctrl.sendMsg(Ctrl.MsgType.UNIT_DOCK_TOGGLE);
             return true;
         }
         else if (unitDock.hit(x, y)) {
-            ctrl.hud.notify(unitDock.selectedUnit.toString(), Position.TOP_CENTER);
-            ctrl.postEvent(Ctrl.EventType.UNIT_DOCK_SELECT, unitDock.selectedUnit);
+            ctrl.hud.notify(unitDock.selectedUnit.toString());
+            ctrl.sendMsg(Ctrl.MsgType.UNIT_DOCK_SELECT, unitDock.selectedUnit);
             return true;
         }
 

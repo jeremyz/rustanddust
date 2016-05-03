@@ -42,7 +42,8 @@ public class DB
         + " ,mode integer not null, battle integer not null, opponent integer not null"
         + " ,turn integer not null, currentPlayer integer default null"
         + " ,ts datetime default current_timestamp, synched integer default 0"
-        + " ,state text default null, stateH text default null"
+        + " ,players text default null, playersH text default null"
+        + " ,map text default null, mapH text default null"
         + " ,orders text default null, ordersH text default null"
         + " ,foreign key (battle) references battles(_id)"
         + " ,foreign key (opponent) references players(_id)"
@@ -53,7 +54,8 @@ public class DB
     private static final String TBL_TURNS_CRT = "create table if not exists"
         + " turns ( _id integer primary key autoincrement"
         + " ,game integer not null, turn integer not null, currentPlayer integer not null"
-        + " ,state text default null, stateH text default null"
+        + " ,players text default null, playersH text default null"
+        + " ,map text default null, mapH text default null"
         + " ,orders text default null, ordersH text default null"
         + " ,foreign key (game) references games(_id)"
         + " ,foreign key (currentPlayer) references players(_id)"
@@ -126,6 +128,7 @@ public class DB
 
     private boolean checkDigest(String what, int id, String payload, String digest)
     {
+        if (payload == null) return true;
         if (digest.equals(getDigest(payload)))
             return true;
         RustAndDust.error(String.format("corrupted %s(%d)", what, id));
@@ -258,15 +261,18 @@ public class DB
         return getGameId(opponent, battle, mode);
     }
 
-    private static final String STORE_GAME_STATE = "update games set ts=current_timestamp, turn=%d, currentPlayer=%d, state='%s', stateH='%s', synched=1 where _id=%d;";
+    private static final String STORE_GAME_STATE = "update games set ts=current_timestamp, turn=%d, currentPlayer=%d,"
+        + " players='%s', playersH='%s', map='%s', mapH='%s', synched=1 where _id=%d;";
 
-    public boolean storeGameState(int game, int turn, int player, String state)
+    public boolean storeGameState(int game, int turn, int player, String players, String map)
     {
         RustAndDust.debug("storeGameState");
         try {
-            String hash = getDigest(state);
-            if (hash == null) return false;
-            exec(String.format(STORE_GAME_STATE, turn, player, state, hash, game));
+            String playersH = getDigest(players);
+            if (playersH == null) return false;
+            String mapH = getDigest(map);
+            if (mapH == null) return false;
+            exec(String.format(STORE_GAME_STATE, turn, player, players, playersH, map, mapH, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeGameState");
             return false;
@@ -280,9 +286,9 @@ public class DB
     {
         RustAndDust.debug("storeGameOrders");
         try {
-            String hash = getDigest(orders);
-            if (hash == null) return false;
-            exec(String.format(STORE_GAME_ORDERS, turn, player, orders, hash, game));
+            String ordersH = getDigest(orders);
+            if (ordersH == null) return false;
+            exec(String.format(STORE_GAME_ORDERS, turn, player, orders, ordersH, game));
         } catch (SQLiteGdxException e) {
             RustAndDust.error("storeGameOrders");
             return false;
@@ -290,15 +296,28 @@ public class DB
         return true;
     }
 
-    private static final String COPY_TURN = "insert into turns(game, turn, currentPlayer, state, stateH, orders, ordersH)"
-        + " select _id, turn, currentPlayer, state, stateH, orders, ordersH from games where _id=%d;";
+    private static final String COPY_TURN = "insert into turns(game, turn, currentPlayer, players, playersH, map, mapH, orders, ordersH)"
+        + " select _id, turn, currentPlayer, players, playersH, map, mapH, orders, ordersH from games where _id=%d;";
 
-    public boolean storeLastTurn(int game)
+    public boolean storeCurrentTurn(int game)
     {
+        RustAndDust.debug("storeCurrentTurn");
         try {
             exec(String.format(COPY_TURN, game));
         } catch (SQLiteGdxException e) {
-            RustAndDust.error("storeLastTurn");
+            RustAndDust.error("storeCurrentTurn");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean clearGameOrders(int game)
+    {
+        RustAndDust.debug("clearGameOrders");
+        try {
+            exec(String.format("update games set orders=null, ordersH=null, synched=1 where _id=%d;", game));
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error("clearGameOrders");
             return false;
         }
         return true;
@@ -306,7 +325,7 @@ public class DB
 
     private static final String LOAD_BASE = "select g._id, g.mode, g.battle, g.opponent, g.turn, g.currentPlayer, g.ts, g.synched";
 
-    private static final String LOAD_GAMES = LOAD_BASE + ", null, null, null, null, p.name, b.name"
+    private static final String LOAD_GAMES = LOAD_BASE + ", null, null, null, null, null, null, p.name, b.name"
         + " from games g inner join players p on (p._id=g.opponent) inner join battles b on (b._id=g.battle);";
 
     public void loadGames()
@@ -325,46 +344,40 @@ public class DB
         } catch (SQLiteGdxException e) { RustAndDust.error("loadGames"); }
     }
 
-    private static final String LOAD_GAME = LOAD_BASE + ", g.state, g.stateH, g.orders, g.ordersH, null, null from games g where g._id=%d;";
+    private static final String LOAD_GAME = LOAD_BASE + ", g.players, g.playersH, g.map, g.mapH, g.orders, g.ordersH, null, null from games g where g._id=%d;";
 
     public GameRecord loadGame(int game)
     {
         RustAndDust.debug("loadGame");
-        GameRecord r = null;
-        try {
-            DatabaseCursor cursor = query(String.format(LOAD_GAME, game));
-            if (cursor.getCount() > 0) {
-                cursor.next();
-                r = gameRecordFrom(cursor);
-                if (!checkDigest("GameState", game, r.state, r.stateH))
-                    r = null;
-                else if(!checkDigest("GameOrders", game, r.orders, r.ordersH))
-                    r = null;
-            }
-        } catch (SQLiteGdxException e) { RustAndDust.error("loadGame"); }
-        if (r == null)
-            deleteGame(game);
-        return r;
+        return loadGame(game, LOAD_GAME, "loadGAME");
     }
 
-    private static final String LOAD_LAST_TURN = "select g._id, g.mode, g.battle, g.opponent, t.turn, t.currentPlayer, g.ts, g.synched"
-        + ", t.state, t.stateH, g.orders, g.ordersH, null, null from games g inner join turns t on (g._id = t.game) where g._id=%d order by t.turn desc limit 1;";
+    private static final String LOAD_LAST_TURN = "select g._id, g.mode, g.battle, g.opponent, g.turn, g.currentPlayer, g.ts, g.synched"
+        + ", t.players, t.playersH, t.map, t.mapH, g.orders, g.ordersH, null, null"
+        +" from games g inner join turns t on (g._id = t.game) where g._id=%d order by t.turn desc limit 1;";
 
     public GameRecord loadLastTurn(int game)
     {
         RustAndDust.debug("loadLastTurn");
+        return loadGame(game, LOAD_LAST_TURN, "loadLastTurn");
+    }
+
+    private GameRecord loadGame(int game, String sql, String errMsg)
+    {
         GameRecord r = null;
         try {
-            DatabaseCursor cursor = query(String.format(LOAD_LAST_TURN, game));
+            DatabaseCursor cursor = query(String.format(sql, game));
             if (cursor.getCount() > 0) {
                 cursor.next();
                 r = gameRecordFrom(cursor);
-                if (!checkDigest("GameState", game, r.state, r.stateH))
+                if (!checkDigest("GameState", game, r.players, r.playersH))
+                    r = null;
+                if (!checkDigest("GameState", game, r.map, r.mapH))
                     r = null;
                 else if(!checkDigest("GameOrders", game, r.orders, r.ordersH))
                     r = null;
             }
-        } catch (SQLiteGdxException e) { RustAndDust.error("loadLastTurn"); }
+        } catch (SQLiteGdxException e) { RustAndDust.error(errMsg); }
         if (r == null)
             deleteGame(game);
         return r;
@@ -404,13 +417,15 @@ public class DB
                 RustAndDust.error(String.format("can't parse", cursor.getString(6)));
             }
             r.synched = ((cursor.getInt(7) == 1) ? true : false);
-            r.state = cursor.getString(8);
-            r.stateH = cursor.getString(9);
-            r.orders = cursor.getString(10);
-            r.ordersH = cursor.getString(11);
+            r.players = cursor.getString(8);
+            r.playersH = cursor.getString(9);
+            r.map = cursor.getString(10);
+            r.mapH = cursor.getString(11);
+            r.orders = cursor.getString(12);
+            r.ordersH = cursor.getString(13);
             //
-            r.oName = cursor.getString(12);
-            r.bName = cursor.getString(13);
+            r.oName = cursor.getString(14);
+            r.bName = cursor.getString(15);
         } catch (Exception e) {
             r.dispose(); RustAndDust.error("GameRecord from cursor");
         }

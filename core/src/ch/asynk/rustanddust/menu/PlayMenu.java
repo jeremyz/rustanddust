@@ -142,11 +142,11 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
             return MenuCtrl.MenuType.OKKO;
         } else if (resumeBtn.hit(x, y)) {
             game.playType();
-            return setConfig(Config.LoadMode.LOAD);
+            return setConfig(Config.LoadMode.RESUME);
         } else if (replayBtn.hit(x, y)) {
             game.playType();
-            // TODO chose between : REPLAY_LAST / REPLAY_ALL
-            return setConfig(Config.LoadMode.REPLAY_LAST);
+            // TODO chose between : REPLAY_CURRENT / REPLAY_ALL
+            return setConfig(Config.LoadMode.REPLAY_CURRENT);
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
                 game.playType();

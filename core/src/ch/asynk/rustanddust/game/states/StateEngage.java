@@ -1,61 +1,53 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.engine.Orientation;
+import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
+import ch.asynk.rustanddust.game.Order;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
+import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateEngage extends StateCommon
 {
+    // selectedUnit -> fire leader
+    // activeUnit -> target / break
+
+    private boolean breakMove = false;
+
     @Override
     public void enterFrom(StateType prevState)
     {
         if (prevState == StateType.SELECT) {
-            // activeUnit will be target
-            activeUnit = null;
-            if (to != null) {
-                // quick fire -> replay touchUp
-                touch(to);
+            breakMove = false;
+            if ((to != null) && (activeUnit != null)) {
+                // quick fire
+                selectTarget(activeUnit, to);
             }
             selectedUnit.showAttack();
             map.hexSelect(selectedHex);
-        }
-    }
-
-    @Override
-    public void leaveFor(StateType nextState)
-    {
-        selectedUnit.hideAttack();
-        map.unitsAssistHide();
-        map.unitsTargetHide();
-        map.hexUnselect(selectedHex);
-        if (to != null)
-            map.hexUnselect(to);
-    }
-
-    @Override
-    public StateType abort()
-    {
-        map.unitsActivatedClear();
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType execute()
-    {
-        map.unitsAssistHide();
-        StateType nextState = StateType.DONE;
-        if (map.engageUnit(selectedUnit, activeUnit)) {
-            ctrl.battle.getPlayer().engagementWon += 1;
-            ctrl.battle.getOpponent().casualty(activeUnit);
-            if (map.unitsActivableSize() > 0) {
-                nextState = StateType.BREAK;
-            }
         } else {
-            ctrl.battle.getPlayer().engagementLost += 1;
+            breakMove = true;
+            activeUnit = null;
+            ctrl.hud.actionButtons.show(Buttons.DONE.b);
+            ctrl.hud.notify("Break Through possible", Position.MIDDLE_CENTER);
+            map.unitsActivableShow();
+            map.hexUnselect(selectedHex);
+        }
+    }
+
+    @Override
+    public boolean processMsg(MsgType msg, Object data)
+    {
+        switch(msg)
+        {
+            case OK:
+                if (breakMove)
+                    abortBreakMove();
+                return true;
         }
 
-        activeUnit.showTarget();
-        ctrl.setAfterAnimationState(nextState);
-        return StateType.ANIMATION;
+        return false;
     }
 
     @Override
@@ -63,27 +55,104 @@ public class StateEngage extends StateCommon
     {
         Unit unit = hex.getUnit();
 
-        // activeUnit is the target, selectedTarget is the engagement leader
-        if (unit == selectedUnit) {
-            ctrl.post(StateType.ABORT);
-        } else if ((activeUnit == null) && map.unitsTargetContains(unit)) {
-            // ctrl.hud.notify("Engage " + unit);
-            map.unitsTargetHide();
-            to = hex;
-            activeUnit = unit;
-            activeUnit.showTarget();
-            map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);
-            map.unitsAssistShow();
+        if (!breakMove) {
+            if (unit == selectedUnit)
+                abort();
+            else if ((activeUnit == null) && map.unitsTargetContains(unit))
+                selectTarget(unit, hex);
+            else if (unit == activeUnit)
+                engage();
+            else if ((activeUnit != null) && map.unitsActivableContains(unit))
+                map.toggleAssist(unit);
+        } else {
+            if (activeUnit == null) {
+                if (map.unitsActivableContains(unit))
+                    selectBreakUnit(unit);
+            } else {
+                Orientation o = Orientation.fromAdj(to, hex);
+                if (o == Orientation.KEEP)
+                    unselectBreakUnit();
+                else
+                    doRotation(o);
+            }
+
         }
-        else if (unit == activeUnit) {
-            ctrl.post(StateType.DONE);
+    }
+
+    private void selectTarget(Unit unit, Hex hex)
+    {
+        to = hex;
+        activeUnit = unit;
+        map.unitsTargetHide();
+        activeUnit.showTarget();
+        map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);
+        map.unitsAssistShow();
+    }
+
+    private void engage()
+    {
+        activeUnit.hideTarget();
+        selectedUnit.hideAttack();
+        map.unitsAssistHide();
+        map.hexUnselect(selectedHex);
+        Order order = map.getEngageOrder(selectedUnit, activeUnit);
+
+        if (order.cost == 0)
+            ctrl.postOrder(order, StateType.ENGAGE);
+        else {
+            order.cost = order.engagement.cost;
+            ctrl.postOrder(order);
         }
-        else if ((activeUnit != null) && map.unitsActivableContains(unit)) {
-            map.toggleAssist(unit);
-            // if (map.toggleAssist(unit))
-            //     ctrl.hud.notify(unit + " will fire");
-            // else
-            //     ctrl.hud.notify(unit + " wont fire");
-        }
+    }
+
+    private void abort()
+    {
+        map.unitsAssistHide();
+        map.unitsTargetHide();
+        activeUnit.hideTarget();
+        selectedUnit.hideAttack();
+        map.hexUnselect(selectedHex);
+        map.unitsActivatedClear();
+        ctrl.postActionAborted();
+    }
+
+    private void selectBreakUnit(Unit unit)
+    {
+        activeUnit = unit;
+        map.hexMoveShow(to);
+        map.hexMoveShow(unit.getHex());
+        map.hexDirectionsShow(to);
+        map.unitsActivableHide();
+    }
+
+    private void unselectBreakUnit()
+    {
+        map.hexMoveHide(to);
+        map.hexMoveHide(activeUnit.getHex());
+        map.hexDirectionsHide(to);
+        map.unitsActivableShow();
+        activeUnit = null;
+    }
+
+    private void doRotation(Orientation o)
+    {
+        map.hexMoveHide(to);
+        map.hexMoveHide(activeUnit.getHex());
+        map.hexDirectionsHide(to);
+        map.pathsInit(activeUnit);
+        map.pathsBuild(to);
+        map.pathsChooseShortest();
+        map.pathsSetOrientation(o);
+        ctrl.postOrder(map.getMoveOrder(activeUnit, false));
+    }
+
+    private void abortBreakMove()
+    {
+        if (activeUnit != null)
+            map.hexMoveHide(activeUnit.getHex());
+        map.hexMoveHide(to);
+        map.hexDirectionsHide(to);
+        map.unitsActivableHide();
+        ctrl.postOrder(Order.END);
     }
 }

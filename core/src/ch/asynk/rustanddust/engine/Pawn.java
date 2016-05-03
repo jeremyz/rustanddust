@@ -115,19 +115,13 @@ public abstract class Pawn implements Moveable, Disposable
     {
         switch(move.type)
         {
+            case SET:
+                break;
             case REGULAR:
-                if ((this.move != null) && (!this.move.isEnter()))
-                    throw new RuntimeException("try to override an existing move instance");
-                break;
             case ENTER:
-                if (this.move != null)
-                    throw new RuntimeException("try to override an existing move instance");
-                break;
             case EXIT:
                 if (this.move != null)
                     throw new RuntimeException("try to override an existing move instance");
-                break;
-            case SET:
                 break;
             default:
                 throw new RuntimeException("unsupported MoveType");
@@ -142,11 +136,6 @@ public abstract class Pawn implements Moveable, Disposable
         attack.reset();
         attack.target = target;
         attack.distance = distance;
-    }
-
-    public boolean justEntered()
-    {
-        return ((move != null) && move.isEnter());
     }
 
     public boolean is(Faction faction)
@@ -333,28 +322,17 @@ public abstract class Pawn implements Moveable, Disposable
         return hasOverlayEnabled();
     }
 
-    public AnimationSequence getRotateAnimation(float z, int size)
+    public AnimationSequence getMoveAnimation(Iterator<Vector3> vectors, AnimationSequence seq, MoveToAnimation.MoveToAnimationCb cb)
     {
         prevPosition.set(position);
-        AnimationSequence seq = AnimationSequence.get(1 + size);
-        seq.addAnimation(MoveToAnimation.get(this, position.x, position.y, z, MOVE_TIME));
-
-        return seq;
-    }
-
-    public AnimationSequence getMoveAnimation(Iterator<Vector3> vectors, int size, MoveToAnimation.MoveToAnimationCb cb)
-    {
-        prevPosition.set(position);
-        AnimationSequence seq = AnimationSequence.get(size);
         while (vectors.hasNext())
             seq.addAnimation(MoveToAnimation.get(this, vectors.next(), MOVE_TIME, cb));
 
         return seq;
     }
 
-    public AnimationSequence getRevertLastMoveAnimation(int size)
+    public AnimationSequence getRevertLastMoveAnimation(AnimationSequence seq)
     {
-        AnimationSequence seq = AnimationSequence.get(2 + size);
         seq.addAnimation(MoveToAnimation.get(this, prevPosition, MOVE_TIME));
         seq.addAnimation(RunnableAnimation.get(this, new Runnable() {
             @Override

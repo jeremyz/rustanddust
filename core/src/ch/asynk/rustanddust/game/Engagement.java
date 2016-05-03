@@ -35,6 +35,7 @@ public class Engagement implements Disposable, Pool.Poolable
     public Unit defender;
     public UnitList assists;
     public boolean success;
+    public int cost;
     public int d1;
     public int d2;
     public int d3;

@@ -294,6 +294,18 @@ public class PathBuilder implements Disposable
         return Move.get(pawn, from, to, orientation, getPath(0));
     }
 
+    public Move getEnterMove(Pawn pawn, Tile from)
+    {
+        // getPath(0).tiles.insert(this.from, 0);
+        // this.from = from;
+        int cost = pawn.getSpentMovementPoints();
+        pawn.reset();
+        Move move = getMove();
+        move.type = Move.MoveType.ENTER;
+        move.cost = cost + ((this.from == this.to) ? 0 : move.cost);
+        return move;
+    }
+
     public Move getExitMove()
     {
         Move move = getMove();

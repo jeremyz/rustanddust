@@ -37,10 +37,11 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     @Override
     public void unload(Marshal.Mode mode, Json json)
     {
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
-            unloadMap(json);
-        else if(mode == Marshal.Mode.ORDERS)
-            unloadOrders(json, orders);
+        switch(mode)
+        {
+            case MAP: unloadMap(json); break;
+            case ORDERS: unloadOrders(json, orders); break;
+        }
     }
 
     public void unloadPlayers(Json json, Player a, Player b)
@@ -160,20 +161,15 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             json.writeValue("id", o.id);
             json.writeValue("type", o.type);
             json.writeValue("cost", o.cost);
-            switch(o.type) {
-                case MOVE:
-                    unloadMoveOrder(json, o.move);
-                    break;
-                case ENGAGE:
-                    unloadEngageOrder(json, o.engagement);
-                    break;
-                case PROMOTE:
-                    unloadPromoteOrder(json, o.unit);
-                    break;
+            switch(o.type)
+            {
+                case MOVE:      unloadMoveOrder(json, o.leader, o.move); break;
+                case ENGAGE:    unloadEngageOrder(json, o.engagement); break;
+                case PROMOTE:   unloadPromoteOrder(json, o.leader); break;
             }
-            if (o.activable.size() > 0) {
+            if (o.activables.size() > 0) {
                 json.writeArrayStart("a");
-                for(Unit u : o.activable)
+                for(Unit u : o.activables)
                     json.writeValue(u.id());
                 json.writeArrayEnd();
             }
@@ -182,9 +178,11 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         json.writeArrayEnd();
     }
 
-    private void unloadMoveOrder(Json json, Move m)
+    private void unloadMoveOrder(Json json, Unit leader, Move m)
     {
         json.writeValue("mType", m.type);
+        json.writeValue("mCost", m.cost);
+        json.writeValue("l", leader.id());
         json.writeValue("u", ((Unit) m.pawn).id());
         if (m.from != null) {
             json.writeArrayStart("from");
@@ -267,10 +265,10 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     @Override
     public void load(Marshal.Mode mode, JsonValue v)
     {
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE))
-            loadMap(v.get("map"));
-        else if(mode == Marshal.Mode.ORDERS)
-            loadOrders(v.get("orders"));
+        switch(mode) {
+            case MAP: loadMap(v.get("map")); break;
+            case ORDERS: loadOrders(v.get("orders")); break;
+        }
     }
 
     public void loadPlayers(JsonValue v, Player[] players)
@@ -323,8 +321,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         if (pos) {
             a = v.get("p");
             Hex h = getHex(a.getInt(0), a.getInt(1));
-            u.setRotation(a.getInt(2));
-            showOnBoard(u, h, Orientation.fromRotation(a.getInt(2)));
+            setOnBoard(u, h, Orientation.fromRotation(a.getInt(2)));
         }
         units.add(u);
         return u;
@@ -366,23 +363,18 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         for (int i = 0; i < v.size; i++) {
             JsonValue o = v.get(i);
             Order order = null;
-            switch(Order.OrderType.valueOf(o.getString("type"))) {
-                case MOVE:
-                    order = loadMoveOrder(o);
-                    break;
-                case ENGAGE:
-                    order = loadEngageOrder(o);
-                    break;
-                case PROMOTE:
-                    order = loadPromoteOrder(o);
-                    break;
+            switch(Order.OrderType.valueOf(o.getString("type")))
+            {
+                case MOVE:      order = loadMoveOrder(o); break;
+                case ENGAGE:    order = loadEngageOrder(o); break;
+                case PROMOTE:   order = loadPromoteOrder(o); break;
             }
             order.id = o.getInt("id");
             order.cost = o.getInt("cost");
             JsonValue a = o.get("a");
             if (a != null) {
                 for (int j = 0; j < a.size; j++) {
-                    order.activable.add(findById(a.getInt(j)));
+                    order.activables.add(findById(a.getInt(j)));
                 }
             }
             orders.add(order);
@@ -391,6 +383,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private Order loadMoveOrder(JsonValue v)
     {
+        Unit leader = findById(v.getInt("l"));
         Unit unit = findById(v.getInt("u"));
         if (unit == null) return null;
         Hex from = loadHex(v, "from");
@@ -408,24 +401,20 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         }
 
         Move m = null;
-        switch(Move.MoveType.valueOf(v.getString("mType"))) {
-            case REGULAR:
-                m = Move.get(unit, from, to, orientation, path);
-                break;
-            case ENTER:
-                m = Move.getEnter(unit, to, orientation);
-                break;
-            case SET:
-                m = Move.getSet(unit, to, orientation);
-                break;
+        switch(Move.MoveType.valueOf(v.getString("mType")))
+        {
+            case REGULAR:   m = Move.get(unit, from, to, orientation, path); break;
+            case ENTER:     m = Move.getEnter(unit, from, to, orientation, path); break;
+            case SET:       m = Move.getSet(unit, to, orientation); break;
             case EXIT:
                 m = Move.get(unit, from, to, orientation, path);
                 m.type = Move.MoveType.EXIT;
                 break;
         }
+        m.cost = v.getInt("mCost");
 
         Order o = Order.get();
-        o.setMove(unit, m);
+        o.setMove(leader, m);
         return o;
     }
 

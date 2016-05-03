@@ -79,13 +79,13 @@ public abstract class Map1Units extends Map0Hex
         }
     }
 
-    public Unit unitsMoveableGet(int i) { return activableUnits.get(i); }
+    public Unit getFirstActivable()     { return activableUnits.get(0); }
 
     public void unitsTargetClear()      { targetUnits.clear(); }
     public void unitsActivatedClear()   { activatedUnits.clear(); }
 
     public int unitsActivatedSize()     { return activatedUnits.size(); }
-    public int unitsActivableSize()      { return activableUnits.size(); }
+    public int unitsActivableSize()     { return activableUnits.size(); }
 
     public boolean unitsTargetContains(Unit unit)       { return targetUnits.contains(unit); }
     public boolean unitsActivableContains(Unit unit)    { return activableUnits.contains(unit); }
@@ -94,8 +94,8 @@ public abstract class Map1Units extends Map0Hex
     public void unitsTargetHide()       { unitsShowOverlay(targetUnits, Unit.TARGET, false); }
     public void unitsAssistShow()       { unitsShowOverlay(activableUnits, Unit.MAY_FIRE, true); }
     public void unitsAssistHide()       { unitsShowOverlay(activableUnits, Unit.MAY_FIRE, false); unitsShowOverlay(activableUnits, Unit.FIRE, false); }
-    public void unitsActivableShow()     { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, true); }
-    public void unitsActivableHide()     { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, false); }
+    public void unitsActivableShow()    { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, true); }
+    public void unitsActivableHide()    { unitsShowOverlay(activableUnits, Unit.ACTIVEABLE, false); }
 
     private void unitsShowOverlay(UnitList units, int overlay, boolean on)
     {

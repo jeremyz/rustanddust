@@ -51,21 +51,10 @@ public abstract class Map2Moves extends Map1Units
         return 0;
     }
 
-    public void collectUpdate(Unit unit)
-    {
-        movesHide();
-        unitsActivableHide();
-        movesCollect(unit);
-        collectMoveable(unit);
-        movesShow();
-        unitsActivableShow();
-        activatedUnits.clear();
-    }
-
     public int pathsSize()                          { return paths.size(); }
     public void pathsClear()                        { paths.clear(); }
     public void pathsInit(Unit unit)                { paths.init(unit); }
-    public void pathsInit(Unit unit, Hex hex)       { paths.init(unit, hex); }
+    public void pathsInit(Unit unit, Hex from)      { paths.init(unit, from); }
     public int pathsBuild(Hex hex)                  { return paths.build(hex); }
     public Hex pathsTo()                            { return (Hex) paths.to; }
     public void pathsSetOrientation(Orientation o)  { paths.orientation = o; }

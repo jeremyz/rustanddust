@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.game.Ctrl;
-import ch.asynk.rustanddust.game.State.StateType;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 import ch.asynk.rustanddust.ui.Widget;
 import ch.asynk.rustanddust.ui.Bg;
 import ch.asynk.rustanddust.ui.Position;
@@ -36,7 +36,7 @@ public class ActionButtons extends Widget
 
     private Sprite bg;
     private Bg buttons [];
-    private StateType states [];
+    private MsgType msgs [];
 
     public ActionButtons(RustAndDust game)
     {
@@ -50,10 +50,10 @@ public class ActionButtons extends Widget
         this.buttons[Buttons.ABORT.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_ABORT));
         this.buttons[Buttons.PROMOTE.i] = new Bg(game.factory.getHudRegion(game.factory.ACT_PROMOTE));
 
-        this.states = new StateType[Buttons.LAST.i];
-        this.states[Buttons.DONE.i] = StateType.DONE;
-        this.states[Buttons.ABORT.i] = StateType.ABORT;
-        this.states[Buttons.PROMOTE.i] = StateType.PROMOTE;
+        this.msgs = new MsgType[Buttons.LAST.i];
+        this.msgs[Buttons.DONE.i] = MsgType.OK;
+        this.msgs[Buttons.ABORT.i] = MsgType.CANCEL;
+        this.msgs[Buttons.PROMOTE.i] = MsgType.PROMOTE;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class ActionButtons extends Widget
 
         for (int i = 0; i < Buttons.LAST.i; i++) {
             if (buttons[i].hit(x, y)) {
-                ctrl.post(states[i]);
+                ctrl.sendMsg(msgs[i]);
                 return true;
             }
         }

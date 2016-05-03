@@ -10,6 +10,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     public static int orderId = 1;
 
     public static final Order END = new Order(OrderType.END);
+    public static final Order REVERT = new Order(OrderType.REVERT);
 
     public enum OrderType
     {
@@ -18,6 +19,7 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
         ENGAGE,
         PROMOTE,
         END,
+        REVERT,
     }
 
     private static final Pool<Order> orderPool = new Pool<Order>()
@@ -64,6 +66,8 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public void dispose()
     {
+        if ((type == OrderType.END) || (type == OrderType.REVERT))
+            throw new RuntimeException(String.format("call dispose() on a static Order %s", type));
         orderPool.free(this);
     }
 
@@ -102,30 +106,42 @@ public class Order implements Disposable, Pool.Poolable, Comparable<Unit>
     @Override
     public String toString()
     {
-        if (type == OrderType.END)
-            return String.format("[00] END");
-        else
-            return String.format("[%d] %s(%d) : %s", id, type, cost, leader.code);
+        switch (type)
+        {
+            case END:
+                return String.format("[00] END");
+            case REVERT:
+                return String.format("%s[%d]", type, id);
+            default:
+                return String.format("[%d] %s(%d) : %s", id, type, cost, leader.code);
+        }
     }
 
     public void setMove(Unit unit, Move move)
     {
-        this.leader = unit;
         this.type = OrderType.MOVE;
+        this.leader = unit;
         this.move = move;
     }
 
     public void setPromote(Unit unit)
     {
-        this.leader = unit;
         this.type = OrderType.PROMOTE;
+        this.leader = unit;
     }
 
     public void setEngage(Unit unit, Unit target)
     {
-        this.leader = unit;
         this.type = OrderType.ENGAGE;
+        this.leader = unit;
         this.engagement = Engagement.get(unit, target);
+    }
+
+    public void setRevert(int id)
+    {
+        this.type = OrderType.REVERT;
+        this.id = id;
+        this.cost = 0;
     }
 
     public void setActivables(UnitList l)

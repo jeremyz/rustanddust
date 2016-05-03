@@ -5,6 +5,7 @@ import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.UnitList;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateDeployment extends StateCommon
@@ -15,55 +16,48 @@ public class StateDeployment extends StateCommon
     @Override
     public void enterFrom(StateType prevState)
     {
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
-        entryZone = null;
-        selectedHex = null;
-        selectedUnit = null;
-        ctrl.hud.actionButtons.hide();
+        clear();
         ctrl.hud.playerInfo.unitDock.show();
     }
 
     @Override
-    public void leaveFor(StateType nextState)
+    public boolean processMsg(MsgType msg, Object data)
     {
-        selectedUnit = null;
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
-        if (entryZone != null)
-            entryZone.enable(Hex.AREA, false);
-        ctrl.hud.playerInfo.unitDock.hide();
-    }
+        switch(msg)
+        {
+            case UNIT_DOCK_SELECT:
+                showEntryZone((Unit) data);
+                return true;
+            case CANCEL:
+                if (activeUnit != null)
+                    undeployUnit();
+                return true;
+            case OK:
+                deployedUnits.clear();
+                ctrl.postTurnDone();
+                return true;
+            case UNIT_DEPLOYED:
+                deployedUnits.add((Unit) data);
+                return true;
+            case UNIT_UNDEPLOYED:
+                ctrl.battle.getPlayer().revertUnitEntry((Unit) data);
+                return true;
+        }
 
-    @Override
-    public StateType abort()
-    {
-        if (activeUnit != null)
-            undo();
-        return StateType.DEPLOYMENT;
-    }
-
-    @Override
-    public StateType execute()
-    {
-        deployedUnits.clear();
-        return StateType.DONE;
+        return false;
     }
 
     @Override
     public void touch(Hex hex)
     {
-        Unit unit = ctrl.hud.playerInfo.unitDock.selectedUnit;
-        if (hex == null) {
-            showEntryZone(unit);
-        } else if (selectedUnit != null) {
+        if (activeUnit != null) {
             deployUnit(Orientation.fromAdj(selectedHex, hex));
-        } else if (!ctrl.battle.isDeploymentDone() && (entryZone != null) && (hex != null)) {
+        } else if ((selectedUnit != null) && (entryZone != null)) {
             if (hex.isEmpty() && entryZone.contains(hex)) {
-                showUnit(activeUnit, hex);
+                showUnit(selectedUnit, hex);
             }
         } else {
-            unit = hex.getUnit();
+            Unit unit = hex.getUnit();
             if (deployedUnits.contains(unit))
                 showRotation(unit, hex);
         }
@@ -71,28 +65,19 @@ public class StateDeployment extends StateCommon
 
     private void showEntryZone(Unit unit)
     {
-        activeUnit = unit;
-        if (entryZone != null) entryZone.enable(Hex.AREA, false);
-        entryZone = activeUnit.entryZone;
+        selectedUnit = unit;
+        if (entryZone != null)
+            entryZone.enable(Hex.AREA, false);
+        entryZone = unit.entryZone;
         entryZone.enable(Hex.AREA, true);
-    }
-
-    private void undo()
-    {
-        map.hexUnselect(selectedHex);
-        map.hexDirectionsHide(selectedHex);
-        map.revertEnter(activeUnit);
-        activeUnit = null;
-        selectedUnit = null;
-        ctrl.hud.update();
     }
 
     private void showUnit(Unit unit, Hex hex)
     {
-        selectedUnit = unit;
+        activeUnit = unit;
         selectedHex = hex;
         ctrl.battle.getPlayer().reinforcement.remove(unit);
-        map.showOnBoard(unit, hex, entryZone.orientation);
+        map.setOnBoard(unit, hex, entryZone.orientation);
         deployedUnits.add(unit);
         entryZone.enable(Hex.AREA, false);
         showRotation(unit, hex);
@@ -102,7 +87,6 @@ public class StateDeployment extends StateCommon
     private void showRotation(Unit unit, Hex hex)
     {
         activeUnit = unit;
-        selectedUnit = unit;
         selectedHex = hex;
         map.hexSelect(selectedHex);
         map.hexDirectionsShow(selectedHex);
@@ -113,16 +97,29 @@ public class StateDeployment extends StateCommon
     private void deployUnit(Orientation o)
     {
         if (o == Orientation.KEEP)
-            o = selectedUnit.getOrientation();
-        map.setOnBoard(selectedUnit, selectedHex, o);
+            o = activeUnit.getOrientation();
+        ctrl.postOrder(map.getSetOrder(activeUnit, selectedHex, o), StateType.DEPLOYMENT);
+        clear();
+    }
 
-        entryZone = null;
-        activeUnit = null;
-        selectedUnit = null;
-        map.hexUnselect(selectedHex);
-        map.hexDirectionsHide(selectedHex);
-        ctrl.hud.actionButtons.hide();
+    private void undeployUnit()
+    {
+        ctrl.postOrder(map.getRevertSetOrder(activeUnit), StateType.DEPLOYMENT);
+        ctrl.hud.update();
+        clear();
         ctrl.hud.playerInfo.unitDock.show();
-        ctrl.post(StateType.DONE);
+    }
+
+    private void clear()
+    {
+        if (selectedHex != null) {
+            map.hexUnselect(selectedHex);
+            map.hexDirectionsHide(selectedHex);
+        }
+        activeUnit = null;
+        entryZone = null;
+        selectedHex = null;
+        selectedUnit = null;
+        ctrl.hud.actionButtons.hide();
     }
 }

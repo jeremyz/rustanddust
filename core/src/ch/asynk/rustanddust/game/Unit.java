@@ -315,7 +315,7 @@ public class Unit extends HeadedPawn
         if (cost > mpLeft)
             RustAndDust.debug("ERROR: Movement point exceeded: " + cost + "/" + mpLeft + " please report");
 
-        if ((cost > 0) && move.isFinal())
+        if (cost > 0)
             setMoved();
 
         spendMovementPoints(cost);

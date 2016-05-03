@@ -21,8 +21,10 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
     public int currentPlayer;
     public Date ts;
     public boolean synched;
-    public String state;
-    public String stateH;
+    public String players;
+    public String playersH;
+    public String map;
+    public String mapH;
     public String orders;
     public String ordersH;
     //

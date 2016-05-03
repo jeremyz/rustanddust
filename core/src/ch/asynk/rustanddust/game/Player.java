@@ -193,12 +193,12 @@ public class Player
     public void turnEnd()
     {
         apSpent = ap;
-        for (Unit unit : units)
-            unit.reset();
     }
 
     public void turnStart(int aps)
     {
+        for (Unit unit : units)
+            unit.reset();
         if (isDeploymentDone()) {
             ap = aps;
             apSpent = 0;

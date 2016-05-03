@@ -7,9 +7,9 @@ public interface Marshal
 {
     public enum Mode
     {
-        FULL,
-        STATE,
-        ORDERS
+        PLAYERS,
+        MAP,
+        ORDERS,
     }
 
     public void unload(Mode mode, Json json);

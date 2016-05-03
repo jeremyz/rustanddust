@@ -18,9 +18,6 @@ import ch.asynk.rustanddust.engine.util.IterableSet;
 import ch.asynk.rustanddust.engine.util.Collection;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.Animation;
-import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
-import ch.asynk.rustanddust.engine.gfx.animations.RunnableAnimation;
-import ch.asynk.rustanddust.engine.gfx.animations.MoveToAnimation.MoveToAnimationCb;
 
 public abstract class Board implements Disposable, Animation
 {
@@ -404,7 +401,7 @@ public abstract class Board implements Disposable, Animation
             }
         }
 
-        return entry.opposite();
+        return entry;
     }
 
     public int objectivesCount(Faction faction)
@@ -491,7 +488,6 @@ public abstract class Board implements Disposable, Animation
 
     public Pawn setPawnOnto(Pawn pawn, Move move)
     {
-        pawn.move(move);
         return setPawnOnto(pawn, move.to, move.orientation);
     }
 
@@ -500,54 +496,6 @@ public abstract class Board implements Disposable, Animation
         pawn.setOnTile(tile, o.r());
         pushPawnOnto(pawn, tile);
         return pawn;
-    }
-
-    private RunnableAnimation getSetPawnOntoAnimation(final Pawn pawn)
-    {
-        return RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                Tile to = pawn.move.to;
-                if (!to.isOffMap())
-                    setPawnOnto(pawn, to, pawn.move.orientation);
-            }
-        });
-    }
-
-    protected void movePawn(final Pawn pawn, Move move, MoveToAnimationCb cb)
-    {
-        pawn.move(move);
-        removePawn(pawn);
-
-        AnimationSequence seq = pawn.getMoveAnimation(move.iterator(), (move.steps() + 1), cb);
-        seq.addAnimation(getSetPawnOntoAnimation(pawn));
-        addAnimation(seq);
-    }
-
-    protected void enterPawn(final Pawn pawn, Move move)
-    {
-        pawn.move(move);
-        setPawnOnto(pawn, move.to, move.orientation);
-    }
-
-    protected void revertLastPawnMove(final Pawn pawn, final Move move)
-    {
-        removePawn(pawn);
-
-        revertclaim(pawn, move.to);
-        for (Tile tile : move.tiles)
-            revertclaim(pawn, tile);
-        claim(pawn, move.from);
-
-        AnimationSequence seq = pawn.getRevertLastMoveAnimation(1);
-        seq.addAnimation(RunnableAnimation.get(pawn, new Runnable() {
-            @Override
-            public void run() {
-                pushPawnOnto(pawn, pawn.getTile());
-            }
-        }));
-        addAnimation(seq);
-        pawn.revertLastMove();
     }
 
     public void attack(final Pawn pawn, final Pawn target, boolean clearVisibility)

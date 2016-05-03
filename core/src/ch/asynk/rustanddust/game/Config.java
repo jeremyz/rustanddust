@@ -37,9 +37,10 @@ public class Config
 
     public enum LoadMode
     {
-        LOAD("Load", 0),
-        REPLAY_LAST("Replay Last Turn", 1),
-        REPLAY_ALL("Full Replay", 2);
+        NEW("New", 0),
+        RESUME("Resume", 1),
+        REPLAY_CURRENT("Replay Current Turn", 2),
+        REPLAY_ALL("Full Replay", 3);
         public String s;
         public int i;
         LoadMode(String s, int i)
@@ -101,9 +102,9 @@ public class Config
     public Config()
     {
         this.gameMode = GameMode.SOLO;
-        this.loadMode = LoadMode.LOAD;
+        this.loadMode = LoadMode.NEW;
         this.debug = false;
-        this.autoPath = true;
+        this.autoPath = false;
         this.revertAllMoves = false;
         this.showMoves = true;
         this.showTargets = true;

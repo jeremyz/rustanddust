@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 import ch.asynk.rustanddust.RustAndDust;
+import ch.asynk.rustanddust.engine.Move;
 import ch.asynk.rustanddust.engine.SelectedTile;
 import ch.asynk.rustanddust.engine.gfx.Moveable;
 import ch.asynk.rustanddust.engine.gfx.animations.AnimationSequence;
@@ -21,7 +22,7 @@ import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
-import ch.asynk.rustanddust.game.Ctrl.EventType;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 
 public abstract class Map3Animations extends Map2Moves implements MoveToAnimationCb
 {
@@ -30,6 +31,8 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
     private final Sound infantryMoveSound;
     private Sound sound;
     private long soundId = -1;
+
+    protected static final float BOUNCE_DURATION = 0.3f;
 
     public Map3Animations(final RustAndDust game, Texture map, SelectedTile hex)
     {
@@ -92,18 +95,50 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
 
     // <- implement MoveToAnimationCb
 
-    protected void addBounceAnimation(final Unit unit, float duration)
+    protected void moveUnit(final Unit unit, final Move move, MoveToAnimationCb cb, boolean bounce)
     {
-        addAnimation(BounceAnimation.get(unit, duration));
+        removePawn(unit);
+
+        AnimationSequence seq = AnimationSequence.get(move.steps() + (bounce ? 2 : 1));
+        if (bounce) seq.addAnimation(BounceAnimation.get(unit, BOUNCE_DURATION));
+        unit.getMoveAnimation(move.iterator(), seq, cb);
+        seq.addAnimation(RunnableAnimation.get(unit, new Runnable() {
+            @Override
+            public void run() {
+                unit.move(move);
+                if (!move.to.isOffMap())
+                    setPawnOnto(unit, move.to, move.orientation);
+            }
+        }));
+        addAnimation(seq);
     }
 
-    protected void addPromoteAnimation(final Unit unit, final Player player, final Runnable after)
+    protected void revertLastUnitMove(final Unit unit, final Move move)
+    {
+        removePawn(unit);
+        revertClaim(unit, move);
+
+        AnimationSequence seq = AnimationSequence.get(1);
+        unit.getRevertLastMoveAnimation(seq);
+        seq.addAnimation(RunnableAnimation.get(unit, new Runnable() {
+            @Override
+            public void run() {
+                setPawnOnto(unit, move.to, move.orientation);
+            }
+        }));
+        addAnimation(seq);
+        unit.revertLastMove();
+    }
+
+    protected void addBounceAnimation(final Unit unit)
+    {
+        addAnimation(BounceAnimation.get(unit, BOUNCE_DURATION));
+    }
+
+    protected void addPromoteAnimation(final Unit unit, final Player player)
     {
         Hex hex = unit.getHex();
-        AnimationSequence seq = AnimationSequence.get(2);
-        seq.addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), hex.getX(), hex.getY(), game.config.fxVolume));
-        seq.addAnimation(RunnableAnimation.get(unit, after));
-        addAnimation(seq);
+        addAnimation(PromoteAnimation.get((unit.getArmy() == Army.US), hex.getX(), hex.getY(), game.config.fxVolume));
     }
 
     protected void addDestroyAnimation(Unit unit)
@@ -142,6 +177,6 @@ public abstract class Map3Animations extends Map2Moves implements MoveToAnimatio
             addAnimation( SoundAnimation.get(SoundAnimation.Action.FADE_OUT, sound, soundId, game.config.fxVolume, 0.5f));
             soundId = -1;
         } else
-            game.ctrl.postEvent(EventType.ANIMATIONS_DONE);
+            game.ctrl.sendMsg(MsgType.ANIMATIONS_DONE);
     }
 }

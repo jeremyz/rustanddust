@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 import ch.asynk.rustanddust.util.Marshal;
+import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Battle;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.State;
@@ -13,6 +14,7 @@ import ch.asynk.rustanddust.game.Map;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit;
 import ch.asynk.rustanddust.game.Unit.UnitCode;
+import ch.asynk.rustanddust.game.Order;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.engine.Orientation;
@@ -21,6 +23,7 @@ public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
 
+    private Ctrl ctrl;
     protected final Factory factory;
 
     protected int _id;
@@ -67,12 +70,14 @@ public abstract class BattleCommon implements Battle
     @Override public Factory.MapType getMapType()   { return mapType; }
 
     @Override
-    public void init()
+    public Map init(Ctrl ctrl)
     {
+        this.ctrl = ctrl;
         this.map = factory.getMap(getMapType());
         setup();
         this.turnCount = 0;
         this.currentPlayer = players[0];
+        return this.map;
     }
 
     @Override
@@ -90,49 +95,46 @@ public abstract class BattleCommon implements Battle
     {
         this.currentPlayer = players[0];
         deployPlayer();
-        currentPlayer.turnEnd();
 
         this.currentPlayer = players[1];
         deployPlayer();
-        currentPlayer.turnEnd();
 
         this.currentPlayer = players[0];
-        map.turnDone();
     }
 
     public void load(Marshal.Mode mode, JsonValue value)
     {
-        map.load(mode, value);
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
-            JsonValue v = value.get("battle");
-            this.turnCount = v.getInt("turnCount");
+        if (mode == Marshal.Mode.PLAYERS) {
             map.loadPlayers(value, players);
+            this.currentPlayer = players[0];
+        } else {
+            if (mode == Marshal.Mode.MAP) {
+                JsonValue v = value.get("battle");
+                this.turnCount = v.getInt("turnCount");
+                Unit.unitId = v.getInt("unitId");
+                Order.orderId = v.getInt("orderId");
+            }
+            map.load(mode, value);
         }
-        this.currentPlayer = players[0];
     }
 
     @Override
     public void unload(Marshal.Mode mode, Json json)
     {
         json.writeObjectStart();
-        if((mode == Marshal.Mode.FULL) || (mode == Marshal.Mode.STATE)) {
-            json.writeObjectStart("battle");
-            json.writeValue("turnCount", turnCount);
-            json.writeObjectEnd();
+        if (mode == Marshal.Mode.PLAYERS)
             map.unloadPlayers(json, getPlayer(), getOpponent());
+        else {
+            if (mode == Marshal.Mode.MAP) {
+                json.writeObjectStart("battle");
+                json.writeValue("turnCount", this.turnCount);
+                json.writeValue("unitId", Unit.unitId);
+                json.writeValue("orderId", Order.orderId);
+                json.writeObjectEnd();
+            }
+            map.unload(mode, json);
         }
-        map.unload(mode, json);
         json.writeObjectEnd();
-    }
-
-    @Override
-    public boolean actionDone()
-    {
-        boolean burn = (map.unitsActivatedSize() > 0);
-        if (burn)
-            currentPlayer.burnDownOneAp();
-        map.actionDone();
-        return burn;
     }
 
     @Override
@@ -150,7 +152,7 @@ public abstract class BattleCommon implements Battle
         }
         turnCount += 1;
         setNextTurn();
-        map.turnDone();
+        map.clear();
         return ret;
     }
 
@@ -260,7 +262,7 @@ public abstract class BattleCommon implements Battle
     {
         Unit unit = factory.getUnit(unitCode, hq, ace);
         if (exitZone != null) unit.exitZone = exitZone;
-        map.setOnBoard(unit, map.getHex(col, row), orientation);
+        ctrl.postInitOrder(map.getSetOrder(unit, map.getHex(col, row), orientation));
         return unit;
     }
 }

@@ -1,120 +1,131 @@
 package ch.asynk.rustanddust.game.states;
 
+import ch.asynk.rustanddust.RustAndDust;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
-import ch.asynk.rustanddust.RustAndDust;
 
 public class StateSelect extends StateCommon
 {
+    private boolean isEnemy;
+
     @Override
     public void enterFrom(StateType prevState)
     {
-        to = null;
-        selectedHex = null;
-        selectedUnit = null;
-        activeUnit = null;
-        map.clearAll();
-        ctrl.hud.actionButtons.hide();
+        clear();
     }
 
     @Override
-    public void leaveFor(StateType nextState)
+    public boolean processMsg(MsgType msg, Object data)
     {
-        hidePossibilities();
-    }
+        switch(msg)
+        {
+            case OK:
+                ctrl.postTurnDone();
+                return true;
+            case PROMOTE:
+                changeTo(StateType.PROMOTE);
+                return true;
+        }
 
-    @Override
-    public StateType abort()
-    {
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
-        hidePossibilities();
-        map.clearAll();
-        return StateType.ABORT;
-    }
-
-    @Override
-    public StateType execute()
-    {
-        return StateType.DONE;
+        return false;
     }
 
     @Override
     public void touch(Hex hex)
     {
-        if (!isEnemy) {
+        Unit unit = hex.getUnit();
+
+        if (!isEnemy && (selectedUnit != null)) {
             if (map.movesContains(hex)) {
                 // quick move
                 to = hex;
-                ctrl.post(StateType.MOVE);
+                changeTo(StateType.MOVE);
                 return;
             }
-            if (map.unitsTargetContains(hex.getUnit())) {
+            if (map.unitsTargetContains(unit)) {
                 // quick fire
                 to = hex;
-                ctrl.post(StateType.ENGAGE);
+                activeUnit = unit;
+                changeTo(StateType.ENGAGE);
                 return;
             }
         }
 
-        if (selectedHex != null)
-            map.hexUnselect(selectedHex);
+        hide();
 
-        hidePossibilities();
-        if (hex.isOffMap()) {
-            selectedUnit = null;
-            return;
-        }
-
-        Unit unit = hex.getUnit();
-
-        if (unit == null) {
-            isEnemy = false;
-            ctrl.hud.actionButtons.hide();
-            map.clearAll();
+        if ((unit == null) || hex.isOffMap()) {
             selectedUnit = null;
             return;
         }
 
         isEnemy = ctrl.battle.getPlayer().isEnemy(unit);
-        if (!isEnemy && (unit == selectedUnit) && unit.canMove()) {
+
+        if (!isEnemy && (selectedUnit == unit) && unit.canMove()) {
             if (unit.isHq() && (map.unitsActivableSize() > 1)) {
-                ctrl.hud.notify("HQ activation");
-                select(hex, unit, isEnemy);
-                ctrl.post(StateType.MOVE);
-            } else {
-                // quick rotate
+                ctrl.hud.notify("HQ activation", Position.MIDDLE_CENTER);
+                to = null;
+            } else
                 to = hex;
-                ctrl.post(StateType.ROTATE);
-            }
+            changeTo(StateType.MOVE);
         } else {
-            select(hex, unit, isEnemy);
-            ctrl.hud.notify(selectedUnit.toString(), Position.TOP_CENTER);
+            select(hex, unit);
+            ctrl.hud.notify(selectedUnit.toString());
         }
     }
 
-    private void select(Hex hex, Unit unit, boolean isEnemy)
+    private void select(Hex hex, Unit unit)
     {
         selectedHex = hex;
         selectedUnit = unit;
+        RustAndDust.debug(String.format("  %s - %s", selectedUnit, selectedHex));
+
+        map.hexSelect(selectedHex);
 
         if (isEnemy && !cfg.showEnemyPossibilities)
             return;
 
-        int moves = map.movesCollect(selectedUnit);
-        int targets = map.collectTargets(selectedUnit, (isEnemy ? ctrl.battle.getPlayer() : ctrl.battle.getOpponent()).units);
-
-        if (moves > 0)
+        if(map.movesCollect(selectedUnit) > 0) {
             map.collectMoveable(selectedUnit);
+            if (cfg.showMoves) map.movesShow();
+            if (cfg.showMoveAssists) map.unitsActivableShow();
+            unit.hideActiveable();
+        }
 
-        if ((moves > 0) || (targets > 0)) {
-            map.hexSelect(selectedHex);
-            showPossibilities(selectedUnit);
+        if (map.collectTargets(selectedUnit, (isEnemy ? ctrl.battle.getPlayer() : ctrl.battle.getOpponent()).units) > 0) {
+            if (cfg.showTargets) map.unitsTargetShow();
+            unit.hideActiveable();
         }
 
         ctrl.hud.actionButtons.show((ctrl.battle.getPlayer().canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
-        RustAndDust.debug("Select", selectedHex.toString() + " " + selectedUnit + (isEnemy ? " enemy " : " friend "));
+    }
+
+    private void changeTo(StateType nextState)
+    {
+        hide();
+        ctrl.post(nextState);
+    }
+
+    private void hide()
+    {
+        if (selectedHex != null)
+            map.hexUnselect(selectedHex);
+        map.movesHide();
+        map.unitsTargetHide();
+        map.unitsActivableHide();
+        ctrl.hud.actionButtons.hide();
+    }
+
+    private void clear()
+    {
+        hide();
+        map.clear();
+        to = null;
+        isEnemy = false;
+        selectedHex = null;
+        selectedUnit = null;
+        activeUnit = null;
     }
 }

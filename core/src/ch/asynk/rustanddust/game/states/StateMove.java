@@ -1,103 +1,125 @@
 package ch.asynk.rustanddust.game.states;
 
-import ch.asynk.rustanddust.ui.Position;
+import ch.asynk.rustanddust.engine.Orientation;
 import ch.asynk.rustanddust.game.Hex;
 import ch.asynk.rustanddust.game.Unit;
+import ch.asynk.rustanddust.game.Order;
+import ch.asynk.rustanddust.game.Ctrl.MsgType;
 import ch.asynk.rustanddust.game.hud.ActionButtons.Buttons;
 
 public class StateMove extends StateCommon
 {
+    enum State
+    {
+        SHOW,
+        PATH,
+        ROTATE,
+        EXIT
+    }
+
+    private State state;
+    private boolean enter;
+    private boolean hqMode;
+    private boolean notFirst;
+
     @Override
     public void enterFrom(StateType prevState)
     {
-        ctrl.hud.actionButtons.show(
-                ((map.unitsActivatedSize() > 0) ? Buttons.DONE.b : 0)
-                );
+        state = State.SHOW;
 
-        if (prevState == StateType.WITHDRAW) {
-            completePath(map.pathsSize());
-            return;
-        }
+        enter = false;
+        hqMode = false;
+        notFirst = false;
 
         map.pathsClear();
-
         if (prevState == StateType.SELECT) {
-            // use selectedHex and selectedUnit
+            map.hexSelect(selectedHex);
+            map.pathsInit(selectedUnit);
             activeUnit = selectedUnit;
-            map.pathsInit(activeUnit);
-            map.collectUpdate(activeUnit);
-            if (to != null) {
-                // quick move -> replay touchUp
-                touch(to);
-            } else
-                checkExit(activeUnit);
-        } else {
-            // back from rotation -> chose next Pawn
-            if (selectedUnit.canMove()) {
-                changeUnit(selectedUnit);
+            if (to == null) {
+                hqMode = true;
+                map.movesShow();
             } else {
-                changeUnit(map.unitsMoveableGet(0));
+                collectPaths(to);
             }
+        } else if (prevState == StateType.REINFORCEMENT) {
+            enter = true;
+            map.hexSelect(selectedHex);
+            map.pathsInit(selectedUnit);
+            if (selectedUnit.getMovementPoints() > 0) {
+                map.movesCollect(selectedUnit);
+                map.movesShow();
+            } else {
+                to = selectedHex;
+                showRotation(to);
+                collectPaths(to);
+            }
+        } else {
+            notFirst = hqMode = true;
+            selectNextUnit();
         }
 
-        map.unitsActivableShow();
+        if (hqMode)
+            map.unitsActivableShow();
         activeUnit.hideActiveable();
+        int n = (notFirst ? Buttons.DONE.b : 0);
+        n |= (enter ? Buttons.ABORT.b : 0);
+        ctrl.hud.actionButtons.show(n);
     }
 
     @Override
-    public void leaveFor(StateType nextState)
+    public boolean processMsg(MsgType msg, Object data)
     {
-        if (nextState == StateType.WITHDRAW)
-            return;
-
-        // hide all but assists : want them when in rotation
-        activeUnit.hideActiveable();
-        map.movesHide();
-        map.hexUnselect(activeUnit.getHex());
-        if (to != null)
-            map.pathHide(to);
-
-        if (nextState != StateType.SELECT) {
-            if (to == null)
-                to = activeUnit.getHex();
+        switch(msg)
+        {
+            case OK:
+                if (state == State.EXIT) {
+                    exit();
+                    return true;
+                }
+                if (hqMode) {
+                    endHqMode();
+                    return true;
+                }
+                break;
+            case CANCEL:
+                if (enter || (state == State.PATH) || (state == State.ROTATE)) {
+                    abortMove();
+                    return true;
+                }
+                if (state == State.EXIT) {
+                    abortExit();
+                    return true;
+                }
+                break;
         }
-    }
 
-    @Override
-    public StateType abort()
-    {
-        hideActivable();
-        if (activeUnit.justEntered()) {
-            map.revertEnter(activeUnit);
-            return StateType.ABORT;
-        }
-        int n = map.unitsActivatedSize();
-        if (n == 0)
-            return StateType.ABORT;
-        map.revertMoves();
-        return StateType.ANIMATION;
-    }
-
-    @Override
-    public StateType execute()
-    {
-        hideActivable();
-        // be sure that the hq is activated
-        if (selectedUnit.canMove() && (map.unitsActivatedSize() > 0))
-            selectedUnit.setMoved();
-
-        return StateType.DONE;
+        return false;
     }
 
     @Override
     public void touch(Hex hex)
     {
+        if (state == State.ROTATE) {
+            if (hex == to)
+                abortMove();
+            else {
+                Orientation o = Orientation.fromAdj(to, hex);
+                if (o != Orientation.KEEP)
+                    move(o);
+                else if (hex == activeUnit.getHex())
+                    abortMove();
+            }
+            return;
+         }
+
         if (hex == activeUnit.getHex()) {
             if (to != null)
                 map.pathHide(to);
-            to = null;
+            map.pathsHide();
             map.pathsClear();
-            ctrl.post(StateType.ROTATE);
+            map.pathsInit(activeUnit);
+            collectPaths(hex);
             return;
         }
 
@@ -107,21 +129,29 @@ public class StateMove extends StateCommon
 
         if (map.unitsActivableContains(unit)) {
             if (unit != activeUnit)
-                changeUnit(unit);
+                selectUnit(unit);
         } else if ((s == 0) && map.movesContains(hex)) {
             collectPaths(hex);
+        } else if ((s > 1) && hex == to) {
+            s = map.pathsChooseBest();
+            if (s == 1)
+                showRotation(to);
         } else if (map.pathsContains(hex)) {
             togglePoint(hex, s);
         }
     }
 
-    private void hideActivable()
+    private void selectNextUnit()
     {
-        map.unitsActivableHide();
+        if (selectedUnit.canMove())
+            selectUnit(selectedUnit);
+        else
+            selectUnit(map.getFirstActivable());
     }
 
-    private void changeUnit(Unit unit)
+    private void selectUnit(Unit unit)
     {
+        state = State.SHOW;
         if (activeUnit != null ) {
             map.hexUnselect(activeUnit.getHex());
             if (activeUnit.canMove())
@@ -130,70 +160,170 @@ public class StateMove extends StateCommon
         to = null;
         activeUnit = unit;
         activeUnit.hideActiveable();
-        Hex hex = activeUnit.getHex();
-        map.pathsInit(activeUnit, hex);
+        map.hexSelect(activeUnit.getHex());
+        map.pathsClear();
+        map.pathsInit(activeUnit);
         map.movesHide();
         map.movesCollect(activeUnit);
         map.movesShow();
-        map.hexSelect(hex);
-        ctrl.hud.notify(activeUnit.toString(), Position.TOP_CENTER);
-        checkExit(activeUnit);
+        ctrl.hud.notify(activeUnit.toString());
     }
 
     private void collectPaths(Hex hex)
     {
+        state = State.PATH;
         to = hex;
         map.movesHide();
         map.hexMoveShow(to);
-        int s = map.pathsBuild(to);
-        if (!checkExit(activeUnit, hex))
-            completePath(s);
+        if (!checkExit(to))
+            completePath();
+        ctrl.hud.actionButtons.show(Buttons.ABORT.b);
     }
 
-    private void completePath(int s)
+    private void completePath()
     {
+        int s = map.pathsBuild(to);
         if (cfg.autoPath && (s > 1))
             s = map.pathsChooseBest();
         map.pathsShow();
         if (s == 1)
-            ctrl.post(StateType.ROTATE);
+            showRotation(to);
     }
 
     private void togglePoint(Hex hex, int s)
     {
-        if (hex == activeUnit.getHex()) {
-            //
-        } else if (hex == to) {
-            //
+        map.pathsHide();
+        s = map.pathsToggleHex(hex);
+        map.pathsShow();
+        if (s == 1)
+            showRotation(to);
+    }
+
+    private boolean checkExit(Hex hex)
+    {
+        if (enter)
+            return false;
+        if ((activeUnit.exitZone == null) || !activeUnit.exitZone.contains(hex))
+            return false;
+
+        int s = map.pathsBuild(to);
+
+        if (!map.pathsCanExit(activeUnit.exitZone.orientation))
+            return false;
+
+        if (map.pathsChooseExit(activeUnit.exitZone.orientation) > 1)
+            throw new RuntimeException(String.format("pathsChooseExit() -> %d", map.pathsSize()));
+        map.pathShow(hex);
+
+        state = State.EXIT;
+        ctrl.hud.askExitBoard();
+        return true;
+    }
+
+    private void showRotation(Hex hex)
+    {
+        state = State.ROTATE;
+        map.movesHide();
+        map.pathsHide();
+        map.pathShow(hex);
+        map.hexDirectionsShow(hex);
+        ctrl.hud.actionButtons.show(Buttons.ABORT.b);
+    }
+
+    private void move(Orientation o)
+    {
+        map.pathsSetOrientation(o);
+        if (enter)
+            completeMove(map.getEnterOrder(selectedUnit, hqMode));
+        else
+            completeMove(map.getMoveOrder(selectedUnit, hqMode));
+    }
+
+    private void exit()
+    {
+        if (map.pathsTo() == null) {
+            map.pathsBuild(to);
+            if (map.pathsChooseExit(activeUnit.exitZone.orientation) > 1)
+                throw new RuntimeException(String.format("pathsChooseExit() -> %d", map.pathsSize()));
+        }
+
+        completeMove(map.getExitOrder(selectedUnit, hqMode));
+    }
+
+    private void completeMove(Order order)
+    {
+        map.pathHide(to);
+        map.hexDirectionsHide(to);
+        map.hexUnselect(selectedHex);
+        if (order.cost == 0)
+            ctrl.postOrder(order, StateType.MOVE);
+        else
+            ctrl.postOrder(order);
+    }
+
+    private void endHqMode()
+    {
+        if (selectedUnit.canMove())
+            selectedUnit.setMoved();
+        clear();
+        ctrl.postOrder(Order.END);
+    }
+
+    private void abortMove()
+    {
+        if (enter) {
+            map.revertEnter(activeUnit);
+            ctrl.battle.getPlayer().revertUnitEntry(activeUnit);
+            ctrl.hud.update();
+        }
+        clear();
+        if (notFirst) {
+            // FIXME abortMove : cfg.revertAllMoves
+            // if (cfg.revertAllMoves) {
+            //     map.revertMoves();
+            //     ctrl.postTransitionToAborted();
+            // } else {
+                selectUnit(activeUnit);
+                abortCompleted();
+            // }
+        }
+        else
+            ctrl.postActionAborted();
+    }
+
+    private void abortExit()
+    {
+        map.pathHide(to);
+        if (to == null) {
+            state = State.SHOW;
         } else {
-            map.pathsHide();
-            s = map.pathsToggleHex(hex);
-            map.pathsShow();
+            state = State.PATH;
+            map.hexMoveShow(to);
+            completePath();
         }
-
-        if (s == 1) {
-            if (!checkExit(activeUnit, hex))
-                ctrl.post(StateType.ROTATE);
-        }
+        abortCompleted();
     }
 
-    private boolean checkExit(Unit unit)
+    private void abortCompleted()
     {
-        if (unit.justEntered())
-            return false;
-        if ((unit.exitZone == null) || !unit.exitZone.contains(unit.getHex()))
-            return false;
-        ctrl.post(StateType.WITHDRAW);
-        return true;
+        if (hqMode)
+            map.unitsActivableShow();
+        activeUnit.hideActiveable();
+        ctrl.hud.actionButtons.show((notFirst ? Buttons.DONE.b : 0));
     }
 
-    private boolean checkExit(Unit unit, Hex hex)
+    private void clear()
     {
-        if ((unit.exitZone == null) || !unit.exitZone.contains(hex))
-            return false;
-        if (!map.pathsCanExit(unit.exitZone.orientation))
-            return false;
-        ctrl.post(StateType.WITHDRAW);
-        return true;
+        state = State.SHOW;
+        map.movesHide();
+        map.pathsHide();
+        activeUnit.hideActiveable();
+        map.hexUnselect(activeUnit.getHex());
+        map.unitsActivableHide();
+        if (to != null) {
+            map.pathHide(to);
+            map.hexDirectionsHide(to);
+        }
+        map.pathsClear();
     }
 }

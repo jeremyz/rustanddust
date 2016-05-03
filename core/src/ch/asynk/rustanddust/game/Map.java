@@ -24,31 +24,15 @@ public abstract class Map extends Map5Marshal
         meteorology = new Meteorology();
     }
 
-    public void clearAll()
+    public void clear() { clear(false); }
+    public void clear(boolean orders)
     {
+        if (orders) {
+            RustAndDust.debug("  Map", String.format("Clearder Orders : %d", ordersSize()));
+            ordersClear();
+        }
         clearMoves();
         clearUnits();
-    }
-
-    public void actionDone()
-    {
-        incActionId();
-        game.ctrl.actionDoneCb();
-    }
-
-    public void turnDone()
-    {
-        RustAndDust.debug("TurnDone", String.format(" Processed Orders : %d", ordersSize()));
-        game.ctrl.turnDoneCb();
-        ordersClear();
-    }
-
-    @Override
-    protected int engagementCost(Engagement e)
-    {
-        if ((activatedUnits.size() == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget())
-            return 0;
-        return 1;
     }
 
     @Override
@@ -116,6 +100,15 @@ public abstract class Map extends Map5Marshal
             e.d4 = 0;
         }
 
+        activableUnits.clear();
+        if (success) {
+            for (Unit unit : activatedUnits) {
+                if (unit.canBreak())
+                    activableUnits.add(unit);
+            }
+        }
+
+        e.cost = (((cnt == 1) && e.attacker.isA(Unit.UnitType.AT_GUN) && e.defender.isHardTarget()) ? 0 : 1);
         e.set(cnt, flk, def, tdf, wdf);
         e.success = success;
     }
