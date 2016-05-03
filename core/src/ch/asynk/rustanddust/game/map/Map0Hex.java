@@ -104,7 +104,8 @@ public abstract class Map0Hex extends Board
     {
         if (army == null)
             army = Army.NONE;
-        switch(army) {
+        switch(army)
+        {
             case GE:
                 enableOverlayOn(hex, Hex.OBJECTIVE_GE, true);
                 enableOverlayOn(hex, Hex.OBJECTIVE_US, false);
