@@ -57,6 +57,7 @@ public class BounceAnimation extends TimedAnimation
     @Override
     public void draw(Batch batch)
     {
+        moveable.draw(batch);
     }
 
     @Override
