@@ -1,8 +1,10 @@
 FIX:
+    - BattleCommon init(ctrl) only for ctrl.postInitOrder(...)
+    - replay ALL
+    - get rid of StateAnimation + WAIT
     - fix shoot animations, quit -> resume
 
 TODO:
-    - check revert
     - turret aiming sound
     - moving cloudy sky overlay
     - Rules
