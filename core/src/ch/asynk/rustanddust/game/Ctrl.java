@@ -143,7 +143,7 @@ public abstract class Ctrl implements Disposable
 
         this.mode = Mode.LOADING;
 
-        this.map = battle.init(this);
+        this.map = battle.init();
         init();
         StateCommon.set(game);
         hud.update();
