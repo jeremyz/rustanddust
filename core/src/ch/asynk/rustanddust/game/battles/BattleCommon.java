@@ -23,7 +23,6 @@ public abstract class BattleCommon implements Battle
 {
     protected final static Random random = new Random(System.currentTimeMillis());
 
-    private Ctrl ctrl;
     protected final Factory factory;
 
     protected int _id;
@@ -37,7 +36,7 @@ public abstract class BattleCommon implements Battle
 
     protected abstract Player getWinner();
     protected abstract void setup();
-    protected abstract void deployPlayer();
+    protected abstract void deployPlayer(final Ctrl ctrl);
     protected abstract void setNextTurn();
 
     private int d6()
@@ -70,9 +69,8 @@ public abstract class BattleCommon implements Battle
     @Override public Factory.MapType getMapType()   { return mapType; }
 
     @Override
-    public Map init(Ctrl ctrl)
+    public Map init()
     {
-        this.ctrl = ctrl;
         this.map = factory.getMap(getMapType());
         setup();
         this.turnCount = 0;
@@ -91,13 +89,13 @@ public abstract class BattleCommon implements Battle
     }
 
     @Override
-    public void initialDeployment()
+    public void initialDeployment(final Ctrl ctrl)
     {
         this.currentPlayer = players[0];
-        deployPlayer();
+        deployPlayer(ctrl);
 
         this.currentPlayer = players[1];
-        deployPlayer();
+        deployPlayer(ctrl);
 
         this.currentPlayer = players[0];
     }
@@ -253,12 +251,12 @@ public abstract class BattleCommon implements Battle
         if (exitZone != null) unit.exitZone = exitZone;
     }
 
-    protected Unit setUnit(Map map, Player player, UnitCode unitCode, int col, int row, Orientation orientation, Zone exitZone)
+    protected Unit setUnit(Ctrl ctrl, Player player, UnitCode unitCode, int col, int row, Orientation orientation, Zone exitZone)
     {
-        return setUnit(map, player, unitCode, col, row, orientation, false, false, exitZone);
+        return setUnit(ctrl, player, unitCode, col, row, orientation, false, false, exitZone);
     }
 
-    protected Unit setUnit(Map map, Player player, UnitCode unitCode, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
+    protected Unit setUnit(Ctrl ctrl, Player player, UnitCode unitCode, int col, int row, Orientation orientation, boolean hq, boolean ace, Zone exitZone)
     {
         Unit unit = factory.getUnit(unitCode, hq, ace);
         if (exitZone != null) unit.exitZone = exitZone;

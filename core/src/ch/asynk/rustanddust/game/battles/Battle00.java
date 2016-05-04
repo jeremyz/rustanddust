@@ -4,6 +4,7 @@ import ch.asynk.rustanddust.game.Army;
 import ch.asynk.rustanddust.game.Player;
 import ch.asynk.rustanddust.game.Zone;
 import ch.asynk.rustanddust.game.Unit.UnitCode;
+import ch.asynk.rustanddust.game.Ctrl;
 import ch.asynk.rustanddust.game.Factory;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.engine.Orientation;
@@ -52,17 +53,17 @@ public class Battle00 extends BattleCommon
     }
 
     @Override
-    protected void deployPlayer()
+    protected void deployPlayer(final Ctrl ctrl)
     {
         if (currentPlayer.army == Army.US)
-            setupUS(currentPlayer);
+            setupUS(ctrl, currentPlayer);
         else
-            setupGE(currentPlayer);
+            setupGE(ctrl, currentPlayer);
     }
 
-    private void setupUS(final Player p)
+    private void setupUS(final Ctrl ctrl, final Player p)
     {
-        setUnit(map, p, UnitCode.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
+        setUnit(ctrl, p, UnitCode.US_AT_GUN, 11, 7, Orientation.SOUTH, null);
 
         Zone usEntry = new Zone(map, 10);
         usEntry.orientation = Orientation.SOUTH;
@@ -87,7 +88,7 @@ public class Battle00 extends BattleCommon
         addReinforcement(p, usEntry, UnitCode.US_PRIEST);
     }
 
-    private void setupGE(final Player p)
+    private void setupGE(final Ctrl ctrl, final Player p)
     {
         Zone geEntry = new Zone(map, 8);
         geEntry.orientation = Orientation.NORTH;

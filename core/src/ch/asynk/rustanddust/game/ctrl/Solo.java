@@ -22,7 +22,7 @@ public class Solo extends Ctrl
             gameId = game.db.storeGameGetId(other, battle.getId(), game.config.gameMode.i);
             battle.getPlayer().id = me;
             battle.getOpponent().id = other;
-            battle.initialDeployment();
+            battle.initialDeployment(this);
             synched = true;
         } else {
             load(Marshal.Mode.MAP, r.map);

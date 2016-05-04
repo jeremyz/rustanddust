@@ -24,11 +24,11 @@ public interface Battle extends Marshal
 
     public Player getOpponent();
 
-    public Map init(Ctrl ctrl);
+    public Map init();
 
     public void desinit();
 
-    public void initialDeployment();
+    public void initialDeployment(final Ctrl ctrl);
 
     public boolean turnDone();
 
