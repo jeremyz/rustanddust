@@ -103,7 +103,7 @@ public abstract class Map extends Map5Marshal
         activableUnits.clear();
         if (success) {
             for (Unit unit : activatedUnits) {
-                if (unit.canBreak())
+                if (unit.canBreak() && distance(e.defender.getTile(), unit.getTile()) == 1)
                     activableUnits.add(unit);
             }
         }
