@@ -140,8 +140,7 @@ public class StateEngage extends StateCommon
         map.hexMoveHide(activeUnit.getHex());
         map.hexDirectionsHide(to);
         map.pathsInit(activeUnit);
-        map.pathsBuild(to);
-        map.pathsChooseShortest();
+        map.pathsBuildShortest(to);
         map.pathsSetOrientation(o);
         ctrl.postOrder(map.getMoveOrder(activeUnit, false));
     }
