@@ -115,8 +115,8 @@ public class PathBuilder implements Disposable
         } else {
             this.distance = board.distance(from, to);
             findAllPaths(from, pawn.getMovementPoints(), 0, true);
-            for (Tile t : objectives)
-                toggleCtrlTile(t, false);
+            // for (Tile t : objectives)
+            //     toggleCtrlTile(t, false);
         }
 
         // printToErr("paths", paths);
