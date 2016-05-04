@@ -535,8 +535,10 @@ public abstract class Ctrl implements Disposable
 
     private void unitDockToggle()
     {
-        if (this.stateType == StateType.SELECT)
+        if (this.stateType == StateType.SELECT) {
+            sendMsg(MsgType.CANCEL);
             post(StateType.REINFORCEMENT);
+        }
         else if (this.stateType == StateType.REINFORCEMENT) {
             sendMsg(MsgType.OK);
             post(StateType.SELECT);

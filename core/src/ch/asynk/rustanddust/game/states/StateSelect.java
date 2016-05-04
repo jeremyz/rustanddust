@@ -28,6 +28,9 @@ public class StateSelect extends StateCommon
             case PROMOTE:
                 changeTo(StateType.PROMOTE);
                 return true;
+            case CANCEL:
+                clear();
+                return true;
         }
 
         return false;
