@@ -145,8 +145,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
             return setConfig(Config.LoadMode.RESUME);
         } else if (replayBtn.hit(x, y)) {
             game.playType();
-            // TODO chose between : REPLAY_CURRENT / REPLAY_ALL
-            return setConfig(Config.LoadMode.REPLAY_CURRENT);
+            // TODO chose between : REPLAY_LAST / REPLAY_BATTLE
+            return setConfig(Config.LoadMode.REPLAY_LAST);
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
                 game.playType();

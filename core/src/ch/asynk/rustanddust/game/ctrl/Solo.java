@@ -42,9 +42,9 @@ public class Solo extends Ctrl
         {
             case NEW:               break;
             case RESUME:            r = game.db.loadGame(gameId); break;
-            case REPLAY_CURRENT:    r = game.db.loadLastTurn(gameId); break;
-            case REPLAY_ALL:
-                // TODO REPLAY_ALL
+            case REPLAY_LAST:    r = game.db.loadLastTurn(gameId); break;
+            case REPLAY_BATTLE:
+                // TODO REPLAY_BATTLE
                 break;
         }
         return r;

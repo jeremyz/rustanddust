@@ -39,8 +39,8 @@ public class Config
     {
         NEW("New", 0),
         RESUME("Resume", 1),
-        REPLAY_CURRENT("Replay Current Turn", 2),
-        REPLAY_ALL("Full Replay", 3);
+        REPLAY_LAST("Replay Last Turn", 2),
+        REPLAY_BATTLE("Replay Battle", 3);
         public String s;
         public int i;
         LoadMode(String s, int i)
