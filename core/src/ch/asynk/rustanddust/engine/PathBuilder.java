@@ -21,13 +21,11 @@ public class PathBuilder implements Disposable
     private Collection<Path> paths;
     private Collection<Path> filteredPaths;
     private IterableSet<Tile> tiles;
-    private IterableSet<Tile> objectives;
 
     public PathBuilder(Board board, int tSize, int stSize, int ftSize, int psSize)
     {
         this.board = board;
         this.tiles = new IterableSet<Tile>(tSize);
-        this.objectives = new IterableSet<Tile>(tSize);
         this.stack = new IterableStack<Tile>(stSize);
         this.ctrlTiles = new IterableArray<Tile>(ftSize);
         this.paths = new IterableArray<Path>(psSize);
@@ -78,7 +76,6 @@ public class PathBuilder implements Disposable
     {
         for (Path path : this.paths) path.dispose();
         this.tiles.clear();
-        this.objectives.clear();
         this.stack.clear();
         this.ctrlTiles.clear();
         this.paths.clear();
@@ -115,13 +112,35 @@ public class PathBuilder implements Disposable
         } else {
             this.distance = board.distance(from, to);
             findAllPaths(from, pawn.getMovementPoints(), 0, true);
-            // for (Tile t : objectives)
-            //     toggleCtrlTile(t, false);
+            beSmart();
         }
 
-        // printToErr("paths", paths);
+        // printToErr("paths", getPaths());
         stack.clear();
         return getPaths().size();
+    }
+
+    private void beSmart()
+    {
+        Tile o = null;
+        boolean only = true;
+        for (Tile t : tiles) {
+            if (t.isObjectiveFor(pawn)) {
+                if (o == null)
+                    o = t;
+                else {
+                    only = false;
+                    break;
+                }
+            }
+        }
+
+        if (o == null)
+            chooseShortest();
+        else if (only) {
+            toggleCtrlTile(o, false);
+            chooseBest();
+        }
     }
 
     public int chooseBest()
@@ -225,11 +244,7 @@ public class PathBuilder implements Disposable
 
             Orientation o = board.getSide(i);
             int m = (mvtLeft - next.costFrom(pawn, o));
-            int f = fitness;
-            if (next.isObjectiveFor(pawn)) {
-                f += 1;
-                objectives.add(next);
-            }
+            int f = (fitness + (next.isObjectiveFor(pawn) ? 1 : 0));
             boolean r = (roadMarch && next.roadFrom(o));
 
             int l = (m + (r ? pawn.getRoadMarchBonus() : 0));
