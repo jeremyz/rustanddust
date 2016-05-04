@@ -120,6 +120,19 @@ public class PathBuilder implements Disposable
         return getPaths().size();
     }
 
+    public int buildShortest(Tile to)
+    {
+        clear();
+        this.to = to;
+        this.distance = board.distance(from, to);
+        findAllPaths(from, pawn.getMovementPoints(), 0, true);
+        chooseShortest();
+
+        // printToErr("paths", getPaths());
+        stack.clear();
+        return getPaths().size();
+    }
+
     private void beSmart()
     {
         Tile o = null;
