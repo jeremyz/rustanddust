@@ -190,11 +190,17 @@ public class PathBuilder implements Disposable
     {
         if (a == null)
             return b;
-        if ( (b.fitness > a.fitness) || (
-                (b.fitness == a.fitness) && (
-                    (b.cost < a.cost) || ((b.cost == a.cost) && b.roadMarch && !a.roadMarch)
-                )
-           ))
+           // better fitness or equal and ...
+        if ((b.fitness > a.fitness) || ((b.fitness == a.fitness) &&
+                // smaller cost or equal and ...
+                ((b.cost < a.cost) || ((b.cost == a.cost) &&
+                    // roadmarch or same roadmarch and ...
+                    ((b.roadMarch && !a.roadMarch) || ((b.roadMarch == a.roadMarch) &&
+                        // smaller
+                        (b.tiles.size() < a.tiles.size())
+                    ))
+                ))
+            ))
             return b;
         return a;
     }
