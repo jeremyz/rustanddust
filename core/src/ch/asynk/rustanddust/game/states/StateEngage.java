@@ -73,7 +73,7 @@ public class StateEngage extends StateCommon
                 if (o == Orientation.KEEP)
                     unselectBreakUnit();
                 else
-                    doRotation(o);
+                    doBreakMove(o);
             }
 
         }
@@ -134,7 +134,7 @@ public class StateEngage extends StateCommon
         activeUnit = null;
     }
 
-    private void doRotation(Orientation o)
+    private void doBreakMove(Orientation o)
     {
         map.hexMoveHide(to);
         map.hexMoveHide(activeUnit.getHex());
