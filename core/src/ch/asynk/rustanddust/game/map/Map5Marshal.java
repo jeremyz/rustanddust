@@ -470,7 +470,7 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             if (u.id() == id)
                 return u;
         }
-        RustAndDust.error(String.format("loadPromoteOrder: unable to find unit %d", id));
+        RustAndDust.error(String.format("findById: unable to find unit %d", id));
         return null;
     }
 }
