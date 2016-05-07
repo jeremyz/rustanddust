@@ -287,8 +287,11 @@ public abstract class Map4Orders extends Map3Animations
                 break;
             case ENTER:
                 claim(unit, move.from);
-                if (order.replay)
-                    unit.setOnTile(move.from, Orientation.NORTH.r());
+                if (order.replay) {
+                    Orientation entry = findBestEntry(unit, move.from, unit.entryZone.allowedMoves);
+                    // Hex from = (Hex) getAdjTileAt(move.from, entry);
+                    unit.setOnTile(move.from, entry.opposite().r());
+                }
                 playMoveSound(unit);
                 moveUnit(unit, move, this, order.replay);
                 break;
