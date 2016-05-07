@@ -562,7 +562,7 @@ public abstract class Ctrl implements Disposable
         if (depth > 1)
             RustAndDust.error(String.format("***!!!*** STATE DEPTH : %d", depth));
 
-        if (nextState == StateType.DEPLOYMENT) {
+        if ((this.mode == Mode.PLAY) && (nextState == StateType.DEPLOYMENT)) {
             if (battle.isDeploymentDone())
                 hud.askEndDeployment();
         }
