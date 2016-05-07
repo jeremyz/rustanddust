@@ -349,7 +349,7 @@ public class DB
     public GameRecord loadGame(int game)
     {
         RustAndDust.debug("loadGame");
-        return loadGame(game, LOAD_GAME, "loadGAME");
+        return loadGame(game, String.format(LOAD_GAME, game), "loadGAME");
     }
 
     private static final String LOAD_LAST_TURN = "select g._id, g.mode, g.battle, g.opponent, g.turn, g.currentPlayer, g.ts, g.synched"
@@ -359,14 +359,14 @@ public class DB
     public GameRecord loadLastTurn(int game)
     {
         RustAndDust.debug("loadLastTurn");
-        return loadGame(game, LOAD_LAST_TURN, "loadLastTurn");
+        return loadGame(game, String.format(LOAD_LAST_TURN, game), "loadLastTurn");
     }
 
     private GameRecord loadGame(int game, String sql, String errMsg)
     {
         GameRecord r = null;
         try {
-            DatabaseCursor cursor = query(String.format(sql, game));
+            DatabaseCursor cursor = query(sql);
             if (cursor.getCount() > 0) {
                 cursor.next();
                 r = gameRecordFrom(cursor);
