@@ -11,8 +11,6 @@ import ch.asynk.rustanddust.engine.Orientation;
 
 public class BattleTest extends BattleCommon
 {
-    private Zone usExit;
-
     public BattleTest(Factory factory)
     {
         super(factory);
@@ -42,7 +40,7 @@ public class BattleTest extends BattleCommon
             usEntry.allowedMoves = (Orientation.SOUTH.s | Orientation.SOUTH_EAST.s | Orientation.SOUTH_WEST.s);
             usEntry.add(map.getHex(12, 6));
             addEntryZone(usEntry);
-            addReinforcement(currentPlayer, usEntry, usExit, UnitCode.US_WOLVERINE);
+            addReinforcement(currentPlayer, usEntry, map.getExitZone(0), UnitCode.US_WOLVERINE);
         }
     }
 
@@ -89,7 +87,7 @@ public class BattleTest extends BattleCommon
 
     private void setupUS(final Ctrl ctrl, final Player p)
     {
-        usExit = new Zone(map, 9);
+        Zone usExit = new Zone(map, 9);
         usExit.orientation = Orientation.NORTH;
         usExit.add(11, 4);
         usExit.add(11, 5);
