@@ -431,15 +431,10 @@ public abstract class Ctrl implements Disposable
             setState(nextState);
         } else {
             if (!synched) {
-                storeState();
+                storeGameState();
                 synched = true;
             }
-            if (battle.getPlayer().apExhausted())
-                postTurnDone();
-            else if (!battle.getPlayer().canDoSomething())
-                postTurnDone();
-            else
-                setState(battle.getState());
+            checkPlayer(battle.getState());
         }
     }
 
@@ -452,7 +447,7 @@ public abstract class Ctrl implements Disposable
             game.ctrl.hud.engagementSummary(order.engagement);
         }
         if (this.mode == Mode.PLAY)
-            storeOrders();
+            storeGameOrders();
         hud.update();
     }
 
@@ -485,19 +480,26 @@ public abstract class Ctrl implements Disposable
 
         battle.getPlayer().burnDownOneAp();
         hud.notify("1 Action Point burnt");
-        hud.update();
+        checkPlayer(nextState);
+        storeGameState();
+    }
 
+    private void checkPlayer(StateType nextState)
+    {
+        // FIXME msg stacking
+        // FIXME maybe add default msg as param
         if (battle.getPlayer().apExhausted()) {
-            hud.notify("No more Action Points");
+            if (mode == Mode.PLAY)
+                hud.notify("No more Action Points");
             postTurnDone();
         } else if (!battle.getPlayer().canDoSomething()) {
-            hud.notify("No available Actions");
+            if (mode == Mode.PLAY)
+                hud.notify("No available Actions");
             postTurnDone();
         } else {
             post(nextState);
         }
-
-        storeState();
+        hud.update();
     }
 
     private void completeOrder(Order order)
@@ -540,6 +542,7 @@ public abstract class Ctrl implements Disposable
         if (debugCtrl) RustAndDust.debug("    TURN DONE");
 
         setState(StateType.WAIT_EVENT);
+        storeTurnOrders();
 
         if (battle.turnDone())
             hud.victory(battle.getPlayer(), battle.getOpponent());
