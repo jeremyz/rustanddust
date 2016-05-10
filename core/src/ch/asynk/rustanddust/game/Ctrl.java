@@ -500,8 +500,6 @@ public abstract class Ctrl implements Disposable
 
     private void checkPlayer(StateType nextState)
     {
-        // FIXME msg stacking
-        // FIXME maybe add default msg as param
         if (battle.getPlayer().apExhausted()) {
             if (mode == Mode.PLAY)
                 hud.notify("No more Action Points");
@@ -563,7 +561,7 @@ public abstract class Ctrl implements Disposable
         else {
             hud.update();
             if (battle.getPlayer().hasReinforcement())
-                hud.notify("You have reinforcement", 2, Position.MIDDLE_CENTER, true);
+                hud.notify("You have reinforcement");
             if (!battle.getPlayer().canDoSomething()) {
                 hud.notify("No available Actions");
                 postTurnDone();
