@@ -22,8 +22,6 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     private static final float EXPLOSION_FRAME_DURATION = 0.07f;
 
     private TextureRegion fireRegion;
-    private int _w;
-    private int _h;
     private float fire_a;
     private float fire_x;
     private float fire_y;
@@ -70,8 +68,6 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
     public TankFireAnimation()
     {
         this.fireRegion = new TextureRegion(FireAnimation.tankFire.frames[0]);
-        this._w = this.fireRegion.getRegionWidth();
-        this._h = this.fireRegion.getRegionHeight();
     }
 
     private void set(float volume, Moveable m, float x0, float y0, float x1, float y1, float halfWidth)
@@ -110,7 +106,7 @@ public class TankFireAnimation implements Disposable, Animation, Pool.Poolable
         this.end_time = (hit_time + explosion_duration);
 
         // fire vars
-        this.fireRegion.setRegion(0, 0, _w, _h);
+        this.fireRegion.setRegion(FireAnimation.tankFire.frames[0]);
         this.fire_a = a;
         this.fire_x = x0;
         this.fire_y = y0;
