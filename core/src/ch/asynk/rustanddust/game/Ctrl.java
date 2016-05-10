@@ -13,6 +13,7 @@ import ch.asynk.rustanddust.engine.util.IterableQueue;
 import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.util.Marshal;
+import ch.asynk.rustanddust.util.GameRecord;
 import ch.asynk.rustanddust.game.ctrl.Solo;
 import ch.asynk.rustanddust.game.State.StateType;
 import ch.asynk.rustanddust.game.states.StateCommon;
@@ -205,24 +206,68 @@ public abstract class Ctrl implements Disposable
     }
 
     // DB
-    private void storeState()
+    private void storeInitialState()
+    {
+        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.PLAYERS), unload(Marshal.Mode.MAP));
+        game.db.storeTurnState(gameId);
+    }
+
+    private void storeGameState()
     {
         game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.PLAYERS), unload(Marshal.Mode.MAP));
     }
 
-    private void storeOrders()
+    private void storeGameOrders()
     {
-        game.db.storeGameOrders(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.ORDERS));
+        game.db.storeGameOrders(gameId, unload(Marshal.Mode.ORDERS));
     }
 
-    private void clearOrders()
+    private void storeTurnOrders()
     {
+        game.db.storeTurnOrders(gameId, battle.getTurnCount(), unload(Marshal.Mode.ORDERS));
+    }
+
+    private void storeNewGameTurn()
+    {
+        game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.PLAYERS), unload(Marshal.Mode.MAP));
         game.db.clearGameOrders(gameId);
+        game.db.storeTurnState(gameId);
+        map.clear(true);
     }
 
-    private void storeTurn()
+    private boolean loadTurn(int turn)
     {
-        game.db.storeCurrentTurn(gameId);
+        GameRecord r = game.db.loadTurn(gameId, turn);
+        if (r == null)
+            return false;
+        battle.turnDone();
+        map.clear(true);
+
+        load(Marshal.Mode.PLAYER, r.players);
+        validateState(r);
+        load(Marshal.Mode.ORDERS, r.orders);
+        r.dispose();
+        return true;
+    }
+
+    private void validateState(GameRecord r)
+    {
+        String playersH = game.db.getDigest(unload(Marshal.Mode.PLAYERS));
+        if (!playersH.equals(r.playersH)) {
+            RustAndDust.error("playersH does not match");
+            System.err.println("DB");
+            System.err.println(r.players);
+            System.err.println("UNLOAD");
+            System.err.println(unload(Marshal.Mode.PLAYERS));
+        }
+        String mapH = game.db.getDigest(unload(Marshal.Mode.MAP));
+        if (!mapH.equals(r.mapH)) {
+            RustAndDust.error("mapH does not match");
+            System.err.println("DB");
+            System.err.println(r.map);
+            System.err.println("UNLOAD");
+            System.err.println(unload(Marshal.Mode.MAP));
+        }
     }
 
     // INPUTS
