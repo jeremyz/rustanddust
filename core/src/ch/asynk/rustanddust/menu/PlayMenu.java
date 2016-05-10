@@ -10,7 +10,6 @@ import ch.asynk.rustanddust.ui.List;
 import ch.asynk.rustanddust.ui.Patch;
 import ch.asynk.rustanddust.ui.Scrollable;
 import ch.asynk.rustanddust.RustAndDust;
-import ch.asynk.rustanddust.game.Config;
 import ch.asynk.rustanddust.util.GameRecord;
 
 public class PlayMenu extends Patch implements MenuCtrl.Panel
@@ -24,9 +23,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     private Scrollable list;
     protected Bg cancelBtn;
     protected Button newBtn;
-    protected Button resumeBtn;
+    protected Button playBtn;
     protected Button deleteBtn;
-    protected Button replayBtn;
 
     public PlayMenu(RustAndDust game)
     {
@@ -34,9 +32,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         this.game = game;
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.newBtn = new Button("New", game.font, game.bgPatch, 20f);
-        this.resumeBtn = new Button("Resume", game.font, game.bgPatch, 20f);
+        this.playBtn = new Button("Play", game.font, game.bgPatch, 20f);
         this.deleteBtn = new Button("Delete", game.font, game.bgPatch, 20f);
-        this.replayBtn = new Button("Replay", game.font, game.bgPatch, 20f);
         this.title = new Label(game.font);
         this.title.write("- Play");
         this.list = new Scrollable(new List(game, 10f), game.framePatch);
@@ -102,9 +99,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
 
         setBottomLeft(cancelBtn);
         setBottomRight(newBtn);
-        resumeBtn.setPosition(newBtn.getX() - resumeBtn.getWidth() - 5, newBtn.getY());
-        replayBtn.setPosition(resumeBtn.getX() - replayBtn.getWidth() - 5, newBtn.getY());
-        deleteBtn.setPosition(replayBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
+        playBtn.setPosition(newBtn.getX() - playBtn.getWidth() - 5, newBtn.getY());
+        deleteBtn.setPosition(playBtn.getX() - deleteBtn.getWidth() - 5, newBtn.getY());
         showBtns(false);
 
         y += padding;
@@ -140,13 +136,9 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         } else if (deleteBtn.hit(x, y)) {
             game.playType();
             return MenuCtrl.MenuType.OKKO;
-        } else if (resumeBtn.hit(x, y)) {
-            game.playType();
-            return setConfig(Config.LoadMode.RESUME);
-        } else if (replayBtn.hit(x, y)) {
-            game.playType();
-            // TODO chose between : REPLAY_LAST / REPLAY_BATTLE
-            return setConfig(Config.LoadMode.REPLAY_LAST);
+        } else if (playBtn.hit(x, y)) {
+            setConfig();
+            return MenuCtrl.MenuType.RESUME;
         } else if (list.hit(x, y)) {
             if (i != getList().getIdx())
                 game.playType();
@@ -157,20 +149,17 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         return MenuCtrl.MenuType.NONE;
     }
 
-    private MenuCtrl.MenuType setConfig(Config.LoadMode loadMode)
+    private void setConfig()
     {
         GameRecord g = GameRecord.get(getList().getIdx());
         game.config.gameId = g.id;
         game.config.battle = game.factory.getBattle(g.battle);
-        game.config.loadMode = loadMode;
-        return MenuCtrl.MenuType.BEGIN;
     }
 
     private void showBtns(boolean show)
     {
         deleteBtn.visible = show;
-        resumeBtn.visible = show;
-        replayBtn.visible = show;
+        playBtn.visible = show;
     }
 
     @Override
@@ -180,10 +169,9 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         list.dispose();
         title.dispose();
         newBtn.dispose();
-        resumeBtn.dispose();
+        playBtn.dispose();
         deleteBtn.dispose();
         cancelBtn.dispose();
-        replayBtn.dispose();
         GameRecord.clearList();
     }
 
@@ -194,9 +182,8 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         list.draw(batch);
         title.draw(batch);
         newBtn.draw(batch);
-        resumeBtn.draw(batch);
+        playBtn.draw(batch);
         deleteBtn.draw(batch);
         cancelBtn.draw(batch);
-        replayBtn.draw(batch);
     }
 }
