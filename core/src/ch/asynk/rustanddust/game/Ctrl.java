@@ -415,8 +415,10 @@ public abstract class Ctrl implements Disposable
 
         if (mode == Mode.LOADING) {
             this.mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
-            if (mode == Mode.PLAY)
+            if (mode == Mode.PLAY) {
+                map.clear();
                 storeInitialState();
+            }
         }
 
         this.blockMap = false;
