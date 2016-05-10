@@ -280,6 +280,12 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
         Unit.blockId = false;
     }
 
+    public void loadPlayerAP(JsonValue v, int idx, Player player)
+    {
+        JsonValue a = v.get("players").get(idx).get("v");
+        player.setTurn(a.getInt(0), a.getInt(1), a.getInt(2));
+    }
+
     private Player loadPlayer(JsonValue v)
     {
         Player p = new Player(Army.valueOf(v.getString("a")));

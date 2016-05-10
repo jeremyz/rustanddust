@@ -10,6 +10,7 @@ public interface Marshal
         PLAYERS,
         MAP,
         ORDERS,
+        PLAYER,
     }
 
     public void unload(Mode mode, Json json);

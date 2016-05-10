@@ -102,7 +102,9 @@ public abstract class BattleCommon implements Battle
 
     public void load(Marshal.Mode mode, JsonValue value)
     {
-        if (mode == Marshal.Mode.PLAYERS) {
+        if (mode == Marshal.Mode.PLAYER) {
+            map.loadPlayerAP(value, 0, currentPlayer);
+        } else if (mode == Marshal.Mode.PLAYERS) {
             map.loadPlayers(value, players);
             this.currentPlayer = players[0];
         } else {
