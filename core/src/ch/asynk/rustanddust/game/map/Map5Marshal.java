@@ -274,8 +274,10 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
     public void loadPlayers(JsonValue v, Player[] players)
     {
         clearMarshalUnits();
+        Unit.blockId = true;
         players[0] = loadPlayer(v.get("players").get(0));
         players[1] = loadPlayer(v.get("players").get(1));
+        Unit.blockId = false;
     }
 
     private Player loadPlayer(JsonValue v)
