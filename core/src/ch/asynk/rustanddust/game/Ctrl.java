@@ -165,7 +165,7 @@ public abstract class Ctrl implements Disposable
                 }
                 break;
             case REPLAY_LAST:
-                map.prepareReplayCurrentTurn();
+                map.prepareReplayLastTurn();
                 this.stateAfterAnimation = StateType.REPLAY;
                 break;
             case REPLAY_BATTLE:

@@ -189,7 +189,7 @@ public abstract class Map4Orders extends Map3Animations
         }
     }
 
-    public void prepareReplayCurrentTurn()
+    public void prepareReplayLastTurn()
     {
         int s = orders.size();
         while (s > 0) {
