@@ -82,6 +82,16 @@ public abstract class Map0Hex extends Board
         zone.enable(Hex.EXIT, true);
     }
 
+    public Zone getEntryZone(int i)
+    {
+        return entryZones.get(i);
+    }
+
+    public Zone getExitZone(int i)
+    {
+        return exitZones.get(i);
+    }
+
     public void hexSelect(Hex hex)          { selectedTile.set(hex); }
     public void hexUnselect(Hex hex)        { selectedTile.hide(); }
     public void hexMoveShow(Hex hex)        { enableOverlayOn(hex, Hex.MOVE, true); }
