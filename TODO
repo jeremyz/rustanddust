@@ -1,8 +1,7 @@
 FIX:
-    - BattleCommon init(ctrl) only for ctrl.postInitOrder(...)
-    - replay ALL
-    - get rid of StateAnimation + WAIT
     - fix shoot animations, quit -> resume
+    - I once managed to have a target overlay constantly on ...
+    - fix bug in Msg: changing position on stacked labels does not work
 
 TODO:
     - turret aiming sound
