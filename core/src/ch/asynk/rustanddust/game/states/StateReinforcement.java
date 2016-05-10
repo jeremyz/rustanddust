@@ -12,7 +12,8 @@ public class StateReinforcement extends StateCommon
     @Override
     public void enterFrom(StateType prevState)
     {
-        map.clear();
+        map.clearMoves();
+        map.clearUnits();
         entryZone = null;
         activeUnit = null;
         selectedHex = null;

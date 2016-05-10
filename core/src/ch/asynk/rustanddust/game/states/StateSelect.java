@@ -124,7 +124,8 @@ public class StateSelect extends StateCommon
     private void clear()
     {
         hide();
-        map.clear();
+        map.clearMoves();
+        map.clearUnits();
         to = null;
         isEnemy = false;
         selectedHex = null;

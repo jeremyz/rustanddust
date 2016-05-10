@@ -24,13 +24,10 @@ public abstract class Map extends Map5Marshal
         meteorology = new Meteorology();
     }
 
-    public void clear() { clear(false); }
-    public void clear(boolean orders)
+    public void clear()
     {
-        if (orders) {
-            RustAndDust.debug("  Map", String.format("Clearder Orders : %d", ordersSize()));
-            ordersClear();
-        }
+        RustAndDust.debug("  Map", String.format("Clearder Orders : %d", ordersSize()));
+        ordersClear();
         clearMoves();
         clearUnits();
     }

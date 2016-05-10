@@ -232,7 +232,6 @@ public abstract class Ctrl implements Disposable
         game.db.storeGameState(gameId, battle.getTurnCount(), battle.getPlayer().id, unload(Marshal.Mode.PLAYERS), unload(Marshal.Mode.MAP));
         game.db.clearGameOrders(gameId);
         game.db.storeTurnState(gameId);
-        map.clear(true);
     }
 
     private boolean loadTurn(int turn)
@@ -241,7 +240,6 @@ public abstract class Ctrl implements Disposable
         if (r == null)
             return false;
         battle.turnDone();
-        map.clear(true);
 
         load(Marshal.Mode.PLAYER, r.players);
         validateState(r);
@@ -414,13 +412,10 @@ public abstract class Ctrl implements Disposable
 
         if (mode == Mode.LOADING) {
             this.mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
-            if (game.config.loadMode == Config.LoadMode.NEW) {
-                storeState();
-                storeTurn();
-            }
             if (mode == Mode.PLAY)
-                map.clear(true);
+                storeInitialState();
         }
+
         this.blockMap = false;
         StateType tmp = stateAfterAnimation;
         stateAfterAnimation = StateType.WAIT_EVENT;
@@ -560,10 +555,7 @@ public abstract class Ctrl implements Disposable
             }
         }
 
-        storeState();
-        storeTurn();
-        map.clear(true);
-        clearOrders();
+        storeNewGameTurn();
     }
 
     private void abortAction()
