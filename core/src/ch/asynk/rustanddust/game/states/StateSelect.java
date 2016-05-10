@@ -23,6 +23,7 @@ public class StateSelect extends StateCommon
         switch(msg)
         {
             case OK:
+                clear();
                 ctrl.postTurnDone();
                 return true;
             case PROMOTE:
