@@ -84,6 +84,7 @@ public abstract class Ctrl implements Disposable
     private Hex touchedHex;
     protected int gameId;
     protected boolean synched;
+    private boolean replayBattle;
     private int depth;
 
     private Order lastOrder;
@@ -123,12 +124,13 @@ public abstract class Ctrl implements Disposable
         this.battle = game.config.battle;
         this.hud = new Hud(game);
 
-        this.blockEvents = 0.5f;
+        this.blockEvents = 1.0f;
         this.blockMap = true;
         this.blockHud = false;
         this.touchedHex = null;
         this.gameId = -1;
         this.synched = false;
+        this.replayBattle = false;
         this.depth = 0;
 
         this.lastOrder = null;
@@ -170,7 +172,8 @@ public abstract class Ctrl implements Disposable
                 this.stateAfterAnimation = StateType.REPLAY;
                 break;
             case REPLAY_BATTLE:
-                // TODO REPLAY ALL
+                this.replayBattle = true;
+                map.prepareReplayLastTurn();
                 this.stateAfterAnimation = StateType.REPLAY;
                 break;
         }
@@ -425,6 +428,24 @@ public abstract class Ctrl implements Disposable
     private void replayDone(StateType nextState)
     {
         if (debugCtrl) RustAndDust.debug("    REPLAY DONE");
+        if (replayBattle) {
+            if (loadTurn(battle.getTurnCount() + 1)) {
+                map.prepareReplayLastTurn();
+                setState(StateType.REPLAY);
+                this.stateAfterAnimation = StateType.REPLAY;
+            } else {
+                hud.notify("Replay Done", Position.MIDDLE_CENTER);
+                map.clearMarshalUnits();
+                if (!synched) {
+                    storeGameState();
+                    synched = true;
+                }
+                this.mode = Mode.PLAY;
+                checkPlayer(battle.getState());
+            }
+            blockEvents = 0.5f;
+            return;
+        }
         hud.notify("Replay Done", Position.MIDDLE_CENTER);
         this.mode = Mode.PLAY;
         if (nextState != null) {
