@@ -15,8 +15,7 @@ public class Solo extends Ctrl
     @Override
     public void init()
     {
-        GameRecord r = loadState();
-        if (r == null) {
+        if (!loadState()) {
             int me = game.backend.getMyId();
             int other = game.backend.getOpponentId();
             gameId = game.db.storeGameGetId(other, battle.getId(), game.config.gameMode.i);
@@ -24,29 +23,38 @@ public class Solo extends Ctrl
             battle.getOpponent().id = other;
             battle.initialDeployment(this);
             synched = true;
-        } else {
-            load(Marshal.Mode.MAP, r.map);
-            load(Marshal.Mode.PLAYERS, r.players);
-            load(Marshal.Mode.ORDERS, r.orders);
-            battle.getMap().clearMarshalUnits();
-            synched = r.synched;
-            r.dispose();
         }
     }
 
-    private GameRecord loadState()
+    private boolean loadState()
     {
         GameRecord r = null;
         gameId = game.config.gameId;
+
         switch (game.config.loadMode)
         {
-            case NEW:               break;
-            case RESUME:            r = game.db.loadGame(gameId); break;
-            case REPLAY_LAST:    r = game.db.loadLastTurn(gameId); break;
-            case REPLAY_BATTLE:
-                // TODO REPLAY_BATTLE
+            case NEW:           break;
+            case RESUME:        r = game.db.loadGame(gameId); break;
+            case REPLAY_LAST:   r = game.db.loadLastTurn(gameId); break;
+            case REPLAY_BATTLE: r = game.db.loadTurn(gameId, 0); break;
+        }
+
+        if (r == null)
+            return false;
+
+        load(Marshal.Mode.MAP, r.map);
+        load(Marshal.Mode.PLAYERS, r.players);
+        load(Marshal.Mode.ORDERS, r.orders);
+        switch (game.config.loadMode)
+        {
+            case REPLAY_BATTLE: break;
+            default:
+                battle.getMap().clearMarshalUnits();
                 break;
         }
-        return r;
+        synched = r.synched;
+        r.dispose();
+
+        return true;
     }
 }
