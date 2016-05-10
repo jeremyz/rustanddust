@@ -433,18 +433,11 @@ public abstract class Ctrl implements Disposable
                 map.prepareReplayLastTurn();
                 setState(StateType.REPLAY);
                 this.stateAfterAnimation = StateType.REPLAY;
-            } else {
-                hud.notify("Replay Done", Position.MIDDLE_CENTER);
-                map.clearMarshalUnits();
-                if (!synched) {
-                    storeGameState();
-                    synched = true;
-                }
-                this.mode = Mode.PLAY;
-                checkPlayer(battle.getState());
+                blockEvents = 0.5f;
+                return;
             }
-            blockEvents = 0.5f;
-            return;
+            nextState = null;
+            map.clearMarshalUnits();
         }
         hud.notify("Replay Done", Position.MIDDLE_CENTER);
         this.mode = Mode.PLAY;
