@@ -10,7 +10,7 @@ import ch.asynk.rustanddust.engine.gfx.Animation;
 public class DestroyAnimation implements Disposable, Animation
 {
     private static final float DELAY = 1.5f;
-    private static final float DURATION = 1.5f;
+    private static final float DURATION = 1.0f;
 
     private Moveable moveable;
     private float x;
