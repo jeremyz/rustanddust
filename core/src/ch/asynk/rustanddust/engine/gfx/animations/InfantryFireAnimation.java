@@ -112,7 +112,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
     private static final float SHOT_DELAY = (1.6f / SHOT_COUNT);
     private static final float SHOT_SCATTERING = 40f;
     private static final float TIME_SCATTERING = 0.6f;
-    private static final float START_DELAY = 0.8f;
+    private static final float START_DELAY = 0.3f;
     private static final float SHOT_SPEED = 1000f;
     private static final float HIT_FRAME_DURATION = 0.05f;
 
