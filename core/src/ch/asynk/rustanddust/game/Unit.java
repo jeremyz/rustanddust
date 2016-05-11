@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import ch.asynk.rustanddust.engine.Pawn;
 import ch.asynk.rustanddust.engine.Tile;
 import ch.asynk.rustanddust.engine.HeadedPawn;
+import ch.asynk.rustanddust.engine.util.Collection;
+import ch.asynk.rustanddust.engine.util.IterableSet;
 import ch.asynk.rustanddust.game.Hex.Terrain;
 
 import ch.asynk.rustanddust.RustAndDust;
@@ -25,6 +27,17 @@ public class Unit extends HeadedPawn
 
     public static boolean blockId = false;
     public static int unitId = 1;
+    private static Collection<Unit> units = new IterableSet<Unit>(20);
+
+    public static void clear() { units.clear(); }
+    public static Unit findById(int id)
+    {
+        for (Unit u : units) {
+            if (u.id() == id)
+                return u;
+        }
+        return null;
+    }
 
     public enum UnitType implements Pawn.PawnType
     {
@@ -81,6 +94,7 @@ public class Unit extends HeadedPawn
         }
         this.entryZone = null;
         this.exitZone = null;
+        units.add(this);
     }
 
     private void commonSetup()
