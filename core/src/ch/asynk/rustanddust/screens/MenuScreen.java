@@ -77,7 +77,7 @@ public class MenuScreen implements Screen
         this.geFlag = new Sprite(game.getUiRegion(game.UI_GE_FLAG));
 
         this.versionLabel = new Label(game.font);
-        this.versionLabel.write("v28");
+        this.versionLabel.write("v29");
         this.ctrl = new MenuCtrl(game);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
