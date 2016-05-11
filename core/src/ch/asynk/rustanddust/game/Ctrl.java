@@ -414,7 +414,7 @@ public abstract class Ctrl implements Disposable
             hud.notifyAnimationsDone();
 
         if (mode == Mode.LOADING) {
-            this.mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
+            mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
             if (mode == Mode.PLAY) {
                 map.clear();
                 storeInitialState();
@@ -441,7 +441,7 @@ public abstract class Ctrl implements Disposable
             nextState = null;
         }
         hud.notify("Replay Done", Position.MIDDLE_CENTER);
-        this.mode = Mode.PLAY;
+        mode = Mode.PLAY;
         if (nextState != null) {
             setState(nextState);
         } else {
@@ -461,7 +461,7 @@ public abstract class Ctrl implements Disposable
         if ((order.type == Order.OrderType.ENGAGE) && !order.replay) {
             game.ctrl.hud.engagementSummary(order.engagement);
         }
-        if (this.mode == Mode.PLAY)
+        if (mode == Mode.PLAY)
             storeGameOrders();
         hud.update();
     }
@@ -616,7 +616,7 @@ public abstract class Ctrl implements Disposable
         if (depth > 1)
             RustAndDust.error(String.format("***!!!*** STATE DEPTH : %d", depth));
 
-        if ((this.mode == Mode.PLAY) && (nextState == StateType.DEPLOYMENT)) {
+        if ((mode == Mode.PLAY) && (nextState == StateType.DEPLOYMENT)) {
             if (battle.isDeploymentDone())
                 hud.askEndDeployment();
         }
