@@ -25,10 +25,6 @@ import ch.asynk.rustanddust.game.Engagement;
 
 public abstract class Map5Marshal extends Map4Orders implements Marshal
 {
-    private static UnitList units = new UnitList(30);
-
-    public void clearMarshalUnits() { units.clear(); }
-
     public Map5Marshal(final RustAndDust game, Texture map, SelectedTile hex)
     {
         super(game, map, hex);
@@ -273,7 +269,6 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     public void loadPlayers(JsonValue v, Player[] players)
     {
-        clearMarshalUnits();
         Unit.blockId = true;
         players[0] = loadPlayer(v.get("players").get(0));
         players[1] = loadPlayer(v.get("players").get(1));
@@ -331,7 +326,6 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
             Hex h = getHex(a.getInt(0), a.getInt(1));
             setOnBoard(u, h, Orientation.fromRotation(a.getInt(2)));
         }
-        units.add(u);
         return u;
     }
 
@@ -474,10 +468,9 @@ public abstract class Map5Marshal extends Map4Orders implements Marshal
 
     private static Unit findById(int id)
     {
-        for (Unit u : units) {
-            if (u.id() == id)
-                return u;
-        }
+        Unit u = Unit.findById(id);
+        if (u != null)
+            return u;
         RustAndDust.error(String.format("findById: unable to find unit %d", id));
         return null;
     }

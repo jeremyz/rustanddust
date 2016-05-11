@@ -45,13 +45,6 @@ public class Solo extends Ctrl
         load(Marshal.Mode.MAP, r.map);
         load(Marshal.Mode.PLAYERS, r.players);
         load(Marshal.Mode.ORDERS, r.orders);
-        switch (game.config.loadMode)
-        {
-            case REPLAY_BATTLE: break;
-            default:
-                battle.getMap().clearMarshalUnits();
-                break;
-        }
         synched = r.synched;
         r.dispose();
 

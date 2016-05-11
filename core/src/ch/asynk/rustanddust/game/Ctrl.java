@@ -439,7 +439,6 @@ public abstract class Ctrl implements Disposable
                 return;
             }
             nextState = null;
-            map.clearMarshalUnits();
         }
         hud.notify("Replay Done", Position.MIDDLE_CENTER);
         this.mode = Mode.PLAY;
@@ -584,6 +583,7 @@ public abstract class Ctrl implements Disposable
     private void exitBattle()
     {
         if (debugCtrl) RustAndDust.debug("    EXIT BATTLE");
+        Unit.clear();
         game.switchToMenu();
     }
 
