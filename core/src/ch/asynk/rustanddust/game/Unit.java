@@ -29,7 +29,7 @@ public class Unit extends HeadedPawn
     public static int unitId = 1;
     private static Collection<Unit> units = new IterableSet<Unit>(20);
 
-    public static void clear() { units.clear(); }
+    public static void clear() { unitId = 1; units.clear(); }
     public static Unit findById(int id)
     {
         for (Unit u : units) {
