@@ -415,7 +415,7 @@ public abstract class Ctrl implements Disposable
 
         if (mode == Mode.LOADING) {
             mode = ((stateAfterAnimation == StateType.REPLAY) ? Mode.REPLAY : Mode.PLAY);
-            if (mode == Mode.PLAY) {
+            if ((battle.getTurnCount() == 0) && (mode == Mode.PLAY)) {
                 map.clear();
                 storeInitialState();
             }
