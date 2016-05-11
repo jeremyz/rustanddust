@@ -75,7 +75,7 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     @Override
     public MenuCtrl.MenuType postAnswer(boolean ok)
     {
-        if (ok) return MenuCtrl.MenuType.BEGIN;
+        if (ok && !notImplemented) return MenuCtrl.MenuType.BEGIN;
         return MenuCtrl.MenuType.NONE;
     }
 
