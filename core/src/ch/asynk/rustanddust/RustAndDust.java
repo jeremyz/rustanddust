@@ -23,6 +23,8 @@ import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
 {
+    public static final String VERSION = "v29";
+
     public static final String BG_PATCH = "bg";
     public static final String FRAME_PATCH = "frame";
     public static final String TTF_FONT = "skin/veteran-typewriter.ttf";

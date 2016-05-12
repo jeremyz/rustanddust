@@ -77,7 +77,7 @@ public class MenuScreen implements Screen
         this.geFlag = new Sprite(game.getUiRegion(game.UI_GE_FLAG));
 
         this.versionLabel = new Label(game.font);
-        this.versionLabel.write("v29");
+        this.versionLabel.write(RustAndDust.VERSION);
         this.ctrl = new MenuCtrl(game);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -181,7 +181,7 @@ public class MenuScreen implements Screen
         setCenteredPosition(usFlag, xPath[0], yPath[0]);
         setCenteredPosition(geFlag, xPath[n - 1], yPath[n - 1]);
 
-        versionLabel.setPosition(xPath[0] - 190, yPath[0]);
+        versionLabel.setPosition(xPath[0] - 190 - versionLabel.getWidth() / 2, yPath[0] - versionLabel.getHeight() / 2);
         ctrl.computePosition();
     }
 
