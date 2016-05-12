@@ -241,6 +241,7 @@ public class RustAndDust extends Game
         font = generator.generateFont(parameter);
         bgPatch = uiAtlas.createPatch(BG_PATCH);
         framePatch = uiAtlas.createPatch(FRAME_PATCH);
+        generator.dispose();
     }
 
     private void unloadUiAssets()
