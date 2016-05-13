@@ -126,7 +126,7 @@ public class Hud implements Disposable, Animation
     {
         draw(batch);
         if (debug)
-            game.font.draw(batch, String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), 80, 25);
+            game.font.draw(batch, String.format("FPS: %d - %s", Gdx.graphics.getFramesPerSecond(), ctrl.map.getStats()), 80, 25);
     }
 
     @Override

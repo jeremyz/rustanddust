@@ -66,6 +66,11 @@ public abstract class Board implements Disposable, Animation
 
     abstract protected Config getConfig();
 
+    public String getStats()
+    {
+        return String.format("tiles:%d animations:%d", tilesToDraw.size(), animations.size());
+    }
+
     protected Board(int cols, int rows)
     {
         this.block = 0f;
