@@ -97,9 +97,14 @@ public class StackedImages implements Drawable, Disposable
     @Override
     public void drawDebug(ShapeRenderer shapes)
     {
-        Sprite sprite = sprites.get(0);
-        float w = sprite.getWidth();
-        float h = sprite.getHeight();
-        shapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
+        for (int i = 0, n = sprites.size; i < n; i++) {
+            if (enabled[i]) {
+                Sprite sprite = sprites.get(0);
+                float w = sprite.getWidth();
+                float h = sprite.getHeight();
+                shapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
+                return;
+            }
+        }
     }
 }
