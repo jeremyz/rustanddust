@@ -66,8 +66,13 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setParent(Widget parent)
     {
-        float x, y;
         this.parent = parent;
+        update();
+    }
+
+    public void update()
+    {
+        float x, y;
         if (parent == null) {
             x = position.getX(rect.width);
             y = position.getY(rect.height);
