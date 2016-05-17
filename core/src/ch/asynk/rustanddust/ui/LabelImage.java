@@ -36,13 +36,14 @@ public class LabelImage extends Bg
     public void translate(float dx, float dy)
     {
         super.translate(dx, dy);
-        label.translate(dx, dy);
+        label.update();
     }
 
-    public void setPosition(float x, float y)
+    @Override
+    public void update()
     {
-        super.setPosition(x, y);
-        label.setPosition(x, y);
+        super.update();
+        label.update();
     }
 
     public void setLabelPosition(Position position)
