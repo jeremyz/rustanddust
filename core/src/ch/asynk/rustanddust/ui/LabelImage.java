@@ -33,13 +33,6 @@ public class LabelImage extends Bg
     }
 
     @Override
-    public void translate(float dx, float dy)
-    {
-        super.translate(dx, dy);
-        label.update();
-    }
-
-    @Override
     public void update()
     {
         super.update();
