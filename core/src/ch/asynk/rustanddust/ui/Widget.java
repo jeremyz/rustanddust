@@ -39,7 +39,7 @@ public abstract class Widget implements Disposable, Drawable
 
     public void setPosition(Rectangle r)
     {
-        rect.set(r.x, r.x, r.width, r.height);
+        setPosition(r.x, r.x, r.width, r.height);
     }
 
     public void setPosition(float x, float y)
