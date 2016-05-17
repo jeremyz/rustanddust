@@ -46,6 +46,13 @@ public class LabelImage extends Bg
         label.update();
     }
 
+    @Override
+    public void setPosition(float x, float y, float w, float h)
+    {
+        rect.set(x, y, w, h);
+        label.update();
+    }
+
     public void setLabelPosition(Position position)
     {
         label.setPosition(position, this);

@@ -12,7 +12,7 @@ public class Bg extends Widget
     {
         super();
         this.region = region;
-        setPosition(0, 0, region.getRegionWidth() * SCALE, region.getRegionHeight() * SCALE);
+        rect.set(0, 0, region.getRegionWidth() * SCALE, region.getRegionHeight() * SCALE);
     }
 
     public static void setScale(float scale)
