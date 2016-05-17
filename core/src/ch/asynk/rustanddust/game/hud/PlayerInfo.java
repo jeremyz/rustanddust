@@ -41,6 +41,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         aps = new LabelImage(game.factory.getHudRegion(game.factory.HUD_APS), game.font, 5f);
         reinforcement = new LabelImage(game.factory.getHudRegion(game.factory.REINFORCEMENT), game.font, 5f);
         unitDock = new UnitDock(game, 10f);
+        turns.setPosition(Position.TOP_CENTER);
     }
 
     @Override
@@ -61,8 +62,7 @@ public class PlayerInfo implements Disposable, Drawable, Animation
         aps.translate(dx, dy);
         reinforcement.translate(dx, dy);
         unitDock.translate(dx, dy);
-        turns.setPosition(Position.TOP_CENTER);
-        turns.setLabelPosition(Position.MIDDLE_CENTER);
+        turns.update();
     }
 
     public void setPosition(Position position)
@@ -93,11 +93,8 @@ public class PlayerInfo implements Disposable, Drawable, Animation
             x -= (aps.getWidth() + PADDING);
             aps.setPosition(x, y);
         }
-        turns.setPosition(Position.TOP_CENTER);
-        turns.setLabelPosition(Position.MIDDLE_CENTER);
-        aps.setLabelPosition(Position.MIDDLE_CENTER);
-        reinforcement.setLabelPosition(Position.MIDDLE_CENTER);
         unitDock.setPosition(position, reinforcement.getY() - PADDING);
+        turns.update();
     }
 
     public void update(Player player, Position position)
