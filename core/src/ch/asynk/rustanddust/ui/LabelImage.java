@@ -23,6 +23,7 @@ public class LabelImage extends Bg
     {
         super(region);
         this.label = new Label(font, padding, position);
+        this.label.setParent(this);
     }
 
     @Override
