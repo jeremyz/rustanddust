@@ -58,7 +58,9 @@ public class Msg extends Patch
 
     public boolean animate(float delta)
     {
-        return label.animate(delta);
+        if (label.animate(delta))
+            resize();
+        return true;
     }
 
     @Override

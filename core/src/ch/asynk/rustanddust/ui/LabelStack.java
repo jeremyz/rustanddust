@@ -57,13 +57,14 @@ public class LabelStack extends Label implements Animation
     @Override
     public boolean animate(float delta)
     {
-        if (!visible) return true;
+        if (!visible) return false;
         elapsed += delta;
         if (elapsed >= duration) {
            visible = false;
            if (stack.size() > 0) {
                MsgInfo info = stack.pop();
                write(info.text, info.duration, info.position);
+               return true;
            }
         }
         return false;
