@@ -450,7 +450,7 @@ public abstract class Ctrl implements Disposable
                 storeGameState();
                 synched = true;
             }
-            checkPlayer(battle.getState());
+            checkPlayer(battle.getState(), (mode == Mode.PLAY));
         }
     }
 
@@ -495,20 +495,20 @@ public abstract class Ctrl implements Disposable
         }
 
         battle.getPlayer().burnDownOneAp();
-        hud.notify("1 Action Point burnt");
-        checkPlayer(nextState);
+        hud.notify("1 Action Point burnt", Position.BOTTOM_CENTER);
+        checkPlayer(nextState, (mode == Mode.PLAY));
         storeGameState();
     }
 
-    private void checkPlayer(StateType nextState)
+    private void checkPlayer(StateType nextState, boolean notify)
     {
         if (battle.getPlayer().apExhausted()) {
-            if (mode == Mode.PLAY)
-                hud.notify("No more Action Points");
+            if (notify)
+                hud.notify("No more Action Points", Position.MIDDLE_CENTER);
             postTurnDone();
         } else if (!battle.getPlayer().canDoSomething()) {
-            if (mode == Mode.PLAY)
-                hud.notify("No available Actions");
+            if (notify)
+                hud.notify("No available Actions", Position.MIDDLE_CENTER);
             postTurnDone();
         } else {
             post(nextState);
@@ -563,9 +563,9 @@ public abstract class Ctrl implements Disposable
         else {
             hud.update();
             if (battle.getPlayer().hasReinforcement())
-                hud.notify("You have reinforcement");
+                hud.pushNotify("You have reinforcement", Position.MIDDLE_CENTER);
             if (!battle.getPlayer().canDoSomething()) {
-                hud.notify("No available Actions");
+                hud.pushNotify("No available Actions", Position.MIDDLE_CENTER);
                 postTurnDone();
             } else {
                 post(battle.getState());
