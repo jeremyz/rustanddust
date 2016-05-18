@@ -107,6 +107,7 @@ public abstract class Ctrl implements Disposable
 
     public static Ctrl getCtrl(final RustAndDust game)
     {
+        Unit.clear();
         Ctrl ctrl = null;
         switch(game.config.gameMode)
         {
