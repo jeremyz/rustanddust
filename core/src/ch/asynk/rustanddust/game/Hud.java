@@ -1,7 +1,5 @@
 package ch.asynk.rustanddust.game;
 
-import java.util.ArrayDeque;
-
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.utils.Disposable;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ch.asynk.rustanddust.engine.util.IterableStack;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 import ch.asynk.rustanddust.ui.Position;
 import ch.asynk.rustanddust.ui.Bg;
@@ -44,7 +43,7 @@ public class Hud implements Disposable, Animation
     private StatisticsPanel stats;
     private EngagementPanel engagement;
     private OkCancel okCancel;
-    private ArrayDeque<Widget> dialogs = new ArrayDeque<Widget>();
+    private IterableStack<Widget> dialogs = new IterableStack<Widget>(3);
 
     public enum OkCancelAction
     {
@@ -195,7 +194,7 @@ public class Hud implements Disposable, Animation
         }
 
         if (dialogs.size() > 0) {
-            Widget dialog = dialogs.peek();
+            Widget dialog = dialogs.get(0);
             if (dialog.hit(x, y)) {
                 closeDialog();
                 return true;
@@ -243,7 +242,7 @@ public class Hud implements Disposable, Animation
             game.playType();
 
         if (dialogs.size() > 0)
-            dialogs.peek().visible = true;
+            dialogs.get(0).visible = true;
         else
             ctrl.blockMap = false;
     }
@@ -257,7 +256,7 @@ public class Hud implements Disposable, Animation
     private void delayOver()
     {
         delayOn = false;
-        Widget dialog = dialogs.peek();
+        Widget dialog = dialogs.get(0);
         if (dialog == engagement)
             closeDialog();
     }
@@ -271,14 +270,14 @@ public class Hud implements Disposable, Animation
     {
         ctrl.blockMap = true;
         if (dialogs.size() != 0)
-            dialogs.peek().visible = false;
+            dialogs.get(0).visible = false;
         dialogs.push(dialog);
     }
 
     private boolean toggleOptionsPanel()
     {
         if (dialogs.size() > 0) {
-            if (dialogs.peek() != optionsPanel)
+            if (dialogs.get(0) != optionsPanel)
                 return false;
             optionsPanel.close();
             closeDialog();
