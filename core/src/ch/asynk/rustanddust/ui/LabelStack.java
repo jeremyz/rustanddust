@@ -1,9 +1,8 @@
 package ch.asynk.rustanddust.ui;
 
-import java.util.ArrayDeque;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import ch.asynk.rustanddust.engine.util.IterableQueue;
 import ch.asynk.rustanddust.engine.gfx.Animation;
 
 public class LabelStack extends Label implements Animation
@@ -23,19 +22,19 @@ public class LabelStack extends Label implements Animation
 
     private float duration;
     private float elapsed;
-    private ArrayDeque<MsgInfo> stack;
+    private IterableQueue<MsgInfo> queue;
 
     public LabelStack(BitmapFont font, float padding)
     {
         super(font, padding);
         this.visible = false;
-        this.stack = new ArrayDeque<MsgInfo>();
+        this.queue = new IterableQueue<MsgInfo>(3);
     }
 
     public void pushWrite(String text, float duration, Position position)
     {
         if (visible)
-            stack.push(new MsgInfo(text, duration, position));
+            queue.enqueue(new MsgInfo(text, duration, position));
         else
             write(text, duration, position);
     }
@@ -61,8 +60,8 @@ public class LabelStack extends Label implements Animation
         elapsed += delta;
         if (elapsed >= duration) {
            visible = false;
-           if (stack.size() > 0) {
-               MsgInfo info = stack.pop();
+           if (queue.size() > 0) {
+               MsgInfo info = queue.dequeue();
                write(info.text, info.duration, info.position);
                return true;
            }
