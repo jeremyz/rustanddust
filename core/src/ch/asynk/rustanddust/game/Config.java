@@ -79,6 +79,7 @@ public class Config
             }
             return r;
         }
+        public GameMode getLongest() { return PVP; }
     };
 
     public GameMode gameMode;
