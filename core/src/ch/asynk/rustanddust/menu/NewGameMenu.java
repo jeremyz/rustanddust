@@ -17,27 +17,20 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     private final RustAndDust game;
 
     private Label title;
-    private Label gameMode;
-    private Label gameModeValue;
-    private float gameModeWidth;
     private int battleIdx;
+    private float battleWidth;
     private Label battle;
     private Label battleValue;
     private Label objectives;
     private ObjectivesPanel objectivesPanel;
     protected Bg okBtn;
     protected Bg cancelBtn;
-    private boolean notImplemented;
 
     public NewGameMenu(RustAndDust game)
     {
         super(game.bgPatch);
         this.game = game;
         this.title = new Label(game.font);
-        this.title.write("- New Game");
-        this.gameMode = new Label(game.font);
-        this.gameMode.write("Game mode : ");
-        this.gameModeValue = new Label(game.font);
         this.okBtn = new Bg(game.getUiRegion(game.UI_OK));
         this.cancelBtn = new Bg(game.getUiRegion(game.UI_CANCEL));
         this.battle = new Label(game.font);
@@ -47,57 +40,45 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         this.objectives.write("Battle Objectives");
         this.objectivesPanel = new ObjectivesPanel(game);
 
-        if (game.config.battle == null) {
-            battleIdx = 0;
+        this.battleIdx = 0;
+        this.battleWidth = 0f;
+        if (game.config.battle == null)
             game.config.battle = game.factory.battles[0];
-        } else {
-            for (int i = 0; i < game.factory.battles.length; i++) {
-                if (game.config.battle == game.factory.battles[i]) {
-                    battleIdx = i;
-                    break;
-                }
-            }
+        for (int i = 0; i < game.factory.battles.length; i++) {
+            battleValue.write(game.config.battle.getName());
+            if (battleWidth < battleValue.getWidth())
+                battleWidth = battleValue.getWidth();
+            if (game.config.battle == game.factory.battles[i])
+                battleIdx = i;
         }
         battleValue.write(game.config.battle.getName());
 
         float w = 0;
-        for (int i = game.config.gameMode.i; ;) {
-            gameModeValue.write(game.config.gameMode.s);
-            if (w < gameModeValue.getWidth())
-                w = gameModeValue.getWidth();
-            game.config.gameMode = game.config.gameMode.next();
-            if (i == game.config.gameMode.i) break;
-        }
-        this.gameModeValue.write(game.config.gameMode.s);
-        this.gameModeWidth = w + 10 + gameMode.getWidth();
     }
 
     @Override
     public MenuCtrl.MenuType postAnswer(boolean ok)
     {
-        if (ok && !notImplemented) return MenuCtrl.MenuType.BEGIN;
+        if (ok) return MenuCtrl.MenuType.RESUME;
         return MenuCtrl.MenuType.NONE;
     }
 
     @Override
     public String getAsk()
     {
-        if (notImplemented)
-            return String.format("'%s' Game Mode not implemented yet.", game.config.gameMode.s);
-        else
-            return String.format("Resume '%s' ?", game.config.battle.toString());
+        return String.format("Resume '%s' ?", game.config.battle.toString());
     }
 
     @Override
     public void computePosition()
     {
         float h = (title.getHeight() + TITLE_PADDING + (2 * PADDING));
-        h += (gameMode.getHeight() + VSPACING);
         h += (battle.getHeight());
         h += (objectives.getHeight());
 
-        float w = gameModeWidth + (2 * PADDING);
-
+        float w = battleWidth + battle.getWidth() + 10 + (2 * PADDING);
+        if (w < (title.getWidth() + (2 * PADDING)))
+            w = title.getWidth() + (2 * PADDING);
         float x = position.getX(w);
         float y = position.getY(h);
         setPosition(x, y, w, h);
@@ -113,9 +94,6 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         y += dy;
         battle.setPosition(x, y);
         battleValue.setPosition((x + battle.getWidth() + 10), y);
-        y += dy;
-        gameMode.setPosition(x, y);
-        gameModeValue.setPosition((x + gameMode.getWidth() + 10), y);
         y += dy;
 
         y += (TITLE_PADDING - VSPACING);
@@ -143,9 +121,6 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         } else if (cancelBtn.hit(x, y)) {
             game.playType();
             return MenuCtrl.MenuType.MAIN;
-        } else if (gameMode.hit(x, y) || gameModeValue.hit(x, y)) {
-            game.playType();
-            cycleGameMode();
         } else if (battle.hit(x, y) || battleValue.hit(x, y)) {
             game.playType();
             cycleBattle();
@@ -160,27 +135,11 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
 
     private MenuCtrl.MenuType tryLaunch()
     {
-        if (!game.config.gameModeImplemented()) {
-            notImplemented = true;
-            return MenuCtrl.MenuType.OK;
-        }
-
         game.config.gameId = game.db.getGameId(game.backend.getOpponentId(), game.config.battle.getId(), game.config.gameMode.i);
-        if (game.config.gameId != game.db.NO_RECORD) {
-            notImplemented = false;
+        if (game.config.gameId != game.db.NO_RECORD)
             return MenuCtrl.MenuType.OKKO;
-        }
 
         return MenuCtrl.MenuType.BEGIN;
-    }
-
-    private void cycleGameMode()
-    {
-        game.config.gameMode = game.config.gameMode.next();
-        float fx = gameModeValue.getX();
-        float fy = gameModeValue.getY();
-        gameModeValue.write(game.config.gameMode.s);
-        gameModeValue.setPosition(fx, fy);
     }
 
     private void cycleBattle()
@@ -196,15 +155,18 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
     }
 
     @Override
-    public MenuCtrl.MenuType prepare() { return MenuCtrl.MenuType.NEW_GAME; }
+    public MenuCtrl.MenuType prepare()
+    {
+        this.title.write(String.format("- New '%s' Game : ", game.config.gameMode.s));
+        computePosition();
+        return MenuCtrl.MenuType.NEW_GAME;
+    }
 
     @Override
     public void dispose()
     {
         super.dispose();
         title.dispose();
-        gameMode.dispose();
-        gameModeValue.dispose();
         objectives.dispose();
         objectivesPanel.dispose();
         battle.dispose();
@@ -221,8 +183,6 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         if (!visible) return;
         super.draw(batch);
         title.draw(batch);
-        gameMode.draw(batch);
-        gameModeValue.draw(batch);
         objectives.draw(batch);
         battle.draw(batch);
         battleValue.draw(batch);
