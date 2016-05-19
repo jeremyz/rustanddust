@@ -5,6 +5,7 @@ import ch.asynk.rustanddust.game.Hud;
 
 public enum Position
 {
+    ABSOLUTE,
     TOP_LEFT,
     TOP_RIGHT,
     TOP_CENTER,
