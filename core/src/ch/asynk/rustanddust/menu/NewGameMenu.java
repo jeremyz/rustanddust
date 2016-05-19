@@ -45,7 +45,7 @@ public class NewGameMenu extends Patch implements MenuCtrl.Panel
         if (game.config.battle == null)
             game.config.battle = game.factory.battles[0];
         for (int i = 0; i < game.factory.battles.length; i++) {
-            battleValue.write(game.config.battle.getName());
+            battleValue.write(game.factory.battles[i].getName());
             if (battleWidth < battleValue.getWidth())
                 battleWidth = battleValue.getWidth();
             if (game.config.battle == game.factory.battles[i])
