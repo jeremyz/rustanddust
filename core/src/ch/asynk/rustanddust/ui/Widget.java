@@ -73,6 +73,7 @@ public abstract class Widget implements Disposable, Drawable
     public void update()
     {
         float x, y;
+        if (position == Position.ABSOLUTE) return;
         if (parent == null) {
             x = position.getX(rect.width);
             y = position.getY(rect.height);
