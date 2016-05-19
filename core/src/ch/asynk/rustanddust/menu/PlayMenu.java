@@ -67,7 +67,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
     @Override
     public MenuCtrl.MenuType prepare()
     {
-        game.db.loadGames();
+        game.db.loadGames(game.config.gameMode.i);
         game.config.gameId = game.db.NO_RECORD;
 
         if (GameRecord.list.size() <= 0)
@@ -140,9 +140,11 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
             setConfig();
             return MenuCtrl.MenuType.RESUME;
         } else if (list.hit(x, y)) {
-            if (i != getList().getIdx())
+            if (i != getList().getIdx()) {
                 game.playType();
-            showBtns(getList().getIdx() != null);
+                GameRecord r = (GameRecord) getList().getSelected();
+                showBtns((r != null) && (r.canPlay()));
+            }
             return MenuCtrl.MenuType.NONE;
         }
 

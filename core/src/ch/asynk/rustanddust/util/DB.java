@@ -343,14 +343,14 @@ public class DB
     private static final String LOAD_BASE = "select g._id, g.mode, g.battle, g.opponent, g.turn, g.currentPlayer, g.ts, g.synched";
 
     private static final String LOAD_GAMES = LOAD_BASE + ", null, null, null, null, null, null, p.name, b.name"
-        + " from games g inner join players p on (p._id=g.opponent) inner join battles b on (b._id=g.battle);";
+        + " from games g inner join players p on (p._id=g.opponent) inner join battles b on (b._id=g.battle) where g.mode=%d;";
 
-    public void loadGames()
+    public void loadGames(int mode)
     {
         RustAndDust.debug("loadGames");
         GameRecord.clearList();
         try {
-            DatabaseCursor cursor = query(LOAD_GAMES);
+            DatabaseCursor cursor = query(String.format(LOAD_GAMES, mode));
             if (cursor.getCount() > 0) {
                 while(cursor.next()) {
                     GameRecord r = gameRecordFrom(cursor);
