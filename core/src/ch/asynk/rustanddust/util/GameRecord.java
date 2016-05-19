@@ -90,7 +90,7 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
     public String s()
     {
         if (s == null) {
-            if ((mode == GameMode.SOLO) || canPlay())
+            if (canPlay())
                 s = String.format("# %s - %s - %s - %s", mode.s, bName, oName, DateFormat.getDateInstance().format(ts));
             else {
                     s = String.format("  %s - %s - %s - %s", mode.s, bName, oName, DateFormat.getDateInstance().format(ts));
@@ -101,6 +101,6 @@ public class GameRecord implements List.ListElement, Disposable, Pool.Poolable
 
     public boolean canPlay()
     {
-        return (opponent != currentPlayer);
+        return ((mode == GameMode.SOLO) || (opponent != currentPlayer));
     }
 }
