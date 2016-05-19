@@ -194,7 +194,7 @@ public class Hud implements Disposable, Animation
         }
 
         if (dialogs.size() > 0) {
-            Widget dialog = dialogs.get(0);
+            Widget dialog = dialogs.getTop();
             if (dialog.hit(x, y)) {
                 closeDialog();
                 return true;
@@ -242,7 +242,7 @@ public class Hud implements Disposable, Animation
             game.playType();
 
         if (dialogs.size() > 0)
-            dialogs.get(0).visible = true;
+            dialogs.getTop().visible = true;
         else
             ctrl.blockMap = false;
     }
@@ -256,7 +256,7 @@ public class Hud implements Disposable, Animation
     private void delayOver()
     {
         delayOn = false;
-        Widget dialog = dialogs.get(0);
+        Widget dialog = dialogs.getTop();
         if (dialog == engagement)
             closeDialog();
     }
@@ -270,14 +270,14 @@ public class Hud implements Disposable, Animation
     {
         ctrl.blockMap = true;
         if (dialogs.size() != 0)
-            dialogs.get(0).visible = false;
+            dialogs.getTop().visible = false;
         dialogs.push(dialog);
     }
 
     private boolean toggleOptionsPanel()
     {
         if (dialogs.size() > 0) {
-            if (dialogs.get(0) != optionsPanel)
+            if (dialogs.getTop() != optionsPanel)
                 return false;
             optionsPanel.close();
             closeDialog();
