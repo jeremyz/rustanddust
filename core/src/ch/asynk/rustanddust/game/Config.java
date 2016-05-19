@@ -53,8 +53,8 @@ public class Config
     public enum GameMode
     {
         SOLO("Solo", 0),
-        PVE("Player vs AI", 1),
-        PVP("Player vs Player", 2);
+        PVP("Player vs Player", 1),
+        PVE("Player vs AI", 2);
         public String s;
         public int i;
         GameMode(String s, int i)
@@ -65,9 +65,9 @@ public class Config
         public GameMode next()
         {
             if (this == SOLO)
-                return PVE;
-            if (this == PVE)
                 return PVP;
+            if (this == PVP)
+                return PVE;
             return SOLO;
         }
         public static GameMode from(int i)
