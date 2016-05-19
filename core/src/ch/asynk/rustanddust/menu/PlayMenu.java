@@ -93,7 +93,7 @@ public class PlayMenu extends Patch implements MenuCtrl.Panel
         h += (2 * padding);
         h = Math.min(h, Gdx.graphics.getHeight() - 60);
 
-        float w = title.getWidth() + PADDING + gameModeWidth;
+        float w = title.getWidth() + PADDING + gameModeWidth + 5 + gameMode.getWidth();
         if (list.getWidth() > w) w = list.getWidth();
         if (list.getBestWidth() > w) w = list.getBestWidth();
         w += (2 * padding);
