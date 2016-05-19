@@ -38,6 +38,7 @@ public class List extends Widget
 
     public void unselect() { idx = null; }
     public Integer getIdx() { return idx; }
+    public ListElement getSelected() { return ((idx == null) ? null : items.get(idx)); }
 
     @Override
     public boolean hit(float x, float y)
