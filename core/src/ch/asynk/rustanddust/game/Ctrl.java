@@ -484,7 +484,7 @@ public abstract class Ctrl implements Disposable
             if (order.cost > 0)
                 battle.getPlayer().burnDownOneAp();
             hud.update();
-            blockEvents = 0.2f;
+            blockEvents = 0.3f;
             post(nextState);
             return;
         }
