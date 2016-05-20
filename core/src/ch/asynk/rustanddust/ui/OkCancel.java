@@ -71,6 +71,8 @@ public class OkCancel extends Patch
     @Override
     public boolean hit(float x, float y)
     {
+        if (!visible)
+            return false;
         if (!cancelBtn.visible && super.hit(x, y)) {
             ok = true;
             return true;
