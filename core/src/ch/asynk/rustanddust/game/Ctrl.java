@@ -502,11 +502,14 @@ public abstract class Ctrl implements Disposable
 
     private void checkPlayer(StateType nextState, boolean notify)
     {
-        if (battle.getPlayer().apExhausted()) {
+        Player p = battle.getPlayer();
+        if (!p.isDeploymentDone()) {
+            post(nextState);
+        } else if (p.apExhausted()) {
             if (notify)
                 hud.notify("No more Action Points", Position.MIDDLE_CENTER);
             postTurnDone();
-        } else if (!battle.getPlayer().canDoSomething()) {
+        } else if (!p.canDoSomething()) {
             if (notify)
                 hud.notify("No available Actions", Position.MIDDLE_CENTER);
             postTurnDone();
