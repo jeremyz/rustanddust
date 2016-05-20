@@ -1,5 +1,4 @@
 FIX:
-    - fix bug in Msg: changing position on stacked labels does not work
 
 TODO:
     - turret aiming sound
