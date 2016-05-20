@@ -167,6 +167,7 @@ public class InfantryFireAnimation implements Disposable, Animation, Pool.Poolab
             float x = (float) (x0 - (Math.cos(a) * w));
             float y = (float) (y0 - (Math.sin(a) * w));
 
+            shot.fireRegion.setRegion(FireAnimation.infantryFire.frames[0]);
             shot.set(delay, x0, y0, x, y, w, (float) Math.toDegrees(a));
 
             delay += SHOT_DELAY;
