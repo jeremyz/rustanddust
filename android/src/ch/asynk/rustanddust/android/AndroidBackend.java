@@ -34,6 +34,6 @@ public class AndroidBackend implements Backend
             me = game.db.storePlayerGetId(accounts[0].name.toString(), "myself");
         else
             me = game.db.storePlayerGetId("me", "myself");
-        opponent = game.db.storePlayerGetId("opponent", "other");
+        opponent = me;
     }
 }
