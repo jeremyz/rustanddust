@@ -11,7 +11,7 @@ DB_FILES="./android/assets/data/*.sqlite"
 
 function gradlew_do()
 {
-    echo "./gradlew $ARGS" && ./gradlew $ARGS
+    echo "./gradlew $ARGS" && ./gradlew $ARGS || exit 1
 }
 
 case "$1" in
