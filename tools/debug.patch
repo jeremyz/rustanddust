@@ -1,0 +1,35 @@
+diff --git a/android/AndroidManifest.xml b/android/AndroidManifest.xml
+index 4f5cbd9..8e67b0f 100644
+--- a/android/AndroidManifest.xml
++++ b/android/AndroidManifest.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="ch.asynk.rustanddust.android"
++    package="ch.asynk.rustanddust.androidDebug"
+     android:versionCode="31"
+     android:versionName="1.0.1" >
+ 
+diff --git a/android/build.gradle b/android/build.gradle
+index 39c7e94..a404a4c 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -63,5 +63,5 @@ task run(type: Exec) {
+     }
+ 
+     def adb = path + "/platform-tools/adb"
+-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'ch.asynk.rustanddust.android/ch.asynk.rustanddust.android.AndroidLauncher'
++    commandLine "$adb", 'shell', 'am', 'start', '-n', 'ch.asynk.rustanddust.androidDebug/ch.asynk.rustanddust.android.AndroidLauncher'
+ }
+diff --git a/android/res/values/strings.xml b/android/res/values/strings.xml
+index a384f6e..a4dab23 100644
+--- a/android/res/values/strings.xml
++++ b/android/res/values/strings.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+ 
+-    <string name="app_name">RustAndDust</string>
++    <string name="app_name">DEBUG</string>
+ 
+ </resources>
