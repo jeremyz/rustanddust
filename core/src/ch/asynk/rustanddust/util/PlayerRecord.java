@@ -78,6 +78,12 @@ public class PlayerRecord implements List.ListElement, Disposable, Pool.Poolable
         return s;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("%s - %s", name , email);
+    }
+
     public boolean hasEmail()
     {
         return (this.email != null && !this.email.isEmpty());
