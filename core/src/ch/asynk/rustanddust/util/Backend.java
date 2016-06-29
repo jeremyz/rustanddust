@@ -4,7 +4,7 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public interface Backend
 {
-    public void init(RustAndDust game);
+    public void init(final RustAndDust game);
 
     public int getMyId();
 

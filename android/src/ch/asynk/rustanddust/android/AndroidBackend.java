@@ -24,7 +24,7 @@ public class AndroidBackend implements Backend
     public int getOpponentId() { return opponent; }
 
     @Override
-    public void init(RustAndDust game)
+    public void init(final RustAndDust game)
     {
         AccountManager aMgr = (AccountManager) app.getSystemService(Context.ACCOUNT_SERVICE);
         Account[] accounts = aMgr.getAccountsByType("com.google");

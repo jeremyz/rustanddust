@@ -15,7 +15,7 @@ public class DesktopBackend implements Backend
     public int getMyId() { return me; }
     public int getOpponentId() { return opponent; }
 
-    public void init(RustAndDust game)
+    public void init(final RustAndDust game)
     {
         me = game.db.storePlayerGetId("me", "myself");
         opponent = me;
