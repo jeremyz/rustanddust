@@ -11,6 +11,7 @@ public abstract class HeadedPawn extends Pawn
     private Sprite turret;
     private Sprite body;
     private float turretR;
+    private boolean canAim;
     protected Orientation orientation;
 
     protected HeadedPawn()
@@ -27,6 +28,7 @@ public abstract class HeadedPawn extends Pawn
         this.turretR = 0f;
         this.orientation = Orientation.KEEP;
         this.descr += " " + orientation;
+        this.canAim = (turret != null);
     }
 
     @Override
@@ -38,7 +40,7 @@ public abstract class HeadedPawn extends Pawn
     @Override
     public boolean canAim()
     {
-        return (turret != null);
+        return canAim;
     }
 
     @Override
@@ -46,7 +48,7 @@ public abstract class HeadedPawn extends Pawn
     {
         super.setAlpha(alpha);
         body.setAlpha(alpha);
-        if (canAim()) turret.setAlpha(alpha);
+        if (canAim) turret.setAlpha(alpha);
     }
 
     @Override
@@ -74,7 +76,7 @@ public abstract class HeadedPawn extends Pawn
         float cx = x + (getWidth() / 2f);
         float cy = y + (getHeight() / 2f);
         body.setPosition((cx - (body.getWidth() / 2f)), (cy - (body.getHeight() / 2f)));
-        if (canAim()) turret.setPosition((cx - (turret.getWidth() / 2f)), (cy - (turret.getHeight() / 2f)));
+        if (canAim) turret.setPosition((cx - (turret.getWidth() / 2f)), (cy - (turret.getHeight() / 2f)));
     }
 
     @Override
@@ -82,14 +84,14 @@ public abstract class HeadedPawn extends Pawn
     {
         getPosition().z = z;
         body.setRotation(z);
-        if (canAim()) turret.setRotation(z + turretR);
+        if (canAim) turret.setRotation(z + turretR);
         this.orientation = Orientation.fromRotation(z);
     }
 
     @Override
     public void aimAt(float r)
     {
-        if (canAim())
+        if (canAim)
             turret.setRotation(body.getRotation() + r);
         else {
             float d = (r - turretR);
@@ -110,7 +112,7 @@ public abstract class HeadedPawn extends Pawn
     {
         sprite.draw(batch);
         body.draw(batch);
-        if (canAim()) turret.draw(batch);
+        if (canAim) turret.draw(batch);
         overlays.draw(batch);
     }
 
@@ -123,7 +125,7 @@ public abstract class HeadedPawn extends Pawn
         w = body.getWidth();
         h = body.getHeight();
         debugShapes.rect(body.getX(), body.getY(), (w / 2f), (h / 2f), w, h, body.getScaleX(), body.getScaleY(), body.getRotation());
-        if (canAim()) {
+        if (canAim) {
             w = turret.getWidth();
             h = turret.getHeight();
             debugShapes.rect(turret.getX(), turret.getY(), (w / 2f), (h / 2f), w, h, turret.getScaleX(), turret.getScaleY(), turret.getRotation());
