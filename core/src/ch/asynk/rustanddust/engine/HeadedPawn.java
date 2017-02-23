@@ -12,6 +12,8 @@ public abstract class HeadedPawn extends Pawn
     private Sprite body;
     private float turretR;
     private boolean canAim;
+    private boolean selectable;
+    private boolean selected;
     protected Orientation orientation;
 
     protected HeadedPawn()
@@ -20,7 +22,7 @@ public abstract class HeadedPawn extends Pawn
         this.orientation = Orientation.KEEP;
     }
 
-    public HeadedPawn(Faction faction, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
+    public HeadedPawn(Faction faction, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays, boolean selectable)
     {
         super(faction, chit, overlays);
         this.body = new Sprite(body);
@@ -29,6 +31,14 @@ public abstract class HeadedPawn extends Pawn
         this.orientation = Orientation.KEEP;
         this.descr += " " + orientation;
         this.canAim = (turret != null);
+        this.selectable = selectable;
+        this.selected = !selectable;
+    }
+
+    public void select(boolean s)
+    {
+        if (!selectable) return;
+        this.selected = s;
     }
 
     @Override
@@ -110,10 +120,10 @@ public abstract class HeadedPawn extends Pawn
     @Override
     public void draw(Batch batch)
     {
-        sprite.draw(batch);
+        if (selected) sprite.draw(batch);
         body.draw(batch);
         if (canAim) turret.draw(batch);
-        overlays.draw(batch);
+        if (selected) overlays.draw(batch);
     }
 
     @Override
@@ -121,7 +131,7 @@ public abstract class HeadedPawn extends Pawn
     {
         float w = sprite.getWidth();
         float h = sprite.getHeight();
-        debugShapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
+        if (selected) debugShapes.rect(sprite.getX(), sprite.getY(), (w / 2f), (h / 2f), w, h, sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
         w = body.getWidth();
         h = body.getHeight();
         debugShapes.rect(body.getX(), body.getY(), (w / 2f), (h / 2f), w, h, body.getScaleX(), body.getScaleY(), body.getRotation());
@@ -130,6 +140,6 @@ public abstract class HeadedPawn extends Pawn
             h = turret.getHeight();
             debugShapes.rect(turret.getX(), turret.getY(), (w / 2f), (h / 2f), w, h, turret.getScaleX(), turret.getScaleY(), turret.getRotation());
         }
-        overlays.drawDebug(debugShapes);
+        if (selected) overlays.drawDebug(debugShapes);
     }
 }

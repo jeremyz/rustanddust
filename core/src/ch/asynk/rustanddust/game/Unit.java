@@ -83,9 +83,9 @@ public class Unit extends HeadedPawn
     public Zone entryZone;
     public Zone exitZone;
 
-    protected Unit(Army army, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
+    protected Unit(Army army, AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays, boolean selectable)
     {
-        super(army, chit, body, turret, overlays);
+        super(army, chit, body, turret, overlays, selectable);
         hq = false;
         ace = false;
         if (!blockId) {
@@ -117,9 +117,9 @@ public class Unit extends HeadedPawn
     }
 
     public Unit(Army army, UnitCode code, UnitType type, boolean hq, boolean ace, int range, int defense, int concealedDefense, int movementPoints,
-            AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays)
+            AtlasRegion chit, AtlasRegion body, AtlasRegion turret, TextureAtlas overlays, boolean selectable)
     {
-        this(army, chit, body, turret, overlays);
+        this(army, chit, body, turret, overlays, selectable);
         this.hq = hq;
         this.ace = ace;
         this.rng = range;

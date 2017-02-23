@@ -176,7 +176,8 @@ public class Factory implements Board.TileBuilder, Disposable
 
     private Unit buildUnit(Army army, UnitCode code, UnitType ut, boolean hq, boolean ace, int a, int d, int cd, int m, String chit)
     {
-        return new Unit(army, code, ut, hq, ace, a, d, cd, m, getUnitRegion(chit), getBody(army, chit), getTurret(army, chit), unitOverlaysAtlas);
+        boolean selectable = (game.config.graphics == Config.Graphics.TANKS);
+        return new Unit(army, code, ut, hq, ace, a, d, cd, m, getUnitRegion(chit), getBody(army, chit), getTurret(army, chit), unitOverlaysAtlas, selectable);
     }
 
     private AtlasRegion getBody(Army army, String chit)
