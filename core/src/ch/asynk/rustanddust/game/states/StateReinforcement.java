@@ -15,9 +15,9 @@ public class StateReinforcement extends StateCommon
         map.clearMoves();
         map.clearUnits();
         entryZone = null;
-        activeUnit = null;
+        activate(null);
         selectedHex = null;
-        selectedUnit = null;
+        select(null);
         ctrl.hud.playerInfo.unitDock.show();
     }
 
@@ -38,12 +38,12 @@ public class StateReinforcement extends StateCommon
     public void touch(Hex hex)
     {
         if ((entryZone != null) && hex.isEmpty() && entryZone.contains(hex))
-            unitEnter(selectedUnit, hex);
+            unitEnter(selectedUnit(), hex);
     }
 
     private void showEntryZone(Unit unit)
     {
-        selectedUnit = unit;
+        select(unit);
         if (entryZone != null)
             entryZone.enable(Hex.AREA, false);
         entryZone = unit.entryZone;
@@ -52,7 +52,7 @@ public class StateReinforcement extends StateCommon
 
     private void unitEnter(Unit unit, Hex hex)
     {
-        activeUnit = unit;
+        activate(unit);
         selectedHex = hex;
         map.enterBoard(unit, hex, entryZone);
         entryZone.enable(Hex.AREA, false);

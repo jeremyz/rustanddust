@@ -31,7 +31,7 @@ public class StateReplay extends StateCommon
         switch (order.type)
         {
             case MOVE:
-                selectedUnit = order.leader;
+                select(order.leader);
                 break;
             case ENGAGE:
                 to = order.engagement.defender.getHex();

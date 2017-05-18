@@ -42,7 +42,7 @@ public class StateSelect extends StateCommon
     {
         Unit unit = hex.getUnit();
 
-        if (!isEnemy && (selectedUnit != null)) {
+        if (!isEnemy && (selectedUnit() != null)) {
             if (map.movesContains(hex)) {
                 // quick move
                 to = hex;
@@ -52,7 +52,7 @@ public class StateSelect extends StateCommon
             if (map.unitsTargetContains(unit)) {
                 // quick fire
                 to = hex;
-                activeUnit = unit;
+                activate(unit);
                 changeTo(StateType.ENGAGE);
                 return;
             }
@@ -61,13 +61,13 @@ public class StateSelect extends StateCommon
         hide();
 
         if ((unit == null) || hex.isOffMap()) {
-            selectedUnit = null;
+            select(null);
             return;
         }
 
         isEnemy = ctrl.battle.getPlayer().isEnemy(unit);
 
-        if (!isEnemy && (selectedUnit == unit) && unit.canMove()) {
+        if (!isEnemy && (selectedUnit() == unit) && unit.canMove()) {
             if (unit.isHq() && (map.unitsActivableSize() > 1)) {
                 ctrl.hud.notify("HQ activation", Position.MIDDLE_CENTER);
                 to = null;
@@ -76,34 +76,34 @@ public class StateSelect extends StateCommon
             changeTo(StateType.MOVE);
         } else {
             select(hex, unit);
-            ctrl.hud.notify(selectedUnit.toString());
+            ctrl.hud.notify(selectedUnit().toString());
         }
     }
 
     private void select(Hex hex, Unit unit)
     {
         selectedHex = hex;
-        selectedUnit = unit;
-        RustAndDust.debug(String.format("  %s - %s", selectedUnit, selectedHex));
+        select(unit);
+        RustAndDust.debug(String.format("  %s - %s", selectedUnit(), selectedHex));
 
         map.hexSelect(selectedHex);
 
         if (isEnemy && !cfg.showEnemyPossibilities)
             return;
 
-        if(map.movesCollect(selectedUnit) > 0) {
-            map.collectMoveable(selectedUnit);
+        if(map.movesCollect(selectedUnit()) > 0) {
+            map.collectMoveable(selectedUnit());
             if (cfg.showMoves) map.movesShow();
             if (cfg.showMoveAssists) map.unitsActivableShow();
             unit.hideActiveable();
         }
 
-        if (map.collectTargets(selectedUnit, (isEnemy ? ctrl.battle.getPlayer() : ctrl.battle.getOpponent()).units) > 0) {
+        if (map.collectTargets(selectedUnit(), (isEnemy ? ctrl.battle.getPlayer() : ctrl.battle.getOpponent()).units) > 0) {
             if (cfg.showTargets) map.unitsTargetShow();
             unit.hideActiveable();
         }
 
-        ctrl.hud.actionButtons.show((ctrl.battle.getPlayer().canPromote(selectedUnit)) ? Buttons.PROMOTE.b : 0 );
+        ctrl.hud.actionButtons.show((ctrl.battle.getPlayer().canPromote(selectedUnit())) ? Buttons.PROMOTE.b : 0 );
     }
 
     private void changeTo(StateType nextState)
@@ -130,7 +130,7 @@ public class StateSelect extends StateCommon
         to = null;
         isEnemy = false;
         selectedHex = null;
-        selectedUnit = null;
-        activeUnit = null;
+        select(null);
+        activate(null);
     }
 }

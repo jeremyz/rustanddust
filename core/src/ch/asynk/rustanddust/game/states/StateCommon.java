@@ -18,8 +18,30 @@ public abstract class StateCommon implements State
     protected static Hex selectedHex = null;
     protected static Hex to = null;
 
-    protected static Unit activeUnit;
-    protected static Unit selectedUnit;
+    private static Unit activeUnit;
+    private static Unit selectedUnit;
+
+    private void select(Unit u, boolean s)
+    {
+        if (u != null)
+            u.select(s);
+    }
+
+    public void select(Unit unit)
+    {
+        select(selectedUnit, false);
+        selectedUnit = unit;
+        select(selectedUnit, true);
+    }
+    public Unit selectedUnit() { return selectedUnit; }
+
+    public void activate(Unit unit)
+    {
+        select(activeUnit, false);
+        activeUnit = unit;
+        select(activeUnit, true);
+    }
+    public Unit activeUnit() { return activeUnit; }
 
     public static void set(RustAndDust game)
     {

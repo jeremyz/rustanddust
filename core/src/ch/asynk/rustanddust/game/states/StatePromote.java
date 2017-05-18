@@ -5,6 +5,6 @@ public class StatePromote extends StateCommon
     @Override
     public void enterFrom(StateType prevState)
     {
-        ctrl.postOrder(map.getPromoteOrder(selectedUnit));
+        ctrl.postOrder(map.getPromoteOrder(selectedUnit()));
     }
 }

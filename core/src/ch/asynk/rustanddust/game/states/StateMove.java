@@ -34,8 +34,8 @@ public class StateMove extends StateCommon
         map.pathsClear();
         if (prevState == StateType.SELECT) {
             map.hexSelect(selectedHex);
-            map.pathsInit(selectedUnit);
-            activeUnit = selectedUnit;
+            map.pathsInit(selectedUnit());
+            activate(selectedUnit());
             if (to == null) {
                 hqMode = true;
                 map.movesShow();
@@ -45,9 +45,9 @@ public class StateMove extends StateCommon
         } else if (prevState == StateType.REINFORCEMENT) {
             enter = true;
             map.hexSelect(selectedHex);
-            map.pathsInit(selectedUnit);
-            if (selectedUnit.getMovementPoints() > 0) {
-                map.movesCollect(selectedUnit);
+            map.pathsInit(selectedUnit());
+            if (selectedUnit().getMovementPoints() > 0) {
+                map.movesCollect(selectedUnit());
                 map.movesShow();
             } else {
                 to = selectedHex;
@@ -61,7 +61,7 @@ public class StateMove extends StateCommon
 
         if (hqMode)
             map.unitsActivableShow();
-        activeUnit.hideActiveable();
+        activeUnit().hideActiveable();
         int n = (notFirst ? Buttons.DONE.b : 0);
         n |= (enter ? Buttons.ABORT.b : 0);
         ctrl.hud.actionButtons.show(n);
@@ -107,18 +107,18 @@ public class StateMove extends StateCommon
                 Orientation o = Orientation.fromAdj(to, hex);
                 if (o != Orientation.KEEP)
                     move(o);
-                else if (hex == activeUnit.getHex())
+                else if (hex == activeUnit().getHex())
                     abortMove();
             }
             return;
          }
 
-        if (hex == activeUnit.getHex()) {
+        if (hex == activeUnit().getHex()) {
             if (to != null)
                 map.pathHide(to);
             map.pathsHide();
             map.pathsClear();
-            map.pathsInit(activeUnit);
+            map.pathsInit(activeUnit());
             collectPaths(hex);
             return;
         }
@@ -128,7 +128,7 @@ public class StateMove extends StateCommon
         Unit unit = hex.getUnit();
 
         if (map.unitsActivableContains(unit)) {
-            if (unit != activeUnit)
+            if (unit != activeUnit())
                 selectUnit(unit);
         } else if ((s == 0) && map.movesContains(hex)) {
             collectPaths(hex);
@@ -143,8 +143,8 @@ public class StateMove extends StateCommon
 
     private void selectNextUnit()
     {
-        if (selectedUnit.canMove())
-            selectUnit(selectedUnit);
+        if (selectedUnit().canMove())
+            selectUnit(selectedUnit());
         else
             selectUnit(map.getFirstActivable());
     }
@@ -152,21 +152,21 @@ public class StateMove extends StateCommon
     private void selectUnit(Unit unit)
     {
         state = State.SHOW;
-        if (activeUnit != null ) {
-            map.hexUnselect(activeUnit.getHex());
-            if (activeUnit.canMove())
-                activeUnit.showActiveable();
+        if (activeUnit() != null ) {
+            map.hexUnselect(activeUnit().getHex());
+            if (activeUnit().canMove())
+                activeUnit().showActiveable();
         }
         to = null;
-        activeUnit = unit;
-        activeUnit.hideActiveable();
-        map.hexSelect(activeUnit.getHex());
+        activate(unit);
+        activeUnit().hideActiveable();
+        map.hexSelect(activeUnit().getHex());
         map.pathsClear();
-        map.pathsInit(activeUnit);
+        map.pathsInit(activeUnit());
         map.movesHide();
-        map.movesCollect(activeUnit);
+        map.movesCollect(activeUnit());
         map.movesShow();
-        ctrl.hud.notify(activeUnit.toString());
+        ctrl.hud.notify(activeUnit().toString());
     }
 
     private void collectPaths(Hex hex)
@@ -203,15 +203,15 @@ public class StateMove extends StateCommon
     {
         if (enter)
             return false;
-        if ((activeUnit.exitZone == null) || !activeUnit.exitZone.contains(hex))
+        if ((activeUnit().exitZone == null) || !activeUnit().exitZone.contains(hex))
             return false;
 
         int s = map.pathsBuild(to);
 
-        if (!map.pathsCanExit(activeUnit.exitZone.orientation))
+        if (!map.pathsCanExit(activeUnit().exitZone.orientation))
             return false;
 
-        if (map.pathsChooseExit(activeUnit.exitZone.orientation) > 1)
+        if (map.pathsChooseExit(activeUnit().exitZone.orientation) > 1)
             throw new RuntimeException(String.format("pathsChooseExit() -> %d", map.pathsSize()));
         map.pathShow(hex);
 
@@ -234,20 +234,20 @@ public class StateMove extends StateCommon
     {
         map.pathsSetOrientation(o);
         if (enter)
-            completeMove(map.getEnterOrder(selectedUnit, hqMode));
+            completeMove(map.getEnterOrder(selectedUnit(), hqMode));
         else
-            completeMove(map.getMoveOrder(selectedUnit, hqMode));
+            completeMove(map.getMoveOrder(selectedUnit(), hqMode));
     }
 
     private void exit()
     {
         if (map.pathsTo() == null) {
             map.pathsBuild(to);
-            if (map.pathsChooseExit(activeUnit.exitZone.orientation) > 1)
+            if (map.pathsChooseExit(activeUnit().exitZone.orientation) > 1)
                 throw new RuntimeException(String.format("pathsChooseExit() -> %d", map.pathsSize()));
         }
 
-        completeMove(map.getExitOrder(selectedUnit, hqMode));
+        completeMove(map.getExitOrder(selectedUnit(), hqMode));
     }
 
     private void completeMove(Order order)
@@ -263,8 +263,8 @@ public class StateMove extends StateCommon
 
     private void endHqMode()
     {
-        if (selectedUnit.canMove())
-            selectedUnit.setMoved();
+        if (selectedUnit().canMove())
+            selectedUnit().setMoved();
         clear();
         ctrl.postOrder(Order.END);
     }
@@ -272,8 +272,8 @@ public class StateMove extends StateCommon
     private void abortMove()
     {
         if (enter) {
-            map.revertEnter(activeUnit);
-            ctrl.battle.getPlayer().revertUnitEntry(activeUnit);
+            map.revertEnter(activeUnit());
+            ctrl.battle.getPlayer().revertUnitEntry(activeUnit());
             ctrl.hud.update();
         }
         clear();
@@ -283,7 +283,7 @@ public class StateMove extends StateCommon
             //     map.revertMoves();
             //     ctrl.postTransitionToAborted();
             // } else {
-                selectUnit(activeUnit);
+                selectUnit(activeUnit());
                 abortCompleted();
             // }
         }
@@ -308,7 +308,7 @@ public class StateMove extends StateCommon
     {
         if (hqMode)
             map.unitsActivableShow();
-        activeUnit.hideActiveable();
+        activeUnit().hideActiveable();
         ctrl.hud.actionButtons.show((notFirst ? Buttons.DONE.b : 0));
     }
 
@@ -317,8 +317,8 @@ public class StateMove extends StateCommon
         state = State.SHOW;
         map.movesHide();
         map.pathsHide();
-        activeUnit.hideActiveable();
-        map.hexUnselect(activeUnit.getHex());
+        activeUnit().hideActiveable();
+        map.hexUnselect(activeUnit().getHex());
         map.unitsActivableHide();
         if (to != null) {
             map.pathHide(to);

@@ -20,15 +20,15 @@ public class StateEngage extends StateCommon
     {
         if (prevState == StateType.SELECT) {
             breakMove = false;
-            if ((to != null) && (activeUnit != null)) {
+            if ((to != null) && (activeUnit() != null)) {
                 // quick fire
-                selectTarget(activeUnit, to);
+                selectTarget(activeUnit(), to);
             }
-            selectedUnit.showAttack();
+            selectedUnit().showAttack();
             map.hexSelect(selectedHex);
         } else {
             breakMove = true;
-            activeUnit = null;
+            activate(null);
             ctrl.hud.actionButtons.show(Buttons.DONE.b);
             ctrl.hud.notify("Break Through possible", Position.MIDDLE_CENTER);
             map.unitsActivableShow();
@@ -56,16 +56,16 @@ public class StateEngage extends StateCommon
         Unit unit = hex.getUnit();
 
         if (!breakMove) {
-            if (unit == selectedUnit)
+            if (unit == selectedUnit())
                 abort();
-            else if ((activeUnit == null) && map.unitsTargetContains(unit))
+            else if ((activeUnit() == null) && map.unitsTargetContains(unit))
                 selectTarget(unit, hex);
-            else if (unit == activeUnit)
+            else if (unit == activeUnit())
                 engage();
-            else if ((activeUnit != null) && map.unitsActivableContains(unit))
+            else if ((activeUnit() != null) && map.unitsActivableContains(unit))
                 map.toggleAssist(unit);
         } else {
-            if (activeUnit == null) {
+            if (activeUnit() == null) {
                 if (map.unitsActivableContains(unit))
                     selectBreakUnit(unit);
             } else {
@@ -82,20 +82,20 @@ public class StateEngage extends StateCommon
     private void selectTarget(Unit unit, Hex hex)
     {
         to = hex;
-        activeUnit = unit;
+        activate(unit);
         map.unitsTargetHide();
-        activeUnit.showTarget();
-        map.collectAssists(selectedUnit, activeUnit, ctrl.battle.getPlayer().units);
+        activeUnit().showTarget();
+        map.collectAssists(selectedUnit(), activeUnit(), ctrl.battle.getPlayer().units);
         map.unitsAssistShow();
     }
 
     private void engage()
     {
-        activeUnit.hideTarget();
-        selectedUnit.hideAttack();
+        activeUnit().hideTarget();
+        selectedUnit().hideAttack();
         map.unitsAssistHide();
         map.hexUnselect(selectedHex);
-        Order order = map.getEngageOrder(selectedUnit, activeUnit);
+        Order order = map.getEngageOrder(selectedUnit(), activeUnit());
 
         if (order.cost == 0)
             ctrl.postOrder(order, StateType.ENGAGE);
@@ -109,8 +109,8 @@ public class StateEngage extends StateCommon
     {
         map.unitsAssistHide();
         map.unitsTargetHide();
-        activeUnit.hideTarget();
-        selectedUnit.hideAttack();
+        activeUnit().hideTarget();
+        selectedUnit().hideAttack();
         map.hexUnselect(selectedHex);
         map.unitsActivatedClear();
         ctrl.postActionAborted();
@@ -118,7 +118,7 @@ public class StateEngage extends StateCommon
 
     private void selectBreakUnit(Unit unit)
     {
-        activeUnit = unit;
+        activate(unit);
         map.hexMoveShow(to);
         map.hexMoveShow(unit.getHex());
         map.hexDirectionsShow(to);
@@ -128,27 +128,27 @@ public class StateEngage extends StateCommon
     private void unselectBreakUnit()
     {
         map.hexMoveHide(to);
-        map.hexMoveHide(activeUnit.getHex());
+        map.hexMoveHide(activeUnit().getHex());
         map.hexDirectionsHide(to);
         map.unitsActivableShow();
-        activeUnit = null;
+        activate(null);
     }
 
     private void doBreakMove(Orientation o)
     {
         map.hexMoveHide(to);
-        map.hexMoveHide(activeUnit.getHex());
+        map.hexMoveHide(activeUnit().getHex());
         map.hexDirectionsHide(to);
-        map.pathsInit(activeUnit);
+        map.pathsInit(activeUnit());
         map.pathsBuildShortest(to);
         map.pathsSetOrientation(o);
-        ctrl.postOrder(map.getMoveOrder(activeUnit, false));
+        ctrl.postOrder(map.getMoveOrder(activeUnit(), false));
     }
 
     private void abortBreakMove()
     {
-        if (activeUnit != null)
-            map.hexMoveHide(activeUnit.getHex());
+        if (activeUnit() != null)
+            map.hexMoveHide(activeUnit().getHex());
         map.hexMoveHide(to);
         map.hexDirectionsHide(to);
         map.unitsActivableHide();
