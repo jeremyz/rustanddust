@@ -23,6 +23,10 @@ case "$1" in
     "a")
         shift;
         ARGS="android:installDebug android:run $@"
+        echo "Build Tool : $(pacman -Qi android-sdk-build-tools | sed -n 's/Version\s\+:\s\+r\(.*\)/\1/p')"
+        echo "SDK        : $(pacman -Qi android-sdk-platform-tools | sed -n 's/Version\s\+:\s\+\(.*\)/\1/p')"
+        cat android/build.gradle | grep buildToolsVersion
+        cat android/build.gradle | grep compileSdkVersion
         gradlew_do
         echo "on failure: sudo adb kill-server; (sudo adb start-server;) sudo adb devices"
         echo "  adb logcat RustAndDust:D *:S"
