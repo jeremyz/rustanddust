@@ -24,7 +24,9 @@ www-test/
 ## Android Studio and Intellij and Android in general
 android/libs/armeabi/
 android/libs/armeabi-v7a/
+android/libs/arm64-v8a/
 android/libs/x86/
+android/libs/x86_64/
 android/gen/
 android/**/*.sqlite
 .idea/

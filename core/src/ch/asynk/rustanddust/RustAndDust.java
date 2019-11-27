@@ -23,7 +23,7 @@ import ch.asynk.rustanddust.ui.Bg;
 
 public class RustAndDust extends Game
 {
-    public static final String VERSION = "v31";
+    public static final String VERSION = "v35";
 
     public static final String BG_PATCH = "bg";
     public static final String FRAME_PATCH = "frame";

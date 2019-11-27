@@ -5,9 +5,11 @@ ARGS="desktop:run"
 ALIAS=jeyzu
 KEYSTORE="/home/jeyzu/etc/sync/jeyzu-key.keystore"
 APK="./android/build/apk/android-release-unsigned.apk"
-ZIPALIGN="/opt/android-sdk/build-tools/23.0.3/zipalign"
+ZIPALIGN="/opt/android-sdk/build-tools/28.0.3/zipalign"
 APK_OUT="./RustAndDust-signed-aligned.apk"
 DB_FILES="./android/assets/data/*.sqlite"
+
+export ANDROID_HOME=/opt/android-sdk
 
 function gradlew_do()
 {
