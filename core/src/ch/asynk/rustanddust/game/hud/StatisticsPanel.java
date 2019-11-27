@@ -13,7 +13,7 @@ import ch.asynk.rustanddust.ui.Position;
 
 public class StatisticsPanel extends Patch
 {
-    public static int PADDING = 20;
+    public static int PADDING = 60;
     public static int VSPACING = 10;
     public static int HSPACING = 10;
 

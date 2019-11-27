@@ -11,7 +11,7 @@ import ch.asynk.rustanddust.game.Battle;
 
 public class ObjectivesPanel extends Patch
 {
-    public static int PADDING = 30;
+    public static int PADDING = 60;
     public static int TITLE_PADDING = 5;
     public static int LABEL_PADDING = 10;
 

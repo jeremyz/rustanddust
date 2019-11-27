@@ -9,9 +9,9 @@ import ch.asynk.rustanddust.game.Config;
 
 public class ResumeMenu extends Patch implements MenuCtrl.Panel
 {
-    private static final int PADDING = 40;
-    private static final int VSPACING = 8;
-    private static final int TITLE_SPACING = 12;
+    private static final int PADDING = 60;
+    private static final int VSPACING = 20;
+    private static final int TITLE_SPACING = 30;
 
     enum Item
     {

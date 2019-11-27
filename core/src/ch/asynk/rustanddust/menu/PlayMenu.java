@@ -15,7 +15,7 @@ import ch.asynk.rustanddust.util.GameRecord;
 
 public class PlayMenu extends Patch implements MenuCtrl.Panel
 {
-    public static int PADDING = 40;
+    public static int PADDING = 60;
     public static int TITLE_PADDING = 30;
 
     private final RustAndDust game;

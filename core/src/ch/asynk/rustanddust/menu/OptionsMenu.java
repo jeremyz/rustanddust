@@ -12,11 +12,12 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public class OptionsMenu extends Patch implements MenuCtrl.Panel
 {
-    public static int PADDING = 30;
-    public static int OPT_PADDING = 10;
-    public static int TITLE_PADDING = 10;
+    public static int PADDING = 60;
+    public static int OPT_PADDING = 20;
+    public static int TITLE_PADDING = 20;
     public static int LABEL_PADDING = 10;
-    public static int HSPACING = 30;
+    public static int HSPACING = 40;
+    public static int VSPACING = 20;
     public static String CHECK = "#";
 
     private final RustAndDust game;
@@ -114,6 +115,8 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
             h += checkLabels[i].getHeight();
         h += graphics.getHeight();
         h += fxVolume.getHeight();
+        h += (VSPACING * (checkLabels.length - 1));
+        h += VSPACING * 2;
 
         float w = title.getWidth();
         for (int i = 0; i < checkLabels.length; i++) {
@@ -135,13 +138,13 @@ public class OptionsMenu extends Patch implements MenuCtrl.Panel
 
         graphics.setPosition(x, y);
         graphicsValue.setPosition((x + graphics.getWidth() + OPT_PADDING), y);
-        y += graphics.getHeight();
+        y += graphics.getHeight() + VSPACING;
         fxVolume.setPosition(x, y);
         fxVolumeValue.setPosition((x + fxVolume.getWidth() + OPT_PADDING), y);
-        y += fxVolume.getHeight();
+        y += fxVolume.getHeight() + VSPACING;
         for (int i = 0; i < checkLabels.length; i++) {
             checkLabels[i].setPosition(x, y);
-            y += checkLabels[i].getHeight();
+            y += checkLabels[i].getHeight() + VSPACING;
         }
         y += TITLE_PADDING;
         x -= PADDING;

@@ -8,8 +8,8 @@ import ch.asynk.rustanddust.RustAndDust;
 
 public class MainMenu extends Patch implements MenuCtrl.Panel
 {
-    private static final int PADDING = 40;
-    private static final int VSPACING = 8;
+    private static final int PADDING = 60;
+    private static final int VSPACING = 40;
 
     enum Item
     {

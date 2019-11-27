@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class OkCancel extends Patch
 {
-    public static int PADDING = 20;
+    public static int PADDING = 60;
     public static int VSPACING = 10;
     public static int HSPACING = 10;
 

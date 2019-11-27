@@ -10,7 +10,7 @@ import ch.asynk.rustanddust.game.hud.ObjectivesPanel;
 
 public class NewGameMenu extends Patch implements MenuCtrl.Panel
 {
-    public static int PADDING = 50;
+    public static int PADDING = 60;
     public static int TITLE_PADDING = 35;
     public static int VSPACING = 30;
 

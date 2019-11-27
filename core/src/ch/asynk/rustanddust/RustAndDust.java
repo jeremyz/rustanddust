@@ -242,7 +242,7 @@ public class RustAndDust extends Game
 
         float h = Gdx.graphics.getHeight();
         Bg.setScale(Math.max((h * 0.00125f), 1.0f));
-        parameter.size = Math.max((int) (h * 0.04f), 16);
+        parameter.size = Math.max((int) (h * 0.06f), 16);
         parameter.color = Color.BLACK;
         font = generator.generateFont(parameter);
         bgPatch = uiAtlas.createPatch(BG_PATCH);
