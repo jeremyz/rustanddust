@@ -29,48 +29,48 @@ public class AndroidBackend implements Backend
     public int getMyId() { return me; }
     public int getOpponentId() { return opponent; }
 
-    private void updateUsers(final RustAndDust game)
-    {
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                Cursor ccs = app.getContentResolver().query(
-                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                        new String[] {
-                            ContactsContract.Data.DISPLAY_NAME,
-                            ContactsContract.CommonDataKinds.Email.DATA1,
-                        },
-                        ContactsContract.CommonDataKinds.Email.DATA1 + " like '%gmail.com' and " + ContactsContract.CommonDataKinds.Email.DATA3 + " like 'Rustanddust'",
-                        null, null);
+    // private void updateUsers(final RustAndDust game)
+    // {
+    //     new Thread( new Runnable() {
+    //         @Override
+    //         public void run() {
+    //             Cursor ccs = app.getContentResolver().query(
+    //                     ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+    //                     new String[] {
+    //                         ContactsContract.Data.DISPLAY_NAME,
+    //                         ContactsContract.CommonDataKinds.Email.DATA1,
+    //                     },
+    //                     ContactsContract.CommonDataKinds.Email.DATA1 + " like '%gmail.com' and " + ContactsContract.CommonDataKinds.Email.DATA3 + " like 'Rustanddust'",
+    //                     null, null);
 
-                if (ccs == null) {
-                    RustAndDust.debug("No Contacts found");
-                    return;
-                }
+    //             if (ccs == null) {
+    //                 RustAndDust.debug("No Contacts found");
+    //                 return;
+    //             }
 
-                PlayerRecord.clearList();
-                RustAndDust.debug("Contacts :");
-                while (ccs.moveToNext()) {
-                    PlayerRecord r = PlayerRecord.get();
-                    r.name = ccs.getString(0);
-                    r.email = ccs.getString(1);
-                    PlayerRecord.list.add(r);
-                    RustAndDust.debug( "  " + r.toString());
-                }
+    //             PlayerRecord.clearList();
+    //             RustAndDust.debug("Contacts :");
+    //             while (ccs.moveToNext()) {
+    //                 PlayerRecord r = PlayerRecord.get();
+    //                 r.name = ccs.getString(0);
+    //                 r.email = ccs.getString(1);
+    //                 PlayerRecord.list.add(r);
+    //                 RustAndDust.debug( "  " + r.toString());
+    //             }
 
-                Gdx.app.postRunnable( new Runnable() {
-                    @Override
-                    public void run() {
-                        for (ListElement e : PlayerRecord.list) {
-                            PlayerRecord r = (PlayerRecord) e;
-                            game.db.storePlayer(r.name, r.email);
-                        }
-                        PlayerRecord.clearList();
-                    }
-                });
-            }
-        }).start();
-    }
+    //             Gdx.app.postRunnable( new Runnable() {
+    //                 @Override
+    //                 public void run() {
+    //                     for (ListElement e : PlayerRecord.list) {
+    //                         PlayerRecord r = (PlayerRecord) e;
+    //                         game.db.storePlayer(r.name, r.email);
+    //                     }
+    //                     PlayerRecord.clearList();
+    //                 }
+    //             });
+    //         }
+    //     }).start();
+    // }
 
     @Override
     public void init(final RustAndDust game)
@@ -85,6 +85,6 @@ public class AndroidBackend implements Backend
             me = game.db.storePlayerGetId("me", "myself");
         opponent = me;
 
-        updateUsers(game);
+        // updateUsers(game);
     }
 }
