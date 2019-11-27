@@ -65,6 +65,7 @@ public class RustAndDust extends Game
     public static final String DOM = "RustAndDust";
 
     public static final String DB_FILE = "rustanddust.sqlite";
+    public static final String CONFIG_PATH = ".config/rustanddust";
 
     public AssetManager manager;
     public Factory factory;
@@ -122,7 +123,11 @@ public class RustAndDust extends Game
     {
         switch (Gdx.app.getType()) {
             case Desktop:
-                return String.format("data/%s", DB_FILE);
+                if (!System.getProperty("os.name").startsWith("Windo")) {
+                    final String dir = String.format("%s/%s", System.getProperty("user.home"), CONFIG_PATH);
+                    new java.io.File(dir).mkdir();
+                    return String.format("%s/%s", dir, DB_FILE);
+                }
         }
         return DB_FILE;
     }
@@ -135,7 +140,6 @@ public class RustAndDust extends Game
         debug("create() [" + Gdx.graphics.getWidth() + ";" + Gdx.graphics.getHeight() + "] " + Gdx.graphics.getDensity() + " -> " + hudCorrection);
 
         db = new DB(Gdx.files.internal(dbFile()).path(), false);
-        db.setup();
 
         manager = new AssetManager();
         factory = new Factory(this);

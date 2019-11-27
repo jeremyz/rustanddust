@@ -69,17 +69,16 @@ public class DB
         this.db = DatabaseFactory.getNewDatabase(dbPath, DB_SCHEMA_VERSION, null, null);
         this.db.setupDatabase();
         this.debug = debug;
-    }
-
-    public void setup()
-    {
-        try {
-            md = MessageDigest.getInstance(DIGEST);
-        } catch (java.security.NoSuchAlgorithmException e) { RustAndDust.error("NoSuchAlgorithm"); }
 
         try {
             db.openOrCreateDatabase();
-        } catch (SQLiteGdxException e) { RustAndDust.error("openOrCreateDatabase"); }
+        } catch (SQLiteGdxException e) {
+            RustAndDust.error(String.format("openOrCreateDatabase : %s", dbPath));
+        }
+
+        try {
+            md = MessageDigest.getInstance(DIGEST);
+        } catch (java.security.NoSuchAlgorithmException e) { RustAndDust.error("NoSuchAlgorithm"); }
 
         Boolean version = checkVersion();
         if(version == null)
