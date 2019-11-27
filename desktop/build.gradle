@@ -16,15 +16,25 @@ task run(dependsOn: classes, type: JavaExec) {
 
 def sqliteFiles = ["data/rustanddust.sqlite"]
 
+task debug(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+    debug = true
+}
+
 task dist(type: Jar) {
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from {configurations.compile.collect {zipTree(it)}}
     from fileTree(dir: project.assetsDir, excludes : sqliteFiles)
 
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
 
 dist.dependsOn classes
